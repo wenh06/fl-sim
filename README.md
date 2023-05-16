@@ -1,15 +1,15 @@
-# Personalized Federated Learning via Operator Splitting
+# A Simple Simulation Framework for Federated Learning Based on PyTorch
 
 ![formatting](https://github.com/wenh06/fl_sim/actions/workflows/check-formatting.yml/badge.svg)
 ![Docker CI](https://github.com/wenh06/fl_sim/actions/workflows/docker-image.yml/badge.svg?branch=docker-ci)
 
 This repository is migrated from [fl_seminar](https://github.com/wenh06/fl_seminar/tree/master/code)
 
-The main part of this code repository is a standalone simulation framework of federated training.
+The main part of this code repository is a standalone simulation framework for federated training.
 
 <!-- toc -->
 
-- [Personalized Federated Learning via Operator Splitting](#personalized-federated-learning-via-operator-splitting)
+- [A Simple Simulation Framework for Federated Learning Based on PyTorch](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
   - [Optimizers](#optimizers)
   - [Regularizers](#regularizers)
   - [Compression](#compression)
@@ -34,7 +34,7 @@ The module (folder) [optimizers](fl_sim/optimizers) contains optimizers for solv
 
 Most of the optimizers are derived from `ProxSGD`.
 
-:point_right: [Back to TOC](#personalized-federated-learning-via-operator-splitting)
+:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 ## [Regularizers](fl_sim/regularizers)
 
@@ -47,13 +47,13 @@ The module (folder) [regularizers](fl_sim/regularizers) contains code for regula
 
 These regularizers are subclasses of a base class `Regularizer`, and can be obtained by passing the name of the regularizer to the function `get_regularizer`. The regularizers share common methods `eval` and `prox_eval`.
 
-:point_right: [Back to TOC](#personalized-federated-learning-via-operator-splitting)
+:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 ## [Compression](fl_sim/compressors)
 
 The module (folder) [compressors](fl_sim/compressors) contains code for constructing compressors.
 
-:point_right: [Back to TOC](#personalized-federated-learning-via-operator-splitting)
+:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 ## [Data Processing](fl_sim/data_processing)
 
@@ -73,7 +73,7 @@ Additionally, one can get the list of `LIBSVM` datasets via
 pd.read_html("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/")[0]
 ```
 
-:point_right: [Back to TOC](#personalized-federated-learning-via-operator-splitting)
+:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 ## [Models](fl_sim/models)
 
@@ -92,7 +92,7 @@ The module (folder) [models](fl_sim/models) contains pre-defined (neural network
 
 One can call the `module_size` or `module_size_` properties to check the size (in terms of number of parameters and memory consumption respectively) of the model.
 
-:point_right: [Back to TOC](#personalized-federated-learning-via-operator-splitting)
+:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 ## [Algorithms Implemented](fl_sim/algorithms)
 
@@ -106,4 +106,4 @@ One can call the `module_size` or `module_size_` properties to check the size (i
 8. [ProxSkip](https://proceedings.mlr.press/v162/mishchenko22b.html) ![test-proxskip](https://github.com/wenh06/fl_sim/actions/workflows/test-proxskip.yml/badge.svg)
 9. [Ditto](https://arxiv.org/abs/2012.04221) ![test-ditto](https://github.com/wenh06/fl_sim/actions/workflows/test-ditto.yml/badge.svg)
 
-:point_right: [Back to TOC](#personalized-federated-learning-via-operator-splitting)
+:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
