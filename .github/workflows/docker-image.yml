@@ -1,0 +1,27 @@
+name: Docker Image CI and Test
+
+on:
+  push:
+    branches: [ docker-ci ]
+
+env:
+  DOCKER_IMAGE_TAG: fl-sim:${{ github.sha }}
+
+jobs:
+
+  build:
+    # Don't run on forked repos.
+    if: github.repository_owner == 'DeepPSP'
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: |
+        docker build . --file python3.8-slim.Dockerfile --tag $DOCKER_IMAGE_TAG-python3.8-slim
+        docker build . --file pytorch1.13.1-cu116.Dockerfile --tag $DOCKER_IMAGE_TAG-pytorch1.13.1-cu116
+    - name: Test the Docker image
+      run: |
+        docker run --rm $DOCKER_IMAGE_TAG-python3.8-slim bash -c "python3 docker_test.py"
+        docker run --rm $DOCKER_IMAGE_TAG-pytorch1.13.1-cu116 bash -c "python3 docker_test.py"

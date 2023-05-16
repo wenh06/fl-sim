@@ -1,0 +1,35 @@
+\begin{algorithm}[ht]
+% \SetAlgoNoLine
+% \DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\Input{learning rate $\eta$, batch size $B$}
+% {\bfseries Server executes:}\;
+% \Indp
+{\bfseries Initiation:} global (server) model parameters $\theta^{(0)} \in \R^d$\;
+\For{each round $t = 0, 1, \cdots, T-1$}{
+    $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$\;
+    broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$\;
+    \For{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}{
+        $\theta_k^{(t)} \gets$ {\bfseries ClientUpdate}$(k, \theta^{(t)})$\;
+        send $\theta_k^{(t)}$ to server\;
+    }
+    {\bfseries Server Update:}\;
+    \Indp
+    $\theta^{(t+1)} \gets \frac{1}{\lvert \mathcal{S}^{(t)} \rvert} \sum\limits_{k\in \mathcal{S}^{(t)}} \theta_k^{(t)}$\;
+    \Indm
+}
+% \Indm
+\vspace{0.2em}
+{\bfseries ClientUpdate}$(k, \theta)$: \tcc*[h]{on client $k$}\;
+\Indp
+$\mathcal{B} \gets$ (split $\mathcal{D}_k$ into batches of size $B$)\;
+\For{local step $r = 0, 1, \cdots, R-1$}{
+    \For{batch $b \in \mathcal{B}$}{
+        $\theta \gets \theta - \eta \nabla \ell_k(\theta; b)$ \tcc*[h]{SGD} \;
+    }
+}
+\Indm
+\Return{$\theta$\;}
+\caption{Pseudo-code for \texttt{FedAvg}}
+\label{algo:fedavg}
+\end{algorithm}

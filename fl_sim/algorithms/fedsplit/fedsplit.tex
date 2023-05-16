@@ -1,0 +1,26 @@
+\begin{algorithm}[ht]
+% \SetAlgoNoLine
+% \DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\Input{{\bfseries proximal solvers} $\texttt{prox\_update}_k: \R^d \to \R^d$}
+{\bfseries Initiation:} parameters $\theta^{(0)} \in \R^d$,\;
+\For{each round $t = 0, 1, \cdots$}{
+    broadcast $\theta^{(t)}$ to clients $k \in [K]$\;
+    \For{each client $k = 1, \cdots, K$ {\bfseries in parallel}}{
+        $\theta_k^{(t)} \gets \theta^{(t)}$\;
+        $\theta_k^{(t+1/2)} \gets$ $\texttt{prox\_update}_k(2\theta^{(t)} - \theta_k^{(t)})$ \tcc*[h]{local prox step}\;
+        $\theta_k^{(t+1)} \gets$ $\theta_k^{(t)} + 2(\theta_k^{(t+1/2)} - \theta^{(t)})$ \tcc*[h]{local centering step}\;
+        send $\theta_k^{(t+1)}$ to server\;
+        }
+    {\bfseries Server Update:}\;
+    \Indp
+    $\theta^{(t+1)} \gets \frac{1}{K} \sum\limits_{k=1}^K \theta_k^{(t+1)}$ \tcc*[h]{global averaging}\;
+    \If{meet convergent criteria}{
+        $\theta^* \gets \theta^{(t+1)}$\;
+        {\bfseries break}\;
+    }
+}
+% return $\theta^*$\;
+\caption{Pseudo-code for \texttt{FedSplit}}
+\label{algo:fedsplit}
+\end{algorithm}

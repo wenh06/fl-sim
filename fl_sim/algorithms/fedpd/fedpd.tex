@@ -1,0 +1,32 @@
+\begin{algorithm}[ht]
+% \SetAlgoNoLine
+% \DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\Input{step size $s = \frac{1}{\mu} > 0,$ skip probability $p \in [0, 1)$}
+{\bfseries Initiation:}\;
+\Indp
+    {\bfseries Init server:} global parameters $\theta^{(0)} \in \R^d$\;
+    {\bfseries Init clients:} local parameters$\theta_{0,k}^{(0)} \in \R^d,$ dual variables $\lambda_k^{(0)} \in \R^d,$ $\forall k \in [K]$\;
+\Indm
+\For{each round $t = 0, 1, \cdots$}{
+    \For{each client $k = 1, \cdots, K$ {\bfseries in parallel}}{
+        $\theta_k^{(t+1)} \gets \operatorname{\mathbf{Oracle}}_k(\mathcal{L}_k(\theta_{k, 0}^{(t)}, \theta_k, \lambda_k^{(t)}), \theta_k^{(t)})$  \tcc*[h]{$\operatorname{\mathbf{Oracle}}_k$ can be SGD, etc.}\;
+        $\lambda_k^{(t+1)} \gets \lambda_k^{(t)} + \frac{1}{s} (\theta_k^{(t+1)} - \theta_{k, 0}^{(t)})$ \tcc*[h]{dual update step}\;
+        $\theta_{k, 0}^{(t+\frac{1}{2})} \gets \theta_k^{(t+1)} + s \lambda_k^{(t+1)}$
+        }
+    with probability $1 - p$ do global communication\;
+    \Indp
+    client $k$ send $\theta_{k, 0}^{(t+\frac{1}{2})}$ to server $\forall k \in [K]$\;
+    {\bfseries Server Update:} $\theta^{(t+1)} \gets \frac{1}{K} \sum\limits_{k=1}^K \theta_{k, 0}^{(t+\frac{1}{2})}$ \tcc*[h]{compute global average}\;
+    Server broadcast $\theta^{(t+1)}$ to clients $k \in [K]$\;
+    On client $k:$ $\theta^{(t+1)}_{k,0} \gets \theta^{(t+1)}, ~ \forall k \in [K]$\;
+    \Indm
+    with probability $p$ skip global communication:\;
+    \Indp
+    {\bfseries Client Update:} $\theta^{(t+1)}_{k,0} \gets \theta_{k, 0}^{(t+\frac{1}{2})}, ~ \forall k \in [K]$\;
+    \tcc{On server, $\theta^{(t+1)} \gets \theta^{(t)}$}
+    \Indm
+}
+\caption{Pseudo-code for \texttt{FedPD}}
+\label{algo:fedpd}
+\end{algorithm}

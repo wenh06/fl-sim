@@ -1,0 +1,25 @@
+\begin{algorithm}[ht]
+\Input{penalty coefficient $\mu,$ learning rate $\eta,$ methods $\operatorname{\mathbf{UpdateGlobal}}, \operatorname{\mathbf{Aggregate}}$}
+{\bfseries Initiation:}\;
+\Indp
+    {\bfseries Init server:} global model parameters $\theta^{(0)} \in \R^d$\;
+    {\bfseries Init clients:} local model parameters $\omega_k^{(0)} \in \R^d, ~ \forall k \in [K]$\;
+\Indm
+\For{each round $t = 0, 1, \cdots, T-1$}{
+    $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$\;
+    broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$\;
+    \For{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}{
+        \tcc{solve the local sub-problem of $G(\dot)$ inexactly starting from $\theta^{(t)}$ to obtain $\theta_k^{(t)}$}
+        $\theta_k^{(t)} \gets \operatorname{\mathbf{UpdateGlobal}}(\theta^{(t)}, f_k)$\;
+        \tcc{update the personalized model via solving the proximal problem}
+        $\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta \left( \nabla f_k(\omega_k^{(t)}) + \mu (\omega_k^{(t)} - \theta^{(t)}) \right)$\;
+        send $\Delta_k^{(t)} \gets \theta_k^{(t)} - \theta^{(t)}$ to server\;
+    }
+    {\bfseries Server Update:}\;
+    \Indp
+    $\theta^{(t+1)} \gets \operatorname{\mathbf{Aggregate}} (\theta^{(t)}, \{ \Delta_k^{(t)} \}_{k \in \mathcal{S}^{(t)}})$\;
+    \Indm
+}
+\caption{Pseudo-code for \texttt{Ditto}}
+\label{algo:ditto}
+\end{algorithm}

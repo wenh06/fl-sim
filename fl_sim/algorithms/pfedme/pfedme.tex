@@ -1,0 +1,32 @@
+\begin{algorithm}[ht]
+% \SetAlgoNoLine
+% \DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\Input{penalty coefficient $\lambda,$ learning rate $\eta,$ global update smoothing factor $\beta,$ {\bfseries proximal solvers} $\texttt{prox\_update}_k$}
+{\bfseries Initiation:}\;
+\Indp
+    {\bfseries Init server:} global model parameters $\theta^{(0)} \in \R^d$\;
+    {\bfseries Init clients:} personalized model parameters $\theta_k^{(0)} \in \R^d, ~ \forall k \in [K]$\;
+\Indm
+\For{each round $t = 0, \cdots, T-1$}{
+    Server sends $\theta^{(t)}$ to all clients\;
+    \For{each client $k = 1, \cdots, K$ in parallel}{
+        $\omega_{k}^{(t, 0)} = \theta^{(t)}$ \tcc*[h]{a copy of the global model $\theta^{(t)}$}\;
+        \For(\tcc*[h]{solve inner problem $\min\limits_{\theta_k \in \R^d} \left\{ f_k(\theta_k) + \frac{\lambda}{2} \left\lVert \theta_k - \theta \right\rVert^2 \right\}$}){$r = 0,\cdots, R-1$}{
+            sample a mini-batch $b_r$\;
+            \tcc*[h]{use proximal solver $\texttt{prox\_update}_k$ to solve $\argmin\limits_{\theta_k} \left\{ \ell_k(\theta_k; b_r) + \frac{\lambda}{2} \left\lVert \theta_k - \omega_{k}^{(t, r)} \right\rVert^2 \right\}, \text{ where } f_k(\theta_k) = \expectation\limits_{b}[\ell_k(\theta_k; b)]$}\;
+            $\theta_k^{(t, r)} \gets \texttt{prox\_update}_k (\omega_{k}^{(t, r)}; b_r)$\;
+            \tcc*[h]{update the local copy of the global model}\;
+            $\omega_{k}^{(t, r+1)} \gets \omega_{k}^{(t, r)} - \eta \lambda \left( \omega_{k}^{(t, r)} - \theta_k^{(t, r)} \right)$\;
+        }
+        $\theta_k^{(t+1)} \gets \theta_k^{(t, R)}$ \tcc*[h]{update the personalized model}\;
+    }
+    Server uniformly samples a subset of clients $\mathcal{S}^{(t)}$\;
+    each client in $\mathcal{S}^{(t)}$ sends the local model $\omega_{k}^{(t, R)}$ to the server\;
+    Sever update $\theta^{(t+1)} \gets (1-\beta)\theta^{(t)} + \frac{\beta}{\# \mathcal{S}^{(t)}} \sum\limits_{k \in \mathcal{S}^{(t)}} \omega_{k}^{(t, R)}$
+}
+final global model: $\theta^* \gets \theta^{(T)}$\;
+final personalized models: $\theta_k^* \gets \theta_k^{(T)}$\;
+\caption{Pseudo-code for \texttt{pFedMe}}
+\label{algo:pfedme}
+\end{algorithm}

@@ -1,0 +1,206 @@
+"""
+pFedMe re-implemented in the new framework
+"""
+
+import warnings
+from copy import deepcopy
+from typing import List, Any
+
+from tqdm.auto import tqdm
+
+from ...nodes import (
+    Server,
+    Client,
+    ServerConfig,
+    ClientConfig,
+    ClientMessage,
+)
+
+
+__all__ = [
+    "pFedMeServer",
+    "pFedMeClient",
+    "pFedMeServerConfig",
+    "pFedMeClientConfig",
+]
+
+
+class pFedMeServerConfig(ServerConfig):
+    """ """
+
+    __name__ = "pFedMeServerConfig"
+
+    def __init__(
+        self,
+        num_iters: int,
+        num_clients: int,
+        clients_sample_ratio: float,
+        beta: float = 1.0,
+        **kwargs: Any,
+    ) -> None:
+        """ """
+        super().__init__(
+            "pFedMe", num_iters, num_clients, clients_sample_ratio, beta=beta, **kwargs
+        )
+
+
+class pFedMeClientConfig(ClientConfig):
+    """
+    References
+    ----------
+    1. https://github.com/CharlieDinh/pFedMe/blob/master/FLAlgorithms/users/userpFedMe.py
+
+    Note:
+    1. `lr` is the `personal_learning_rate` in the original implementation
+    2. `eta` is the `learning_rate` in the original implementation
+    3. `mu` is the momentum factor in the original implemented optimzer
+    """
+
+    __name__ = "pFedMeClientConfig"
+
+    def __init__(
+        self,
+        batch_size: int,
+        num_epochs: int,
+        lr: float = 5e-3,
+        num_steps: int = 30,
+        lamda: float = 15.0,
+        eta: float = 1e-3,
+        mu: float = 1e-3,
+        **kwargs: Any,
+    ) -> None:
+        """ """
+        super().__init__(
+            "pFedMe",
+            "pFedMe",
+            batch_size,
+            num_epochs,
+            lr,
+            num_steps=num_steps,
+            lamda=lamda,
+            eta=eta,
+            mu=mu,
+            **kwargs,
+        )
+
+
+class pFedMeServer(Server):
+    """ """
+
+    __name__ = "pFedMeServer"
+
+    @property
+    def client_cls(self) -> "Client":
+        return pFedMeClient
+
+    @property
+    def required_config_fields(self) -> List[str]:
+        """ """
+        return [
+            "beta",
+        ]
+
+    def communicate(self, target: "pFedMeClient") -> None:
+        """ """
+        target._received_messages = {"parameters": self.get_detached_model_parameters()}
+
+    def update(self) -> None:
+        """ """
+        # store previous parameters
+        previous_params = self.get_detached_model_parameters()
+        for p in previous_params:
+            p = p.to(self.device)
+
+        # sum of received parameters, with self.model.parameters() as its container
+        self.avg_parameters()
+
+        # aaggregate avergage model with previous model using parameter beta
+        for pre_param, param in zip(previous_params, self.model.parameters()):
+            param.data = (
+                1 - self.config.beta
+            ) * pre_param.data.detach().clone() + self.config.beta * param.data
+
+        # clear received messages
+        del pre_param
+
+    @property
+    def doi(self) -> List[str]:
+        return ["10.48550/ARXIV.2006.08848"]
+
+
+class pFedMeClient(Client):
+    """ """
+
+    __name__ = "pFedMeClient"
+
+    @property
+    def required_config_fields(self) -> List[str]:
+        """ """
+        return [
+            "num_steps",
+            "lamda",
+            "eta",
+            "mu",
+        ]
+
+    def communicate(self, target: "pFedMeServer") -> None:
+        """ """
+        target._received_messages.append(
+            ClientMessage(
+                **{
+                    "client_id": self.client_id,
+                    "parameters": self.get_detached_model_parameters(),
+                    "train_samples": self.config.num_epochs * self.config.batch_size,
+                    "metrics": self._metrics,
+                }
+            )
+        )
+
+    def update(self) -> None:
+        """ """
+        # copy the parameters from the server
+        # pFedMe paper Algorithm 1 line 5
+        try:
+            self._cached_parameters = deepcopy(self._received_messages["parameters"])
+        except KeyError:
+            warnings.warn("No parameters received from server")
+            warnings.warn("Using current model parameters as initial parameters")
+            self._cached_parameters = self.get_detached_model_parameters()
+        except Exception as err:
+            raise err
+        self._cached_parameters = [p.to(self.device) for p in self._cached_parameters]
+        # update the model via prox_sgd
+        # pFedMe paper Algorithm 1 line 6 - 8
+        self.solve_inner()  # alias of self.train()
+
+    def train(self) -> None:
+        """ """
+        self.model.train()
+        with tqdm(
+            range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
+        ) as pbar:
+            for epoch in pbar:  # local update
+                self.model.train()
+                X, y = self.sample_data()
+                X, y = X.to(self.device), y.to(self.device)
+                # personalized steps
+                for i in range(self.config.num_steps):
+                    self.optimizer.zero_grad()
+                    output = self.model(X)
+                    loss = self.criterion(output, y)
+                    loss.backward()
+                    self.optimizer.step(self._cached_parameters)
+
+                # update local weight after finding aproximate theta
+                # pFedMe paper Algorithm 1 line 8
+                for mp, cp in zip(self.model.parameters(), self._cached_parameters):
+                    # print(mp.data.isnan().any(), cp.data.isnan().any())
+                    cp.data.add_(
+                        cp.data.clone() - mp.data.clone(),
+                        alpha=-self.config.lamda * self.config.eta,
+                    )
+
+                # update local model
+                # the init parameters (theta in pFedMe paper Algorithm 1 line  7) for the next iteration
+                # are set to be `self._cached_parameters`
+                self.set_parameters(self._cached_parameters)

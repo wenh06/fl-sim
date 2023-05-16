@@ -1,0 +1,27 @@
+\begin{algorithm}[ht]
+% \SetAlgoNoLine
+% \DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\Input{methods {\bfseries ServerOpt, ClientOpt}, learning rates (schedule) $\eta_g, \eta_l$}
+{\bfseries Initiation:} global (server) model parameters $\theta^{(0)} \in \R^d$\;
+\For{each round $t = 0, 1, \cdots, T-1$}{
+    $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$\;
+    broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$\;
+    \For{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}{
+        $\theta_k^{(t, 0)} \gets \theta^{(t)}$\;
+        \For{local step $r = 0, 1, \cdots, R-1$}{
+            compute unbiased estimate $g_k^{(t, r)}$ of $\nabla f_k(\theta_k^{(t, r)})$\;
+            $\theta_k^{(t, r+1)} \gets$ {\bfseries ClientOpt}$(\theta_k^{(t, r)}, g_k^{(t, r)}, \eta_l, t)$\;
+        }
+        $\Delta_{k}^{(t)} \gets \theta_k^{(t, R)} - \theta^{(t)}$\;
+        send $\Delta_{k}^{(t)}$ to server\;
+    }
+    {\bfseries Server Update:}\;
+    \Indp
+    $\Delta^{(t)} \gets \operatorname{aggregate} \left( \left\{ \Delta_{k}^{(t)} \right\}_{k \in \mathcal{S}^{(t)}} \right)$\;
+    $\theta^{(t+1)} \gets$ {\bfseries ServerOpt}$(\theta^{(t)}, \Delta^{(t)}, \eta_g, t)$\;
+    \Indm
+}
+\caption{Pseudo-code for \texttt{FedOpt}}
+\label{algo:fedopt}
+\end{algorithm}

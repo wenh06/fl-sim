@@ -1,0 +1,35 @@
+\begin{algorithm}[ht]
+% \SetAlgoNoLine
+% \DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\Input{learning rate $\gamma,$ probability $p \in [0, 1)$}
+{\bfseries Initiation:}\;
+\Indp
+    {\bfseries Server init:} global model parameters $\theta^{(0)} \in \R^d$\;
+    {\bfseries Clients init:} local model parameters $\theta_k^{(0)} \in \R^d,$ control variates $c_k^{(0)} \in \R^d, ~ \forall k \in [K]$\;
+\Indm
+\For{each round $t = 0, 1, \cdots, T-1$}{
+    \For{each client $k \in [K]$ {\bfseries in parallel}}{
+        $\theta_k^{(t, 0)} \gets \theta_k^{(t)}$\;
+        \For(\tcc*[h]{$R$ iterates of SGD with variance reduction}){local step $r = 0, 1, \cdots, R-1$}{
+            compute mini-batch gradient $g_k^{(t, r)}$ of $\nabla f_k(\theta_k^{(t, r)})$\;
+            $\theta_k^{(t, r+1)} \gets \theta_k^{(t, r)} - \gamma \left( g_k^{(t, r)} - c_k^{(t)} \right)$\;
+        }
+        $\theta_k^{(t+\frac{1}{2})} \gets \theta_k^{(t, R)}$
+    }
+    with probability $1 − p$ do global communication\;
+    \Indp
+    client $k$ send $\theta_{k}^{(t+\frac{1}{2})}$ to server $\forall k \in [K]$\;
+    {\bfseries Server Update:} $\theta^{(t+1)} \gets \frac{1}{K} \sum\limits_{k=1}^K \theta_{k}^{(t+\frac{1}{2})}$ \tcc*[h]{compute global average}\;
+    server broadcast $\theta^{(t+1)}$ to clients $k \in [K]$\;
+    on client $k:$ $\theta^{(t+1)}_{k} \gets \theta^{(t+1)}, ~ c_k^{(t+1)} \gets c_k^{(t)} + \frac{p}{\gamma}(\theta^{(t+1)}_{k} - \theta^{(t+\frac{1}{2})}_{k}), ~ \forall k \in [K]$\;
+    \Indm
+    with probability $p$ skip global communication:\;
+    \Indp
+    {\bfseries Client Update:} $\theta^{(t+1)}_{k} \gets \theta_{k}^{(t+\frac{1}{2})}, ~ c_k^{(t+1)} \gets c_k^{(t)}, ~ \forall k \in [K]$\;
+    \tcc{on server, $\theta^{(t+1)} \gets \theta^{(t)}$}
+    \Indm
+}
+\caption{Pseudo-code for \texttt{ProxSkip}}
+\label{algo:proxskip}
+\end{algorithm}
