@@ -7,7 +7,7 @@ from typing import Any, Callable
 
 
 __all__ = [
-    "PROJECT_DIR",
+    # "PROJECT_DIR",
     "CACHED_DATA_DIR",
     "LOG_DIR",
     "experiment_indicator",
@@ -16,9 +16,11 @@ __all__ = [
 
 PROJECT_DIR = pathlib.Path(__file__).absolute().parents[2]
 
-CACHED_DATA_DIR = PROJECT_DIR / ".data_cache"
+USER_CACHE_DIR = pathlib.Path.home() / ".cache" / "fl-sim"
 
-LOG_DIR = PROJECT_DIR / ".logs"
+CACHED_DATA_DIR = USER_CACHE_DIR / ".data_cache"
+
+LOG_DIR = USER_CACHE_DIR / ".logs"
 
 
 CACHED_DATA_DIR.mkdir(parents=True, exist_ok=True)
