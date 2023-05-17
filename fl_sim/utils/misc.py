@@ -2,6 +2,7 @@
 """
 
 import pathlib
+import re
 from functools import wraps
 from typing import Any, Callable
 
@@ -11,6 +12,7 @@ __all__ = [
     "CACHED_DATA_DIR",
     "LOG_DIR",
     "experiment_indicator",
+    "clear_logs",
 ]
 
 
@@ -42,3 +44,17 @@ def experiment_indicator(name: str) -> Callable:
         return wrapper
 
     return decorator
+
+
+def clear_logs(pattern: str = "*") -> None:
+    """Clear given log files in LOG_DIR.
+
+    Parameters
+    ----------
+    pattern : str, optional
+        Pattern of log files to be cleared, by default "*"
+        The searching will be executed by :func:`re.search`.
+
+    """
+    for log_file in [fp for fp in LOG_DIR.glob("*") if re.search(pattern, fp.name)]:
+        log_file.unlink()
