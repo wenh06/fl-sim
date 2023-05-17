@@ -212,18 +212,21 @@ class FedCIFAR(FedVisionDataset):
         train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
         test_h5 = h5py.File(str(self.datadir / self.DEFAULT_TEST_FILE), "r")
 
-        tot_img = np.vstack(
-            [
-                train_h5[self._EXAMPLE][client_id][self._IMGAE][()],
-                test_h5[self._EXAMPLE][client_id][self._IMGAE][()],
-            ]
-        )
-        tot_label = np.concatenate(
-            [
-                train_h5[self._EXAMPLE][client_id][self._LABEL][()],
-                test_h5[self._EXAMPLE][client_id][self._LABEL][()],
-            ]
-        )
+        tot_img = train_h5[self._EXAMPLE][client_id][self._IMGAE][()]
+        tot_label = train_h5[self._EXAMPLE][client_id][self._LABEL][()]
+        if client_id in self._client_ids_test:
+            tot_img = np.vstack(
+                [
+                    tot_img,
+                    test_h5[self._EXAMPLE][client_id][self._IMGAE][()],
+                ]
+            )
+            tot_label = np.concatenate(
+                [
+                    tot_label,
+                    test_h5[self._EXAMPLE][client_id][self._LABEL][()],
+                ]
+            )
         if image_idx >= len(tot_img):
             raise ValueError(f"image_idx should be less than {len(tot_img)}")
 
@@ -232,6 +235,7 @@ class FedCIFAR(FedVisionDataset):
 
         img = tot_img[image_idx]
         label = tot_label[image_idx]
+        plt.figure(figsize=(3, 3))
         plt.imshow(img)
         plt.title(f"client_id: {client_id}, label: {label}")
         plt.show()
