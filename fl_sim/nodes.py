@@ -762,21 +762,22 @@ class Client(Node):
         """
         assert part in self.dataset.data_parts, "Invalid part name"
         self.model.eval()
-        _metrics = []
+        # _metrics = []
         data_loader = self.val_loader if part == "val" else self.train_loader
+        if data_loader is None:
+            self._metrics[part] = {"num_samples": 0}
+            return self._metrics[part]
+        all_logits, all_labels = [], []
         for X, y in data_loader:
             X, y = X.to(self.device), y.to(self.device)
             logits = self.model(X)
-            _metrics.append(self.dataset.evaluate(logits, y))
-        self._metrics[part] = {
-            "num_samples": sum([m["num_samples"] for m in _metrics]),
-        }
-        for k in _metrics[0]:
-            if k != "num_samples":  # average over all metrics
-                self._metrics[part][k] = (
-                    sum([m[k] * m["num_samples"] for m in _metrics])
-                    / self._metrics[part]["num_samples"]
-                )
+            all_logits.append(logits)
+            all_labels.append(y)
+            # _metrics.append(self.dataset.evaluate(logits, y))
+        all_logits = torch.cat(all_logits, dim=0)
+        all_labels = torch.cat(all_labels, dim=0)
+        self._metrics[part] = {"num_samples": len(all_labels)}
+        self._metrics[part].update(self.dataset.evaluate(all_logits, all_labels))
         return self._metrics[part]
 
     def set_parameters(self, params: Iterable[Parameter]) -> None:
