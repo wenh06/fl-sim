@@ -55,7 +55,7 @@ class FedDRClientConfig(ClientConfig):
         self,
         batch_size: int,
         num_epochs: int,
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         eta: float = 1.0,
         alpha: float = 1.9,  # in the FedDR paper, clients' alpha is equal to the server's alpha
     ) -> None:

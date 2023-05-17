@@ -52,7 +52,7 @@ class DittoClientConfig(ClientConfig):
         optimizer: str = "ProxSGD",
         optimizer_per: str = "SGD",
         prox: float = 0.01,
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         lr_per: Optional[float] = None,
     ) -> None:
         """ """

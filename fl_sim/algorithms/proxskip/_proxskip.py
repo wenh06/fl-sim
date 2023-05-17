@@ -53,7 +53,7 @@ class ProxSkipClientConfig(ClientConfig):
         self,
         batch_size: int,
         num_epochs: int,
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         vr: bool = False,
     ) -> None:
         """ """

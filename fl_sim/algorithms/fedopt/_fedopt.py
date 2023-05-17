@@ -51,7 +51,7 @@ class FedOptServerConfig(ServerConfig):
         num_clients: int,
         clients_sample_ratio: float,
         optimizer: str = "Adam",
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         betas: Sequence[float] = (0.9, 0.999),
         tau: float = 1e-5,
     ) -> None:
@@ -84,7 +84,7 @@ class FedOptClientConfig(ClientConfig):
         self,
         batch_size: int,
         num_epochs: int,
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         optimizer: str = "SGD",
         **kwargs,
     ) -> None:
@@ -327,7 +327,7 @@ class FedAdagradServerConfig(FedOptServerConfig):
         num_iters: int,
         num_clients: int,
         clients_sample_ratio: float,
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         betas: Sequence[float] = (0.9, 0.999),
         tau: float = 1e-5,
     ) -> None:
@@ -382,7 +382,7 @@ class FedYogiServerConfig(FedOptServerConfig):
         num_iters: int,
         num_clients: int,
         clients_sample_ratio: float,
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         betas: Sequence[float] = (0.9, 0.999),
         tau: float = 1e-5,
     ) -> None:
@@ -437,7 +437,7 @@ class FedAdamServerConfig(FedOptServerConfig):
         num_iters: int,
         num_clients: int,
         clients_sample_ratio: float,
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         betas: Sequence[float] = (0.9, 0.999),
         tau: float = 1e-5,
     ) -> None:

@@ -51,7 +51,7 @@ class FedProxClientConfig(ClientConfig):
         self,
         batch_size: int,
         num_epochs: int,
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         mu: float = 0.01,
         vr: bool = False,
     ) -> None:

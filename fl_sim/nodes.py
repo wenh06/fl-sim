@@ -364,7 +364,7 @@ class Server(Node, CitationMixin):
         lr = extra_configs.get("lr", 1e-2)
         optimizer = extra_configs.get("optimizer", SGD(self.model.parameters(), lr))
         scheduler = extra_configs.get(
-            "scheduler", LambdaLR(optimizer, lambda epoch: 1 / (epoch + 1))
+            "scheduler", LambdaLR(optimizer, lambda epoch: 1 / (0.01 * epoch + 1))
         )
 
         epoch_losses = []
@@ -417,6 +417,7 @@ class Server(Node, CitationMixin):
 
         self.model.to(self.device)  # move to the original device
         self._logger_manager.log_message("Centralized training finished...")
+        self._logger_manager.flush()
 
     def train_federated(self, extra_configs: Optional[dict] = None) -> None:
         """Federated (distributed) training, conducted on the clients and the server.
@@ -468,6 +469,7 @@ class Server(Node, CitationMixin):
                     self.aggregate_client_metrics()
                 self._update()
         self._logger_manager.log_message("Federated training finished...")
+        self._logger_manager.flush()
 
     def evaluate_centralized(self, dataloader: DataLoader) -> Dict[str, float]:
         """Evaluate the model on the given dataloader on the server node.

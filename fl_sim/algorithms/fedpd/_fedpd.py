@@ -63,7 +63,7 @@ class FedPDClientConfig(ClientConfig):
         self,
         batch_size: int,
         num_epochs: int,
-        lr: float = 1e-3,
+        lr: float = 1e-2,
         mu: float = 1 / 10,  # reciprocal of original implementation
         vr: bool = False,
         dual_rand_init: bool = False,
