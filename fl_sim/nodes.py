@@ -9,6 +9,8 @@ from copy import deepcopy
 from collections import defaultdict
 from typing import Any, Optional, Iterable, List, Tuple, Dict, Union
 
+import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 from bib_lookup import CitationMixin
@@ -187,6 +189,52 @@ class Node(ReprMixin, ABC):
     def get_detached_model_parameters(self) -> List[Tensor]:
         """Get the detached model parameters."""
         return [p.detach().clone() for p in self.model.parameters()]
+
+    @staticmethod
+    def aggregate_results_from_csv_log(
+        df: pd.DataFrame, part: str = "val", metric: str = "acc"
+    ) -> np.ndarray:
+        """Aggregate the federated results from csv log.
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            The dataframe of the csv log.
+        part : str, default "train"
+            The part of the log to aggregate.
+        metric : str, default "acc"
+            The metric to aggregate.
+
+        Returns
+        -------
+        np.ndarray
+            The aggregated results (curve).
+
+        """
+        df_part = df[df["part"] == part]
+        client_ids = np.unique(
+            [
+                int(c.split("-")[0].replace("Client", ""))
+                for c in df.columns
+                if c.startswith("Client")
+            ]
+        )
+        metric_curve = []
+        epochs = list(sorted(df_part["epoch"].unique()))
+        for epoch in tqdm(epochs, mininterval=1, desc="Aggregating results"):
+            df_epoch = df_part[df_part["epoch"] == epoch]
+            num_samples = 0
+            current_metric = 0
+            for client_id in client_ids:
+                cols = [f"Client{client_id}-{metric}", f"Client{client_id}-num_samples"]
+                df_current = df_epoch[cols].dropna()
+                current_metric += (
+                    df_current[f"Client{client_id}-{metric}"].values[0]
+                    * df_current[f"Client{client_id}-num_samples"].values[0]
+                )
+                num_samples += df_current[f"Client{client_id}-num_samples"].values[0]
+            metric_curve.append(current_metric / num_samples)
+        return np.array(metric_curve)
 
 
 class Server(Node, CitationMixin):
@@ -819,6 +867,8 @@ class Client(Node):
         both features and labels.
         """
         feature_train, label_train = self.train_loader.dataset[:]
+        if self.val_loader is None:
+            return feature_train, label_train
         feature_val, label_val = self.val_loader.dataset[:]
         feature = torch.cat([feature_train, feature_val], dim=0)
         label = torch.cat([label_train, label_val], dim=0)
