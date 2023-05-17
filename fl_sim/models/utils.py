@@ -141,7 +141,22 @@ class REGMixin(object):
 
 
 class DiffMixin(object):
-    """Mixin for differences of two models."""
+    """Mixin for differences of two models.
+
+    Examples
+    --------
+    .. code-block:: python
+
+        class ModelA(nn.Module, DiffMixin):
+            def __init__(self, out_dim):
+                super().__init__()
+                self.fc = nn.Linear(10, out_dim)
+
+        model_1 = ModelA(10)
+        model_2 = ModelA(10)
+        model_1.diff(model_2, norm=2)
+
+    """
 
     def diff(
         self, other: object, norm: Optional[Union[str, int, float]] = None
@@ -167,6 +182,7 @@ class DiffMixin(object):
             other, type(self)
         ), "the two models should have the same structure"
         if norm is not None:
+            # string type infinities to float
             if norm == "inf":
                 norm = float("inf")
             elif norm == "-inf":
@@ -178,12 +194,12 @@ class DiffMixin(object):
         try:
             if norm is not None:
                 diff = [
-                    torch.norm(p1 - p2, p=norm).item()
+                    torch.norm(p1.data.cpu() - p2.data.cpu(), p=norm).item()
                     for p1, p2 in zip(self.parameters(), other.parameters())
                 ]
             else:
                 diff = [
-                    p1.data - p2.data
+                    p1.data.cpu() - p2.data.cpu()
                     for p1, p2 in zip(self.parameters(), other.parameters())
                 ]
         except RuntimeError as e:
