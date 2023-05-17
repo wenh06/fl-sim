@@ -503,10 +503,10 @@ class Server(Node, CitationMixin):
                 for client_id in selected_clients:
                     client = self._clients[client_id]
                     self._communicate(client)
-                    client._update()
-                    # if client_id in chosen_clients:
-                    #     client._communicate(self)
-                    if (self.n_iter + 1) % self.config.eval_every == 0:
+                    if (
+                        self.n_iter > 0
+                        and (self.n_iter + 1) % self.config.eval_every == 0
+                    ):
                         for part in self.dataset.data_parts:
                             metrics = client.evaluate(part)
                             # print(f"metrics: {metrics}")
@@ -517,9 +517,11 @@ class Server(Node, CitationMixin):
                                 epoch=self.n_iter + 1,
                                 part=part,
                             )
+                    client._update()
                     client._communicate(self)
                     pbar.update(1)
-                if (self.n_iter + 1) % self.config.eval_every == 0:
+                if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
+                    # TODO: fix potential errors in the function below
                     self.aggregate_client_metrics()
                 self._update()
         self._logger_manager.log_message("Federated training finished...")
