@@ -367,6 +367,7 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         # Note that the order of mini-batch is random so there is no hidden relationship among batches.
         # So we do not input the previous batch's hidden state,
         # leaving the first hidden state zero `self.lstm(embeds, None)`.
+        self.lstm.flatten_parameters()
         lstm_out, _ = self.lstm(embeds)
         # use the final hidden state as the next character prediction
         # final_hidden_state = lstm_out[:, -1]
@@ -449,6 +450,7 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
 
         """
         embeds = self.word_embeddings(input_seq)
+        self.lstm.flatten_parameters()
         lstm_out, hidden_state = self.lstm(embeds, hidden_state)
         fc1_output = self.fc1(lstm_out)
         output = self.rearrange(self.fc2(fc1_output))
@@ -528,6 +530,7 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         embeds = self.word_embeddings(
             input_seq
         )  # shape: (batch_size, seq_len, embedding_dim)
+        self.lstm.flatten_parameters()
         lstm_out, _ = self.lstm(embeds)  # shape: (batch_size, seq_len, hidden_size)
         final_hidden_state = lstm_out[:, -1, :]  # shape: (batch_size, hidden_size)
         fc1_output = self.fc1(final_hidden_state)  # shape: (batch_size, 30)
