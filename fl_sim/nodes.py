@@ -206,6 +206,9 @@ class Server(Node, CitationMixin):
         The configs for the server.
     client_config : ClientConfig
         The configs for the clients.
+    lazy : bool, default False
+        Whether to use lazy initialization
+        for the client nodes.
 
     """
 
@@ -217,6 +220,7 @@ class Server(Node, CitationMixin):
         dataset: FedDataset,
         config: ServerConfig,
         client_config: ClientConfig,
+        lazy: bool = False,
     ) -> None:
         self.model = model
         self.dataset = dataset
@@ -225,7 +229,6 @@ class Server(Node, CitationMixin):
         self.device = torch.device("cpu")
         self._client_config = client_config
 
-        self._clients = self._setup_clients(dataset, client_config)
         logger_config = dict(
             txt_logger=self.config.txt_logger,
             csv_logger=self.config.csv_logger,
@@ -242,6 +245,9 @@ class Server(Node, CitationMixin):
         self._num_communications = 0
 
         self.n_iter = 0
+
+        if not lazy:
+            self._clients = self._setup_clients(dataset, client_config)
 
         self._post_init()
 
