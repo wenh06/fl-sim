@@ -1,9 +1,11 @@
 """Loggers."""
 
 import csv
+import json
 import logging
 import re
 from abc import ABC, abstractmethod
+from collections import defaultdict
 from datetime import datetime
 from numbers import Real
 from pathlib import Path
@@ -11,15 +13,23 @@ from typing import Optional, Union, List, Any, Dict
 
 import pandas as pd
 import torch
-from torch_ecg.utils import ReprMixin, add_docstring, init_logger, get_date_str
+import yaml
+from torch_ecg.utils import (
+    ReprMixin,
+    add_docstring,
+    init_logger,
+    get_date_str,
+    get_kwargs,
+)
 
-from .misc import LOG_DIR
+from .misc import LOG_DIR, ndarray_to_list, default_dict_to_dict
 
 
 __all__ = [
     "BaseLogger",
     "TxtLogger",
     "CSVLogger",
+    "JsonLogger",
     "LoggerManager",
 ]
 
@@ -28,6 +38,7 @@ class BaseLogger(ReprMixin, ABC):
     """Abstract base class of all loggers."""
 
     __name__ = "BaseLogger"
+    __time_fmt__ = "%Y-%m-%d %H:%M:%S"
 
     @abstractmethod
     def log_metrics(
@@ -256,11 +267,17 @@ class TxtLogger(BaseLogger):
         Parameters
         ----------
         config : dict
-            Configuration for the logger. The following keys are used (optional):
+            Configuration for the logger. The following keys are used:
 
-                - ``"log_dir"``: str or pathlib.Path,
+                - ``"algorithm"``: str,
+                    name of the algorithm.
+                - ``"dataset"``: str,
+                    name of the dataset.
+                - ``"model"``: str,
+                    name of the model.
+                - ``"log_dir"``: str or pathlib.Path, optional,
                   directory to save the log file.
-                - ``"log_suffix"``: str,
+                - ``"log_suffix"``: str, optional,
                   suffix of the log file.
 
         Returns
@@ -269,11 +286,10 @@ class TxtLogger(BaseLogger):
             A :class:`TxtLogger` instance.
 
         """
-        return cls(config.get("log_dir", None), config.get("log_suffix", None))
+        return cls(**config)
 
     @property
     def filename(self) -> str:
-        """ """
         return str(self.log_dir / self.log_file)
 
 
@@ -364,11 +380,17 @@ class CSVLogger(BaseLogger):
         Parameters
         ----------
         config : dict
-            Configuration for the logger. The following keys are used (optional):
+            Configuration for the logger. The following keys are used:
 
-                - ``"log_dir"``: str or pathlib.Path,
+                - ``"algorithm"``: str,
+                    name of the algorithm.
+                - ``"dataset"``: str,
+                    name of the dataset.
+                - ``"model"``: str,
+                    name of the model.
+                - ``"log_dir"``: str or pathlib.Path, optional,
                   directory to save the log file.
-                - ``"log_suffix"``: str,
+                - ``"log_suffix"``: str, optional,
                   suffix of the log file.
 
         Returns
@@ -377,11 +399,184 @@ class CSVLogger(BaseLogger):
             A :class:`CSVLogger` instance.
 
         """
-        return cls(config.get("log_dir", None), config.get("log_suffix", None))
+        return cls(**config)
 
     @property
     def filename(self) -> str:
         return str(self.log_dir / self.log_file)
+
+
+class JsonLogger(BaseLogger):
+    """Logger that logs to a JSON file,
+    or a yaml file.
+
+    The structure is as follows for example:
+
+    .. code-block:: json
+
+        {
+            "train": {
+                "client0": [
+                    {
+                        "epoch": 1,
+                        "step": 1,
+                        "time": "2020-01-01 00:00:00",
+                        "loss": 0.1,
+                        "acc": 0.2,
+                        "top3_acc": 0.3,
+                        "top5_acc": 0.4,
+                    }
+                ]
+            },
+            "val": {
+                "client0": [
+                    {
+                        "epoch": 1,
+                        "step": 1,
+                        "time": "2020-01-01 00:00:00",
+                        "loss": 0.1,
+                        "acc": 0.2,
+                        "top3_acc": 0.3,
+                        "top5_acc": 0.4,
+                    }
+                ]
+            }
+        }
+
+    Parameters
+    ----------
+    algorithm, dataset, model : str
+        Used to form the prefix of the log file.
+    fmt : {"json", "yaml"}, optional
+        Format of the log file.
+    log_dir : str or pathlib.Path, optional
+        Directory to save the log file
+    log_suffix : str, optional
+        Suffix of the log file.
+
+    """
+
+    __name__ = "JsonLogger"
+
+    def __init__(
+        self,
+        algorithm: str,
+        dataset: str,
+        model: str,
+        fmt: str = "json",
+        log_dir: Optional[Union[str, Path]] = None,
+        log_suffix: Optional[str] = None,
+    ) -> None:
+        assert all(
+            [isinstance(x, str) for x in [algorithm, dataset, model]]
+        ), "algorithm, dataset, model must be str"
+        log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
+        self._log_dir = Path(log_dir or LOG_DIR)
+        if log_suffix is None:
+            log_suffix = ""
+        else:
+            log_suffix = f"_{log_suffix}"
+        self.log_file = f"{log_prefix}_{get_date_str()}{log_suffix}.{fmt}"
+        self.fmt = fmt.lower()
+        assert self.fmt in ["json", "yaml"], "fmt must be json or yaml"
+        self.logger = defaultdict(lambda: defaultdict(list))
+        self.step = -1
+        self._flushed = True
+
+    def log_metrics(
+        self,
+        client_id: Union[int, type(None)],
+        metrics: Dict[str, Union[Real, torch.Tensor]],
+        step: Optional[int] = None,
+        epoch: Optional[int] = None,
+        part: str = "val",
+    ) -> None:
+        if step is not None:
+            self.step = step
+        else:
+            self.step += 1
+        node = "Server" if client_id is None else f"Client{client_id}"
+        append_item = {
+            "step": self.step,
+            "time": self.strftime(datetime.now()),
+        }
+        if epoch is not None:
+            append_item.update({"epoch": epoch})
+        append_item.update(
+            {
+                k: v.item() if isinstance(v, torch.Tensor) else v
+                for k, v in metrics.items()
+            }
+        )
+        self.logger[part][node].append(append_item)
+        self._flushed = False
+
+    def log_message(self, msg: str, level: int = logging.INFO) -> None:
+        pass
+
+    def flush(self) -> None:
+        if not self._flushed:
+            # convert to list to make it json serializable
+            self.logger = ndarray_to_list(default_dict_to_dict(self.logger))
+            if self.fmt == "json":
+                Path(self.filename).write_text(
+                    json.dumps(self.logger, indent=4, ensure_ascii=False)
+                )
+            else:  # yaml
+                Path(self.filename).write_text(
+                    yaml.dump(self.logger, allow_unicode=True)
+                )
+            print(f"{self.fmt} log file saved to {self.filename}")
+            self._flushed = True
+
+    def close(self) -> None:
+        self.flush()
+
+    def __del__(self):
+        self.flush()
+        del self
+
+    @classmethod
+    def from_config(cls, config: Dict[str, Any]) -> "JsonLogger":
+        """Create a :class:`JsonLogger` instance from a configuration.
+
+        Parameters
+        ----------
+        config : dict
+            Configuration for the logger. The following keys are used:
+
+                - ``"algorithm"``: str,
+                    name of the algorithm.
+                - ``"dataset"``: str,
+                    name of the dataset.
+                - ``"model"``: str,
+                    name of the model.
+                - ``"fmt"``: {"json", "yaml"}, optional,
+                    format of the log file, default: ``"json"``.
+                - ``"log_dir"``: str or pathlib.Path, optional,
+                  directory to save the log file.
+                - ``"log_suffix"``: str, optional,
+                  suffix of the log file.
+
+        Returns
+        -------
+        JsonLogger
+            A :class:`JsonLogger` instance.
+
+        """
+        return cls(**config)
+
+    @property
+    def filename(self) -> str:
+        return str(self.log_dir / self.log_file)
+
+    @staticmethod
+    def strftime(time: datetime) -> str:
+        return time.strftime(JsonLogger.__time_fmt__)
+
+    @staticmethod
+    def strptime(time: str) -> datetime:
+        return datetime.strptime(time, JsonLogger.__time_fmt__)
 
 
 class LoggerManager(ReprMixin):
@@ -434,6 +629,19 @@ class LoggerManager(ReprMixin):
                 self._algorith,
                 self._dataset,
                 self._model,
+                self._log_dir,
+                self._log_suffix,
+            )
+        )
+
+    def _add_json_logger(self, fmt: str = "json") -> None:
+        """Add a :class:`JsonLogger` instance to the manager."""
+        self.loggers.append(
+            JsonLogger(
+                self._algorith,
+                self._dataset,
+                self._model,
+                fmt,
                 self._log_dir,
                 self._log_suffix,
             )
@@ -514,6 +722,11 @@ class LoggerManager(ReprMixin):
                   whether to add a :class:`TxtLogger` instance.
                 - ``"csv_logger"``: bool, optional,
                   whether to add a :class:`CSVLogger` instance.
+                - ``"json_logger"``: bool, optional,
+                    whether to add a :class:`JsonLogger` instance.
+                - ``"fmt"``: {"json", "yaml"}, optional,
+                    format of the json log file, default: ``"json"``,
+                    valid when ``"json_logger"`` is ``True``.
 
         Returns
         -------
@@ -530,8 +743,13 @@ class LoggerManager(ReprMixin):
         )
         if config.get("txt_logger", True):
             lm._add_txt_logger()
-        if config.get("csv_logger", True):
+        if config.get("csv_logger", False):
+            # for federated learning, csv logger has too many empty values,
+            # resulting in a very large csv file,
+            # hence it is not recommended to use csv logger.
             lm._add_csv_logger()
+        if config.get("json_logger", True):
+            lm._add_json_logger(fmt=config.get("fmt", get_kwargs(JsonLogger)["fmt"]))
         return lm
 
     def extra_repr_keys(self) -> List[str]:
