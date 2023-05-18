@@ -236,6 +236,80 @@ class Node(ReprMixin, ABC):
             metric_curve.append(current_metric / num_samples)
         return np.array(metric_curve)
 
+    @staticmethod
+    def aggregate_results_from_json_log(
+        d: dict, part: str = "val", metric: str = "acc"
+    ) -> np.ndarray:
+        """Aggregate the federated results from csv log.
+
+        Parameters
+        ----------
+        d : dict
+            The dict of the json/yaml log.
+        part : str, default "train"
+            The part of the log to aggregate.
+        metric : str, default "acc"
+            The metric to aggregate.
+
+        Returns
+        -------
+        np.ndarray
+            The aggregated results (curve).
+
+        NOTE that the `d` should be a dict of the following structure:
+
+        .. code-block:: json
+
+            {
+                "train": {
+                    "client0": [
+                        {
+                            "epoch": 1,
+                            "step": 1,
+                            "time": "2020-01-01 00:00:00",
+                            "loss": 0.1,
+                            "acc": 0.2,
+                            "top3_acc": 0.3,
+                            "top5_acc": 0.4,
+                            "num_samples": 100
+                        }
+                    ]
+                },
+                "val": {
+                    "client0": [
+                        {
+                            "epoch": 1,
+                            "step": 1,
+                            "time": "2020-01-01 00:00:00",
+                            "loss": 0.1,
+                            "acc": 0.2,
+                            "top3_acc": 0.3,
+                            "top5_acc": 0.4,
+                            "num_samples": 100
+                        }
+                    ]
+                }
+            }
+
+        """
+        epochs = list(
+            sorted(np.unique([item["epoch"] for _, v in d[part].items() for item in v]))
+        )
+        metric_curve = [[] for _ in range(len(epochs))]
+        num_samples = [0 for _ in range(len(epochs))]
+        for _, v in tqdm(
+            d[part].items(),
+            mininterval=1,
+            desc="Aggregating results",
+            total=len(d[part]),
+            unit="client",
+        ):
+            for item in v:
+                idx = epochs.index(item["epoch"])
+                metric_curve[idx].append(item[metric] * item["num_samples"])
+                num_samples[idx] += item["num_samples"]
+        return np.array([sum(v) / num_samples[i] for i, v in enumerate(metric_curve)])
+
 
 class Server(Node, CitationMixin):
     """The class to simulate the server node.
