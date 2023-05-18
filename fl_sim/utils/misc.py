@@ -3,6 +3,7 @@
 
 import pathlib
 import re
+import warnings
 from collections import OrderedDict, defaultdict
 from functools import wraps
 from typing import Any, Callable, Union
@@ -66,65 +67,28 @@ def clear_logs(pattern: str = "*") -> None:
         log_file.unlink()
 
 
+# fmt: off
+# numpy data types will be converted to python native types
 _numpy_data_types = [
-    "int_",
-    "int",
-    "intc",
-    "intp",
-    "int8",
-    "int16",
-    "int32",
-    "int64",
-    "uint8",
-    "uint16",
-    "uint32",
-    "uint64",
-    "float_",
-    "float",
-    "float16",
-    "float32",
-    "float64",
-    "bool_",
-    "bool",
-    "short",
-    "ushort",
-    "uint",
-    "uintc",
-    "longlong",
-    "ulonglong",
-    "half",
-    "single",
-    "double",
-    "longdouble",
-    "csingle",
-    "cdouble",
-    "clongdouble",
-    "object",
-    "str_",
-    "str",
-    "unicode_",
-    "unicode",
-    "void",
-    "byte",
-    "ubyte",
-    "complex_",
-    "complex",
-    "longcomplex",
-    "datetime64",
-    "timedelta64",
-    "float128",
-    "complex128",
-    "complex256",
-    "datetime64",
-    "csingle",
-    "cdouble",
+    "int_", "int", "intc", "intp", "int8", "int16", "int32", "int64", "uint8", "uint16",
+    "uint32", "uint64", "float_", "float", "float16", "float32", "float64", "bool_", "bool",
+    "short", "ushort", "uint", "uintc", "longlong", "ulonglong", "half", "single", "double",
+    "longdouble", "csingle", "cdouble", "clongdouble", "object", "str_", "str", "unicode_",
+    "unicode", "void", "byte", "ubyte", "complex_", "complex", "longcomplex", "datetime64",
+    "timedelta64", "float128", "complex128", "complex256", "datetime64", "csingle", "cdouble",
     "clongdouble",
 ]
-_numpy_data_types = tuple(
-    getattr(np, item)
-    for item in _numpy_data_types
-    if hasattr(np, item) and "numpy" in str(getattr(np, item))
-)
+# fmt: on
+
+
+with warnings.catch_warnings():
+    # turn off possible DeprecationWarning from numpy
+    warnings.filterwarnings("ignore")
+    _numpy_data_types = tuple(
+        getattr(np, item)
+        for item in _numpy_data_types
+        if hasattr(np, item) and "numpy" in str(getattr(np, item))
+    )
 
 
 def ndarray_to_list(x: Union[np.ndarray, dict, list, tuple]) -> Union[list, dict]:

@@ -425,6 +425,7 @@ class JsonLogger(BaseLogger):
                         "acc": 0.2,
                         "top3_acc": 0.3,
                         "top5_acc": 0.4,
+                        "num_samples": 100
                     }
                 ]
             },
@@ -438,6 +439,7 @@ class JsonLogger(BaseLogger):
                         "acc": 0.2,
                         "top3_acc": 0.3,
                         "top5_acc": 0.4,
+                        "num_samples": 100
                     }
                 ]
             }
