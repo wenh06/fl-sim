@@ -42,7 +42,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install -r requirements.txt
-        python -m pip install pytest pytest-cov # Testing packages
-    - name: Run test with pytest
+        python -m pip install pytest pytest-xdist pytest-cov # Testing packages
+    - name: Run test with pytest and collect coverage
       run: |
-        pytest -v --ignore=test/test-algorithms --ignore=test/test_algorithms.py test
+        pytest -v --cov=fl-sim --ignore=test/test-algorithms --ignore=test/test_algorithms.py test
