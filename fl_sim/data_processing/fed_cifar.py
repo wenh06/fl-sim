@@ -201,7 +201,7 @@ class FedCIFAR(FedVisionDataset):
         return None  # TODO
 
     @property
-    def lable_map(self) -> dict:
+    def label_map(self) -> dict:
         return {
             10: CIFAR10_LABEL_MAP,
             100: CIFAR100_FINE_LABEL_MAP,
