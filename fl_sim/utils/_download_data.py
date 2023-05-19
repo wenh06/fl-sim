@@ -18,7 +18,7 @@ from typing import Union, List, Tuple, Optional, Iterable
 import requests
 from tqdm.auto import tqdm
 
-from .misc import CACHED_DATA_DIR
+from .const import CACHED_DATA_DIR
 
 
 __all__ = [

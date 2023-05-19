@@ -14,7 +14,7 @@ import torch
 from tqdm.auto import tqdm
 from torch_ecg.utils import ReprMixin
 
-from ..utils.misc import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR
 from ..utils._download_data import download_if_needed
 from .tokenizers import WordLevelTokenizer, GloveTokenizer
 

@@ -13,7 +13,7 @@ import numpy as np
 import torch  # noqa: F401
 from scipy.io import loadmat, savemat
 
-from ..utils.misc import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR
 
 
 __all__ = [

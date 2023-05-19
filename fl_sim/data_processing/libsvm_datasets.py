@@ -13,7 +13,7 @@ import torch
 import torch.utils.data as data
 from deprecate_kwargs import deprecate_kwargs
 
-from ..utils.misc import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR
 from ..utils._download_data import http_get
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy

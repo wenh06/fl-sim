@@ -13,7 +13,7 @@ import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10, CIFAR100
 from torch_ecg.utils import ReprMixin
 
-from ..utils.misc import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR
 
 
 __all__ = [

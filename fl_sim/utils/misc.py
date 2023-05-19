@@ -1,7 +1,6 @@
 """
 """
 
-import pathlib
 import re
 import warnings
 from collections import OrderedDict, defaultdict
@@ -10,30 +9,16 @@ from typing import Any, Callable, Union
 
 import numpy as np
 
+from .const import LOG_DIR
+
 
 __all__ = [
-    # "PROJECT_DIR",
-    "CACHED_DATA_DIR",
-    "LOG_DIR",
     "experiment_indicator",
     "clear_logs",
     "ndarray_to_list",
     "ordered_dict_to_dict",
     "default_dict_to_dict",
 ]
-
-
-PROJECT_DIR = pathlib.Path(__file__).absolute().parents[2]
-
-USER_CACHE_DIR = pathlib.Path.home() / ".cache" / "fl-sim"
-
-CACHED_DATA_DIR = USER_CACHE_DIR / ".data_cache"
-
-LOG_DIR = USER_CACHE_DIR / ".logs"
-
-
-CACHED_DATA_DIR.mkdir(parents=True, exist_ok=True)
-LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def experiment_indicator(name: str) -> Callable:

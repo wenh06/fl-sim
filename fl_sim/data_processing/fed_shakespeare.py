@@ -11,7 +11,7 @@ import numpy as np
 import torch  # noqa: F401
 import torch.utils.data as data
 
-from ..utils.misc import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedNLPDataset

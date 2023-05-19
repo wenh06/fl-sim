@@ -25,7 +25,7 @@ except ModuleNotFoundError:
         "One can install it by `pip install beautifulsoup4`."
     )
 
-from ..utils.misc import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
 from ..models.word_embeddings import GloveEmbedding
 from ..models.utils import top_n_accuracy

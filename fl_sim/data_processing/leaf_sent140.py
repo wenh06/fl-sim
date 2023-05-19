@@ -12,7 +12,7 @@ from typing import Optional, Union, List, Tuple, Dict
 import torch
 import torch.utils.data as data
 
-from ..utils.misc import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy  # noqa: F401
 from .fed_dataset import FedNLPDataset  # noqa: F401

@@ -22,7 +22,7 @@ from bib_lookup import CitationMixin
 from PIL import Image
 from torch_ecg.utils import ReprMixin
 
-from ..utils.misc import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR
 from ..utils._download_data import download_if_needed
 
 
