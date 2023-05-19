@@ -9,7 +9,7 @@ from scipy.io import loadmat
 import torch
 import torch.utils.data as data
 
-from ..utils.const import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedVisionDataset
@@ -20,9 +20,8 @@ __all__ = [
 ]
 
 
-FEDPROX_FEMNIST_DATA_DIR = CACHED_DATA_DIR / "fedprox_mnist"
-FEDPROX_FEMNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
-_label_mapping = {i: str(i) for i in range(10)}
+FEDPROX_MNIST_DATA_DIR = CACHED_DATA_DIR / "fedprox_mnist"
+FEDPROX_MNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class FedProxMNIST(FedVisionDataset):
@@ -39,7 +38,7 @@ class FedProxMNIST(FedVisionDataset):
     __name__ = "FedProxMNIST"
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
-        self.datadir = Path(datadir or FEDPROX_FEMNIST_DATA_DIR).expanduser().resolve()
+        self.datadir = Path(datadir or FEDPROX_MNIST_DATA_DIR).expanduser().resolve()
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = 1000
         self.DEFAULT_TEST_CLIENTS_NUM = 1000
@@ -131,12 +130,6 @@ class FedProxMNIST(FedVisionDataset):
             "n_class",
         ] + super().extra_repr_keys()
 
-    def get_class(self, label: torch.Tensor) -> str:
-        return _label_mapping[label.item()]
-
-    def get_classes(self, labels: torch.Tensor) -> List[str]:
-        return [_label_mapping[lb] for lb in labels.cpu().numpy()]
-
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
         return {
             "acc": top_n_accuracy(probs, truths, 1),
@@ -173,6 +166,10 @@ class FedProxMNIST(FedVisionDataset):
     def raw_data(self) -> Dict[str, np.ndarray]:
         return self.__raw_data
 
+    @property
+    def label_map(self) -> dict:
+        return MNIST_LABEL_MAP
+
     def view_image(self, client_idx: int, image_idx: int) -> None:
         import matplotlib.pyplot as plt
 
@@ -201,7 +198,7 @@ class FedProxMNIST(FedVisionDataset):
         # to 0-255
         img = (img * 255 / img.max()).astype(np.uint8)
         plt.imshow(img, cmap="gray")
-        plt.title(f"client {client_idx}, label {label} ({_label_mapping[label]})")
+        plt.title(f"client {client_idx}, label {label} ({self.label_map[int(label)]})")
         plt.show()
 
 

@@ -158,12 +158,6 @@ class FedProxFEMNIST(FedVisionDataset):
             "n_class",
         ] + super().extra_repr_keys()
 
-    def get_class(self, label: torch.Tensor) -> str:
-        return _label_mapping[label.item()]
-
-    def get_classes(self, labels: torch.Tensor) -> List[str]:
-        return [_label_mapping[lb] for lb in labels.cpu().numpy()]
-
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
         return {
             "acc": top_n_accuracy(probs, truths, 1),
@@ -194,6 +188,10 @@ class FedProxFEMNIST(FedVisionDataset):
     @property
     def doi(self) -> List[str]:
         return ["10.48550/ARXIV.1812.06127"]
+
+    @property
+    def label_map(self) -> dict:
+        return _label_mapping
 
     def view_image(self, client_idx: int, image_idx: int) -> None:
         import matplotlib.pyplot as plt
@@ -229,6 +227,6 @@ class FedProxFEMNIST(FedVisionDataset):
             label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
         plt.imshow(image, cmap="gray")
         plt.title(
-            f"client_id: {client_id}, label: {label} ({_label_mapping[int(label)]})"
+            f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})"
         )
         plt.show()

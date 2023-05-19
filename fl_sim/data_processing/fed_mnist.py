@@ -10,7 +10,7 @@ import numpy as np
 import torch
 import torch.utils.data as data
 
-from ..utils.const import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedVisionDataset
@@ -23,9 +23,6 @@ __all__ = [
 
 FED_MNIST_DATA_DIR = CACHED_DATA_DIR / "fed_mnist"
 FED_MNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
-
-
-_label_mapping = {i: str(i) for i in range(10)}
 
 
 class FedMNIST(FedVisionDataset):
@@ -156,12 +153,6 @@ class FedMNIST(FedVisionDataset):
             "n_class",
         ] + super().extra_repr_keys()
 
-    def get_class(self, label: torch.Tensor) -> str:
-        return _label_mapping[label.item()]
-
-    def get_classes(self, labels: torch.Tensor) -> List[str]:
-        return [_label_mapping[lb] for lb in labels.cpu().numpy()]
-
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
         return {
             "acc": top_n_accuracy(probs, truths, 1),
@@ -192,6 +183,10 @@ class FedMNIST(FedVisionDataset):
     def doi(self) -> List[str]:
         # TODO: add FedML doi and MNIST doi
         return ["10.48550/ARXIV.1812.06127"]
+
+    @property
+    def label_map(self) -> dict:
+        return MNIST_LABEL_MAP
 
     def view_image(self, client_idx: int, image_idx: int) -> None:
         import matplotlib.pyplot as plt
@@ -227,6 +222,6 @@ class FedMNIST(FedVisionDataset):
             label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
         plt.imshow(image, cmap="gray")
         plt.title(
-            f"client_id: {client_id}, label: {label} ({_label_mapping[int(label)]})"
+            f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})"
         )
         plt.show()

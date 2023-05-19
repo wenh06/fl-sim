@@ -11,7 +11,7 @@ import torch
 import torch.utils.data as data
 import torchvision.transforms as transforms
 
-from ..utils.const import CACHED_DATA_DIR
+from ..utils.const import CACHED_DATA_DIR, CIFAR100_FINE_LABEL_MAP, CIFAR10_LABEL_MAP
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedVisionDataset
@@ -200,6 +200,13 @@ class FedCIFAR(FedVisionDataset):
     def doi(self) -> str:
         return None  # TODO
 
+    @property
+    def lable_map(self) -> dict:
+        return {
+            10: CIFAR10_LABEL_MAP,
+            100: CIFAR100_FINE_LABEL_MAP,
+        }[self.n_class]
+
     def view_image(self, client_idx: int, image_idx: int) -> None:
         import matplotlib.pyplot as plt
 
@@ -237,7 +244,9 @@ class FedCIFAR(FedVisionDataset):
         label = tot_label[image_idx]
         plt.figure(figsize=(3, 3))
         plt.imshow(img)
-        plt.title(f"client_id: {client_id}, label: {label}")
+        plt.title(
+            f"client_id: {client_id}, label: {label} ({self.lable_map[int(label)]})"
+        )
         plt.show()
 
 

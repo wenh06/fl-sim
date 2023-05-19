@@ -252,6 +252,17 @@ class FedVisionDataset(FedDataset, ABC):
         assert tensor.ndim == 3
         return transforms.ToPILImage()(tensor)
 
+    @property
+    @abstractmethod
+    def label_map(self) -> dict:
+        raise NotImplementedError
+
+    def get_class(self, label: torch.Tensor) -> str:
+        return self.label_map[label.item()]
+
+    def get_classes(self, labels: torch.Tensor) -> List[str]:
+        return [self.label_map[lb] for lb in labels.cpu().numpy()]
+
 
 class FedNLPDataset(FedDataset, ABC):
 
