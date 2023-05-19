@@ -11,6 +11,7 @@ from .fed_cifar import (
     FedCIFAR100,
 )
 from .fed_emnist import FedEMNIST
+from .fed_mnist import FedMNIST
 from .fed_shakespeare import FedShakespeare
 from .fed_synthetic import FedSynthetic
 from .fedprox_femnist import FedProxFEMNIST
@@ -30,6 +31,7 @@ __all__ = [
     "FedCIFAR",
     "FedCIFAR100",
     "FedEMNIST",
+    "FedMNIST",
     "FedShakespeare",
     "FedSynthetic",
     # datasets from FedProx
