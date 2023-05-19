@@ -1,10 +1,4 @@
 """
-(part of) federeated EMNIST used in the FedProx paper
-
-References
-----------
-1. https://github.com/litian96/FedProx/tree/master/data/mnist
-2. https://github.com/litian96/FedProx/blob/master/data/mnist/generate_niid.py
 """
 
 from pathlib import Path
@@ -32,6 +26,15 @@ _label_mapping = {i: str(i) for i in range(10)}
 
 
 class FedProxMNIST(FedVisionDataset):
+    """Federeated MNIST used in the FedProx paper,
+    where the data is partitioned in a non-IID manner.
+
+    References
+    ----------
+    1. https://github.com/litian96/FedProx/tree/master/data/mnist
+    2. https://github.com/litian96/FedProx/blob/master/data/mnist/generate_niid.py
+
+    """
 
     __name__ = "FedProxMNIST"
 
@@ -155,6 +158,7 @@ class FedProxMNIST(FedVisionDataset):
         a set of candidate models
         """
         return {
+            "cnn_mnist": mnn.CNNMnist(num_classes=self.n_class),
             "cnn_femmist_tiny": mnn.CNNFEMnist_Tiny(num_classes=self.n_class),
             "cnn_femmist": mnn.CNNFEMnist(num_classes=self.n_class),
             # "resnet10": mnn.ResNet10(num_classes=self.n_class),

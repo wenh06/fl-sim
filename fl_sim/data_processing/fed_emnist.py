@@ -32,7 +32,21 @@ _label_mapping.update({i + 36: c for i, c in enumerate("abcdefghijklmnopqrstuvwx
 
 class FedEMNIST(FedVisionDataset):
     """
-    most methods in this class are modified from FedML
+    Federated EMNIST dataset extends MNIST dataset with upper and lower case English characters
+
+    most methods in this class are modified from FedML.
+
+    Data partition is the same as [TFF](https://www.tensorflow.org/federated/api_docs/python/tff/simulation/datasets/emnist),
+    with the following statistics.
+
+    | DATASET   | TRAIN CLIENTS | TRAIN EXAMPLES | TEST CLIENTS | TEST EXAMPLES |
+    | --------- | ------------- | -------------- | ------------ | ------------- |
+    | EMNIST-62 | 3,400         | 671,585        | 3,400        | 77,483        |
+
+    References
+    ----------
+    1. https://github.com/FedML-AI/FedML/tree/master/python/fedml/data/FederatedEMNIST
+
     """
 
     __name__ = "FedEMNIST"

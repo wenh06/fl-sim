@@ -101,10 +101,7 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
 
     @property
     def data_parts(self) -> List[str]:
-        return [
-            "train",
-            "val",
-        ]
+        return ["train", "val"]
 
     @property
     @abstractmethod
