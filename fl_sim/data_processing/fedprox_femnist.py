@@ -42,7 +42,6 @@ class FedProxFEMNIST(FedVisionDataset):
 
     """
 
-
     __name__ = "FedProxFEMNIST"
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
@@ -204,17 +203,30 @@ class FedProxFEMNIST(FedVisionDataset):
                 f"client_idx must be less than {len(self._train_data_dict['users'])}"
             )
         client_id = self._train_data_dict["users"][client_idx]
-        if image_idx >= len(self._train_data_dict["user_data"][client_id]["x"]):
+        total_num_images = len(
+            self._train_data_dict["user_data"][client_id]["x"]
+        ) + len(self._test_data_dict["user_data"][client_id]["x"])
+        if image_idx >= total_num_images:
             raise ValueError(
-                f"image_idx must be less than {len(self._train_data_dict['user_data'][client_id]['x'])}"
+                f"image_idx must be less than {total_num_images} (total number of images)"
             )
-        image = (
-            np.array(self._train_data_dict["user_data"][client_id]["x"])[
-                image_idx
-            ].reshape(28, 28)
-            * 255
-        ).astype(np.uint8)
-        label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
+        if image_idx < len(self._train_data_dict["user_data"][client_id]["x"]):
+            image = (
+                np.array(self._train_data_dict["user_data"][client_id]["x"])[
+                    image_idx
+                ].reshape(28, 28)
+                * 255
+            ).astype(np.uint8)
+            label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
+        else:
+            image_idx -= len(self._train_data_dict["user_data"][client_id]["x"])
+            image = (
+                np.array(self._test_data_dict["user_data"][client_id]["x"])[
+                    image_idx
+                ].reshape(28, 28)
+                * 255
+            ).astype(np.uint8)
+            label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
         plt.imshow(image, cmap="gray")
         plt.title(
             f"client_id: {client_id}, label: {label} ({_label_mapping[int(label)]})"

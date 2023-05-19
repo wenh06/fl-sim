@@ -68,7 +68,7 @@ def http_get(
     pure_url = urllib.parse.unquote(url.split("?")[0])
     parent_dir = Path(dst_dir).parent
     downloaded_file = tempfile.NamedTemporaryFile(
-        dir=parent_dir, suffix=_suffix(pure_url), delete=False
+        dir=parent_dir, suffix=_suffix(pure_url), delete=True
     )
     req = requests.get(url, stream=True, proxies=proxies)
     content_length = req.headers.get("Content-Length")
