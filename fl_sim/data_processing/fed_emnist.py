@@ -8,7 +8,7 @@ from typing import Optional, Union, List, Tuple, Dict
 import h5py
 import numpy as np
 import torch
-import torch.utils.data as data
+import torch.utils.data as torchdata
 
 from ..utils.const import CACHED_DATA_DIR, EMNIST_LABEL_MAP
 from ..models import nn as mnn
@@ -84,7 +84,7 @@ class FedEMNIST(FedVisionDataset):
         train_bs: Optional[int] = None,
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
         test_h5 = h5py.File(str(self.datadir / self.DEFAULT_TEST_FILE), "r")
         train_x, train_y, test_x, test_y = [], [], [], []
@@ -126,22 +126,22 @@ class FedEMNIST(FedVisionDataset):
         )
 
         # dataloader
-        train_ds = data.TensorDataset(
+        train_ds = torchdata.TensorDataset(
             torch.from_numpy(train_x).unsqueeze(1),
             torch.from_numpy(train_y.astype(np.int64)),
         )
-        train_dl = data.DataLoader(
+        train_dl = torchdata.DataLoader(
             dataset=train_ds,
             batch_size=train_bs or self.DEFAULT_BATCH_SIZE,
             shuffle=True,
             drop_last=False,
         )
 
-        test_ds = data.TensorDataset(
+        test_ds = torchdata.TensorDataset(
             torch.from_numpy(test_x).unsqueeze(1),
             torch.from_numpy(test_y.astype(np.int64)),
         )
-        test_dl = data.DataLoader(
+        test_dl = torchdata.DataLoader(
             dataset=test_ds,
             batch_size=test_bs or self.DEFAULT_BATCH_SIZE,
             shuffle=True,

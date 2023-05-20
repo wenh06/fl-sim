@@ -5,7 +5,7 @@ from typing import Optional, List, Tuple, Dict
 
 import numpy as np
 import torch  # noqa: F401
-import torch.utils.data as data
+import torch.utils.data as torchdata
 
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
@@ -64,7 +64,7 @@ class FedSynthetic(FedDataset):
         train_bs: Optional[int] = None,
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         """get local dataloader at client `client_idx` or get the global dataloader"""
         assert client_idx is None or 0 <= client_idx < self.num_clients
         if client_idx is None:
@@ -81,8 +81,8 @@ class FedSynthetic(FedDataset):
         train_bs = train_bs or self.DEFAULT_BATCH_SIZE
         if train_bs == -1:
             train_bs = len(train_X)
-        train_dl = data.DataLoader(
-            dataset=data.TensorDataset(
+        train_dl = torchdata.DataLoader(
+            dataset=torchdata.TensorDataset(
                 torch.from_numpy(train_X), torch.from_numpy(train_y)
             ),
             batch_size=train_bs,
@@ -92,8 +92,8 @@ class FedSynthetic(FedDataset):
         test_bs = test_bs or self.DEFAULT_BATCH_SIZE
         if test_bs == -1:
             test_bs = len(test_X)
-        test_dl = data.DataLoader(
-            dataset=data.TensorDataset(
+        test_dl = torchdata.DataLoader(
+            dataset=torchdata.TensorDataset(
                 torch.from_numpy(test_X), torch.from_numpy(test_y)
             ),
             batch_size=test_bs,
@@ -155,8 +155,8 @@ class FedSynthetic(FedDataset):
             test_data_local_dict[client_idx] = test_data_local
 
         # global dataset
-        train_data_global = data.DataLoader(
-            data.ConcatDataset(
+        train_data_global = torchdata.DataLoader(
+            torchdata.ConcatDataset(
                 list(dl.dataset for dl in list(train_data_local_dict.values()))
             ),
             batch_size=_batch_size,
@@ -164,8 +164,8 @@ class FedSynthetic(FedDataset):
         )
         train_data_num = len(train_data_global.dataset)
 
-        test_data_global = data.DataLoader(
-            data.ConcatDataset(
+        test_data_global = torchdata.DataLoader(
+            torchdata.ConcatDataset(
                 list(
                     dl.dataset
                     for dl in list(test_data_local_dict.values())

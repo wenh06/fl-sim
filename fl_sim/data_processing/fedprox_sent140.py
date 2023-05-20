@@ -14,7 +14,7 @@ from string import punctuation
 from typing import Optional, Union, List, Tuple, Dict
 
 import torch
-import torch.utils.data as data
+import torch.utils.data as torchdata
 
 try:
     from bs4 import BeautifulSoup
@@ -120,7 +120,7 @@ class FedProxSent140(FedNLPDataset):
         train_bs: Optional[int] = None,
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         # load data
         if client_idx is None:
             # get ids of all clients
@@ -155,16 +155,16 @@ class FedProxSent140(FedNLPDataset):
         train_y = torch.tensor([self._class_map[lb] for lb in train_y])
         test_y = torch.tensor([self._class_map[lb] for lb in test_y])
 
-        train_ds = data.TensorDataset(train_x, train_y)
-        test_ds = data.TensorDataset(test_x, test_y)
+        train_ds = torchdata.TensorDataset(train_x, train_y)
+        test_ds = torchdata.TensorDataset(test_x, test_y)
 
-        train_dl = data.DataLoader(
+        train_dl = torchdata.DataLoader(
             dataset=train_ds,
             batch_size=train_bs or self.DEFAULT_BATCH_SIZE,
             shuffle=True,
             drop_last=False,
         )
-        test_dl = data.DataLoader(
+        test_dl = torchdata.DataLoader(
             dataset=test_ds,
             batch_size=test_bs or self.DEFAULT_BATCH_SIZE,
             shuffle=True,

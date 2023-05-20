@@ -8,7 +8,7 @@ from typing import Optional, Union, List, Callable, Tuple, Dict, Sequence
 import h5py
 import numpy as np
 import torch
-import torch.utils.data as data
+import torch.utils.data as torchdata
 import torchvision.transforms as transforms
 
 from ..utils.const import CACHED_DATA_DIR, CIFAR100_FINE_LABEL_MAP, CIFAR10_LABEL_MAP
@@ -85,7 +85,7 @@ class FedCIFAR(FedVisionDataset):
         train_bs: Optional[int] = None,
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         """get local dataloader at client `client_idx` or get the global dataloader"""
         train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
         test_h5 = h5py.File(str(self.datadir / self.DEFAULT_TEST_FILE), "r")
@@ -149,8 +149,8 @@ class FedCIFAR(FedVisionDataset):
             pass
 
         # generate dataloader
-        train_ds = data.TensorDataset(train_x, train_y)
-        train_dl = data.DataLoader(
+        train_ds = torchdata.TensorDataset(train_x, train_y)
+        train_dl = torchdata.DataLoader(
             dataset=train_ds,
             batch_size=train_bs or self.DEFAULT_BATCH_SIZE,
             shuffle=True,
@@ -158,8 +158,8 @@ class FedCIFAR(FedVisionDataset):
         )
 
         if len(test_x) != 0:
-            test_ds = data.TensorDataset(test_x, test_y)
-            test_dl = data.DataLoader(
+            test_ds = torchdata.TensorDataset(test_x, test_y)
+            test_dl = torchdata.DataLoader(
                 dataset=test_ds,
                 batch_size=test_bs or self.DEFAULT_BATCH_SIZE,
                 shuffle=True,

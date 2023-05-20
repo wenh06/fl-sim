@@ -7,8 +7,8 @@ from pathlib import Path
 from typing import Optional, Union, List, Callable, Tuple, Dict
 
 import numpy as np
-import torch  # noqa: F401
-import torch.utils.data as data
+import torch
+import torch.utils.data as torchdata
 import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10, CIFAR100
 from torch_ecg.utils import ReprMixin
@@ -46,7 +46,7 @@ for n_class in [
     CIFAR_NONIID_CACHE_DIRS[n_class].mkdir(parents=True, exist_ok=True)
 
 
-class CIFAR_truncated(ReprMixin, data.Dataset):
+class CIFAR_truncated(ReprMixin, torchdata.Dataset):
     """
     this class is modified from FedML
     """

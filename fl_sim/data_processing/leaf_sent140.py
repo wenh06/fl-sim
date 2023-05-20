@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Optional, Union, List, Tuple, Dict
 
 import torch
-import torch.utils.data as data
+import torch.utils.data as torchdata
 
 from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
@@ -41,7 +41,7 @@ class LeafSent140(FedNLPDataset):
         train_bs: Optional[int] = None,
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         raise NotImplementedError
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:

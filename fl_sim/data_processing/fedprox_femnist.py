@@ -7,7 +7,7 @@ from typing import Optional, Union, List, Tuple, Dict
 
 import numpy as np
 import torch
-import torch.utils.data as data
+import torch.utils.data as torchdata
 
 from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
@@ -87,7 +87,7 @@ class FedProxFEMNIST(FedVisionDataset):
         train_bs: Optional[int] = None,
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         # load data
         if client_idx is None:
             # get ids of all clients
@@ -125,26 +125,26 @@ class FedProxFEMNIST(FedVisionDataset):
         )
 
         # dataloader
-        train_ds = data.TensorDataset(
+        train_ds = torchdata.TensorDataset(
             torch.from_numpy(
                 train_x.reshape((-1, 28, 28)).astype(np.float32)
             ).unsqueeze(1),
             torch.from_numpy(train_y.astype(np.int64)),
         )
-        train_dl = data.DataLoader(
+        train_dl = torchdata.DataLoader(
             dataset=train_ds,
             batch_size=train_bs or self.DEFAULT_BATCH_SIZE,
             shuffle=True,
             drop_last=False,
         )
 
-        test_ds = data.TensorDataset(
+        test_ds = torchdata.TensorDataset(
             torch.from_numpy(test_x.reshape((-1, 28, 28)).astype(np.float32)).unsqueeze(
                 1
             ),
             torch.from_numpy(test_y.astype(np.int64)),
         )
-        test_dl = data.DataLoader(
+        test_dl = torchdata.DataLoader(
             dataset=test_ds,
             batch_size=test_bs or self.DEFAULT_BATCH_SIZE,
             shuffle=True,

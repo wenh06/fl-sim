@@ -11,7 +11,7 @@ from string import punctuation
 from typing import Optional, Union, List, Tuple, Dict, Iterable, Sequence, Callable
 
 import torch
-import torch.utils.data as data
+import torch.utils.data as torchdata
 import torchvision.transforms as transforms
 from datasets import (
     Dataset as HFD,
@@ -44,7 +44,7 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
         train_bs: int,
         test_bs: int,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         raise NotImplementedError
 
     @abstractmethod
@@ -147,7 +147,7 @@ class FedVisionDataset(FedDataset, ABC):
         train_bs: int,
         test_bs: int,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         raise NotImplementedError
 
     @abstractmethod
@@ -207,8 +207,8 @@ class FedVisionDataset(FedDataset, ABC):
             test_data_local_dict[client_idx] = test_data_local
 
         # global dataset
-        train_data_global = data.DataLoader(
-            data.ConcatDataset(
+        train_data_global = torchdata.DataLoader(
+            torchdata.ConcatDataset(
                 list(dl.dataset for dl in list(train_data_local_dict.values()))
             ),
             batch_size=_batch_size,
@@ -216,8 +216,8 @@ class FedVisionDataset(FedDataset, ABC):
         )
         train_data_num = len(train_data_global.dataset)
 
-        test_data_global = data.DataLoader(
-            data.ConcatDataset(
+        test_data_global = torchdata.DataLoader(
+            torchdata.ConcatDataset(
                 list(
                     dl.dataset
                     for dl in list(test_data_local_dict.values())
@@ -297,7 +297,7 @@ class FedNLPDataset(FedDataset, ABC):
         train_bs: int,
         test_bs: int,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         raise NotImplementedError
 
     def load_partition_data_distributed(
@@ -358,8 +358,8 @@ class FedNLPDataset(FedDataset, ABC):
             test_data_local_dict[client_idx] = test_data_local
 
         # global dataset
-        train_data_global = data.DataLoader(
-            data.ConcatDataset(
+        train_data_global = torchdata.DataLoader(
+            torchdata.ConcatDataset(
                 list(dl.dataset for dl in list(train_data_local_dict.values()))
             ),
             batch_size=batch_size,
@@ -367,8 +367,8 @@ class FedNLPDataset(FedDataset, ABC):
         )
         train_data_num = len(train_data_global.dataset)
 
-        test_data_global = data.DataLoader(
-            data.ConcatDataset(
+        test_data_global = torchdata.DataLoader(
+            torchdata.ConcatDataset(
                 list(
                     dl.dataset
                     for dl in list(test_data_local_dict.values())
@@ -401,7 +401,7 @@ class FedNLPDataset(FedDataset, ABC):
         raise NotImplementedError
 
 
-class NLPDataset(data.Dataset, ReprMixin):
+class NLPDataset(torchdata.Dataset, ReprMixin):
 
     __name__ = "NLPDataset"
 
@@ -606,7 +606,7 @@ class NLPDataset(data.Dataset, ReprMixin):
         self,
         tokenizer: Callable[[Union[str, Sequence[str]]], torch.Tensor],
         labels_to_keep: Optional[Iterable[int]] = None,
-    ) -> data.TensorDataset:
+    ) -> torchdata.TensorDataset:
         """
         CAUTION: This method is not tested yet.
         """
@@ -623,4 +623,4 @@ class NLPDataset(data.Dataset, ReprMixin):
         for c in self.input_columns:
             X[c] = tokenizer(X[c], return_tensors="pt")
         y = torch.tensor(y)
-        return data.TensorDataset(*(X[c] for c in self.input_columns), y)
+        return torchdata.TensorDataset(*(X[c] for c in self.input_columns), y)

@@ -8,10 +8,10 @@ from typing import Union, Optional, Tuple, Dict, List
 
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_svmlight_file
 import torch
-import torch.utils.data as data
+import torch.utils.data as torchdata
 from deprecate_kwargs import deprecate_kwargs
+from sklearn.datasets import load_svmlight_file
 
 from ..utils.const import CACHED_DATA_DIR
 from ..utils._download_data import http_get
@@ -131,7 +131,7 @@ class FedLibSVMDataset(FedDataset):
         train_bs: Optional[int] = None,
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
-    ) -> Tuple[data.DataLoader, data.DataLoader]:
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
         assert client_idx is None or 0 <= client_idx < self.num_clients
         if client_idx is None:
             train_X = np.concatenate(
@@ -155,8 +155,8 @@ class FedLibSVMDataset(FedDataset):
         train_bs = train_bs or self.DEFAULT_BATCH_SIZE
         if train_bs == -1:
             train_bs = len(train_X)
-        train_dl = data.DataLoader(
-            data.TensorDataset(
+        train_dl = torchdata.DataLoader(
+            torchdata.TensorDataset(
                 torch.from_numpy(train_X).float(),
                 torch.from_numpy(train_y).long(),
             ),
@@ -166,8 +166,8 @@ class FedLibSVMDataset(FedDataset):
         test_bs = test_bs or self.DEFAULT_BATCH_SIZE
         if test_bs == -1:
             test_bs = len(test_X)
-        test_dl = data.DataLoader(
-            data.TensorDataset(
+        test_dl = torchdata.DataLoader(
+            torchdata.TensorDataset(
                 torch.from_numpy(test_X).float(),
                 torch.from_numpy(test_y).long(),
             ),
@@ -229,8 +229,8 @@ class FedLibSVMDataset(FedDataset):
             test_data_local_dict[client_idx] = test_data_local
 
         # global dataset
-        train_data_global = data.DataLoader(
-            data.ConcatDataset(
+        train_data_global = torchdata.DataLoader(
+            torchdata.ConcatDataset(
                 list(dl.dataset for dl in list(train_data_local_dict.values()))
             ),
             batch_size=_batch_size,
@@ -238,8 +238,8 @@ class FedLibSVMDataset(FedDataset):
         )
         train_data_num = len(train_data_global.dataset)
 
-        test_data_global = data.DataLoader(
-            data.ConcatDataset(
+        test_data_global = torchdata.DataLoader(
+            torchdata.ConcatDataset(
                 list(
                     dl.dataset
                     for dl in list(test_data_local_dict.values())
