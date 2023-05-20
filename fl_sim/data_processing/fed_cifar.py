@@ -245,7 +245,7 @@ class FedCIFAR(FedVisionDataset):
         plt.figure(figsize=(3, 3))
         plt.imshow(img)
         plt.title(
-            f"client_id: {client_id}, label: {label} ({self.lable_map[int(label)]})"
+            f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})"
         )
         plt.show()
 
