@@ -10,6 +10,7 @@ from pathlib import Path
 from string import punctuation
 from typing import Optional, Union, List, Tuple, Dict, Iterable, Sequence, Callable
 
+import numpy as np
 import torch
 import torch.utils.data as torchdata
 import torchvision.transforms as transforms
@@ -248,8 +249,13 @@ class FedVisionDataset(FedDataset, ABC):
         return self._n_class
 
     @staticmethod
-    def show_image(tensor: torch.Tensor) -> Image.Image:
-        assert tensor.ndim == 3
+    def show_image(tensor: Union[torch.Tensor, np.ndarray]) -> Image.Image:
+        assert tensor.ndim in [2, 3]
+        if tensor.ndim == 3:
+            if tensor.shape[0] in [1, 3]:
+                tensor = tensor.transpose(1, 2, 0)
+            if tensor.shape[-1] == 1:
+                tensor = tensor.squeeze(-1)
         return transforms.ToPILImage()(tensor)
 
     @property
