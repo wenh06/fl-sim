@@ -347,8 +347,16 @@ class Server(Node, CitationMixin):
         self.model = model
         self.dataset = dataset
         self.criterion = deepcopy(dataset.criterion)
+        assert isinstance(config, self.config_cls["server"]), (
+            f"(server) config should be an instance of "
+            f"{self.config_cls['server']}, but got {type(config)}."
+        )
         self.config = config
         self.device = torch.device("cpu")
+        assert isinstance(client_config, self.config_cls["client"]), (
+            f"client_config should be an instance of "
+            f"{self.config_cls['client']}, but got {type(client_config)}."
+        )
         self._client_config = client_config
 
         logger_config = dict(
@@ -549,7 +557,8 @@ class Server(Node, CitationMixin):
         self._logger_manager.reset()
 
     def train_federated(self, extra_configs: Optional[dict] = None) -> None:
-        """Federated (distributed) training, conducted on the clients and the server.
+        """Federated (distributed) training,
+        conducted on the clients and the server.
 
         Parameters
         ----------
@@ -725,6 +734,17 @@ class Server(Node, CitationMixin):
 
         This method is a helper function for fast access
         to the data of the given client.
+
+        Parameters
+        ----------
+        client_idx : int
+            The index of the client.
+
+        Returns
+        -------
+        Tuple[Tensor, Tensor]
+            Input data and labels of the given client.
+
         """
         if client_idx >= len(self._clients):
             raise ValueError(f"client_idx should be less than {len(self._clients)}")
@@ -736,6 +756,17 @@ class Server(Node, CitationMixin):
 
         This method is a helper function for fast access
         to the model of the given client.
+
+        Parameters
+        ----------
+        client_idx : int
+            The index of the client.
+
+        Returns
+        -------
+        torch.nn.Module
+            The model of the given client.
+
         """
         if client_idx >= len(self._clients):
             raise ValueError(f"client_idx should be less than {len(self._clients)}")
@@ -750,8 +781,17 @@ class Server(Node, CitationMixin):
 
     @property
     @abstractmethod
-    def client_cls(self) -> "Client":
+    def client_cls(self) -> type:
         """Class of the client node."""
+        raise NotImplementedError
+
+    @property
+    @abstractmethod
+    def config_cls(self) -> Dict[str, type]:
+        """Class of the client node config and server node config.
+
+        Keys are "client" and "server".
+        """
         raise NotImplementedError
 
     @property
@@ -823,6 +863,10 @@ class Client(Node):
         target : Server
             The server to communicate with.
 
+        Returns
+        -------
+        None
+
         """
         # check validity of self._metrics
         for part, metrics in self._metrics.items():
@@ -840,7 +884,9 @@ class Client(Node):
         self._metrics = {}  # clear the metrics
 
     def _update(self) -> None:
-        """Client update, and clear cached messages from the server of the previous iteration."""
+        """Client update, and clear cached messages
+        from the server of the previous iteration.
+        """
         self.update()
         self._received_messages = {}  # clear the received messages
 
@@ -921,6 +967,10 @@ class Client(Node):
         ----------
         params : Iterable[torch.nn.Parameter]
             The parameters to set.
+
+        Returns
+        -------
+        None
 
         """
         for client_param, param in zip(self.model.parameters(), params):
