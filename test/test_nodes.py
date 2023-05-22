@@ -68,6 +68,13 @@ class DummyServer(Server):
         pass
 
     @property
+    def config_cls(self) -> Dict[str, type]:
+        return {
+            "server": DummySeverConfig,
+            "client": DummyClientConfig,
+        }
+
+    @property
     def doi(self):
         return None
 

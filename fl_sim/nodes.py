@@ -677,6 +677,10 @@ class Server(Node, CitationMixin):
         ratio : float
             The ratio of the parameters to be added.
 
+        Returns
+        -------
+        None
+
         """
         for server_param, param in zip(self.model.parameters(), params):
             server_param.data.add_(
@@ -693,6 +697,10 @@ class Server(Node, CitationMixin):
             Whether to use the size-aware averaging.
         inertia : float, default 0.0
             The weight of the previous parameters.
+
+        Returns
+        -------
+        None
 
         """
         assert 0.0 <= inertia < 1.0, "`inertia` should be in [0, 1)"
