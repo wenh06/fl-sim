@@ -279,6 +279,7 @@ class TxtLogger(BaseLogger):
             log_name="FLSim",
             verbose=1,
         )
+        self.step = -1
 
     @classmethod
     def from_config(cls, config: Dict[str, Any]) -> "TxtLogger":

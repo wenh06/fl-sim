@@ -546,6 +546,7 @@ class Server(Node, CitationMixin):
         self.model.to(self.device)  # move to the original device
         self._logger_manager.log_message("Centralized training finished...")
         self._logger_manager.flush()
+        self._logger_manager.reset()
 
     def train_federated(self, extra_configs: Optional[dict] = None) -> None:
         """Federated (distributed) training, conducted on the clients and the server.
@@ -587,8 +588,8 @@ class Server(Node, CitationMixin):
                             self._logger_manager.log_metrics(
                                 client_id,
                                 metrics,
-                                step=self.n_iter + 1,
-                                epoch=self.n_iter + 1,
+                                step=self.n_iter,
+                                epoch=self.n_iter,
                                 part=part,
                             )
                     client._update()
@@ -600,6 +601,7 @@ class Server(Node, CitationMixin):
                 self._update()
         self._logger_manager.log_message("Federated training finished...")
         self._logger_manager.flush()
+        self._logger_manager.reset()
 
     def evaluate_centralized(self, dataloader: DataLoader) -> Dict[str, float]:
         """Evaluate the model on the given dataloader on the server node.
