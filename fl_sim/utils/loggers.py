@@ -102,6 +102,11 @@ class BaseLogger(ReprMixin, ABC):
         """Close the logger."""
         raise NotImplementedError
 
+    @abstractmethod
+    def reset(self) -> None:
+        """Reset the logger."""
+        raise NotImplementedError
+
     @classmethod
     @abstractmethod
     def from_config(cls, config: Dict[str, Any]) -> Any:
@@ -182,13 +187,13 @@ class TxtLogger(BaseLogger):
         assert all(
             [isinstance(x, str) for x in [algorithm, dataset, model]]
         ), "algorithm, dataset, model must be str"
-        log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
+        self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
         self._log_dir = Path(log_dir or LOG_DIR)
         if log_suffix is None:
-            log_suffix = ""
+            self.log_suffix = ""
         else:
-            log_suffix = f"_{log_suffix}"
-        self.log_file = f"{log_prefix}_{get_date_str()}{log_suffix}.txt"
+            self.log_suffix = f"_{log_suffix}"
+        self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.txt"
         self.logger = init_logger(
             self.log_dir,
             self.log_file,
@@ -260,6 +265,21 @@ class TxtLogger(BaseLogger):
             self.logger.removeHandler(h)
         logging.shutdown()
 
+    def reset(self) -> None:
+        """Reset the logger.
+
+        Close the current logger and create a new one,
+        with new log file name.
+        """
+        self.close()
+        self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.txt"
+        self.logger = init_logger(
+            self.log_dir,
+            self.log_file,
+            log_name="FLSim",
+            verbose=1,
+        )
+
     @classmethod
     def from_config(cls, config: Dict[str, Any]) -> "TxtLogger":
         """Create a :class:`TxtLogger` instance from a configuration.
@@ -320,13 +340,13 @@ class CSVLogger(BaseLogger):
         assert all(
             [isinstance(x, str) for x in [algorithm, dataset, model]]
         ), "algorithm, dataset, model must be str"
-        log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
+        self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
         self._log_dir = Path(log_dir or LOG_DIR)
         if log_suffix is None:
-            log_suffix = ""
+            self.log_suffix = ""
         else:
-            log_suffix = f"_{log_suffix}"
-        self.log_file = f"{log_prefix}_{get_date_str()}{log_suffix}.csv"
+            self.log_suffix = f"_{log_suffix}"
+        self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.csv"
         self.logger = pd.DataFrame()
         self.step = -1
         self._flushed = True
@@ -364,10 +384,24 @@ class CSVLogger(BaseLogger):
         if not self._flushed:
             self.logger.to_csv(self.filename, quoting=csv.QUOTE_NONNUMERIC, index=False)
             print(f"CSV log file saved to {self.filename}")
+            # clear the logger buffer
+            self.logger = pd.DataFrame()
             self._flushed = True
 
     def close(self) -> None:
         self.flush()
+
+    def reset(self) -> None:
+        """Reset the logger.
+
+        Close the current logger and create a new one,
+        with new log file name.
+        """
+        self.close()
+        self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.csv"
+        self.logger = pd.DataFrame()
+        self.step = -1
+        self._flushed = True
 
     def __del__(self):
         self.flush()
@@ -472,13 +506,13 @@ class JsonLogger(BaseLogger):
         assert all(
             [isinstance(x, str) for x in [algorithm, dataset, model]]
         ), "algorithm, dataset, model must be str"
-        log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
+        self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
         self._log_dir = Path(log_dir or LOG_DIR)
         if log_suffix is None:
-            log_suffix = ""
+            self.log_suffix = ""
         else:
-            log_suffix = f"_{log_suffix}"
-        self.log_file = f"{log_prefix}_{get_date_str()}{log_suffix}.{fmt}"
+            self.log_suffix = f"_{log_suffix}"
+        self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.{fmt}"
         self.fmt = fmt.lower()
         assert self.fmt in ["json", "yaml"], "fmt must be json or yaml"
         self.logger = defaultdict(lambda: defaultdict(list))
@@ -519,20 +553,36 @@ class JsonLogger(BaseLogger):
     def flush(self) -> None:
         if not self._flushed:
             # convert to list to make it json serializable
-            self.logger = ndarray_to_list(default_dict_to_dict(self.logger))
+            flush_buffer = ndarray_to_list(default_dict_to_dict(self.logger))
             if self.fmt == "json":
                 Path(self.filename).write_text(
-                    json.dumps(self.logger, indent=4, ensure_ascii=False)
+                    json.dumps(flush_buffer, indent=4, ensure_ascii=False)
                 )
             else:  # yaml
                 Path(self.filename).write_text(
-                    yaml.dump(self.logger, allow_unicode=True)
+                    yaml.dump(flush_buffer, allow_unicode=True)
                 )
             print(f"{self.fmt} log file saved to {self.filename}")
+            # clear the buffer
+            self.logger = defaultdict(lambda: defaultdict(list))
             self._flushed = True
 
     def close(self) -> None:
         self.flush()
+
+    def reset(self) -> None:
+        """Reset the logger.
+
+        Close the current logger and create a new one,
+        with new log file name.
+        """
+        self.close()
+        self.log_file = (
+            f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.{self.fmt}"
+        )
+        self.logger = defaultdict(lambda: defaultdict(list))
+        self.step = -1
+        self._flushed = True
 
     def __del__(self):
         self.flush()
@@ -685,6 +735,11 @@ class LoggerManager(ReprMixin):
     def close(self) -> None:
         for lgs in self.loggers:
             lgs.close()
+
+    @add_docstring(BaseLogger.reset.__doc__)
+    def reset(self) -> None:
+        for lgs in self.loggers:
+            lgs.reset()
 
     @property
     def loggers(self) -> List[BaseLogger]:
