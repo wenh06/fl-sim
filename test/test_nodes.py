@@ -3,6 +3,7 @@
 
 import sys
 from pathlib import Path
+from typing import Dict, List
 
 sys.path.append(str(Path(__file__).parents[1].resolve()))
 
@@ -21,7 +22,7 @@ class DummySeverConfig(ServerConfig):
         self,
         num_iters: int,
         num_clients: int,
-    ):
+    ) -> None:
         super().__init__(
             "Dummy",
             num_iters,
@@ -38,7 +39,7 @@ class DummyClientConfig(ClientConfig):
         batch_size: int,
         num_epochs: int,
         lr: float = 1e-3,
-    ):
+    ) -> None:
         super().__init__(
             "Dummy",
             "SGD",
@@ -49,18 +50,18 @@ class DummyClientConfig(ClientConfig):
 
 
 class DummyServer(Server):
-    def _post_init(self):
+    def _post_init(self) -> None:
         pass
 
     @property
-    def client_cls(self):
+    def client_cls(self) -> type:
         return DummyClient
 
     @property
-    def required_config_fields(self):
+    def required_config_fields(self) -> List[str]:
         return ["num_iters", "num_clients"]
 
-    def communicate(self, target: "DummyClient"):
+    def communicate(self, target: "DummyClient") -> None:
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
 
     def update(self) -> None:
@@ -75,13 +76,13 @@ class DummyServer(Server):
         }
 
     @property
-    def doi(self):
+    def doi(self) -> List[str]:
         return None
 
 
 class DummyClient(Client):
     @property
-    def required_config_fields(self):
+    def required_config_fields(self) -> List[str]:
         return ["batch_size", "num_epochs", "lr"]
 
     def communicate(self, target: "DummyServer"):

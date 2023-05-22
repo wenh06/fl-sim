@@ -20,4 +20,3 @@ deprecate-kwargs
 deprecated
 torch-ecg>=0.0.26
 PyYAML
-pytest
