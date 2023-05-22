@@ -3,9 +3,10 @@
 
 import warnings
 from copy import deepcopy
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 
 import torch
+from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
@@ -21,7 +22,27 @@ __all__ = [
 
 
 class DittoServerConfig(ServerConfig):
-    """ """
+    """Server config for the Ditto algorithm.
+
+    Parameters
+    ----------
+    num_iters : int
+        The number of (outer) iterations.
+    num_clients : int
+        The number of clients.
+    clients_sample_ratio : float
+        The ratio of clients to sample for each iteration.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``txt_logger`` : bool, default True
+            Whether to use txt logger.
+        - ``csv_logger`` : bool, default True
+            Whether to use csv logger.
+        - ``eval_every`` : int, default 1
+            The number of iterations to evaluate the model.
+
+    """
 
     __name__ = "DittoServerConfig"
 
@@ -30,18 +51,34 @@ class DittoServerConfig(ServerConfig):
         num_iters: int,
         num_clients: int,
         clients_sample_ratio: float,
+        **kwargs: Any,
     ) -> None:
-        """ """
         super().__init__(
             "Ditto",
             num_iters,
             num_clients,
             clients_sample_ratio,
+            **kwargs,
         )
 
 
 class DittoClientConfig(ClientConfig):
-    """ """
+    """Client config for the Ditto algorithm.
+
+    Parameters
+    ----------
+    batch_size : int
+        The batch size.
+    num_epochs : int
+        The number of epochs.
+    optimizer : str, default "ProxSGD"
+        The name of the optimizer to solve the local (inner) problem.
+    optimizer_per : str, default "SGD"
+        The name of the optimizer to solve the personalization problem.
+    lr : float, default 1e-2
+        The learning rate.
+
+    """
 
     __name__ = "DittoClientConfig"
 
@@ -55,7 +92,6 @@ class DittoClientConfig(ClientConfig):
         lr: float = 1e-2,
         lr_per: Optional[float] = None,
     ) -> None:
-        """ """
         super().__init__(
             "Ditto",
             optimizer,
@@ -68,36 +104,53 @@ class DittoClientConfig(ClientConfig):
         )
 
 
+@add_docstring(
+    Server.__doc__.replace(
+        "The class to simulate the server node.", "Server node for the Ditto algorithm."
+    )
+    .replace("ServerConfig", "DittoServerConfig")
+    .replace("ClientConfig", "DittoClientConfig")
+)
 class DittoServer(Server):
-    """ """
+    """Server node for the Ditto algorithm."""
 
     __name__ = "DittoServer"
 
     @property
-    def client_cls(self) -> "Client":
+    def client_cls(self) -> type:
         return DittoClient
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return []
 
     def communicate(self, target: "DittoClient") -> None:
-        """ """
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
 
+    @add_docstring(Server.update)
     def update(self) -> None:
-        """ """
         # sum of received parameters, with self.model.parameters() as its container
         self.avg_parameters()
+
+    @property
+    def config_cls(self) -> Dict[str, type]:
+        return {
+            "server": DittoServerConfig,
+            "client": DittoClientConfig,
+        }
 
     @property
     def doi(self) -> List[str]:
         return ["10.48550/ARXIV.2012.04221"]
 
 
+@add_docstring(
+    Client.__doc__.replace(
+        "The class to simulate the client node.", "Client node for the Ditto algorithm."
+    ).replace("ClientConfig", "DittoClientConfig")
+)
 class DittoClient(Client):
-    """ """
+    """Client node for the Ditto algorithm."""
 
     __name__ = "DittoClient"
 
@@ -121,11 +174,9 @@ class DittoClient(Client):
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return ["optimizer_per", "lr_per"]
 
     def communicate(self, target: "DittoServer") -> None:
-        """ """
         message = {
             "client_id": self.client_id,
             "parameters": self.get_detached_model_parameters(),
@@ -135,7 +186,6 @@ class DittoClient(Client):
         target._received_messages.append(ClientMessage(**message))
 
     def update(self) -> None:
-        """ """
         try:
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
@@ -150,7 +200,7 @@ class DittoClient(Client):
         self.train_per()
 
     def train(self) -> None:
-        """ """
+        """Train (the copy of) the global model with local data."""
         self.model.train()
         with tqdm(
             range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
@@ -166,7 +216,7 @@ class DittoClient(Client):
                     self.optimizer.step(local_weights=self._cached_parameters)
 
     def train_per(self) -> None:
-        """ """
+        """Train the personalized model with local data."""
         self.model_per.train()
         with tqdm(
             range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
@@ -183,19 +233,18 @@ class DittoClient(Client):
 
     @torch.no_grad()
     def evaluate(self, part: str) -> Dict[str, float]:
-        """
-        evaluate the model and personalized model
+        """Evaluate the model and personalized model
         on the given part of the dataset.
 
         Parameters
         ----------
-        part : str,
+        part : str
             The part of the dataset to evaluate on,
             can be either "train" or "val".
 
         Returns
         -------
-        `Dict[str, float]`,
+        Dict[str, float]
             The metrics of the evaluation.
 
         """

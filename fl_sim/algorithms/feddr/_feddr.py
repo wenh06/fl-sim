@@ -3,9 +3,10 @@
 
 import warnings
 from copy import deepcopy
-from typing import List
+from typing import List, Dict, Any
 
 import torch
+from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
@@ -21,7 +22,33 @@ __all__ = [
 
 
 class FedDRServerConfig(ServerConfig):
-    """ """
+    """Server config for the FedDR algorithm.
+
+    Parameters
+    ----------
+    num_iters : int
+        The number of (outer) iterations.
+    num_clients : int
+        The number of clients.
+    clients_sample_ratio : float
+        The ratio of clients to sample for each iteration.
+    eta : float, default 1.0
+        The eta (regularization) parameter for the FedDR algorithm.
+    alpha : float, default 1.9
+        The alpha parameter for the FedDR algorithm.
+    reg_type : str, default "l1_norm"
+        The type of regularizer to use for the FedDR algorithm.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``txt_logger`` : bool, default True
+            Whether to use txt logger.
+        - ``csv_logger`` : bool, default True
+            Whether to use csv logger.
+        - ``eval_every`` : int, default 1
+            The number of iterations to evaluate the model.
+
+    """
 
     __name__ = "FedDRServerConfig"
 
@@ -33,8 +60,8 @@ class FedDRServerConfig(ServerConfig):
         eta: float = 1.0,
         alpha: float = 1.9,
         reg_type: str = "l1_norm",
+        **kwargs: Any,
     ) -> None:
-        """ """
         super().__init__(
             "FedDR",
             num_iters,
@@ -43,11 +70,27 @@ class FedDRServerConfig(ServerConfig):
             eta=eta,
             alpha=alpha,
             reg_type=reg_type,
+            **kwargs,
         )
 
 
 class FedDRClientConfig(ClientConfig):
-    """ """
+    """Client config for the FedDR algorithm.
+
+    Parameters
+    ----------
+    batch_size : int
+        The batch size.
+    num_epochs : int
+        The number of epochs.
+    lr : float, default 1e-2
+        The learning rate.
+    eta : float, default 1.0
+        The eta (regularization) parameter for the FedDR algorithm.
+    alpha : float, default 1.9
+        The alpha parameter for the FedDR algorithm.
+
+    """
 
     __name__ = "FedDRClientConfig"
 
@@ -59,7 +102,6 @@ class FedDRClientConfig(ClientConfig):
         eta: float = 1.0,
         alpha: float = 1.9,  # in the FedDR paper, clients' alpha is equal to the server's alpha
     ) -> None:
-        """ """
         super().__init__(
             "FedDR",
             "FedDR",
@@ -71,8 +113,15 @@ class FedDRClientConfig(ClientConfig):
         )
 
 
+@add_docstring(
+    Server.__doc__.replace(
+        "The class to simulate the server node.", "Server node for the FedDR algorithm."
+    )
+    .replace("ServerConfig", "FedDRServerConfig")
+    .replace("ClientConfig", "FedDRClientConfig")
+)
 class FedDRServer(Server):
-    """ """
+    """Server node for the FedDR algorithm."""
 
     __name__ = "FedDRServer"
 
@@ -87,24 +136,18 @@ class FedDRServer(Server):
         self._x_til_parameters = self.get_detached_model_parameters()  # x_tilde
 
     @property
-    def client_cls(self) -> "Client":
+    def client_cls(self) -> type:
         return FedDRClient
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
-        return [
-            "alpha",
-            "eta",
-            "reg_type",
-        ]
+        return ["alpha", "eta", "reg_type"]
 
     def communicate(self, target: "FedDRClient") -> None:
-        """ """
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
 
     def update(self) -> None:
-        """ """
+        """Global (outer) update."""
         # update y
         # FedDR paper Algorithm 1 line 7, first equation
         for yp, mp in zip(self._y_parameters, self.model.parameters()):
@@ -135,17 +178,28 @@ class FedDRServer(Server):
             mp.data = p.data
 
     @property
+    def config_cls(self) -> Dict[str, type]:
+        return {
+            "server": FedDRServerConfig,
+            "client": FedDRClientConfig,
+        }
+
+    @property
     def doi(self) -> List[str]:
         return ["10.48550/ARXIV.2103.03452"]
 
 
+@add_docstring(
+    Client.__doc__.replace(
+        "The class to simulate the client node.", "Client node for the FedDR algorithm."
+    ).replace("ClientConfig", "FedDRClientConfig")
+)
 class FedDRClient(Client):
-    """ """
+    """Client node for the FedDR algorithm."""
 
     __name__ = "FedDRClient"
 
     def _post_init(self) -> None:
-        """ """
         super()._post_init()
         self._y_parameters = None  # y
         self._x_hat_parameters = None  # x_hat
@@ -153,14 +207,9 @@ class FedDRClient(Client):
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
-        return [
-            "alpha",
-            "eta",
-        ]
+        return ["alpha", "eta"]
 
     def communicate(self, target: "FedDRServer") -> None:
-        """ """
         if self._x_hat_buffer is None:
             # outter iteration step -1, no need to communicate
             x_hat_delta = [torch.zeros_like(p) for p in self._x_hat_parameters]
@@ -182,7 +231,7 @@ class FedDRClient(Client):
         )
 
     def update(self) -> None:
-        """ """
+        """Local (inner) update."""
         # copy the parameters from the server
         # x_bar
         try:
@@ -217,7 +266,7 @@ class FedDRClient(Client):
             hp.data = 2 * mp.data - yp.data
 
     def train(self) -> None:
-        """ """
+        """Train the local model for ``num_epochs`` epochs."""
         self.model.train()
         with tqdm(
             range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0

@@ -3,10 +3,11 @@ ProxSkip and ProxSkip-VR re-implemented in the new framework
 """
 
 import warnings
-from typing import List
+from typing import List, Any, Dict
 
 import numpy as np
 import torch
+from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
@@ -22,7 +23,29 @@ __all__ = [
 
 
 class ProxSkipServerConfig(ServerConfig):
-    """ """
+    """Server config for the ProxSkip algorithm.
+
+    Parameters
+    ----------
+    num_iters : int
+        The number of (outer) iterations.
+    num_clients : int
+        The number of clients.
+    p : float
+        Probability of skipping communication.
+    vr : bool, default False
+        Whether to use variance reduction.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``txt_logger`` : bool, default True
+            Whether to use txt logger.
+        - ``csv_logger`` : bool, default True
+            Whether to use csv logger.
+        - ``eval_every`` : int, default 1
+            The number of iterations to evaluate the model.
+
+    """
 
     __name__ = "ProxSkipServerConfig"
 
@@ -32,20 +55,34 @@ class ProxSkipServerConfig(ServerConfig):
         num_clients: int,
         p: float,
         vr: bool = False,
+        **kwargs: Any,
     ) -> None:
-        """ """
         super().__init__(
             "ProxSkip",
             num_iters,
             num_clients,
-            clients_sample_ratio=1,  # controlled by p
+            clients_sample_ratio=1,
             p=p,
             vr=vr,
+            **kwargs,
         )
 
 
 class ProxSkipClientConfig(ClientConfig):
-    """ """
+    """Client config for the ProxSkip algorithm.
+
+    Parameters
+    ----------
+    batch_size : int
+        The batch size.
+    num_epochs : int
+        The number of epochs.
+    lr : float, default 1e-2
+        The learning rate.
+    vr : bool, default False
+        Whether to use variance reduction.
+
+    """
 
     __name__ = "ProxSkipClientConfig"
 
@@ -56,7 +93,6 @@ class ProxSkipClientConfig(ClientConfig):
         lr: float = 1e-2,
         vr: bool = False,
     ) -> None:
-        """ """
         super().__init__(
             "ProxSkip",
             "SCAFFOLD",
@@ -67,8 +103,16 @@ class ProxSkipClientConfig(ClientConfig):
         )
 
 
+@add_docstring(
+    Server.__doc__.replace(
+        "The class to simulate the server node.",
+        "Server node for the ProxSkip algorithm.",
+    )
+    .replace("ServerConfig", "ProxSkipServerConfig")
+    .replace("ClientConfig", "ProxSkipClientConfig")
+)
 class ProxSkipServer(Server):
-    """ """
+    """Server node for the ProxSkip algorithm."""
 
     __name__ = "ProxSkipServer"
 
@@ -79,7 +123,7 @@ class ProxSkipServer(Server):
         config: ProxSkipServerConfig,
         client_config: ProxSkipClientConfig,
     ) -> None:
-        """ """
+
         # assign communication pattern to client config
         setattr(client_config, "p", config.p)
         super().__init__(model, dataset, config, client_config)
@@ -100,16 +144,14 @@ class ProxSkipServer(Server):
             c.communication_pattern = communication_pattern
 
     @property
-    def client_cls(self) -> "Client":
+    def client_cls(self) -> type:
         return ProxSkipClient
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return []
 
     def communicate(self, target: "ProxSkipClient") -> None:
-        """ """
         target._received_messages = {
             "parameters": [p.detach().clone() for p in self.model.parameters()],
         }
@@ -120,7 +162,7 @@ class ProxSkipServer(Server):
             ]
 
     def update(self) -> None:
-        """ """
+
         # sum of received parameters, with self.model.parameters() as its container
         self.avg_parameters()
         if self.config.vr:
@@ -133,12 +175,25 @@ class ProxSkipServer(Server):
         super().aggregate_client_metrics()
 
     @property
+    def config_cls(self) -> Dict[str, type]:
+        return {
+            "server": ProxSkipServerConfig,
+            "client": ProxSkipClientConfig,
+        }
+
+    @property
     def doi(self) -> List[str]:
         return ["10.48550/ARXIV.2202.09357"]
 
 
+@add_docstring(
+    Client.__doc__.replace(
+        "The class to simulate the client node.",
+        "Client node for the ProxSkip algorithm.",
+    ).replace("ClientConfig", "ProxSkipClientConfig")
+)
 class ProxSkipClient(Client):
-    """ """
+    """Client node for the ProxSkip algorithm."""
 
     __name__ = "ProxSkipClient"
 
@@ -161,11 +216,9 @@ class ProxSkipClient(Client):
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return []
 
     def communicate(self, target: "ProxSkipServer") -> None:
-        """ """
         if self.communication_pattern[target.n_iter] == 0:
             return  # skip communication
         message = {
@@ -181,7 +234,6 @@ class ProxSkipClient(Client):
         target._received_messages.append(ClientMessage(**message))
 
     def update(self) -> None:
-        """ """
         try:
             self.set_parameters(self._received_messages["parameters"])
         except KeyError:
@@ -213,7 +265,6 @@ class ProxSkipClient(Client):
         self.solve_inner()  # alias of self.train()
 
     def train(self) -> None:
-        """ """
         self.model.train()
         with tqdm(
             range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0

@@ -3,8 +3,9 @@
 
 import warnings
 from copy import deepcopy
-from typing import List
+from typing import List, Dict, Any
 
+from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
@@ -19,7 +20,27 @@ __all__ = [
 
 
 class FedSplitServerConfig(ServerConfig):
-    """ """
+    """Server config for the FedSplit algorithm.
+
+    Parameters
+    ----------
+    num_iters : int
+        The number of (outer) iterations.
+    num_clients : int
+        The number of clients.
+    clients_sample_ratio : float
+        The ratio of clients to sample for each iteration.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``txt_logger`` : bool, default True
+            Whether to use txt logger.
+        - ``csv_logger`` : bool, default True
+            Whether to use csv logger.
+        - ``eval_every`` : int, default 1
+            The number of iterations to evaluate the model.
+
+    """
 
     __name__ = "FedSplitServerConfig"
 
@@ -28,18 +49,32 @@ class FedSplitServerConfig(ServerConfig):
         num_iters: int,
         num_clients: int,
         clients_sample_ratio: float,
+        **kwargs: Any,
     ) -> None:
-        """ """
         super().__init__(
             "FedSplit",
             num_iters,
             num_clients,
             clients_sample_ratio,
+            **kwargs,
         )
 
 
 class FedSplitClientConfig(ClientConfig):
-    """ """
+    """Client config for the FedSplit algorithm.
+
+    Parameters
+    ----------
+    batch_size : int
+        The batch size.
+    num_epochs : int
+        The number of epochs.
+    lr : float, default 1e-2
+        The learning rate.
+    s : float, default 10.0
+        Reciprocal of the proximal parameter.
+
+    """
 
     __name__ = "FedSplitClientConfig"
 
@@ -50,7 +85,6 @@ class FedSplitClientConfig(ClientConfig):
         lr: float = 1e-2,
         s: float = 10.0,
     ) -> None:
-        """ """
         self.s = s
         super().__init__(
             "FedSplit",
@@ -62,13 +96,20 @@ class FedSplitClientConfig(ClientConfig):
         )
 
 
+@add_docstring(
+    Server.__doc__.replace(
+        "The class to simulate the server node.",
+        "Server node for the FedSplit algorithm.",
+    )
+    .replace("ServerConfig", "FedSplitServerConfig")
+    .replace("ClientConfig", "FedSplitClientConfig")
+)
 class FedSplitServer(Server):
-    """ """
+    """Server node for the FedSplit algorithm."""
 
     __name__ = "FedSplitServer"
 
     def _post_init(self) -> None:
-        """ """
         super()._post_init()
         for c in self._clients:
             # line 2 of Algorithm 1 in the paper
@@ -78,45 +119,51 @@ class FedSplitServer(Server):
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return []
 
     @property
-    def client_cls(self) -> "Client":
+    def client_cls(self) -> type:
         return FedSplitClient
 
     def communicate(self, target: "FedSplitClient") -> None:
-        """ """
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
 
     def update(self) -> None:
-        """ """
-        # line 8 of Algorithm 1 in the paper
-        self.avg_parameters(size_aware=False)
+        self.avg_parameters(size_aware=False)  # line 8 of Algorithm 1 in the paper
+
+    @property
+    def config_cls(self) -> Dict[str, type]:
+        return {
+            "server": FedSplitServerConfig,
+            "client": FedSplitClientConfig,
+        }
 
     @property
     def doi(self) -> List[str]:
         return ["10.48550/ARXIV.2005.05238"]
 
 
+@add_docstring(
+    Client.__doc__.replace(
+        "The class to simulate the client node.",
+        "Client node for the FedSplit algorithm.",
+    ).replace("ClientConfig", "FedSplitClientConfig")
+)
 class FedSplitClient(Client):
-    """ """
+    """Client node for the FedSplit algorithm."""
 
     __name__ = "FedSplitClient"
 
     def _post_init(self) -> None:
-        """ """
         super()._post_init()
         self._z_parameters = None
         # self._z_half_parameters = None  # self.model.parameters() holds this
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return ["s"]
 
     def communicate(self, target: "FedSplitServer") -> None:
-        """ """
         target._received_messages.append(
             ClientMessage(
                 **{
@@ -129,7 +176,6 @@ class FedSplitClient(Client):
         )
 
     def update(self) -> None:
-        """ """
         try:
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
@@ -148,7 +194,6 @@ class FedSplitClient(Client):
             zp.add_(mp.detach().clone().sub(cp.detach().clone()), alpha=2.0)
 
     def train(self) -> None:
-        """ """
         self.model.train()
         with tqdm(
             range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0

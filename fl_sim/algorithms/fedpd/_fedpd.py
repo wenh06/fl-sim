@@ -4,10 +4,11 @@ FedPD re-implemented in the new framework
 
 import warnings
 from copy import deepcopy
-from typing import List
+from typing import List, Dict, Any
 
 import numpy as np
 import torch
+from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import (
@@ -29,7 +30,31 @@ __all__ = [
 
 
 class FedPDServerConfig(ServerConfig):
-    """ """
+    """Server config for the FedPD algorithm.
+
+    Parameters
+    ----------
+    num_iters : int
+        The number of (outer) iterations.
+    num_clients : int
+        The number of clients.
+    p : float
+        Probability of skipping communication.
+    stochastic : bool, default False
+        Skip communication in a stochastic manner or not.
+    vr : bool, default False
+        Whether to use variance reduction.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``txt_logger`` : bool, default True
+            Whether to use txt logger.
+        - ``csv_logger`` : bool, default True
+            Whether to use csv logger.
+        - ``eval_every`` : int, default 1
+            The number of iterations to evaluate the model.
+
+    """
 
     __name__ = "FedPDServerConfig"
 
@@ -40,8 +65,8 @@ class FedPDServerConfig(ServerConfig):
         p: float,
         stochastic: bool = False,
         vr: bool = False,
+        **kwargs: Any,
     ) -> None:
-        """ """
         super().__init__(
             "FedPD",
             num_iters,
@@ -51,11 +76,29 @@ class FedPDServerConfig(ServerConfig):
             p=p,
             comm_freq=int(1 / p),
             stochastic=stochastic,
+            **kwargs,
         )
 
 
 class FedPDClientConfig(ClientConfig):
-    """ """
+    """Client config for the FedPD algorithm.
+
+    Parameters
+    ----------
+    batch_size : int
+        The batch size.
+    num_epochs : int
+        The number of epochs.
+    lr : float, default 1e-2
+        The learning rate.
+    mu : float, default 1 / 10
+        The coefficient of the proximal term.
+    vr : bool, default False
+        Whether to use variance reduction.
+    dual_rand_init : bool, default False
+        Whether to use random initialization for dual variables.
+
+    """
 
     __name__ = "FedPDClientConfig"
 
@@ -68,7 +111,6 @@ class FedPDClientConfig(ClientConfig):
         vr: bool = False,
         dual_rand_init: bool = False,
     ) -> None:
-        """ """
         optimizer = "FedPD_VR" if vr else "FedPD_SGD"
         super().__init__(
             "FedPD",
@@ -82,8 +124,15 @@ class FedPDClientConfig(ClientConfig):
         )
 
 
+@add_docstring(
+    Server.__doc__.replace(
+        "The class to simulate the server node.", "Server node for the FedPD algorithm."
+    )
+    .replace("ServerConfig", "FedPDServerConfig")
+    .replace("ClientConfig", "FedPDClientConfig")
+)
 class FedPDServer(Server):
-    """ """
+    """Server node for the FedPD algorithm."""
 
     __name__ = "FedPDServer"
 
@@ -94,7 +143,7 @@ class FedPDServer(Server):
         config: FedPDServerConfig,
         client_config: FedPDClientConfig,
     ) -> None:
-        """ """
+
         # assign communication pattern to client config
         setattr(client_config, "p", config.p)
         setattr(client_config, "stochastic", config.stochastic)
@@ -112,16 +161,14 @@ class FedPDServer(Server):
         self._communicated_clients = []
 
     @property
-    def client_cls(self) -> "Client":
+    def client_cls(self) -> type:
         return FedPDClient
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return ["p", "stochastic", "comm_freq"]
 
     def communicate(self, target: "FedPDClient") -> None:
-        """ """
         if target.client_id not in self._communicated_clients:
             return
         target._received_messages = {
@@ -134,7 +181,6 @@ class FedPDServer(Server):
             ]
 
     def update(self) -> None:
-        """ """
         self._communicated_clients = [m["client_id"] for m in self._received_messages]
         # sum of received parameters, with self.model.parameters() as its container
         self.avg_parameters()
@@ -148,13 +194,24 @@ class FedPDServer(Server):
         super().aggregate_client_metrics()
 
     @property
+    def config_cls(self) -> Dict[str, type]:
+        return {
+            "server": FedPDServerConfig,
+            "client": FedPDClientConfig,
+        }
+
+    @property
     def doi(self) -> List[str]:
-        """ """
         return ["10.1109/tsp.2021.3115952"]
 
 
+@add_docstring(
+    Client.__doc__.replace(
+        "The class to simulate the client node.", "Client node for the FedPD algorithm."
+    ).replace("ClientConfig", "FedPDClientConfig")
+)
 class FedPDClient(Client):
-    """ """
+    """Client node for the FedPD algorithm."""
 
     __name__ = "FedPDClient"
 
@@ -177,11 +234,10 @@ class FedPDClient(Client):
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return ["p", "stochastic", "comm_freq"]
 
     def communicate(self, target: "FedPDServer") -> None:
-        """ """
+
         # determine if communication happens
         # the probability of communication is controlled by `config.p`
         # the pattern (stochastic or every n iters) is controlled by `config.stochastic`
@@ -209,7 +265,7 @@ class FedPDClient(Client):
         target._received_messages.append(ClientMessage(**message))
 
     def update(self) -> None:
-        """ """
+
         # x_i^r: self.model.parameters()
         # x_{0,i}^r, x_{0,i}^{r+}: self._cached_parameters
         # \lambda_i^r: self._dual_weights
@@ -244,7 +300,6 @@ class FedPDClient(Client):
             self._cached_parameters[i].add_(self._dual_weights[i], alpha=self.config.mu)
 
     def train(self) -> None:
-        """ """
         self.model.train()
         with tqdm(
             range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0

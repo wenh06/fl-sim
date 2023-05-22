@@ -4,9 +4,10 @@ SCAFFOLD re-implemented in the new framework
 
 import warnings
 from copy import deepcopy
-from typing import List
+from typing import List, Any, Dict
 
 import torch
+from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
@@ -21,7 +22,33 @@ __all__ = [
 
 
 class SCAFFOLDServerConfig(ServerConfig):
-    """ """
+    """Server config for the SCAFFOLD algorithm.
+
+    Parameters
+    ----------
+    num_iters : int
+        The number of (outer) iterations.
+    num_clients : int
+        The number of clients.
+    clients_sample_ratio : float
+        The ratio of clients to sample for each iteration.
+    lr : float
+        The learning rate.
+    client_size_aware : bool, default False
+        Whether to use client size aware model aggregation.
+    vr : bool, default False
+        Whether to use variance reduction.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``txt_logger`` : bool, default True
+            Whether to use txt logger.
+        - ``csv_logger`` : bool, default True
+            Whether to use csv logger.
+        - ``eval_every`` : int, default 1
+            The number of iterations to evaluate the model.
+
+    """
 
     __name__ = "SCAFFOLDServerConfig"
 
@@ -33,8 +60,8 @@ class SCAFFOLDServerConfig(ServerConfig):
         lr: float,
         client_size_aware: bool = False,
         vr: bool = False,
+        **kwargs: Any,
     ) -> None:
-        """ """
         super().__init__(
             "SCAFFOLD",
             num_iters,
@@ -47,7 +74,22 @@ class SCAFFOLDServerConfig(ServerConfig):
 
 
 class SCAFFOLDClientConfig(ClientConfig):
-    """ """
+    """Client config for the SCAFFOLD algorithm.
+
+    Parameters
+    ----------
+    batch_size : int
+        The batch size.
+    num_epochs : int
+        The number of epochs.
+    lr : float, default 1e-2
+        The learning rate.
+    control_variate_update_rule : int, default 1
+        The update rule for the control variates.
+    vr : bool, default False
+        Whether to use variance reduction.
+
+    """
 
     __name__ = "SCAFFOLDClientConfig"
 
@@ -59,7 +101,6 @@ class SCAFFOLDClientConfig(ClientConfig):
         control_variate_update_rule: int = 1,
         vr: bool = False,
     ) -> None:
-        """ """
         super().__init__(
             "SCAFFOLD",
             "SCAFFOLD",
@@ -71,8 +112,16 @@ class SCAFFOLDClientConfig(ClientConfig):
         )
 
 
+@add_docstring(
+    Server.__doc__.replace(
+        "The class to simulate the server node.",
+        "Server node for the SCAFFOLD algorithm.",
+    )
+    .replace("ServerConfig", "SCAFFOLDServerConfig")
+    .replace("ClientConfig", "SCAFFOLDClientConfig")
+)
 class SCAFFOLDServer(Server):
-    """ """
+    """Server node for the SCAFFOLD algorithm."""
 
     __name__ = "SCAFFOLDServer"
 
@@ -86,16 +135,14 @@ class SCAFFOLDServer(Server):
         self._control_variates = [torch.zeros_like(p) for p in self.model.parameters()]
 
     @property
-    def client_cls(self) -> "Client":
+    def client_cls(self) -> type:
         return SCAFFOLDClient
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return []
 
     def communicate(self, target: "SCAFFOLDClient") -> None:
-        """ """
         target._received_messages = {
             "parameters": self.get_detached_model_parameters(),
             "control_variates": deepcopy(self._control_variates),
@@ -107,7 +154,6 @@ class SCAFFOLDServer(Server):
             ]
 
     def update(self) -> None:
-        """ """
         total_samples = sum([m["train_samples"] for m in self._received_messages])
         for m in self._received_messages:
             # update global model parameters
@@ -128,12 +174,25 @@ class SCAFFOLDServer(Server):
             self.update_gradients()
 
     @property
+    def config_cls(self) -> Dict[str, type]:
+        return {
+            "server": SCAFFOLDServerConfig,
+            "client": SCAFFOLDClientConfig,
+        }
+
+    @property
     def doi(self) -> List[str]:
         return ["10.48550/ARXIV.1910.06378"]
 
 
+@add_docstring(
+    Client.__doc__.replace(
+        "The class to simulate the client node.",
+        "Client node for the SCAFFOLD algorithm.",
+    ).replace("ClientConfig", "SCAFFOLDClientConfig")
+)
 class SCAFFOLDClient(Client):
-    """ """
+    """Client node for the SCAFFOLD algorithm."""
 
     __name__ = "SCAFFOLDClient"
 
@@ -158,11 +217,9 @@ class SCAFFOLDClient(Client):
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
         return []
 
     def communicate(self, target: "SCAFFOLDServer") -> None:
-        """ """
         message = {
             "client_id": self.client_id,
             "parameters_delta": [
@@ -191,7 +248,6 @@ class SCAFFOLDClient(Client):
         self._updated_control_variates = None
 
     def update(self) -> None:
-        """ """
         try:
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
@@ -226,7 +282,6 @@ class SCAFFOLDClient(Client):
         self.solve_inner()  # alias of self.train()
 
     def train(self) -> None:
-        """ """
         self.model.train()
         with tqdm(
             range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0

@@ -4,8 +4,9 @@ pFedMe re-implemented in the new framework
 
 import warnings
 from copy import deepcopy
-from typing import List, Any
+from typing import List, Any, Dict
 
+from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import (
@@ -26,7 +27,29 @@ __all__ = [
 
 
 class pFedMeServerConfig(ServerConfig):
-    """ """
+    """Server config for the pFedMe algorithm.
+
+    Parameters
+    ----------
+    num_iters : int
+        The number of (outer) iterations.
+    num_clients : int
+        The number of clients.
+    clients_sample_ratio : float
+        The ratio of clients to sample for each iteration.
+    beta : float, default 1.0
+        The beta (inertia) parameter for model aggregation.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``txt_logger`` : bool, default True
+            Whether to use txt logger.
+        - ``csv_logger`` : bool, default True
+            Whether to use csv logger.
+        - ``eval_every`` : int, default 1
+            The number of iterations to evaluate the model.
+
+    """
 
     __name__ = "pFedMeServerConfig"
 
@@ -38,14 +61,32 @@ class pFedMeServerConfig(ServerConfig):
         beta: float = 1.0,
         **kwargs: Any,
     ) -> None:
-        """ """
         super().__init__(
             "pFedMe", num_iters, num_clients, clients_sample_ratio, beta=beta, **kwargs
         )
 
 
 class pFedMeClientConfig(ClientConfig):
-    """
+    """Client config for the pFedMe algorithm.
+
+    Parameters
+    ----------
+    batch_size : int
+        The batch size.
+    num_epochs : int
+        The number of epochs.
+    lr : float, default 5e-3
+        The learning rate for personalized model training.
+    num_steps : int, default 30
+        The number of steps for each epoch.
+    lamda : float, default 15.0
+        The lambda parameter for pFedMe,
+        i.e. the coefficient of the proximal term.
+    eta : float, default 1e-3
+        The eta (learning rate) parameter for pFedMe.
+    mu : float, default 1e-3
+        The mu (momentum) parameter for pFedMe.
+
     References
     ----------
     1. https://github.com/CharlieDinh/pFedMe/blob/master/FLAlgorithms/users/userpFedMe.py
@@ -69,7 +110,6 @@ class pFedMeClientConfig(ClientConfig):
         mu: float = 1e-3,
         **kwargs: Any,
     ) -> None:
-        """ """
         super().__init__(
             "pFedMe",
             "pFedMe",
@@ -84,28 +124,32 @@ class pFedMeClientConfig(ClientConfig):
         )
 
 
+@add_docstring(
+    Server.__doc__.replace(
+        "The class to simulate the server node.",
+        "Server node for the pFedMe algorithm.",
+    )
+    .replace("ServerConfig", "pFedMeServerConfig")
+    .replace("ClientConfig", "pFedMeClientConfig")
+)
 class pFedMeServer(Server):
-    """ """
+    """Server node for the pFedMe algorithm."""
 
     __name__ = "pFedMeServer"
 
     @property
-    def client_cls(self) -> "Client":
+    def client_cls(self) -> type:
         return pFedMeClient
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
-        return [
-            "beta",
-        ]
+        return ["beta"]
 
     def communicate(self, target: "pFedMeClient") -> None:
-        """ """
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
 
     def update(self) -> None:
-        """ """
+
         # store previous parameters
         previous_params = self.get_detached_model_parameters()
         for p in previous_params:
@@ -124,27 +168,33 @@ class pFedMeServer(Server):
         del pre_param
 
     @property
+    def config_cls(self) -> Dict[str, type]:
+        return {
+            "server": pFedMeServerConfig,
+            "client": pFedMeClientConfig,
+        }
+
+    @property
     def doi(self) -> List[str]:
         return ["10.48550/ARXIV.2006.08848"]
 
 
+@add_docstring(
+    Client.__doc__.replace(
+        "The class to simulate the client node.",
+        "Client node for the pFedMe algorithm.",
+    ).replace("ClientConfig", "pFedMeClientConfig")
+)
 class pFedMeClient(Client):
-    """ """
+    """Client node for the pFedMe algorithm."""
 
     __name__ = "pFedMeClient"
 
     @property
     def required_config_fields(self) -> List[str]:
-        """ """
-        return [
-            "num_steps",
-            "lamda",
-            "eta",
-            "mu",
-        ]
+        return ["num_steps", "lamda", "eta", "mu"]
 
     def communicate(self, target: "pFedMeServer") -> None:
-        """ """
         target._received_messages.append(
             ClientMessage(
                 **{
@@ -157,7 +207,7 @@ class pFedMeClient(Client):
         )
 
     def update(self) -> None:
-        """ """
+
         # copy the parameters from the server
         # pFedMe paper Algorithm 1 line 5
         try:
@@ -174,7 +224,6 @@ class pFedMeClient(Client):
         self.solve_inner()  # alias of self.train()
 
     def train(self) -> None:
-        """ """
         self.model.train()
         with tqdm(
             range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
