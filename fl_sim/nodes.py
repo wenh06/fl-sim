@@ -476,6 +476,8 @@ class Server(Node, CitationMixin):
             [isinstance(m, ClientMessage) for m in self._received_messages]
         ), "received messages must be of type `ClientMessage`"
         self.update()
+        # free the memory of the received messages
+        del self._received_messages
         self._received_messages = (
             []
         )  # clear messages received in the previous iteration
@@ -558,13 +560,16 @@ class Server(Node, CitationMixin):
                     batch_losses.append(loss.item())
                     optimizer.step()
                     global_step += 1
-                    pbar.set_postfix(
-                        **{
-                            "loss (batch)": loss.item(),
-                            "lr": scheduler.get_last_lr()[0],
-                        }
-                    )
+                    if self.config.verbose >= 2:
+                        pbar.set_postfix(
+                            **{
+                                "loss (batch)": loss.item(),
+                                "lr": scheduler.get_last_lr()[0],
+                            }
+                        )
                     pbar.update(data.shape[0])
+                    # free memory
+                    del data, target, output, loss
                 epoch_loss.append(sum(batch_losses) / len(batch_losses))
                 if (self.n_iter + 1) % self.config.eval_every == 0:
                     print("evaluating...")
@@ -611,38 +616,49 @@ class Server(Node, CitationMixin):
         """
         self._logger_manager.log_message("Training federated...")
         self.n_iter = 0
-        for self.n_iter in range(self.config.num_iters):
-            selected_clients = self._sample_clients()
-            with tqdm(
-                total=len(selected_clients),
-                desc=f"Iter {self.n_iter+1}/{self.config.num_iters}",
-                unit="client",
-                mininterval=1.0,
-            ) as pbar:
-                for client_id in selected_clients:
-                    client = self._clients[client_id]
-                    self._communicate(client)
+        with tqdm(
+            range(self.config.num_iters),
+            total=self.config.num_iters,
+            desc=f"{self.config.algorithm} training",
+            unit="iter",
+            mininterval=1.0,
+        ) as outer_pbar:
+            for self.n_iter in outer_pbar:
+                selected_clients = self._sample_clients()
+                with tqdm(
+                    total=len(selected_clients),
+                    desc=f"Iter {self.n_iter+1}/{self.config.num_iters}",
+                    unit="client",
+                    mininterval=1.0,
+                    disable=self.config.verbose < 1,
+                ) as pbar:
+                    for client_id in selected_clients:
+                        client = self._clients[client_id]
+                        self._communicate(client)
+                        if (
+                            self.n_iter > 0
+                            and (self.n_iter + 1) % self.config.eval_every == 0
+                        ):
+                            for part in self.dataset.data_parts:
+                                metrics = client.evaluate(part)
+                                # print(f"metrics: {metrics}")
+                                self._logger_manager.log_metrics(
+                                    client_id,
+                                    metrics,
+                                    step=self.n_iter,
+                                    epoch=self.n_iter,
+                                    part=part,
+                                )
+                        client._update()
+                        client._communicate(self)
+                        pbar.update(1)
                     if (
                         self.n_iter > 0
                         and (self.n_iter + 1) % self.config.eval_every == 0
                     ):
-                        for part in self.dataset.data_parts:
-                            metrics = client.evaluate(part)
-                            # print(f"metrics: {metrics}")
-                            self._logger_manager.log_metrics(
-                                client_id,
-                                metrics,
-                                step=self.n_iter,
-                                epoch=self.n_iter,
-                                part=part,
-                            )
-                    client._update()
-                    client._communicate(self)
-                    pbar.update(1)
-                if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
-                    # TODO: fix potential errors in the function below
-                    self.aggregate_client_metrics()
-                self._update()
+                        # TODO: fix potential errors in the function below
+                        self.aggregate_client_metrics()
+                    self._update()
         self._logger_manager.log_message("Federated training finished...")
         self._logger_manager.flush()
         self._logger_manager.reset()
@@ -673,6 +689,8 @@ class Server(Node, CitationMixin):
             for k in metrics_names
         }
         metrics["num_samples"] = num_samples
+        # free memory
+        del X, y, probs
         return metrics
 
     def aggregate_client_metrics(self) -> None:
@@ -931,6 +949,8 @@ class Client(Node):
         from the server of the previous iteration.
         """
         self.update()
+        # free the memory in received_messages
+        del self._received_messages
         self._received_messages = {}  # clear the received messages
 
     @abstractmethod
@@ -1001,6 +1021,8 @@ class Client(Node):
         all_labels = torch.cat(all_labels, dim=0)
         self._metrics[part] = {"num_samples": len(all_labels)}
         self._metrics[part].update(self.dataset.evaluate(all_logits, all_labels))
+        # free the memory
+        del all_logits, all_labels, X, y
         return self._metrics[part]
 
     def set_parameters(self, params: Iterable[Parameter]) -> None:
