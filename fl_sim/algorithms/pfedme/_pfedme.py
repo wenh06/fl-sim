@@ -44,10 +44,14 @@ class pFedMeServerConfig(ServerConfig):
 
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
-        - ``csv_logger`` : bool, default True
+        - ``csv_logger`` : bool, default False
             Whether to use csv logger.
+        - ``json_logger`` : bool, default True
+            Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -86,6 +90,11 @@ class pFedMeClientConfig(ClientConfig):
         The eta (learning rate) parameter for pFedMe.
     mu : float, default 1e-3
         The mu (momentum) parameter for pFedMe.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     References
     ----------
@@ -110,6 +119,10 @@ class pFedMeClientConfig(ClientConfig):
         mu: float = 1e-3,
         **kwargs: Any,
     ) -> None:
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn("The `algorithm` argument fixed to `pFedMe`.", RuntimeWarning)
+        if kwargs.pop("optimizer", None) is not None:
+            warnings.warn("The `optimizer` argument fixed to `pFedMe`.", RuntimeWarning)
         super().__init__(
             "pFedMe",
             "pFedMe",
@@ -226,7 +239,10 @@ class pFedMeClient(Client):
     def train(self) -> None:
         self.model.train()
         with tqdm(
-            range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model.train()

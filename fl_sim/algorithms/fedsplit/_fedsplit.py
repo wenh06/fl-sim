@@ -35,10 +35,14 @@ class FedSplitServerConfig(ServerConfig):
 
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
-        - ``csv_logger`` : bool, default True
+        - ``csv_logger`` : bool, default False
             Whether to use csv logger.
+        - ``json_logger`` : bool, default True
+            Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -73,6 +77,11 @@ class FedSplitClientConfig(ClientConfig):
         The learning rate.
     s : float, default 10.0
         Reciprocal of the proximal parameter.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -84,8 +93,17 @@ class FedSplitClientConfig(ClientConfig):
         num_epochs: int,
         lr: float = 1e-2,
         s: float = 10.0,
+        **kwargs: Any,
     ) -> None:
         self.s = s
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                "The `algorithm` argument fixed to `FedSplit`.", RuntimeWarning
+            )
+        if kwargs.pop("optimizer", None) is not None:
+            warnings.warn(
+                "The `optimizer` argument fixed to `ProxSGD`.", RuntimeWarning
+            )
         super().__init__(
             "FedSplit",
             "ProxSGD",
@@ -93,6 +111,7 @@ class FedSplitClientConfig(ClientConfig):
             num_epochs,
             lr,
             prox=1.0 / s,
+            **kwargs,
         )
 
 
@@ -196,7 +215,10 @@ class FedSplitClient(Client):
     def train(self) -> None:
         self.model.train()
         with tqdm(
-            range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model.train()

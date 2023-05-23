@@ -39,10 +39,14 @@ class FedProxServerConfig(ServerConfig):
 
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
-        - ``csv_logger`` : bool, default True
+        - ``csv_logger`` : bool, default False
             Whether to use csv logger.
+        - ``json_logger`` : bool, default True
+            Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -81,6 +85,11 @@ class FedProxClientConfig(ClientConfig):
         Coefficient for the proximal term.
     vr : bool, default False
         Whether to use variance reduction.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -93,8 +102,18 @@ class FedProxClientConfig(ClientConfig):
         lr: float = 1e-2,
         mu: float = 0.01,
         vr: bool = False,
+        **kwargs: Any,
     ) -> None:
         optimizer = "FedProx" if not vr else "FedProx_VR"
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                "The `algorithm` argument fixed to `FedProx`.", RuntimeWarning
+            )
+        if kwargs.pop("optimizer", None) is not None:
+            warnings.warn(
+                "The `optimizer` argument fixed to `FedProx` or `FedProx_VR`.",
+                RuntimeWarning,
+            )
         super().__init__(
             "FedProx",
             optimizer,
@@ -103,6 +122,7 @@ class FedProxClientConfig(ClientConfig):
             lr,
             mu=mu,
             vr=vr,
+            **kwargs,
         )
 
 
@@ -226,7 +246,10 @@ class FedProxClient(Client):
     def train(self) -> None:
         self.model.train()
         with tqdm(
-            range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model.train()

@@ -67,10 +67,14 @@ class FedOptServerConfig(ServerConfig):
 
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
-        - ``csv_logger`` : bool, default True
+        - ``csv_logger`` : bool, default False
             Whether to use csv logger.
+        - ``json_logger`` : bool, default True
+            Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -122,6 +126,7 @@ class FedOptClientConfig(ClientConfig):
     **kwargs : dict, optional
         Additional keyword arguments for specific algorithms
         (FedAvg, FedAdagrad, FedYogi, FedAdam).
+        and ``verbose`` (int, default 1) for the verbosity level.
 
     """
 
@@ -135,6 +140,8 @@ class FedOptClientConfig(ClientConfig):
         optimizer: str = "SGD",
         **kwargs: Any,
     ) -> None:
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn("The `algorithm` argument fixed to `FedOpt`.", RuntimeWarning)
         super().__init__(
             "FedOpt",
             optimizer,
@@ -309,7 +316,10 @@ class FedOptClient(Client):
     def train(self) -> None:
         self.model.train()
         with tqdm(
-            range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model.train()

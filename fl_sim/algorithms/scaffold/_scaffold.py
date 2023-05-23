@@ -43,10 +43,14 @@ class SCAFFOLDServerConfig(ServerConfig):
 
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
-        - ``csv_logger`` : bool, default True
+        - ``csv_logger`` : bool, default False
             Whether to use csv logger.
+        - ``json_logger`` : bool, default True
+            Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -88,6 +92,11 @@ class SCAFFOLDClientConfig(ClientConfig):
         The update rule for the control variates.
     vr : bool, default False
         Whether to use variance reduction.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -100,7 +109,16 @@ class SCAFFOLDClientConfig(ClientConfig):
         lr: float = 1e-2,
         control_variate_update_rule: int = 1,
         vr: bool = False,
+        **kwargs: Any,
     ) -> None:
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                "The `algorithm` argument fixed to `SCAFFOLD`.", RuntimeWarning
+            )
+        if kwargs.pop("optimizer", None) is not None:
+            warnings.warn(
+                "The `optimizer` argument fixed to `SCAFFOLD`.", RuntimeWarning
+            )
         super().__init__(
             "SCAFFOLD",
             "SCAFFOLD",
@@ -109,6 +127,7 @@ class SCAFFOLDClientConfig(ClientConfig):
             lr,
             control_variate_update_rule=control_variate_update_rule,
             vr=vr,
+            **kwargs,
         )
 
 
@@ -284,7 +303,10 @@ class SCAFFOLDClient(Client):
     def train(self) -> None:
         self.model.train()
         with tqdm(
-            range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model.train()

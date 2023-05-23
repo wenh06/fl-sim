@@ -37,10 +37,14 @@ class DittoServerConfig(ServerConfig):
 
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
-        - ``csv_logger`` : bool, default True
+        - ``csv_logger`` : bool, default False
             Whether to use csv logger.
+        - ``json_logger`` : bool, default True
+            Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -75,8 +79,18 @@ class DittoClientConfig(ClientConfig):
         The name of the optimizer to solve the local (inner) problem.
     optimizer_per : str, default "SGD"
         The name of the optimizer to solve the personalization problem.
+    prox : float, default 0.01
+        Coefficient of the proximal term.
     lr : float, default 1e-2
         The learning rate.
+    lr_per : float, optional
+        The learning rate for personalization.
+        If not specified, ``lr_per`` will be set to ``lr``.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -91,7 +105,10 @@ class DittoClientConfig(ClientConfig):
         prox: float = 0.01,
         lr: float = 1e-2,
         lr_per: Optional[float] = None,
+        **kwargs: Any,
     ) -> None:
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn("The `algorithm` argument fixed to `Ditto`.", RuntimeWarning)
         super().__init__(
             "Ditto",
             optimizer,
@@ -101,6 +118,7 @@ class DittoClientConfig(ClientConfig):
             prox=prox,
             optimizer_per=optimizer_per,
             lr_per=lr_per if lr_per is not None else lr,
+            **kwargs,
         )
 
 
@@ -203,7 +221,10 @@ class DittoClient(Client):
         """Train (the copy of) the global model with local data."""
         self.model.train()
         with tqdm(
-            range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model.train()
@@ -219,7 +240,10 @@ class DittoClient(Client):
         """Train the personalized model with local data."""
         self.model_per.train()
         with tqdm(
-            range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model_per.train()

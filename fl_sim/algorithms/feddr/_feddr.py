@@ -43,10 +43,14 @@ class FedDRServerConfig(ServerConfig):
 
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
-        - ``csv_logger`` : bool, default True
+        - ``csv_logger`` : bool, default False
             Whether to use csv logger.
+        - ``json_logger`` : bool, default True
+            Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -89,6 +93,11 @@ class FedDRClientConfig(ClientConfig):
         The eta (regularization) parameter for the FedDR algorithm.
     alpha : float, default 1.9
         The alpha parameter for the FedDR algorithm.
+    **kwargs : dict, optional
+        Additional keyword arguments:
+
+        - ``verbose`` : int, default 1
+            The verbosity level.
 
     """
 
@@ -101,7 +110,12 @@ class FedDRClientConfig(ClientConfig):
         lr: float = 1e-2,
         eta: float = 1.0,
         alpha: float = 1.9,  # in the FedDR paper, clients' alpha is equal to the server's alpha
+        **kwargs: Any,
     ) -> None:
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn("The `algorithm` argument fixed to `FedDR`.", RuntimeWarning)
+        if kwargs.pop("optimizer", None) is not None:
+            warnings.warn("The `optimizer` argument fixed to `FedDR`.", RuntimeWarning)
         super().__init__(
             "FedDR",
             "FedDR",
@@ -110,6 +124,7 @@ class FedDRClientConfig(ClientConfig):
             lr,
             eta=eta,
             alpha=alpha,
+            **kwargs,
         )
 
 
@@ -269,7 +284,10 @@ class FedDRClient(Client):
         """Train the local model for ``num_epochs`` epochs."""
         self.model.train()
         with tqdm(
-            range(self.config.num_epochs), total=self.config.num_epochs, mininterval=1.0
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model.train()
