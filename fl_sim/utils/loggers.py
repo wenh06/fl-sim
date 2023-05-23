@@ -171,6 +171,8 @@ class TxtLogger(BaseLogger):
         Directory to save the log file
     log_suffix : str, optional
         Suffix of the log file.
+    verbose : int, default 1
+        The verbosity level.
 
     """
 
@@ -183,6 +185,7 @@ class TxtLogger(BaseLogger):
         model: str,
         log_dir: Optional[Union[str, Path]] = None,
         log_suffix: Optional[str] = None,
+        verbose: int = 1,
     ) -> None:
         assert all(
             [isinstance(x, str) for x in [algorithm, dataset, model]]
@@ -194,11 +197,12 @@ class TxtLogger(BaseLogger):
         else:
             self.log_suffix = f"_{log_suffix}"
         self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.txt"
+        self.verbose = verbose
         self.logger = init_logger(
             self.log_dir,
             self.log_file,
             log_name="FLSim",
-            verbose=1,
+            verbose=verbose,
         )
         self.step = -1
 
@@ -277,7 +281,7 @@ class TxtLogger(BaseLogger):
             self.log_dir,
             self.log_file,
             log_name="FLSim",
-            verbose=1,
+            verbose=self.verbose,
         )
         self.step = -1
 
@@ -325,6 +329,10 @@ class CSVLogger(BaseLogger):
         Directory to save the log file
     log_suffix : str, optional
         Suffix of the log file.
+    verbose : int, default 1
+        The verbosity level.
+        Not used in this logger,
+        but is kept for compatibility with other loggers.
 
     """
 
@@ -337,6 +345,7 @@ class CSVLogger(BaseLogger):
         model: str,
         log_dir: Optional[Union[str, Path]] = None,
         log_suffix: Optional[str] = None,
+        verbose: int = 1,
     ) -> None:
         assert all(
             [isinstance(x, str) for x in [algorithm, dataset, model]]
@@ -490,6 +499,10 @@ class JsonLogger(BaseLogger):
         Directory to save the log file
     log_suffix : str, optional
         Suffix of the log file.
+    verbose : int, default 1
+        The verbosity level.
+        Not used in this logger,
+        but is kept for compatibility with other loggers.
 
     """
 
@@ -503,6 +516,7 @@ class JsonLogger(BaseLogger):
         fmt: str = "json",
         log_dir: Optional[Union[str, Path]] = None,
         log_suffix: Optional[str] = None,
+        verbose: int = 1,
     ) -> None:
         assert all(
             [isinstance(x, str) for x in [algorithm, dataset, model]]
@@ -643,6 +657,8 @@ class LoggerManager(ReprMixin):
         Directory to save the log file
     log_suffix : str, optional
         Suffix of the log file.
+    verbose : int, default 1
+        The verbosity level.
 
     """
 
@@ -655,12 +671,14 @@ class LoggerManager(ReprMixin):
         model: str,
         log_dir: Optional[Union[str, Path]] = None,
         log_suffix: Optional[str] = None,
+        verbose: int = 1,
     ) -> None:
         self._algorith = algorithm
         self._dataset = dataset
         self._model = model
         self._log_dir = Path(log_dir or LOG_DIR)
         self._log_suffix = log_suffix
+        self._verbose = verbose
         self._loggers = []
 
     def _add_txt_logger(self) -> None:
@@ -672,6 +690,7 @@ class LoggerManager(ReprMixin):
                 self._model,
                 self._log_dir,
                 self._log_suffix,
+                self._verbose,
             )
         )
 
@@ -684,6 +703,7 @@ class LoggerManager(ReprMixin):
                 self._model,
                 self._log_dir,
                 self._log_suffix,
+                self._verbose,
             )
         )
 
@@ -697,6 +717,7 @@ class LoggerManager(ReprMixin):
                 fmt,
                 self._log_dir,
                 self._log_suffix,
+                self._verbose,
             )
         )
 
@@ -785,6 +806,8 @@ class LoggerManager(ReprMixin):
                 - ``"fmt"``: {"json", "yaml"}, optional,
                     format of the json log file, default: ``"json"``,
                     valid when ``"json_logger"`` is ``True``.
+                - ``"verbose"``: int, optional,
+                    verbosity level of the logger manager.
 
         Returns
         -------
@@ -798,6 +821,7 @@ class LoggerManager(ReprMixin):
             config["model"],
             config.get("log_dir", None),
             config.get("log_suffix", None),
+            config.get("verbose", 1),
         )
         if config.get("txt_logger", True):
             lm._add_txt_logger()

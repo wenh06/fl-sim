@@ -21,7 +21,7 @@ from torch.utils.data import DataLoader
 from torch.nn.parameter import Parameter
 from torch.optim import SGD
 from torch.optim.lr_scheduler import LambdaLR
-from torch_ecg.utils import ReprMixin, add_docstring
+from torch_ecg.utils import ReprMixin, add_docstring, get_kwargs
 
 from .utils.loggers import LoggerManager
 from .data_processing.fed_dataset import FedDataset
@@ -54,8 +54,12 @@ class ServerConfig(ReprMixin):
         Whether to use txt logger.
     csv_logger : bool, default True
         Whether to use csv logger.
+    json_logger : bool, default True
+        Whether to use json logger.
     eval_every : int, default 1
         The number of iterations to evaluate the model.
+    verbose : int, default 1
+        The verbosity level.
     **kwargs : dict, optional
         The other arguments,
         will be set as attributes of the class.
@@ -71,8 +75,10 @@ class ServerConfig(ReprMixin):
         num_clients: int,
         clients_sample_ratio: float,
         txt_logger: bool = True,
-        csv_logger: bool = True,
+        csv_logger: bool = False,
+        json_logger: bool = True,
         eval_every: int = 1,
+        verbose: int = 1,
         **kwargs: Any,
     ) -> None:
         self.algorithm = algorithm
@@ -81,7 +87,15 @@ class ServerConfig(ReprMixin):
         self.clients_sample_ratio = clients_sample_ratio
         self.txt_logger = txt_logger
         self.csv_logger = csv_logger
+        if self.csv_logger:
+            warnings.warn(
+                "CSV logger is not recommended to use, "
+                "please use JSON logger instead.",
+                RuntimeWarning,
+            )
+        self.json_logger = json_logger
         self.eval_every = eval_every
+        self.verbose = verbose
         for k, v in kwargs.items():
             setattr(self, k, v)
 
@@ -104,6 +118,8 @@ class ClientConfig(ReprMixin):
         The number of epochs.
     lr : float
         The learning rate.
+    verbose : int, default 1
+        The verbosity level.
     **kwargs : dict, optional
         The other arguments,
         will be set as attributes of the class.
@@ -119,6 +135,7 @@ class ClientConfig(ReprMixin):
         batch_size: int,
         num_epochs: int,
         lr: float,
+        verbose: int = 1,
         **kwargs: Any,
     ) -> None:
         self.algorithm = algorithm
@@ -126,6 +143,7 @@ class ClientConfig(ReprMixin):
         self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.lr = lr
+        self.verbose = verbose
         for k, v in kwargs.items():
             setattr(self, k, v)
 
@@ -352,19 +370,36 @@ class Server(Node, CitationMixin):
             f"{self.config_cls['server']}, but got {type(config)}."
         )
         self.config = config
+        if not hasattr(self.config, "verbose"):
+            self.config.verbose = get_kwargs(ServerConfig)["verbose"]
+            warnings.warn(
+                "The `verbose` attribute is not found in the config, "
+                f"set it to the default value {self.config.verbose}.",
+                RuntimeWarning,
+            )
         self.device = torch.device("cpu")
         assert isinstance(client_config, self.config_cls["client"]), (
             f"client_config should be an instance of "
             f"{self.config_cls['client']}, but got {type(client_config)}."
         )
         self._client_config = client_config
+        if not hasattr(self._client_config, "verbose"):
+            # self._client_config.verbose = get_kwargs(ClientConfig)["verbose"]
+            self._client_config.verbose = self.config.verbose  # set to server's verbose
+            warnings.warn(
+                "The `verbose` attribute is not found in the client_config, "
+                f"set it to the default value {self._client_config.verbose}.",
+                RuntimeWarning,
+            )
 
         logger_config = dict(
             txt_logger=self.config.txt_logger,
             csv_logger=self.config.csv_logger,
+            json_logger=self.config.json_logger,
             algorithm=self.config.algorithm,
             model=self.model.__class__.__name__,
             dataset=dataset.__class__.__name__,
+            verbose=self.config.verbose,
         )
         self._logger_manager = LoggerManager.from_config(logger_config)
 
