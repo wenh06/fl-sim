@@ -175,16 +175,19 @@ class FedOptServer(Server):
             for p in self.v_parameters:
                 p.data.random_(1, 100).mul_(self.config.tau**2)
         else:
+            # ensure that the unnecessary parameters are
+            # set correctly for the algorithm "FedAvg"
             self.config.lr = 1
-            self.config.betas = (1, 0)
+            # betas[1] can be set arbitrarily since it is not used for "FedAvg"
+            # betas[0] should be set to 0 since "FedAvg" uses no momentum
+            self.config.betas = (0, 1)
+            self.config.tau = 1
+            # set v_parameters to 0,
+            # this makes the denominator of the update of the model parameters always 1
+            # ref. the last part of self.update
             self.v_parameters = [
-                # this makes the denominator of the update of the model parameters always 1
-                # ref. the last part of self.update
-                torch.Tensor([1 - self.config.tau])
-                .pow(2)
-                .to(self.model.dtype)
-                .to(self.device)
-                for _ in self.delta_parameters
+                torch.zeros_like(p).to(self.model.dtype).to(self.device)
+                for p in self.delta_parameters
             ]
 
     @property
@@ -201,15 +204,13 @@ class FedOptServer(Server):
     def update(self) -> None:
         """Global (outer) update."""
         # update delta_parameters, FedOpt paper Algorithm 2, line 10
-        total_samples = sum([m["train_samples"] for m in self._received_messages])
+        # total_samples = sum([m["train_samples"] for m in self._received_messages])
         for idx, param in enumerate(self.delta_parameters):
             param.data.mul_(self.config.betas[0])
             for m in self._received_messages:
                 param.data.add_(
                     m["delta_parameters"][idx].data.detach().clone().to(self.device),
-                    alpha=(1 - self.config.betas[0])
-                    * m["train_samples"]
-                    / total_samples,
+                    alpha=(1 - self.config.betas[0]) / len(self._received_messages),
                 )
         # update v_parameters, FedOpt paper Algorithm 2, line 11-13
         optimizer = self.config.optimizer.lower()
@@ -230,11 +231,13 @@ class FedOptServer(Server):
             sp.data.addcdiv_(
                 dp.data,
                 vp.sqrt() + self.config.tau,
-                value=-self.config.lr,
+                value=self.config.lr,
             )
 
     def update_avg(self) -> None:
         """Additional operation for FedAvg."""
+        # do nothing
+        # FedAvg does not use delta_parameters nor v_parameters
         pass
 
     def update_adagrad(self) -> None:
@@ -359,19 +362,23 @@ class FedAvgServerConfig(FedOptServerConfig):
             warnings.warn("`lr` is fixed to `1` for FedAvgServerConfig", RuntimeWarning)
         if kwargs.pop("betas", None) is not None:
             warnings.warn(
-                "`betas` is fixed to `(1, 0)` for FedAvgServerConfig", RuntimeWarning
+                "`betas` is fixed to `(0, 1)` for FedAvgServerConfig", RuntimeWarning
             )
         if kwargs.pop("tau", None) is not None:
-            warnings.warn("`tau` is not used for FedAvgServerConfig", RuntimeWarning)
+            warnings.warn(
+                "`tau` is fixed to `1` for FedAvgServerConfig", RuntimeWarning
+            )
         super().__init__(
             num_iters,
             num_clients,
             clients_sample_ratio,
             optimizer="Avg",
             lr=1,
-            betas=(1, 0),
+            betas=(0, 1),  # betas[1] can be set arbitrarily since it is not used
+            tau=1,
             **kwargs,
         )
+        self.algorithm = "FedAvg"
 
 
 @add_docstring(FedOptClientConfig.__doc__.replace("FedOpt", "FedAvg"))
@@ -438,6 +445,7 @@ class FedAdagradServerConfig(FedOptServerConfig):
             betas=betas,
             tau=tau,
         )
+        self.algorithm = "FedAdagrad"
 
 
 @add_docstring(FedOptClientConfig.__doc__.replace("FedOpt", "FedAdagrad"))
@@ -504,6 +512,7 @@ class FedYogiServerConfig(FedOptServerConfig):
             betas=betas,
             tau=tau,
         )
+        self.algorithm = "FedYogi"
 
 
 @add_docstring(FedOptClientConfig.__doc__.replace("FedOpt", "FedYogi"))
@@ -570,6 +579,7 @@ class FedAdamServerConfig(FedOptServerConfig):
             betas=betas,
             tau=tau,
         )
+        self.algorithm = "FedAdam"
 
 
 @add_docstring(FedOptClientConfig.__doc__.replace("FedOpt", "FedAdam"))
