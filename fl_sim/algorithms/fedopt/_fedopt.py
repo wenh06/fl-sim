@@ -330,6 +330,8 @@ class FedOptClient(Client):
                     loss = self.criterion(output, y)
                     loss.backward()
                     self.optimizer.step()
+                    # free memory
+                    del X, y, output, loss
 
 
 @add_docstring(

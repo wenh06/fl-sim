@@ -235,6 +235,8 @@ class DittoClient(Client):
                     loss = self.criterion(output, y)
                     loss.backward()
                     self.optimizer.step(local_weights=self._cached_parameters)
+                    # free memory
+                    del X, y, output, loss
 
     def train_per(self) -> None:
         """Train the personalized model with local data."""
@@ -254,6 +256,8 @@ class DittoClient(Client):
                     loss = self.criterion(output, y)
                     loss.backward()
                     self.optimizer_per.step(local_weights=self._cached_parameters)
+                    # free memory
+                    del X, y, output, loss
 
     @torch.no_grad()
     def evaluate(self, part: str) -> Dict[str, float]:
@@ -292,4 +296,6 @@ class DittoClient(Client):
                         sum([m[k] * m["num_samples"] for m in _metrics])
                         / self._metrics[part]["num_samples"]
                     )
+            # free memory
+            del X, y, logits
         return self._metrics[part]

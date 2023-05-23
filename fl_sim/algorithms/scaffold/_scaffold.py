@@ -328,6 +328,8 @@ class SCAFFOLDClient(Client):
                     self.optimizer.step(
                         variance_buffer=variance_buffer,
                     )
+                    # free memory
+                    del loss, output, X, y
 
         # update local control variates
         if self.config.control_variate_update_rule == 1:

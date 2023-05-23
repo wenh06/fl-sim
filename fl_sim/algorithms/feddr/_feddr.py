@@ -298,3 +298,5 @@ class FedDRClient(Client):
                     loss = self.criterion(output, y)
                     loss.backward()
                     self.optimizer.step(self._y_parameters)
+                    # free memory
+                    del X, y, output, loss

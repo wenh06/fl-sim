@@ -306,4 +306,6 @@ class ProxSkipClient(Client):
                     self.optimizer.step(
                         variance_buffer=variance_buffer,
                     )
+                    # free memory
+                    del loss, output, X, y
         # control variates is updated after communication before solve_inner in the next iteration

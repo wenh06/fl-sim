@@ -338,3 +338,5 @@ class FedPDClient(Client):
                         variance_buffer=self._gradient_buffer,
                         dual_weights=self._dual_weights,
                     )
+                    # free memory
+                    del X, y, output, loss

@@ -236,3 +236,5 @@ class FedSplitClient(Client):
                             )
                         ]
                     )
+                    # free memory
+                    del X, y, output, loss

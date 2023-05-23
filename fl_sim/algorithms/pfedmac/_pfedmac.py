@@ -256,3 +256,5 @@ class pFedMacClient(Client):
                         local_weights=self._cached_parameters,
                         variance_buffer=self._gradient_buffer,
                     )
+                    # free memory
+                    del X, y, output, loss

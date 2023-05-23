@@ -269,3 +269,6 @@ class pFedMeClient(Client):
                 # the init parameters (theta in pFedMe paper Algorithm 1 line  7) for the next iteration
                 # are set to be `self._cached_parameters`
                 self.set_parameters(self._cached_parameters)
+
+                # free memory
+                del X, y, output, loss
