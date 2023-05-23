@@ -9,17 +9,16 @@ The main part of this code repository is a standalone simulation framework for f
 
 <!-- toc -->
 
-- [A Simple Simulation Framework for Federated Learning Based on PyTorch](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
-  - [Installation](#installation)
-  - [Usage Examples](#usage-examples)
-  - [Main Modules](#main-modules)
-    - [Nodes](#nodes)
-    - [Data Processing](#data-processing)
-    - [Optimizers](#optimizers)
-    - [Regularizers](#regularizers)
-    - [Compression](#compression)
-    - [Models](#models)
-    - [Algorithms Implemented](#algorithms-implemented)
+- [Installation](#installation)
+- [Usage Examples](#usage-examples)
+- [Main Modules](#main-modules)
+  - [Nodes](#nodes)
+  - [Data Processing](#data-processing)
+  - [Optimizers](#optimizers)
+  - [Regularizers](#regularizers)
+  - [Compression](#compression)
+  - [Models](#models)
+  - [Algorithms Implemented](#algorithms-implemented)
 
 <!-- tocstop -->
 
@@ -38,6 +37,9 @@ pip install -e .
 ```
 
 ## Usage Examples
+
+<details>
+<summary>Click to expand!</summary>
 
 The following code snippet shows how to use the framework to train a model on the `FedProxFEMNIST` dataset using the `FedProx` algorithm.
 
@@ -63,6 +65,8 @@ s.train_centralized()
 # federated training
 s.train_federated()
 ```
+
+</details>
 
 ## Main Modules
 
