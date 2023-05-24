@@ -270,8 +270,7 @@ class GloveTokenizer(WordLevelTokenizer):
         self.enable_truncation(max_length=max_length)
 
     def _process_text(self, text_input: Union[str, Sequence[str]]) -> List[str]:
-        """
-        A text input may be a single-input tuple (text,) or multi-input
+        """A text input may be a single-input tuple (text,) or multi-input
         tuple (text, text, ...).
 
         In the single-input case, unroll the tuple. In the multi-input
@@ -395,7 +394,7 @@ class GloveTokenizer(WordLevelTokenizer):
 
 def words_from_text(
     s: str, words_to_ignore: list = [], ignore_punctuations: bool = False
-) -> list:
+) -> List[str]:
     """Split a string into a list of words.
 
     Works as a naive tokenizer.
@@ -411,7 +410,7 @@ def words_from_text(
 
     Returns
     -------
-    list
+    List[str]
         The list of words.
 
     """

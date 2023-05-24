@@ -56,7 +56,7 @@ class ServerConfig(ReprMixin):
         The ratio of clients to sample for each iteration.
     txt_logger : bool, default True
         Whether to use txt logger.
-    csv_logger : bool, default True
+    csv_logger : bool, default False
         Whether to use csv logger.
     json_logger : bool, default True
         Whether to use json logger.
@@ -288,7 +288,7 @@ class Node(ReprMixin, ABC):
         np.ndarray
             The aggregated results (curve).
 
-        NOTE that the `d` should be a dict of the following structure:
+        NOTE that the `d` should be a dict similar to the following structure:
 
         .. code-block:: json
 
@@ -947,7 +947,7 @@ class Server(Node, CitationMixin):
 
     def _reset(self) -> None:
         """Reset the server.
-        
+
         State variables are reset to the initial state,
         and the logger manager is reset, which outputs
         to new log files.
