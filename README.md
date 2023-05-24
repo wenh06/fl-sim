@@ -183,7 +183,7 @@ ClientConfig(
 ) -> None
 ```
 
-To implement a new algorithm, one needs to implement a subclass of `Server`, `Client`, `ServerConfig`, and `ClientConfig`. For example, the following implementation of FedAvg is provided in the module [fedprox](fl_sim/algorithms/fedprox/_fedprox.py):
+To implement a new algorithm, one needs to implement a subclass of `Server`, `Client`, `ServerConfig`, and `ClientConfig`. For example, the following implementation of FedProx is provided in the file [fedprox](fl_sim/algorithms/fedprox/_fedprox.py):
 
 <details>
 <summary>Click to expand!</summary>
