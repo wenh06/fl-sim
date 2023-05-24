@@ -406,6 +406,10 @@ class Server(Node, CitationMixin):
         # set batch_size, in case of centralized training
         setattr(self.config, "batch_size", client_config.batch_size)
 
+        # echo the configs to stdout and txt log file
+        self._logger_manager.log_message(f"Server Configs:\n{str(self.config)}")
+        self._logger_manager.log_message(f"Client Configs:\n{str(self._client_config)}")
+
         self._received_messages = []
         self._num_communications = 0
 
@@ -472,9 +476,10 @@ class Server(Node, CitationMixin):
                 "No message received from the clients, unable to update server model"
             )
             return
-        assert all(
-            [isinstance(m, ClientMessage) for m in self._received_messages]
-        ), "received messages must be of type `ClientMessage`"
+        assert all([isinstance(m, ClientMessage) for m in self._received_messages]), (
+            "received messages must be of type `ClientMessage`, "
+            f"but got {[type(m) for m in self._received_messages if not isinstance(m, ClientMessage)]}"
+        )
         self.update()
         # free the memory of the received messages
         del self._received_messages
