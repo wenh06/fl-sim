@@ -50,6 +50,7 @@ jobs:
     - name: Run test with pytest and collect coverage
       run: |
         pytest -v \
+        --cov-config=.coveragerc \
         --cov-report term-missing \
         --cov=fl_sim \
         --ignore=test/test-algorithms \

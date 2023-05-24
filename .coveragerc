@@ -1,0 +1,22 @@
+# .coveragerc to control coverage.py
+[run]
+omit =
+    # omit all tests
+    tests/*
+    # omit algorithms, which will be tested separately
+    fl_sim/algorithms/*
+    # omit several data processing files which are not used currently
+    fl_sim/data_processing/_noniid_partition.py
+    fl_sim/data_processing/leaf_sent140.py
+    fl_sim/data_processing/cifar.py
+
+[report]
+# Regexes for lines to exclude from consideration
+exclude_also =
+    raise NotImplementedError
+
+    # Don't complain if non-runnable code isn't run:
+    if __name__ == .__main__.:
+
+    # Don't complain about abstract methods, they aren't run:
+    @(abc\.)?abstractmethod
