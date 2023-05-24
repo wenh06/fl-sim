@@ -5,7 +5,6 @@ import warnings
 from copy import deepcopy
 from typing import List, Sequence, Dict, Any
 
-import torch
 from torch_ecg.utils.misc import add_docstring, remove_parameters_returns_from_docstring
 from tqdm.auto import tqdm
 
@@ -174,21 +173,17 @@ class FedOptServer(Server):
             self.v_parameters = deepcopy(self.delta_parameters)
             for p in self.v_parameters:
                 p.data.random_(1, 100).mul_(self.config.tau**2)
-        else:
+        else:  # FedAvg
             # ensure that the unnecessary parameters are
             # set correctly for the algorithm "FedAvg"
             self.config.lr = 1
             # betas[1] can be set arbitrarily since it is not used for "FedAvg"
             # betas[0] should be set to 0 since "FedAvg" uses no momentum
             self.config.betas = (0, 1)
+            # tau can be set arbitrarily since it is not used for "FedAvg"
             self.config.tau = 1
-            # set v_parameters to 0,
-            # this makes the denominator of the update of the model parameters always 1
-            # ref. the last part of self.update
-            self.v_parameters = [
-                torch.zeros_like(p).to(self.model.dtype).to(self.device)
-                for p in self.delta_parameters
-            ]
+            # set v_parameters to None to avoid unnecessary computation
+            self.v_parameters = None
 
     @property
     def client_cls(self) -> type:
@@ -225,14 +220,18 @@ class FedOptServer(Server):
         else:
             raise ValueError(f"Unknown optimizer: {self.config.optimizer}")
         # update model parameters, FedOpt paper Algorithm 2, line 14
-        for sp, dp, vp in zip(
-            self.model.parameters(), self.delta_parameters, self.v_parameters
-        ):
-            sp.data.addcdiv_(
-                dp.data,
-                vp.sqrt() + self.config.tau,
-                value=self.config.lr,
-            )
+        if self.v_parameters is None:
+            for sp, dp in zip(self.model.parameters(), self.delta_parameters):
+                sp.data.add_(dp.data, alpha=self.config.lr)
+        else:
+            for sp, dp, vp in zip(
+                self.model.parameters(), self.delta_parameters, self.v_parameters
+            ):
+                sp.data.addcdiv_(
+                    dp.data,
+                    vp.sqrt() + self.config.tau,
+                    value=self.config.lr,
+                )
 
     def update_avg(self) -> None:
         """Additional operation for FedAvg."""
@@ -365,9 +364,7 @@ class FedAvgServerConfig(FedOptServerConfig):
                 "`betas` is fixed to `(0, 1)` for FedAvgServerConfig", RuntimeWarning
             )
         if kwargs.pop("tau", None) is not None:
-            warnings.warn(
-                "`tau` is fixed to `1` for FedAvgServerConfig", RuntimeWarning
-            )
+            warnings.warn("`tau` is not used for FedAvgServerConfig", RuntimeWarning)
         super().__init__(
             num_iters,
             num_clients,
@@ -375,7 +372,7 @@ class FedAvgServerConfig(FedOptServerConfig):
             optimizer="Avg",
             lr=1,
             betas=(0, 1),  # betas[1] can be set arbitrarily since it is not used
-            tau=1,
+            tau=1,  # tau can be set arbitrarily since it is not used
             **kwargs,
         )
         self.algorithm = "FedAvg"
