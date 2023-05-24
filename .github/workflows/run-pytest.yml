@@ -51,7 +51,7 @@ jobs:
       run: |
         pytest -v \
         --cov-report term-missing \
-        --cov=fl-sim \
+        --cov=fl_sim \
         --ignore=test/test-algorithms \
         --ignore=test/test_algorithms.py \
         test
