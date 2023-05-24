@@ -105,12 +105,13 @@ Server(
 ) -> None
 ```
 
-providing the following additional functionalities:
+providing the following additional functionalities or properties:
 
 - `_setup_clients`: setup (initialize) the clients, and allocate devices to them.
 - `_sample_clients`: sample a subset of clients from the client pool.
 - `_communicate`: execute the `communicate` method of the clients, and increment the global communication counter (`_num_communications`).
 - `_update`: checks the validity messages (`_received_messages`) received from the clients, execute the `update` method of the server, and finally clears the received messages.
+- `train`: the main training procedure, which calls either `train_centralized` or `train_federated` depending on the argument `mode` passed to this method.
 - `train_centralized`: centralized training procedure, mainly used for comparison.
 - `train_federated`: federated training procedure, which calls the `_communicate` (to clients), wait for the clients to execute `_update` and `_communicate`, and finally calls `_update` to update the server.
 - `add_parameters`: addition of parameters (values) to the server model parameters.
@@ -119,6 +120,8 @@ providing the following additional functionalities:
 - `get_client_data`: helper function to get the data of the clients.
 - `get_client_model`: helper function to get the model of the clients.
 - `get_cached_metrics`: helper function to get the cached aggregated metrics of the clients stored on the server.
+- `_reset`: reset the server to the initial state. Before carrying out a new training process, the flag `_complete_experiment` will be checked. If it is `True`, this method will be called to reset the server.
+- `is_convergent` (property): check whether the training process has converged. Currently, this property is **NOT** fully implemented.
 
 and **abstract properties that need to be implemented by subclasses**:
 

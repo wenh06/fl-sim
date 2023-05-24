@@ -440,15 +440,17 @@ class Server(Node, CitationMixin):
 
         self._received_messages = []
         self._num_communications = 0
-
         self.n_iter = 0
-
-        if not lazy:
-            self._clients = self._setup_clients(dataset, client_config)
-
         self._metrics = {}  # aggregated metrics
         self._cached_metrics = []  # container for caching aggregated metrics
         self._is_convergent = False  # status variable for convergence
+        # flag for completing the experiment
+        # which will be checked before calling
+        # `self.train`, `self.train_centralized`, `self.train_federated`
+        self._complete_experiment = False
+
+        if not lazy:
+            self._clients = self._setup_clients(dataset, client_config)
 
         self._post_init()
 
@@ -538,12 +540,16 @@ class Server(Node, CitationMixin):
         None
 
         """
+        if self._complete_experiment:
+            # reset before training if a previous experiment is completed
+            self._reset()
         if mode.lower() == "federated":
             self.train_federated(extra_configs)
         elif mode.lower() == "centralized":
             self.train_centralized(extra_configs)
         else:
             raise ValueError(f"mode {mode} is not supported")
+        self._complete_experiment = True
 
     def train_centralized(self, extra_configs: Optional[dict] = None) -> None:
         """Centralized training, conducted only on the server node.
@@ -560,6 +566,10 @@ class Server(Node, CitationMixin):
         None
 
         """
+        if self._complete_experiment:
+            # reset before training if a previous experiment is completed
+            self._reset()
+
         self._logger_manager.log_message("Training centralized...")
         extra_configs = ED(extra_configs or {})
 
@@ -632,7 +642,9 @@ class Server(Node, CitationMixin):
         self.model.to(self.device)  # move to the original device
         self._logger_manager.log_message("Centralized training finished...")
         self._logger_manager.flush()
-        self._logger_manager.reset()
+        # self._logger_manager.reset()
+
+        self._complete_experiment = True
 
     def train_federated(self, extra_configs: Optional[dict] = None) -> None:
         """Federated (distributed) training,
@@ -652,6 +664,10 @@ class Server(Node, CitationMixin):
         Run clients training in parallel.
 
         """
+        if self._complete_experiment:
+            # reset before training if a previous experiment is completed
+            self._reset()
+
         self._logger_manager.log_message("Training federated...")
         self.n_iter = 0
         with tqdm(
@@ -713,7 +729,9 @@ class Server(Node, CitationMixin):
                     self._update()
         self._logger_manager.log_message("Federated training finished...")
         self._logger_manager.flush()
-        self._logger_manager.reset()
+        # self._logger_manager.reset()
+
+        self._complete_experiment = True
 
     def evaluate_centralized(self, dataloader: DataLoader) -> Dict[str, float]:
         """Evaluate the model on the given dataloader on the server node.
@@ -926,6 +944,23 @@ class Server(Node, CitationMixin):
             raise ValueError(f"client_idx should be less than {len(self._clients)}")
 
         return self._clients[client_idx]._cached_metrics
+
+    def _reset(self) -> None:
+        """Reset the server.
+        
+        State variables are reset to the initial state,
+        and the logger manager is reset, which outputs
+        to new log files.
+
+        """
+        self._received_messages = []
+        self._metrics = {}
+        self._cached_metrics = []
+        self._is_convergent = False
+        self.n_iters = 0
+        self._num_communications = 0
+        self._logger_manager.reset()
+        self._complete_experiment = False
 
     def extra_repr_keys(self) -> List[str]:
         return super().extra_repr_keys() + [
