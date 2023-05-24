@@ -387,6 +387,23 @@ class FedAvgClientConfig(FedOptClientConfig):
 
     __name__ = "FedAvgClientConfig"
 
+    def __init__(
+        self,
+        batch_size: int,
+        num_epochs: int,
+        lr: float = 1e-2,
+        optimizer: str = "SGD",
+        **kwargs: Any,
+    ) -> None:
+        super().__init__(
+            batch_size=batch_size,
+            num_epochs=num_epochs,
+            lr=lr,
+            optimizer=optimizer,
+            **kwargs,
+        )
+        self.algorithm = "FedAvg"
+
 
 @add_docstring(FedOptServer.__doc__.replace("FedOpt", "FedAvg"))
 class FedAvgServer(FedOptServer):
@@ -453,6 +470,23 @@ class FedAdagradClientConfig(FedOptClientConfig):
     """ """
 
     __name__ = "FedAdagradClientConfig"
+
+    def __init__(
+        self,
+        batch_size: int,
+        num_epochs: int,
+        lr: float = 1e-2,
+        optimizer: str = "SGD",
+        **kwargs: Any,
+    ) -> None:
+        super().__init__(
+            batch_size=batch_size,
+            num_epochs=num_epochs,
+            lr=lr,
+            optimizer=optimizer,
+            **kwargs,
+        )
+        self.algorithm = "FedAdagrad"
 
 
 @add_docstring(FedOptServer.__doc__.replace("FedOpt", "FedAdagrad"))
@@ -521,6 +555,23 @@ class FedYogiClientConfig(FedOptClientConfig):
 
     __name__ = "FedYogiClientConfig"
 
+    def __init__(
+        self,
+        batch_size: int,
+        num_epochs: int,
+        lr: float = 1e-2,
+        optimizer: str = "SGD",
+        **kwargs: Any,
+    ) -> None:
+        super().__init__(
+            batch_size=batch_size,
+            num_epochs=num_epochs,
+            lr=lr,
+            optimizer=optimizer,
+            **kwargs,
+        )
+        self.algorithm = "FedYogi"
+
 
 @add_docstring(FedOptServer.__doc__.replace("FedOpt", "FedYogi"))
 class FedYogiServer(FedOptServer):
@@ -587,6 +638,23 @@ class FedAdamClientConfig(FedOptClientConfig):
     """ """
 
     __name__ = "FedAdamClientConfig"
+
+    def __init__(
+        self,
+        batch_size: int,
+        num_epochs: int,
+        lr: float = 1e-2,
+        optimizer: str = "SGD",
+        **kwargs: Any,
+    ) -> None:
+        super().__init__(
+            batch_size=batch_size,
+            num_epochs=num_epochs,
+            lr=lr,
+            optimizer=optimizer,
+            **kwargs,
+        )
+        self.algorithm = "FedAdam"
 
 
 @add_docstring(FedOptServer.__doc__.replace("FedOpt", "FedAdam"))

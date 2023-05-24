@@ -1,18 +1,21 @@
 """
 """
 
+import json
 import random
 import warnings
 from abc import ABC, abstractmethod
 from itertools import repeat
 from copy import deepcopy
 from collections import defaultdict
+from pathlib import Path
 from typing import Any, Optional, Iterable, List, Tuple, Dict, Union
 
 import numpy as np
 import pandas as pd
 import torch
 import torch.nn as nn
+import yaml
 from bib_lookup import CitationMixin
 from easydict import EasyDict as ED
 from tqdm.auto import tqdm
@@ -204,20 +207,27 @@ class Node(ReprMixin, ABC):
         """The list of required fields in the config."""
         raise NotImplementedError
 
+    @property
+    @abstractmethod
+    def is_convergent(self) -> bool:
+        """Whether the training process on the node is convergent."""
+        raise NotImplementedError
+
     def get_detached_model_parameters(self) -> List[Tensor]:
         """Get the detached model parameters."""
         return [p.detach().clone() for p in self.model.parameters()]
 
     @staticmethod
     def aggregate_results_from_csv_log(
-        df: pd.DataFrame, part: str = "val", metric: str = "acc"
+        df: Union[pd.DataFrame, str, Path], part: str = "val", metric: str = "acc"
     ) -> np.ndarray:
         """Aggregate the federated results from csv log.
 
         Parameters
         ----------
-        df : pd.DataFrame
-            The dataframe of the csv log.
+        df : pd.DataFrame or str or Path
+            The dataframe of the csv log,
+            or the path to the csv log file.
         part : str, default "train"
             The part of the log to aggregate.
         metric : str, default "acc"
@@ -229,6 +239,8 @@ class Node(ReprMixin, ABC):
             The aggregated results (curve).
 
         """
+        if isinstance(df, (str, Path)):
+            df = pd.read_csv(df)
         df_part = df[df["part"] == part]
         client_ids = np.unique(
             [
@@ -256,14 +268,15 @@ class Node(ReprMixin, ABC):
 
     @staticmethod
     def aggregate_results_from_json_log(
-        d: dict, part: str = "val", metric: str = "acc"
+        d: Union[dict, str, Path], part: str = "val", metric: str = "acc"
     ) -> np.ndarray:
         """Aggregate the federated results from csv log.
 
         Parameters
         ----------
-        d : dict
-            The dict of the json/yaml log.
+        d : dict or str or Path
+            The dict of the json/yaml log,
+            or the path to the json/yaml log file.
         part : str, default "train"
             The part of the log to aggregate.
         metric : str, default "acc"
@@ -310,6 +323,14 @@ class Node(ReprMixin, ABC):
             }
 
         """
+        if isinstance(d, (str, Path)):
+            d = Path(d)
+            if d.suffix == ".json":
+                d = json.load(d.read_text())
+            elif d.suffix in [".yaml", ".yml"]:
+                d = yaml.safe_load(d.read_text())
+            else:
+                raise ValueError(f"unsupported file type: {d.suffix}")
         epochs = list(
             sorted(np.unique([item["epoch"] for _, v in d[part].items() for item in v]))
         )
@@ -349,6 +370,11 @@ class Server(Node, CitationMixin):
     lazy : bool, default False
         Whether to use lazy initialization
         for the client nodes.
+
+    TODO
+    ----
+    1. Run clients training in parallel.
+    2. Use the attribute `_is_convergent` to control the termination of the training.
 
     """
 
@@ -417,6 +443,8 @@ class Server(Node, CitationMixin):
 
         if not lazy:
             self._clients = self._setup_clients(dataset, client_config)
+
+        self._is_convergent = False  # status variable for convergence
 
         self._post_init()
 
@@ -866,6 +894,11 @@ class Server(Node, CitationMixin):
     def doi(self) -> Union[str, List[str]]:
         raise NotImplementedError
 
+    @property
+    def is_convergent(self) -> bool:
+        """Whether the training process is convergent."""
+        return self._is_convergent
+
 
 class Client(Node):
     """The class to simulate the client node.
@@ -918,6 +951,7 @@ class Client(Node):
         self._cached_parameters = None
         self._received_messages = {}
         self._metrics = {}
+        self._is_convergent = False
 
         self._post_init()
 
@@ -1123,6 +1157,11 @@ class Client(Node):
             "client_id",
             "config",
         ]
+
+    @property
+    def is_convergent(self) -> bool:
+        """Whether the training process is convergent."""
+        return self._is_convergent
 
 
 class ClientMessage(dict):
