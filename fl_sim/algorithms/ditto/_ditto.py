@@ -207,8 +207,11 @@ class DittoClient(Client):
         try:
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
-            warnings.warn("No parameters received from server")
-            warnings.warn("Using current model parameters as initial parameters")
+            warnings.warn(
+                "No parameters received from server. "
+                "Using current model parameters as initial parameters.",
+                RuntimeWarning,
+            )
             self._cached_parameters = self.get_detached_model_parameters()
         except Exception as err:
             raise err
@@ -296,6 +299,8 @@ class DittoClient(Client):
                         sum([m[k] * m["num_samples"] for m in _metrics])
                         / self._metrics[part]["num_samples"]
                     )
+            # compute gradient norm of the models
+            self._metrics[part][f"grad_norm{suffix}"] = self.get_gradients(norm="fro")
             # free memory
             del X, y, logits
         return self._metrics[part]

@@ -256,8 +256,11 @@ class ProxSkipClient(Client):
         try:
             self.set_parameters(self._received_messages["parameters"])
         except KeyError:
-            warnings.warn("No parameters received from server")
-            warnings.warn("Using current model parameters as initial parameters")
+            warnings.warn(
+                "No parameters received from server. "
+                "Using current model parameters as initial parameters.",
+                RuntimeWarning,
+            )
         except Exception as err:
             raise err
         if (

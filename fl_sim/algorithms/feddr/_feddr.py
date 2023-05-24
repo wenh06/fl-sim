@@ -252,8 +252,11 @@ class FedDRClient(Client):
         try:
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
-            warnings.warn("No parameters received from server")
-            warnings.warn("Using current model parameters as initial parameters")
+            warnings.warn(
+                "No parameters received from server. "
+                "Using current model parameters as initial parameters.",
+                RuntimeWarning,
+            )
             self._cached_parameters = self.get_detached_model_parameters()
         except Exception as err:
             raise err

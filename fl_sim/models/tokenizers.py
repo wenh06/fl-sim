@@ -22,7 +22,10 @@ except ModuleNotFoundError:
     nltk_word_tokenize = None
     nltk_download = None
     nltk_find = None
-    warnings.warn("Package `nltk` is not installed, using naive tokenizer instead.")
+    warnings.warn(
+        "Package `nltk` is not installed, using naive tokenizer instead.",
+        RuntimeWarning,
+    )
 
 try:
     import tokenizers as hf_tokenizers
@@ -456,7 +459,7 @@ def tokenize(
     _s = s
     if backend.lower() == "nltk":
         if nltk_word_tokenize is None:
-            warnings.warn("NLTK not installed. Using naive tokenizer.")
+            warnings.warn("NLTK not installed. Using naive tokenizer.", RuntimeWarning)
             words = words_from_text(_s)
         else:
             words = nltk_word_tokenize(_s)

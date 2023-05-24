@@ -473,7 +473,8 @@ class Server(Node, CitationMixin):
         self._logger_manager.log_message("Server update...")
         if len(self._received_messages) == 0:
             warnings.warn(
-                "No message received from the clients, unable to update server model"
+                "No message received from the clients, unable to update server model.",
+                RuntimeWarning,
             )
             return
         assert all([isinstance(m, ClientMessage) for m in self._received_messages]), (
@@ -1008,7 +1009,9 @@ class Client(Node):
             The metrics of the evaluation.
 
         """
-        assert part in self.dataset.data_parts, "Invalid part name"
+        assert (
+            part in self.dataset.data_parts
+        ), f"Invalid part name, should be one of {self.dataset.data_parts}."
         self.model.eval()
         # _metrics = []
         data_loader = self.val_loader if part == "val" else self.train_loader
@@ -1026,34 +1029,77 @@ class Client(Node):
         all_labels = torch.cat(all_labels, dim=0)
         self._metrics[part] = {"num_samples": len(all_labels)}
         self._metrics[part].update(self.dataset.evaluate(all_logits, all_labels))
+        # get the gradient norm of the local model
+        self._metrics[part]["grad_norm"] = self.get_gradients(norm="fro")
         # free the memory
         del all_logits, all_labels, X, y
         return self._metrics[part]
 
-    def set_parameters(self, params: Iterable[Parameter]) -> None:
+    def set_parameters(
+        self, params: Iterable[Parameter], model: Optional[torch.nn.Module] = None
+    ) -> None:
         """Set the parameters of the (local) model on the client.
 
         Parameters
         ----------
         params : Iterable[torch.nn.Parameter]
             The parameters to set.
+        model : torch.nn.Module, optional
+            The model to set the parameters,
+            default to the local model (self.model).
 
         Returns
         -------
         None
 
         """
-        for client_param, param in zip(self.model.parameters(), params):
+        if model is None:
+            model = self.model
+        for client_param, param in zip(model.parameters(), params):
             client_param.data = param.data.detach().clone().to(self.device)
 
-    def get_gradients(self) -> List[Tensor]:
-        """Get the gradients of the (local) model on the client."""
+    def get_gradients(
+        self,
+        norm: Optional[Union[str, int, float]] = None,
+        model: Optional[torch.nn.Module] = None,
+    ) -> Union[float, List[Tensor]]:
+        """Get the gradients or norm of the gradients
+        of the (local) model on the client.
+
+        Parameters
+        ----------
+        norm : str or int or float, optional
+            The norm of the gradients to compute.
+            None for the raw gradients (list of tensors).
+            refer to :func:`torch.norm` for more details.
+        model : torch.nn.Module, optional
+            The model to get the gradients,
+            default to the local model (self.model).
+
+        Returns
+        -------
+        float or List[torch.Tensor]
+            The gradients or norm of the gradients.
+
+        """
+        if model is None:
+            model = self.model
         grads = []
-        for param in self.model.parameters():
+        for param in model.parameters():
             if param.grad is None:
                 grads.append(torch.zeros_like(param.data))
             else:
                 grads.append(param.grad.data)
+        if norm is not None:
+            if len(grads) == 0:
+                grads = 0.0
+                warnings.warn(
+                    "No gradients available. Set to 0.0 by default.", RuntimeWarning
+                )
+            else:
+                grads = torch.norm(
+                    torch.cat([grad.view(-1) for grad in grads]), norm
+                ).item()
         return grads
 
     def get_all_data(self) -> Tuple[Tensor, Tensor]:

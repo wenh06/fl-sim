@@ -88,7 +88,8 @@ class ProxSGD_VR(Optimizer):
         if prox * lr >= 1:
             warnings.warn(
                 f"prox * lr = {prox * lr:.3f} >= 1 with prox = {prox}, lr = {lr}, "
-                f"you may encounter gradient exploding",
+                f"you may encounter gradient exploding.",
+                RuntimeWarning,
             )
         defaults = dict(
             lr=lr,

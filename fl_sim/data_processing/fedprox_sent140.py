@@ -22,7 +22,8 @@ except ModuleNotFoundError:
     BeautifulSoup = None
     warnings.warn(
         "Text preprocessing is better with Beautiful Soup 4. "
-        "One can install it by `pip install beautifulsoup4`."
+        "One can install it by `pip install beautifulsoup4`.",
+        RuntimeWarning,
     )
 
 from ..utils.const import CACHED_DATA_DIR

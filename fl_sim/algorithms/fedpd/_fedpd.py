@@ -290,8 +290,11 @@ class FedPDClient(Client):
         try:
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
-            warnings.warn("No parameters received from server")
-            warnings.warn("Using current model parameters as initial parameters")
+            warnings.warn(
+                "No parameters received from server. "
+                "Using current model parameters as initial parameters.",
+                RuntimeWarning,
+            )
             if self._cached_parameters is None:
                 self._cached_parameters = [
                     p.detach().clone() for p in self.model.parameters()

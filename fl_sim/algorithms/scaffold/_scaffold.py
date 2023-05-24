@@ -270,8 +270,11 @@ class SCAFFOLDClient(Client):
         try:
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
-            warnings.warn("No parameters received from server")
-            warnings.warn("Using current model parameters as initial parameters")
+            warnings.warn(
+                "No parameters received from server. "
+                "Using current model parameters as initial parameters.",
+                RuntimeWarning,
+            )
             self._cached_parameters = self.get_detached_model_parameters()
         except Exception as err:
             raise err
@@ -280,9 +283,10 @@ class SCAFFOLDClient(Client):
                 self._received_messages["control_variates"]
             )
         except KeyError:
-            warnings.warn("No control variates received from server")
             warnings.warn(
-                "Using current cached server control variates as initial control variates"
+                "No control variates received from server. "
+                "Using current cached server control variates as initial control variates.",
+                RuntimeWarning,
             )
         except Exception as err:
             raise err
