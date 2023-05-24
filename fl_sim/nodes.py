@@ -27,6 +27,7 @@ from torch.optim.lr_scheduler import LambdaLR
 from torch_ecg.utils import ReprMixin, add_docstring, get_kwargs
 
 from .utils.loggers import LoggerManager
+from .utils.misc import default_dict_to_dict
 from .data_processing.fed_dataset import FedDataset
 from .optimizers import get_optimizer
 
@@ -375,6 +376,7 @@ class Server(Node, CitationMixin):
     ----
     1. Run clients training in parallel.
     2. Use the attribute `_is_convergent` to control the termination of the training.
+       This perhaps can be achieved by comparing part of the items in `_metrics` and `_prev_metrics`.
 
     """
 
@@ -444,6 +446,8 @@ class Server(Node, CitationMixin):
         if not lazy:
             self._clients = self._setup_clients(dataset, client_config)
 
+        self._metrics = {}  # aggregated metrics
+        self._prev_metrics = {}  # aggregated metrics of the previous round
         self._is_convergent = False  # status variable for convergence
 
         self._post_init()
@@ -690,7 +694,6 @@ class Server(Node, CitationMixin):
                         self.n_iter > 0
                         and (self.n_iter + 1) % self.config.eval_every == 0
                     ):
-                        # TODO: fix potential errors in the function below
                         self.aggregate_client_metrics()
                     self._update()
         self._logger_manager.log_message("Federated training finished...")
@@ -731,6 +734,8 @@ class Server(Node, CitationMixin):
         """Aggregate the metrics transmitted from the clients."""
         if not any(["metrics" in m for m in self._received_messages]):
             raise ValueError("no metrics received from clients")
+        # move metrics stored in self._metrics to self._prev_metrics
+        self._prev_metrics = deepcopy(self._metrics)
         for part in self.dataset.data_parts:
             metrics = defaultdict(float)
             for m in self._received_messages:
@@ -741,18 +746,22 @@ class Server(Node, CitationMixin):
                         metrics[k] += (
                             m["metrics"][part][k] * m["metrics"][part]["num_samples"]
                         )
-                    else:
+                    else:  # num_samples
                         metrics[k] += m["metrics"][part][k]
             for k in metrics:
                 if k != "num_samples":
                     metrics[k] /= metrics["num_samples"]
+            # refresh the part of the metrics stored in self._metrics
+            self._metrics[part] = default_dict_to_dict(metrics)
             self._logger_manager.log_metrics(
                 None,
-                dict(metrics),
+                self._metrics[part],
                 step=self.n_iter + 1,
                 epoch=self.n_iter + 1,
                 part=part,
             )
+        # TODO: use `self._prev_metrics` and `self._metrics`
+        # to update the status varibles `self._is_convergent`
 
     def add_parameters(self, params: Iterable[Parameter], ratio: float) -> None:
         """Update the server's parameters with the given parameters.
@@ -781,9 +790,14 @@ class Server(Node, CitationMixin):
         Parameters
         ----------
         size_aware : bool, default False
-            Whether to use the size-aware averaging.
+            Whether to use the size-aware averaging,
+            which is the weighted average of the parameters,
+            where the weight is the number of training samples.
+            From the view of optimization theory,
+            this is recommended to be set `False`.
         inertia : float, default 0.0
-            The weight of the previous parameters.
+            The weight of the previous parameters,
+            should be in the range [0, 1).
 
         Returns
         -------
@@ -951,6 +965,7 @@ class Client(Node):
         self._cached_parameters = None
         self._received_messages = {}
         self._metrics = {}
+        self._prev_metrics = {}
         self._is_convergent = False
 
         self._post_init()
@@ -982,6 +997,7 @@ class Client(Node):
             )
         self.communicate(target)
         target._num_communications += 1
+        self._prev_metrics = deepcopy(self._metrics)
         self._metrics = {}  # clear the metrics
 
     def _update(self) -> None:
