@@ -376,7 +376,7 @@ class Server(Node, CitationMixin):
     ----
     1. Run clients training in parallel.
     2. Use the attribute `_is_convergent` to control the termination of the training.
-       This perhaps can be achieved by comparing part of the items in `_metrics` and `_prev_metrics`.
+       This perhaps can be achieved by comparing part of the items in `self._cached_models`
 
     """
 
@@ -447,7 +447,7 @@ class Server(Node, CitationMixin):
             self._clients = self._setup_clients(dataset, client_config)
 
         self._metrics = {}  # aggregated metrics
-        self._prev_metrics = {}  # aggregated metrics of the previous round
+        self._cached_metrics = []  # container for caching aggregated metrics
         self._is_convergent = False  # status variable for convergence
 
         self._post_init()
@@ -672,12 +672,18 @@ class Server(Node, CitationMixin):
                 ) as pbar:
                     for client_id in selected_clients:
                         client = self._clients[client_id]
+                        # server communicates with client
+                        # typically broadcasting the global model to the client
                         self._communicate(client)
                         if (
                             self.n_iter > 0
                             and (self.n_iter + 1) % self.config.eval_every == 0
                         ):
                             for part in self.dataset.data_parts:
+                                # NOTE: one should execute `client.evaluate`
+                                # before `client._update`,
+                                # otherwise the evaluation would be done
+                                # on the ``personalized`` (locally fine-tuned) model.
                                 metrics = client.evaluate(part)
                                 # print(f"metrics: {metrics}")
                                 self._logger_manager.log_metrics(
@@ -687,14 +693,23 @@ class Server(Node, CitationMixin):
                                     epoch=self.n_iter,
                                     part=part,
                                 )
+                        # client trains the model
+                        # and perhaps updates other local variables
                         client._update()
+                        # client communicates with server
+                        # typically sending the local model
+                        # and evaluated local metrics to the server
+                        # and perhaps other local variables (e.g. gradients, etc.)
                         client._communicate(self)
                         pbar.update(1)
                     if (
                         self.n_iter > 0
                         and (self.n_iter + 1) % self.config.eval_every == 0
                     ):
+                        # server aggregates the metrics from clients
                         self.aggregate_client_metrics()
+                    # server updates the global model
+                    # and perhaps other global variables
                     self._update()
         self._logger_manager.log_message("Federated training finished...")
         self._logger_manager.flush()
@@ -734,33 +749,36 @@ class Server(Node, CitationMixin):
         """Aggregate the metrics transmitted from the clients."""
         if not any(["metrics" in m for m in self._received_messages]):
             raise ValueError("no metrics received from clients")
-        # move metrics stored in self._metrics to self._prev_metrics
-        self._prev_metrics = deepcopy(self._metrics)
+        # cache metrics stored in self._metrics into self._cached_metrics
+        if self._metrics:  # not empty
+            self._cached_metrics.append(self._metrics.copy())
+        new_metrics = defaultdict(lambda: defaultdict(float))
         for part in self.dataset.data_parts:
-            metrics = defaultdict(float)
             for m in self._received_messages:
                 if "metrics" not in m:
                     continue
                 for k, v in m["metrics"][part].items():
                     if k != "num_samples":
-                        metrics[k] += (
+                        new_metrics[part][k] += (
                             m["metrics"][part][k] * m["metrics"][part]["num_samples"]
                         )
                     else:  # num_samples
-                        metrics[k] += m["metrics"][part][k]
-            for k in metrics:
+                        new_metrics[part][k] += m["metrics"][part][k]
+            for k in new_metrics[part]:
                 if k != "num_samples":
-                    metrics[k] /= metrics["num_samples"]
-            # refresh the part of the metrics stored in self._metrics
-            self._metrics[part] = default_dict_to_dict(metrics)
+                    new_metrics[part][k] /= new_metrics[part]["num_samples"]
             self._logger_manager.log_metrics(
                 None,
-                self._metrics[part],
+                default_dict_to_dict(new_metrics[part]),
                 step=self.n_iter + 1,
                 epoch=self.n_iter + 1,
                 part=part,
             )
-        # TODO: use `self._prev_metrics` and `self._metrics`
+        # move self._metrics to self._cached_metrics and refresh self._metrics
+        self._cached_metrics.append(self._metrics.copy())
+        self._metrics = default_dict_to_dict(new_metrics)
+        del new_metrics
+        # TODO: use the cached sequence `self._cached_metrics` of aggregated metrics
         # to update the status varibles `self._is_convergent`
 
     def add_parameters(self, params: Iterable[Parameter], ratio: float) -> None:
@@ -832,6 +850,7 @@ class Server(Node, CitationMixin):
             mp.grad = torch.zeros_like(gd).to(self.device)
         total_samples = sum([m["train_samples"] for m in self._received_messages])
         for rm in self._received_messages:
+            # TODO: consider alpha = 1 / len(self._received_messages)
             for mp, gd in zip(self.model.parameters(), rm["gradients"]):
                 mp.grad.add_(
                     gd.detach().clone().to(self.device),
@@ -881,6 +900,32 @@ class Server(Node, CitationMixin):
             raise ValueError(f"client_idx should be less than {len(self._clients)}")
 
         return self._clients[client_idx].model
+
+    def get_cached_metrics(
+        self, client_idx: Optional[int] = None
+    ) -> List[Dict[str, float]]:
+        """Get the cached metrics of the given client,
+        or the cached aggregated metrics stored on the server.
+
+        Parameters
+        ----------
+        client_idx : int, optional
+            The index of the client. If `None`,
+            returns the cached aggregated metrics stored on the server.
+
+        Returns
+        -------
+        List[Dict[str, float]]
+            The cached metrics of the given client,
+            or the cached aggregated metrics stored on the server.
+
+        """
+        if client_idx is None:
+            return self._cached_metrics
+        if client_idx >= len(self._clients):
+            raise ValueError(f"client_idx should be less than {len(self._clients)}")
+
+        return self._clients[client_idx]._cached_metrics
 
     def extra_repr_keys(self) -> List[str]:
         return super().extra_repr_keys() + [
@@ -965,7 +1010,7 @@ class Client(Node):
         self._cached_parameters = None
         self._received_messages = {}
         self._metrics = {}
-        self._prev_metrics = {}
+        self._cached_metrics = []  # container for caching metrics
         self._is_convergent = False
 
         self._post_init()
@@ -997,7 +1042,8 @@ class Client(Node):
             )
         self.communicate(target)
         target._num_communications += 1
-        self._prev_metrics = deepcopy(self._metrics)
+        # move self._metrics to self._cached_metrics
+        self._cached_metrics.append(self._metrics.copy())
         self._metrics = {}  # clear the metrics
 
     def _update(self) -> None:

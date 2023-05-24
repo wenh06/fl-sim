@@ -118,8 +118,9 @@ providing the following additional functionalities:
 - `update_gradients`: update the gradients of the server model parameters using the received gradients.
 - `get_client_data`: helper function to get the data of the clients.
 - `get_client_model`: helper function to get the model of the clients.
+- `get_cached_metrics`: helper function to get the cached aggregated metrics of the clients stored on the server.
 
-and abstract properties that need to be implemented by subclasses:
+and **abstract properties that need to be implemented by subclasses**:
 
 - `client_cls`: the client class used when initializing the clients via `_setup_clients`.
 - `config_cls`: a dictionary of configuration classes for the server and clients, used in `__init__` method.
@@ -143,10 +144,10 @@ providing the following additional functionalities:
 - `_update`: execute the `update` method of the client, and clears the received messages from the server.
 - `evaluate`: evaluate the model on the local test data.
 - `set_parameters`: set the model parameters of the client.
-- `get_gradients`: get the gradients of the model parameters of the client.
+- `get_gradients`: get the gradients, or norm of the gradients, of the model parameters of the client.
 - `get_all_data`: helper function to get all the data of the client.
 
-and abstract methods that need to be implemented by subclasses:
+and **abstract methods that need to be implemented by subclasses**:
 
 - `train`: training procedure of the client.
 
