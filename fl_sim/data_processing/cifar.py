@@ -13,7 +13,13 @@ import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10, CIFAR100
 from torch_ecg.utils import ReprMixin
 
-from ..utils.const import CACHED_DATA_DIR
+from ..utils.const import (
+    CACHED_DATA_DIR,
+    CIFAR10_MEAN,
+    CIFAR10_STD,
+    CIFAR100_MEAN,
+    CIFAR100_STD,
+)
 
 
 __all__ = [
@@ -184,16 +190,19 @@ class Cutout(object):
         return img
 
 
-def _data_transforms_cifar() -> Tuple[Callable, Callable]:
-    CIFAR_MEAN = [0.49139968, 0.48215827, 0.44653124]
-    CIFAR_STD = [0.24703233, 0.24348505, 0.26158768]
-
+def _data_transforms_cifar(n_class: int) -> Tuple[Callable, Callable]:
+    if n_class == 10:
+        mean, std = CIFAR10_MEAN, CIFAR10_STD
+    elif n_class == 100:
+        mean, std = CIFAR100_MEAN, CIFAR100_STD
+    else:
+        raise ValueError(f"n_class should be in [10, 100], got {n_class}")
     train_transform = transforms.Compose(
         [
             transforms.ToTensor(),
             transforms.RandomCrop(32, padding=4),
             transforms.RandomHorizontalFlip(),
-            transforms.Normalize(CIFAR_MEAN, CIFAR_STD),
+            transforms.Normalize(mean, std),
             Cutout(16),
         ]
     )
@@ -201,7 +210,7 @@ def _data_transforms_cifar() -> Tuple[Callable, Callable]:
     test_transform = transforms.Compose(
         [
             transforms.ToTensor(),
-            transforms.Normalize(CIFAR_MEAN, CIFAR_STD),
+            transforms.Normalize(mean, std),
         ]
     )
 
@@ -211,7 +220,7 @@ def _data_transforms_cifar() -> Tuple[Callable, Callable]:
 def load_cifar_data(
     n_class: int, datadir: Optional[Union[str, Path]] = None, to_numpy: bool = False
 ) -> Tuple[Union[np.ndarray, torch.Tensor], ...]:
-    train_transform, test_transform = _data_transforms_cifar()
+    train_transform, test_transform = _data_transforms_cifar(n_class)
 
     cifar_train_ds = CIFAR_truncated(
         datadir, n_class, train=True, download=True, transform=train_transform

@@ -11,7 +11,15 @@ import torch
 import torch.utils.data as torchdata
 import torchvision.transforms as transforms
 
-from ..utils.const import CACHED_DATA_DIR, CIFAR100_FINE_LABEL_MAP, CIFAR10_LABEL_MAP
+from ..utils.const import (
+    CACHED_DATA_DIR,
+    CIFAR100_FINE_LABEL_MAP,
+    CIFAR10_LABEL_MAP,
+    CIFAR10_MEAN,
+    CIFAR10_STD,
+    CIFAR100_MEAN,
+    CIFAR100_STD,
+)
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedVisionDataset
@@ -135,13 +143,13 @@ class FedCIFAR(FedVisionDataset):
                 )
 
         # preprocess
-        transform = _data_transforms_fed_cifar(train=True)
+        transform = _data_transforms_fed_cifar(self.n_class, train=True)
         train_x = transform(
             torch.div(torch.from_numpy(train_x).permute(0, 3, 1, 2), 255.0)
         )
         train_y = torch.from_numpy(train_y)
         if len(test_x) != 0:
-            transform = _data_transforms_fed_cifar(train=False)
+            transform = _data_transforms_fed_cifar(self.n_class, train=False)
             test_x = transform(
                 torch.div(torch.from_numpy(test_x).permute(0, 3, 1, 2), 255.0)
             )
@@ -263,17 +271,17 @@ class FedCIFAR100(FedCIFAR):
 
 
 def _data_transforms_fed_cifar(
+    n_class: int,
     mean: Optional[Sequence[float]] = None,
     std: Optional[Sequence[float]] = None,
     train: bool = True,
     crop_size: Sequence[int] = (24, 24),
 ) -> Callable:
-    CIFAR_MEAN = [0.49139968, 0.48215827, 0.44653124]
-    CIFAR_STD = [0.24703233, 0.24348505, 0.26158768]
+    assert n_class in [10, 100]
     if mean is None:
-        mean = CIFAR_MEAN
+        mean = CIFAR10_MEAN if n_class == 10 else CIFAR100_MEAN
     if std is None:
-        std = CIFAR_STD
+        std = CIFAR10_STD if n_class == 10 else CIFAR100_STD
     if train:
         return transforms.Compose(
             [
