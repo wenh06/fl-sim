@@ -111,11 +111,29 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
 
 
 class FedVisionDataset(FedDataset, ABC):
+    """Federated Vision Dataset
+
+    Parameters
+    ----------
+    datadir: Optional[Union[Path, str]], optional
+        Directory to store data.
+        If ``None``, use default directory.
+    transform: Optional[Union[str, Callable]], default "none"
+        Transform to apply to data. Conventions:
+        ``"none"`` means no transform, using TensorDataset;
+        ``None`` for default transform from torchvision.
+
+    """
 
     __name__ = "FedVisionDataset"
 
-    def __init__(self, datadir: Optional[Union[Path, str]] = None) -> None:
+    def __init__(
+        self,
+        datadir: Optional[Union[Path, str]] = None,
+        transform: Optional[Union[str, Callable]] = "none",
+    ) -> None:
         self.datadir = Path(datadir) if datadir is not None else None
+        self.transform = transform
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = None
         self.DEFAULT_TEST_CLIENTS_NUM = None
@@ -132,6 +150,8 @@ class FedVisionDataset(FedDataset, ABC):
 
         assert all(
             [
+                # one needs to set the following attributes
+                # in self._preload()
                 self.criterion is not None,
                 self.datadir is not None,
                 self.DEFAULT_TRAIN_CLIENTS_NUM is not None,
@@ -139,6 +159,7 @@ class FedVisionDataset(FedDataset, ABC):
                 self.DEFAULT_BATCH_SIZE is not None,
                 self.DEFAULT_TRAIN_FILE is not None,
                 self.DEFAULT_TEST_FILE is not None,
+                self.transform is not None,
             ]
         )
 
@@ -630,3 +651,54 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
             X[c] = tokenizer(X[c], return_tensors="pt")
         y = torch.tensor(y)
         return torchdata.TensorDataset(*(X[c] for c in self.input_columns), y)
+
+
+class VisionDataset(torchdata.Dataset):
+    """Dataset for vision tasks.
+
+    This class is introduced so that one
+    is able to apply dynamic augmentation during training,
+    instead of a static :class:`~torch.utils.data.TensorDataset`.
+
+    Parameters
+    ----------
+    images : numpy.ndarray or torch.Tensor
+        The images in :class:`~numpy.ndarray` format,
+        and of :class:`~numpy.uint8` dtype;
+        or in :class:`~torch.Tensor` format,
+        and of :class:`~torch.uint8` dtype.
+    targets : numpy.ndarray or torch.Tensor
+        The (categorical) labels, of type :class:`~numpy.int64`,
+        or :class:`~torch.int64`.
+    transform : Callable, optional
+        Transforms applied to one image
+    target_transform : Callable, optional
+        Transforms applied to the target (label).
+
+    """
+
+    def __init__(
+        self,
+        images: Union[np.ndarray, torch.Tensor],
+        targets: Union[np.ndarray, torch.Tensor],
+        transform: Optional[Callable] = None,
+        target_transform: Optional[Callable] = None,
+    ) -> None:
+        self.images = images
+        self.targets = targets
+        self.transform = transform
+        if self.transform is None:
+            self.transform = transforms.ToTensor()
+        self.target_transform = target_transform
+
+    def __getitem__(self, index: int) -> Tuple[torch.Tensor, Union[torch.Tensor, int]]:
+        """Returns an image and its label."""
+        img, target = self.images[index], self.targets[index]
+        img = self.transform(img)
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+        return img, target
+
+    def __len__(self):
+        """Returns the size of dataset."""
+        return len(self.images)
