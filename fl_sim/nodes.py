@@ -477,8 +477,13 @@ class Server(Node, CitationMixin):
             self.client_cls(
                 client_id, device, deepcopy(self.model), dataset, client_config
             )
-            for client_id, device in zip(
-                range(self.config.num_clients), self._allocate_devices()
+            for client_id, device in tqdm(
+                zip(range(self.config.num_clients), self._allocate_devices()),
+                desc="Allocating devices",
+                total=self.config.num_clients,
+                unit="client",
+                mininterval=1,
+                leave=False,
             )
         ]
 
