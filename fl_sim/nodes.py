@@ -218,6 +218,50 @@ class Node(ReprMixin, ABC):
         """Get the detached model parameters."""
         return [p.detach().clone() for p in self.model.parameters()]
 
+    def get_gradients(
+        self,
+        norm: Optional[Union[str, int, float]] = None,
+        model: Optional[torch.nn.Module] = None,
+    ) -> Union[float, List[Tensor]]:
+        """Get the gradients or norm of the gradients
+        of the (local) model on the client.
+
+        Parameters
+        ----------
+        norm : str or int or float, optional
+            The norm of the gradients to compute.
+            None for the raw gradients (list of tensors).
+            refer to :func:`torch.norm` for more details.
+        model : torch.nn.Module, optional
+            The model to get the gradients,
+            default to the local model (self.model).
+
+        Returns
+        -------
+        float or List[torch.Tensor]
+            The gradients or norm of the gradients.
+
+        """
+        if model is None:
+            model = self.model
+        grads = []
+        for param in model.parameters():
+            if param.grad is None:
+                grads.append(torch.zeros_like(param.data))
+            else:
+                grads.append(param.grad.data)
+        if norm is not None:
+            if len(grads) == 0:
+                grads = 0.0
+                warnings.warn(
+                    "No gradients available. Set to 0.0 by default.", RuntimeWarning
+                )
+            else:
+                grads = torch.norm(
+                    torch.cat([grad.view(-1) for grad in grads]), norm
+                ).item()
+        return grads
+
     @staticmethod
     def aggregate_results_from_csv_log(
         df: Union[pd.DataFrame, str, Path], part: str = "val", metric: str = "acc"
@@ -1194,50 +1238,6 @@ class Client(Node):
             model = self.model
         for client_param, param in zip(model.parameters(), params):
             client_param.data = param.data.detach().clone().to(self.device)
-
-    def get_gradients(
-        self,
-        norm: Optional[Union[str, int, float]] = None,
-        model: Optional[torch.nn.Module] = None,
-    ) -> Union[float, List[Tensor]]:
-        """Get the gradients or norm of the gradients
-        of the (local) model on the client.
-
-        Parameters
-        ----------
-        norm : str or int or float, optional
-            The norm of the gradients to compute.
-            None for the raw gradients (list of tensors).
-            refer to :func:`torch.norm` for more details.
-        model : torch.nn.Module, optional
-            The model to get the gradients,
-            default to the local model (self.model).
-
-        Returns
-        -------
-        float or List[torch.Tensor]
-            The gradients or norm of the gradients.
-
-        """
-        if model is None:
-            model = self.model
-        grads = []
-        for param in model.parameters():
-            if param.grad is None:
-                grads.append(torch.zeros_like(param.data))
-            else:
-                grads.append(param.grad.data)
-        if norm is not None:
-            if len(grads) == 0:
-                grads = 0.0
-                warnings.warn(
-                    "No gradients available. Set to 0.0 by default.", RuntimeWarning
-                )
-            else:
-                grads = torch.norm(
-                    torch.cat([grad.view(-1) for grad in grads]), norm
-                ).item()
-        return grads
 
     def get_all_data(self) -> Tuple[Tensor, Tensor]:
         """Get all the data on the client.

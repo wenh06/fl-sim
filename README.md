@@ -83,6 +83,7 @@ The `Client` class is the base class for all clients.
 The abstract base class `Node` provides the following basic functionalities:
 
 - `get_detached_model_parameters`: get the model parameters of the node in a detached form.
+- `get_gradients`: get the gradients, or norm of the gradients, of the model parameters of the client.
 - `aggregate_results_from_csv_log`: aggregate the experiment results from the csv log file.
 - `aggregate_results_from_json_log`: aggregate the experiment results from the json log file.
 - `_post_init`: post-initialization procedure, called in the end of `__init__` method.
@@ -147,7 +148,6 @@ providing the following additional functionalities:
 - `_update`: execute the `update` method of the client, and clears the received messages from the server.
 - `evaluate`: evaluate the model on the local test data.
 - `set_parameters`: set the model parameters of the client.
-- `get_gradients`: get the gradients, or norm of the gradients, of the model parameters of the client.
 - `get_all_data`: helper function to get all the data of the client.
 
 and **abstract methods that need to be implemented by subclasses**:

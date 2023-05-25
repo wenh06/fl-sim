@@ -207,18 +207,18 @@ class FedMNIST(FedVisionDataset):
             image = np.array(self._train_data_dict["user_data"][client_id]["x"])[
                 image_idx
             ].reshape(28, 28)
-            image = (
-                255 - (image - image.min()) / (image.max() - image.min()) * 255
-            ).astype(np.uint8)
+            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(
+                np.uint8
+            )
             label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
         else:
             image_idx -= len(self._train_data_dict["user_data"][client_id]["x"])
             image = np.array(self._test_data_dict["user_data"][client_id]["x"])[
                 image_idx
             ].reshape(28, 28)
-            image = (
-                255 - (image - image.min()) / (image.max() - image.min()) * 255
-            ).astype(np.uint8)
+            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(
+                np.uint8
+            )
             label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
         plt.imshow(image, cmap="gray")
         plt.title(
