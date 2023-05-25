@@ -3,6 +3,7 @@ federeated MNIST
 """
 
 import json
+import warnings
 from pathlib import Path
 from typing import Optional, Union, List, Tuple, Dict
 
@@ -32,6 +33,9 @@ class FedMNIST(FedVisionDataset):
     among 1000 devices such that each device has samples of only 2 digits
     and the number of samples per device follows a power law.
 
+    NOTE: the maximum value of the raw data is 264.2510681152344, which could
+    lead to numerical instability. We normalize the data to range [0, 1].
+
     References
     ----------
     1. https://github.com/FedML-AI/FedML/blob/master/python/fedml/data/MNIST/
@@ -43,6 +47,7 @@ class FedMNIST(FedVisionDataset):
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         self.datadir = Path(datadir or FED_MNIST_DATA_DIR).expanduser().resolve()
+        self.datadir.mkdir(parents=True, exist_ok=True)
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = 1000
         self.DEFAULT_TEST_CLIENTS_NUM = 1000
@@ -52,6 +57,14 @@ class FedMNIST(FedVisionDataset):
         self._EXAMPLE = "user_data"
         self._IMGAE = "x"
         self._LABEL = "y"
+
+        if self.transform != "none":
+            warnings.warn(
+                "The images are not raw pixels, but processed. "
+                "The transform argument will be ignored.",
+                RuntimeWarning,
+            )
+            self.transform = "none"
 
         self.criterion = torch.nn.CrossEntropyLoss()
 
@@ -76,6 +89,42 @@ class FedMNIST(FedVisionDataset):
                 )
             )
         )
+        self._min_val = np.min(
+            [
+                np.min(
+                    self._train_data_dict[self._EXAMPLE][self._client_ids_train[idx]][
+                        self._IMGAE
+                    ]
+                )
+                for idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM)
+            ]
+            + [
+                np.min(
+                    self._test_data_dict[self._EXAMPLE][self._client_ids_test[idx]][
+                        self._IMGAE
+                    ]
+                )
+                for idx in range(self.DEFAULT_TEST_CLIENTS_NUM)
+            ]
+        ).item()
+        self._max_val = np.max(
+            [
+                np.max(
+                    self._train_data_dict[self._EXAMPLE][self._client_ids_train[idx]][
+                        self._IMGAE
+                    ]
+                )
+                for idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM)
+            ]
+            + [
+                np.max(
+                    self._test_data_dict[self._EXAMPLE][self._client_ids_test[idx]][
+                        self._IMGAE
+                    ]
+                )
+                for idx in range(self.DEFAULT_TEST_CLIENTS_NUM)
+            ]
+        ).item()
 
     def get_dataloader(
         self,
@@ -100,6 +149,8 @@ class FedMNIST(FedVisionDataset):
                 for client_id in train_ids
             ]
         )
+        # apply min-max normalization
+        train_x = (train_x - self._min_val) / (self._max_val - self._min_val)
         train_y = np.concatenate(
             [
                 self._train_data_dict[self._EXAMPLE][client_id][self._LABEL]
@@ -112,6 +163,8 @@ class FedMNIST(FedVisionDataset):
                 for client_id in test_ids
             ]
         )
+        # apply min-max normalization
+        test_x = (test_x - self._min_val) / (self._max_val - self._min_val)
         test_y = np.concatenate(
             [
                 self._test_data_dict[self._EXAMPLE][client_id][self._LABEL]
@@ -197,29 +250,37 @@ class FedMNIST(FedVisionDataset):
             )
         client_id = self._train_data_dict["users"][client_idx]
         total_num_images = len(
-            self._train_data_dict["user_data"][client_id]["x"]
-        ) + len(self._test_data_dict["user_data"][client_id]["x"])
+            self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+        ) + len(self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE])
         if image_idx >= total_num_images:
             raise ValueError(
                 f"image_idx must be less than {total_num_images} (total number of images)"
             )
-        if image_idx < len(self._train_data_dict["user_data"][client_id]["x"]):
-            image = np.array(self._train_data_dict["user_data"][client_id]["x"])[
+        if image_idx < len(
+            self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+        ):
+            image = np.array(
+                self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+            )[image_idx].reshape(28, 28)
+            image = (
+                (image - self._min_val) / (self._max_val - self._min_val) * 255
+            ).astype(np.uint8)
+            label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][
                 image_idx
-            ].reshape(28, 28)
-            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(
-                np.uint8
-            )
-            label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
+            ]
         else:
-            image_idx -= len(self._train_data_dict["user_data"][client_id]["x"])
-            image = np.array(self._test_data_dict["user_data"][client_id]["x"])[
-                image_idx
-            ].reshape(28, 28)
-            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(
-                np.uint8
+            image_idx -= len(
+                self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
             )
-            label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
+            image = np.array(
+                self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+            )[image_idx].reshape(28, 28)
+            image = (
+                (image - self._min_val) / (self._max_val - self._min_val) * 255
+            ).astype(np.uint8)
+            label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][
+                image_idx
+            ]
         plt.imshow(image, cmap="gray")
         plt.title(
             f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})"

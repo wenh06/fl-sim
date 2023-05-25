@@ -2,6 +2,7 @@
 federeated EMNIST
 """
 
+import warnings
 from pathlib import Path
 from typing import Optional, Union, List, Tuple, Dict
 
@@ -38,6 +39,8 @@ class FedEMNIST(FedVisionDataset):
     | --------- | ------------- | -------------- | ------------ | ------------- |
     | EMNIST-62 | 3,400         | 671,585        | 3,400        | 77,483        |
 
+    NOTE: the images are processed using min-max normalization to range [0, 1].
+
     References
     ----------
     1. https://github.com/FedML-AI/FedML/tree/master/python/fedml/data/FederatedEMNIST
@@ -48,6 +51,7 @@ class FedEMNIST(FedVisionDataset):
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         self.datadir = Path(datadir or FED_EMNIST_DATA_DIR).expanduser().resolve()
+        self.datadir.mkdir(parents=True, exist_ok=True)
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = 3400
         self.DEFAULT_TEST_CLIENTS_NUM = 3400
@@ -57,6 +61,14 @@ class FedEMNIST(FedVisionDataset):
         self._IMGAE = "pixels"
 
         self.criterion = torch.nn.CrossEntropyLoss()
+
+        if self.transform != "none":
+            warnings.warn(
+                "The images are not raw pixels, but processed. "
+                "The transform argument will be ignored.",
+                RuntimeWarning,
+            )
+            self.transform = "none"
 
         self.download_if_needed()
 
@@ -220,7 +232,7 @@ class FedEMNIST(FedVisionDataset):
         train_h5.close()
         test_h5.close()
 
-        img = tot_img[image_idx]
+        img = (tot_img[image_idx] * 255).astype(np.uint8)
         label = tot_label[image_idx]
         plt.imshow(img, cmap="gray")
         plt.title(
