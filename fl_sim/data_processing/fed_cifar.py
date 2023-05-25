@@ -22,7 +22,7 @@ from ..utils.const import (
 )
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
-from .fed_dataset import FedVisionDataset
+from .fed_dataset import VisionDataset, FedVisionDataset
 
 
 __all__ = [
@@ -53,15 +53,18 @@ class FedCIFAR(FedVisionDataset):
     __name__ = "FedCIFAR"
 
     def __init__(
-        self, n_class: int = 100, datadir: Optional[Union[str, Path]] = None
+        self,
+        n_class: int = 100,
+        datadir: Optional[Union[str, Path]] = None,
+        transform: Optional[Union[str, Callable]] = "none",
     ) -> None:
         self._n_class = n_class
         assert self.n_class in [
             100,  # 10 not implemented
         ]
-        super().__init__(
-            datadir=Path(datadir or FED_CIFAR_DATA_DIRS[n_class]).expanduser().resolve()
-        )
+        datadir = Path(datadir or FED_CIFAR_DATA_DIRS[n_class]).expanduser().resolve()
+        datadir.mkdir(parents=True, exist_ok=True)
+        super().__init__(datadir=datadir, transform=transform)
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         self.DEFAULT_TRAIN_CLIENTS_NUM = 500
@@ -74,6 +77,28 @@ class FedCIFAR(FedVisionDataset):
         self._EXAMPLE = "examples"
         self._IMGAE = "image"
         self._LABEL = "label"
+
+        # set default transform from torchvision
+        if self.n_class == 10 and self.transform is None:
+            self.transform = transforms.Compose(
+                [
+                    transforms.ToPILImage(),
+                    transforms.AutoAugment(
+                        policy=transforms.AutoAugmentPolicy.CIFAR10,
+                    ),
+                    transforms.ToTensor(),
+                    transforms.Normalize(CIFAR10_MEAN, CIFAR10_STD),
+                ]
+            )
+        elif self.n_class == 100 and self.transform is None:
+            self.transform = transforms.Compose(
+                [
+                    transforms.ToPILImage(),
+                    transforms.RandAugment(),
+                    transforms.ToTensor(),
+                    transforms.Normalize(CIFAR100_MEAN, CIFAR100_STD),
+                ]
+            )
 
         self.criterion = torch.nn.CrossEntropyLoss()
 
@@ -143,21 +168,31 @@ class FedCIFAR(FedVisionDataset):
                 )
 
         # preprocess
-        transform = _data_transforms_fed_cifar(self.n_class, train=True)
-        train_x = transform(
-            torch.div(torch.from_numpy(train_x).permute(0, 3, 1, 2), 255.0)
-        )
-        train_y = torch.from_numpy(train_y)
+        if self.transform == "none":
+            # static `TensorDataset`, the old behavior
+            transform = _data_transforms_fed_cifar(self.n_class, train=True)
+            train_x = transform(
+                torch.div(torch.from_numpy(train_x).permute(0, 3, 1, 2), 255.0)
+            )
+            train_y = torch.from_numpy(train_y).long()
+            train_ds = torchdata.TensorDataset(train_x, train_y)
+        else:
+            # use non-trivial dynamic transform
+            train_ds = VisionDataset(
+                images=torch.from_numpy(train_x).permute(0, 3, 1, 2).to(torch.uint8),
+                targets=torch.from_numpy(train_y).long(),
+                transform=self.transform,
+            )
+
         if len(test_x) != 0:
             transform = _data_transforms_fed_cifar(self.n_class, train=False)
             test_x = transform(
                 torch.div(torch.from_numpy(test_x).permute(0, 3, 1, 2), 255.0)
             )
             test_y = torch.from_numpy(test_y)
-            pass
+            test_ds = torchdata.TensorDataset(test_x, test_y)
 
         # generate dataloader
-        train_ds = torchdata.TensorDataset(train_x, train_y)
         train_dl = torchdata.DataLoader(
             dataset=train_ds,
             batch_size=train_bs or self.DEFAULT_BATCH_SIZE,
@@ -166,7 +201,6 @@ class FedCIFAR(FedVisionDataset):
         )
 
         if len(test_x) != 0:
-            test_ds = torchdata.TensorDataset(test_x, test_y)
             test_dl = torchdata.DataLoader(
                 dataset=test_ds,
                 batch_size=test_bs or self.DEFAULT_BATCH_SIZE,
@@ -262,8 +296,12 @@ class FedCIFAR100(FedCIFAR):
 
     __name__ = "FedCIFAR100"
 
-    def __init__(self, datadir: Optional[Union[str, Path]] = None) -> None:
-        super().__init__(100, datadir)
+    def __init__(
+        self,
+        datadir: Optional[Union[str, Path]] = None,
+        transform: Optional[Union[str, Callable]] = "none",
+    ) -> None:
+        super().__init__(100, datadir, transform)
 
     @property
     def url(self) -> str:
