@@ -228,6 +228,7 @@ class DittoClient(Client):
             total=self.config.num_epochs,
             mininterval=1.0,
             disable=self.config.verbose < 2,
+            leave=False,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model.train()
@@ -249,6 +250,7 @@ class DittoClient(Client):
             total=self.config.num_epochs,
             mininterval=1.0,
             disable=self.config.verbose < 2,
+            leave=False,
         ) as pbar:
             for epoch in pbar:  # local update
                 self.model_per.train()

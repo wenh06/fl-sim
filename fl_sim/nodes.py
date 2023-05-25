@@ -685,6 +685,7 @@ class Server(Node, CitationMixin):
                     unit="client",
                     mininterval=1.0,
                     disable=self.config.verbose < 1,
+                    leave=False,
                 ) as pbar:
                     for client_id in selected_clients:
                         client = self._clients[client_id]
