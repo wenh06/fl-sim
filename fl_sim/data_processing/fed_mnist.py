@@ -89,42 +89,9 @@ class FedMNIST(FedVisionDataset):
                 )
             )
         )
-        self._min_val = np.min(
-            [
-                np.min(
-                    self._train_data_dict[self._EXAMPLE][self._client_ids_train[idx]][
-                        self._IMGAE
-                    ]
-                )
-                for idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM)
-            ]
-            + [
-                np.min(
-                    self._test_data_dict[self._EXAMPLE][self._client_ids_test[idx]][
-                        self._IMGAE
-                    ]
-                )
-                for idx in range(self.DEFAULT_TEST_CLIENTS_NUM)
-            ]
-        ).item()
-        self._max_val = np.max(
-            [
-                np.max(
-                    self._train_data_dict[self._EXAMPLE][self._client_ids_train[idx]][
-                        self._IMGAE
-                    ]
-                )
-                for idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM)
-            ]
-            + [
-                np.max(
-                    self._test_data_dict[self._EXAMPLE][self._client_ids_test[idx]][
-                        self._IMGAE
-                    ]
-                )
-                for idx in range(self.DEFAULT_TEST_CLIENTS_NUM)
-            ]
-        ).item()
+        # there are 0.55‰ of the image values > 10, which are clipped to 10
+        # the min value is -1.278
+        self._clip_val = 10.0
 
     def get_dataloader(
         self,
@@ -149,8 +116,8 @@ class FedMNIST(FedVisionDataset):
                 for client_id in train_ids
             ]
         )
-        # apply min-max normalization
-        train_x = (train_x - self._min_val) / (self._max_val - self._min_val)
+        # clip the values to avoid numerical instability
+        train_x = np.clip(train_x, -self._clip_val, self._clip_val)
         train_y = np.concatenate(
             [
                 self._train_data_dict[self._EXAMPLE][client_id][self._LABEL]
@@ -163,8 +130,8 @@ class FedMNIST(FedVisionDataset):
                 for client_id in test_ids
             ]
         )
-        # apply min-max normalization
-        test_x = (test_x - self._min_val) / (self._max_val - self._min_val)
+        # clip the values to avoid numerical instability
+        test_x = np.clip(test_x, -self._clip_val, self._clip_val)
         test_y = np.concatenate(
             [
                 self._test_data_dict[self._EXAMPLE][client_id][self._LABEL]
@@ -262,9 +229,10 @@ class FedMNIST(FedVisionDataset):
             image = np.array(
                 self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
             )[image_idx].reshape(28, 28)
-            image = (
-                (image - self._min_val) / (self._max_val - self._min_val) * 255
-            ).astype(np.uint8)
+            image = np.clip(image, -self._clip_val, self._clip_val)
+            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(
+                np.uint8
+            )
             label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][
                 image_idx
             ]
@@ -275,9 +243,10 @@ class FedMNIST(FedVisionDataset):
             image = np.array(
                 self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE]
             )[image_idx].reshape(28, 28)
-            image = (
-                (image - self._min_val) / (self._max_val - self._min_val) * 255
-            ).astype(np.uint8)
+            image = np.clip(image, -self._clip_val, self._clip_val)
+            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(
+                np.uint8
+            )
             label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][
                 image_idx
             ]
