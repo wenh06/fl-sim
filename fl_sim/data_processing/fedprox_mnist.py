@@ -1,6 +1,7 @@
 """
 """
 
+import warnings
 from pathlib import Path
 from typing import Optional, Union, List, Tuple, Dict
 
@@ -50,6 +51,14 @@ class FedProxMNIST(FedVisionDataset):
         self._EXAMPLE = ""
         self._IMGAE = "data"
         self._LABEL = "label"
+
+        if self.transform != "none":
+            warnings.warn(
+                "The images are not raw pixels, but processed. "
+                "The transform argument will be ignored.",
+                RuntimeWarning,
+            )
+            self.transform = "none"
 
         self.criterion = torch.nn.CrossEntropyLoss()
 

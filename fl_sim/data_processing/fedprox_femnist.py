@@ -2,6 +2,7 @@
 """
 
 import json
+import warnings
 from pathlib import Path
 from typing import Optional, Union, List, Tuple, Dict
 
@@ -35,6 +36,8 @@ class FedProxFEMNIST(FedVisionDataset):
 
     NOTE that this dataset is not the same as the original FEMNIST dataset,
     containing only 10 classes (a-j), instead of 62 classes (a-z, A-Z, 0-9).
+    The raw data has been processed using min-max normalization to range [0, 1],
+    hence any further augmentation is perhaps inappropriate.
 
     References
     ----------
@@ -56,6 +59,14 @@ class FedProxFEMNIST(FedVisionDataset):
         self._EXAMPLE = "user_data"
         self._IMGAE = "x"
         self._LABEL = "y"
+
+        if self.transform != "none":
+            warnings.warn(
+                "The images are not raw pixels, but processed. "
+                "The transform argument will be ignored.",
+                RuntimeWarning,
+            )
+            self.transform = "none"
 
         self.criterion = torch.nn.CrossEntropyLoss()
 
@@ -202,29 +213,37 @@ class FedProxFEMNIST(FedVisionDataset):
             )
         client_id = self._train_data_dict["users"][client_idx]
         total_num_images = len(
-            self._train_data_dict["user_data"][client_id]["x"]
-        ) + len(self._test_data_dict["user_data"][client_id]["x"])
+            self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+        ) + len(self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE])
         if image_idx >= total_num_images:
             raise ValueError(
                 f"image_idx must be less than {total_num_images} (total number of images)"
             )
-        if image_idx < len(self._train_data_dict["user_data"][client_id]["x"]):
+        if image_idx < len(
+            self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+        ):
             image = (
-                np.array(self._train_data_dict["user_data"][client_id]["x"])[
+                np.array(self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE])[
                     image_idx
                 ].reshape(28, 28)
                 * 255
             ).astype(np.uint8)
-            label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
+            label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][
+                image_idx
+            ]
         else:
-            image_idx -= len(self._train_data_dict["user_data"][client_id]["x"])
+            image_idx -= len(
+                self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+            )
             image = (
-                np.array(self._test_data_dict["user_data"][client_id]["x"])[
+                np.array(self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE])[
                     image_idx
                 ].reshape(28, 28)
                 * 255
             ).astype(np.uint8)
-            label = self._train_data_dict["user_data"][client_id]["y"][image_idx]
+            label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][
+                image_idx
+            ]
         plt.imshow(image, cmap="gray")
         plt.title(
             f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})"
