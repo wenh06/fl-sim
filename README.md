@@ -499,8 +499,6 @@ By setting `transform="none"` (default), the train subset is wrapped with a stat
 
 **NOTE** that most of the federated vision datasets are provided with processed values rather than raw pixels, hence not supporting dynamic data augmentation using `torchvision.transforms`.
 
-```python
-
 :point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 </details>
