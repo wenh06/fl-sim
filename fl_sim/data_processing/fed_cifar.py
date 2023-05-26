@@ -185,11 +185,14 @@ class FedCIFAR(FedVisionDataset):
             )
 
         if len(test_x) != 0:
+            # test dataset is always a static `TensorDataset`
+            # with only normalization transform
+            # and without any augmentation transform
             transform = _data_transforms_fed_cifar(self.n_class, train=False)
             test_x = transform(
                 torch.div(torch.from_numpy(test_x).permute(0, 3, 1, 2), 255.0)
             )
-            test_y = torch.from_numpy(test_y)
+            test_y = torch.from_numpy(test_y).long()
             test_ds = torchdata.TensorDataset(test_x, test_y)
 
         # generate dataloader

@@ -459,7 +459,8 @@ class FedProxClient(Client):
 <details>
 <summary>Click to expand!</summary>
 
-The module (folder) [data_processing](fl_sim/data_processing) contains code for data preprocessing, io, etc. The following datasets are included in this module:
+The module (folder) [data_processing](fl_sim/data_processing) contains code for data preprocessing, io, etc.
+The following datasets are included in this module:
 
 1. [`FedCIFAR`](fl_sim/data_processing/fed_cifar.py)
 2. [`FedCIFAR100`](fl_sim/data_processing/fed_cifar.py)
@@ -484,6 +485,21 @@ Additionally, one can get the list of `LIBSVM` datasets via
 ```python
 pd.read_html("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/")[0]
 ```
+
+**NEW**: Part of the vision datasets support dynamic data augmentation for the train subset. The base class `FedVisionDataset` has signature
+
+```python
+FedVisionDataset(
+    datadir: Union[str, pathlib.Path, NoneType] = None,
+    transform: Union[str, Callable, NoneType] = "none",
+) -> None
+```
+
+By setting `transform="none"` (default), the train subset is wrapped with a static `TensorDataset`. By setting `transform=None`, the train subset uses built-in dynamic augmentation, for example `FedCIFAR100` uses `torchvision.transforms.RandAugment`.
+
+**NOTE** that most of the federated vision datasets are provided with processed values rather than raw pixels, hence not supporting dynamic data augmentation using `torchvision.transforms`.
+
+```python
 
 :point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 

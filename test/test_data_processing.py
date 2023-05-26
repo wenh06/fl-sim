@@ -7,6 +7,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 import numpy as np
+import pytest
 import torch
 
 from fl_sim.data_processing import (  # noqa: F401
@@ -71,6 +72,10 @@ def test_FedCIFAR100():
         eval_res = ds.evaluate(torch.from_numpy(prob), batch[1])
         assert isinstance(eval_res, dict) and len(eval_res) > 0
 
+    ds = FedCIFAR100(transform=None)  # use default non-trivial transform
+    train_dl, test_dl = ds.get_dataloader()
+    assert len(train_dl) > 0 and len(test_dl) > 0
+
 
 @torch.no_grad()
 def test_FedEMNIST():
@@ -112,6 +117,9 @@ def test_FedEMNIST():
         eval_res = ds.evaluate(torch.from_numpy(prob), batch[1])
         assert isinstance(eval_res, dict) and len(eval_res) > 0
 
+    with pytest.warns(RuntimeWarning):
+        ds = FedEMNIST(transform=None)
+
 
 @torch.no_grad()
 def test_FedMNIST():
@@ -152,6 +160,9 @@ def test_FedMNIST():
         assert isinstance(pred, list) and len(pred) == batch[0].shape[0]
         eval_res = ds.evaluate(torch.from_numpy(prob), batch[1])
         assert isinstance(eval_res, dict) and len(eval_res) > 0
+
+    with pytest.warns(RuntimeWarning):
+        ds = FedMNIST(transform=None)
 
 
 @torch.no_grad()
@@ -268,6 +279,9 @@ def test_FedProxFEMNIST():
         eval_res = ds.evaluate(torch.from_numpy(prob), batch[1])
         assert isinstance(eval_res, dict) and len(eval_res) > 0
 
+    with pytest.warns(RuntimeWarning):
+        ds = FedProxFEMNIST(transform=None)
+
 
 @torch.no_grad()
 def test_FedProxMNIST():
@@ -309,6 +323,9 @@ def test_FedProxMNIST():
         assert isinstance(pred, list) and len(pred) == batch[0].shape[0]
         eval_res = ds.evaluate(torch.from_numpy(prob), batch[1])
         assert isinstance(eval_res, dict) and len(eval_res) > 0
+
+    with pytest.warns(RuntimeWarning):
+        ds = FedProxMNIST(transform=None)
 
 
 @torch.no_grad()
