@@ -371,7 +371,7 @@ class Node(ReprMixin, ABC):
         if isinstance(d, (str, Path)):
             d = Path(d)
             if d.suffix == ".json":
-                d = json.load(d.read_text())
+                d = json.loads(d.read_text())
             elif d.suffix in [".yaml", ".yml"]:
                 d = yaml.safe_load(d.read_text())
             else:
