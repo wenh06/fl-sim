@@ -1,6 +1,8 @@
 """
 """
 
+import os
+import random
 import re
 import warnings
 from collections import OrderedDict, defaultdict
@@ -8,6 +10,7 @@ from functools import wraps
 from typing import Any, Callable, Union
 
 import numpy as np
+import torch
 
 from .const import LOG_DIR
 
@@ -18,6 +21,7 @@ __all__ = [
     "ndarray_to_list",
     "ordered_dict_to_dict",
     "default_dict_to_dict",
+    "set_seed",
 ]
 
 
@@ -158,3 +162,27 @@ def default_dict_to_dict(d: Union[defaultdict, dict, list, tuple]) -> Union[dict
     else:
         new_d = d
     return new_d
+
+
+def set_seed(seed: int) -> None:
+    """Set random seed for numpy and pytorch,
+    as well as disable cudnn to ensure reproducibility.
+
+    Parameters
+    ----------
+    seed : int
+        Random seed.
+
+    Returns
+    -------
+    None
+
+    """
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
