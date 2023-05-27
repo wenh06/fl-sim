@@ -26,10 +26,11 @@ from torch.optim import SGD
 from torch.optim.lr_scheduler import LambdaLR
 from torch_ecg.utils import ReprMixin, add_docstring, get_kwargs
 
+from .data_processing.fed_dataset import FedDataset
+from .models import reset_parameters
+from .optimizers import get_optimizer
 from .utils.loggers import LoggerManager
 from .utils.misc import default_dict_to_dict, set_seed
-from .data_processing.fed_dataset import FedDataset
-from .optimizers import get_optimizer
 
 
 __all__ = [
@@ -612,7 +613,7 @@ class Server(Node, CitationMixin):
         """
         if self._complete_experiment:
             # reset before training if a previous experiment is completed
-            self._reset()
+            self._reset(reset_clients=(mode.lower() == "federated"))
         if mode.lower() == "federated":
             self.train_federated(extra_configs)
         elif mode.lower() == "centralized":
@@ -638,7 +639,8 @@ class Server(Node, CitationMixin):
         """
         if self._complete_experiment:
             # reset before training if a previous experiment is completed
-            self._reset()
+            # no need to reset clients for centralized training
+            self._reset(reset_clients=False)
 
         self._logger_manager.log_message("Training centralized...")
         extra_configs = ED(extra_configs or {})
@@ -1016,12 +1018,21 @@ class Server(Node, CitationMixin):
 
         return self._clients[client_idx]._cached_metrics
 
-    def _reset(self) -> None:
+    def _reset(self, reset_clients: bool = True) -> None:
         """Reset the server.
 
         State variables are reset to the initial state,
         and the logger manager is reset, which outputs
         to new log files.
+
+        Parameters
+        ----------
+        reset_clients : bool, default True
+            Whether to reset the clients.
+
+        Returns
+        -------
+        None
 
         """
         self._received_messages = []
@@ -1032,6 +1043,14 @@ class Server(Node, CitationMixin):
         self._num_communications = 0
         self._logger_manager.reset()
         self._complete_experiment = False
+        # reset the global model
+        reset_parameters(self.model)
+        # reset the clients
+        if reset_clients:
+            for c in tqdm(
+                self._clients, desc="Resetting clients", mininterval=1, leave=False
+            ):
+                c._reset()
 
     def extra_repr_keys(self) -> List[str]:
         return super().extra_repr_keys() + [
@@ -1105,9 +1124,9 @@ class Client(Node):
         self.config = config
 
         self.optimizer = get_optimizer(
-            optimizer_name=config.optimizer,
+            optimizer_name=self.config.optimizer,
             params=self.model.parameters(),
-            config=config,
+            config=self.config,
         )
         self.train_loader, self.val_loader = self.dataset.get_dataloader(
             self.config.batch_size, self.config.batch_size, self.client_id
@@ -1275,6 +1294,19 @@ class Client(Node):
         feature = torch.cat([feature_train, feature_val], dim=0)
         label = torch.cat([label_train, label_val], dim=0)
         return feature, label
+
+    def _reset(self) -> None:
+        """Reset the model and optimizer."""
+        # reset the model
+        reset_parameters(self.model)
+        # reset the optimizer and clear gradients
+        del self.optimizer
+        self.optimizer = get_optimizer(
+            optimizer_name=self.config.optimizer,
+            params=self.model.parameters(),
+            config=self.config,
+        )
+        self.optimizer.zero_grad()
 
     def extra_repr_keys(self) -> List[str]:
         return super().extra_repr_keys() + [
