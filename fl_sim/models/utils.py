@@ -13,6 +13,7 @@ __all__ = [
     "CLFMixin",
     "REGMixin",
     "DiffMixin",
+    "reset_parameters",
     "top_n_accuracy",
 ]
 
@@ -221,6 +222,22 @@ class DiffMixin(object):
             # L_p norm for p finite
             diff = np.sum([d**norm for d in diff]) ** (1 / norm)
         return diff
+
+
+def reset_parameters(module: torch.nn.Module) -> None:
+    """Reset the parameters of a module and its children.
+
+    Parameters
+    ----------
+    module : torch.nn.Module
+        The module to reset.
+
+    """
+    for layer in module.children():
+        if hasattr(layer, "reset_parameters"):
+            layer.reset_parameters()
+        else:
+            reset_parameters(layer)
 
 
 def top_n_accuracy(preds: Tensor, labels: Tensor, n: int = 1) -> float:

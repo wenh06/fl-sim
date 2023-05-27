@@ -18,6 +18,7 @@ from .nn import (
     SVC,
     SVR,
 )
+from .utils import reset_parameters, top_n_accuracy
 
 
 __all__ = [
@@ -35,4 +36,6 @@ __all__ = [
     "LogisticRegression",
     "SVC",
     "SVR",
+    "reset_parameters",
+    "top_n_accuracy",
 ]
