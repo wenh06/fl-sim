@@ -50,6 +50,8 @@ class pFedMeServerConfig(ServerConfig):
             Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``seed`` : int, default 0
+            The random seed.
         - ``verbose`` : int, default 1
             The verbosity level.
 

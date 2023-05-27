@@ -27,7 +27,7 @@ from torch.optim.lr_scheduler import LambdaLR
 from torch_ecg.utils import ReprMixin, add_docstring, get_kwargs
 
 from .utils.loggers import LoggerManager
-from .utils.misc import default_dict_to_dict
+from .utils.misc import default_dict_to_dict, set_seed
 from .data_processing.fed_dataset import FedDataset
 from .optimizers import get_optimizer
 
@@ -62,6 +62,8 @@ class ServerConfig(ReprMixin):
         Whether to use json logger.
     eval_every : int, default 1
         The number of iterations to evaluate the model.
+    seed : int, default 0
+        The random seed.
     verbose : int, default 1
         The verbosity level.
     gpu_proportion : float, default 0.2
@@ -86,6 +88,7 @@ class ServerConfig(ReprMixin):
         csv_logger: bool = False,
         json_logger: bool = True,
         eval_every: int = 1,
+        seed: int = 0,
         verbose: int = 1,
         gpu_proportion: float = 0.2,
         **kwargs: Any,
@@ -108,6 +111,7 @@ class ServerConfig(ReprMixin):
         self.gpu_proportion = gpu_proportion
         for k, v in kwargs.items():
             setattr(self, k, v)
+        set_seed(self.seed)
 
     def extra_repr_keys(self) -> List[str]:
         return super().extra_repr_keys() + list(self.__dict__)
