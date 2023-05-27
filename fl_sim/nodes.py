@@ -470,7 +470,7 @@ class Server(Node, CitationMixin):
             json_logger=self.config.json_logger,
             algorithm=self.config.algorithm,
             model=self.model.__class__.__name__,
-            dataset=dataset.__class__.__name__,
+            dataset=self.dataset.__class__.__name__,
             verbose=self.config.verbose,
         )
         self._logger_manager = LoggerManager.from_config(logger_config)
@@ -493,22 +493,26 @@ class Server(Node, CitationMixin):
         # `self.train`, `self.train_centralized`, `self.train_federated`
         self._complete_experiment = False
 
-        if not lazy:
-            self._clients = self._setup_clients(dataset, client_config)
-
         self._post_init()
 
+        if not lazy:
+            self._clients = self._setup_clients(self.dataset, self._client_config)
+
     def _setup_clients(
-        self, dataset: FedDataset, client_config: ClientConfig
+        self,
+        dataset: Optional[FedDataset] = None,
+        client_config: Optional[ClientConfig] = None,
     ) -> List[Node]:
         """Setup the clients.
 
         Parameters
         ----------
-        dataset : FedDataset
-            The dataset to be used for training the local models.
-        client_config : ClientConfig
-            The configs for the clients.
+        dataset : FedDataset, optional
+            The dataset to be used for training the local models,
+            defaults to `self.dataset`.
+        client_config : ClientConfig, optional
+            The configs for the clients,
+            defaults to `self._client_config`.
 
         Returns
         -------
@@ -517,6 +521,8 @@ class Server(Node, CitationMixin):
 
         """
         print("setup clients...")
+        dataset = dataset or self.dataset
+        client_config = client_config or self._client_config
         return [
             self.client_cls(
                 client_id, device, deepcopy(self.model), dataset, client_config
