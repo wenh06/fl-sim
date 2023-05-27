@@ -64,6 +64,10 @@ class ServerConfig(ReprMixin):
         The number of iterations to evaluate the model.
     verbose : int, default 1
         The verbosity level.
+    gpu_proportion : float, default 0.2
+        The proportion of clients to use GPU.
+        Used to similate the system heterogeneity of the clients.
+        Not used in the current version, reserved for future use.
     **kwargs : dict, optional
         The other arguments,
         will be set as attributes of the class.
@@ -83,6 +87,7 @@ class ServerConfig(ReprMixin):
         json_logger: bool = True,
         eval_every: int = 1,
         verbose: int = 1,
+        gpu_proportion: float = 0.2,
         **kwargs: Any,
     ) -> None:
         self.algorithm = algorithm
@@ -100,6 +105,7 @@ class ServerConfig(ReprMixin):
         self.json_logger = json_logger
         self.eval_every = eval_every
         self.verbose = verbose
+        self.gpu_proportion = gpu_proportion
         for k, v in kwargs.items():
             setattr(self, k, v)
 
@@ -124,6 +130,9 @@ class ClientConfig(ReprMixin):
         The learning rate.
     verbose : int, default 1
         The verbosity level.
+    latency : float, default 0.0
+        The latency of the client.
+        Not used in the current version, reserved for future use.
     **kwargs : dict, optional
         The other arguments,
         will be set as attributes of the class.
@@ -140,6 +149,7 @@ class ClientConfig(ReprMixin):
         num_epochs: int,
         lr: float,
         verbose: int = 1,
+        latency: float = 0.0,
         **kwargs: Any,
     ) -> None:
         self.algorithm = algorithm
@@ -148,6 +158,7 @@ class ClientConfig(ReprMixin):
         self.num_epochs = num_epochs
         self.lr = lr
         self.verbose = verbose
+        self.latency = latency
         for k, v in kwargs.items():
             setattr(self, k, v)
 
