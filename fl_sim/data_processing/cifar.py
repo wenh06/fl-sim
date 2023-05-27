@@ -20,6 +20,7 @@ from ..utils.const import (
     CIFAR100_MEAN,
     CIFAR100_STD,
 )
+from ..utils.misc import set_seed
 
 
 __all__ = [
@@ -68,6 +69,7 @@ class CIFAR_truncated(ReprMixin, torchdata.Dataset):
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
         download: bool = False,
+        seed: int = 0,
     ) -> None:
         self.n_class = n_class
         self.root = Path(root or CIFAR_DATA_DIRS[n_class])
@@ -77,6 +79,8 @@ class CIFAR_truncated(ReprMixin, torchdata.Dataset):
         self.transform = transform
         self.target_transform = target_transform
         self.download = download
+        self.seed = seed
+        set_seed(seed=self.seed)
 
         self.data, self.target = self.__build_truncated_dataset__()
 

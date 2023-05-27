@@ -9,6 +9,7 @@ import torch.utils.data as torchdata
 
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
+from ..utils.misc import set_seed
 from .fed_dataset import FedDataset
 from ._generate_synthetic import generate_synthetic
 
@@ -30,6 +31,7 @@ class FedSynthetic(FedDataset):
         num_clients: int,
         num_classes: int = 10,
         dimension: int = 60,
+        seed: int = 0,
     ) -> None:
         super().__init__()
         self.alpha = alpha
@@ -39,9 +41,11 @@ class FedSynthetic(FedDataset):
         self.num_classes = num_classes
         self.dimension = dimension
 
-        self._preload()
+        self._preload(seed=seed)
 
     def _preload(self, seed: int = 0) -> None:
+        self.seed = seed
+        set_seed(self.seed)
         self.criterion = torch.nn.CrossEntropyLoss()
         self._data = generate_synthetic(
             alpha=self.alpha,

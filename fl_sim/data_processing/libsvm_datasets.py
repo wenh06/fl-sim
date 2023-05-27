@@ -14,6 +14,7 @@ from deprecate_kwargs import deprecate_kwargs
 from sklearn.datasets import load_svmlight_file
 
 from ..utils.const import CACHED_DATA_DIR
+from ..utils.misc import set_seed
 from ..utils._download_data import http_get
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
@@ -52,6 +53,7 @@ class FedLibSVMDataset(FedDataset):
         num_clients: int,
         iid: bool = True,
         criterion: str = "svm",
+        seed: int = 0,
     ) -> None:
         self.dataset_name = dataset_name
         assert self.dataset_name in _libsvm_datasets, (
@@ -69,10 +71,12 @@ class FedLibSVMDataset(FedDataset):
         self.criterion = None
         self._data = None
         self.__num_features, self.__num_classes = None, None
-        self._preload()
+        self._preload(seed=seed)
 
     def _preload(self, seed: int = 0) -> None:
-        rng = np.random.default_rng(seed)
+        self.seed = seed
+        set_seed(self.seed)
+        rng = np.random.default_rng(self.seed)
         self.datadir.mkdir(parents=True, exist_ok=True)
         self.download_if_needed()
         self.criterion = self.criteria_mapping[self.criterion_name]

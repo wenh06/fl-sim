@@ -57,6 +57,7 @@ class FedCIFAR(FedVisionDataset):
         n_class: int = 100,
         datadir: Optional[Union[str, Path]] = None,
         transform: Optional[Union[str, Callable]] = "none",
+        seed: int = 0,
     ) -> None:
         self._n_class = n_class
         assert self.n_class in [
@@ -64,7 +65,7 @@ class FedCIFAR(FedVisionDataset):
         ]
         datadir = Path(datadir or FED_CIFAR_DATA_DIRS[n_class]).expanduser().resolve()
         datadir.mkdir(parents=True, exist_ok=True)
-        super().__init__(datadir=datadir, transform=transform)
+        super().__init__(datadir=datadir, transform=transform, seed=seed)
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         self.DEFAULT_TRAIN_CLIENTS_NUM = 500
@@ -303,8 +304,9 @@ class FedCIFAR100(FedCIFAR):
         self,
         datadir: Optional[Union[str, Path]] = None,
         transform: Optional[Union[str, Callable]] = "none",
+        seed: int = 0,
     ) -> None:
-        super().__init__(100, datadir, transform)
+        super().__init__(100, datadir, transform, seed)
 
     @property
     def url(self) -> str:

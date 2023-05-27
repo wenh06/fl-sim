@@ -24,6 +24,7 @@ from PIL import Image
 from torch_ecg.utils import ReprMixin
 
 from ..utils.const import CACHED_DATA_DIR
+from ..utils.misc import set_seed
 from ..utils._download_data import download_if_needed
 
 
@@ -122,6 +123,8 @@ class FedVisionDataset(FedDataset, ABC):
         Transform to apply to data. Conventions:
         ``"none"`` means no transform, using TensorDataset;
         ``None`` for default transform from torchvision.
+    seed: int, default 0
+        Random seed for data partitioning.
 
     """
 
@@ -131,9 +134,12 @@ class FedVisionDataset(FedDataset, ABC):
         self,
         datadir: Optional[Union[Path, str]] = None,
         transform: Optional[Union[str, Callable]] = "none",
+        seed: int = 0,
     ) -> None:
         self.datadir = Path(datadir) if datadir is not None else None
         self.transform = transform
+        self.seed = seed
+        set_seed(self.seed)
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = None
         self.DEFAULT_TEST_CLIENTS_NUM = None
@@ -295,8 +301,12 @@ class FedNLPDataset(FedDataset, ABC):
 
     __name__ = "FedNLPDataset"
 
-    def __init__(self, datadir: Optional[Union[str, Path]] = None) -> None:
+    def __init__(
+        self, datadir: Optional[Union[str, Path]] = None, seed: int = 0
+    ) -> None:
         self.datadir = Path(datadir) if datadir is not None else None
+        self.seed = seed
+        set_seed(self.seed)
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = None
         self.DEFAULT_TEST_CLIENTS_NUM = None
