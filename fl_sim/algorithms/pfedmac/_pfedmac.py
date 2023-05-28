@@ -42,6 +42,10 @@ class pFedMacServerConfig(ServerConfig):
             The random seed.
         - ``verbose`` : int, default 1
             The verbosity level.
+        - ``gpu_proportion`` : float, default 0.2
+            The proportion of clients to use GPU.
+            Used to similate the system heterogeneity of the clients.
+            Not used in the current version, reserved for future use.
 
     """
 
@@ -85,8 +89,14 @@ class pFedMacClientConfig(ClientConfig):
     **kwargs : dict, optional
         Additional keyword arguments:
 
+        - ``scheduler`` : dict, optional
+            The scheduler config.
+            None for no scheduler, using constant learning rate.
         - ``verbose`` : int, default 1
             The verbosity level.
+        - ``latency`` : float, default 0.0
+            The latency of the client.
+            Not used in the current version, reserved for future use.
 
     """
 
