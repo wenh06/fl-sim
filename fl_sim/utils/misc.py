@@ -7,10 +7,11 @@ import re
 import warnings
 from collections import OrderedDict, defaultdict
 from functools import wraps
-from typing import Any, Callable, Union
+from typing import Any, Callable, Union, Optional
 
 import numpy as np
 import torch
+from torch_ecg.utils import get_kwargs, get_required_args
 
 from .const import LOG_DIR
 
@@ -22,6 +23,7 @@ __all__ = [
     "ordered_dict_to_dict",
     "default_dict_to_dict",
     "set_seed",
+    "get_scheduler",
 ]
 
 
@@ -186,3 +188,76 @@ def set_seed(seed: int) -> None:
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
+
+
+def get_scheduler(
+    scheduler_name: str, optimizer: torch.optim.Optimizer, config: Optional[dict]
+) -> torch.optim.lr_scheduler._LRScheduler:
+    """Get learning rate scheduler.
+
+    Parameters
+    ----------
+    scheduler_name : str
+        Name of the scheduler.
+    optimizer : torch.optim.Optimizer
+        Optimizer.
+    config : dict
+        Configuration of the scheduler.
+
+    Returns
+    -------
+    torch.optim.lr_scheduler._LRScheduler
+        Learning rate scheduler.
+
+    """
+    scheduler_name = scheduler_name.lower()
+    config = {} if config is None else config
+
+    if scheduler_name == "none":
+        if config:
+            warnings.warn(
+                "Scheduler is not used, but config is provided. "
+                "The config will be ignored.",
+                RuntimeWarning,
+            )
+        return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda epoch: 1.0)
+
+    if scheduler_name == "cosine":
+        scheduler_cls = torch.optim.lr_scheduler.CosineAnnealingLR
+    elif scheduler_name == "step":
+        scheduler_cls = torch.optim.lr_scheduler.StepLR
+    elif scheduler_name == "multi_step":
+        scheduler_cls = torch.optim.lr_scheduler.MultiStepLR
+    elif scheduler_name == "exponential":
+        scheduler_cls = torch.optim.lr_scheduler.ExponentialLR
+    elif scheduler_name == "reduce_on_plateau":
+        scheduler_cls = torch.optim.lr_scheduler.ReduceLROnPlateau
+    elif scheduler_name == "cyclic":
+        scheduler_cls = torch.optim.lr_scheduler.CyclicLR
+    elif scheduler_name == "one_cycle":
+        scheduler_cls = torch.optim.lr_scheduler.OneCycleLR
+    else:
+        raise ValueError(f"Unsupported scheduler: {scheduler_name}")
+
+    defaul_configs = get_kwargs(scheduler_cls)
+    required_configs = get_required_args(scheduler_cls)
+    required_configs.remove("optimizer")
+    if "self" in required_configs:
+        # normally, "self" is not in required_configs
+        # just in case
+        required_configs.remove("self")
+    assert set(required_configs).issubset(set(config.keys())), (
+        f"Missing required configs for {scheduler_name}: "
+        f"{set(required_configs) - set(config.keys())}"
+    )
+    assert (set(config.keys()) - set(required_configs)).issubset(
+        set(defaul_configs.keys())
+    ), (
+        f"Unsupported configs for {scheduler_name}: "
+        f"{set(config.keys()) - set(required_configs) - set(defaul_configs.keys())}"
+    )
+    scheduler_config = defaul_configs.copy()
+    scheduler_config.update(config)
+    scheduler = scheduler_cls(optimizer, **scheduler_config)
+
+    return scheduler

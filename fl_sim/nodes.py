@@ -30,7 +30,7 @@ from .data_processing.fed_dataset import FedDataset
 from .models import reset_parameters
 from .optimizers import get_optimizer
 from .utils.loggers import LoggerManager
-from .utils.misc import default_dict_to_dict, set_seed
+from .utils.misc import default_dict_to_dict, set_seed, get_scheduler
 
 
 __all__ = [
@@ -108,6 +108,7 @@ class ServerConfig(ReprMixin):
             )
         self.json_logger = json_logger
         self.eval_every = eval_every
+        self.seed = seed
         self.verbose = verbose
         self.gpu_proportion = gpu_proportion
         for k, v in kwargs.items():
@@ -133,6 +134,9 @@ class ClientConfig(ReprMixin):
         The number of epochs.
     lr : float
         The learning rate.
+    scheduler : dict, optional
+        The scheduler config.
+        None for no scheduler, using constant learning rate.
     verbose : int, default 1
         The verbosity level.
     latency : float, default 0.0
@@ -153,6 +157,7 @@ class ClientConfig(ReprMixin):
         batch_size: int,
         num_epochs: int,
         lr: float,
+        scheduler: Optional[dict] = None,
         verbose: int = 1,
         latency: float = 0.0,
         **kwargs: Any,
@@ -162,6 +167,7 @@ class ClientConfig(ReprMixin):
         self.batch_size = batch_size
         self.num_epochs = num_epochs
         self.lr = lr
+        self.scheduler = scheduler or {"name": "none"}
         self.verbose = verbose
         self.latency = latency
         for k, v in kwargs.items():
@@ -1123,13 +1129,20 @@ class Client(Node):
         self.dataset = dataset
         self.config = config
 
+        self.train_loader, self.val_loader = self.dataset.get_dataloader(
+            self.config.batch_size, self.config.batch_size, self.client_id
+        )
+
         self.optimizer = get_optimizer(
             optimizer_name=self.config.optimizer,
             params=self.model.parameters(),
             config=self.config,
         )
-        self.train_loader, self.val_loader = self.dataset.get_dataloader(
-            self.config.batch_size, self.config.batch_size, self.client_id
+        scheduler_name = self.config.scheduler.pop("name")
+        self.lr_scheduler = get_scheduler(
+            scheduler_name=scheduler_name,
+            optimizer=self.optimizer,
+            config=self.config.scheduler,
         )
 
         self._cached_parameters = None
