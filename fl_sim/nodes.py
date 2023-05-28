@@ -9,7 +9,7 @@ from itertools import repeat
 from copy import deepcopy
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Optional, Iterable, List, Tuple, Dict, Union
+from typing import Any, Optional, Iterable, List, Tuple, Dict, Union, Sequence
 
 import numpy as np
 import pandas as pd
@@ -569,10 +569,34 @@ class Server(Node, CitationMixin):
             torch.device(f"cuda:{i%num_gpus}") for i in range(self.config.num_clients)
         ]
 
-    def _sample_clients(self) -> List[int]:
-        """Sample clients for each iteration."""
-        k = int(self.config.num_clients * self.config.clients_sample_ratio)
-        return random.sample(range(self.config.num_clients), k)
+    def _sample_clients(
+        self,
+        subset: Optional[Sequence[int]] = None,
+        clients_sample_ratio: Optional[float] = None,
+    ) -> List[int]:
+        """Sample clients for each iteration.
+
+        Parameters
+        ----------
+        subset : Sequence[int], optional
+            The subset of clients to be sampled from,
+            defaults to `None`, which means all clients.
+        clients_sample_ratio : float, optional
+            The ratio of clients to be sampled,
+            defaults to `None`, which means `self.config.clients_sample_ratio`.
+
+        Returns
+        -------
+        List[int]
+            The list of selected client ids.
+
+        """
+        if subset is None:
+            subset = range(self.config.num_clients)
+        if clients_sample_ratio is None:
+            clients_sample_ratio = self.config.clients_sample_ratio
+        k = int(clients_sample_ratio * len(subset))
+        return random.sample(subset, k=k)
 
     def _communicate(self, target: "Client") -> None:
         """Broadcast to target client, and maintain state variables."""
