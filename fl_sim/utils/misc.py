@@ -24,6 +24,7 @@ __all__ = [
     "default_dict_to_dict",
     "set_seed",
     "get_scheduler",
+    "get_scheduler_info",
 ]
 
 
@@ -266,3 +267,39 @@ def get_scheduler(
     scheduler.optimizer._step_count = 1  # to prevent scheduler warning
 
     return scheduler
+
+
+def get_scheduler_info(scheduler_name: str) -> dict:
+    """Get information of the scheduler,
+    including the required and optional configs.
+    """
+    if scheduler_name == "cosine":
+        scheduler_cls = torch.optim.lr_scheduler.CosineAnnealingLR
+    elif scheduler_name == "step":
+        scheduler_cls = torch.optim.lr_scheduler.StepLR
+    elif scheduler_name == "multi_step":
+        scheduler_cls = torch.optim.lr_scheduler.MultiStepLR
+    elif scheduler_name == "exponential":
+        scheduler_cls = torch.optim.lr_scheduler.ExponentialLR
+    elif scheduler_name == "reduce_on_plateau":
+        scheduler_cls = torch.optim.lr_scheduler.ReduceLROnPlateau
+    elif scheduler_name == "cyclic":
+        scheduler_cls = torch.optim.lr_scheduler.CyclicLR
+    elif scheduler_name == "one_cycle":
+        scheduler_cls = torch.optim.lr_scheduler.OneCycleLR
+    else:
+        raise ValueError(f"Unsupported scheduler: {scheduler_name}")
+
+    defaul_configs = get_kwargs(scheduler_cls)
+    required_configs = get_required_args(scheduler_cls)
+    required_configs.remove("optimizer")
+    if "self" in required_configs:
+        # normally, "self" is not in required_configs
+        # just in case
+        required_configs.remove("self")
+
+    return {
+        "class": scheduler_cls,
+        "required_args": required_configs,
+        "optional_args": defaul_configs,
+    }
