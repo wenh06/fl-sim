@@ -24,6 +24,7 @@ from fl_sim.models import (
     LogisticRegression,
     SVC,
     SVR,
+    reset_parameters,
 )
 
 
@@ -38,6 +39,8 @@ def test_models():
     assert prob.shape == (2, 62)
     pred = model.predict(inp, batched=True)
     assert len(pred) == 2
+
+    reset_parameters(model)
 
     another_model = CNNFEMnist_Tiny()
     for norm in ["inf", "fro", float("inf"), -np.inf, 1, 2]:
