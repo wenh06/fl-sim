@@ -366,6 +366,7 @@ class SCAFFOLDClient(Client):
             self._updated_control_variates = grad_at_server_parameters
             # recover the current model parameters
             self.set_parameters(tmp_parameters)
+            del tmp_parameters
         elif self.config.control_variate_update_rule == 2:
             self._updated_control_variates = deepcopy(self._control_variates)
             for ucv, scv, cp, mp in zip(
@@ -379,3 +380,4 @@ class SCAFFOLDClient(Client):
                     cp.detach().clone().sub(mp.detach().clone()),
                     alpha=1.0 / self.config.num_epochs / self.config.lr,
                 )
+        self.lr_scheduler.step()

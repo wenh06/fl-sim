@@ -1138,11 +1138,13 @@ class Client(Node):
             params=self.model.parameters(),
             config=self.config,
         )
-        scheduler_name = self.config.scheduler.pop("name")
+        scheduler_config = {
+            k: v for k, v in self.config.scheduler.items() if k != "name"
+        }
         self.lr_scheduler = get_scheduler(
-            scheduler_name=scheduler_name,
+            scheduler_name=self.config.scheduler["name"],
             optimizer=self.optimizer,
-            config=self.config.scheduler,
+            config=scheduler_config,
         )
 
         self._cached_parameters = None
@@ -1214,6 +1216,7 @@ class Client(Node):
                     self.optimizer.step()
                     batch_losses.append(loss.item())
                 epoch_losses.append(sum(batch_losses) / len(batch_losses))
+            self.lr_scheduler.step()
 
         """
         raise NotImplementedError

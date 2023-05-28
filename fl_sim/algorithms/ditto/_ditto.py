@@ -11,6 +11,7 @@ from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
 from ...optimizers import get_optimizer
+from ...utils.misc import get_scheduler
 
 
 __all__ = [
@@ -191,6 +192,14 @@ class DittoClient(Client):
             params=self.model_per.parameters(),
             config=config_per,
         )
+        scheduler_config = {
+            k: v for k, v in self.config.scheduler.items() if k != "name"
+        }
+        self.scheduler_per = get_scheduler(
+            scheduler_name=self.config.scheduler["name"],
+            optimizer=self.optimizer_per,
+            config=scheduler_config,
+        )
 
     @property
     def required_config_fields(self) -> List[str]:
@@ -243,6 +252,7 @@ class DittoClient(Client):
                     self.optimizer.step(local_weights=self._cached_parameters)
                     # free memory
                     del X, y, output, loss
+        self.lr_scheduler.step()
 
     def train_per(self) -> None:
         """Train the personalized model with local data."""
@@ -265,6 +275,7 @@ class DittoClient(Client):
                     self.optimizer_per.step(local_weights=self._cached_parameters)
                     # free memory
                     del X, y, output, loss
+        self.scheduler_per.step()
 
     @torch.no_grad()
     def evaluate(self, part: str) -> Dict[str, float]:

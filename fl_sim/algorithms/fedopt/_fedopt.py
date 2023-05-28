@@ -340,6 +340,7 @@ class FedOptClient(Client):
                     self.optimizer.step()
                     # free memory
                     del X, y, output, loss
+        self.lr_scheduler.step()
 
 
 @add_docstring(

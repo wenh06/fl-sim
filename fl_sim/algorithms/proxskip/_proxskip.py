@@ -314,4 +314,5 @@ class ProxSkipClient(Client):
                     )
                     # free memory
                     del loss, output, X, y
+        self.lr_scheduler.step()
         # control variates is updated after communication before solve_inner in the next iteration
