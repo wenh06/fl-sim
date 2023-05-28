@@ -220,7 +220,11 @@ def get_scheduler(
                 "The config will be ignored.",
                 RuntimeWarning,
             )
-        return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda epoch: 1.0)
+        scheduler = torch.optim.lr_scheduler.LambdaLR(
+            optimizer, lr_lambda=lambda epoch: 1.0
+        )
+        scheduler.optimizer._step_count = 1  # to prevent scheduler warning
+        return scheduler
 
     if scheduler_name == "cosine":
         scheduler_cls = torch.optim.lr_scheduler.CosineAnnealingLR
@@ -259,5 +263,6 @@ def get_scheduler(
     scheduler_config = defaul_configs.copy()
     scheduler_config.update(config)
     scheduler = scheduler_cls(optimizer, **scheduler_config)
+    scheduler.optimizer._step_count = 1  # to prevent scheduler warning
 
     return scheduler

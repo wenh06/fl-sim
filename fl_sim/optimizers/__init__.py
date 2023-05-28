@@ -122,6 +122,18 @@ def get_optimizer(
             optimizer.step,
             **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
         )
+        # NOTE: if `optimizer` is passed into a scheduler, the scheduler will
+        # wrap the `optimizer.step` method with `with_counter` which requires
+        # the `step` method to be a bound method with `__self__` attribute.
+        # So we need to add `_with_counter` to our wrapped `step` method to
+        # prevent the scheduler from wrapping it again which will cause error.
+        # Further, in the function `get_scheduler`, we will add
+        # `scheduler.optimizer._step_count = 1` before returning the scheduler,
+        # which suppresses the following warning:
+        # ``Detected call of `lr_scheduler.step()` before `optimizer.step()`.``.
+        # The risk is one has to check that scheduler.step() is called after
+        # optimizer.step() in the training loop by himself.
+        optimizer.step._with_counter = True
         return optimizer
     try:
         # try to use PyTorch built-in optimizer
@@ -133,6 +145,7 @@ def get_optimizer(
             optimizer.step,
             **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
         )
+        optimizer.step._with_counter = True
         # print(f"optimizer_name: {optimizer_name}")
         return optimizer
     except Exception:
@@ -149,6 +162,7 @@ def get_optimizer(
                 optimizer.step,
                 **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
             )
+            optimizer.step._with_counter = True
             return optimizer
         except Exception:
             pass
