@@ -37,6 +37,21 @@ __all__ = [
 
 
 class FedDataset(ReprMixin, CitationMixin, ABC):
+    """Base class for all federated datasets.
+
+    Methods that have to be implemented by subclasses:
+        - `get_dataloader`
+        - `_preload`
+        - `load_partition_data`
+        - `load_partition_data_distributed`
+        - `evaluate`
+
+    Properties that have to be implemented by subclasses:
+        - `url`
+        - `candidate_models`
+        - `doi`
+
+    """
 
     __name__ = "FedDataset"
 
@@ -112,18 +127,29 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
 
 
 class FedVisionDataset(FedDataset, ABC):
-    """Federated Vision Dataset
+    """Base class for all federated vision datasets.
+
+    Methods that have to be implemented by subclasses:
+        - `get_dataloader`
+        - `_preload`
+        - `evaluate`
+
+    Properties that have to be implemented by subclasses:
+        - `url`
+        - `candidate_models`
+        - `doi`
+        - `label_map`
 
     Parameters
     ----------
-    datadir: Optional[Union[Path, str]], optional
+    datadir : Union[Path, str], optional
         Directory to store data.
         If ``None``, use default directory.
-    transform: Optional[Union[str, Callable]], default "none"
+    transform : Union[str, Callable], default "none"
         Transform to apply to data. Conventions:
         ``"none"`` means no transform, using TensorDataset;
         ``None`` for default transform from torchvision.
-    seed: int, default 0
+    seed : int, default 0
         Random seed for data partitioning.
 
     """
@@ -298,6 +324,28 @@ class FedVisionDataset(FedDataset, ABC):
 
 
 class FedNLPDataset(FedDataset, ABC):
+    """Base class for all federated NLP datasets.
+
+    Methods that have to be implemented by subclasses:
+        - `get_dataloader`
+        - `_preload`
+        - `evaluate`
+        - `get_word_dict`
+
+    Properties that have to be implemented by subclasses:
+        - `url`
+        - `candidate_models`
+        - `doi`
+
+    Parameters
+    ----------
+    datadir : Union[str, Path], optional
+        The directory to store the dataset.
+        If ``None``, use default directory.
+    seed : int, default 0
+        The random seed.
+
+    """
 
     __name__ = "FedNLPDataset"
 
@@ -439,6 +487,27 @@ class FedNLPDataset(FedDataset, ABC):
 
 
 class NLPDataset(torchdata.Dataset, ReprMixin):
+    """Dataset for loading text data.
+
+    Parameters
+    ----------
+    dataset: List[tuple]
+        A list of tuples, each tuple contains a text and a label.
+    input_columns: List[str], optional
+        The column names of the input text and label.
+    label_map: Dict[int, int], optional
+        A dictionary that maps the original label to a new label.
+    label_names: List[str], optional
+        A list of label names.
+    output_scale_factor: float, optional
+        The scale factor of the output label.
+    shuffle: bool, optional
+        Whether to shuffle the dataset.
+    max_len: int, optional
+        The maximum length of the input text. If the length of the input text is
+        greater than `max_len`, the text will be truncated to `max_len`.
+
+    """
 
     __name__ = "NLPDataset"
 
@@ -505,14 +574,18 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         self.shuffled = True
 
     def filter_by_labels_(self, labels_to_keep: Iterable[int]) -> None:
-        """
-        Filter items by their labels for classification datasets. Performs
+        """Filter items by their labels for classification datasets. Performs
         in-place filtering.
 
         Parameters
         ----------
         labels_to_keep:
             Set, tuple, list, or iterable of integers representing labels.
+
+        Returns
+        -------
+        None
+
         """
         if not isinstance(labels_to_keep, set):
             labels_to_keep = set(labels_to_keep)
@@ -535,6 +608,24 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
     def from_huggingface_dataset(
         ds: Union[str, HFD], split: Optional[HFNS] = None, max_len: Optional[int] = 512
     ) -> "NLPDataset":
+        """Create a NLPDataset from a HuggingFace dataset.
+
+        Parameters
+        ----------
+        ds: str or datasets.Dataset
+            The name of the dataset or the HuggingFace dataset object.
+        split: datasets.NamedSplit, optional
+            The name of the split to load.
+        max_len: int, optional
+            The maximum length of the input text. If the length of the input text is
+            greater than `max_len`, the text will be truncated to `max_len`.
+
+        Returns
+        -------
+        NLPDataset
+            An instance of NLPDataset.
+
+        """
         if isinstance(ds, str):
             _ds = HFD_load_dataset(ds, split=split)
         else:

@@ -46,8 +46,49 @@ for n_class in [
 
 
 class FedCIFAR(FedVisionDataset):
-    """
-    most methods in this class are modified from FedML
+    """Federated CIFAR10/100 dataset.
+
+    This dataset is loaded from TensorFlow Federated (TFF) cifar100 load_data API (ref. [1]_),
+    and saved as h5py files. This dataset is pre-divided into 500 training clients
+    containing 50,000 examples in total, and 100 testing clients containing 10,000
+    examples in total.
+
+    The images are saved in the channel last format, i.e.,
+    N x H x W x C, **NOT** the usual channel first format for PyTorch.
+    A single image (and similarly for label and coarse_label) can be accessed by
+
+    .. code-block:: python
+
+        with h5py.File(path, "r") as f:
+            images = f["examples"]["0"]["image"][0]
+
+    where ``path`` is the path to the h5py file, "0" is the client id, and 0 is the
+    index of the image in the client's dataset.
+
+    Most methods in this class are adopted and modified from FedML (ref. [2]_).
+
+    Parameters
+    ----------
+    n_class : {10, 100}, default 10
+        Number of classes in the dataset.
+        10 for CIFAR10, 100 for CIFAR100.
+    datadir : str or Path, default None
+        Path to the dataset directory. Default: ``None``.
+        If ``None``, will use built-in default directory.
+    transform : str or callable, default "none"
+        Transformation to apply to the images. Default: ``"none"``.
+        If ``"none"``, only static normalization will be applied.
+        If callable, will be used as ``transform`` argument for
+        ``VisionDataset``.
+        If ``None``, will use default dynamic augmentation transform.
+    seed : int, default: 0
+        Random seed for data shuffling.
+
+    References
+    ----------
+    .. [1] https://www.tensorflow.org/federated/api_docs/python/tff/simulation/datasets/cifar100/load_data
+    .. [2] https://github.com/FedML-AI/FedML/tree/master/python/fedml/data/fed_cifar100
+
     """
 
     __name__ = "FedCIFAR"
@@ -151,6 +192,7 @@ class FedCIFAR(FedVisionDataset):
                     for client_id in self._client_ids_test
                 ]
             )
+            print(train_x.shape, train_y.shape, test_x.shape, test_y.shape)
         else:
             client_id_train = self._client_ids_train[client_idx]
             train_x = np.vstack(
@@ -173,6 +215,7 @@ class FedCIFAR(FedVisionDataset):
             # static `TensorDataset`, the old behavior
             transform = _data_transforms_fed_cifar(self.n_class, train=True)
             train_x = transform(
+                # channel last to channel first
                 torch.div(torch.from_numpy(train_x).permute(0, 3, 1, 2), 255.0)
             )
             train_y = torch.from_numpy(train_y).long()
@@ -180,6 +223,7 @@ class FedCIFAR(FedVisionDataset):
         else:
             # use non-trivial dynamic transform
             train_ds = VisionDataset(
+                # channel last to channel first
                 images=torch.from_numpy(train_x).permute(0, 3, 1, 2).to(torch.uint8),
                 targets=torch.from_numpy(train_y).long(),
                 transform=self.transform,
@@ -191,6 +235,7 @@ class FedCIFAR(FedVisionDataset):
             # and without any augmentation transform
             transform = _data_transforms_fed_cifar(self.n_class, train=False)
             test_x = transform(
+                # channel last to channel first
                 torch.div(torch.from_numpy(test_x).permute(0, 3, 1, 2), 255.0)
             )
             test_y = torch.from_numpy(test_y).long()

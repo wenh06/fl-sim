@@ -107,5 +107,5 @@ EMNIST_LABEL_MAP.update({i + 36: c for i, c in enumerate("abcdefghijklmnopqrstuv
 
 MNIST_LABEL_MAP = {i: str(i) for i in range(10)}
 
-MNIST_MEAN = [0.1307]
-MNIST_STD = [0.3081]
+MNIST_MEAN = (0.1307,)
+MNIST_STD = (0.3081,)

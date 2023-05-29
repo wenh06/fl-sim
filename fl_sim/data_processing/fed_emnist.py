@@ -29,21 +29,33 @@ FED_EMNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 class FedEMNIST(FedVisionDataset):
     """
     Federated EMNIST dataset extends MNIST dataset with upper and lower case English characters
+    Data partition is the same as TensorFlow Federated (TFF) (ref. [1]_) with the following statistics:
 
-    most methods in this class are modified from FedML.
-
-    Data partition is the same as [TFF](https://www.tensorflow.org/federated/api_docs/python/tff/simulation/datasets/emnist),
-    with the following statistics.
-
+    +-----------+---------------+----------------+--------------+---------------+
     | DATASET   | TRAIN CLIENTS | TRAIN EXAMPLES | TEST CLIENTS | TEST EXAMPLES |
-    | --------- | ------------- | -------------- | ------------ | ------------- |
+    +===========+===============+================+==============+===============+
     | EMNIST-62 | 3,400         | 671,585        | 3,400        | 77,483        |
+    +-----------+---------------+----------------+--------------+---------------+
+
+    Most methods in this class are modified from FedML (ref. [2]_).
 
     NOTE: the images are processed using min-max normalization to range [0, 1].
 
+    Parameters
+    ----------
+    datadir : Union[Path, str], optional
+        Directory to store data.
+        If ``None``, use default directory.
+    transform : Union[str, Callable], default "none"
+        Transform to apply to data. Conventions:
+        ``"none"`` means no transform, using TensorDataset.
+    seed : int, default 0
+        Random seed for data partitioning.
+
     References
     ----------
-    1. https://github.com/FedML-AI/FedML/tree/master/python/fedml/data/FederatedEMNIST
+    .. [1] https://www.tensorflow.org/federated/api_docs/python/tff/simulation/datasets/emnist
+    .. [2] https://github.com/FedML-AI/FedML/tree/master/python/fedml/data/FederatedEMNIST
 
     """
 

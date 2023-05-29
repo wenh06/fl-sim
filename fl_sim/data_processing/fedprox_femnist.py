@@ -39,9 +39,20 @@ class FedProxFEMNIST(FedVisionDataset):
     The raw data has been processed using min-max normalization to range [0, 1],
     hence any further augmentation is perhaps inappropriate.
 
+    Parameters
+    ----------
+    datadir : Union[Path, str], optional
+        Directory to store data.
+        If ``None``, use default directory.
+    transform : Union[str, Callable], default "none"
+        Transform to apply to data. Conventions:
+        ``"none"`` means no transform, using TensorDataset.
+    seed : int, default 0
+        Random seed for data partitioning.
+
     References
     ----------
-    1. https://github.com/litian96/FedProx/tree/master/data/nist
+    .. [1] https://github.com/litian96/FedProx/tree/master/data/nist
 
     """
 

@@ -27,6 +27,37 @@ FED_SHAKESPEARE_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class FedShakespeare(FedNLPDataset):
+    """Federated Shakespeare dataset.
+
+    Shakespeare dataset is built from the collective works of William Shakespeare.
+    This dataset is used to perform tasks of next character prediction.
+    FedML loaded data from TensorFlow Federated (TFF) shakespeare load_data API (ref [1]_)
+    and saved the unzipped data into hdf5 files.
+
+    Data partition is the same as TFF, with the following statistics.
+
+    +-------------+---------------+----------------+--------------+---------------+
+    | DATASET     | TRAIN CLIENTS | TRAIN EXAMPLES | TEST CLIENTS | TEST EXAMPLES |
+    +=============+===============+================+==============+===============+
+    | SHAKESPEARE | 715           | 16,068         | 715          | 2356          |
+    +-------------+---------------+----------------+--------------+---------------+
+
+    Each client corresponds to a speaking role with at least two lines.
+
+    Parameters
+    ----------
+    datadir : Union[str, Path], optional
+        The directory to store the dataset.
+        If ``None``, use default directory.
+    seed : int, default 0
+        The random seed.
+
+    References
+    ----------
+    .. [1] https://www.tensorflow.org/federated/api_docs/python/tff/simulation/datasets/shakespeare/load_data
+    .. [2] https://github.com/FedML-AI/FedML/tree/master/python/fedml/data/fed_shakespeare
+
+    """
 
     __name__ = "FedShakespeare"
 

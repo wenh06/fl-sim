@@ -43,6 +43,26 @@ FEDPROX_SENT140_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class FedProxSent140(FedNLPDataset):
+    """Federated Sentiment140 dataset used in FedProx paper.
+
+    Sentiment140 dataset (ref. [1]_) is built from the tweets
+    with positive and negative sentiment. FedProx (ref. [2]_)
+    preprocessed the data and saved the data into json files.
+
+    Parameters
+    ----------
+    datadir : Union[Path, str], optional
+        Directory to store data.
+        If ``None``, use default directory.
+    seed : int, default 0
+        Random seed for data partitioning.
+
+    References
+    ----------
+    .. [1] http://help.sentiment140.com
+    .. [2] https://github.com/litian96/FedProx/tree/master/data/sent140
+
+    """
 
     __name__ = "FedProxSent140"
 

@@ -20,6 +20,30 @@ __all__ = [
 
 
 class FedSynthetic(FedDataset):
+    """Federated Synthetic dataset proposed in FedProx paper [1]_.
+
+    Parameters
+    ----------
+    alpha, beta : float
+        The parameters for generating synthetic data
+        using normal distributions.
+    iid : bool
+        Whether to generate iid data.
+    num_clients : int
+        The number of clients.
+    num_classes : int, default 10
+        The number of classes.
+    dimension : int, default 60
+        The dimension of data (feature).
+    seed : int, default 0
+        The random seed.
+
+    References
+    ----------
+    .. [1] https://arxiv.org/abs/1812.06127
+    .. [2] https://github.com/litian96/FedProx/tree/master/data
+
+    """
 
     __name__ = "FedSynthetic"
 

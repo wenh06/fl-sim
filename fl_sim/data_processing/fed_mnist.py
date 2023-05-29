@@ -36,10 +36,21 @@ class FedMNIST(FedVisionDataset):
     NOTE: the maximum value of the raw data is 264.2510681152344, which could
     lead to numerical instability. We normalize the data to range [0, 1].
 
+    Parameters
+    ----------
+    datadir : Union[Path, str], optional
+        Directory to store data.
+        If ``None``, use default directory.
+    transform : Union[str, Callable], default "none"
+        Transform to apply to data. Conventions:
+        ``"none"`` means no transform, using TensorDataset.
+    seed : int, default 0
+        Random seed for data partitioning.
+
     References
     ----------
-    1. https://github.com/FedML-AI/FedML/blob/master/python/fedml/data/MNIST/
-    2. Federated Optimization in Heterogeneous Networks (https://arxiv.org/pdf/1812.06127.pdf). MLSys 2020.
+    .. [1] https://github.com/FedML-AI/FedML/blob/master/python/fedml/data/MNIST/
+    .. [2] Federated Optimization in Heterogeneous Networks (https://arxiv.org/pdf/1812.06127.pdf). MLSys 2020.
 
     """
 

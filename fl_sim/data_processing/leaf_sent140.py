@@ -28,7 +28,26 @@ LEAF_SENT140_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class LeafSent140(FedNLPDataset):
-    """ """
+    """Federeated Sentiment140 dataset from Leaf.
+
+    Sentiment140 dataset (ref. [1]_) is built from the tweets of Twitter
+    and is used to perform sentiment analysis tasks. The Leaf library (ref. [2]_)
+    further processed the data.
+
+    Parameters
+    ----------
+    datadir : Union[Path, str], optional
+        Directory to store data.
+        If ``None``, use default directory.
+    seed : int, default 0
+        Random seed for data partitioning.
+
+    References
+    ----------
+    .. [1] http://help.sentiment140.com
+    .. [2] https://github.com/TalwalkarLab/leaf/tree/master/data/sent140
+
+    """
 
     __name__ = "LeafSent140"
 

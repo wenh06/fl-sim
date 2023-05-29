@@ -29,10 +29,21 @@ class FedProxMNIST(FedVisionDataset):
     """Federeated MNIST used in the FedProx paper,
     where the data is partitioned in a non-IID manner.
 
+    Parameters
+    ----------
+    datadir : Union[Path, str], optional
+        Directory to store data.
+        If ``None``, use default directory.
+    transform : Union[str, Callable], default "none"
+        Transform to apply to data. Conventions:
+        ``"none"`` means no transform, using TensorDataset.
+    seed : int, default 0
+        Random seed for data partitioning.
+
     References
     ----------
-    1. https://github.com/litian96/FedProx/tree/master/data/mnist
-    2. https://github.com/litian96/FedProx/blob/master/data/mnist/generate_niid.py
+    .. [1] https://github.com/litian96/FedProx/tree/master/data/mnist
+    .. [2] https://github.com/litian96/FedProx/blob/master/data/mnist/generate_niid.py
 
     """
 
