@@ -17,6 +17,8 @@ __all__ = [
     "CIFAR10_STD",
     "EMNIST_LABEL_MAP",
     "MNIST_LABEL_MAP",
+    "MNIST_MEAN",
+    "MNIST_STD",
 ]
 
 
@@ -104,3 +106,6 @@ EMNIST_LABEL_MAP.update({i + 10: c for i, c in enumerate("ABCDEFGHIJKLMNOPQRSTUV
 EMNIST_LABEL_MAP.update({i + 36: c for i, c in enumerate("abcdefghijklmnopqrstuvwxyz")})
 
 MNIST_LABEL_MAP = {i: str(i) for i in range(10)}
+
+MNIST_MEAN = [0.1307]
+MNIST_STD = [0.3081]
