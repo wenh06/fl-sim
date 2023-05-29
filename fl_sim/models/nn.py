@@ -22,6 +22,8 @@ __all__ = [
     "CNNFEMnist",
     "CNNFEMnist_Tiny",
     "CNNCifar",
+    "CNNCifar_Small",
+    "CNNCifar_Tiny",
     "RNN_OriginalFedAvg",
     "RNN_StackOverFlow",
     "RNN_Sent140",
@@ -208,12 +210,13 @@ class CNNFEMnist(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
             )
             in_channels = out_channels
         self.add_module("flatten", Rearrange("b c h w -> b (c h w)"))
+        mlp_mid_channels = 2048
         self.add_module(
             "mlp",
             nn.Sequential(
-                nn.Linear(7 * 7 * in_channels, 2048),
+                nn.Linear(7 * 7 * in_channels, mlp_mid_channels),
                 nn.ReLU(inplace=True),
-                nn.Linear(2048, num_classes),
+                nn.Linear(mlp_mid_channels, num_classes),
             ),
         )
 
@@ -248,20 +251,19 @@ class CNNFEMnist_Tiny(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
             )
             in_channels = out_channels
         self.add_module("flatten", Rearrange("b c h w -> b (c h w)"))
+        mlp_mid_channels = 256
         self.add_module(
             "mlp",
             nn.Sequential(
-                nn.Linear(7 * 7 * in_channels, 256),
+                nn.Linear(7 * 7 * in_channels, mlp_mid_channels),
                 nn.ReLU(inplace=True),
-                nn.Linear(256, num_classes),
+                nn.Linear(mlp_mid_channels, num_classes),
             ),
         )
 
 
 class CNNCifar(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
     """Convolutional neural network using CIFAR type input.
-
-    Modified from FedPD/models.py
 
     Input shape: ``(batch_size, 3, 32, 32)``.
 
@@ -273,6 +275,89 @@ class CNNCifar(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
     """
 
     __name__ = "CNNCifar"
+
+    def __init__(self, num_classes: int) -> None:
+        super().__init__()
+        in_channels = 3
+        for idx, out_channels in enumerate([64, 128]):
+            self.add_module(
+                f"conv_block{idx+1}",
+                nn.Sequential(
+                    nn.Conv2d(in_channels, out_channels, kernel_size=5),
+                    nn.ReLU(inplace=True),
+                    nn.MaxPool2d(2),
+                ),
+            )
+            in_channels = out_channels
+        self.add_module("flatten", Rearrange("b c h w -> b (c h w)"))
+        mlp_mid_channels = 384
+        self.add_module(
+            "mlp",
+            nn.Sequential(
+                nn.Linear(out_channels * 5 * 5, mlp_mid_channels),
+                nn.ReLU(inplace=True),
+                nn.Linear(mlp_mid_channels, num_classes),
+            ),
+        )
+
+
+class CNNCifar_Small(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
+    """Convolutional neural network using CIFAR type input.
+
+    Input shape: ``(batch_size, 3, 32, 32)``, smaller
+    in size than `CNNCifar`
+
+    Parameters
+    ----------
+    num_classes : int
+        Number of output classes.
+
+    """
+
+    __name__ = "CNNCifar_Small"
+
+    def __init__(self, num_classes: int) -> None:
+        super().__init__()
+        in_channels = 3
+        for idx, out_channels in enumerate([32, 84]):
+            self.add_module(
+                f"conv_block{idx+1}",
+                nn.Sequential(
+                    nn.Conv2d(in_channels, out_channels, kernel_size=5),
+                    nn.ReLU(inplace=True),
+                    nn.MaxPool2d(2),
+                ),
+            )
+            in_channels = out_channels
+        self.add_module("flatten", Rearrange("b c h w -> b (c h w)"))
+        mlp_mid_channels = 256
+        self.add_module(
+            "mlp",
+            nn.Sequential(
+                nn.Linear(out_channels * 5 * 5, mlp_mid_channels),
+                nn.ReLU(inplace=True),
+                nn.Linear(mlp_mid_channels, num_classes),
+            ),
+        )
+
+
+class CNNCifar_Tiny(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
+    """Convolutional neural network using CIFAR type input.
+
+    Modified from FedPD/models.py
+
+    Input shape: ``(batch_size, 3, 32, 32)``.
+
+    Parameters
+    ----------
+    num_classes : int
+        Number of output classes.
+
+    NOTE: this model is too tiny.
+
+    """
+
+    __name__ = "CNNCifar_Tiny"
 
     def __init__(self, num_classes: int) -> None:
         super().__init__()

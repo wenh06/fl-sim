@@ -16,6 +16,8 @@ from fl_sim.models import (
     CNNFEMnist,
     CNNFEMnist_Tiny,
     CNNCifar,
+    CNNCifar_Small,
+    CNNCifar_Tiny,
     RNN_OriginalFedAvg,
     RNN_StackOverFlow,
     RNN_Sent140,
@@ -77,7 +79,25 @@ def test_models():
     pred = model.predict(inp, batched=True)
     assert len(pred) == 2
 
-    model = CNNCifar(num_classes=100).eval()
+    model = CNNCifar(num_classes=10).eval()
+    inp = torch.rand(2, 3, 32, 32)
+    out = model(inp)
+    assert out.shape == (2, 10)
+    prob = model.predict_proba(inp, batched=True)
+    assert prob.shape == (2, 10)
+    pred = model.predict(inp, batched=True)
+    assert len(pred) == 2
+
+    model = CNNCifar_Small(num_classes=100).eval()
+    inp = torch.rand(2, 3, 32, 32)
+    out = model(inp)
+    assert out.shape == (2, 100)
+    prob = model.predict_proba(inp, batched=True)
+    assert prob.shape == (2, 100)
+    pred = model.predict(inp, batched=True)
+    assert len(pred) == 2
+
+    model = CNNCifar_Tiny(num_classes=100).eval()
     inp = torch.rand(2, 3, 32, 32)
     out = model(inp)
     assert out.shape == (2, 100)

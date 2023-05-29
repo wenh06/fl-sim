@@ -284,6 +284,8 @@ class FedCIFAR(FedVisionDataset):
         """
         return {
             "cnn_cifar": mnn.CNNCifar(num_classes=self.n_class),
+            "cnn_cifar_small": mnn.CNNCifar_Small(num_classes=self.n_class),
+            "cnn_cifar_tiny": mnn.CNNCifar_Tiny(num_classes=self.n_class),
             "resnet10": mnn.ResNet10(num_classes=self.n_class),
         }
 
