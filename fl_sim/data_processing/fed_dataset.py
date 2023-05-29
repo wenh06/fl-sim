@@ -33,6 +33,7 @@ __all__ = [
     "FedVisionDataset",
     "FedNLPDataset",
     "NLPDataset",
+    "VisionDataset",
 ]
 
 
@@ -792,10 +793,15 @@ class VisionDataset(torchdata.Dataset):
             self.transform = transforms.ToTensor()
         self.target_transform = target_transform
 
-    def __getitem__(self, index: int) -> Tuple[torch.Tensor, Union[torch.Tensor, int]]:
+    def __getitem__(
+        self, index: Union[slice, int]
+    ) -> Tuple[torch.Tensor, Union[torch.Tensor, int]]:
         """Returns an image and its label."""
         img, target = self.images[index], self.targets[index]
-        img = self.transform(img)
+        if isinstance(index, int):
+            img = self.transform(img)
+        else:  # slice
+            img = torch.stack([self.transform(img_) for img_ in img])
         if self.target_transform is not None:
             target = self.target_transform(target)
         return img, target
