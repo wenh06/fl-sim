@@ -2,7 +2,6 @@
 """
 
 import json
-import random
 import warnings
 from abc import ABC, abstractmethod
 from itertools import repeat
@@ -596,7 +595,9 @@ class Server(Node, CitationMixin):
         if clients_sample_ratio is None:
             clients_sample_ratio = self.config.clients_sample_ratio
         k = int(clients_sample_ratio * len(subset))
-        return random.sample(subset, k=k)
+        # return random.sample(subset, k=k)
+        # random.sample does not support numpy array input
+        return np.random.choice(subset, k, replace=False).tolist()
 
     def _communicate(self, target: "Client") -> None:
         """Broadcast to target client, and maintain state variables."""
