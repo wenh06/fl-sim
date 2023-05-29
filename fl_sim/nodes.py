@@ -541,7 +541,7 @@ class Server(Node, CitationMixin):
             A list of clients.
 
         """
-        print("setup clients...")
+        self._logger_manager.log_message("Setup clients...")
         dataset = dataset or self.dataset
         client_config = client_config or self._client_config
         return [
@@ -560,7 +560,7 @@ class Server(Node, CitationMixin):
 
     def _allocate_devices(self) -> List[torch.device]:
         """Allocate devices for clients, can be used in :meth:`_setup_clients`."""
-        print("allocate devices...")
+        self._logger_manager.log_message("Allocate devices...")
         num_gpus = torch.cuda.device_count()
         if num_gpus == 0:
             return list(repeat(torch.device("cpu"), self.config.num_clients))
@@ -723,7 +723,7 @@ class Server(Node, CitationMixin):
                     del data, target, output, loss
                 epoch_loss.append(sum(batch_losses) / len(batch_losses))
                 if (self.n_iter + 1) % self.config.eval_every == 0:
-                    print("evaluating...")
+                    self._logger_manager.log_message("Evaluating...")
                     metrics = self.evaluate_centralized(val_loader)
                     self._logger_manager.log_metrics(
                         None,
