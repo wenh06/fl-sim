@@ -866,8 +866,20 @@ class Server(Node, CitationMixin):
         del X, y, probs
         return metrics
 
-    def aggregate_client_metrics(self) -> None:
-        """Aggregate the metrics transmitted from the clients."""
+    def aggregate_client_metrics(self, ignore: Sequence[str] = None) -> None:
+        """Aggregate the metrics transmitted from the clients.
+
+        Parameters
+        ----------
+        ignore : Sequence[str], optional
+            The metrics to ignore.
+
+        Returns
+        -------
+        None
+
+        """
+        ignore = ignore or []
         if not any(["metrics" in m for m in self._received_messages]):
             raise ValueError("no metrics received from clients")
         # cache metrics stored in self._metrics into self._cached_metrics
@@ -883,6 +895,8 @@ class Server(Node, CitationMixin):
                         new_metrics[part][k] += (
                             m["metrics"][part][k] * m["metrics"][part]["num_samples"]
                         )
+                    elif k in ignore:
+                        continue
                     else:  # num_samples
                         new_metrics[part][k] += m["metrics"][part][k]
             for k in new_metrics[part]:
