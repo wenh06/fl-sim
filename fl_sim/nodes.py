@@ -697,7 +697,7 @@ class Server(Node, CitationMixin):
                 total=len(train_loader.dataset),
                 desc=f"Epoch {self.n_iter+1}/{self.config.num_iters}",
                 unit="sample",
-                mininterval=1.0,
+                mininterval=1 if torch.cuda.is_available() else 10,
             ) as pbar:
                 epoch_loss = []
                 batch_losses = []
@@ -777,7 +777,7 @@ class Server(Node, CitationMixin):
             total=self.config.num_iters,
             desc=f"{self.config.algorithm} training",
             unit="iter",
-            mininterval=1.0,
+            mininterval=1,  # usually useless since a full iteration takes a very long time
         ) as outer_pbar:
             for self.n_iter in outer_pbar:
                 selected_clients = self._sample_clients()
@@ -785,7 +785,7 @@ class Server(Node, CitationMixin):
                     total=len(selected_clients),
                     desc=f"Iter {self.n_iter+1}/{self.config.num_iters}",
                     unit="client",
-                    mininterval=1.0,
+                    mininterval=max(1, len(selected_clients) // 50),
                     disable=self.config.verbose < 1,
                     leave=False,
                 ) as pbar:
