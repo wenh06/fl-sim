@@ -2,13 +2,16 @@
 Functions for collecting experiment results, visualizing them, etc.
 """
 
+import itertools
 import os
 import re
 from pathlib import Path
 from typing import Union, Sequence, Optional, Tuple, List
 
 import ipywidgets as widgets
+import matplotlib as mpl
 import matplotlib.pyplot as plt
+import seaborn as sns
 from IPython.display import display
 
 from fl_sim.nodes import Node
@@ -24,6 +27,24 @@ __all__ = [
 
 # turn off the progress bar for loading log files
 os.environ["FLSIM_VERBOSE"] = "0"
+
+
+_linestyle_tuple = [  # name, linestyle (offset, on-off-seq)
+    ("solid", (0, ())),
+    ("densely dashed", (0, (5, 1))),
+    ("densely dotted", (0, (1, 1))),
+    ("densely dashdotted", (0, (3, 1, 1, 1))),
+    ("densely dashdotdotted", (0, (3, 1, 1, 1, 1, 1))),
+    ("dashed", (0, (5, 5))),
+    ("dotted", (0, (1, 1))),
+    ("dashdotdotted", (0, (3, 5, 1, 5, 1, 5))),
+    ("dashdotted", (0, (3, 5, 1, 5))),
+    ("loosely dashdotdotted", (0, (3, 10, 1, 10, 1, 10))),
+    ("loosely dashdotted", (0, (3, 10, 1, 10))),
+    ("loosely dotted", (0, (1, 10))),
+    ("long dash with offset", (5, (10, 3))),
+    ("loosely dashed", (0, (5, 10))),
+]
 
 
 def find_log_files(
@@ -140,19 +161,22 @@ def plot_curve(
             )
         )
         stems.append(Path(file).stem)
+    marker_cycle = itertools.cycle(("o", "s", "v", "^", "<", ">", "p", "P", "*"))
     if fig_ax is None:
-        fig, ax = plt.subplots(figsize=(12, 8))
+        fig, ax = plt.subplots()
     else:
         fig, ax = fig_ax
-    plot_config = dict(marker="*")
+    # plot_config = dict(marker="*")
+    plot_config = dict()
     if labels is None:
         labels = stems
     for idx, curve in enumerate(curves):
+        plot_config["marker"] = next(marker_cycle)
         plot_config["label"] = labels[idx]
         ax.plot(curve, **plot_config)
-    ax.legend(loc="best", fontsize=18)
-    ax.set_xlabel("Global Iter.", fontsize=14)
-    ax.set_ylabel(f"{part} {metric}", fontsize=14)
+    ax.legend(loc="best")
+    ax.set_xlabel("Global Iter.")
+    ax.set_ylabel(f"{part} {metric}")
     return fig, ax
 
 
@@ -165,12 +189,42 @@ class Panel:
         The directory to search for log files.
         Defaults to `fl_sim.utils.const.LOG_DIR`.
 
+    TODO
+    ----
+    1. add sliders for matplotlib rc params
+    2. add a input box and a button for saving the figure
+    3. add a box for showing the config of the experiment
+
     """
 
     __name__ = "Panel"
 
-    def __init__(self, logdir: Optional[Union[str, Path]] = None) -> None:
+    __default_rc_params__ = {
+        "xtick.labelsize": 14,
+        "ytick.labelsize": 14,
+        "axes.labelsize": 18,
+        "legend.fontsize": 14,
+        "legend.title_fontsize": 16,
+        "figure.figsize": (12, 6),
+    }
+
+    def __init__(
+        self,
+        logdir: Optional[Union[str, Path]] = None,
+        rc_params: Optional[dict] = None,
+    ) -> None:
         self._logdir = Path(logdir or LOG_DIR).expanduser().resolve()
+        assert self._logdir.exists(), f"Log directory {self._logdir} does not exist."
+        self._rc_params = self.__default_rc_params__.copy()
+        self._rc_params.update(rc_params or {})
+        assert set(self._rc_params.keys()).issubset(
+            set(mpl.rcParams)
+        ), f"Invalid rc_params: {set(self._rc_params) - set(mpl.rcParams)}."
+        self.reset_matplotlib()
+        sns.set()
+        for key, value in self._rc_params.items():
+            plt.rcParams[key] = value
+
         self._log_files = find_log_files()
         self._refresh_button = widgets.Button(
             description="Refresh",
@@ -229,6 +283,14 @@ class Panel:
             icon="line-chart",  # (FontAwesome names without the `fa-` prefix)
         )
         self._show_button.on_click(self._on_show_button_clicked)
+        self._clear_button = widgets.Button(
+            description="Clear",
+            disabled=False,
+            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            tooltip="Clear",
+            icon="eraser",  # (FontAwesome names without the `fa-` prefix)
+        )
+        self._clear_button.on_click(self._on_clear_button_clicked)
 
         # layout
         self._layout = widgets.VBox(
@@ -243,7 +305,7 @@ class Panel:
                 # self._log_files_selector,
                 boxed_log_files_selector,
                 widgets.HBox([self._part_input, self._metric_input]),
-                self._show_button,
+                widgets.HBox([self._show_button, self._clear_button]),
                 self._canvas,
             ]
         )
@@ -284,6 +346,14 @@ class Panel:
                 print("Invalid part or metric.")
                 return
 
+    def _on_clear_button_clicked(self, button: widgets.Button) -> None:
+        self._canvas.clear_output(wait=False)
+
     @property
     def log_files(self) -> List[str]:
         return [item.stem for item in self._log_files]
+
+    @staticmethod
+    def reset_matplotlib() -> None:
+        """Reset matplotlib to default settings."""
+        mpl.rcParams.update(mpl.rcParamsDefault)
