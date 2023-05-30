@@ -2,6 +2,7 @@
 """
 
 import json
+import os
 import warnings
 from abc import ABC, abstractmethod
 from itertools import repeat
@@ -317,7 +318,13 @@ class Node(ReprMixin, ABC):
         )
         metric_curve = []
         epochs = list(sorted(df_part["epoch"].unique()))
-        for epoch in tqdm(epochs, mininterval=1, desc="Aggregating results"):
+        for epoch in tqdm(
+            epochs,
+            mininterval=1,
+            desc="Aggregating results",
+            leave=False,
+            disable=int(os.environ.get("FLSIM_VERBOSE", "1")) < 1,
+        ):
             df_epoch = df_part[df_part["epoch"] == epoch]
             num_samples = 0
             current_metric = 0
@@ -408,6 +415,8 @@ class Node(ReprMixin, ABC):
             desc="Aggregating results",
             total=len(d[part]),
             unit="client",
+            leave=False,
+            disable=int(os.environ.get("FLSIM_VERBOSE", "1")) < 1,
         ):
             for item in v:
                 idx = epochs.index(item["epoch"])
