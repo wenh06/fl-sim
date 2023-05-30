@@ -2,6 +2,7 @@
 
 ![formatting](https://github.com/wenh06/fl-sim/actions/workflows/check-formatting.yml/badge.svg)
 ![Docker CI](https://github.com/wenh06/fl-sim/actions/workflows/docker-image.yml/badge.svg?branch=docker-ci)
+![PyTest](https://github.com/wenh06/fl-sim/actions/workflows/run-pytest.yml/badge.svg?branch=dev)
 
 This repository is migrated from [fl_seminar](https://github.com/wenh06/fl_seminar/tree/master/code)
 
@@ -11,6 +12,7 @@ The main part of this code repository is a standalone simulation framework for f
 
 - [Installation](#installation)
 - [Usage Examples](#usage-examples)
+- [Algorithms Implemented](#algorithms-implemented)
 - [Main Modules](#main-modules)
   - [Nodes](#nodes)
   - [Data Processing](#data-processing)
@@ -19,7 +21,6 @@ The main part of this code repository is a standalone simulation framework for f
   - [Compression](#compression)
   - [Models](#models)
   - [Utils](#utils)
-  - [Algorithms Implemented](#algorithms-implemented)
 
 <!-- tocstop -->
 
@@ -68,6 +69,20 @@ s.train_federated()
 ```
 
 </details>
+
+## [Algorithms Implemented](fl_sim/algorithms)
+
+| Algorithm | Paper | Original Implementation | Action Status |
+| --------- | ----- | ----------------------- | ------------- |
+| FedProx   | [MLSys](https://proceedings.mlsys.org/paper_files/paper/2020/hash/38af86134b65d0f10fe33d30dd76442e-Abstract.html) | [GitHub](https://github.com/litian96/FedProx)       | ![test-fedprox](https://github.com/wenh06/fl-sim/actions/workflows/test-fedprox.yml/badge.svg)  |
+| FedOpt    | [arXiv:2003.00295](https://arxiv.org/abs/2003.00295) | N/A | ![test-fedopt](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml/badge.svg) |
+| pFedMe    | [NeurIPS2020](https://proceedings.neurips.cc/paper_files/paper/2020/hash/f4f1f13c8289ac1b1ee0ff176b56fc60-Abstract.html) | [GitHub](https://github.com/CharlieDinh/pFedMe)     | ![test-pfedme](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedme.yml/badge.svg) |
+| FedSplit  | [NeurIPS2020](https://proceedings.neurips.cc/paper/2020/hash/4ebd440d99504722d80de606ea8507da-Abstract.html) | N/A | ![test-fedsplit](https://github.com/wenh06/fl-sim/actions/workflows/test-fedsplit.yml/badge.svg) |
+| FedDR     | [NeurIPS2021](https://papers.nips.cc/paper/2021/hash/fe7ee8fc1959cc7214fa21c4840dff0a-Abstract.html) | [GitHub](https://github.com/unc-optimization/FedDR) | ![test-feddr](https://github.com/wenh06/fl-sim/actions/workflows/test-feddr.yml/badge.svg) |
+| FedPD     | [IEEE Trans. Signal Process](https://ieeexplore.ieee.org/document/9556559) | [GitHub](https://github.com/564612540/FedPD/) | ![test-fedpd](https://github.com/wenh06/fl-sim/actions/workflows/test-fedpd.yml/badge.svg) |
+| SCAFFOLD  | [PMLR](https://proceedings.mlr.press/v119/karimireddy20a.html) | N/A | ![test-scaffold](https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml/badge.svg) |
+| ProxSkip  | [PMLR](https://proceedings.mlr.press/v162/mishchenko22b.html) | N/A | ![test-proxskip](https://github.com/wenh06/fl-sim/actions/workflows/test-proxskip.yml/badge.svg) |
+| Ditto     | [PMLR](https://proceedings.mlr.press/v139/li21h.html) | [GitHub](https://github.com/litian96/ditto) | ![test-ditto](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml/badge.svg) |
 
 ## Main Modules
 
@@ -227,8 +242,14 @@ class FedProxServerConfig(ServerConfig):
             Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``seed`` : int, default 0
+            The random seed.
         - ``verbose`` : int, default 1
             The verbosity level.
+        - ``gpu_proportion`` : float, default 0.2
+            The proportion of clients to use GPU.
+            Used to similate the system heterogeneity of the clients.
+            Not used in the current version, reserved for future use.
 
     """
 
@@ -270,8 +291,14 @@ class FedProxClientConfig(ClientConfig):
     **kwargs : dict, optional
         Additional keyword arguments:
 
+        - ``scheduler`` : dict, optional
+            The scheduler config.
+            None for no scheduler, using constant learning rate.
         - ``verbose`` : int, default 1
             The verbosity level.
+        - ``latency`` : float, default 0.0
+            The latency of the client.
+            Not used in the current version, reserved for future use.
 
     """
 
@@ -590,30 +617,11 @@ The module (folder) [compressors](fl_sim/compressors) contains code for construc
 <summary>Click to expand!</summary>
 
 The module (folder) [utils](fl_sim/utils) contains utility functions for [data downloading](fl_sim/utils/_download_data.py),
-[training metrics logging](fl_sim/utils/loggers.py), etc.
+[training metrics logging](fl_sim/utils/loggers.py), [experiment visualization](fl_sim/utils/viz.py), etc.
 
 - `TxTLogger`: A logger for logging training metrics to a text file, as well as printing them to the console, in a human-readable format.
 - `CSVLogger`: A logger for logging training metrics to a CSV file. **NOT** recommended since not memory-efficient.
 - `JsonLogger`: A logger for logging training metrics to a JSON file. Also can be saved as a YAML file.
-
-:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
-
-</details>
-
-### [Algorithms Implemented](fl_sim/algorithms)
-
-<details>
-<summary>Click to expand!</summary>
-
-1. [FedProx](https://github.com/litian96/FedProx) ![test-fedprox](https://github.com/wenh06/fl-sim/actions/workflows/test-fedprox.yml/badge.svg)
-2. [FedOpt](https://arxiv.org/abs/2003.00295) ![test-fedopt](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml/badge.svg)
-3. [pFedMe](https://github.com/CharlieDinh/pFedMe) ![test-pfedme](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedme.yml/badge.svg)
-4. [FedSplit](https://arxiv.org/abs/2005.05238) ![test-fedsplit](https://github.com/wenh06/fl-sim/actions/workflows/test-fedsplit.yml/badge.svg)
-5. [FedDR](https://github.com/unc-optimization/FedDR) ![test-feddr](https://github.com/wenh06/fl-sim/actions/workflows/test-feddr.yml/badge.svg)
-6. [FedPD](https://github.com/564612540/FedPD/) ![test-fedpd](https://github.com/wenh06/fl-sim/actions/workflows/test-fedpd.yml/badge.svg)
-7. [SCAFFOLD](https://proceedings.mlr.press/v119/karimireddy20a.html) ![test-scaffold](https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml/badge.svg)
-8. [ProxSkip](https://proceedings.mlr.press/v162/mishchenko22b.html) ![test-proxskip](https://github.com/wenh06/fl-sim/actions/workflows/test-proxskip.yml/badge.svg)
-9. [Ditto](https://arxiv.org/abs/2012.04221) ![test-ditto](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml/badge.svg)
 
 :point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
