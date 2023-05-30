@@ -470,6 +470,8 @@ class Server(Node, CitationMixin):
                 f"set it to the default value {self.config.verbose}.",
                 RuntimeWarning,
             )
+        if self.config.num_clients is None:
+            self.config.num_clients = self.dataset.DEFAULT_TRAIN_CLIENTS_NUM
         self.device = torch.device("cpu")
         assert isinstance(client_config, self.config_cls["client"]), (
             f"client_config should be an instance of "
