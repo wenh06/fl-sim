@@ -33,6 +33,7 @@ __all__ = [
     "get_config_from_log",
     "get_curves_and_labels_from_log",
     "plot_curves",
+    "plot_mean_curve_with_error_bounds",
 ]
 
 
@@ -215,6 +216,76 @@ def plot_curves(
     ax.set_xlabel("Global Iter.")
     ax.set_ylabel(f"{part} {metric}")
     return fig, ax
+
+
+def plot_mean_curve_with_error_bounds(
+    curves: Sequence[np.ndarray],
+    error_type: str = "std",
+    fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
+) -> Tuple[plt.Figure, plt.Axes]:
+    """Plot the mean curve with error bounds.
+
+    Parameters
+    ----------
+    curves : Sequence[np.ndarray]
+        The curves.
+    error_type : {"std", "sem", "quartile", "iqr"}, default "std"
+        The type of error bounds. Can be one of
+            - "std": standard deviation
+            - "sem": standard error of the mean
+            - "quartile": quartile
+            - "iqr": interquartile range
+    fig_ax : Optional[Tuple[plt.Figure, plt.Axes]], optional
+        The figure and axes to plot on.
+
+    Returns
+    -------
+    Tuple[plt.Figure, plt.Axes]
+        The figure and axes.
+
+    """
+    if fig_ax is None:
+        fig, ax = plt.subplots()
+    else:
+        fig, ax = fig_ax
+    # allow curves to have different lengths
+    max_len = max([len(curve) for curve in curves])
+    for idx, curve in enumerate(curves):
+        curves[idx] = np.pad(
+            curve, (0, max_len - len(curve)), "constant", constant_values=np.nan
+        )
+    curves = np.array(curves)
+    mean_curve = np.nanmean(curves, axis=0)
+    if error_type == "std":
+        std_curve = np.nanstd(curves, axis=0)
+        upper_curve = mean_curve + std_curve
+        lower_curve = mean_curve - std_curve
+    elif error_type == "sem":
+        std_curve = np.nanstd(curves, axis=0)
+        upper_curve = mean_curve + std_curve / np.sqrt(len(curves))
+        lower_curve = mean_curve - std_curve / np.sqrt(len(curves))
+    elif error_type == "quartile":
+        q3 = np.nanquantile(curves, 0.75, axis=0)
+        q1 = np.nanquantile(curves, 0.25, axis=0)
+        upper_curve = q3
+        lower_curve = q1
+    elif error_type == "iqr":
+        q3 = np.nanquantile(curves, 0.75, axis=0)
+        q1 = np.nanquantile(curves, 0.25, axis=0)
+        iqr = q3 - q1
+        upper_curve = q3 + 1.5 * iqr
+        lower_curve = q1 - 1.5 * iqr
+    else:
+        raise ValueError(f"Unknown error type: {error_type}")
+    ax.plot(mean_curve, label="mean")
+    ax.fill_between(
+        np.arange(len(mean_curve)),
+        lower_curve,
+        upper_curve,
+        alpha=0.3,
+        label=error_type,
+    )
+    ax.legend(loc="best")
 
 
 class Panel:
