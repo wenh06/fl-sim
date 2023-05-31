@@ -1,0 +1,33 @@
+strategy:
+  matrix:
+    num_clients:
+    - 2000
+    - 3400
+    seed:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+
+algorithm:
+  name: FedAvg
+  server:
+    num_clients: ${{ matrix.num_clients }}
+    clients_sample_ratio: 0.2
+    num_iters: 200
+  client:
+    lr: 0.03
+    num_epochs: 5
+    batch_size: null  # null for default batch size
+    scheduler:
+      name: step  # StepLR
+      step_size: 1
+      gamma: 0.99
+dataset:
+  name: FedEMNIST
+  datadir: null  # default dir
+  transform: none  # none for static transform (only normalization, no augmentation)
+model:
+  name: cnn_femmist_tiny
+seed: ${{ matrix.seed }}
