@@ -9,6 +9,7 @@ import warnings
 from pathlib import Path
 from typing import Union, Sequence, Optional, Tuple, List
 
+import numpy as np
 import yaml
 
 try:
@@ -30,6 +31,7 @@ from fl_sim.utils.const import LOG_DIR
 __all__ = [
     "find_log_files",
     "get_config_from_log",
+    "get_curves_and_labels_from_log",
     "plot_curves",
 ]
 
@@ -126,6 +128,44 @@ def get_config_from_log(file: Union[str, Path]) -> dict:
         return {}
 
 
+def get_curves_and_labels_from_log(
+    files: Union[str, Path, Sequence[Union[str, Path]]],
+    part: str = "val",
+    metric: str = "acc",
+) -> Tuple[List[np.ndarray], List[str]]:
+    """Get the curves and labels (stems) from the given log file(s).
+
+    Parameters
+    ----------
+    files : Union[str, pathlib.Path, Sequence[Union[str, pathlib.Path]]]
+        The log file(s).
+    part : str, default "val"
+        The part of the data, e.g., "train", "val", "test", etc.
+    metric : str, default "acc"
+        The metric to plot, e.g., "acc", "top3_acc", "loss", etc.
+
+    Returns
+    -------
+    Tuple[List[numpy.ndarray], List[str]]
+        The curves and labels.
+
+    """
+    curves = []
+    stems = []
+    if isinstance(files, (str, Path)):
+        files = [files]
+    for file in files:
+        curves.append(
+            Node.aggregate_results_from_json_log(
+                file,
+                part=part,
+                metric=metric,
+            )
+        )
+        stems.append(Path(file).stem)
+    return curves, stems
+
+
 def plot_curves(
     files: Union[str, Path, Sequence[Union[str, Path]]],
     part: str = "val",
@@ -157,19 +197,7 @@ def plot_curves(
         The figure and axes.
 
     """
-    curves = []
-    stems = []
-    if isinstance(files, (str, Path)):
-        files = [files]
-    for file in files:
-        curves.append(
-            Node.aggregate_results_from_json_log(
-                file,
-                part=part,
-                metric=metric,
-            )
-        )
-        stems.append(Path(file).stem)
+    curves, stems = get_curves_and_labels_from_log(files, part=part, metric=metric)
     marker_cycle = itertools.cycle(("o", "s", "v", "^", "<", ">", "p", "P", "*"))
     if fig_ax is None:
         fig, ax = plt.subplots()
