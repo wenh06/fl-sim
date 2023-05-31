@@ -5,15 +5,23 @@ Functions for collecting experiment results, visualizing them, etc.
 import itertools
 import os
 import re
+import warnings
 from pathlib import Path
 from typing import Union, Sequence, Optional, Tuple, List
 
-import ipywidgets as widgets
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import seaborn as sns
 import yaml
-from IPython.display import display
+
+try:
+    import matplotlib as mpl
+    import matplotlib.pyplot as plt
+    import ipywidgets as widgets
+    from IPython.display import display
+except (ImportError, ModuleNotFoundError):
+    mpl = plt = widgets = display = None
+try:
+    import seaborn as sns
+except (ImportError, ModuleNotFoundError):
+    sns = None
 
 from fl_sim.nodes import Node
 from fl_sim.utils.const import LOG_DIR
@@ -214,6 +222,12 @@ class Panel:
         logdir: Optional[Union[str, Path]] = None,
         rc_params: Optional[dict] = None,
     ) -> None:
+        if widgets is None:
+            print(
+                "One or more of the required packages is not installed: "
+                "ipywidgets, matplotlib."
+            )
+            return
         self._logdir = Path(logdir or LOG_DIR).expanduser().resolve()
         assert self._logdir.exists(), f"Log directory {self._logdir} does not exist."
         self._rc_params = self.__default_rc_params__.copy()
@@ -222,7 +236,10 @@ class Panel:
             set(mpl.rcParams)
         ), f"Invalid rc_params: {set(self._rc_params) - set(mpl.rcParams)}."
         self.reset_matplotlib()
-        sns.set()
+        if sns is not None:
+            sns.set()
+        else:
+            warnings.warn("Seaborn is not installed. One gets better plots with it.")
         for key, value in self._rc_params.items():
             plt.rcParams[key] = value
 
@@ -369,6 +386,8 @@ class Panel:
         display(self._layout)
 
     def _on_refresh_button_clicked(self, button: widgets.Button) -> None:
+        if widgets is None:
+            return
         # update the list of log files
         self._log_files = find_log_files(filters=self._filters_input.value)
         # update the options of the selector
@@ -383,6 +402,8 @@ class Panel:
         )
 
     def _on_log_file_dropdown_selector_change(self, change: dict) -> None:
+        if widgets is None:
+            return
         # clear self._show_config_area
         self._show_config_area.clear_output(wait=True)
         # display the config dict
@@ -393,16 +414,22 @@ class Panel:
                 print(yaml.dump(config, default_flow_style=False))
 
     def _on_fig_width_slider_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
         self._rc_params["figure.figsize"][0] = change["new"]
         if self._show_fig_flag:
             self._show_fig()
 
     def _on_fig_height_slider_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
         self._rc_params["figure.figsize"][1] = change["new"]
         if self._show_fig_flag:
             self._show_fig()
 
     def _on_show_button_clicked(self, button: widgets.Button) -> None:
+        if widgets is None:
+            return
         self._show_fig()
 
     def _show_fig(self) -> None:
@@ -433,6 +460,8 @@ class Panel:
                 print("Invalid part or metric.")
 
     def _on_clear_button_clicked(self, button: widgets.Button) -> None:
+        if widgets is None:
+            return
         self._canvas.clear_output(wait=False)
         self._show_fig_flag = False
 
@@ -442,5 +471,7 @@ class Panel:
 
     @staticmethod
     def reset_matplotlib() -> None:
+        if mpl is None:
+            return
         """Reset matplotlib to default settings."""
         mpl.rcParams.update(mpl.rcParamsDefault)
