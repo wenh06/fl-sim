@@ -12,6 +12,7 @@ import ipywidgets as widgets
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
+import yaml
 from IPython.display import display
 
 from fl_sim.nodes import Node
@@ -21,7 +22,7 @@ from fl_sim.utils.const import LOG_DIR
 __all__ = [
     "find_log_files",
     "get_config_from_log",
-    "plot_curve",
+    "plot_curves",
 ]
 
 
@@ -117,7 +118,7 @@ def get_config_from_log(file: Union[str, Path]) -> dict:
         return {}
 
 
-def plot_curve(
+def plot_curves(
     files: Union[str, Path, Sequence[Union[str, Path]]],
     part: str = "val",
     metric: str = "acc",
@@ -205,7 +206,7 @@ class Panel:
         "axes.labelsize": 18,
         "legend.fontsize": 14,
         "legend.title_fontsize": 16,
-        "figure.figsize": (12, 6),
+        "figure.figsize": [12, 6],
     }
 
     def __init__(
@@ -240,10 +241,11 @@ class Panel:
             disabled=False,
             layout={"width": "300px"},
         )
+        unit = "files" if len(self._log_files) > 1 else "file"
         self._num_log_files_label = widgets.Label(
-            value=f"Found {len(self.log_files)} log files."
+            value=f"Found {len(self.log_files)} log {unit}."
         )
-        self._log_files_selector = widgets.SelectMultiple(
+        self._log_files_mult_selector = widgets.SelectMultiple(
             options=list(zip(self.log_files, self._log_files)),
             # description="Select log files:",
             disabled=False,
@@ -252,10 +254,46 @@ class Panel:
         boxed_log_files_selector = widgets.Box(
             [
                 widgets.Label(value="Select log files:"),
-                self._log_files_selector,
+                self._log_files_mult_selector,
             ]
         )
         self._refresh_button.on_click(self._on_refresh_button_clicked)
+
+        figsize_slider_config = dict(
+            step=1,
+            disabled=False,
+            continuous_update=False,
+            orientation="horizontal",
+            readout=True,
+            readout_format="d",
+        )
+        init_fig_width, init_fig_height = self._rc_params["figure.figsize"]
+        self._fig_width_slider = widgets.IntSlider(
+            value=int(init_fig_width),
+            min=6,
+            max=20,
+            description="Fig. width:",
+            **figsize_slider_config,
+        )
+        self._fig_width_slider.observe(self._on_fig_width_slider_value_changed)
+        self._fig_height_slider = widgets.IntSlider(
+            value=int(init_fig_height),
+            min=3,
+            max=15,
+            description="Fig. height:",
+            **figsize_slider_config,
+        )
+        self._fig_height_slider.observe(self._on_fig_height_slider_value_changed)
+        # TODO: add sliders for changing font sizes:
+        # 1. xtick.labelsize
+        # 2. ytick.labelsize
+        # 3. axes.labelsize
+        # 4. legend.fontsize
+
+        slider_box = widgets.GridBox(
+            [self._fig_width_slider, self._fig_height_slider],
+            layout=widgets.Layout(grid_template_columns="repeat(2, 0.5fr)"),
+        )
 
         self._part_input = widgets.Text(
             value="val",
@@ -282,6 +320,7 @@ class Panel:
             tooltip="Plot the curves",
             icon="line-chart",  # (FontAwesome names without the `fa-` prefix)
         )
+        self._show_fig_flag = False
         self._show_button.on_click(self._on_show_button_clicked)
         self._clear_button = widgets.Button(
             description="Clear",
@@ -291,6 +330,17 @@ class Panel:
             icon="eraser",  # (FontAwesome names without the `fa-` prefix)
         )
         self._clear_button.on_click(self._on_clear_button_clicked)
+
+        self._log_file_dropdown_selector = widgets.Dropdown(
+            options=list(zip(self.log_files, self._log_files)),
+            description="Select log file:",
+            disabled=False,
+            layout={"width": "500px"},
+        )
+        self._show_config_area = widgets.Output()
+        self._log_file_dropdown_selector.observe(
+            self._on_log_file_dropdown_selector_change, names="value"
+        )
 
         # layout
         self._layout = widgets.VBox(
@@ -302,11 +352,17 @@ class Panel:
                         self._num_log_files_label,
                     ]
                 ),
-                # self._log_files_selector,
+                # self._log_files_mult_selector,
                 boxed_log_files_selector,
                 widgets.HBox([self._part_input, self._metric_input]),
-                widgets.HBox([self._show_button, self._clear_button]),
-                self._canvas,
+                # slider_box,  # TODO: fix the layout
+                widgets.HBox(
+                    [self._show_button, self._clear_button],
+                    layout=widgets.Layout(align_items="center"),
+                ),
+                widgets.Box([self._canvas]),
+                self._log_file_dropdown_selector,
+                self._show_config_area,
             ]
         )
 
@@ -316,15 +372,45 @@ class Panel:
         # update the list of log files
         self._log_files = find_log_files(filters=self._filters_input.value)
         # update the options of the selector
-        self._log_files_selector.options = list(zip(self.log_files, self._log_files))
+        self._log_files_mult_selector.options = list(
+            zip(self.log_files, self._log_files)
+        )
         # update the label
         self._num_log_files_label.value = f"Found {len(self.log_files)} log files."
+        # update the dropdown selector
+        self._log_file_dropdown_selector.options = list(
+            zip(self.log_files, self._log_files)
+        )
+
+    def _on_log_file_dropdown_selector_change(self, change: dict) -> None:
+        # clear self._show_config_area
+        self._show_config_area.clear_output(wait=True)
+        # display the config dict
+        with self._show_config_area:
+            config = get_config_from_log(self._log_file_dropdown_selector.value)
+            if config:
+                # print(json.dumps(config, indent=4))
+                print(yaml.dump(config, default_flow_style=False))
+
+    def _on_fig_width_slider_value_changed(self, change: dict) -> None:
+        self._rc_params["figure.figsize"][0] = change["new"]
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_fig_height_slider_value_changed(self, change: dict) -> None:
+        self._rc_params["figure.figsize"][1] = change["new"]
+        if self._show_fig_flag:
+            self._show_fig()
 
     def _on_show_button_clicked(self, button: widgets.Button) -> None:
+        self._show_fig()
+
+    def _show_fig(self) -> None:
         # clear the canvas
         self._canvas.clear_output(wait=True)
+        self._show_fig_flag = False
         # ensure that log files are selected
-        if not self._log_files_selector.value:
+        if not self._log_files_mult_selector.value:
             with self._canvas:
                 print("No log files selected.")
             return
@@ -336,18 +422,19 @@ class Panel:
         # plot the curves
         with self._canvas:
             try:
-                fig, ax = plot_curve(
-                    self._log_files_selector.value,
+                self._show_fig_flag = True
+                fig, ax = plot_curves(
+                    self._log_files_mult_selector.value,
                     part=self._part_input.value,
                     metric=self._metric_input.value,
                 )
                 widgets.widgets.interaction.show_inline_matplotlib_plots()
             except KeyError:
                 print("Invalid part or metric.")
-                return
 
     def _on_clear_button_clicked(self, button: widgets.Button) -> None:
         self._canvas.clear_output(wait=False)
+        self._show_fig_flag = False
 
     @property
     def log_files(self) -> List[str]:
