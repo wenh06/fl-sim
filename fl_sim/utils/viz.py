@@ -407,6 +407,9 @@ class Panel:
         # clear self._show_config_area
         self._show_config_area.clear_output(wait=True)
         # display the config dict
+        if not self._log_file_dropdown_selector.value:
+            # empty
+            return
         with self._show_config_area:
             config = get_config_from_log(self._log_file_dropdown_selector.value)
             if config:
