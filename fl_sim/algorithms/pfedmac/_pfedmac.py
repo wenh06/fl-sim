@@ -38,6 +38,9 @@ class pFedMacServerConfig(ServerConfig):
             Whether to use json logger.
         - ``eval_every`` : int, default 1
             The number of iterations to evaluate the model.
+        - ``visiable_gpus`` : Sequence[int], optional
+            Visable GPU IDs for allocating devices for clients.
+            Defaults to use all GPUs if available.
         - ``seed`` : int, default 0
             The random seed.
         - ``verbose`` : int, default 1

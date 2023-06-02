@@ -63,6 +63,9 @@ class ServerConfig(ReprMixin):
         Whether to use json logger.
     eval_every : int, default 1
         The number of iterations to evaluate the model.
+    visiable_gpus : Sequence[int], optional
+        Visable GPU IDs for allocating devices for clients.
+        Defaults to use all GPUs if available.
     seed : int, default 0
         The random seed.
     verbose : int, default 1
@@ -89,6 +92,7 @@ class ServerConfig(ReprMixin):
         csv_logger: bool = False,
         json_logger: bool = True,
         eval_every: int = 1,
+        visiable_gpus: Optional[Sequence[int]] = None,
         seed: int = 0,
         verbose: int = 1,
         gpu_proportion: float = 0.2,
@@ -108,6 +112,18 @@ class ServerConfig(ReprMixin):
             )
         self.json_logger = json_logger
         self.eval_every = eval_every
+        self.visiable_gpus = visiable_gpus
+        default_gpus = list(range(torch.cuda.device_count()))
+        if self.visiable_gpus is None:
+            self.visiable_gpus = default_gpus
+        if not set(self.visiable_gpus).issubset(set(default_gpus)):
+            warnings.warn(
+                f"GPU(s) {set(self.visiable_gpus) - set(default_gpus)} "
+                "are not available."
+            )
+            self.visiable_gpus = [
+                item for item in self.visiable_gpus if item in default_gpus
+            ]
         self.seed = seed
         self.verbose = verbose
         self.gpu_proportion = gpu_proportion
@@ -572,11 +588,13 @@ class Server(Node, CitationMixin):
     def _allocate_devices(self) -> List[torch.device]:
         """Allocate devices for clients, can be used in :meth:`_setup_clients`."""
         self._logger_manager.log_message("Allocate devices...")
-        num_gpus = torch.cuda.device_count()
+        # num_gpus = torch.cuda.device_count()
+        num_gpus = len(self.config.visiable_gpus)
         if num_gpus == 0:
             return list(repeat(torch.device("cpu"), self.config.num_clients))
         return [
-            torch.device(f"cuda:{i%num_gpus}") for i in range(self.config.num_clients)
+            torch.device(f"cuda:{self.config.visiable_gpus[i%num_gpus]}")
+            for i in range(self.config.num_clients)
         ]
 
     def _sample_clients(
