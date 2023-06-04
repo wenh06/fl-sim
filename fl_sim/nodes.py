@@ -623,7 +623,7 @@ class Server(Node, CitationMixin):
             subset = range(self.config.num_clients)
         if clients_sample_ratio is None:
             clients_sample_ratio = self.config.clients_sample_ratio
-        k = int(clients_sample_ratio * len(subset))
+        k = min(len(subset), max(1, round(clients_sample_ratio * len(subset))))
         # return random.sample(subset, k=k)
         # random.sample does not support numpy array input
         return np.random.choice(subset, k, replace=False).tolist()
