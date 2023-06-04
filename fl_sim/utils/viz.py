@@ -7,7 +7,7 @@ import os
 import re
 import warnings
 from pathlib import Path
-from typing import Union, Sequence, Optional, Tuple, List
+from typing import Union, Sequence, Optional, Tuple, List, Dict, Any
 
 import numpy as np
 import yaml
@@ -34,6 +34,7 @@ __all__ = [
     "get_curves_and_labels_from_log",
     "plot_curves",
     "plot_mean_curve_with_error_bounds",
+    "Panel",
 ]
 
 
@@ -57,6 +58,18 @@ _linestyle_tuple = [  # name, linestyle (offset, on-off-seq)
     ("long dash with offset", (5, (10, 3))),
     ("loosely dashed", (0, (5, 10))),
 ]
+
+
+DEFAULT_RC_PARAMS = {
+    "xtick.labelsize": 14,
+    "ytick.labelsize": 14,
+    "axes.labelsize": 18,
+    "legend.fontsize": 14,
+    "legend.title_fontsize": 16,
+    "figure.figsize": [12, 6],
+}
+mpl.rcParams.update(DEFAULT_RC_PARAMS)
+plt.rcParams.update(DEFAULT_RC_PARAMS)
 
 
 def find_log_files(
@@ -167,6 +180,39 @@ def get_curves_and_labels_from_log(
     return curves, stems
 
 
+def _plot_curves(
+    curves: Sequence[np.ndarray],
+    labels: Sequence[str],
+    fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
+) -> Tuple[plt.Figure, plt.Axes]:
+    """Plot the curves.
+
+    Parameters
+    ----------
+    curves : Sequence[numpy.ndarray]
+        The curves.
+    labels : Sequence[str]
+        The labels.
+    fig_ax : Tuple[plt.Figure, plt.Axes]
+        The figure and axes to plot on.
+
+    """
+    if fig_ax is None:
+        fig, ax = plt.subplots()
+    else:
+        fig, ax = fig_ax
+    marker_cycle = itertools.cycle(("o", "s", "v", "^", "<", ">", "p", "P", "*"))
+    # plot_config = dict(marker="*")
+    plot_config = dict()
+    for idx, curve in enumerate(curves):
+        plot_config["marker"] = next(marker_cycle)
+        plot_config["label"] = labels[idx]
+        ax.plot(curve, **plot_config)
+    ax.legend(loc="best")
+    ax.set_xlabel("Global Iter.")
+    return fig, ax
+
+
 def plot_curves(
     files: Union[str, Path, Sequence[Union[str, Path]]],
     part: str = "val",
@@ -199,21 +245,9 @@ def plot_curves(
 
     """
     curves, stems = get_curves_and_labels_from_log(files, part=part, metric=metric)
-    marker_cycle = itertools.cycle(("o", "s", "v", "^", "<", ">", "p", "P", "*"))
-    if fig_ax is None:
-        fig, ax = plt.subplots()
-    else:
-        fig, ax = fig_ax
-    # plot_config = dict(marker="*")
-    plot_config = dict()
     if labels is None:
         labels = stems
-    for idx, curve in enumerate(curves):
-        plot_config["marker"] = next(marker_cycle)
-        plot_config["label"] = labels[idx]
-        ax.plot(curve, **plot_config)
-    ax.legend(loc="best")
-    ax.set_xlabel("Global Iter.")
+    fig, ax = _plot_curves(curves, labels, fig_ax)
     ax.set_ylabel(f"{part} {metric}")
     return fig, ax
 
@@ -299,22 +333,16 @@ class Panel:
 
     TODO
     ----
-    1. add sliders for matplotlib rc params
+    1. ~~add sliders for matplotlib rc params~~(done)
     2. add a input box and a button for saving the figure
-    3. add a box for showing the config of the experiment
+    3. ~~add a box for showing the config of the experiment~~(done)
+    4. use `ToggleButtons` or `TagsInput` to specify indicators for merging multiple curves
 
     """
 
     __name__ = "Panel"
 
-    __default_rc_params__ = {
-        "xtick.labelsize": 14,
-        "ytick.labelsize": 14,
-        "axes.labelsize": 18,
-        "legend.fontsize": 14,
-        "legend.title_fontsize": 16,
-        "figure.figsize": [12, 6],
-    }
+    __default_rc_params__ = DEFAULT_RC_PARAMS.copy()
 
     def __init__(
         self,
@@ -339,8 +367,7 @@ class Panel:
             sns.set()
         else:
             warnings.warn("Seaborn is not installed. One gets better plots with it.")
-        for key, value in self._rc_params.items():
-            plt.rcParams[key] = value
+        self.reset_matplotlib(rc_params=self._rc_params)
 
         self._log_files = find_log_files()
         self._refresh_button = widgets.Button(
@@ -363,19 +390,19 @@ class Panel:
         )
         self._log_files_mult_selector = widgets.SelectMultiple(
             options=list(zip(self.log_files, self._log_files)),
-            # description="Select log files:",
+            description="Select log files:",
             disabled=False,
             layout={"width": "500px", "height": "220px"},
+            style={"description_width": "initial"},
         )
-        boxed_log_files_selector = widgets.Box(
-            [
-                widgets.Label(value="Select log files:"),
-                self._log_files_mult_selector,
-            ]
+        # clear self._fig_curves, self._fig_stems if selected log files change
+        self._log_files_mult_selector.observe(
+            self._log_files_mult_selector_changed, "value"
         )
         self._refresh_button.on_click(self._on_refresh_button_clicked)
 
-        figsize_slider_config = dict(
+        self._fig_curves, self._fig_stems = None, None
+        fig_setup_slider_config = dict(
             step=1,
             disabled=False,
             continuous_update=False,
@@ -384,31 +411,87 @@ class Panel:
             readout_format="d",
         )
         init_fig_width, init_fig_height = self._rc_params["figure.figsize"]
+        init_x_ticks_font_size = self._rc_params["xtick.labelsize"]
+        init_y_ticks_font_size = self._rc_params["ytick.labelsize"]
+        init_axes_label_font_size = self._rc_params["axes.labelsize"]
+        init_legend_font_size = self._rc_params["legend.fontsize"]
         self._fig_width_slider = widgets.IntSlider(
             value=int(init_fig_width),
             min=6,
             max=20,
             description="Fig. width:",
-            **figsize_slider_config,
+            style={"description_width": "initial"},
+            **fig_setup_slider_config,
         )
         self._fig_width_slider.observe(self._on_fig_width_slider_value_changed)
         self._fig_height_slider = widgets.IntSlider(
             value=int(init_fig_height),
             min=3,
-            max=15,
+            max=12,
             description="Fig. height:",
-            **figsize_slider_config,
+            style={"description_width": "initial"},
+            **fig_setup_slider_config,
         )
         self._fig_height_slider.observe(self._on_fig_height_slider_value_changed)
-        # TODO: add sliders for changing font sizes:
-        # 1. xtick.labelsize
-        # 2. ytick.labelsize
-        # 3. axes.labelsize
-        # 4. legend.fontsize
+        self._x_ticks_font_size_slider = widgets.IntSlider(
+            value=int(init_x_ticks_font_size),
+            min=6,
+            max=30,
+            description="X tick font size:",
+            style={"description_width": "initial"},
+            **fig_setup_slider_config,
+        )
+        self._x_ticks_font_size_slider.observe(
+            self._on_x_ticks_font_size_slider_value_changed
+        )
+        self._y_ticks_font_size_slider = widgets.IntSlider(
+            value=int(init_y_ticks_font_size),
+            min=6,
+            max=30,
+            description="Y tick font size:",
+            style={"description_width": "initial"},
+            **fig_setup_slider_config,
+        )
+        self._y_ticks_font_size_slider.observe(
+            self._on_y_ticks_font_size_slider_value_changed
+        )
+        self._axes_label_font_size_slider = widgets.IntSlider(
+            value=int(init_axes_label_font_size),
+            min=6,
+            max=30,
+            description="Axes label font size:",
+            style={"description_width": "initial"},
+            **fig_setup_slider_config,
+        )
+        self._axes_label_font_size_slider.observe(
+            self._on_axes_label_font_size_slider_value_changed
+        )
+        self._legend_font_size_slider = widgets.IntSlider(
+            value=int(init_legend_font_size),
+            min=6,
+            max=30,
+            description="Legend font size:",
+            style={"description_width": "initial"},
+            **fig_setup_slider_config,
+        )
+        self._legend_font_size_slider.observe(
+            self._on_legend_font_size_slider_value_changed
+        )
 
         slider_box = widgets.GridBox(
-            [self._fig_width_slider, self._fig_height_slider],
-            layout=widgets.Layout(grid_template_columns="repeat(2, 0.5fr)"),
+            [
+                self._fig_width_slider,
+                self._fig_height_slider,
+                self._x_ticks_font_size_slider,
+                self._y_ticks_font_size_slider,
+                self._axes_label_font_size_slider,
+                self._legend_font_size_slider,
+            ],
+            layout=widgets.Layout(
+                grid_template_columns="repeat(2, 0.5fr)",
+                grid_template_rows="repeat(3, 0.5fr)",
+                grid_gap="0px 0px",
+            ),
         )
 
         self._part_input = widgets.Text(
@@ -425,9 +508,19 @@ class Panel:
             disabled=False,
             layout={"width": "200px"},
         )
+        self._refresh_part_metric_button = widgets.Button(
+            description="Refresh part/metric",
+            disabled=False,
+            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            tooltip="Refresh part/metric",
+            icon="refresh",  # (FontAwesome names without the `fa-` prefix)
+        )
+        self._refresh_part_metric_button.on_click(
+            self._on_refresh_part_metric_button_clicked
+        )
 
         # canvas for displaying the curves
-        self._canvas = widgets.Output()
+        self._canvas = widgets.Output(layout={"border": "2px solid black"})
 
         self._show_button = widgets.Button(
             description="Plot the curves",
@@ -452,8 +545,9 @@ class Panel:
             description="Select log file:",
             disabled=False,
             layout={"width": "500px"},
+            style={"description_width": "initial"},
         )
-        self._show_config_area = widgets.Output()
+        self._show_config_area = widgets.Output(layout={"border": "2px solid black"})
         self._log_file_dropdown_selector.observe(
             self._on_log_file_dropdown_selector_change, names="value"
         )
@@ -468,10 +562,15 @@ class Panel:
                         self._num_log_files_label,
                     ]
                 ),
-                # self._log_files_mult_selector,
-                boxed_log_files_selector,
-                widgets.HBox([self._part_input, self._metric_input]),
-                # slider_box,  # TODO: fix the layout
+                self._log_files_mult_selector,
+                widgets.HBox(
+                    [
+                        self._part_input,
+                        self._metric_input,
+                        self._refresh_part_metric_button,
+                    ]
+                ),
+                slider_box,
                 widgets.HBox(
                     [self._show_button, self._clear_button],
                     layout=widgets.Layout(align_items="center"),
@@ -499,6 +598,14 @@ class Panel:
         self._log_file_dropdown_selector.options = list(
             zip(self.log_files, self._log_files)
         )
+        # clear loaded curves and stems
+        self._fig_curves, self._fig_stems = None, None
+
+    def _log_files_mult_selector_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        # clear self._fig_curves and self._fig_stems
+        self._fig_curves, self._fig_stems = None, None
 
     def _on_log_file_dropdown_selector_change(self, change: dict) -> None:
         if widgets is None:
@@ -518,14 +625,62 @@ class Panel:
     def _on_fig_width_slider_value_changed(self, change: dict) -> None:
         if widgets is None:
             return
-        self._rc_params["figure.figsize"][0] = change["new"]
+        if isinstance(change["new"], (int, float)):
+            self._rc_params["figure.figsize"][0] = change["new"]
         if self._show_fig_flag:
             self._show_fig()
 
     def _on_fig_height_slider_value_changed(self, change: dict) -> None:
         if widgets is None:
             return
-        self._rc_params["figure.figsize"][1] = change["new"]
+        if isinstance(change["new"], (int, float)):
+            self._rc_params["figure.figsize"][1] = change["new"]
+            self.reset_matplotlib(rc_params=self._rc_params)
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_x_ticks_font_size_slider_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        self._show_config_area.clear_output(wait=False)
+        if isinstance(change["new"], (int, float)):
+            self._rc_params["xtick.labelsize"] = change["new"]
+            self.reset_matplotlib(rc_params=self._rc_params)
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_y_ticks_font_size_slider_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        if isinstance(change["new"], (int, float)):
+            self._rc_params["ytick.labelsize"] = change["new"]
+            self.reset_matplotlib(rc_params=self._rc_params)
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_axes_label_font_size_slider_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        if isinstance(change["new"], (int, float)):
+            self._rc_params["axes.labelsize"] = change["new"]
+            self.reset_matplotlib(rc_params=self._rc_params)
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_legend_font_size_slider_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        if isinstance(change["new"], (int, float)):
+            self._rc_params["legend.fontsize"] = change["new"]
+            self.reset_matplotlib(rc_params=self._rc_params)
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_refresh_part_metric_button_clicked(self, button: widgets.Button) -> None:
+        if widgets is None:
+            return
+        # clear the loaded curves and stems
+        self._fig_curves, self._fig_stems = None, None
         if self._show_fig_flag:
             self._show_fig()
 
@@ -552,11 +707,15 @@ class Panel:
         with self._canvas:
             try:
                 self._show_fig_flag = True
-                fig, ax = plot_curves(
-                    self._log_files_mult_selector.value,
-                    part=self._part_input.value,
-                    metric=self._metric_input.value,
-                )
+                if self._fig_curves is None or self._fig_stems is None:
+                    self._fig_curves, self._fig_stems = get_curves_and_labels_from_log(
+                        self._log_files_mult_selector.value,
+                        part=self._part_input.value,
+                        metric=self._metric_input.value,
+                    )
+                fig, ax = plt.subplots(figsize=self._rc_params["figure.figsize"])
+                fig, ax = _plot_curves(self._fig_curves, self._fig_stems, (fig, ax))
+                ax.set_ylabel(f"{self._part_input.value} {self._metric_input.value}")
                 widgets.widgets.interaction.show_inline_matplotlib_plots()
             except KeyError:
                 print("Invalid part or metric.")
@@ -564,6 +723,7 @@ class Panel:
     def _on_clear_button_clicked(self, button: widgets.Button) -> None:
         if widgets is None:
             return
+        self._fig_curves, self._fig_stems = None, None
         self._canvas.clear_output(wait=False)
         self._show_fig_flag = False
 
@@ -572,8 +732,10 @@ class Panel:
         return [item.stem for item in self._log_files]
 
     @staticmethod
-    def reset_matplotlib() -> None:
+    def reset_matplotlib(rc_params: Optional[Dict[str, Any]] = None) -> None:
+        """Reset matplotlib to default settings."""
         if mpl is None:
             return
-        """Reset matplotlib to default settings."""
-        mpl.rcParams.update(mpl.rcParamsDefault)
+        if rc_params is None:
+            rc_params = mpl.rcParamsDefault
+        mpl.rcParams.update(rc_params)
