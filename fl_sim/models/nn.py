@@ -3,9 +3,10 @@ simple neural network models
 """
 
 import re
-from typing import Optional, Union, Sequence
+from typing import Optional, Union, Sequence, Callable
 
 from einops.layers.torch import Rearrange
+import torch
 from torch import nn, Tensor
 import torch.nn.functional as F  # noqa: F401
 from torchvision.models.resnet import ResNet, BasicBlock, resnet18
@@ -461,6 +462,40 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         output = self.rearrange(self.fc(lstm_out))
         return output
 
+    def pipeline(
+        self,
+        truncated_sentence: str,
+        char_to_id: Callable[[str], int],
+        id_to_char: Callable[[int], str],
+    ) -> str:
+        """Predict the next character given a truncated sentence.
+
+        Parameters
+        ----------
+        truncated_sentence : str
+            The truncated sentence.
+        char_to_id : Callable[[str], int]
+            A function that maps a character to its id.
+        id_to_char : Callable[[int], str]
+            A function that maps an id to its character.
+
+        Returns
+        -------
+        str
+            The predicted next character.
+
+        """
+        prev = self.training
+        self.eval()
+        with torch.no_grad():
+            input_seq = torch.tensor(
+                [[char_to_id(c) for c in truncated_sentence]], dtype=torch.long
+            )
+            output = self(input_seq)
+            predicted_id = torch.argmax(output[:, -1], dim=-1)
+        self.train(prev)
+        return id_to_char(predicted_id.item())
+
 
 class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
     """Creates a RNN model using LSTM layers for StackOverFlow (next word prediction task).
@@ -540,6 +575,40 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         fc1_output = self.fc1(lstm_out)
         output = self.rearrange(self.fc2(fc1_output))
         return output
+
+    def pipeline(
+        self,
+        truncated_sentence: str,
+        word_to_id: Callable[[str], int],
+        id_to_word: Callable[[int], str],
+    ) -> str:
+        """Predict the next word given a truncated sentence.
+
+        Parameters
+        ----------
+        truncated_sentence : str
+            The truncated sentence.
+        word_to_id : Callable[[str], int]
+            A function that maps a word to its id.
+        id_to_word : Callable[[int], str]
+            A function that maps an id to its word.
+
+        Returns
+        -------
+        str
+            The predicted next word.
+
+        """
+        prev = self.training
+        self.eval()
+        with torch.no_grad():
+            input_seq = torch.tensor(
+                [[word_to_id(w) for w in truncated_sentence.split()]], dtype=torch.long
+            )
+            output = self(input_seq)
+            predicted_id = torch.argmax(output[:, -1], dim=-1)
+        self.train(prev)
+        return id_to_word(predicted_id.item())
 
 
 class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
@@ -621,6 +690,32 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         fc1_output = self.fc1(final_hidden_state)  # shape: (batch_size, 30)
         output = self.fc2(fc1_output)  # shape: (batch_size, 1)
         return output
+
+    def pipeline(self, sentence: str) -> int:
+        """Predict the sentiment of a sentence.
+
+        Parameters
+        ----------
+        sentence : str
+            The sentence to predict the sentiment of.
+
+        Returns
+        -------
+        int
+            The class index of the predicted sentiment.
+
+        """
+        prev = self.training
+        self.eval()
+        with torch.no_grad():
+            input_seq = torch.tensor(
+                [self.tokenizer.encode(sentence)], dtype=torch.long
+            )
+            output = self(input_seq)
+            print(output)
+            predicted_class = torch.argmax(output, dim=-1)
+        self.train(prev)
+        return predicted_class.item()
 
 
 class ResNet18(ResNet, CLFMixin, SizeMixin, DiffMixin):
