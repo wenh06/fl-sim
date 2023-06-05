@@ -66,7 +66,7 @@ DEFAULT_RC_PARAMS = {
     "axes.labelsize": 18,
     "legend.fontsize": 14,
     "legend.title_fontsize": 16,
-    "figure.figsize": [12, 6],
+    "figure.figsize": [16, 8],
 }
 mpl.rcParams.update(DEFAULT_RC_PARAMS)
 plt.rcParams.update(DEFAULT_RC_PARAMS)
@@ -657,7 +657,8 @@ class Panel:
             zip(self.log_files, self._log_files)
         )
         # update the label
-        self._num_log_files_label.value = f"Found {len(self.log_files)} log files."
+        unit = "files" if len(self._log_files) > 1 else "file"
+        self._num_log_files_label.value = f"Found {len(self.log_files)} log {unit}."
         # update the dropdown selector
         self._log_file_dropdown_selector.options = list(
             zip(self.log_files, self._log_files)
@@ -799,7 +800,9 @@ class Panel:
                         part=self._part_input.value,
                         metric=self._metric_input.value,
                     )
-                fig, ax = plt.subplots(figsize=self._rc_params["figure.figsize"])
+                self.fig, self.ax = plt.subplots(
+                    figsize=self._rc_params["figure.figsize"]
+                )
                 raw_indices = set(range(len(self._fig_curves)))
                 for tag in self._merge_curve_tags_input.value:
                     indices = [
@@ -809,25 +812,28 @@ class Panel:
                     ]
                     if len(indices) == 0:
                         continue
-                    fig, ax = plot_mean_curve_with_error_bounds(
+                    self.fig, self.ax = plot_mean_curve_with_error_bounds(
                         curves=[self._fig_curves[idx] for idx in indices],
                         error_type=self._merge_curve_method_dropdown_selector.value,
-                        fig_ax=(fig, ax),
+                        fig_ax=(self.fig, self.ax),
                         label=tag,
                         error_bound_label=self._merge_curve_with_err_bound_label_checkbox.value,
                     )
-                    ax.get_legend().remove()
+                    self.ax.get_legend().remove()
                     raw_indices = raw_indices - set(indices)
                 raw_indices = sorted(raw_indices)
                 if len(raw_indices) > 0:
-                    fig, ax = _plot_curves(
+                    self.fig, self.ax = _plot_curves(
                         [self._fig_curves[idx] for idx in raw_indices],
                         [self._fig_stems[idx] for idx in raw_indices],
-                        fig_ax=(fig, ax),
+                        fig_ax=(self.fig, self.ax),
                     )
                 else:
-                    ax.legend(loc="best")
-                ax.set_ylabel(f"{self._part_input.value} {self._metric_input.value}")
+                    self.ax.legend(loc="best")
+                self.ax.set_ylabel(
+                    f"{self._part_input.value} {self._metric_input.value}"
+                )
+                self.ax.set_xlabel("Global Iter.")
                 widgets.widgets.interaction.show_inline_matplotlib_plots()
             except KeyError:
                 print("Invalid part or metric.")
