@@ -256,6 +256,8 @@ def plot_mean_curve_with_error_bounds(
     curves: Sequence[np.ndarray],
     error_type: str = "std",
     fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
+    label: Optional[str] = None,
+    error_bound_label: bool = True,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """Plot the mean curve with error bounds.
 
@@ -271,6 +273,12 @@ def plot_mean_curve_with_error_bounds(
             - "iqr": interquartile range
     fig_ax : Optional[Tuple[plt.Figure, plt.Axes]], optional
         The figure and axes to plot on.
+        If None, a new figure and axes will be created.
+    label : Optional[str], optional
+        The label for the mean curve.
+        Default to ``"mean"``.
+    error_bound_label : bool, default True
+        Whether to add the label for the error bounds.
 
     Returns
     -------
@@ -311,15 +319,20 @@ def plot_mean_curve_with_error_bounds(
         lower_curve = q1 - 1.5 * iqr
     else:
         raise ValueError(f"Unknown error type: {error_type}")
-    ax.plot(mean_curve, label="mean")
+    ax.plot(mean_curve, label=label or "mean")
+    fill_between_config = {"alpha": 0.3}
+    if error_bound_label:
+        fill_between_config["label"] = (
+            error_type if label is None else f"{label}-{error_type}"
+        )
     ax.fill_between(
         np.arange(len(mean_curve)),
         lower_curve,
         upper_curve,
-        alpha=0.3,
-        label=error_type,
+        **fill_between_config,
     )
     ax.legend(loc="best")
+    return fig, ax
 
 
 class Panel:
@@ -336,7 +349,7 @@ class Panel:
     1. ~~add sliders for matplotlib rc params~~(done)
     2. add a input box and a button for saving the figure
     3. ~~add a box for showing the config of the experiment~~(done)
-    4. use `ToggleButtons` or `TagsInput` to specify indicators for merging multiple curves
+    4. ~~use `ToggleButtons` or `TagsInput` to specify indicators for merging multiple curves~~(done)
 
     """
 
@@ -397,7 +410,7 @@ class Panel:
         )
         # clear self._fig_curves, self._fig_stems if selected log files change
         self._log_files_mult_selector.observe(
-            self._log_files_mult_selector_changed, "value"
+            self._log_files_mult_selector_changed, names="value"
         )
         self._refresh_button.on_click(self._on_refresh_button_clicked)
 
@@ -423,7 +436,9 @@ class Panel:
             style={"description_width": "initial"},
             **fig_setup_slider_config,
         )
-        self._fig_width_slider.observe(self._on_fig_width_slider_value_changed)
+        self._fig_width_slider.observe(
+            self._on_fig_width_slider_value_changed, names="value"
+        )
         self._fig_height_slider = widgets.IntSlider(
             value=int(init_fig_height),
             min=3,
@@ -432,7 +447,9 @@ class Panel:
             style={"description_width": "initial"},
             **fig_setup_slider_config,
         )
-        self._fig_height_slider.observe(self._on_fig_height_slider_value_changed)
+        self._fig_height_slider.observe(
+            self._on_fig_height_slider_value_changed, names="value"
+        )
         self._x_ticks_font_size_slider = widgets.IntSlider(
             value=int(init_x_ticks_font_size),
             min=6,
@@ -442,7 +459,7 @@ class Panel:
             **fig_setup_slider_config,
         )
         self._x_ticks_font_size_slider.observe(
-            self._on_x_ticks_font_size_slider_value_changed
+            self._on_x_ticks_font_size_slider_value_changed, names="value"
         )
         self._y_ticks_font_size_slider = widgets.IntSlider(
             value=int(init_y_ticks_font_size),
@@ -453,7 +470,7 @@ class Panel:
             **fig_setup_slider_config,
         )
         self._y_ticks_font_size_slider.observe(
-            self._on_y_ticks_font_size_slider_value_changed
+            self._on_y_ticks_font_size_slider_value_changed, names="value"
         )
         self._axes_label_font_size_slider = widgets.IntSlider(
             value=int(init_axes_label_font_size),
@@ -464,7 +481,7 @@ class Panel:
             **fig_setup_slider_config,
         )
         self._axes_label_font_size_slider.observe(
-            self._on_axes_label_font_size_slider_value_changed
+            self._on_axes_label_font_size_slider_value_changed, names="value"
         )
         self._legend_font_size_slider = widgets.IntSlider(
             value=int(init_legend_font_size),
@@ -475,7 +492,7 @@ class Panel:
             **fig_setup_slider_config,
         )
         self._legend_font_size_slider.observe(
-            self._on_legend_font_size_slider_value_changed
+            self._on_legend_font_size_slider_value_changed, names="value"
         )
 
         slider_box = widgets.GridBox(
@@ -517,6 +534,52 @@ class Panel:
         )
         self._refresh_part_metric_button.on_click(
             self._on_refresh_part_metric_button_clicked
+        )
+
+        self._merge_curve_method_dropdown_selector = widgets.Dropdown(
+            options=[
+                ("standard deviation", "std"),
+                ("standard error of the mean", "sem"),
+                ("quartile", "quartile"),
+                ("interquartile range", "iqr"),
+            ],
+            value="std",
+            description="Merge error bound type:",
+            style={"description_width": "initial"},
+        )
+        self._merge_curve_method_dropdown_selector.observe(
+            self._on_merge_curve_method_dropdown_selector_value_changed, names="value"
+        )
+        self._merge_curve_with_err_bound_label_checkbox = widgets.Checkbox(
+            value=True,
+            description="Merge with error bound label",
+            style={"description_width": "initial"},
+        )
+        self._merge_curve_with_err_bound_label_checkbox.observe(
+            self._on_merge_curve_with_err_bound_label_checkbox_value_changed,
+            names="value",
+        )
+        self._merge_curve_tags_input = widgets.TagsInput(
+            value=[],
+            allow_duplicates=False,
+            placeholder="FedAvg, FedProx, etc.",
+            # description="Merge tags:",
+            # style={"description_width": "initial"},
+        )
+        self._merge_curve_tags_input.observe(
+            self._on_merge_curve_tags_input_value_changed, names="value"
+        )
+        merge_curve_tags_box = widgets.VBox(
+            [
+                widgets.HBox(
+                    [
+                        self._merge_curve_method_dropdown_selector,
+                        widgets.Label("Merge tags:"),
+                        self._merge_curve_tags_input,
+                    ]
+                ),
+                self._merge_curve_with_err_bound_label_checkbox,
+            ],
         )
 
         # canvas for displaying the curves
@@ -571,6 +634,7 @@ class Panel:
                     ]
                 ),
                 slider_box,
+                merge_curve_tags_box,
                 widgets.HBox(
                     [self._show_button, self._clear_button],
                     layout=widgets.Layout(align_items="center"),
@@ -684,6 +748,28 @@ class Panel:
         if self._show_fig_flag:
             self._show_fig()
 
+    def _on_merge_curve_tags_input_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_merge_curve_method_dropdown_selector_value_changed(
+        self, change: dict
+    ) -> None:
+        if widgets is None:
+            return
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_merge_curve_with_err_bound_label_checkbox_value_changed(
+        self, change: dict
+    ) -> None:
+        if widgets is None:
+            return
+        if self._show_fig_flag:
+            self._show_fig()
+
     def _on_show_button_clicked(self, button: widgets.Button) -> None:
         if widgets is None:
             return
@@ -714,7 +800,33 @@ class Panel:
                         metric=self._metric_input.value,
                     )
                 fig, ax = plt.subplots(figsize=self._rc_params["figure.figsize"])
-                fig, ax = _plot_curves(self._fig_curves, self._fig_stems, (fig, ax))
+                raw_indices = set(range(len(self._fig_curves)))
+                for tag in self._merge_curve_tags_input.value:
+                    indices = [
+                        idx
+                        for idx, stem in enumerate(self._fig_stems)
+                        if re.search(tag + "-", stem) or re.search("-" + tag, stem)
+                    ]
+                    if len(indices) == 0:
+                        continue
+                    fig, ax = plot_mean_curve_with_error_bounds(
+                        curves=[self._fig_curves[idx] for idx in indices],
+                        error_type=self._merge_curve_method_dropdown_selector.value,
+                        fig_ax=(fig, ax),
+                        label=tag,
+                        error_bound_label=self._merge_curve_with_err_bound_label_checkbox.value,
+                    )
+                    ax.get_legend().remove()
+                    raw_indices = raw_indices - set(indices)
+                raw_indices = sorted(raw_indices)
+                if len(raw_indices) > 0:
+                    fig, ax = _plot_curves(
+                        [self._fig_curves[idx] for idx in raw_indices],
+                        [self._fig_stems[idx] for idx in raw_indices],
+                        fig_ax=(fig, ax),
+                    )
+                else:
+                    ax.legend(loc="best")
                 ax.set_ylabel(f"{self._part_input.value} {self._metric_input.value}")
                 widgets.widgets.interaction.show_inline_matplotlib_plots()
             except KeyError:
