@@ -460,7 +460,9 @@ class Server(Node, CitationMixin):
         The configs for the clients.
     lazy : bool, default False
         Whether to use lazy initialization
-        for the client nodes.
+        for the client nodes. This is useful
+        when one wants to do centralized training
+        for verification.
 
     TODO
     ----
@@ -545,6 +547,8 @@ class Server(Node, CitationMixin):
 
         if not lazy:
             self._clients = self._setup_clients(self.dataset, self._client_config)
+        else:
+            self._clients = None
 
     def _setup_clients(
         self,
@@ -796,6 +800,9 @@ class Server(Node, CitationMixin):
         Run clients training in parallel.
 
         """
+        if self._clients is None:
+            self._clients = self._setup_clients(self.dataset, self._client_config)
+
         if self._complete_experiment:
             # reset before training if a previous experiment is completed
             self._reset()
