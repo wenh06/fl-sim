@@ -58,18 +58,47 @@ _linestyle_tuple = [  # name, linestyle (offset, on-off-seq)
     ("long dash with offset", (5, (10, 3))),
     ("loosely dashed", (0, (5, 10))),
 ]
+_linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
+_marker_cycle = itertools.cycle(("o", "s", "v", "^", "<", ">", "p", "P", "*"))
 
 
 DEFAULT_RC_PARAMS = {
-    "xtick.labelsize": 14,
-    "ytick.labelsize": 14,
-    "axes.labelsize": 18,
-    "legend.fontsize": 14,
-    "legend.title_fontsize": 16,
+    "xtick.labelsize": 18,
+    "ytick.labelsize": 18,
+    "axes.labelsize": 22,
+    "legend.fontsize": 18,
+    "legend.title_fontsize": 20,
     "figure.figsize": [16, 8],
+    "lines.linewidth": 2.6,
+    "font.family": ["sans-serif"],
 }
-mpl.rcParams.update(DEFAULT_RC_PARAMS)
-plt.rcParams.update(DEFAULT_RC_PARAMS)
+if mpl is not None:
+    font_files = mpl.font_manager.findSystemFonts()
+    for font_file in font_files:
+        try:
+            mpl.font_manager.fontManager.addfont(font_file)
+        except Exception:
+            pass
+    _font_names = [item.name for item in mpl.font_manager.fontManager.ttflist]
+    _fonts_priority = [
+        "Helvetica",
+        "Arial",
+        "TeX Gyre Heros",
+        "CMU Serif",
+        "Times New Roman",
+    ]
+    _fonts_priority = [item for item in _fonts_priority if item in _font_names]
+    if len(_fonts_priority) == 0:
+        _fonts_priority = ["sans-serif"]
+    for font in _fonts_priority:
+        if font in _font_names:
+            DEFAULT_RC_PARAMS["font.family"] = [font]
+            break
+    print(f"Using font {DEFAULT_RC_PARAMS['font.family']}")
+    mpl.rcParams.update(DEFAULT_RC_PARAMS)
+    plt.rcParams.update(DEFAULT_RC_PARAMS)
+else:
+    _font_names, _fonts_priority = None, None
 
 
 def find_log_files(
@@ -201,11 +230,11 @@ def _plot_curves(
         fig, ax = plt.subplots()
     else:
         fig, ax = fig_ax
-    marker_cycle = itertools.cycle(("o", "s", "v", "^", "<", ">", "p", "P", "*"))
     # plot_config = dict(marker="*")
     plot_config = dict()
     for idx, curve in enumerate(curves):
-        plot_config["marker"] = next(marker_cycle)
+        plot_config["marker"] = next(_marker_cycle)
+        plot_config["linestyle"] = next(_linestyle_cycle)
         plot_config["label"] = labels[idx]
         ax.plot(curve, **plot_config)
     ax.legend(loc="best")
@@ -258,6 +287,8 @@ def plot_mean_curve_with_error_bounds(
     fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
     label: Optional[str] = None,
     error_bound_label: bool = True,
+    plot_config: Optional[Dict[str, Any]] = None,
+    fill_between_config: Dict[str, Any] = {"alpha": 0.3},
 ) -> Tuple[plt.Figure, plt.Axes]:
     """Plot the mean curve with error bounds.
 
@@ -279,6 +310,10 @@ def plot_mean_curve_with_error_bounds(
         Default to ``"mean"``.
     error_bound_label : bool, default True
         Whether to add the label for the error bounds.
+    plot_config : Optional[Dict[str, Any]], optional
+        The plot config for the mean curve passed to ``ax.plot``.
+    fill_between_config : Dict[str, Any], default {"alpha": 0.3}
+        The config for ``ax.fill_between``.
 
     Returns
     -------
@@ -319,8 +354,7 @@ def plot_mean_curve_with_error_bounds(
         lower_curve = q1 - 1.5 * iqr
     else:
         raise ValueError(f"Unknown error type: {error_type}")
-    ax.plot(mean_curve, label=label or "mean")
-    fill_between_config = {"alpha": 0.3}
+    ax.plot(mean_curve, label=label or "mean", **(plot_config or {}))
     if error_bound_label:
         fill_between_config["label"] = (
             error_type if label is None else f"{label}-{error_type}"
@@ -422,18 +456,19 @@ class Panel:
             orientation="horizontal",
             readout=True,
             readout_format="d",
+            style={"description_width": "initial"},
         )
         init_fig_width, init_fig_height = self._rc_params["figure.figsize"]
         init_x_ticks_font_size = self._rc_params["xtick.labelsize"]
         init_y_ticks_font_size = self._rc_params["ytick.labelsize"]
         init_axes_label_font_size = self._rc_params["axes.labelsize"]
         init_legend_font_size = self._rc_params["legend.fontsize"]
+        init_linewidth = self._rc_params["lines.linewidth"]
         self._fig_width_slider = widgets.IntSlider(
             value=int(init_fig_width),
             min=6,
             max=20,
             description="Fig. width:",
-            style={"description_width": "initial"},
             **fig_setup_slider_config,
         )
         self._fig_width_slider.observe(
@@ -444,7 +479,6 @@ class Panel:
             min=3,
             max=12,
             description="Fig. height:",
-            style={"description_width": "initial"},
             **fig_setup_slider_config,
         )
         self._fig_height_slider.observe(
@@ -455,7 +489,6 @@ class Panel:
             min=6,
             max=30,
             description="X tick font size:",
-            style={"description_width": "initial"},
             **fig_setup_slider_config,
         )
         self._x_ticks_font_size_slider.observe(
@@ -466,7 +499,6 @@ class Panel:
             min=6,
             max=30,
             description="Y tick font size:",
-            style={"description_width": "initial"},
             **fig_setup_slider_config,
         )
         self._y_ticks_font_size_slider.observe(
@@ -477,7 +509,6 @@ class Panel:
             min=6,
             max=30,
             description="Axes label font size:",
-            style={"description_width": "initial"},
             **fig_setup_slider_config,
         )
         self._axes_label_font_size_slider.observe(
@@ -488,11 +519,30 @@ class Panel:
             min=6,
             max=30,
             description="Legend font size:",
-            style={"description_width": "initial"},
             **fig_setup_slider_config,
         )
         self._legend_font_size_slider.observe(
             self._on_legend_font_size_slider_value_changed, names="value"
+        )
+        self._linewidth_slider = widgets.FloatSlider(
+            value=init_linewidth,
+            min=0.8,
+            max=3.6,
+            description="Line width:",
+            **{**fig_setup_slider_config, **{"step": 0.1, "readout_format": ".1f"}},
+        )
+        self._linewidth_slider.observe(
+            self._on_linewidth_slider_value_changed, names="value"
+        )
+        self._fill_between_alpha_slider = widgets.FloatSlider(
+            value=0.3,
+            min=0.1,
+            max=0.9,
+            description="Fill between alpha:",
+            **{**fig_setup_slider_config, **{"step": 0.01, "readout_format": ".2f"}},
+        )
+        self._fill_between_alpha_slider.observe(
+            self._on_fill_between_alpha_slider_value_changed, names="value"
         )
 
         slider_box = widgets.GridBox(
@@ -503,10 +553,12 @@ class Panel:
                 self._y_ticks_font_size_slider,
                 self._axes_label_font_size_slider,
                 self._legend_font_size_slider,
+                self._linewidth_slider,
+                self._fill_between_alpha_slider,
             ],
             layout=widgets.Layout(
                 grid_template_columns="repeat(2, 0.5fr)",
-                grid_template_rows="repeat(3, 0.5fr)",
+                grid_template_rows="repeat(4, 0.5fr)",
                 grid_gap="0px 0px",
             ),
         )
@@ -741,6 +793,21 @@ class Panel:
         if self._show_fig_flag:
             self._show_fig()
 
+    def _on_linewidth_slider_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        if isinstance(change["new"], (int, float)):
+            self._rc_params["lines.linewidth"] = change["new"]
+            self.reset_matplotlib(rc_params=self._rc_params)
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_fill_between_alpha_slider_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        if self._show_fig_flag:
+            self._show_fig()
+
     def _on_refresh_part_metric_button_clicked(self, button: widgets.Button) -> None:
         if widgets is None:
             return
@@ -804,11 +871,12 @@ class Panel:
                     figsize=self._rc_params["figure.figsize"]
                 )
                 raw_indices = set(range(len(self._fig_curves)))
-                for tag in self._merge_curve_tags_input.value:
+                linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
+                for idx, tag in enumerate(self._merge_curve_tags_input.value):
                     indices = [
                         idx
                         for idx, stem in enumerate(self._fig_stems)
-                        if re.search(tag + "-", stem) or re.search("-" + tag, stem)
+                        if re.search(tag + "\\-", stem) or re.search("\\-" + tag, stem)
                     ]
                     if len(indices) == 0:
                         continue
@@ -818,6 +886,10 @@ class Panel:
                         fig_ax=(self.fig, self.ax),
                         label=tag,
                         error_bound_label=self._merge_curve_with_err_bound_label_checkbox.value,
+                        plot_config={"linestyle": next(linestyle_cycle)},
+                        fill_between_config={
+                            "alpha": self._fill_between_alpha_slider.value
+                        },
                     )
                     self.ax.get_legend().remove()
                     raw_indices = raw_indices - set(indices)
