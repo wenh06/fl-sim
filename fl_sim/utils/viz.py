@@ -103,7 +103,7 @@ def find_log_files(
         for idx, fn in enumerate(log_files):
             print(idx, "---", fn.stem)
     else:
-        return log_files
+        return sorted(log_files)
 
 
 def get_config_from_log(file: Union[str, Path]) -> dict:

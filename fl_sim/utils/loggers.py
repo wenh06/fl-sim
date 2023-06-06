@@ -264,10 +264,11 @@ class TxtLogger(BaseLogger):
                 h.flush()
 
     def close(self) -> None:
-        for h in self.logger.handlers:
-            h.close()
+        handlers = self.logger.handlers
+        for h in handlers:
             self.logger.removeHandler(h)
-        logging.shutdown()
+            h.close()
+        # logging.shutdown()
 
     def reset(self) -> None:
         """Reset the logger.
