@@ -678,10 +678,13 @@ class Server(Node, CitationMixin):
         if self._complete_experiment:
             # reset before training if a previous experiment is completed
             self._reset(reset_clients=(mode.lower() == "federated"))
+        self._complete_experiment = False
         if mode.lower() == "federated":
             self.train_federated(extra_configs)
         elif mode.lower() == "centralized":
             self.train_centralized(extra_configs)
+        elif mode.lower() == "local":
+            self.train_local(extra_configs)
         else:
             raise ValueError(f"mode {mode} is not supported")
         self._complete_experiment = True
@@ -724,6 +727,7 @@ class Server(Node, CitationMixin):
             "scheduler", LambdaLR(optimizer, lambda epoch: 1 / (0.01 * epoch + 1))
         )
 
+        self._complete_experiment = False
         epoch_losses = []
         self.n_iter, global_step = 0, 0
         for self.n_iter in range(self.config.num_iters):
@@ -807,6 +811,7 @@ class Server(Node, CitationMixin):
             # reset before training if a previous experiment is completed
             self._reset()
 
+        self._complete_experiment = False
         self._logger_manager.log_message("Training federated...")
         self.n_iter = 0
         with tqdm(
@@ -841,7 +846,6 @@ class Server(Node, CitationMixin):
                                 # otherwise the evaluation would be done
                                 # on the ``personalized`` (locally fine-tuned) model.
                                 metrics = client.evaluate(part)
-                                # print(f"metrics: {metrics}")
                                 self._logger_manager.log_metrics(
                                     client_id,
                                     metrics,
@@ -869,8 +873,68 @@ class Server(Node, CitationMixin):
                     self._update()
         self._logger_manager.log_message("Federated training finished...")
         self._logger_manager.flush()
-        # self._logger_manager.reset()
 
+        self._complete_experiment = True
+
+    def train_local(self, extra_configs: Optional[dict] = None) -> None:
+        """Local training, conducted on the clients,
+        without any communication with the server. Used for comparison.
+
+        Parameters
+        ----------
+        extra_configs : dict, optional
+            The extra configs for local training.
+
+        Returns
+        -------
+        None
+
+        """
+        if self._clients is None:
+            self._clients = self._setup_clients(self.dataset, self._client_config)
+
+        if self._complete_experiment:
+            # reset before training if a previous experiment is completed
+            self._reset()
+
+        self._complete_experiment = False
+        self._logger_manager.log_message("Training local...")
+        self.n_iter = 0
+        with tqdm(
+            range(self.config.num_iters),
+            total=self.config.num_iters,
+            desc=f"{self.config.algorithm} training",
+            unit="iter",
+            mininterval=1,  # usually useless since a full iteration takes a very long time
+        ) as outer_pbar:
+            for self.n_iter in outer_pbar:
+                with tqdm(
+                    total=len(self._clients),
+                    desc=f"Iter {self.n_iter+1}/{self.config.num_iters}",
+                    unit="client",
+                    mininterval=max(1, len(self._clients) // 10),
+                    disable=self.config.verbose < 1,
+                    leave=False,
+                ) as pbar:
+                    for client_id in range(len(self._clients)):
+                        client = self._clients[client_id]
+                        client.train()
+                        if (
+                            self.n_iter > 0
+                            and (self.n_iter + 1) % self.config.eval_every == 0
+                        ):
+                            for part in self.dataset.data_parts:
+                                metrics = client.evaluate(part)
+                                self._logger_manager.log_metrics(
+                                    client_id,
+                                    metrics,
+                                    step=self.n_iter,
+                                    epoch=self.n_iter,
+                                    part=part,
+                                )
+                        pbar.update(1)
+        self._logger_manager.log_message("Local training finished...")
+        self._logger_manager.flush()
         self._complete_experiment = True
 
     def evaluate_centralized(self, dataloader: DataLoader) -> Dict[str, float]:
