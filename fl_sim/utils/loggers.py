@@ -22,7 +22,7 @@ from torch_ecg.utils import (
     get_kwargs,
 )
 
-from .misc import LOG_DIR, ndarray_to_list, default_dict_to_dict
+from .misc import LOG_DIR as DEFAULT_LOG_DIR, ndarray_to_list, default_dict_to_dict
 
 
 __all__ = [
@@ -39,6 +39,29 @@ class BaseLogger(ReprMixin, ABC):
 
     __name__ = "BaseLogger"
     __time_fmt__ = "%Y-%m-%d %H:%M:%S"
+
+    @staticmethod
+    def set_log_dir(log_dir: Optional[Union[str, Path]] = None) -> Path:
+        """Set the log directory.
+
+        Parameters
+        ----------
+        log_dir : str or Path
+            The log directory.
+
+        Returns
+        -------
+        None
+
+        """
+        if log_dir is None:
+            log_dir = DEFAULT_LOG_DIR
+        elif Path(log_dir).is_absolute():
+            log_dir = Path(log_dir)
+        else:
+            log_dir = DEFAULT_LOG_DIR / log_dir
+        log_dir.mkdir(exist_ok=True, parents=True)
+        return log_dir
 
     @abstractmethod
     def log_metrics(
@@ -168,7 +191,9 @@ class TxtLogger(BaseLogger):
     algorithm, dataset, model : str
         Used to form the prefix of the log file.
     log_dir : str or pathlib.Path, optional
-        Directory to save the log file
+        Directory to save the log file.
+        If ``None``, use the default log directory.
+        If not absolute, use ``DEFAULT_LOG_DIR/log_dir``.
     log_suffix : str, optional
         Suffix of the log file.
     verbose : int, default 1
@@ -191,7 +216,7 @@ class TxtLogger(BaseLogger):
             [isinstance(x, str) for x in [algorithm, dataset, model]]
         ), "algorithm, dataset, model must be str"
         self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
-        self._log_dir = Path(log_dir or LOG_DIR)
+        self._log_dir = self.set_log_dir(log_dir)
         if log_suffix is None:
             self.log_suffix = ""
         else:
@@ -352,7 +377,7 @@ class CSVLogger(BaseLogger):
             [isinstance(x, str) for x in [algorithm, dataset, model]]
         ), "algorithm, dataset, model must be str"
         self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
-        self._log_dir = Path(log_dir or LOG_DIR)
+        self._log_dir = self.set_log_dir(log_dir)
         if log_suffix is None:
             self.log_suffix = ""
         else:
@@ -523,7 +548,7 @@ class JsonLogger(BaseLogger):
             [isinstance(x, str) for x in [algorithm, dataset, model]]
         ), "algorithm, dataset, model must be str"
         self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
-        self._log_dir = Path(log_dir or LOG_DIR)
+        self._log_dir = self.set_log_dir(log_dir)
         if log_suffix is None:
             self.log_suffix = ""
         else:
@@ -677,7 +702,7 @@ class LoggerManager(ReprMixin):
         self._algorith = algorithm
         self._dataset = dataset
         self._model = model
-        self._log_dir = Path(log_dir or LOG_DIR)
+        self._log_dir = self.set_log_dir(log_dir)
         self._log_suffix = log_suffix
         self._verbose = verbose
         self._loggers = []
