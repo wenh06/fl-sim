@@ -16,6 +16,7 @@ from fl_sim.algorithms.pfedmac import test_pfedmac as pfedmac_test_func  # noqa:
 from fl_sim.algorithms.pfedme import test_pfedme as pfedme_test_func  # noqa: F401
 from fl_sim.algorithms.proxskip import test_proxskip as proxskip_test_func  # noqa: F401
 from fl_sim.algorithms.scaffold import test_scaffold as scaffold_test_func  # noqa: F401
+from fl_sim.algorithms.ifca import test_ifca as ifca_test_func  # noqa: F401
 
 
 def test_algorithms():
@@ -30,3 +31,4 @@ def test_algorithms():
     # pfedme_test_func()
     # proxskip_test_func()
     # scaffold_test_func()
+    # ifca_test_func()
