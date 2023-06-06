@@ -61,8 +61,6 @@ class ServerConfig(ReprMixin):
         If not absolute, will be relative to the default log directory.
     txt_logger : bool, default True
         Whether to use txt logger.
-    csv_logger : bool, default False
-        Whether to use csv logger.
     json_logger : bool, default True
         Whether to use json logger.
     eval_every : int, default 1
@@ -94,7 +92,6 @@ class ServerConfig(ReprMixin):
         clients_sample_ratio: float,
         log_dir: Optional[Union[str, Path]] = None,
         txt_logger: bool = True,
-        csv_logger: bool = False,
         json_logger: bool = True,
         eval_every: int = 1,
         visiable_gpus: Optional[Sequence[int]] = None,
@@ -109,13 +106,6 @@ class ServerConfig(ReprMixin):
         self.clients_sample_ratio = clients_sample_ratio
         self.log_dir = log_dir
         self.txt_logger = txt_logger
-        self.csv_logger = csv_logger
-        if self.csv_logger:
-            warnings.warn(
-                "CSV logger is not recommended to use, "
-                "please use JSON logger instead.",
-                RuntimeWarning,
-            )
         self.json_logger = json_logger
         self.eval_every = eval_every
         self.visiable_gpus = visiable_gpus
@@ -523,7 +513,6 @@ class Server(Node, CitationMixin):
         logger_config = dict(
             log_dir=self.config.log_dir,
             txt_logger=self.config.txt_logger,
-            csv_logger=self.config.csv_logger,
             json_logger=self.config.json_logger,
             algorithm=self.config.algorithm,
             model=self.model.__class__.__name__,

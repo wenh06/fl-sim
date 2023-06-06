@@ -43,8 +43,6 @@ class FedProxServerConfig(ServerConfig):
             If not absolute, will be relative to the default log directory.
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
-        - ``csv_logger`` : bool, default False
-            Whether to use csv logger.
         - ``json_logger`` : bool, default True
             Whether to use json logger.
         - ``eval_every`` : int, default 1
