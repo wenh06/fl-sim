@@ -702,7 +702,7 @@ class LoggerManager(ReprMixin):
         self._algorith = algorithm
         self._dataset = dataset
         self._model = model
-        self._log_dir = self.set_log_dir(log_dir)
+        self._log_dir = BaseLogger.set_log_dir(log_dir)
         self._log_suffix = log_suffix
         self._verbose = verbose
         self._loggers = []
