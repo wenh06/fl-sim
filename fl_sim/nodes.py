@@ -55,6 +55,10 @@ class ServerConfig(ReprMixin):
         The number of clients.
     clients_sample_ratio : float
         The ratio of clients to sample for each iteration.
+    log_dir : str or Path, optional
+        The log directory.
+        If not specified, will use the default log directory.
+        If not absolute, will be relative to the default log directory.
     txt_logger : bool, default True
         Whether to use txt logger.
     csv_logger : bool, default False
@@ -88,6 +92,7 @@ class ServerConfig(ReprMixin):
         num_iters: int,
         num_clients: int,
         clients_sample_ratio: float,
+        log_dir: Optional[Union[str, Path]] = None,
         txt_logger: bool = True,
         csv_logger: bool = False,
         json_logger: bool = True,
@@ -102,6 +107,7 @@ class ServerConfig(ReprMixin):
         self.num_iters = num_iters
         self.num_clients = num_clients
         self.clients_sample_ratio = clients_sample_ratio
+        self.log_dir = log_dir
         self.txt_logger = txt_logger
         self.csv_logger = csv_logger
         if self.csv_logger:
@@ -515,6 +521,7 @@ class Server(Node, CitationMixin):
             )
 
         logger_config = dict(
+            log_dir=self.config.log_dir,
             txt_logger=self.config.txt_logger,
             csv_logger=self.config.csv_logger,
             json_logger=self.config.json_logger,

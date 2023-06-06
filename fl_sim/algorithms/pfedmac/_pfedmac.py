@@ -30,6 +30,10 @@ class pFedMacServerConfig(ServerConfig):
     **kwargs : dict, optional
         Additional keyword arguments:
 
+        - ``log_dir`` : str or Path, optional
+            The log directory.
+            If not specified, will use the default log directory.
+            If not absolute, will be relative to the default log directory.
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
         - ``csv_logger`` : bool, default False
