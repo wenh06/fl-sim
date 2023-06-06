@@ -32,6 +32,7 @@ from .algorithms import (
     fedpd,
     fedprox,
     fedsplit,
+    ifca,
     pfedmac,
     pfedme,
     proxskip,
@@ -44,6 +45,14 @@ from .algorithms import (
 
 
 def parse_args() -> List[CFG]:
+    """Parse command line arguments.
+
+    Returns
+    -------
+    List[CFG]
+        A list of configs read from the config file.
+
+    """
     parser = argparse.ArgumentParser(
         description="LCFL Experiment Runner",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -67,6 +76,19 @@ def parse_args() -> List[CFG]:
 
 
 def parse_config_file(config_file_path: Union[str, Path]) -> List[CFG]:
+    """Parse config file.
+
+    Parameters
+    ----------
+    config_file_path : Union[str, Path]
+        The path to the config file.
+
+    Returns
+    -------
+    List[CFG]
+        A list of configs read from the config file.
+
+    """
     file_content = Path(config_file_path).read_text()
 
     # remove all comments (starts with #) from file_content
@@ -125,8 +147,19 @@ def parse_config_file(config_file_path: Union[str, Path]) -> List[CFG]:
     return configs
 
 
-def single_run(config: CFG):
-    # run a single experiment
+def single_run(config: CFG) -> None:
+    """run a single experiment.
+
+    Parameters
+    ----------
+    config : CFG
+        The config of the experiment.
+
+    Returns
+    -------
+    None
+
+    """
     config = CFG(config)
     config_bak = deepcopy(config)
 
@@ -151,6 +184,11 @@ def single_run(config: CFG):
                 "server_config": feddr.FedDRServerConfig,
                 "client_config": feddr.FedDRClientConfig,
                 "server": feddr.FedDRServer,
+            },
+            "IFCA": {
+                "server_config": ifca.IFCAServerConfig,
+                "client_config": ifca.IFCAClientConfig,
+                "server": ifca.IFCAServer,
             },
             "pFedMe": {
                 "server_config": pfedme.pFedMeServerConfig,
