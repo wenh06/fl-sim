@@ -69,6 +69,9 @@ def parse_args() -> List[CFG]:
 def parse_config_file(config_file_path: Union[str, Path]) -> List[CFG]:
     file_content = Path(config_file_path).read_text()
 
+    # remove all comments (starts with #) from file_content
+    file_content = re.sub("(?:^|\\s+)#.*(\\n|$)", "\n", file_content)
+
     configs = yaml.safe_load(file_content)
 
     # set env if specified
