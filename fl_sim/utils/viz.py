@@ -58,8 +58,8 @@ _linestyle_tuple = [  # name, linestyle (offset, on-off-seq)
     ("long dash with offset", (5, (10, 3))),
     ("loosely dashed", (0, (5, 10))),
 ]
-_linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
-_marker_cycle = itertools.cycle(("o", "s", "v", "^", "<", ">", "p", "P", "*"))
+# _linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
+_marker_cycle = ("o", "s", "v", "^", "<", ">", "p", "P", "*")
 
 
 DEFAULT_RC_PARAMS = {
@@ -81,11 +81,16 @@ if mpl is not None:
             pass
     _font_names = [item.name for item in mpl.font_manager.fontManager.ttflist]
     _fonts_priority = [
-        "Helvetica",
-        "Arial",
-        "TeX Gyre Heros",
-        "CMU Serif",
-        "Times New Roman",
+        "Helvetica",  # recommended by science (https://www.science.org/content/page/instructions-preparing-initial-manuscript)
+        "Arial",  # alternative to Helvetica for Windows users
+        "TeX Gyre Heros",  # alternative to Helvetica for Linux users
+        "Roboto",  # alternative to Helvetica for Android users
+        "Arimo",  # alternative to Helvetica, cross-platform
+        "Nimbus Sans",  # alternative to Helvetica
+        "CMU Serif",  # Computer Modern Roman, default for LaTeX, serif font
+        "JDLangZhengTi",  # sans-serif font for Chinese
+        "Times New Roman",  # less recommended with serif font
+        "DejaVu Sans",  # default sans-serif font for matplotlib
     ]
     _fonts_priority = [item for item in _fonts_priority if item in _font_names]
     if len(_fonts_priority) == 0:
@@ -231,10 +236,12 @@ def _plot_curves(
     else:
         fig, ax = fig_ax
     # plot_config = dict(marker="*")
+    linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
+    marker_cycle = itertools.cycle(_marker_cycle)
     plot_config = dict()
     for idx, curve in enumerate(curves):
-        plot_config["marker"] = next(_marker_cycle)
-        plot_config["linestyle"] = next(_linestyle_cycle)
+        plot_config["marker"] = next(marker_cycle)
+        plot_config["linestyle"] = next(linestyle_cycle)
         plot_config["label"] = labels[idx]
         ax.plot(curve, **plot_config)
     ax.legend(loc="best")
@@ -655,6 +662,16 @@ class Panel:
         )
         self._clear_button.on_click(self._on_clear_button_clicked)
 
+        self._font_dropdown_selector = widgets.Dropdown(
+            options=_fonts_priority,
+            value=_fonts_priority[0],
+            description="Font family:",
+            style={"description_width": "initial"},
+        )
+        self._font_dropdown_selector.observe(
+            self._on_font_dropdown_selector_value_changed, names="value"
+        )
+
         self._log_file_dropdown_selector = widgets.Dropdown(
             options=list(zip(self.log_files, self._log_files)),
             description="Select log file:",
@@ -688,7 +705,11 @@ class Panel:
                 slider_box,
                 merge_curve_tags_box,
                 widgets.HBox(
-                    [self._show_button, self._clear_button],
+                    [
+                        self._show_button,
+                        self._clear_button,
+                        self._font_dropdown_selector,
+                    ],
                     layout=widgets.Layout(align_items="center"),
                 ),
                 widgets.Box([self._canvas]),
@@ -835,6 +856,15 @@ class Panel:
     ) -> None:
         if widgets is None:
             return
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_font_dropdown_selector_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        if isinstance(change["new"], str):
+            self._rc_params["font.family"] = change["new"]
+            self.reset_matplotlib(rc_params=self._rc_params)
         if self._show_fig_flag:
             self._show_fig()
 
