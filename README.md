@@ -21,6 +21,7 @@ The main part of this code repository is a standalone simulation framework for f
   - [Compression](#compression)
   - [Models](#models)
   - [Utils](#utils)
+  - [Visualization Panel](#visualization-panel)
 
 <!-- tocstop -->
 
@@ -83,6 +84,7 @@ s.train_federated()
 | SCAFFOLD  | [PMLR](https://proceedings.mlr.press/v119/karimireddy20a.html) | N/A | ![test-scaffold](https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml/badge.svg) |
 | ProxSkip  | [PMLR](https://proceedings.mlr.press/v162/mishchenko22b.html) | N/A | ![test-proxskip](https://github.com/wenh06/fl-sim/actions/workflows/test-proxskip.yml/badge.svg) |
 | Ditto     | [PMLR](https://proceedings.mlr.press/v139/li21h.html) | [GitHub](https://github.com/litian96/ditto) | ![test-ditto](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml/badge.svg) |
+| IFCA      | [NeurIPS2020](https://papers.nips.cc/paper_files/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html) | [GitHub](https://github.com/jichan3751/ifca) | ![test-ifca](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml/badge.svg) |
 
 ## Main Modules
 
@@ -626,3 +628,14 @@ The module (folder) [utils](fl_sim/utils) contains utility functions for [data d
 :point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 </details>
+
+### [Visualization Panel](fl_sim/utils/viz.py)
+
+To write details...
+
+**NOTE:** to use Windows fonts on a Linux machine (e.g. Ubuntu), one can execute the following commands:
+
+```bash
+sudo apt install ttf-mscorefonts-installer
+sudo fc-cache -fv
+```

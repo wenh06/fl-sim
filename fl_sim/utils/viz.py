@@ -75,6 +75,10 @@ DEFAULT_RC_PARAMS = {
     "font.family": ["sans-serif"],
 }
 if mpl is not None:
+    # NOTE: to use Windows fonts on a Linux machine (e.g. Ubuntu),
+    # one can execute the following commands:
+    # sudo apt install ttf-mscorefonts-installer
+    # sudo fc-cache -fv
     font_files = mpl.font_manager.findSystemFonts()
     for font_file in font_files:
         try:

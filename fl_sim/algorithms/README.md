@@ -11,3 +11,4 @@ this folder contains algorithms for federated learning
 7. [SCAFFOLD](https://proceedings.mlr.press/v119/karimireddy20a.html) ![test-scaffold](https://github.com/wenh06/fl_sim/actions/workflows/test-scaffold.yml/badge.svg)
 8. [ProxSkip](https://proceedings.mlr.press/v162/mishchenko22b.html) ![test-proxskip](https://github.com/wenh06/fl_sim/actions/workflows/test-proxskip.yml/badge.svg)
 9. [Ditto](https://arxiv.org/abs/2012.04221) ![test-ditto](https://github.com/wenh06/fl_sim/actions/workflows/test-ditto.yml/badge.svg)
+10. [IFCA](https://github.com/jichan3751/ifca) ![test-ifca](https://github.com/wenh06/fl_sim/actions/workflows/test-ifca.yml/badge.svg)
