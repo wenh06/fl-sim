@@ -28,6 +28,7 @@ __all__ = [
     "RNN_OriginalFedAvg",
     "RNN_StackOverFlow",
     "RNN_Sent140",
+    "RNN_Sent140_LITE",
     "ResNet18",
     "ResNet10",
     "LogisticRegression",
@@ -657,15 +658,9 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
             raise TypeError(
                 f"embedding must be a `str` or `GloveEmbedding`, got {type(embedding)}"
             )
-        self.lstm = nn.LSTM(
-            input_size=self.word_embeddings.dim,
-            hidden_size=latent_size,
-            num_layers=num_layers,
-            batch_first=True,
+        self.lite_model = RNN_Sent140_LITE(
+            latent_size, num_classes, num_layers, self.word_embeddings.dim
         )
-        self.fc1 = nn.Linear(latent_size, 30)
-        # final binary classification layer
-        self.fc2 = nn.Linear(30, num_classes)
 
     def forward(self, input_seq: Tensor) -> Tensor:
         """Forward pass.
@@ -684,12 +679,7 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         embeds = self.word_embeddings(
             input_seq
         )  # shape: (batch_size, seq_len, embedding_dim)
-        self.lstm.flatten_parameters()
-        lstm_out, _ = self.lstm(embeds)  # shape: (batch_size, seq_len, hidden_size)
-        final_hidden_state = lstm_out[:, -1, :]  # shape: (batch_size, hidden_size)
-        fc1_output = self.fc1(final_hidden_state)  # shape: (batch_size, 30)
-        output = self.fc2(fc1_output)  # shape: (batch_size, 1)
-        return output
+        return self.lite_model(embeds)
 
     def pipeline(self, sentence: str) -> int:
         """Predict the sentiment of a sentence.
@@ -716,6 +706,68 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
             predicted_class = torch.argmax(output, dim=-1)
         self.train(prev)
         return predicted_class.item()
+
+
+class RNN_Sent140_LITE(nn.Module, CLFMixin, SizeMixin, DiffMixin):
+    """Stacked :class:`torch.nn.LSTM` model for sentiment analysis
+    on the ``Sent140`` dataset.
+
+    The same as :class:`.RNN_Sent140` but without the GloVe embedding layer.
+    Hence the inputs of this model are embedd vectors.
+
+    Parameters
+    ----------
+    latent_size : int, default 100
+        The number of features in the hidden state h.
+    num_classes : int, default 2
+        The number of output classes.
+    num_layers : int, default 2
+        The number of recurrent layers (:class:`torch.nn.LSTM`).
+    embed_dim : int, default 50
+        The dimension of the input embeddings.
+
+    """
+
+    __name__ = "RNN_Sent140_LITE"
+
+    def __init__(
+        self,
+        latent_size: int = 100,
+        num_classes: int = 2,
+        num_layers: int = 2,
+        embed_dim: int = 50,
+    ) -> None:
+        super().__init__()
+        self.lstm = nn.LSTM(
+            input_size=embed_dim,
+            hidden_size=latent_size,
+            num_layers=num_layers,
+            batch_first=True,
+        )
+        self.fc1 = nn.Linear(latent_size, 300)
+        # final binary classification layer
+        self.fc2 = nn.Linear(300, num_classes)
+
+    def forward(self, embeds: Tensor) -> Tensor:
+        """Forward pass.
+
+        Parameters
+        ----------
+        embeds : torch.Tensor
+            Shape ``(batch_size, seq_len, embedding_dim)``.
+
+        Returns
+        -------
+        torch.Tensor
+            Shape ``(batch_size, num_classes)``.
+
+        """
+        self.lstm.flatten_parameters()
+        lstm_out, _ = self.lstm(embeds)
+        final_hidden_state = lstm_out[:, -1, :]  # shape: (batch_size, hidden_size)
+        fc1_output = self.fc1(final_hidden_state)  # shape: (batch_size, 30)
+        output = self.fc2(fc1_output)  # shape: (batch_size, 1)
+        return output
 
 
 class ResNet18(ResNet, CLFMixin, SizeMixin, DiffMixin):
