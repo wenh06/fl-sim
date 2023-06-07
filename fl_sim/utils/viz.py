@@ -11,6 +11,7 @@ from typing import Union, Sequence, Optional, Tuple, List, Dict, Any
 
 import numpy as np
 import yaml
+from termcolor import colored
 from torch_ecg.utils import MovingAverage
 
 try:
@@ -157,12 +158,12 @@ def get_config_from_log(file: Union[str, Path]) -> dict:
     """
     file = Path(file)
     if not file.exists():
-        print("File not found")
+        print(colored("File not found", "red"))
         return {}
     if file.suffix == ".json":
         file = file.with_suffix(".txt")
     if not file.exists():
-        print("Corresponding text log file not found")
+        print(colored("Corresponding text log file not found", "red"))
         return {}
     contents = file.read_text().splitlines()
     flag = False
@@ -691,6 +692,35 @@ class Panel:
             self._on_font_dropdown_selector_value_changed, names="value"
         )
 
+        self._savefig_dir_input = widgets.Text(
+            value="./images",
+            description="Save dir:",
+            style={"description_width": "initial"},
+        )
+        self._savefig_filename_input = widgets.Text(
+            value="",
+            description="Save filename:",
+            style={"description_width": "initial"},
+            placeholder="only filename, no extension",
+        )
+        self._savefig_format_dropdown_selector = widgets.Dropdown(
+            value="pdf",
+            options=["pdf", "svg", "png", "jpg", "ps"],
+            description="Save format:",
+            style={"description_width": "initial"},
+        )
+        self._savefig_button = widgets.Button(
+            description="Save",
+            disabled=False,
+            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            tooltip="Save",
+            icon="save",  # (FontAwesome names without the `fa-` prefix)
+        )
+        self._savefig_message_area = widgets.Output(
+            layout={"border": "2px solid black"}
+        )
+        self._savefig_button.on_click(self._on_savefig_button_clicked)
+
         self._log_file_dropdown_selector = widgets.Dropdown(
             options=list(zip(self.log_files, self._log_files)),
             description="Select log file:",
@@ -732,6 +762,22 @@ class Panel:
                     layout=widgets.Layout(align_items="center"),
                 ),
                 widgets.Box([self._canvas]),
+                widgets.VBox(
+                    [
+                        widgets.HBox(
+                            [
+                                self._savefig_dir_input,
+                                self._savefig_filename_input,
+                                self._savefig_format_dropdown_selector,
+                            ],
+                            layout=widgets.Layout(align_items="center"),
+                        ),
+                        widgets.HBox(
+                            [self._savefig_button, self._savefig_message_area],
+                            layout=widgets.Layout(align_items="center"),
+                        ),
+                    ],
+                ),
                 self._log_file_dropdown_selector,
                 self._show_config_area,
             ]
@@ -905,12 +951,12 @@ class Panel:
         # ensure that log files are selected
         if not self._log_files_mult_selector.value:
             with self._canvas:
-                print("No log files selected.")
+                print(colored("No log files selected.", "red"))
             return
         # ensure that part and metric are specified
         if not self._part_input.value or not self._metric_input.value:
             with self._canvas:
-                print("Please specify part and metric.")
+                print(colored("Please specify part and metric.", "red"))
             return
         # plot the curves
         with self._canvas:
@@ -975,7 +1021,7 @@ class Panel:
                 self.ax.set_xlabel("Global Iter.")
                 widgets.widgets.interaction.show_inline_matplotlib_plots()
             except KeyError:
-                print("Invalid part or metric.")
+                print(colored("Invalid part or metric.", "red"))
 
     def _on_clear_button_clicked(self, button: widgets.Button) -> None:
         if widgets is None:
@@ -983,6 +1029,33 @@ class Panel:
         self._fig_curves, self._fig_stems = None, None
         self._canvas.clear_output(wait=False)
         self._show_fig_flag = False
+
+    def _on_savefig_button_clicked(self, button: widgets.Button) -> None:
+        if widgets is None:
+            return
+        self._savefig_message_area.clear_output(wait=False)
+        with self._savefig_message_area:
+            if self._fig_curves is None or self._fig_stems is None:
+                print(colored("No figure to save.", "red"))
+                return
+            if not self._savefig_filename_input.value:
+                print(colored("Please specify a filename.", "red"))
+                return
+            save_fig_dir = Path(self._savefig_dir_input.value).expanduser().resolve()
+            save_fig_dir.mkdir(parents=True, exist_ok=True)
+            save_fig_filename = save_fig_dir / self._savefig_filename_input.value
+            save_fig_filename = save_fig_filename.with_suffix(
+                f".{self._savefig_format_dropdown_selector.value}"
+            )
+            if save_fig_filename.exists():
+                print(colored(f"File {save_fig_filename} already exists.", "red"))
+                return
+            self.fig.savefig(
+                save_fig_filename,
+                dpi=600,
+                bbox_inches="tight",
+            )
+            print(f"Figure saved to {save_fig_filename}")
 
     @property
     def log_files(self) -> List[str]:
