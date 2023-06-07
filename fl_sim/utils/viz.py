@@ -11,6 +11,7 @@ from typing import Union, Sequence, Optional, Tuple, List, Dict, Any
 
 import numpy as np
 import yaml
+from torch_ecg.utils import MovingAverage
 
 try:
     import matplotlib as mpl
@@ -99,7 +100,7 @@ if mpl is not None:
         if font in _font_names:
             DEFAULT_RC_PARAMS["font.family"] = [font]
             break
-    print(f"Using font {DEFAULT_RC_PARAMS['font.family']}")
+    print(f"FL-SIM Panel using font {DEFAULT_RC_PARAMS['font.family']}")
     mpl.rcParams.update(DEFAULT_RC_PARAMS)
     plt.rcParams.update(DEFAULT_RC_PARAMS)
 else:
@@ -363,8 +364,14 @@ def plot_mean_curve_with_error_bounds(
         raise ValueError(f"Unknown error type: {error_type}")
     ax.plot(mean_curve, label=label or "mean", **(plot_config or {}))
     if error_bound_label:
+        _error_type = {
+            "std": "STD",
+            "sem": "SEM",
+            "quartile": "Quartile",
+            "iqr": "IQR",
+        }[error_type]
         fill_between_config["label"] = (
-            error_type if label is None else f"{label}-{error_type}"
+            error_type if label is None else f"{label}±{_error_type}"
         )
     ax.fill_between(
         np.arange(len(mean_curve)),
@@ -551,21 +558,33 @@ class Panel:
         self._fill_between_alpha_slider.observe(
             self._on_fill_between_alpha_slider_value_changed, names="value"
         )
+        self._moving_averager = MovingAverage()
+        self._moving_average_slider = widgets.FloatSlider(
+            value=0.0,
+            min=0.0,
+            max=0.9,
+            description="Curve smoothing:",
+            **{**fig_setup_slider_config, **{"step": 0.01, "readout_format": ".2f"}},
+        )
+        self._moving_average_slider.observe(
+            self._on_moving_average_slider_value_changed, names="value"
+        )
 
         slider_box = widgets.GridBox(
             [
                 self._fig_width_slider,
                 self._fig_height_slider,
+                self._linewidth_slider,
                 self._x_ticks_font_size_slider,
                 self._y_ticks_font_size_slider,
                 self._axes_label_font_size_slider,
                 self._legend_font_size_slider,
-                self._linewidth_slider,
                 self._fill_between_alpha_slider,
+                self._moving_average_slider,
             ],
             layout=widgets.Layout(
-                grid_template_columns="repeat(2, 0.5fr)",
-                grid_template_rows="repeat(4, 0.5fr)",
+                grid_template_columns="repeat(3, 0.5fr)",
+                grid_template_rows="repeat(3, 0.5fr)",
                 grid_gap="0px 0px",
             ),
         )
@@ -829,6 +848,12 @@ class Panel:
         if self._show_fig_flag:
             self._show_fig()
 
+    def _on_moving_average_slider_value_changed(self, change: dict) -> None:
+        if widgets is None:
+            return
+        if self._show_fig_flag:
+            self._show_fig()
+
     def _on_refresh_part_metric_button_clicked(self, button: widgets.Button) -> None:
         if widgets is None:
             return
@@ -911,7 +936,13 @@ class Panel:
                     if len(indices) == 0:
                         continue
                     self.fig, self.ax = plot_mean_curve_with_error_bounds(
-                        curves=[self._fig_curves[idx] for idx in indices],
+                        curves=[
+                            self._moving_averager(
+                                self._fig_curves[idx],
+                                weight=self._moving_average_slider.value,
+                            )
+                            for idx in indices
+                        ],
                         error_type=self._merge_curve_method_dropdown_selector.value,
                         fig_ax=(self.fig, self.ax),
                         label=tag,
@@ -926,7 +957,13 @@ class Panel:
                 raw_indices = sorted(raw_indices)
                 if len(raw_indices) > 0:
                     self.fig, self.ax = _plot_curves(
-                        [self._fig_curves[idx] for idx in raw_indices],
+                        [
+                            self._moving_averager(
+                                self._fig_curves[idx],
+                                weight=self._moving_average_slider.value,
+                            )
+                            for idx in raw_indices
+                        ],
                         [self._fig_stems[idx] for idx in raw_indices],
                         fig_ax=(self.fig, self.ax),
                     )
