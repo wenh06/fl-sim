@@ -39,6 +39,8 @@ class FedProxMNIST(FedVisionDataset):
         ``"none"`` means no transform, using TensorDataset.
     seed : int, default 0
         Random seed for data partitioning.
+    **extra_config : dict, optional
+        Extra configurations.
 
     References
     ----------
@@ -52,8 +54,12 @@ class FedProxMNIST(FedVisionDataset):
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         self.datadir = Path(datadir or FEDPROX_MNIST_DATA_DIR).expanduser().resolve()
 
-        self.DEFAULT_TRAIN_CLIENTS_NUM = 1000
-        self.DEFAULT_TEST_CLIENTS_NUM = 1000
+        if hasattr(self, "num_clients"):
+            self.DEFAULT_TRAIN_CLIENTS_NUM = self.num_clients
+            self.DEFAULT_TEST_CLIENTS_NUM = self.num_clients
+        else:
+            self.DEFAULT_TRAIN_CLIENTS_NUM = 1000
+            self.DEFAULT_TEST_CLIENTS_NUM = 1000
         self.DEFAULT_BATCH_SIZE = 20
 
         self.DEFAULT_TRAIN_FILE = "fedprox-mnist.mat"
@@ -75,7 +81,9 @@ class FedProxMNIST(FedVisionDataset):
 
         self.download_if_needed()
         self.__raw_data = loadmat(self.datadir / self.DEFAULT_TRAIN_FILE)
-        self._client_data = generate_niid(self.__raw_data)
+        self._client_data = generate_niid(
+            self.__raw_data, num_clients=self.DEFAULT_TRAIN_CLIENTS_NUM, seed=self.seed
+        )
 
         self._client_ids_train = list(range(self.DEFAULT_TRAIN_CLIENTS_NUM))
         self._client_ids_test = list(range(self.DEFAULT_TEST_CLIENTS_NUM))

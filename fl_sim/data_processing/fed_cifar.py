@@ -3,7 +3,7 @@ federated Cifar10, Cifar100
 """
 
 from pathlib import Path
-from typing import Optional, Union, List, Callable, Tuple, Dict, Sequence
+from typing import Optional, Union, List, Callable, Tuple, Dict, Sequence, Any
 
 import h5py
 import numpy as np
@@ -83,6 +83,8 @@ class FedCIFAR(FedVisionDataset):
         If ``None``, will use default dynamic augmentation transform.
     seed : int, default: 0
         Random seed for data shuffling.
+    **extra_config : dict, optional
+        Extra configurations for the dataset.
 
     References
     ----------
@@ -99,6 +101,7 @@ class FedCIFAR(FedVisionDataset):
         datadir: Optional[Union[str, Path]] = None,
         transform: Optional[Union[str, Callable]] = "none",
         seed: int = 0,
+        **extra_config: Any,
     ) -> None:
         self._n_class = n_class
         assert self.n_class in [
@@ -106,7 +109,9 @@ class FedCIFAR(FedVisionDataset):
         ]
         datadir = Path(datadir or FED_CIFAR_DATA_DIRS[n_class]).expanduser().resolve()
         datadir.mkdir(parents=True, exist_ok=True)
-        super().__init__(datadir=datadir, transform=transform, seed=seed)
+        super().__init__(
+            datadir=datadir, transform=transform, seed=seed, **extra_config
+        )
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         self.DEFAULT_TRAIN_CLIENTS_NUM = 500
@@ -352,8 +357,9 @@ class FedCIFAR100(FedCIFAR):
         datadir: Optional[Union[str, Path]] = None,
         transform: Optional[Union[str, Callable]] = "none",
         seed: int = 0,
+        **extra_config: Any,
     ) -> None:
-        super().__init__(100, datadir, transform, seed)
+        super().__init__(100, datadir, transform, seed, **extra_config)
 
     @property
     def url(self) -> str:

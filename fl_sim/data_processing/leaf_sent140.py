@@ -41,6 +41,8 @@ class LeafSent140(FedNLPDataset):
         If ``None``, use default directory.
     seed : int, default 0
         Random seed for data partitioning.
+    **extra_config : dict, optional
+        Extra configurations.
 
     References
     ----------

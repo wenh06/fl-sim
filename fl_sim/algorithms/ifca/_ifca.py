@@ -14,7 +14,7 @@ import torch
 from torch_ecg.utils.misc import add_docstring, list_sum
 
 from ...nodes import ClientMessage
-from .fedopt import (
+from ..fedopt import (
     FedAvgClient as BaseClient,
     FedAvgServer as BaseServer,
     FedAvgClientConfig as BaseClientConfig,

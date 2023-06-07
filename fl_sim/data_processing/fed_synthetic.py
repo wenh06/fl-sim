@@ -1,7 +1,7 @@
 """
 """
 
-from typing import Optional, List, Tuple, Dict
+from typing import Optional, List, Tuple, Dict, Any
 
 import numpy as np
 import torch  # noqa: F401
@@ -37,6 +37,8 @@ class FedSynthetic(FedDataset):
         The dimension of data (feature).
     seed : int, default 0
         The random seed.
+    **extra_config : dict, optional
+        Extra configurations.
 
     References
     ----------
@@ -56,6 +58,7 @@ class FedSynthetic(FedDataset):
         num_classes: int = 10,
         dimension: int = 60,
         seed: int = 0,
+        **extra_config: Any,
     ) -> None:
         super().__init__()
         self.alpha = alpha

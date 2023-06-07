@@ -51,6 +51,8 @@ class FedShakespeare(FedNLPDataset):
         If ``None``, use default directory.
     seed : int, default 0
         The random seed.
+    **extra_config : dict, optional
+        Extra configurations.
 
     References
     ----------

@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod
 from collections import OrderedDict
 from pathlib import Path
 from string import punctuation
-from typing import Optional, Union, List, Tuple, Dict, Iterable, Sequence, Callable
+from typing import Optional, Union, List, Tuple, Dict, Iterable, Sequence, Callable, Any
 
 import numpy as np
 import torch
@@ -152,6 +152,8 @@ class FedVisionDataset(FedDataset, ABC):
         ``None`` for default transform from torchvision.
     seed : int, default 0
         Random seed for data partitioning.
+    **extra_config : dict, optional
+        Extra configurations.
 
     """
 
@@ -162,11 +164,14 @@ class FedVisionDataset(FedDataset, ABC):
         datadir: Optional[Union[Path, str]] = None,
         transform: Optional[Union[str, Callable]] = "none",
         seed: int = 0,
+        **extra_config: Any,
     ) -> None:
         self.datadir = Path(datadir) if datadir is not None else None
         self.transform = transform
         self.seed = seed
         set_seed(self.seed)
+        for k, v in extra_config.items():
+            setattr(self, k, v)
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = None
         self.DEFAULT_TEST_CLIENTS_NUM = None
@@ -345,17 +350,24 @@ class FedNLPDataset(FedDataset, ABC):
         If ``None``, use default directory.
     seed : int, default 0
         The random seed.
+    **extra_config : dict, optional
+        Extra configurations.
 
     """
 
     __name__ = "FedNLPDataset"
 
     def __init__(
-        self, datadir: Optional[Union[str, Path]] = None, seed: int = 0
+        self,
+        datadir: Optional[Union[str, Path]] = None,
+        seed: int = 0,
+        **extra_config: Any,
     ) -> None:
         self.datadir = Path(datadir) if datadir is not None else None
         self.seed = seed
         set_seed(self.seed)
+        for k, v in extra_config.items():
+            setattr(self, k, v)
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = None
         self.DEFAULT_TEST_CLIENTS_NUM = None

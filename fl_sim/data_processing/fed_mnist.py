@@ -46,6 +46,8 @@ class FedMNIST(FedVisionDataset):
         ``"none"`` means no transform, using TensorDataset.
     seed : int, default 0
         Random seed for data partitioning.
+    **extra_config : dict, optional
+        Extra configurations.
 
     References
     ----------
