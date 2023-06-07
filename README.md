@@ -101,15 +101,15 @@ The abstract base class `Node` provides the following basic functionalities:
 
 - `get_detached_model_parameters`: get the model parameters of the node in a detached form.
 - `get_gradients`: get the gradients, or norm of the gradients, of the model parameters of the client.
-- `aggregate_results_from_csv_log`: aggregate the experiment results from the csv log file.
+- ~~`aggregate_results_from_csv_log`: aggregate the experiment results from the csv log file.~~
 - `aggregate_results_from_json_log`: aggregate the experiment results from the json log file.
-- `_post_init`: post-initialization procedure, called in the end of `__init__` method.
 
 and abstract methods or properties that need to be implemented by subclasses:
 
 - `communicate`: communicate procedure with other (type of) nodes in each iteration.
 - `update`: updating procedure in each iteration.
 - `required_config_fields` (property): required fields in the configuration class, which is used to check the validity of the configuration in the `_post_init` method.
+- `_post_init`: post-initialization procedure, called in the end of `__init__` method, used in companion with `required_config_fields` to check the validity of the configuration.
 
 The `Server` class has signature
 
@@ -630,6 +630,8 @@ The module (folder) [utils](fl_sim/utils) contains utility functions for [data d
 </details>
 
 ### [Visualization Panel](fl_sim/utils/viz.py)
+
+<img src="https://raw.githubusercontent.com/wenh06/fl-sim/master/images/panel-demo.gif" alt="FL-SIM Panel Demo GIF" style="display: block; margin: 0 auto;" />
 
 To write details...
 
