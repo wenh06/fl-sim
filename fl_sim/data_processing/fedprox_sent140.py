@@ -124,14 +124,18 @@ class FedProxSent140(FedNLPDataset):
 
         self.max_len = min(raw_max_len * 2, 50)  # 25 in original repo
 
-        try:
-            self.tokenizer = GloveEmbedding.get_tokenizer(
-                self.embedding_name, max_length=self.max_len
-            )
-        except FileNotFoundError:
-            self.tokenizer = GloveEmbedding(self.embedding_name)._get_tokenizer(
-                max_length=self.max_len
-            )
+        # try:
+        #     self.tokenizer = GloveEmbedding.get_tokenizer(
+        #         self.embedding_name, max_length=self.max_len
+        #     )
+        # except FileNotFoundError:
+        #     self.tokenizer = GloveEmbedding(self.embedding_name)._get_tokenizer(
+        #         max_length=self.max_len
+        #     )
+        glove_embedding = GloveEmbedding(self.embedding_name)
+        self.word_embeddings = glove_embedding.get_embedding_layer(freeze=True)
+        self.tokenizer = glove_embedding.get_tokenizer(max_length=self.max_len)
+        del glove_embedding
 
         self.criterion = torch.nn.CrossEntropyLoss()
 
@@ -173,8 +177,8 @@ class FedProxSent140(FedNLPDataset):
             test_y.extend(self._test_data_dict[self._EXAMPLE][user][self._LABEL])
 
         # tokenize to tensor
-        train_x = self.tokenizer(train_x, return_tensors="pt")
-        test_x = self.tokenizer(test_x, return_tensors="pt")
+        train_x = self.word_embeddings(self.tokenizer(train_x, return_tensors="pt"))
+        test_x = self.word_embeddings(self.tokenizer(test_x, return_tensors="pt"))
         train_y = torch.tensor([self._class_map[lb] for lb in train_y])
         test_y = torch.tensor([self._class_map[lb] for lb in test_y])
 
@@ -234,7 +238,7 @@ class FedProxSent140(FedNLPDataset):
         a set of candidate models
         """
         return {
-            "rnn": mnn.RNN_Sent140(embedding=self.embedding_name),
+            "rnn": mnn.RNN_Sent140_LITE(embed_dim=self.word_embeddings.dim),
         }
 
     @property
