@@ -25,6 +25,7 @@ __all__ = [
     "set_seed",
     "get_scheduler",
     "get_scheduler_info",
+    "is_notebook",
 ]
 
 
@@ -303,3 +304,38 @@ def get_scheduler_info(scheduler_name: str) -> dict:
         "required_args": required_configs,
         "optional_args": defaul_configs,
     }
+
+
+def is_notebook() -> bool:
+    """Check if the current environment is a notebook (Jupyter or Colab).
+
+    Implementation adapted from [#sa]_.
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    bool
+        Whether the code is running in a notebook
+
+    References
+    ----------
+    .. [#sa] https://stackoverflow.com/questions/15411967/how-can-i-check-if-code-is-executed-in-the-ipython-notebook
+
+    """
+    try:
+        shell = get_ipython().__class__
+        if shell.__name__ == "ZMQInteractiveShell":
+            return True  # Jupyter notebook or qtconsole
+        elif "colab" in repr(shell).lower():
+            return True  # Google Colab
+        elif shell.__name__ == "TerminalInteractiveShell":
+            return False  # Terminal running IPython
+        else:  # Other type (?)
+            return False
+    except NameError:  # Probably standard Python interpreter
+        return False
+    except TypeError:  # get_ipython is None
+        return False

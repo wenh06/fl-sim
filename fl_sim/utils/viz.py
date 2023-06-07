@@ -26,8 +26,9 @@ try:
 except (ImportError, ModuleNotFoundError):
     sns = None
 
-from fl_sim.nodes import Node
-from fl_sim.utils.const import LOG_DIR
+from ..nodes import Node
+from .const import LOG_DIR
+from .misc import is_notebook
 
 
 __all__ = [
@@ -105,7 +106,7 @@ if mpl is not None:
         if font in _font_names:
             DEFAULT_RC_PARAMS["font.family"] = [font]
             break
-    print(f"FL-SIM Panel using font {DEFAULT_RC_PARAMS['font.family']}")
+    print(f"FL-SIM Panel using default font {DEFAULT_RC_PARAMS['font.family']}")
     mpl.rcParams.update(DEFAULT_RC_PARAMS)
     plt.rcParams.update(DEFAULT_RC_PARAMS)
 else:
@@ -421,6 +422,12 @@ class Panel:
                 "ipywidgets, matplotlib."
             )
             return
+        self._is_notebook = is_notebook()
+        if not self._is_notebook:
+            print(
+                "Panel is only supported in Jupyter Notebook (JupyterLab, Colab, SageMaker, etc.)."
+            )
+            return
         self._logdir = Path(logdir or LOG_DIR).expanduser().resolve()
         assert self._logdir.exists(), f"Log directory {self._logdir} does not exist."
         self._rc_params = self.__default_rc_params__.copy()
@@ -642,28 +649,37 @@ class Panel:
             self._on_merge_curve_with_err_bound_label_checkbox_value_changed,
             names="value",
         )
-        self._merge_curve_tags_input = widgets.TagsInput(
-            value=[],
-            allow_duplicates=False,
-            placeholder="FedAvg, FedProx, etc.",
-            # description="Merge tags:",
-            # style={"description_width": "initial"},
-        )
-        self._merge_curve_tags_input.observe(
-            self._on_merge_curve_tags_input_value_changed, names="value"
-        )
-        merge_curve_tags_box = widgets.VBox(
-            [
-                widgets.HBox(
-                    [
-                        self._merge_curve_method_dropdown_selector,
-                        widgets.Label("Merge tags:"),
-                        self._merge_curve_tags_input,
-                    ]
-                ),
-                self._merge_curve_with_err_bound_label_checkbox,
-            ],
-        )
+        if widgets.__version__ >= "8":
+            self._merge_curve_tags_input = widgets.TagsInput(
+                value=[],
+                allow_duplicates=False,
+                placeholder="FedAvg, FedProx, etc.",
+                # description="Merge tags:",
+                # style={"description_width": "initial"},
+            )
+            self._merge_curve_tags_input.observe(
+                self._on_merge_curve_tags_input_value_changed, names="value"
+            )
+            merge_curve_tags_box = widgets.VBox(
+                [
+                    widgets.HBox(
+                        [
+                            self._merge_curve_method_dropdown_selector,
+                            widgets.Label("Merge tags:"),
+                            self._merge_curve_tags_input,
+                        ]
+                    ),
+                    self._merge_curve_with_err_bound_label_checkbox,
+                ],
+            )
+        else:  # TagsInput was added in ipywidgets 8.x
+            self._merge_curve_tags_input = None
+            merge_curve_tags_box = widgets.HTML(
+                "<span style='color:red'>"
+                f"Curve merging is not supported for ipywidgets {widgets.__version__}. "
+                "Please upgrade to ipywidgets 8.x or above."
+                "</span>"
+            )
 
         # canvas for displaying the curves
         self._canvas = widgets.Output(layout={"border": "2px solid black"})
@@ -790,7 +806,7 @@ class Panel:
         display(self._layout)
 
     def _on_refresh_button_clicked(self, button: widgets.Button) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         # update the list of log files
         self._log_files = find_log_files(filters=self._filters_input.value)
@@ -809,13 +825,13 @@ class Panel:
         self._fig_curves, self._fig_stems = None, None
 
     def _log_files_mult_selector_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         # clear self._fig_curves and self._fig_stems
         self._fig_curves, self._fig_stems = None, None
 
     def _on_log_file_dropdown_selector_change(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         # clear self._show_config_area
         self._show_config_area.clear_output(wait=True)
@@ -830,7 +846,7 @@ class Panel:
                 print(yaml.dump(config, default_flow_style=False))
 
     def _on_fig_width_slider_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if isinstance(change["new"], (int, float)):
             self._rc_params["figure.figsize"][0] = change["new"]
@@ -838,7 +854,7 @@ class Panel:
             self._show_fig()
 
     def _on_fig_height_slider_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if isinstance(change["new"], (int, float)):
             self._rc_params["figure.figsize"][1] = change["new"]
@@ -847,7 +863,7 @@ class Panel:
             self._show_fig()
 
     def _on_x_ticks_font_size_slider_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         self._show_config_area.clear_output(wait=False)
         if isinstance(change["new"], (int, float)):
@@ -857,7 +873,7 @@ class Panel:
             self._show_fig()
 
     def _on_y_ticks_font_size_slider_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if isinstance(change["new"], (int, float)):
             self._rc_params["ytick.labelsize"] = change["new"]
@@ -866,7 +882,7 @@ class Panel:
             self._show_fig()
 
     def _on_axes_label_font_size_slider_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if isinstance(change["new"], (int, float)):
             self._rc_params["axes.labelsize"] = change["new"]
@@ -875,7 +891,7 @@ class Panel:
             self._show_fig()
 
     def _on_legend_font_size_slider_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if isinstance(change["new"], (int, float)):
             self._rc_params["legend.fontsize"] = change["new"]
@@ -884,7 +900,7 @@ class Panel:
             self._show_fig()
 
     def _on_linewidth_slider_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if isinstance(change["new"], (int, float)):
             self._rc_params["lines.linewidth"] = change["new"]
@@ -893,19 +909,19 @@ class Panel:
             self._show_fig()
 
     def _on_fill_between_alpha_slider_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if self._show_fig_flag:
             self._show_fig()
 
     def _on_moving_average_slider_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if self._show_fig_flag:
             self._show_fig()
 
     def _on_refresh_part_metric_button_clicked(self, button: widgets.Button) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         # clear the loaded curves and stems
         self._fig_curves, self._fig_stems = None, None
@@ -913,7 +929,7 @@ class Panel:
             self._show_fig()
 
     def _on_merge_curve_tags_input_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if self._show_fig_flag:
             self._show_fig()
@@ -921,7 +937,7 @@ class Panel:
     def _on_merge_curve_method_dropdown_selector_value_changed(
         self, change: dict
     ) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if self._show_fig_flag:
             self._show_fig()
@@ -929,13 +945,13 @@ class Panel:
     def _on_merge_curve_with_err_bound_label_checkbox_value_changed(
         self, change: dict
     ) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if self._show_fig_flag:
             self._show_fig()
 
     def _on_font_dropdown_selector_value_changed(self, change: dict) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         if isinstance(change["new"], str):
             self._rc_params["font.family"] = change["new"]
@@ -944,7 +960,7 @@ class Panel:
             self._show_fig()
 
     def _on_show_button_clicked(self, button: widgets.Button) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         self._show_fig()
 
@@ -977,33 +993,35 @@ class Panel:
                 )
                 raw_indices = set(range(len(self._fig_curves)))
                 linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
-                for idx, tag in enumerate(self._merge_curve_tags_input.value):
-                    indices = [
-                        idx
-                        for idx, stem in enumerate(self._fig_stems)
-                        if re.search(tag + "\\-", stem) or re.search("\\-" + tag, stem)
-                    ]
-                    if len(indices) == 0:
-                        continue
-                    self.fig, self.ax = plot_mean_curve_with_error_bounds(
-                        curves=[
-                            self._moving_averager(
-                                self._fig_curves[idx],
-                                weight=self._moving_average_slider.value,
-                            )
-                            for idx in indices
-                        ],
-                        error_type=self._merge_curve_method_dropdown_selector.value,
-                        fig_ax=(self.fig, self.ax),
-                        label=tag,
-                        error_bound_label=self._merge_curve_with_err_bound_label_checkbox.value,
-                        plot_config={"linestyle": next(linestyle_cycle)},
-                        fill_between_config={
-                            "alpha": self._fill_between_alpha_slider.value
-                        },
-                    )
-                    self.ax.get_legend().remove()
-                    raw_indices = raw_indices - set(indices)
+                if self._merge_curve_tags_input is not None:
+                    for idx, tag in enumerate(self._merge_curve_tags_input.value):
+                        indices = [
+                            idx
+                            for idx, stem in enumerate(self._fig_stems)
+                            if re.search(tag + "\\-", stem)
+                            or re.search("\\-" + tag, stem)
+                        ]
+                        if len(indices) == 0:
+                            continue
+                        self.fig, self.ax = plot_mean_curve_with_error_bounds(
+                            curves=[
+                                self._moving_averager(
+                                    self._fig_curves[idx],
+                                    weight=self._moving_average_slider.value,
+                                )
+                                for idx in indices
+                            ],
+                            error_type=self._merge_curve_method_dropdown_selector.value,
+                            fig_ax=(self.fig, self.ax),
+                            label=tag,
+                            error_bound_label=self._merge_curve_with_err_bound_label_checkbox.value,
+                            plot_config={"linestyle": next(linestyle_cycle)},
+                            fill_between_config={
+                                "alpha": self._fill_between_alpha_slider.value
+                            },
+                        )
+                        self.ax.get_legend().remove()
+                        raw_indices = raw_indices - set(indices)
                 raw_indices = sorted(raw_indices)
                 if len(raw_indices) > 0:
                     self.fig, self.ax = _plot_curves(
@@ -1023,19 +1041,22 @@ class Panel:
                     f"{self._part_input.value} {self._metric_input.value}"
                 )
                 self.ax.set_xlabel("Global Iter.")
-                widgets.widgets.interaction.show_inline_matplotlib_plots()
+                # widgets.widgets.interaction.show_inline_matplotlib_plots()
+                # show_inline_matplotlib_plots might not work well for older versions of
+                # related packages or systems
+                plt.show(self.fig)
             except KeyError:
                 print(colored("Invalid part or metric.", "red"))
 
     def _on_clear_button_clicked(self, button: widgets.Button) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         self._fig_curves, self._fig_stems = None, None
         self._canvas.clear_output(wait=False)
         self._show_fig_flag = False
 
     def _on_savefig_button_clicked(self, button: widgets.Button) -> None:
-        if widgets is None:
+        if widgets is None or not self._is_notebook:
             return
         self._savefig_message_area.clear_output(wait=False)
         with self._savefig_message_area:
