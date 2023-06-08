@@ -75,16 +75,17 @@ s.train_federated()
 
 | Algorithm | Paper | Original Implementation | Action Status |
 | --------- | ----- | ----------------------- | ------------- |
-| FedProx   | [MLSys](https://proceedings.mlsys.org/paper_files/paper/2020/hash/38af86134b65d0f10fe33d30dd76442e-Abstract.html) | [GitHub](https://github.com/litian96/FedProx)       | ![test-fedprox](https://github.com/wenh06/fl-sim/actions/workflows/test-fedprox.yml/badge.svg)  |
-| FedOpt    | [arXiv:2003.00295](https://arxiv.org/abs/2003.00295) | N/A | ![test-fedopt](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml/badge.svg) |
-| pFedMe    | [NeurIPS2020](https://proceedings.neurips.cc/paper_files/paper/2020/hash/f4f1f13c8289ac1b1ee0ff176b56fc60-Abstract.html) | [GitHub](https://github.com/CharlieDinh/pFedMe)     | ![test-pfedme](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedme.yml/badge.svg) |
-| FedSplit  | [NeurIPS2020](https://proceedings.neurips.cc/paper/2020/hash/4ebd440d99504722d80de606ea8507da-Abstract.html) | N/A | ![test-fedsplit](https://github.com/wenh06/fl-sim/actions/workflows/test-fedsplit.yml/badge.svg) |
-| FedDR     | [NeurIPS2021](https://papers.nips.cc/paper/2021/hash/fe7ee8fc1959cc7214fa21c4840dff0a-Abstract.html) | [GitHub](https://github.com/unc-optimization/FedDR) | ![test-feddr](https://github.com/wenh06/fl-sim/actions/workflows/test-feddr.yml/badge.svg) |
-| FedPD     | [IEEE Trans. Signal Process](https://ieeexplore.ieee.org/document/9556559) | [GitHub](https://github.com/564612540/FedPD/) | ![test-fedpd](https://github.com/wenh06/fl-sim/actions/workflows/test-fedpd.yml/badge.svg) |
-| SCAFFOLD  | [PMLR](https://proceedings.mlr.press/v119/karimireddy20a.html) | N/A | ![test-scaffold](https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml/badge.svg) |
-| ProxSkip  | [PMLR](https://proceedings.mlr.press/v162/mishchenko22b.html) | N/A | ![test-proxskip](https://github.com/wenh06/fl-sim/actions/workflows/test-proxskip.yml/badge.svg) |
-| Ditto     | [PMLR](https://proceedings.mlr.press/v139/li21h.html) | [GitHub](https://github.com/litian96/ditto) | ![test-ditto](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml/badge.svg) |
-| IFCA      | [NeurIPS2020](https://papers.nips.cc/paper_files/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html) | [GitHub](https://github.com/jichan3751/ifca) | ![test-ifca](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml/badge.svg) |
+| FedProx   | [MLSys](https://proceedings.mlsys.org/paper_files/paper/2020/hash/38af86134b65d0f10fe33d30dd76442e-Abstract.html) | [GitHub](https://github.com/litian96/FedProx) | [![test-fedprox](https://github.com/wenh06/fl-sim/actions/workflows/test-fedprox.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedprox.yml)  |
+| FedOpt    | [arXiv:2003.00295](https://arxiv.org/abs/2003.00295) | N/A | [![test-fedopt](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml) |
+| pFedMe    | [NeurIPS2020](https://proceedings.neurips.cc/paper_files/paper/2020/hash/f4f1f13c8289ac1b1ee0ff176b56fc60-Abstract.html) | [GitHub](https://github.com/CharlieDinh/pFedMe)     | [![test-pfedme](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedme.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedme.yml) |
+| FedSplit  | [NeurIPS2020](https://proceedings.neurips.cc/paper/2020/hash/4ebd440d99504722d80de606ea8507da-Abstract.html) | N/A | [![test-fedsplit](https://github.com/wenh06/fl-sim/actions/workflows/test-fedsplit.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedsplit.yml) |
+| FedDR     | [NeurIPS2021](https://papers.nips.cc/paper/2021/hash/fe7ee8fc1959cc7214fa21c4840dff0a-Abstract.html) | [GitHub](https://github.com/unc-optimization/FedDR) | [![test-feddr](https://github.com/wenh06/fl-sim/actions/workflows/test-feddr.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-feddr.yml) |
+| FedPD     | [IEEE Trans. Signal Process](https://ieeexplore.ieee.org/document/9556559) | [GitHub](https://github.com/564612540/FedPD/) | [![test-fedpd](https://github.com/wenh06/fl-sim/actions/workflows/test-fedpd.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedpd.yml) |
+| SCAFFOLD  | [PMLR](https://proceedings.mlr.press/v119/karimireddy20a.html) | N/A | [![test-scaffold](https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml/badge.svg)]((https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml)) |
+| ProxSkip  | [PMLR](https://proceedings.mlr.press/v162/mishchenko22b.html) | N/A | [![test-proxskip](https://github.com/wenh06/fl-sim/actions/workflows/test-proxskip.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-proxskip.yml) |
+| Ditto     | [PMLR](https://proceedings.mlr.press/v139/li21h.html) | [GitHub](https://github.com/litian96/ditto) | [![test-ditto](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml) |
+| IFCA      | [NeurIPS2020](https://papers.nips.cc/paper_files/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html) | [GitHub](https://github.com/jichan3751/ifca) | [![test-ifca](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml) |
+| pFedMac   | [arXiv:2107.05330v4](https://arxiv.org/abs/2107.05330) | N/A | [![test-pfedmac](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedmac.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedmac.yml) |
 
 ## Main Modules
 
@@ -132,6 +133,7 @@ providing the following additional functionalities or properties:
 - `train`: the main training procedure, which calls either `train_centralized` or `train_federated` depending on the argument `mode` passed to this method.
 - `train_centralized`: centralized training procedure, mainly used for comparison.
 - `train_federated`: federated training procedure, which calls the `_communicate` (to clients), wait for the clients to execute `_update` and `_communicate`, and finally calls `_update` to update the server.
+- `train_local`: local training procedure, which calls the `train` method of the clients **without** communication with the server.
 - `add_parameters`: addition of parameters (values) to the server model parameters.
 - `avg_parameters`: averaging the model parameters in the received messages.
 - `update_gradients`: update the gradients of the server model parameters using the received gradients.
@@ -236,10 +238,12 @@ class FedProxServerConfig(ServerConfig):
     **kwargs : dict, optional
         Additional keyword arguments:
 
+        - ``log_dir`` : str or Path, optional
+            The log directory.
+            If not specified, will use the default log directory.
+            If not absolute, will be relative to the default log directory.
         - ``txt_logger`` : bool, default True
             Whether to use txt logger.
-        - ``csv_logger`` : bool, default False
-            Whether to use csv logger.
         - ``json_logger`` : bool, default True
             Whether to use json logger.
         - ``eval_every`` : int, default 1
