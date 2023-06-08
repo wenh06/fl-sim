@@ -404,6 +404,7 @@ class Panel:
     2. add a input box and a button for saving the figure
     3. ~~add a box for showing the config of the experiment~~(done)
     4. ~~use `ToggleButtons` or `TagsInput` to specify indicators for merging multiple curves~~(done)
+    5. add choices (via `Dropdown`) for color palette
 
     """
 
@@ -513,7 +514,7 @@ class Panel:
         self._x_ticks_font_size_slider = widgets.IntSlider(
             value=int(init_x_ticks_font_size),
             min=6,
-            max=30,
+            max=32,
             description="X tick font size:",
             **fig_setup_slider_config,
         )
@@ -523,7 +524,7 @@ class Panel:
         self._y_ticks_font_size_slider = widgets.IntSlider(
             value=int(init_y_ticks_font_size),
             min=6,
-            max=30,
+            max=32,
             description="Y tick font size:",
             **fig_setup_slider_config,
         )
@@ -533,7 +534,7 @@ class Panel:
         self._axes_label_font_size_slider = widgets.IntSlider(
             value=int(init_axes_label_font_size),
             min=6,
-            max=30,
+            max=42,
             description="Axes label font size:",
             **fig_setup_slider_config,
         )
@@ -543,7 +544,7 @@ class Panel:
         self._legend_font_size_slider = widgets.IntSlider(
             value=int(init_legend_font_size),
             min=6,
-            max=30,
+            max=32,
             description="Legend font size:",
             **fig_setup_slider_config,
         )
@@ -552,8 +553,8 @@ class Panel:
         )
         self._linewidth_slider = widgets.FloatSlider(
             value=init_linewidth,
-            min=0.8,
-            max=3.6,
+            min=0.6,
+            max=4.4,
             description="Line width:",
             **{**fig_setup_slider_config, **{"step": 0.1, "readout_format": ".1f"}},
         )
