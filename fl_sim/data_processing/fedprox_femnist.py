@@ -211,7 +211,12 @@ class FedProxFEMNIST(FedVisionDataset):
 
     @property
     def doi(self) -> List[str]:
-        return ["10.48550/ARXIV.1812.06127"]
+        return [
+            "10.1109/5.726791",  # MNIST
+            "10.1109/ijcnn.2017.7966217",  # EMNIST
+            "10.48550/ARXIV.1812.01097",  # LEAF
+            "10.48550/ARXIV.1812.06127",  # FedProx
+        ]
 
     @property
     def label_map(self) -> dict:

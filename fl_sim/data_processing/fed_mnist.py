@@ -214,8 +214,10 @@ class FedMNIST(FedVisionDataset):
 
     @property
     def doi(self) -> List[str]:
-        # TODO: add FedML doi and MNIST doi
-        return ["10.48550/ARXIV.1812.06127"]
+        return [
+            "10.1109/5.726791",  # MNIST
+            "10.48550/ARXIV.2007.13518",  # FedML
+        ]
 
     @property
     def label_map(self) -> dict:

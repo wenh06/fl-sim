@@ -296,7 +296,9 @@ class FedCIFAR(FedVisionDataset):
 
     @property
     def doi(self) -> str:
-        return None  # TODO
+        return [
+            "10.48550/ARXIV.2007.13518",  # FedML
+        ]
 
     @property
     def label_map(self) -> dict:

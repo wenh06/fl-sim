@@ -87,4 +87,6 @@ class LeafSent140(FedNLPDataset):
 
     @property
     def doi(self) -> List[str]:
-        return ["10.48550/ARXIV.1812.01097"]
+        return [
+            "10.48550/ARXIV.1812.01097",  # LEAF
+        ]

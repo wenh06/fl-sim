@@ -210,7 +210,11 @@ class FedEMNIST(FedVisionDataset):
 
     @property
     def doi(self) -> List[str]:
-        return ["10.48550/ARXIV.2003.00295"]
+        return [
+            "10.1109/5.726791",  # MNIST
+            "10.1109/ijcnn.2017.7966217",  # EMNIST
+            "10.48550/ARXIV.1812.01097",  # LEAF
+        ]
 
     @property
     def label_map(self) -> dict:

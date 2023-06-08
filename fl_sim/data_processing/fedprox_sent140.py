@@ -243,7 +243,10 @@ class FedProxSent140(FedNLPDataset):
 
     @property
     def doi(self) -> List[str]:
-        return ["10.48550/ARXIV.1812.06127"]
+        return [
+            "10.48550/ARXIV.1812.01097",  # LEAF
+            "10.48550/ARXIV.1812.06127",  # FedProx
+        ]
 
     def view_sample(self, client_idx: int, sample_idx: int) -> None:
         if client_idx >= len(self._client_ids_train):
