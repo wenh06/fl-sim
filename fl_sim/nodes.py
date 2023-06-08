@@ -539,18 +539,18 @@ class Server(Node, CitationMixin):
         # `self.train`, `self.train_centralized`, `self.train_federated`
         self._complete_experiment = False
 
-        self._post_init()
-
+        self._clients = None
         if not lazy:
-            self._clients = self._setup_clients(self.dataset, self._client_config)
-        else:
-            self._clients = None
+            self._setup_clients(self.dataset, self._client_config)
+
+        self._post_init()
 
     def _setup_clients(
         self,
         dataset: Optional[FedDataset] = None,
         client_config: Optional[ClientConfig] = None,
-    ) -> List[Node]:
+        force: bool = False,
+    ) -> None:
         """Setup the clients.
 
         Parameters
@@ -561,17 +561,25 @@ class Server(Node, CitationMixin):
         client_config : ClientConfig, optional
             The configs for the clients,
             defaults to `self._client_config`.
+        force : bool, default False
+            Whether to force setup the clients.
+            If set to True, the clients will be setup
+            even if they have been setup before.
 
         Returns
         -------
-        List[Node]
-            A list of clients.
+        None
 
         """
+        if self._clients is not None and not force:
+            return
+        elif force:
+            # reset the clients
+            del self._clients
         self._logger_manager.log_message("Setup clients...")
         dataset = dataset or self.dataset
         client_config = client_config or self._client_config
-        return [
+        self._clients = [
             self.client_cls(
                 client_id, device, deepcopy(self.model), dataset, client_config
             )

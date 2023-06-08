@@ -3,7 +3,7 @@ ProxSkip and ProxSkip-VR re-implemented in the new framework
 """
 
 import warnings
-from typing import List, Any, Dict
+from typing import List, Any, Dict, Optional
 
 import numpy as np
 import torch
@@ -171,6 +171,34 @@ class ProxSkipServer(Server):
         """
         super()._post_init()
         assert self.config.vr == self._client_config.vr
+
+    def _setup_clients(
+        self,
+        dataset: Optional[FedDataset] = None,
+        client_config: Optional[ClientConfig] = None,
+        force: bool = False,
+    ) -> None:
+        """Setup the clients.
+
+        Parameters
+        ----------
+        dataset : FedDataset, optional
+            The dataset to be used for training the local models,
+            defaults to `self.dataset`.
+        client_config : ClientConfig, optional
+            The configs for the clients,
+            defaults to `self._client_config`.
+        force : bool, default False
+            Whether to force setup the clients.
+            If set to True, the clients will be setup
+            even if they have been setup before.
+
+        Returns
+        -------
+        None
+
+        """
+        super()._setup_clients(dataset, client_config, force)
         # ProxSkip does not have control variates on the server side
         # self._control_variates = [torch.zeros_like(p) for p in self.model.parameters()]
         communication_pattern = (

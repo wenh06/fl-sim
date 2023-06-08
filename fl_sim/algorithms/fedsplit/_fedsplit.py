@@ -3,12 +3,13 @@
 
 import warnings
 from copy import deepcopy
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
+from ...data_processing.fed_dataset import FedDataset
 
 
 __all__ = [
@@ -145,8 +146,33 @@ class FedSplitServer(Server):
 
     __name__ = "FedSplitServer"
 
-    def _post_init(self) -> None:
-        super()._post_init()
+    def _setup_clients(
+        self,
+        dataset: Optional[FedDataset] = None,
+        client_config: Optional[ClientConfig] = None,
+        force: bool = False,
+    ) -> None:
+        """Setup the clients.
+
+        Parameters
+        ----------
+        dataset : FedDataset, optional
+            The dataset to be used for training the local models,
+            defaults to `self.dataset`.
+        client_config : ClientConfig, optional
+            The configs for the clients,
+            defaults to `self._client_config`.
+        force : bool, default False
+            Whether to force setup the clients.
+            If set to True, the clients will be setup
+            even if they have been setup before.
+
+        Returns
+        -------
+        None
+
+        """
+        super()._setup_clients(dataset, client_config, force)
         for c in self._clients:
             # line 2 of Algorithm 1 in the paper
             c._z_parameters = [
