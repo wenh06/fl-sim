@@ -637,9 +637,18 @@ The module (folder) [utils](fl_sim/utils) contains utility functions for [data d
 
 ### [Visualization Panel](fl_sim/utils/viz.py)
 
-<img src="https://raw.githubusercontent.com/wenh06/fl-sim/master/images/panel-demo.gif" alt="FL-SIM Panel Demo GIF" style="display: block; margin: 0 auto;" />
+The visualization panel is a GUI for visualizing the training results of federated learning algorithms.
+It is based on `ipywidgets` and `matplotlib`, and can be used in Jupyter notebooks. It has the following features:
 
-To write details...
+1. Automatically search and display the log files of complete experiments in the specified directory.
+2. Automatically decode the log files and aggregate the training metrics into curves in a matplotlib figure.
+3. Support interactive operations on the figure, including zooming, font family selection, curve smoothing, etc.
+4. Support saving the figure as a PDF/SVG/PNG/JPEG/PS file.
+5. Support curves merging via tags (e.g. `FedAvg` and `FedProx` can be merged into a single curve `FedAvg/FedProx`) into mean curves with error bounds (standard deviation, standard error of the mean, quantiles, interquartile range, etc.).
+
+The following GIF shows a demo of the visualization panel:
+
+<img src="https://raw.githubusercontent.com/wenh06/fl-sim/master/images/panel-demo.gif" alt="FL-SIM Panel Demo GIF" style="display: block; margin: 0 auto;" />
 
 **NOTE:** to use Windows fonts on a Linux machine (e.g. Ubuntu), one can execute the following commands:
 
