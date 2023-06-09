@@ -458,16 +458,22 @@ class Panel:
             disabled=False,
             layout={"width": "300px"},
         )
-        unit = "files" if len(self._log_files) > 1 else "file"
-        self._num_log_files_label = widgets.Label(
-            value=f"Found {len(self.log_files)} log {unit}."
-        )
         self._log_files_mult_selector = widgets.SelectMultiple(
             options=list(zip(self.log_files, self._log_files)),
             description="Select log files:",
             disabled=False,
             layout={"width": "500px", "height": "220px"},
             style={"description_width": "initial"},
+        )
+        unit = "files" if len(self._log_files) > 1 else "file"
+        unit_selected = (
+            "files" if len(self._log_files_mult_selector.value) > 1 else "file"
+        )
+        self._num_log_files_label = widgets.Label(
+            value=(
+                f"Found {len(self.log_files)} log {unit}. "
+                f"Selected {len(self._log_files_mult_selector.value)} log {unit_selected}."
+            )
         )
         # clear self._fig_curves, self._fig_stems if selected log files change
         self._log_files_mult_selector.observe(
@@ -817,7 +823,13 @@ class Panel:
         )
         # update the label
         unit = "files" if len(self._log_files) > 1 else "file"
-        self._num_log_files_label.value = f"Found {len(self.log_files)} log {unit}."
+        unit_selected = (
+            "files" if len(self._log_files_mult_selector.value) > 1 else "file"
+        )
+        self._num_log_files_label.value = (
+            f"Found {len(self.log_files)} log {unit}. "
+            f"Slected {len(self._log_files_mult_selector.value)} log {unit_selected}."
+        )
         # update the dropdown selector
         self._log_file_dropdown_selector.options = list(
             zip(self.log_files, self._log_files)
@@ -830,6 +842,15 @@ class Panel:
             return
         # clear self._fig_curves and self._fig_stems
         self._fig_curves, self._fig_stems = None, None
+        # update the label
+        unit = "files" if len(self._log_files) > 1 else "file"
+        unit_selected = (
+            "files" if len(self._log_files_mult_selector.value) > 1 else "file"
+        )
+        self._num_log_files_label.value = (
+            f"Found {len(self.log_files)} log {unit}. "
+            f"Slected {len(self._log_files_mult_selector.value)} log {unit_selected}."
+        )
 
     def _on_log_file_dropdown_selector_change(self, change: dict) -> None:
         if widgets is None or not self._is_notebook:
