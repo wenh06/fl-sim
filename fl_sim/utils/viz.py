@@ -443,6 +443,8 @@ class Panel:
             warnings.warn("Seaborn is not installed. One gets better plots with it.")
         self.reset_matplotlib(rc_params=self._rc_params)
 
+        self._curve_cache = {}
+
         self._log_files = find_log_files()
         self._refresh_button = widgets.Button(
             description="Refresh",
@@ -1005,11 +1007,48 @@ class Panel:
             try:
                 self._show_fig_flag = True
                 if self._fig_curves is None or self._fig_stems is None:
-                    self._fig_curves, self._fig_stems = get_curves_and_labels_from_log(
-                        self._log_files_mult_selector.value,
-                        part=self._part_input.value,
-                        metric=self._metric_input.value,
-                    )
+                    # first, fetch from self._curve_cache
+                    indices = []
+                    self._fig_curves, self._fig_stems = [], []
+                    for idx, item in enumerate(self._log_files_mult_selector.value):
+                        key = self.cache_key(
+                            self._part_input.value, self._metric_input.value, item
+                        )
+                        if key in self._curve_cache:
+                            self._fig_curves.append(self._curve_cache[key])
+                            self._fig_stems.append(Path(item).stem)
+                            indices.append(idx)
+                    if len(indices) < len(self._log_files_mult_selector.value):
+                        # second, fetch from the log files
+                        for idx, item in enumerate(self._log_files_mult_selector.value):
+                            (
+                                new_fig_curves,
+                                new_fig_stems,
+                            ) = get_curves_and_labels_from_log(
+                                [
+                                    item
+                                    for idx, item in enumerate(
+                                        self._log_files_mult_selector.value
+                                    )
+                                    if idx not in indices
+                                ],
+                                part=self._part_input.value,
+                                metric=self._metric_input.value,
+                            )
+                        # put the new curves and stems into self._curve_cache
+                        for curve, stem in zip(new_fig_curves, new_fig_stems):
+                            key = self.cache_key(
+                                self._part_input.value, self._metric_input.value, stem
+                            )
+                            self._curve_cache[key] = curve
+                        # update self._fig_curves and self._fig_stems
+                        self._fig_curves.extend(new_fig_curves)
+                        self._fig_stems.extend(new_fig_stems)
+                    # self._fig_curves, self._fig_stems = get_curves_and_labels_from_log(
+                    #     self._log_files_mult_selector.value,
+                    #     part=self._part_input.value,
+                    #     metric=self._metric_input.value,
+                    # )
                 self.fig, self.ax = plt.subplots(
                     figsize=self._rc_params["figure.figsize"]
                 )
@@ -1103,6 +1142,10 @@ class Panel:
                 bbox_inches="tight",
             )
             print(f"Figure saved to {save_fig_filename}")
+
+    def cache_key(self, part: str, metric: str, filename: Union[str, Path]) -> str:
+        """Get the cache key for a curve."""
+        return f"{part}-{metric}-{Path(filename).stem}"
 
     @property
     def log_files(self) -> List[str]:
