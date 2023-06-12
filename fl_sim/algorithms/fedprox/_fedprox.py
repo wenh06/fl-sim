@@ -52,6 +52,8 @@ class FedProxServerConfig(ServerConfig):
             Defaults to use all GPUs if available.
         - ``seed`` : int, default 0
             The random seed.
+        - ``tag`` : str, optional
+            The tag of the experiment.
         - ``verbose`` : int, default 1
             The verbosity level.
         - ``gpu_proportion`` : float, default 0.2

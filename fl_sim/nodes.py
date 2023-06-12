@@ -70,6 +70,8 @@ class ServerConfig(ReprMixin):
         Defaults to use all GPUs if available.
     seed : int, default 0
         The random seed.
+    tag : str, optional
+        The tag of the experiment.
     verbose : int, default 1
         The verbosity level.
     gpu_proportion : float, default 0.2
@@ -96,6 +98,7 @@ class ServerConfig(ReprMixin):
         eval_every: int = 1,
         visiable_gpus: Optional[Sequence[int]] = None,
         seed: int = 0,
+        tag: Optional[str] = None,
         verbose: int = 1,
         gpu_proportion: float = 0.2,
         **kwargs: Any,
@@ -121,6 +124,7 @@ class ServerConfig(ReprMixin):
                 item for item in self.visiable_gpus if item in default_gpus
             ]
         self.seed = seed
+        self.tag = tag
         self.verbose = verbose
         self.gpu_proportion = gpu_proportion
         for k, v in kwargs.items():
@@ -512,6 +516,7 @@ class Server(Node, CitationMixin):
 
         logger_config = dict(
             log_dir=self.config.log_dir,
+            log_suffix=self.config.tag,
             txt_logger=self.config.txt_logger,
             json_logger=self.config.json_logger,
             algorithm=self.config.algorithm,
