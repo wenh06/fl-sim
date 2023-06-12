@@ -1,6 +1,7 @@
 """
 """
 
+from .fed_data_args import FedDataArgs
 from .fed_dataset import (
     FedDataset,
     FedVisionDataset,
@@ -23,6 +24,7 @@ from .libsvm_datasets import FedLibSVMDataset, libsvmread
 
 
 __all__ = [
+    "FedDataArgs",
     # base classes
     "FedDataset",
     "FedVisionDataset",
