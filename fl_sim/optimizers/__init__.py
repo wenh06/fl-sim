@@ -231,21 +231,17 @@ def get_optimizer(
             spec.loader.exec_module(optimizer_module)
             # the custom algorithm should be added to the optimizer pool
             # using the decorator @register_optimizer
-            print(available_optimizers)
             new_optimizers = set(available_optimizers) - set(built_in_optimizers)
-            print(new_optimizers)
             assert len(new_optimizers) == 1, (
                 f"Optimizer `{optimizer_name}` not found. "
                 "Please check if the optimizer is registered using "
                 "the decorator @register_optimizer from fl_sim.optimizers"
             )
             optimizer_name = new_optimizers.pop()
-            print(new_optimizers)
     assert optimizer_name in available_optimizers, (
         f"optimizer `{optimizer_name}` is not supported, "
         f"available optimizers are `{available_optimizers}`"
     )
-    print(optimizer_name)
 
     try:
         # optimizer = eval(

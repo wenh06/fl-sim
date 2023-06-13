@@ -5,6 +5,7 @@ Reads in a yaml file with experiment parameters and runs the experiment.
 """
 
 import argparse
+import importlib
 import os
 import re
 from collections import OrderedDict
@@ -15,33 +16,9 @@ from typing import List, Union
 
 import yaml
 from torch_ecg.cfg import CFG
-from .data_processing import (
-    FedCIFAR100,
-    FedEMNIST,
-    FedMNIST,
-    FedShakespeare,
-    FedProxFEMNIST,
-    FedProxMNIST,
-    FedSynthetic,
-    FedProxSent140,
-)
-from .algorithms import (
-    ditto,
-    feddr,
-    fedopt,
-    fedpd,
-    fedprox,
-    fedsplit,
-    ifca,
-    pfedmac,
-    pfedme,
-    proxskip,
-    scaffold,
-)
 
-
-# create log directory if it does not exist
-# (Path(__file__).parent / ".logs").mkdir(exist_ok=True, parents=True)
+from fl_sim.data_processing import FedDataArgs
+from fl_sim.algorithms import list_algorithms, get_algorithm
 
 
 def parse_args() -> List[CFG]:
@@ -163,103 +140,6 @@ def single_run(config: CFG) -> None:
     config = CFG(config)
     config_bak = deepcopy(config)
 
-    algorithm_pool = CFG(
-        {
-            "Ditto": {
-                "server_config": ditto.DittoServerConfig,
-                "client_config": ditto.DittoClientConfig,
-                "server": ditto.DittoServer,
-            },
-            "FedPD": {
-                "server_config": fedpd.FedPDServerConfig,
-                "client_config": fedpd.FedPDClientConfig,
-                "server": fedpd.FedPDServer,
-            },
-            "FedSplit": {
-                "server_config": fedsplit.FedSplitServerConfig,
-                "client_config": fedsplit.FedSplitClientConfig,
-                "server": fedsplit.FedSplitServer,
-            },
-            "FedDR": {
-                "server_config": feddr.FedDRServerConfig,
-                "client_config": feddr.FedDRClientConfig,
-                "server": feddr.FedDRServer,
-            },
-            "IFCA": {
-                "server_config": ifca.IFCAServerConfig,
-                "client_config": ifca.IFCAClientConfig,
-                "server": ifca.IFCAServer,
-            },
-            "pFedMe": {
-                "server_config": pfedme.pFedMeServerConfig,
-                "client_config": pfedme.pFedMeClientConfig,
-                "server": pfedme.pFedMeServer,
-            },
-            "pFedMac": {
-                "server_config": pfedmac.pFedMacServerConfig,
-                "client_config": pfedmac.pFedMacClientConfig,
-                "server": pfedmac.pFedMacServer,
-            },
-            "FedOpt": {
-                "server_config": fedopt.FedOptServerConfig,
-                "client_config": fedopt.FedOptClientConfig,
-                "server": fedopt.FedOptServer,
-            },
-            "FedAdam": {
-                "server_config": fedopt.FedAdamServerConfig,
-                "client_config": fedopt.FedAdamClientConfig,
-                "server": fedopt.FedAdamServer,
-            },
-            "FedAdagrad": {
-                "server_config": fedopt.FedAdagradServerConfig,
-                "client_config": fedopt.FedAdagradClientConfig,
-                "server": fedopt.FedAdagradServer,
-            },
-            "FedYogi": {
-                "server_config": fedopt.FedYogiServerConfig,
-                "client_config": fedopt.FedYogiClientConfig,
-                "server": fedopt.FedYogiServer,
-            },
-            "FedAvg": {
-                "server_config": fedopt.FedAvgServerConfig,
-                "client_config": fedopt.FedAvgClientConfig,
-                "server": fedopt.FedAvgServer,
-            },
-            "FedProx": {
-                "server_config": fedprox.FedProxServerConfig,
-                "client_config": fedprox.FedProxClientConfig,
-                "server": fedprox.FedProxServer,
-            },
-            "ProxSkip": {
-                "server_config": proxskip.ProxSkipServerConfig,
-                "client_config": proxskip.ProxSkipClientConfig,
-                "server": proxskip.ProxSkipServer,
-            },
-            "SCAFFOLD": {
-                "server_config": scaffold.SCAFFOLDServerConfig,
-                "client_config": scaffold.SCAFFOLDClientConfig,
-                "server": scaffold.SCAFFOLDServer,
-            },
-        }
-    )
-
-    dataset_pool = {
-        c.__name__: c
-        for c in [
-            FedCIFAR100,
-            FedEMNIST,
-            FedMNIST,
-            FedShakespeare,
-            FedProxFEMNIST,
-            FedProxMNIST,
-            FedShakespeare,
-            FedProxSent140,
-            FedSynthetic,
-            # FedRotatedMNIST,
-            # FedRotatedCIFAR10,
-        ]
-    }
-
     # set random seed
     seed = config.pop("seed", None)  # global seed
     if config.dataset.get("seed", None) is None:
@@ -269,8 +149,7 @@ def single_run(config: CFG) -> None:
     assert config.dataset.seed is not None and config.algorithm.server.seed is not None
 
     # dataset and model selection
-    ds_cls = dataset_pool[config.dataset.pop("name")]
-    ds = ds_cls(**(config.dataset))
+    ds = FedDataArgs._create_fed_dataset_from_args(config.dataset)
     model = ds.candidate_models[config.model.pop("name")]
 
     # fill default values
@@ -286,13 +165,38 @@ def single_run(config: CFG) -> None:
         config.algorithm.server.num_clients = ds.DEFAULT_TRAIN_CLIENTS_NUM
 
     # server and client configs
-    server_config_cls = algorithm_pool[config.algorithm.name]["server_config"]
-    client_config_cls = algorithm_pool[config.algorithm.name]["client_config"]
+    builtin_algorithms = list_algorithms()
+    if config.algorithm.name not in builtin_algorithms:
+        algorithm_file = Path(config.algorithm.name).resolve()
+        assert algorithm_file.exists() and algorithm_file.suffix == ".py", (
+            f"Algorithm {config.algorithm.name} not found. "
+            "Please check if the algorithm file exists and is a .py file."
+        )
+        algorithm_spec = importlib.util.spec_from_file_location(
+            algorithm_file.stem, algorithm_file
+        )
+        algorithm_module = importlib.util.module_from_spec(algorithm_spec)
+        algorithm_spec.loader.exec_module(algorithm_module)
+        # the custom algorithm should be added to the algorithm pool
+        # using the decorator @register_algorithm
+        new_algorithms = [
+            item for item in list_algorithms() if item not in builtin_algorithms
+        ]
+        assert len(new_algorithms) == 1, (
+            f"Algorithm {config.algorithm.name} not found. "
+            "Please check if the algorithm is registered using "
+            "the decorator @register_algorithm from fl_sim.algorithms"
+        )
+        config.algorithm.name = new_algorithms[0]
+    algorithm_dict = get_algorithm(config.algorithm.name)
+    server_config_cls = algorithm_dict["server_config"]
+    client_config_cls = algorithm_dict["client_config"]
     server_config = server_config_cls(**(config.algorithm.server))
     client_config = client_config_cls(**(config.algorithm.client))
 
     # setup the experiment
-    server_cls = algorithm_pool[config.algorithm.name]["server"]
+    server_cls = algorithm_dict["server"]
+
     s = server_cls(
         model,
         ds,

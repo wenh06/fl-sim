@@ -46,4 +46,7 @@ setuptools.setup(
     python_requires=">=3.6",
     install_requires=install_requires,
     # extras_require=extras,
+    entry_points={
+        "console_scripts": ["fl-sim=fl_sim.cli:main"],
+    },
 )
