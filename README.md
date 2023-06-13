@@ -648,7 +648,7 @@ It is based on `ipywidgets` and `matplotlib`, and can be used in Jupyter noteboo
 4. Support saving the figure as a PDF/SVG/PNG/JPEG/PS file.
 5. Support curves merging via tags (e.g. `FedAvg` and `FedProx` can be merged into a single curve `FedAvg/FedProx`) into mean curves with error bounds (standard deviation, standard error of the mean, quantiles, interquartile range, etc.).
 
-The following GIF shows a demo of the visualization panel:
+The following GIF (created using [ScreenToGif](https://github.com/NickeManarin/ScreenToGif)) shows a demo of the visualization panel:
 
 <img src="https://raw.githubusercontent.com/wenh06/fl-sim/master/images/panel-demo.gif" alt="FL-SIM Panel Demo GIF" style="display: block; margin: 0 auto;" />
 

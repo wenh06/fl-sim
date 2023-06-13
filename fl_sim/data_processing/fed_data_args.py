@@ -4,7 +4,7 @@
 import importlib
 import inspect
 from argparse import ArgumentParser
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Optional, Dict
 
@@ -16,6 +16,15 @@ __all__ = [
 ]
 
 
+_built_in_datasets = {
+    name: cls
+    for name, cls in importlib.import_module("fl_sim.data_processing").__dict__.items()
+    if inspect.isclass(cls)
+    and issubclass(cls, FedDataset)
+    and not inspect.isabstract(cls)
+}
+
+
 @dataclass
 class FedDataArgs:
     """Arguments for creating a federated dataset.
@@ -23,7 +32,8 @@ class FedDataArgs:
     Parameters
     ----------
     name : str
-        name of built-in dataset, or path to the custom dataset file (.py file)
+        name of built-in dataset, or path to the custom dataset file (.py file),
+        or path to the custom dataset class (/path/to/py-filename.class_name)
     datadir : str, optional
         path to dataset storage directory, by default None
     transform : str, optional
@@ -40,6 +50,9 @@ class FedDataArgs:
         args = FedDataArgs(name="FedMNIST")
         # custom dataset
         args = FedDataArgs(name="/path/to/custom/dataset.py")
+        ds = args._create_fed_dataset()
+        # another form of custom dataset
+        args = FedDataArgs(name="/path/to/custom/dataset.FedCustomDataset")
         ds = args._create_fed_dataset()
 
     """
@@ -69,9 +82,12 @@ class FedDataArgs:
             # custom dataset
             args = FedDataArgs(name="/path/to/custom/dataset.py")
             ds = args._create_fed_dataset()
+            # another form of custom dataset
+            args = FedDataArgs(name="/path/to/custom/dataset.FedCustomDataset")
+            ds = args._create_fed_dataset()
 
         """
-        return self._create_fed_dataset_from_args(self.to_dict())
+        return self._create_fed_dataset_from_args(asdict(self))
 
     @classmethod
     def _add_parser_args(cls, parser: ArgumentParser) -> ArgumentParser:
@@ -83,7 +99,8 @@ class FedDataArgs:
             required=True,
             help=(
                 "name of built-in dataset, "
-                "or path to the custom dataset file (.py file)"
+                "or path to the custom dataset file (.py file), "
+                "or path to the custom dataset class (/path/to/py-filename.class_name)"
             ),
         )
         ds_group.add_argument(
@@ -110,34 +127,50 @@ class FedDataArgs:
     def _create_fed_dataset_from_args(cls, args: Dict) -> FedDataset:
         fed_dataset_name = args["name"]
         # if args["name"] is a path to a dataset file, import the dataset from the file
-        if fed_dataset_name.endswith(".py"):
-            assert Path(
-                fed_dataset_name
-            ).exists(), f"dataset file {fed_dataset_name} does not exist"
-            assert Path(
-                fed_dataset_name
-            ).is_absolute(), f"dataset file {fed_dataset_name} is not absolute"
+        if fed_dataset_name in _built_in_datasets:
+            fed_dataset_cls = _built_in_datasets[fed_dataset_name]
+        else:
+            if fed_dataset_name.endswith(".py"):
+                # is a .py file
+                fed_dataset_file = fed_dataset_name
+                fed_dataset_name = None
+            else:
+                # of the form /path/to/dataset.class_name
+                fed_dataset_file, fed_dataset_name = fed_dataset_name.rsplit(".", 1)
+                fed_dataset_file += ".py"
+            fed_dataset_file = Path(fed_dataset_file).resolve()
+            assert (
+                fed_dataset_file.exists()
+            ), f"dataset file {fed_dataset_file} does not exist"
             spec = importlib.util.spec_from_file_location(
-                Path(fed_dataset_name).stem, fed_dataset_name
+                fed_dataset_file.stem, fed_dataset_file
             )
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            for attr in dir(module):
-                candidate = getattr(module, attr)
-                if not inspect.isclass(candidate) or not issubclass(
-                    candidate, FedDataset
-                ):
-                    continue
-                if candidate.__module__.startswith("fl_sim"):
-                    continue
-                fed_dataset_name = candidate.__name__
-                fed_dataset_cls = candidate
-                break
-        else:
-            fed_dataset_cls = importlib.import_module(
-                "fl_sim.data_processing"
-            ).__dict__[fed_dataset_name]
-        print(fed_dataset_cls)
+            if fed_dataset_name is None:
+                for attr in dir(module):
+                    candidate = getattr(module, attr)
+                    if not inspect.isclass(candidate) or not issubclass(
+                        candidate, FedDataset
+                    ):
+                        continue
+                    if candidate.__module__.startswith("fl_sim"):
+                        continue
+                    fed_dataset_name = candidate.__name__
+                    fed_dataset_cls = candidate
+                    break
+                assert fed_dataset_name is not None, (
+                    f"dataset file {fed_dataset_file} does not contain a "
+                    "subclass of FedDataset"
+                )
+            else:
+                if hasattr(module, fed_dataset_name):
+                    fed_dataset_cls = getattr(module, fed_dataset_name)
+                else:
+                    raise ValueError(
+                        f"dataset file {fed_dataset_file} does not contain "
+                        f"a class named {fed_dataset_name}"
+                    )
         obj = cls(
             name=fed_dataset_name,
             datadir=args["datadir"],
