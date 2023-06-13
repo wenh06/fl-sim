@@ -4,8 +4,9 @@
 import importlib
 import inspect
 import sys
+from copy import deepcopy
 from pathlib import Path
-from typing import Iterable, Union, Any
+from typing import Iterable, Union, Any, Optional
 
 import torch.optim as opt
 import torch_optimizer as topt
@@ -41,6 +42,7 @@ __all__ = [
     "get_oracle",
     "available_optimizers",
     "available_optimizers_plus",
+    "register_optimizer",
 ] + __all
 
 
@@ -54,31 +56,69 @@ _extra_kwargs = dict(
 )
 
 
-available_optimizers = [
-    obj.__name__
+_available_optimizers = {
+    obj.__name__: obj
     for obj in globals().values()
     if inspect.isclass(obj) and issubclass(obj, Optimizer) and obj != Optimizer
-]
-available_optimizers_plus = (
-    available_optimizers
-    + [
-        obj_name
-        for obj_name in dir(opt)
-        if eval(
-            f"inspect.isclass(opt.{obj_name}) and issubclass(opt.{obj_name}, Optimizer) "
-            f"and opt.{obj_name} != Optimizer"
-        )
-    ]
-    + [
-        obj_name
-        for obj_name in dir(topt)
-        if eval(
-            f"inspect.isclass(topt.{obj_name}) and issubclass(topt.{obj_name}, Optimizer) "
-            f"and topt.{obj_name}.__name__ not in dir(opt) and topt.{obj_name} != Optimizer "
-            f"and 'params' in inspect.getfullargspec(topt.{obj_name}).args"
-        )
-    ]
-)
+}
+
+available_optimizers = list(_available_optimizers)
+_extra_opt_optimizers = {
+    obj_name: getattr(opt, obj_name)
+    for obj_name in dir(opt)
+    if eval(
+        f"inspect.isclass(opt.{obj_name}) and issubclass(opt.{obj_name}, Optimizer) "
+        f"and opt.{obj_name} != Optimizer"
+    )
+}
+_extra_topt_optimizers = {
+    obj_name: getattr(topt, obj_name)
+    for obj_name in dir(topt)
+    if eval(
+        f"inspect.isclass(topt.{obj_name}) and issubclass(topt.{obj_name}, Optimizer) "
+        f"and topt.{obj_name}.__name__ not in dir(opt) and topt.{obj_name} != Optimizer "
+        f"and 'params' in inspect.getfullargspec(topt.{obj_name}).args"
+    )
+}
+_available_optimizers_plus = {
+    **_available_optimizers,
+    **_extra_opt_optimizers,
+    **_extra_topt_optimizers,
+}
+available_optimizers_plus = list(_available_optimizers_plus)
+
+
+def register_optimizer(name: Optional[str] = None) -> type:
+    """Decorator for registering custom optimizer.
+
+    Parameters
+    ----------
+    name : Optional[str], optional
+        name of the optimizer, by default None
+
+    Returns
+    -------
+    type
+        optimizer class
+
+    """
+
+    def wrapper(cls: type) -> type:
+        if name is None:
+            _name = cls.__name__
+        else:
+            _name = name
+        assert issubclass(cls, Optimizer), f"{cls} is not a valid optimizer."
+        assert (
+            _name not in _available_optimizers_plus
+        ), f"{_name} is already registered."
+        _available_optimizers[_name] = cls
+        available_optimizers.append(_name)
+        _available_optimizers_plus[_name] = cls
+        available_optimizers_plus.append(_name)
+        return cls
+
+    return wrapper
 
 
 def get_optimizer(
@@ -170,24 +210,56 @@ def get_optimizer(
     if isinstance(config, dict):
         config = ED(config)
 
+    built_in_optimizers = deepcopy(available_optimizers)
+
     # try to use federated local solver
     if optimizer_name not in available_optimizers:
-        optimizer_name = f"{optimizer_name}Optimizer"
+        if f"{optimizer_name}Optimizer" in available_optimizers:
+            # historical reason
+            optimizer_name = f"{optimizer_name}Optimizer"
+        else:
+            # custom optimizer, added via `register_optimizer`
+            optimizer_path = Path(optimizer_name).resolve()
+            assert optimizer_path.exists() and optimizer_path.suffix == ".py", (
+                f"Custom optimizer file `{optimizer_name}` does not exist, "
+                "or it is not a python file."
+            )
+            spec = importlib.util.spec_from_file_location(
+                optimizer_path.stem, optimizer_path
+            )
+            optimizer_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(optimizer_module)
+            # the custom algorithm should be added to the optimizer pool
+            # using the decorator @register_optimizer
+            print(available_optimizers)
+            new_optimizers = set(available_optimizers) - set(built_in_optimizers)
+            print(new_optimizers)
+            assert len(new_optimizers) == 1, (
+                f"Optimizer `{optimizer_name}` not found. "
+                "Please check if the optimizer is registered using "
+                "the decorator @register_optimizer from fl_sim.optimizers"
+            )
+            optimizer_name = new_optimizers.pop()
+            print(new_optimizers)
     assert optimizer_name in available_optimizers, (
         f"optimizer `{optimizer_name}` is not supported, "
         f"available optimizers are `{available_optimizers}`"
     )
+    print(optimizer_name)
 
     try:
-        optimizer = eval(
-            f"{optimizer_name}(params, **_get_args({optimizer_name}, config))"
-        )
-        # print(f"Federated optimizer {optimizer_name} is used.")
-        # step_args = inspect.getfullargspec(optimizer.step).args
-        # optimizer.step = add_kwargs(
-        #     optimizer.step,
-        #     **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
+        # optimizer = eval(
+        #     f"{optimizer_name}(params, **_get_args({optimizer_name}, config))"
         # )
+        optimizer_cls = _available_optimizers[optimizer_name]
+        optimizer = optimizer_cls(params, **_get_args(optimizer_cls, config))
+        step_args = inspect.getfullargspec(optimizer.step).args
+        if not set(_extra_kwargs).issubset(step_args):
+            optimizer.step = add_kwargs(
+                optimizer.step,
+                **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
+            )
+            optimizer.step._with_counter = True
         return optimizer
     except Exception:
         raise ValueError(f"Optimizer `{optimizer_name}` is not supported.")

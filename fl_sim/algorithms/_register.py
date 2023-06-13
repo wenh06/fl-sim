@@ -10,6 +10,19 @@ _built_in_algorithms = {}
 
 
 def register_algorithm(name: str) -> Any:
+    """Decorator to register a new algorithm.
+
+    Parameters
+    ----------
+    name : str
+        Name of the algorithm.
+
+    Returns
+    -------
+    The decorated class.
+
+    """
+
     def wrapper(cls: Any) -> Any:
         if issubclass(cls, ServerConfig):
             field = "server_config"
