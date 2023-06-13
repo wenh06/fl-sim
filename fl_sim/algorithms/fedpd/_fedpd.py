@@ -19,7 +19,7 @@ from ...nodes import (
     ClientMessage,
 )
 from ...data_processing.fed_dataset import FedDataset
-from .._register import _register_algorithm
+from .._register import register_algorithm
 
 
 __all__ = [
@@ -30,7 +30,7 @@ __all__ = [
 ]
 
 
-@_register_algorithm("FedPD")
+@register_algorithm("FedPD")
 class FedPDServerConfig(ServerConfig):
     """Server config for the FedPD algorithm.
 
@@ -99,7 +99,7 @@ class FedPDServerConfig(ServerConfig):
         )
 
 
-@_register_algorithm("FedPD")
+@register_algorithm("FedPD")
 class FedPDClientConfig(ClientConfig):
     """Client config for the FedPD algorithm.
 
@@ -164,7 +164,7 @@ class FedPDClientConfig(ClientConfig):
         )
 
 
-@_register_algorithm("FedPD")
+@register_algorithm("FedPD")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.", "Server node for the FedPD algorithm."
@@ -246,7 +246,7 @@ class FedPDServer(Server):
         return ["10.1109/tsp.2021.3115952"]
 
 
-@_register_algorithm("FedPD")
+@register_algorithm("FedPD")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.", "Client node for the FedPD algorithm."

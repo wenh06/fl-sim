@@ -11,7 +11,7 @@ from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
-from .._register import _register_algorithm
+from .._register import register_algorithm
 
 
 __all__ = [
@@ -22,7 +22,7 @@ __all__ = [
 ]
 
 
-@_register_algorithm("FedProx")
+@register_algorithm("FedProx")
 class FedProxServerConfig(ServerConfig):
     """Server config for the FedProx algorithm.
 
@@ -85,7 +85,7 @@ class FedProxServerConfig(ServerConfig):
         )
 
 
-@_register_algorithm("FedProx")
+@register_algorithm("FedProx")
 class FedProxClientConfig(ClientConfig):
     """Client config for the FedProx algorithm.
 
@@ -148,7 +148,7 @@ class FedProxClientConfig(ClientConfig):
         )
 
 
-@_register_algorithm("FedProx")
+@register_algorithm("FedProx")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -205,7 +205,7 @@ class FedProxServer(Server):
         return ["10.48550/ARXIV.1812.06127"]
 
 
-@_register_algorithm("FedProx")
+@register_algorithm("FedProx")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

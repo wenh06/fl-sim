@@ -14,7 +14,7 @@ from . import (  # noqa: F401
     proxskip,
     scaffold,
 )  # noqa: F401
-from ._register import list_algorithms, get_algorithm  # noqa: F401
+from ._register import list_algorithms, get_algorithm, register_algorithm  # noqa: F401
 
 
 # check all registered algorithms have required attributes
