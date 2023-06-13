@@ -11,6 +11,7 @@ from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
 from ...regularizers import get_regularizer
+from .._register import _register_algorithm
 
 
 __all__ = [
@@ -21,6 +22,7 @@ __all__ = [
 ]
 
 
+@_register_algorithm("FedDR")
 class FedDRServerConfig(ServerConfig):
     """Server config for the FedDR algorithm.
 
@@ -91,6 +93,7 @@ class FedDRServerConfig(ServerConfig):
         )
 
 
+@_register_algorithm("FedDR")
 class FedDRClientConfig(ClientConfig):
     """Client config for the FedDR algorithm.
 
@@ -147,6 +150,7 @@ class FedDRClientConfig(ClientConfig):
         )
 
 
+@_register_algorithm("FedDR")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.", "Server node for the FedDR algorithm."
@@ -223,6 +227,7 @@ class FedDRServer(Server):
         return ["10.48550/ARXIV.2103.03452"]
 
 
+@_register_algorithm("FedDR")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.", "Client node for the FedDR algorithm."

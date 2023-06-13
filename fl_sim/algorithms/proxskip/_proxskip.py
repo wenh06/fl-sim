@@ -12,6 +12,7 @@ from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
 from ...data_processing.fed_dataset import FedDataset
+from .._register import _register_algorithm
 
 
 __all__ = [
@@ -22,6 +23,7 @@ __all__ = [
 ]
 
 
+@_register_algorithm("ProxSkip")
 class ProxSkipServerConfig(ServerConfig):
     """Server config for the ProxSkip algorithm.
 
@@ -85,6 +87,7 @@ class ProxSkipServerConfig(ServerConfig):
         )
 
 
+@_register_algorithm("ProxSkip")
 class ProxSkipClientConfig(ClientConfig):
     """Client config for the ProxSkip algorithm.
 
@@ -141,6 +144,7 @@ class ProxSkipClientConfig(ClientConfig):
         )
 
 
+@_register_algorithm("ProxSkip")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -252,6 +256,7 @@ class ProxSkipServer(Server):
         return ["10.48550/ARXIV.2202.09357"]
 
 
+@_register_algorithm("ProxSkip")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

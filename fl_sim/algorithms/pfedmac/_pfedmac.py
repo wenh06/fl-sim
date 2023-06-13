@@ -10,8 +10,10 @@ from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
+from .._register import _register_algorithm
 
 
+@_register_algorithm("pFedMac")
 class pFedMacServerConfig(ServerConfig):
     """Server config for the pFedMac algorithm.
 
@@ -78,6 +80,7 @@ class pFedMacServerConfig(ServerConfig):
         )
 
 
+@_register_algorithm("pFedMac")
 class pFedMacClientConfig(ClientConfig):
     """Client config for the pFedMac algorithm.
 
@@ -138,6 +141,7 @@ class pFedMacClientConfig(ClientConfig):
         )
 
 
+@_register_algorithm("pFedMac")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -194,6 +198,7 @@ class pFedMacServer(Server):
         return ["10.48550/ARXIV.2107.05330"]
 
 
+@_register_algorithm("pFedMac")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

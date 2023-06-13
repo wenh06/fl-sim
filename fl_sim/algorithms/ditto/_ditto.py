@@ -12,6 +12,7 @@ from tqdm.auto import tqdm
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
 from ...optimizers import get_optimizer
 from ...utils.misc import get_scheduler
+from .._register import _register_algorithm
 
 
 __all__ = [
@@ -22,6 +23,7 @@ __all__ = [
 ]
 
 
+@_register_algorithm("Ditto")
 class DittoServerConfig(ServerConfig):
     """Server config for the Ditto algorithm.
 
@@ -80,6 +82,7 @@ class DittoServerConfig(ServerConfig):
         )
 
 
+@_register_algorithm("Ditto")
 class DittoClientConfig(ClientConfig):
     """Client config for the Ditto algorithm.
 
@@ -142,6 +145,7 @@ class DittoClientConfig(ClientConfig):
         )
 
 
+@_register_algorithm("Ditto")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.", "Server node for the Ditto algorithm."
@@ -182,6 +186,7 @@ class DittoServer(Server):
         return ["10.48550/ARXIV.2012.04221"]
 
 
+@_register_algorithm("Ditto")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.", "Client node for the Ditto algorithm."

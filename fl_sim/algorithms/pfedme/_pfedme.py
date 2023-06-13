@@ -16,6 +16,7 @@ from ...nodes import (
     ClientConfig,
     ClientMessage,
 )
+from .._register import _register_algorithm
 
 
 __all__ = [
@@ -26,6 +27,7 @@ __all__ = [
 ]
 
 
+@_register_algorithm("pFedMe")
 class pFedMeServerConfig(ServerConfig):
     """Server config for the pFedMe algorithm.
 
@@ -83,6 +85,7 @@ class pFedMeServerConfig(ServerConfig):
         )
 
 
+@_register_algorithm("pFedMe")
 class pFedMeClientConfig(ClientConfig):
     """Client config for the pFedMe algorithm.
 
@@ -156,6 +159,7 @@ class pFedMeClientConfig(ClientConfig):
         )
 
 
+@_register_algorithm("pFedMe")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -211,6 +215,7 @@ class pFedMeServer(Server):
         return ["10.48550/ARXIV.2006.08848"]
 
 
+@_register_algorithm("pFedMe")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

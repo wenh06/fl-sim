@@ -10,6 +10,7 @@ from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
 from ...data_processing.fed_dataset import FedDataset
+from .._register import _register_algorithm
 
 
 __all__ = [
@@ -20,6 +21,7 @@ __all__ = [
 ]
 
 
+@_register_algorithm("FedSplit")
 class FedSplitServerConfig(ServerConfig):
     """Server config for the FedSplit algorithm.
 
@@ -78,6 +80,7 @@ class FedSplitServerConfig(ServerConfig):
         )
 
 
+@_register_algorithm("FedSplit")
 class FedSplitClientConfig(ClientConfig):
     """Client config for the FedSplit algorithm.
 
@@ -135,6 +138,7 @@ class FedSplitClientConfig(ClientConfig):
         )
 
 
+@_register_algorithm("FedSplit")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -207,6 +211,7 @@ class FedSplitServer(Server):
         return ["10.48550/ARXIV.2005.05238"]
 
 
+@_register_algorithm("FedSplit")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

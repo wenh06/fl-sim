@@ -15,6 +15,7 @@ from ...nodes import (
     ClientConfig,
     ClientMessage,
 )
+from .._register import _register_algorithm
 
 
 __all__ = [
@@ -41,6 +42,7 @@ __all__ = [
 ]
 
 
+@_register_algorithm("FedOpt")
 class FedOptServerConfig(ServerConfig):
     """Server config for the FedOpt algorithm.
 
@@ -122,6 +124,7 @@ class FedOptServerConfig(ServerConfig):
         )
 
 
+@_register_algorithm("FedOpt")
 class FedOptClientConfig(ClientConfig):
     """Client config for the FedOpt algorithm.
 
@@ -172,6 +175,7 @@ class FedOptClientConfig(ClientConfig):
         )
 
 
+@_register_algorithm("FedOpt")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -293,6 +297,7 @@ class FedOptServer(Server):
         return ["10.48550/ARXIV.2003.00295"]
 
 
+@_register_algorithm("FedOpt")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",
@@ -362,6 +367,7 @@ class FedOptClient(Client):
         self.lr_scheduler.step()
 
 
+@_register_algorithm("FedAvg")
 @add_docstring(
     remove_parameters_returns_from_docstring(
         FedOptServerConfig.__doc__, parameters=["optimizer", "lr", "betas", "tau"]
@@ -404,6 +410,7 @@ class FedAvgServerConfig(FedOptServerConfig):
         self.algorithm = "FedAvg"
 
 
+@_register_algorithm("FedAvg")
 @add_docstring(FedOptClientConfig.__doc__.replace("FedOpt", "FedAvg"))
 class FedAvgClientConfig(FedOptClientConfig):
     """ """
@@ -428,6 +435,7 @@ class FedAvgClientConfig(FedOptClientConfig):
         self.algorithm = "FedAvg"
 
 
+@_register_algorithm("FedAvg")
 @add_docstring(FedOptServer.__doc__.replace("FedOpt", "FedAvg"))
 class FedAvgServer(FedOptServer):
     """Server node for the FedAvg algorithm."""
@@ -450,6 +458,7 @@ class FedAvgServer(FedOptServer):
         return []
 
 
+@_register_algorithm("FedAvg")
 @add_docstring(FedOptClient.__doc__.replace("FedOpt", "FedAvg"))
 class FedAvgClient(FedOptClient):
     """ """
@@ -457,6 +466,7 @@ class FedAvgClient(FedOptClient):
     __name__ = "FedAvgClient"
 
 
+@_register_algorithm("FedAdagrad")
 @add_docstring(
     remove_parameters_returns_from_docstring(
         FedOptServerConfig.__doc__, parameters=["optimizer"]
@@ -488,6 +498,7 @@ class FedAdagradServerConfig(FedOptServerConfig):
         self.algorithm = "FedAdagrad"
 
 
+@_register_algorithm("FedAdagrad")
 @add_docstring(FedOptClientConfig.__doc__.replace("FedOpt", "FedAdagrad"))
 class FedAdagradClientConfig(FedOptClientConfig):
     """ """
@@ -512,6 +523,7 @@ class FedAdagradClientConfig(FedOptClientConfig):
         self.algorithm = "FedAdagrad"
 
 
+@_register_algorithm("FedAdagrad")
 @add_docstring(FedOptServer.__doc__.replace("FedOpt", "FedAdagrad"))
 class FedAdagradServer(FedOptServer):
     """ """
@@ -534,6 +546,7 @@ class FedAdagradServer(FedOptServer):
         return [k for k in super().required_config_fields if k != "optimizer"]
 
 
+@_register_algorithm("FedAdagrad")
 @add_docstring(FedOptClient.__doc__.replace("FedOpt", "FedAdagrad"))
 class FedAdagradClient(FedOptClient):
     """ """
@@ -541,6 +554,7 @@ class FedAdagradClient(FedOptClient):
     __name__ = "FedAdagradClient"
 
 
+@_register_algorithm("FedYogi")
 @add_docstring(
     remove_parameters_returns_from_docstring(
         FedOptServerConfig.__doc__, parameters=["optimizer"]
@@ -572,6 +586,7 @@ class FedYogiServerConfig(FedOptServerConfig):
         self.algorithm = "FedYogi"
 
 
+@_register_algorithm("FedYogi")
 @add_docstring(FedOptClientConfig.__doc__.replace("FedOpt", "FedYogi"))
 class FedYogiClientConfig(FedOptClientConfig):
     """ """
@@ -596,6 +611,7 @@ class FedYogiClientConfig(FedOptClientConfig):
         self.algorithm = "FedYogi"
 
 
+@_register_algorithm("FedYogi")
 @add_docstring(FedOptServer.__doc__.replace("FedOpt", "FedYogi"))
 class FedYogiServer(FedOptServer):
     """ """
@@ -618,6 +634,7 @@ class FedYogiServer(FedOptServer):
         return [k for k in super().required_config_fields if k != "optimizer"]
 
 
+@_register_algorithm("FedYogi")
 @add_docstring(FedOptClient.__doc__.replace("FedOpt", "FedYogi"))
 class FedYogiClient(FedOptClient):
     """ """
@@ -625,6 +642,7 @@ class FedYogiClient(FedOptClient):
     __name__ = "FedYogiClient"
 
 
+@_register_algorithm("FedAdam")
 @add_docstring(
     remove_parameters_returns_from_docstring(
         FedOptServerConfig.__doc__, parameters=["optimizer"]
@@ -656,6 +674,7 @@ class FedAdamServerConfig(FedOptServerConfig):
         self.algorithm = "FedAdam"
 
 
+@_register_algorithm("FedAdam")
 @add_docstring(FedOptClientConfig.__doc__.replace("FedOpt", "FedAdam"))
 class FedAdamClientConfig(FedOptClientConfig):
     """ """
@@ -680,6 +699,7 @@ class FedAdamClientConfig(FedOptClientConfig):
         self.algorithm = "FedAdam"
 
 
+@_register_algorithm("FedAdam")
 @add_docstring(FedOptServer.__doc__.replace("FedOpt", "FedAdam"))
 class FedAdamServer(FedOptServer):
     """ """
@@ -702,6 +722,7 @@ class FedAdamServer(FedOptServer):
         return [k for k in super().required_config_fields if k != "optimizer"]
 
 
+@_register_algorithm("FedAdam")
 @add_docstring(FedOptClient.__doc__.replace("FedOpt", "FedAdam"))
 class FedAdamClient(FedOptClient):
     """ """

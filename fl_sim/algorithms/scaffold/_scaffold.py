@@ -11,6 +11,7 @@ from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
+from .._register import _register_algorithm
 
 
 __all__ = [
@@ -21,6 +22,7 @@ __all__ = [
 ]
 
 
+@_register_algorithm("SCAFFOLD")
 class SCAFFOLDServerConfig(ServerConfig):
     """Server config for the SCAFFOLD algorithm.
 
@@ -90,6 +92,7 @@ class SCAFFOLDServerConfig(ServerConfig):
         )
 
 
+@_register_algorithm("SCAFFOLD")
 class SCAFFOLDClientConfig(ClientConfig):
     """Client config for the SCAFFOLD algorithm.
 
@@ -150,6 +153,7 @@ class SCAFFOLDClientConfig(ClientConfig):
         )
 
 
+@_register_algorithm("SCAFFOLD")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -223,6 +227,7 @@ class SCAFFOLDServer(Server):
         return ["10.48550/ARXIV.1910.06378"]
 
 
+@_register_algorithm("SCAFFOLD")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",
