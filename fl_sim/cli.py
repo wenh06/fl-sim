@@ -17,8 +17,9 @@ from typing import List, Union
 import yaml
 from torch_ecg.cfg import CFG
 
-from fl_sim.data_processing import FedDataArgs
 from fl_sim.algorithms import list_algorithms, get_algorithm
+from fl_sim.data_processing import FedDataArgs
+from fl_sim.utils.const import NAME
 
 
 def parse_args() -> List[CFG]:
@@ -31,7 +32,7 @@ def parse_args() -> List[CFG]:
 
     """
     parser = argparse.ArgumentParser(
-        description="LCFL Experiment Runner",
+        description=f"{NAME} Experiment Runner",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

@@ -22,7 +22,8 @@ from torch_ecg.utils import (
     get_kwargs,
 )
 
-from .misc import LOG_DIR as DEFAULT_LOG_DIR, ndarray_to_list, default_dict_to_dict
+from .const import LOG_DIR as DEFAULT_LOG_DIR, NAME as LOG_NAME
+from .misc import ndarray_to_list, default_dict_to_dict
 
 
 __all__ = [
@@ -226,7 +227,7 @@ class TxtLogger(BaseLogger):
         self.logger = init_logger(
             self.log_dir,
             self.log_file,
-            log_name="FLSim",
+            log_name=LOG_NAME,
             verbose=verbose,
         )
         self.step = -1

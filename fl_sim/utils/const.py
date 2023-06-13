@@ -5,6 +5,7 @@ import pathlib
 
 
 __all__ = [
+    "NAME",
     # "PROJECT_DIR",
     "CACHED_DATA_DIR",
     "LOG_DIR",
@@ -20,6 +21,9 @@ __all__ = [
     "MNIST_MEAN",
     "MNIST_STD",
 ]
+
+
+NAME = "FLSim"  # for loggers, etc.
 
 
 PROJECT_DIR = pathlib.Path(__file__).absolute().parents[2]

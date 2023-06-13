@@ -22,6 +22,7 @@ The main part of this code repository is a standalone simulation framework for f
   - [Models](#models)
   - [Utils](#utils)
   - [Visualization Panel](#visualization-panel)
+- [Customization](#customization)
 
 <!-- tocstop -->
 
@@ -222,8 +223,10 @@ from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from fl_sim.nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
+from fl_sim.algorithms import register_algorithm
 
 
+@register_algorithm("FedProx")
 class FedProxServerConfig(ServerConfig):
     """Server config for the FedProx algorithm.
 
@@ -283,6 +286,7 @@ class FedProxServerConfig(ServerConfig):
         )
 
 
+@register_algorithm("FedProx")
 class FedProxClientConfig(ClientConfig):
     """Client config for the FedProx algorithm.
 
@@ -345,6 +349,7 @@ class FedProxClientConfig(ClientConfig):
         )
 
 
+@register_algorithm("FedProx")
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -401,6 +406,7 @@ class FedProxServer(Server):
         return ["10.48550/ARXIV.1812.06127"]
 
 
+@register_algorithm("FedProx")
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",
@@ -658,3 +664,21 @@ The following GIF (created using [ScreenToGif](https://github.com/NickeManarin/S
 sudo apt install ttf-mscorefonts-installer
 sudo fc-cache -fv
 ```
+
+## Customization
+
+One can implement custom federated learning algorithms, datasets, optimizers with corresponding registration functions.
+
+TODO: add more details.
+
+### Custom Federated Learning Algorithms
+
+To write...
+
+### Custom Datasets
+
+To write...
+
+### Custom Optimizers
+
+To write...
