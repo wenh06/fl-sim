@@ -31,6 +31,7 @@ from ..models import nn as mnn
 from ..models.word_embeddings import GloveEmbedding
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedNLPDataset
+from ._register import register_fed_dataset
 
 
 __all__ = [
@@ -42,6 +43,7 @@ FEDPROX_SENT140_DATA_DIR = CACHED_DATA_DIR / "fedprox_sent140"
 FEDPROX_SENT140_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
+@register_fed_dataset()
 class FedProxSent140(FedNLPDataset):
     """Federated Sentiment140 dataset used in FedProx paper.
 

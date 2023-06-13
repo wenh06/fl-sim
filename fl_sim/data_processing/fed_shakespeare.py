@@ -15,6 +15,7 @@ from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedNLPDataset
+from ._register import register_fed_dataset
 
 
 __all__ = [
@@ -26,6 +27,7 @@ FED_SHAKESPEARE_DATA_DIR = CACHED_DATA_DIR / "fed_shakespeare"
 FED_SHAKESPEARE_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
+@register_fed_dataset()
 class FedShakespeare(FedNLPDataset):
     """Federated Shakespeare dataset.
 

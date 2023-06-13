@@ -21,6 +21,7 @@ from .fedprox_sent140 import FedProxSent140
 
 # from .leaf_sent140 import LeafSent140
 from .libsvm_datasets import FedLibSVMDataset, libsvmread
+from ._register import list_fed_dataset, get_fed_dataset, register_fed_dataset
 
 
 __all__ = [
@@ -43,4 +44,7 @@ __all__ = [
     # libsvm datasets
     "FedLibSVMDataset",
     "libsvmread",
+    "list_fed_dataset",
+    "get_fed_dataset",
+    "register_fed_dataset",
 ]

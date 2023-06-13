@@ -14,6 +14,7 @@ from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedVisionDataset
+from ._register import register_fed_dataset
 
 
 __all__ = [
@@ -26,6 +27,7 @@ FEDPROX_FEMNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 _label_mapping = {i: c for i, c in enumerate("abcdefghijklmnopqrstuvwxyz"[:10])}
 
 
+@register_fed_dataset()
 class FedProxFEMNIST(FedVisionDataset):
     """
     (part of) federeated EMNIST used in the FedProx paper and the FedDR paper.

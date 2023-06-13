@@ -23,6 +23,7 @@ from ..utils.const import (
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import VisionDataset, FedVisionDataset
+from ._register import register_fed_dataset
 
 
 __all__ = [
@@ -350,6 +351,7 @@ class FedCIFAR(FedVisionDataset):
         plt.show()
 
 
+@register_fed_dataset()
 class FedCIFAR100(FedCIFAR):
 
     __name__ = "FedCIFAR100"

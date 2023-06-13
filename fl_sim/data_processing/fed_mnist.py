@@ -15,6 +15,7 @@ from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedVisionDataset
+from ._register import register_fed_dataset
 
 
 __all__ = [
@@ -26,6 +27,7 @@ FED_MNIST_DATA_DIR = CACHED_DATA_DIR / "fed_mnist"
 FED_MNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
+@register_fed_dataset()
 class FedMNIST(FedVisionDataset):
     """MNIST is a dataset to study image classification of handwritten digits 0-9.
 

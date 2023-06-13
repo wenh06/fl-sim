@@ -16,6 +16,7 @@ from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy  # noqa: F401
 from .fed_dataset import FedNLPDataset  # noqa: F401
+from ._register import register_fed_dataset  # noqa: F401
 
 
 __all__ = [
@@ -27,6 +28,7 @@ LEAF_SENT140_DATA_DIR = CACHED_DATA_DIR / "leaf_sent140"
 LEAF_SENT140_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
+# @register_fed_dataset()
 class LeafSent140(FedNLPDataset):
     """Federeated Sentiment140 dataset from Leaf.
 

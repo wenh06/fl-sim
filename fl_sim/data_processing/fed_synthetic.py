@@ -12,6 +12,7 @@ from ..models.utils import top_n_accuracy
 from ..utils.misc import set_seed
 from .fed_dataset import FedDataset
 from ._generate_synthetic import generate_synthetic
+from ._register import register_fed_dataset
 
 
 __all__ = [
@@ -19,6 +20,7 @@ __all__ = [
 ]
 
 
+@register_fed_dataset()
 class FedSynthetic(FedDataset):
     """Federated Synthetic dataset proposed in FedProx paper [1]_.
 

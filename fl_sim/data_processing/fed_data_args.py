@@ -9,20 +9,12 @@ from pathlib import Path
 from typing import Optional, Dict
 
 from .fed_dataset import FedDataset
+from ._register import list_fed_dataset, get_fed_dataset
 
 
 __all__ = [
     "FedDataArgs",
 ]
-
-
-_built_in_datasets = {
-    name: cls
-    for name, cls in importlib.import_module("fl_sim.data_processing").__dict__.items()
-    if inspect.isclass(cls)
-    and issubclass(cls, FedDataset)
-    and not inspect.isabstract(cls)
-}
 
 
 @dataclass
@@ -127,8 +119,8 @@ class FedDataArgs:
     def _create_fed_dataset_from_args(cls, args: Dict) -> FedDataset:
         fed_dataset_name = args["name"]
         # if args["name"] is a path to a dataset file, import the dataset from the file
-        if fed_dataset_name in _built_in_datasets:
-            fed_dataset_cls = _built_in_datasets[fed_dataset_name]
+        if fed_dataset_name in list_fed_dataset():
+            fed_dataset_cls = get_fed_dataset(fed_dataset_name)
         else:
             if fed_dataset_name.endswith(".py"):
                 # is a .py file

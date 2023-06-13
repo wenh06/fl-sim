@@ -14,6 +14,7 @@ from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedVisionDataset
+from ._register import register_fed_dataset
 
 
 __all__ = [
@@ -25,6 +26,7 @@ FEDPROX_MNIST_DATA_DIR = CACHED_DATA_DIR / "fedprox_mnist"
 FEDPROX_MNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
+@register_fed_dataset()
 class FedProxMNIST(FedVisionDataset):
     """Federeated MNIST used in the FedProx paper,
     where the data is partitioned in a non-IID manner.
