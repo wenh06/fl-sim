@@ -55,6 +55,9 @@ class FedDataArgs:
     datadir: Optional[str] = None
     transform: Optional[str] = None
     seed: int = 0
+    # additional keyword arguments
+    # for potential updates and custom federated dataset
+    kwargs: Optional[Dict] = None
 
     def _create_fed_dataset(self) -> FedDataset:
         """Create a federated dataset.
@@ -117,7 +120,7 @@ class FedDataArgs:
 
     @classmethod
     def _create_fed_dataset_from_args(cls, args: Dict) -> FedDataset:
-        fed_dataset_name = args["name"]
+        fed_dataset_name = args.pop("name")
         # if args["name"] is a path to a dataset file, import the dataset from the file
         if fed_dataset_name in list_fed_dataset():
             fed_dataset_cls = get_fed_dataset(fed_dataset_name)
@@ -163,15 +166,21 @@ class FedDataArgs:
                         f"dataset file {fed_dataset_file} does not contain "
                         f"a class named {fed_dataset_name}"
                     )
-        obj = cls(
+        init_params = dict(
             name=fed_dataset_name,
-            datadir=args["datadir"],
-            transform=args["transform"],
-            seed=args["seed"],
         )
+        if "datadir" in args:
+            init_params["datadir"] = args.pop("datadir")
+        if "seed" in args:
+            init_params["seed"] = args.pop("seed")
+        if "transform" in args:
+            init_params["transform"] = args.pop("transform")
 
-        ds = fed_dataset_cls(
-            datadir=obj.datadir, transform=obj.transform, seed=obj.seed
-        )
+        ds = fed_dataset_cls(**init_params, **args)
+
+        if len(args) > 0:
+            init_params["kwargs"] = args
+
+        obj = cls(**init_params)  # not used
 
         return ds
