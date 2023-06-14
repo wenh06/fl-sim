@@ -1,11 +1,14 @@
 """
 """
 
+import inspect
 import os
 import random
 import re
+import types
 import warnings
 from collections import OrderedDict, defaultdict
+from copy import deepcopy
 from functools import wraps
 from typing import Any, Callable, Union, Optional
 
@@ -26,6 +29,7 @@ __all__ = [
     "get_scheduler",
     "get_scheduler_info",
     "is_notebook",
+    "add_kwargs",
 ]
 
 
@@ -339,3 +343,71 @@ def is_notebook() -> bool:
         return False
     except TypeError:  # get_ipython is None
         return False
+
+
+def add_kwargs(func: callable, **kwargs: Any) -> callable:
+    """Add keyword arguments to a function.
+
+    This function is used to add keyword arguments to a function
+    in order to make it compatible with other functions。
+
+    Parameters
+    ----------
+    func : callable
+        The function to be decorated.
+    kwargs : dict
+        The keyword arguments to be added.
+
+    Returns
+    -------
+    callable
+        The decorated function, with the keyword arguments added.
+
+    """
+    old_kwargs = get_kwargs(func)
+    func_signature = inspect.signature(func)
+    func_parameters = func_signature.parameters.copy()  # ordered dict
+
+    full_kwargs = deepcopy(old_kwargs)
+    kind = inspect.Parameter.POSITIONAL_OR_KEYWORD
+    for k, v in func_parameters.items():
+        if v.kind == inspect.Parameter.KEYWORD_ONLY:
+            kind = inspect.Parameter.KEYWORD_ONLY
+            break
+
+    for k, v in kwargs.items():
+        if k in old_kwargs:
+            raise ValueError(f"keyword argument `{k}` already exists!")
+        full_kwargs[k] = v
+        func_parameters[k] = inspect.Parameter(k, kind, default=v)
+
+    # move the VAR_POSITIONAL and VAR_KEYWORD in `func_parameters` to the end
+    for k, v in func_parameters.items():
+        if v.kind == inspect.Parameter.VAR_POSITIONAL:
+            func_parameters.move_to_end(k)
+            break
+    for k, v in func_parameters.items():
+        if v.kind == inspect.Parameter.VAR_KEYWORD:
+            func_parameters.move_to_end(k)
+            break
+
+    if isinstance(func, types.MethodType):
+        # can not assign `__signature__` to a bound method directly
+        func.__func__.__signature__ = func_signature.replace(
+            parameters=func_parameters.values()
+        )
+    else:
+        func.__signature__ = func_signature.replace(parameters=func_parameters.values())
+
+    # docstring is automatically copied by `functools.wraps`
+
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs_: Any) -> Any:
+        assert set(kwargs_).issubset(full_kwargs), (
+            "got unexpected keyword arguments: "
+            f"{list(set(kwargs_).difference(full_kwargs))}"
+        )
+        filtered_kwargs = {k: v for k, v in kwargs_.items() if k in old_kwargs}
+        return func(*args, **filtered_kwargs)
+
+    return wrapper

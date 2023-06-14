@@ -13,7 +13,9 @@ import torch_optimizer as topt
 from easydict import EasyDict as ED
 from torch.nn.parameter import Parameter
 from torch.optim import Optimizer
-from torch_ecg.utils import add_docstring, add_kwargs
+from torch_ecg.utils import add_docstring
+
+from fl_sim.utils.misc import add_kwargs
 
 
 # import optimizers in this folder dynamically
@@ -249,13 +251,14 @@ def get_optimizer(
         # )
         optimizer_cls = _available_optimizers[optimizer_name]
         optimizer = optimizer_cls(params, **_get_args(optimizer_cls, config))
-        step_args = inspect.getfullargspec(optimizer.step).args
-        if not set(_extra_kwargs).issubset(step_args):
-            optimizer.step = add_kwargs(
-                optimizer.step,
-                **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
-            )
-            optimizer.step._with_counter = True
+        # step_args = inspect.getfullargspec(optimizer.step).args
+        # print(f"step_args: {step_args}")
+        # if not set(_extra_kwargs).issubset(set(step_args)):
+        #     optimizer.step = add_kwargs(
+        #         optimizer.step,
+        #         **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
+        #     )
+        #     optimizer.step._with_counter = True
         return optimizer
     except Exception:
         raise ValueError(f"Optimizer `{optimizer_name}` is not supported.")

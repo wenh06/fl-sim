@@ -52,7 +52,15 @@ def test_optimizers():
         optimizer.zero_grad()
         loss = criterion(model(x), y)
         loss.backward()
-        optimizer.step(**step_kwargs)
+        try:
+            optimizer.step(**step_kwargs)
+        except Exception as e:
+            print(step_kwargs)
+            print(optimizer)
+            import time
+
+            time.sleep(3)
+            raise e
         del optimizer, model
 
     for optimizer_name in available_optimizers_plus:
