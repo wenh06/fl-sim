@@ -92,9 +92,9 @@ class DittoClientConfig(ClientConfig):
         The batch size.
     num_epochs : int
         The number of epochs.
-    optimizer : str, default "ProxSGD"
+    optimizer : str, default "SGD"
         The name of the optimizer to solve the local (inner) problem.
-    optimizer_per : str, default "SGD"
+    optimizer_per : str, default "ProxSGD"
         The name of the optimizer to solve the personalization problem.
     prox : float, default 0.01
         Coefficient of the proximal term.
@@ -123,8 +123,8 @@ class DittoClientConfig(ClientConfig):
         self,
         batch_size: int,
         num_epochs: int,
-        optimizer: str = "ProxSGD",
-        optimizer_per: str = "SGD",
+        optimizer: str = "SGD",
+        optimizer_per: str = "ProxSGD",
         prox: float = 0.01,
         lr: float = 1e-2,
         lr_per: Optional[float] = None,
@@ -271,7 +271,8 @@ class DittoClient(Client):
                     output = self.model(X)
                     loss = self.criterion(output, y)
                     loss.backward()
-                    self.optimizer.step(local_weights=self._cached_parameters)
+                    # self.optimizer.step(local_weights=self._cached_parameters)
+                    self.optimizer.step()
                     # free memory
                     del X, y, output, loss
         self.lr_scheduler.step()
