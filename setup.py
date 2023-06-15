@@ -23,7 +23,7 @@ extras["test"] = [
     "pytest-cov",
 ]
 extras["viz"] = (
-    (cwd / "test/requirements-viz.txt").read_text(encoding="utf-8").splitlines()
+    (cwd / "requirements-viz.txt").read_text(encoding="utf-8").splitlines()
 )
 extras["dev"] = extras["test"] + extras["viz"]
 
