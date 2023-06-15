@@ -45,7 +45,7 @@ jobs:
         python -m pip install pytest pytest-xdist pytest-cov # Testing packages
         python -m pip uninstall fl-sim --yes # Remove if already installed
         python setup.py install_egg_info # Workaround https://github.com/pypa/pip/issues/4537
-        python -m pip install -e . # Install fl-sim
+        python -m pip install -e .[dev] # Install fl-sim
         python -m pip freeze
     - name: Run test with pytest and collect coverage
       run: |

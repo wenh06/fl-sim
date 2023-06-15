@@ -14,6 +14,19 @@ long_description = (cwd / "README.md").read_text(encoding="utf-8")
 
 install_requires = (cwd / "requirements.txt").read_text(encoding="utf-8").splitlines()
 
+extras = {}
+extras["test"] = [
+    "black==22.3.0",
+    "flake8",
+    "pytest",
+    "pytest-xdist",
+    "pytest-cov",
+]
+extras["viz"] = (
+    (cwd / "test/requirements-viz.txt").read_text(encoding="utf-8").splitlines()
+)
+extras["dev"] = extras["test"] + extras["viz"]
+
 
 setuptools.setup(
     name="fl_sim",
@@ -31,7 +44,6 @@ setuptools.setup(
             "test*",
         ]
     ),
-    # entry_points=,
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
@@ -45,7 +57,7 @@ setuptools.setup(
     ],
     python_requires=">=3.6",
     install_requires=install_requires,
-    # extras_require=extras,
+    extras_require=extras,
     entry_points={
         "console_scripts": ["fl-sim=fl_sim.cli:main"],
     },

@@ -11,16 +11,16 @@ from typing import Union, Sequence, Optional, Tuple, List, Dict, Any
 
 import numpy as np
 import yaml
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 from termcolor import colored
 from torch_ecg.utils import MovingAverage
 
 try:
-    import matplotlib as mpl
-    import matplotlib.pyplot as plt
     import ipywidgets as widgets
     from IPython.display import display
 except (ImportError, ModuleNotFoundError):
-    mpl = plt = widgets = display = None
+    widgets = display = None
 try:
     import seaborn as sns
 except (ImportError, ModuleNotFoundError):
@@ -440,7 +440,7 @@ class Panel:
         if sns is not None:
             sns.set()
         else:
-            warnings.warn("Seaborn is not installed. One gets better plots with it.")
+            warnings.warn("`seaborn` is not installed. One gets better plots with it.")
         self.reset_matplotlib(rc_params=self._rc_params)
 
         self._curve_cache = {}
@@ -1154,8 +1154,6 @@ class Panel:
     @staticmethod
     def reset_matplotlib(rc_params: Optional[Dict[str, Any]] = None) -> None:
         """Reset matplotlib to default settings."""
-        if mpl is None:
-            return
         if rc_params is None:
             rc_params = mpl.rcParamsDefault
         mpl.rcParams.update(rc_params)

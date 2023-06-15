@@ -28,6 +28,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 # RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ## Include the following line if you have a requirements.txt file.
 RUN pip install -r requirements-no-torch.txt
+RUN pip install -r requirements-viz.txt
 # RUN pip install torch==1.13.1+cu116 -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip install torchvision==0.14.1+cu116 --no-deps -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip install torch-optimizer --no-deps
