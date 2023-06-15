@@ -7,12 +7,11 @@ from .fed_dataset import (
     FedVisionDataset,
     FedNLPDataset,
 )
-from .fed_cifar import (
-    FedCIFAR,
-    FedCIFAR100,
-)
+from .fed_cifar import FedCIFAR, FedCIFAR100
 from .fed_emnist import FedEMNIST
 from .fed_mnist import FedMNIST
+from .fed_rotated_cifar10 import FedRotatedCIFAR10
+from .fed_rotated_mnist import FedRotatedMNIST
 from .fed_shakespeare import FedShakespeare
 from .fed_synthetic import FedSynthetic
 from .fedprox_femnist import FedProxFEMNIST
@@ -35,6 +34,8 @@ __all__ = [
     "FedCIFAR100",
     "FedEMNIST",
     "FedMNIST",
+    "FedRotatedCIFAR10",
+    "FedRotatedMNIST",
     "FedShakespeare",
     "FedSynthetic",
     # datasets from FedProx
