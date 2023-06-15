@@ -1,30 +1,32 @@
+# This is a simple config file for testing fl-sim command line interface in GitHub Actions.
+
 strategy:
   matrix:
     algorithm:
-    - Ditto
-    - FedDR
+    # - Ditto
+    # - FedDR
     - FedAvg
-    - FedAdam
-    - FedProx
-    - FedPD
-    - FedSplit
-    - IFCA
-    - pFedMac
-    - pFedMe
-    - ProxSkip
-    - SCAFFOLD
+    # - FedAdam
+    # - FedProx
+    # - FedPD
+    # - FedSplit
+    # - IFCA
+    # - pFedMac
+    # - pFedMe
+    # - ProxSkip
+    # - SCAFFOLD
     clients_sample_ratio:
     - 0.1
     - 0.3
-    - 0.7
-    - 1.0
+    # - 0.7
+    # - 1.0
 
 algorithm:
   name: ${{ matrix.algorithm }}
   server:
     num_clients: null
     clients_sample_ratio: ${{ matrix.clients_sample_ratio }}
-    num_iters: 100
+    num_iters: 2  # only for a quick test in GitHub Actions, normally much larger
     P: 0.3  # for FedPD, ProxSkip
     lr: 0.03  # for SCAFFOLD
     num_clusters: 10  # for IFCA
