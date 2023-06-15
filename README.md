@@ -1,8 +1,8 @@
 # A Simple Simulation Framework for Federated Learning Based on PyTorch
 
-![formatting](https://github.com/wenh06/fl-sim/actions/workflows/check-formatting.yml/badge.svg)
-![Docker CI](https://github.com/wenh06/fl-sim/actions/workflows/docker-image.yml/badge.svg?branch=docker-ci)
-![PyTest](https://github.com/wenh06/fl-sim/actions/workflows/run-pytest.yml/badge.svg?branch=dev)
+[![formatting](https://github.com/wenh06/fl-sim/actions/workflows/check-formatting.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/check-formatting.yml)
+[![Docker CI](https://github.com/wenh06/fl-sim/actions/workflows/docker-image.yml/badge.svg?branch=docker-ci)](https://github.com/wenh06/fl-sim/actions/workflows/docker-image.yml)
+[![PyTest](https://github.com/wenh06/fl-sim/actions/workflows/run-pytest.yml/badge.svg?branch=dev)](https://github.com/wenh06/fl-sim/actions/workflows/run-pytest.yml)
 
 This repository is migrated from [fl_seminar](https://github.com/wenh06/fl_seminar/tree/master/code)
 
@@ -22,6 +22,7 @@ The main part of this code repository is a standalone simulation framework for f
   - [Models](#models)
   - [Utils](#utils)
   - [Visualization Panel](#visualization-panel)
+- [Command Line Interface](#command-line-interface)
 - [Customization](#customization)
 
 <!-- tocstop -->
@@ -664,6 +665,75 @@ The following GIF (created using [ScreenToGif](https://github.com/NickeManarin/S
 sudo apt install ttf-mscorefonts-installer
 sudo fc-cache -fv
 ```
+
+## Command Line Interface
+
+A command line interface (CLI) is provided for running multiple federated learning experiments.
+The only argument is the path to the configuration file (in YAML format) for the experiments.
+Examples of configuration files can be found in the [example-configs](example-configs) folder.
+For example, in the [all-alg-fedprox-femnist.yml](example-configs/all-alg-fedprox-femnist.yml) file, we have
+
+<details>
+<summary>Click to expand!</summary>
+
+```yaml
+# Example config file for fl-sim command line interface
+
+strategy:
+  matrix:
+    algorithm:
+    - Ditto
+    - FedDR
+    - FedAvg
+    - FedAdam
+    - FedProx
+    - FedPD
+    - FedSplit
+    - IFCA
+    - pFedMac
+    - pFedMe
+    - ProxSkip
+    - SCAFFOLD
+    clients_sample_ratio:
+    - 0.1
+    - 0.3
+    - 0.7
+    - 1.0
+
+algorithm:
+  name: ${{ matrix.algorithm }}
+  server:
+    num_clients: null
+    clients_sample_ratio: ${{ matrix.clients_sample_ratio }}
+    num_iters: 100
+    p: 0.3  # for FedPD, ProxSkip
+    lr: 0.03  # for SCAFFOLD
+    num_clusters: 10  # for IFCA
+    log_dir: all-alg-fedprox-femnist
+  client:
+    lr: 0.03
+    num_epochs: 10
+    batch_size: null  # null for default batch size
+    scheduler:
+      name: step  # StepLR
+      step_size: 1
+      gamma: 0.99
+dataset:
+  name: FedProxFEMNIST
+  datadir: null  # default dir
+  transform: none  # none for static transform (only normalization, no augmentation)
+model:
+  name: cnn_femmist_tiny
+seed: 0
+```
+
+</details>
+
+The `strategy` section specifies the grid search strategy;
+the `algorithm` section specifies the hyperparameters of the federated learning algorithm:
+`name` is the name of the algorithm, `server` specifies the hyperparameters of the server,
+and `client` specifies the hyperparameters of the client;
+the `dataset` section specifies the dataset, and the `model` section specifies the named model (ref. the `candidate_models` property of the dataset classes) to be used.
 
 ## Customization
 
