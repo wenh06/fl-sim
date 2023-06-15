@@ -2,15 +2,24 @@
 """
 
 import sys
+from collections import defaultdict, OrderedDict
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parents[1].resolve()))
 
+import numpy as np
 import torch
+from torch_ecg.utils import get_kwargs
 
 from fl_sim.models import CNNFEMnist
 from fl_sim.optimizers import get_optimizer
-from fl_sim.utils.misc import get_scheduler
+from fl_sim.utils.misc import (
+    get_scheduler,
+    add_kwargs,
+    ndarray_to_list,
+    ordered_dict_to_dict,
+    default_dict_to_dict,
+)
 
 
 def test_get_scheduler():
@@ -136,5 +145,56 @@ def test_get_scheduler():
     del X, y, loss, model, optimizer, scheduler
 
 
+def test_add_kwargs():
+    def func(a, b=1):
+        return a + b
+
+    new_func = add_kwargs(func, xxx="yyy", zzz=None)
+
+    assert new_func(2) == new_func(2, xxx="a", zzz=100) == 3
+    assert get_kwargs(new_func) == {"b": 1, "xxx": "yyy", "zzz": None}
+
+    class Dummy:
+        def func(self, a, b=1):
+            return a + b
+
+    dummy = Dummy()
+    new_func = add_kwargs(dummy.func, xxx="yyy", zzz=None)
+
+    assert new_func(2) == new_func(2, xxx="a", zzz=100) == 3
+    assert get_kwargs(new_func) == {"b": 1, "xxx": "yyy", "zzz": None}
+
+
+def test_ndarray_to_list():
+    obj = np.array([1, 2, 3])
+    assert ndarray_to_list(obj) == [1, 2, 3]
+    obj = {"a": np.array([1, 2, 3]), "b": [np.array([4, 5, 6]), np.array([7, 8, 9])]}
+    assert ndarray_to_list(obj) == {"a": [1, 2, 3], "b": [[4, 5, 6], [7, 8, 9]]}
+
+
+def test_ordered_dict_to_dict():
+    obj = OrderedDict(
+        [("a", 1), ("b", [2, 3, OrderedDict([("xx", 1)])]), ("c", {"d": 4})]
+    )
+    assert ordered_dict_to_dict(obj) == {"a": 1, "b": [2, 3, {"xx": 1}], "c": {"d": 4}}
+
+
+def test_default_dict_to_dict():
+    obj = defaultdict(lambda: defaultdict(list))
+    obj["a"]["b"].append(1)
+    obj["a"]["b"].append(dict(c=2))
+    new_obj = defaultdict(dict)
+    new_obj["xx"]["yy"] = [1, 2, 3]
+    obj["i"]["j"] = new_obj
+    assert default_dict_to_dict(obj) == {
+        "a": {"b": [1, {"c": 2}]},
+        "i": {"j": {"xx": {"yy": [1, 2, 3]}}},
+    }
+
+
 if __name__ == "__main__":
     test_get_scheduler()
+    test_add_kwargs()
+    test_ndarray_to_list()
+    test_ordered_dict_to_dict()
+    test_default_dict_to_dict()
