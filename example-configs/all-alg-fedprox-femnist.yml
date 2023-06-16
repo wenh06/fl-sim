@@ -27,7 +27,7 @@ algorithm:
     num_clients: null
     clients_sample_ratio: ${{ matrix.clients_sample_ratio }}
     num_iters: 100
-    p: 0.3  # for FedPD, ProxSkip
+    p: ${{ matrix.clients_sample_ratio }}  # for FedPD, ProxSkip
     lr: 0.03  # for SCAFFOLD
     num_clusters: 10  # for IFCA
     log_dir: all-alg-fedprox-femnist
