@@ -76,8 +76,19 @@ class ProxSkipServerConfig(ServerConfig):
         vr: bool = False,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
+        if kwargs.pop("clients_sample_ratio", None) is not None:
+            warnings.warn(
+                "The `clients_sample_ratio` is controlled by `p` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "ProxSkip",
+            name,
             num_iters,
             num_clients,
             clients_sample_ratio=1,
@@ -125,16 +136,19 @@ class ProxSkipClientConfig(ClientConfig):
         vr: bool = False,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
             warnings.warn(
-                "The `algorithm` argument fixed to `ProxSkip`.", RuntimeWarning
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
             )
         if kwargs.pop("optimizer", None) is not None:
             warnings.warn(
-                "The `optimizer` argument fixed to `SCAFFOLD`.", RuntimeWarning
+                "The `optimizer` argument is fixed to `SCAFFOLD` and will be ignored.",
+                RuntimeWarning,
             )
         super().__init__(
-            "ProxSkip",
+            name,
             "SCAFFOLD",
             batch_size,
             num_epochs,
@@ -164,11 +178,12 @@ class ProxSkipServer(Server):
         dataset: FedDataset,
         config: ProxSkipServerConfig,
         client_config: ProxSkipClientConfig,
+        lazy: bool = False,
     ) -> None:
 
         # assign communication pattern to client config
         setattr(client_config, "p", config.p)
-        super().__init__(model, dataset, config, client_config)
+        super().__init__(model, dataset, config, client_config, lazy=lazy)
 
     def _post_init(self) -> None:
         """

@@ -73,8 +73,14 @@ class DittoServerConfig(ServerConfig):
         clients_sample_ratio: float,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "Ditto",
+            name,
             num_iters,
             num_clients,
             clients_sample_ratio,
@@ -130,10 +136,14 @@ class DittoClientConfig(ClientConfig):
         lr_per: Optional[float] = None,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
-            warnings.warn("The `algorithm` argument fixed to `Ditto`.", RuntimeWarning)
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "Ditto",
+            name,
             optimizer,
             batch_size,
             num_epochs,

@@ -75,8 +75,14 @@ class FedProxServerConfig(ServerConfig):
         vr: bool = False,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "FedProx",
+            name,
             num_iters,
             num_clients,
             clients_sample_ratio,
@@ -126,18 +132,20 @@ class FedProxClientConfig(ClientConfig):
         vr: bool = False,
         **kwargs: Any,
     ) -> None:
-        optimizer = "FedProx" if not vr else "FedProx_VR"
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
             warnings.warn(
-                "The `algorithm` argument fixed to `FedProx`.", RuntimeWarning
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
             )
+        optimizer = "FedProx" if not vr else "FedProx_VR"
         if kwargs.pop("optimizer", None) is not None:
             warnings.warn(
-                "The `optimizer` argument fixed to `FedProx` or `FedProx_VR`.",
+                "The `optimizer` argument is fixed to `FedProx` or `FedProx_VR` and will be ignored.",
                 RuntimeWarning,
             )
         super().__init__(
-            "FedProx",
+            name,
             optimizer,
             batch_size,
             num_epochs,

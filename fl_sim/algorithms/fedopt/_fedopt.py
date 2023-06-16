@@ -110,9 +110,15 @@ class FedOptServerConfig(ServerConfig):
             "adagrad",
             "yogi",
             "adam",
-        ]
+        ], f"Unsupported optimizer: {optimizer}."
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "FedOpt",
+            name,
             num_iters,
             num_clients,
             clients_sample_ratio,
@@ -163,10 +169,14 @@ class FedOptClientConfig(ClientConfig):
         optimizer: str = "SGD",
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
-            warnings.warn("The `algorithm` argument fixed to `FedOpt`.", RuntimeWarning)
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "FedOpt",
+            name,
             optimizer,
             batch_size,
             num_epochs,
@@ -385,18 +395,21 @@ class FedAvgServerConfig(FedOptServerConfig):
         clients_sample_ratio: float,
         **kwargs: Any,
     ) -> None:
-        if kwargs.pop("optimizer", None) is not None:
-            warnings.warn(
-                "`optimizer` is fixed to `Avg` for FedAvgServerConfig", RuntimeWarning
-            )
         if kwargs.pop("lr", None) is not None:
-            warnings.warn("`lr` is fixed to `1` for FedAvgServerConfig", RuntimeWarning)
+            warnings.warn(
+                "`lr` is fixed to `1` for FedAvgServerConfig and will be ignored.",
+                RuntimeWarning,
+            )
         if kwargs.pop("betas", None) is not None:
             warnings.warn(
-                "`betas` is fixed to `(0, 1)` for FedAvgServerConfig", RuntimeWarning
+                "`betas` is fixed to `(0, 1)` for FedAvgServerConfig and will be ignored.",
+                RuntimeWarning,
             )
         if kwargs.pop("tau", None) is not None:
-            warnings.warn("`tau` is not used for FedAvgServerConfig", RuntimeWarning)
+            warnings.warn(
+                "`tau` is not used for FedAvgServerConfig and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
             num_iters,
             num_clients,
@@ -485,6 +498,7 @@ class FedAdagradServerConfig(FedOptServerConfig):
         lr: float = 1e-2,
         betas: Sequence[float] = (0.9, 0.999),
         tau: float = 1e-5,
+        **kwargs: Any,
     ) -> None:
         super().__init__(
             num_iters,
@@ -494,6 +508,7 @@ class FedAdagradServerConfig(FedOptServerConfig):
             lr=lr,
             betas=betas,
             tau=tau,
+            **kwargs,
         )
         self.algorithm = "FedAdagrad"
 
@@ -573,6 +588,7 @@ class FedYogiServerConfig(FedOptServerConfig):
         lr: float = 1e-2,
         betas: Sequence[float] = (0.9, 0.999),
         tau: float = 1e-5,
+        **kwargs: Any,
     ) -> None:
         super().__init__(
             num_iters,
@@ -582,6 +598,7 @@ class FedYogiServerConfig(FedOptServerConfig):
             lr=lr,
             betas=betas,
             tau=tau,
+            **kwargs,
         )
         self.algorithm = "FedYogi"
 
@@ -661,6 +678,7 @@ class FedAdamServerConfig(FedOptServerConfig):
         lr: float = 1e-2,
         betas: Sequence[float] = (0.9, 0.999),
         tau: float = 1e-5,
+        **kwargs: Any,
     ) -> None:
         super().__init__(
             num_iters,
@@ -670,6 +688,7 @@ class FedAdamServerConfig(FedOptServerConfig):
             lr=lr,
             betas=betas,
             tau=tau,
+            **kwargs,
         )
         self.algorithm = "FedAdam"
 

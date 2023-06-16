@@ -86,8 +86,19 @@ class FedPDServerConfig(ServerConfig):
         vr: bool = False,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
+        if kwargs.pop("clients_sample_ratio", None) is not None:
+            warnings.warn(
+                "The `clients_sample_ratio` is controlled by `p` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "FedPD",
+            name,
             num_iters,
             num_clients,
             clients_sample_ratio=1,  # controlled by p
@@ -143,16 +154,20 @@ class FedPDClientConfig(ClientConfig):
         dual_rand_init: bool = False,
         **kwargs: Any,
     ) -> None:
-        optimizer = "FedPD_VR" if vr else "FedPD_SGD"
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
-            warnings.warn("The `algorithm` argument fixed to `FedPD`.", RuntimeWarning)
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
+        optimizer = "FedPD_VR" if vr else "FedPD_SGD"
         if kwargs.pop("optimizer", None) is not None:
             warnings.warn(
-                "The `optimizer` argument fixed to `FedPD_VR` or `FedPD_SGD`.",
+                "The `optimizer` argument is fixed to `FedPD_VR` or `FedPD_SGD` and will be ignored.",
                 RuntimeWarning,
             )
         super().__init__(
-            "FedPD",
+            name,
             optimizer,
             batch_size,
             num_epochs,
@@ -183,13 +198,14 @@ class FedPDServer(Server):
         dataset: FedDataset,
         config: FedPDServerConfig,
         client_config: FedPDClientConfig,
+        lazy: bool = False,
     ) -> None:
 
         # assign communication pattern to client config
         setattr(client_config, "p", config.p)
         setattr(client_config, "stochastic", config.stochastic)
         setattr(client_config, "comm_freq", config.comm_freq)
-        super().__init__(model, dataset, config, client_config)
+        super().__init__(model, dataset, config, client_config, lazy=lazy)
 
     def _post_init(self) -> None:
         """

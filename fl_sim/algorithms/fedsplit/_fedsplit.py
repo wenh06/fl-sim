@@ -71,8 +71,14 @@ class FedSplitServerConfig(ServerConfig):
         clients_sample_ratio: float,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "FedSplit",
+            name,
             num_iters,
             num_clients,
             clients_sample_ratio,
@@ -119,16 +125,18 @@ class FedSplitClientConfig(ClientConfig):
         **kwargs: Any,
     ) -> None:
         self.s = s
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
             warnings.warn(
-                "The `algorithm` argument fixed to `FedSplit`.", RuntimeWarning
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
             )
         if kwargs.pop("optimizer", None) is not None:
             warnings.warn(
-                "The `optimizer` argument fixed to `ProxSGD`.", RuntimeWarning
+                "The `optimizer` argument is fixed to `ProxSGD`.", RuntimeWarning
             )
         super().__init__(
-            "FedSplit",
+            name,
             "ProxSGD",
             batch_size,
             num_epochs,

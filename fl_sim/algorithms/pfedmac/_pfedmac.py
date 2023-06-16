@@ -69,8 +69,14 @@ class pFedMacServerConfig(ServerConfig):
         vr: bool = False,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "pFedMac",
+            name,
             num_iters,
             num_clients,
             clients_sample_ratio,
@@ -121,17 +127,20 @@ class pFedMacClientConfig(ClientConfig):
         vr: bool = False,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
             warnings.warn(
-                "The `algorithm` argument fixed to `pFedMac`.", RuntimeWarning
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
             )
         if kwargs.pop("optimizer", None) is not None:
             warnings.warn(
-                "The `optimizer` argument fixed to `pFedMac`.", RuntimeWarning
+                f"The `optimizer` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
             )
         super().__init__(
-            "pFedMac",
-            "pFedMac",
+            name,
+            name,
             batch_size,
             num_epochs,
             lr,

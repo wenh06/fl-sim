@@ -81,8 +81,14 @@ class FedDRServerConfig(ServerConfig):
         reg_type: str = "l1_norm",
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "FedDR",
+            name,
             num_iters,
             num_clients,
             clients_sample_ratio,
@@ -134,13 +140,20 @@ class FedDRClientConfig(ClientConfig):
         alpha: float = 1.9,  # in the FedDR paper, clients' alpha is equal to the server's alpha
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
-            warnings.warn("The `algorithm` argument fixed to `FedDR`.", RuntimeWarning)
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         if kwargs.pop("optimizer", None) is not None:
-            warnings.warn("The `optimizer` argument fixed to `FedDR`.", RuntimeWarning)
+            warnings.warn(
+                f"The `optimizer` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "FedDR",
-            "FedDR",
+            name,
+            name,
             batch_size,
             num_epochs,
             lr,

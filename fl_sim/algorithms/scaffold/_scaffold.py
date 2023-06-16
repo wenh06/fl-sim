@@ -81,14 +81,21 @@ class SCAFFOLDServerConfig(ServerConfig):
         vr: bool = False,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "SCAFFOLD",
+            name,
             num_iters,
             num_clients,
             clients_sample_ratio,
             lr=lr,
             client_size_aware=client_size_aware,
             vr=vr,
+            **kwargs,
         )
 
 
@@ -133,17 +140,20 @@ class SCAFFOLDClientConfig(ClientConfig):
         vr: bool = False,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
             warnings.warn(
-                "The `algorithm` argument fixed to `SCAFFOLD`.", RuntimeWarning
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
             )
         if kwargs.pop("optimizer", None) is not None:
             warnings.warn(
-                "The `optimizer` argument fixed to `SCAFFOLD`.", RuntimeWarning
+                f"The `optimizer` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
             )
         super().__init__(
-            "SCAFFOLD",
-            "SCAFFOLD",
+            name,
+            name,
             batch_size,
             num_epochs,
             lr,

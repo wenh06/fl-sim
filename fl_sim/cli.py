@@ -6,6 +6,7 @@ Reads in a yaml file with experiment parameters and runs the experiment.
 
 import argparse
 import importlib
+import inspect
 import os
 import re
 from collections import OrderedDict
@@ -198,12 +199,16 @@ def single_run(config: CFG) -> None:
     # setup the experiment
     server_cls = algorithm_dict["server"]
 
+    server_init_kwargs = {}
+    if "lazy" in inspect.getfullargspec(server_cls).args:
+        server_init_kwargs["lazy"] = False
+
     s = server_cls(
         model,
         ds,
         server_config,
         client_config,
-        lazy=False,
+        **server_init_kwargs,
     )
 
     s._logger_manager.log_message(f"Experiment config:\n{config_bak}")

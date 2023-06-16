@@ -7,6 +7,7 @@ Codebase URL: https://github.com/jichan3751/ifca
 
 """
 
+import warnings
 from copy import deepcopy
 from typing import List, Dict, Any, Sequence
 
@@ -87,13 +88,19 @@ class IFCAServerConfig(BaseServerConfig):
         clients_sample_ratio: float = 1,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
             num_iters,
             num_clients,
             clients_sample_ratio=clients_sample_ratio,
             **kwargs,
         )
-        self.algorithm = "IFCA"
+        self.algorithm = name
         self.num_clusters = num_clusters
 
 
@@ -132,13 +139,19 @@ class IFCAClientConfig(BaseClientConfig):
         lr: float = 1e-2,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ClientConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
             batch_size=batch_size,
             num_epochs=num_epochs,
             lr=lr,
             **kwargs,
         )
-        self.algorithm = "IFCA"
+        self.algorithm = name
 
 
 @register_algorithm("IFCA")

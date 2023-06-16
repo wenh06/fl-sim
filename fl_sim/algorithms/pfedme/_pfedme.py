@@ -80,8 +80,14 @@ class pFedMeServerConfig(ServerConfig):
         beta: float = 1.0,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ServerConfig", "")
+        if kwargs.pop("algorithm", None) is not None:
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "pFedMe", num_iters, num_clients, clients_sample_ratio, beta=beta, **kwargs
+            name, num_iters, num_clients, clients_sample_ratio, beta=beta, **kwargs
         )
 
 
@@ -141,13 +147,20 @@ class pFedMeClientConfig(ClientConfig):
         mu: float = 1e-3,
         **kwargs: Any,
     ) -> None:
+        name = self.__name__.replace("ClientConfig", "")
         if kwargs.pop("algorithm", None) is not None:
-            warnings.warn("The `algorithm` argument fixed to `pFedMe`.", RuntimeWarning)
+            warnings.warn(
+                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         if kwargs.pop("optimizer", None) is not None:
-            warnings.warn("The `optimizer` argument fixed to `pFedMe`.", RuntimeWarning)
+            warnings.warn(
+                f"The `optimizer` argument is fixed to `{name}` and will be ignored.",
+                RuntimeWarning,
+            )
         super().__init__(
-            "pFedMe",
-            "pFedMe",
+            name,
+            name,
             batch_size,
             num_epochs,
             lr,
