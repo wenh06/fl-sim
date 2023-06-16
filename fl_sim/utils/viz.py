@@ -405,7 +405,7 @@ class Panel:
     3. ~~add a box for showing the config of the experiment~~(done)
     4. ~~use `ToggleButtons` or `TagsInput` to specify indicators for merging multiple curves~~(done)
     5. add choices (via `Dropdown`) for color palette
-    6. add a dropdown selector for the sub-directories of the log directory
+    6. ~~add a dropdown selector for the sub-directories of the log directory~~(done)
 
     """
 
@@ -447,6 +447,21 @@ class Panel:
         self._curve_cache = {}
 
         self._log_files = find_log_files(directory=self._logdir)
+        self._subdir_dropdown_selector = widgets.Dropdown(
+            options=["./"]
+            + [
+                d.name
+                for d in self._logdir.iterdir()
+                if d.is_dir() and len(list(d.glob("*.json"))) > 0
+            ],
+            value="./",
+            description="Sub-directory:",
+            disabled=False,
+            style={"description_width": "initial"},
+        )
+        self._subdir_dropdown_selector.observe(
+            self._on_subdir_dropdown_change, names="value"
+        )
         self._refresh_button = widgets.Button(
             description="Refresh",
             disabled=False,
@@ -766,6 +781,7 @@ class Panel:
         # layout
         self._layout = widgets.VBox(
             [
+                self._subdir_dropdown_selector,
                 widgets.HBox(
                     [
                         self._filters_input,
@@ -814,6 +830,30 @@ class Panel:
         )
 
         display(self._layout)
+
+    def _on_subdir_dropdown_change(self, change: dict) -> None:
+        if widgets is None or not self._is_notebook:
+            return
+        if change["type"] != "change" or change["name"] != "value":
+            return
+        self._log_files = find_log_files(
+            directory=self._logdir / self._subdir_dropdown_selector.value,
+            filters=self._filters_input.value,
+        )
+        self._log_files_mult_selector.options = list(
+            zip(self.log_files, self._log_files)
+        )
+        unit = "files" if len(self._log_files) > 1 else "file"
+        unit_selected = (
+            "files" if len(self._log_files_mult_selector.value) > 1 else "file"
+        )
+        self._num_log_files_label.value = (
+            f"Found {len(self.log_files)} log {unit}. "
+            f"Slected {len(self._log_files_mult_selector.value)} log {unit_selected}."
+        )
+        self._log_file_dropdown_selector.options = list(
+            zip(self.log_files, self._log_files)
+        )
 
     def _on_refresh_button_clicked(self, button: widgets.Button) -> None:
         if widgets is None or not self._is_notebook:
