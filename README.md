@@ -75,7 +75,7 @@ s.train_federated()
 
 ## [Algorithms Implemented](fl_sim/algorithms)
 
-| Algorithm  | Paper | Upstream | Action Status | Validity [Standard Test](example-configs/all-alg-fedprox-femnist.yml) |
+| Algorithm  | Paper | Upstream | Action Status | Validity on [Standard Test](example-configs/all-alg-fedprox-femnist.yml) |
 | ---------- | ----- | -------- | ------------- | --------------------------------------------------------------------- |
 | [FedProx](fl_sim/algorithms/fedprox/)   | [MLSys2020](https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html) | [GitHub](https://github.com/litian96/FedProx) | [![test-fedprox](https://github.com/wenh06/fl-sim/actions/workflows/test-fedprox.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedprox.yml)  | :heavy_check_mark: :question: |
 | [FedOpt[^1]](fl_sim/algorithms/fedopt/) | [arXiv:2003.00295](https://arxiv.org/abs/2003.00295) | N/A | [![test-fedopt](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml) | :heavy_check_mark: |
