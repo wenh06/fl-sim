@@ -401,10 +401,11 @@ class Panel:
     TODO
     ----
     1. ~~add sliders for matplotlib rc params~~(done)
-    2. add a input box and a button for saving the figure
+    2. ~~add a input box and a button for saving the figure~~(done)
     3. ~~add a box for showing the config of the experiment~~(done)
     4. ~~use `ToggleButtons` or `TagsInput` to specify indicators for merging multiple curves~~(done)
     5. add choices (via `Dropdown`) for color palette
+    6. add a dropdown selector for the sub-directories of the log directory
 
     """
 
@@ -445,7 +446,7 @@ class Panel:
 
         self._curve_cache = {}
 
-        self._log_files = find_log_files()
+        self._log_files = find_log_files(directory=self._logdir)
         self._refresh_button = widgets.Button(
             description="Refresh",
             disabled=False,
@@ -818,7 +819,9 @@ class Panel:
         if widgets is None or not self._is_notebook:
             return
         # update the list of log files
-        self._log_files = find_log_files(filters=self._filters_input.value)
+        self._log_files = find_log_files(
+            directory=self._logdir, filters=self._filters_input.value
+        )
         # update the options of the selector
         self._log_files_mult_selector.options = list(
             zip(self.log_files, self._log_files)
