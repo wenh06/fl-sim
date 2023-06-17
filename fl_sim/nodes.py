@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 from itertools import repeat
 from copy import deepcopy
 from collections import defaultdict
+from numbers import Number
 from pathlib import Path
 from typing import Any, Optional, Iterable, List, Tuple, Dict, Union, Sequence
 
@@ -299,6 +300,52 @@ class Node(ReprMixin, ABC):
                     torch.cat([grad.view(-1) for grad in grads]), norm
                 ).item()
         return grads
+
+    @staticmethod
+    def get_norm(
+        tensor: Union[
+            Number,
+            Tensor,
+            np.ndarray,
+            Parameter,
+            List[Union[np.ndarray, Tensor, Parameter]],
+        ],
+        norm: Union[str, int, float] = "fro",
+    ) -> float:
+        """Get the norm of a tensor.
+
+        Parameters
+        ----------
+        tensor : torch.Tensor or np.ndarray or torch.nn.Parameter or list
+            The tensor (array, parameter, etc.) to compute the norm.
+        norm : str or int or float, default "fro"
+            The norm to compute.
+            refer to :func:`torch.norm` for more details.
+
+        Returns
+        -------
+        float
+            The norm of the tensor.
+
+        """
+        if tensor is None:
+            return float("nan")
+        if isinstance(tensor, Number):
+            return tensor
+        if isinstance(tensor, Tensor):
+            tensor = [tensor]
+        elif isinstance(tensor, np.ndarray):
+            tensor = [torch.from_numpy(tensor)]
+        elif isinstance(tensor, Parameter):
+            tensor = [tensor.data]
+        elif isinstance(tensor, list):
+            tensor = [
+                torch.from_numpy(t) if isinstance(t, np.ndarray) else t.detach().clone()
+                for t in tensor
+            ]
+        else:
+            raise TypeError(f"Unsupported type: {type(tensor)}")
+        return torch.norm(torch.cat([t.view(-1) for t in tensor]), norm).item()
 
     @staticmethod
     def aggregate_results_from_csv_log(

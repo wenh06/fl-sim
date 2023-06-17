@@ -117,6 +117,7 @@ The abstract base class `Node` provides the following basic functionalities:
 
 - `get_detached_model_parameters`: get the model parameters of the node in a detached form.
 - `get_gradients`: get the gradients, or norm of the gradients, of the model parameters of the client.
+- `get_norm`: get the norm of given tensors or numpy arrays.
 - ~~`aggregate_results_from_csv_log`: aggregate the experiment results from the csv log file.~~
 - `aggregate_results_from_json_log`: aggregate the experiment results from the json log file.
 
