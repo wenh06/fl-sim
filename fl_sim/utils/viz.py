@@ -860,7 +860,8 @@ class Panel:
             return
         # update the list of log files
         self._log_files = find_log_files(
-            directory=self._logdir, filters=self._filters_input.value
+            directory=self._logdir / self._subdir_dropdown_selector.value,
+            filters=self._filters_input.value,
         )
         # update the options of the selector
         self._log_files_mult_selector.options = list(
