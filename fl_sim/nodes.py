@@ -69,6 +69,8 @@ class ServerConfig(ReprMixin):
     visiable_gpus : Sequence[int], optional
         Visable GPU IDs for allocating devices for clients.
         Defaults to use all GPUs if available.
+    extra_observes: Optional[List[str]] = None,
+        Extra attributes to observe during training.
     seed : int, default 0
         The random seed.
     tag : str, optional
@@ -98,6 +100,7 @@ class ServerConfig(ReprMixin):
         json_logger: bool = True,
         eval_every: int = 1,
         visiable_gpus: Optional[Sequence[int]] = None,
+        extra_observes: Optional[List[str]] = None,
         seed: int = 0,
         tag: Optional[str] = None,
         verbose: int = 1,
@@ -124,6 +127,7 @@ class ServerConfig(ReprMixin):
             self.visiable_gpus = [
                 item for item in self.visiable_gpus if item in default_gpus
             ]
+        self.extra_observes = extra_observes or []
         self.seed = seed
         self.tag = tag
         self.verbose = verbose
@@ -154,6 +158,10 @@ class ClientConfig(ReprMixin):
     scheduler : dict, optional
         The scheduler config.
         None for no scheduler, using constant learning rate.
+    extra_observes : Optional[List[str]]
+        Extra attributes to observe during training,
+        which would be recorded in evaluated metrics,
+        sent to the server, and written to the log file.
     verbose : int, default 1
         The verbosity level.
     latency : float, default 0.0
@@ -175,6 +183,7 @@ class ClientConfig(ReprMixin):
         num_epochs: int,
         lr: float,
         scheduler: Optional[dict] = None,
+        extra_observes: Optional[List[str]] = None,
         verbose: int = 1,
         latency: float = 0.0,
         **kwargs: Any,
@@ -185,6 +194,7 @@ class ClientConfig(ReprMixin):
         self.num_epochs = num_epochs
         self.lr = lr
         self.scheduler = scheduler or {"name": "none"}
+        self.extra_observes = extra_observes or []
         self.verbose = verbose
         self.latency = latency
         for k, v in kwargs.items():
@@ -596,6 +606,12 @@ class Server(Node, CitationMixin):
             self._setup_clients(self.dataset, self._client_config)
 
         self._post_init()
+
+        # checks that the client has all the required attributes in config.extra_observes
+        for attr in self.config.extra_observes:
+            assert hasattr(
+                self, attr
+            ), f"{self.__name__} should have attribute {attr} for extra observes."
 
     def _setup_clients(
         self,
@@ -1350,6 +1366,12 @@ class Client(Node):
 
         self._post_init()
 
+        # checks that the client has all the required attributes in config.extra_observes
+        for attr in self.config.extra_observes:
+            assert hasattr(
+                self, attr
+            ), f"{self.__name__} should have attribute {attr} for extra observes."
+
     def _communicate(self, target: "Server") -> None:
         """Check validity and send messages to the server,
         and maintain state variables.
@@ -1463,6 +1485,9 @@ class Client(Node):
         self._metrics[part].update(self.dataset.evaluate(all_logits, all_labels))
         # get the gradient norm of the local model
         self._metrics[part]["grad_norm"] = self.get_gradients(norm="fro")
+        # record items in config.extra_observes
+        for attr in self.config.extra_observes:
+            self._metrics[part][attr] = Node.get_norm(getattr(self, attr))
         # free the memory
         del all_logits, all_labels, X, y
         return self._metrics[part]
