@@ -393,3 +393,22 @@ class FedRotatedCIFAR10(FedVisionDataset):
             f"angle: {angle}"
         )
         plt.show()
+
+    def random_grid_view(self, nrow: int, ncol: int) -> None:
+        """Select randomly `nrow` x `ncol` images from the dataset
+        and plot them in a grid.
+        """
+        import matplotlib.pyplot as plt
+
+        fig, axes = plt.subplots(nrow, ncol, figsize=(ncol * 1, nrow * 1))
+        for i in range(nrow):
+            for j in range(ncol):
+                client_idx = np.random.randint(self.num_clients)
+                image_idx = np.random.randint(len(self.indices["train"][client_idx]))
+                image = self._train_data_dict[self._IMGAE][
+                    self.indices["train"][client_idx][image_idx]
+                ]
+                axes[i, j].imshow(image.transpose(1, 2, 0))
+                axes[i, j].axis("off")
+        plt.tight_layout()
+        plt.show()

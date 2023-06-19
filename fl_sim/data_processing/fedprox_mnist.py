@@ -235,6 +235,37 @@ class FedProxMNIST(FedVisionDataset):
         plt.title(f"client {client_idx}, label {label} ({self.label_map[int(label)]})")
         plt.show()
 
+    def random_grid_view(self, nrow: int, ncol: int) -> None:
+        """Select randomly `nrow` x `ncol` images from the dataset
+        and plot them in a grid.
+        """
+        import matplotlib.pyplot as plt
+
+        fig, axes = plt.subplots(nrow, ncol, figsize=(ncol * 1, nrow * 1))
+        for i in range(nrow):
+            for j in range(ncol):
+                client_idx = np.random.randint(self.DEFAULT_TRAIN_CLIENTS_NUM)
+                tot_images = (
+                    self._client_data[client_idx]["train_x"].shape[0]
+                    + self._client_data[client_idx]["test_x"].shape[0]
+                )
+                image_idx = np.random.randint(tot_images)
+                if image_idx < self._client_data[client_idx]["train_x"].shape[0]:
+                    img = self._client_data[client_idx]["train_x"][image_idx]
+                    label = self._client_data[client_idx]["train_y"][image_idx]
+                else:
+                    img = self._client_data[client_idx]["test_x"][
+                        image_idx - self._client_data[client_idx]["train_x"].shape[0]
+                    ]
+
+                img = img + img.min()
+                # to 0-255
+                img = (img * 255 / img.max()).astype(np.uint8)
+                axes[i, j].imshow(img, cmap="gray")
+                axes[i, j].axis("off")
+        plt.tight_layout()
+        plt.show()
+
 
 def generate_niid(
     mnist_data: Dict[str, np.ndarray],

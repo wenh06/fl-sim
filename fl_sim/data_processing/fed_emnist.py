@@ -259,3 +259,9 @@ class FedEMNIST(FedVisionDataset):
             f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})"
         )
         plt.show()
+
+    def random_grid_view(self, nrow: int, ncol: int) -> None:
+        """Select randomly `nrow` x `ncol` images from the dataset
+        and plot them in a grid.
+        """
+        raise NotImplementedError
