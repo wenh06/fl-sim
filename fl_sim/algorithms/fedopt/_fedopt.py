@@ -5,6 +5,7 @@ import warnings
 from copy import deepcopy
 from typing import List, Sequence, Dict, Any
 
+import torch
 from torch_ecg.utils.misc import add_docstring, remove_parameters_returns_from_docstring
 from tqdm.auto import tqdm
 
@@ -58,7 +59,7 @@ class FedOptServerConfig(ServerConfig):
         The optimizer to use, case insensitive.
     lr : float, default 1e-2
         The learning rate.
-    betas : Sequence[float], default (0.9, 0.999)
+    betas : Sequence[float], default (0.9, 0.99)
         The beta values for the optimizer.
     tau : float, default 1e-5
         The tau value for the optimizer,
@@ -101,7 +102,7 @@ class FedOptServerConfig(ServerConfig):
         clients_sample_ratio: float,
         optimizer: str = "Adam",
         lr: float = 1e-2,
-        betas: Sequence[float] = (0.9, 0.999),
+        betas: Sequence[float] = (0.9, 0.99),
         tau: float = 1e-5,
         **kwargs: Any,
     ) -> None:
@@ -201,12 +202,14 @@ class FedOptServer(Server):
 
     def _post_init(self) -> None:
         super()._post_init()
-        self.delta_parameters = self.get_detached_model_parameters()
-        for p in self.delta_parameters:
-            p.data.zero_()
+        self.delta_parameters = [
+            torch.zeros_like(p) for p in self.get_detached_model_parameters()
+        ]
         if self.config.optimizer.lower() != "avg":
-            self.v_parameters = deepcopy(self.delta_parameters)
+            self.v_parameters = [p.clone() for p in self.delta_parameters]
             for p in self.v_parameters:
+                # initialize v_parameters, >= \tau^2
+                # FedOpt paper Algorithm 2, line 1
                 p.data.random_(1, 100).mul_(self.config.tau**2)
         else:  # FedAvg
             # ensure that the unnecessary parameters are
@@ -234,7 +237,9 @@ class FedOptServer(Server):
     def update(self) -> None:
         """Global (outer) update."""
         # update delta_parameters, FedOpt paper Algorithm 2, line 10
-        # total_samples = sum([m["train_samples"] for m in self._received_messages])
+        # self._logger_manager.log_message(
+        #     f"Before line 10: delta_parameters: {FedOptServer.get_norm(self.delta_parameters)}"
+        # )
         for idx, param in enumerate(self.delta_parameters):
             param.data.mul_(self.config.betas[0])
             for m in self._received_messages:
@@ -242,6 +247,9 @@ class FedOptServer(Server):
                     m["delta_parameters"][idx].data.detach().clone().to(self.device),
                     alpha=(1 - self.config.betas[0]) / len(self._received_messages),
                 )
+        # self._logger_manager.log_message(
+        #     f"After line 10: delta_parameters: {FedOptServer.get_norm(self.delta_parameters)}"
+        # )
         # update v_parameters, FedOpt paper Algorithm 2, line 11-13
         optimizer = self.config.optimizer.lower()
         if optimizer == "avg":
@@ -255,6 +263,9 @@ class FedOptServer(Server):
         else:
             raise ValueError(f"Unknown optimizer: {self.config.optimizer}")
         # update model parameters, FedOpt paper Algorithm 2, line 14
+        # self._logger_manager.log_message(
+        #     f"Before line 14, parameters = {FedOptServer.get_norm(self.get_detached_model_parameters())}"
+        # )
         if self.v_parameters is None:
             for sp, dp in zip(self.model.parameters(), self.delta_parameters):
                 sp.data.add_(dp.data, alpha=self.config.lr)
@@ -267,6 +278,9 @@ class FedOptServer(Server):
                     vp.sqrt() + self.config.tau,
                     value=self.config.lr,
                 )
+        # self._logger_manager.log_message(
+        #     f"After line 14, parameters = {FedOptServer.get_norm(self.get_detached_model_parameters())}"
+        # )
 
     def update_avg(self) -> None:
         """Additional operation for FedAvg."""
@@ -496,7 +510,7 @@ class FedAdagradServerConfig(FedOptServerConfig):
         num_clients: int,
         clients_sample_ratio: float,
         lr: float = 1e-2,
-        betas: Sequence[float] = (0.9, 0.999),
+        betas: Sequence[float] = (0.0, 0.99),
         tau: float = 1e-5,
         **kwargs: Any,
     ) -> None:
@@ -586,7 +600,7 @@ class FedYogiServerConfig(FedOptServerConfig):
         num_clients: int,
         clients_sample_ratio: float,
         lr: float = 1e-2,
-        betas: Sequence[float] = (0.9, 0.999),
+        betas: Sequence[float] = (0.9, 0.99),
         tau: float = 1e-5,
         **kwargs: Any,
     ) -> None:
@@ -676,7 +690,7 @@ class FedAdamServerConfig(FedOptServerConfig):
         num_clients: int,
         clients_sample_ratio: float,
         lr: float = 1e-2,
-        betas: Sequence[float] = (0.9, 0.999),
+        betas: Sequence[float] = (0.9, 0.99),
         tau: float = 1e-5,
         **kwargs: Any,
     ) -> None:

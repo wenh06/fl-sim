@@ -200,21 +200,21 @@ class pFedMeServer(Server):
     def update(self) -> None:
 
         # store previous parameters
-        previous_params = self.get_detached_model_parameters()
-        for p in previous_params:
-            p = p.to(self.device)
+        previous_params = [
+            p.to(self.device) for p in self.get_detached_model_parameters()
+        ]
 
         # sum of received parameters, with self.model.parameters() as its container
         self.avg_parameters()
 
         # aaggregate avergage model with previous model using parameter beta
         for pre_param, param in zip(previous_params, self.model.parameters()):
-            param.data = (
-                1 - self.config.beta
-            ) * pre_param.data.detach().clone() + self.config.beta * param.data
+            param.data.mul_(self.config.beta).add_(
+                (1 - self.config.beta) * pre_param.data.detach().clone()
+            )
 
         # clear received messages
-        del pre_param
+        del pre_param, previous_params
 
     @property
     def config_cls(self) -> Dict[str, type]:
@@ -300,7 +300,6 @@ class pFedMeClient(Client):
                 # update local weight after finding aproximate theta
                 # pFedMe paper Algorithm 1 line 8
                 for mp, cp in zip(self.model.parameters(), self._cached_parameters):
-                    # print(mp.data.isnan().any(), cp.data.isnan().any())
                     cp.data.add_(
                         cp.data.clone() - mp.data.clone(),
                         alpha=-self.config.lamda * self.config.eta,
