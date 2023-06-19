@@ -417,6 +417,7 @@ class Panel:
         self,
         logdir: Optional[Union[str, Path]] = None,
         rc_params: Optional[dict] = None,
+        debug: bool = False,
     ) -> None:
         if widgets is None:
             print(
@@ -443,6 +444,7 @@ class Panel:
         else:
             warnings.warn("`seaborn` is not installed. One gets better plots with it.")
         self.reset_matplotlib(rc_params=self._rc_params)
+        self._debug = debug
 
         self._curve_cache = {}
 
@@ -829,6 +831,12 @@ class Panel:
             ]
         )
 
+        if self._debug:
+            self._debug_message_area = widgets.Output(
+                layout={"border": "5px solid red"},
+            )
+            self._layout.children = self._layout.children + (self._debug_message_area,)
+
         display(self._layout)
 
     def _on_subdir_dropdown_change(self, change: dict) -> None:
@@ -1093,6 +1101,9 @@ class Panel:
                     #     part=self._part_input.value,
                     #     metric=self._metric_input.value,
                     # )
+                if self._debug:
+                    with self._debug_message_area:
+                        print(f"self._fig_stems: {self._fig_stems}")
                 self.fig, self.ax = plt.subplots(
                     figsize=self._rc_params["figure.figsize"]
                 )
