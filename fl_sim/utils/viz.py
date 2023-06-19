@@ -28,7 +28,7 @@ except (ImportError, ModuleNotFoundError):
 
 from ..nodes import Node
 from .const import LOG_DIR
-from .misc import is_notebook
+from .misc import is_notebook, find_longest_common_substring
 
 
 __all__ = [
@@ -480,7 +480,7 @@ class Panel:
             options=list(zip(self.log_files, self._log_files)),
             description="Select log files:",
             disabled=False,
-            layout={"width": "500px", "height": "220px"},
+            layout={"width": "800px", "height": "220px"},
             style={"description_width": "initial"},
         )
         unit = "files" if len(self._log_files) > 1 else "file"
@@ -1099,10 +1099,16 @@ class Panel:
                 raw_indices = set(range(len(self._fig_curves)))
                 linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
                 if self._merge_curve_tags_input is not None:
+                    common_substring = find_longest_common_substring(
+                        self._fig_stems, min_len=5
+                    )
+                    _fig_stems = [
+                        item.replace(common_substring, "-") for item in self._fig_stems
+                    ]
                     for idx, tag in enumerate(self._merge_curve_tags_input.value):
                         indices = [
                             idx
-                            for idx, stem in enumerate(self._fig_stems)
+                            for idx, stem in enumerate(_fig_stems)
                             if re.search(tag + "\\-", stem)
                             or re.search("\\-" + tag, stem)
                         ]
@@ -1194,6 +1200,11 @@ class Panel:
     @property
     def log_files(self) -> List[str]:
         return [item.stem for item in self._log_files]
+
+    @property
+    def log_files_with_common_substring_removed(self) -> List[str]:
+        common_substring = find_longest_common_substring(self.log_files, min_len=5)
+        return [item.replace(common_substring, "-") for item in self.log_files]
 
     @staticmethod
     def reset_matplotlib(rc_params: Optional[Dict[str, Any]] = None) -> None:

@@ -353,7 +353,7 @@ def find_longest_common_substring(
 
     Parameters
     ----------
-    strings : list of str
+    strings : sequence of str
         The list of strings.
     min_len : int, optional
         The minimum length of the common substring.
