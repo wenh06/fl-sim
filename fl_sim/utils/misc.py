@@ -10,7 +10,7 @@ import warnings
 from collections import OrderedDict, defaultdict
 from copy import deepcopy
 from functools import wraps
-from typing import Any, Callable, Union, Optional
+from typing import Any, Callable, Union, Optional, Sequence
 
 import numpy as np
 import torch
@@ -29,6 +29,7 @@ __all__ = [
     "get_scheduler",
     "get_scheduler_info",
     "is_notebook",
+    "find_longest_common_substring",
     "add_kwargs",
 ]
 
@@ -343,6 +344,35 @@ def is_notebook() -> bool:
         return False
     except TypeError:  # get_ipython is None
         return False
+
+
+def find_longest_common_substring(
+    strings: Sequence[str], min_len: Optional[int] = None
+) -> str:
+    """Find the longest common substring of a list of strings.
+
+    Parameters
+    ----------
+    strings : list of str
+        The list of strings.
+    min_len : int, optional
+        The minimum length of the common substring.
+
+    Returns
+    -------
+    str
+        The longest common substring.
+
+    """
+    substr = ""
+    if len(strings) > 1 and len(strings[0]) > 0:
+        for i in range(len(strings[0])):
+            for j in range(len(strings[0]) - i + 1):
+                if j > len(substr) and all(strings[0][i : i + j] in x for x in strings):
+                    substr = strings[0][i : i + j]
+    if min_len is not None and len(substr) < min_len:
+        return ""
+    return substr
 
 
 def add_kwargs(func: callable, **kwargs: Any) -> callable:
