@@ -408,7 +408,9 @@ class FedRotatedMNIST(FedVisionDataset):
         )
         plt.show()
 
-    def random_grid_view(self, nrow: int, ncol: int) -> None:
+    def random_grid_view(
+        self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None
+    ) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
         """
@@ -431,5 +433,7 @@ class FedRotatedMNIST(FedVisionDataset):
                 ]
                 axes[i, j].imshow(image, cmap="gray")
                 axes[i, j].axis("off")
+        if save_path is not None:
+            fig.savefig(save_path, bbox_inches="tight", dpi=600)
         plt.tight_layout()
         plt.show()

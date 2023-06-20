@@ -235,7 +235,9 @@ class FedProxMNIST(FedVisionDataset):
         plt.title(f"client {client_idx}, label {label} ({self.label_map[int(label)]})")
         plt.show()
 
-    def random_grid_view(self, nrow: int, ncol: int) -> None:
+    def random_grid_view(
+        self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None
+    ) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
         """
@@ -270,6 +272,8 @@ class FedProxMNIST(FedVisionDataset):
                 img = (img * 255 / img.max()).astype(np.uint8)
                 axes[i, j].imshow(img, cmap="gray")
                 axes[i, j].axis("off")
+        if save_path is not None:
+            fig.savefig(save_path, bbox_inches="tight", dpi=600)
         plt.tight_layout()
         plt.show()
 
