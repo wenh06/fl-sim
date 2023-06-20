@@ -400,11 +400,18 @@ class FedRotatedCIFAR10(FedVisionDataset):
         """
         import matplotlib.pyplot as plt
 
+        rng = np.random.default_rng()
+
         fig, axes = plt.subplots(nrow, ncol, figsize=(ncol * 1, nrow * 1))
+        selected = []
         for i in range(nrow):
             for j in range(ncol):
-                client_idx = np.random.randint(self.num_clients)
-                image_idx = np.random.randint(len(self.indices["train"][client_idx]))
+                while True:
+                    client_idx = rng.integers(self.num_clients)
+                    image_idx = rng.integers(len(self.indices["train"][client_idx]))
+                    if (client_idx, image_idx) not in selected:
+                        selected.append((client_idx, image_idx))
+                        break
                 image = self._train_data_dict[self._IMGAE][
                     self.indices["train"][client_idx][image_idx]
                 ]

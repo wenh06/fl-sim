@@ -241,15 +241,22 @@ class FedProxMNIST(FedVisionDataset):
         """
         import matplotlib.pyplot as plt
 
+        rng = np.random.default_rng()
+
         fig, axes = plt.subplots(nrow, ncol, figsize=(ncol * 1, nrow * 1))
+        selected = []
         for i in range(nrow):
             for j in range(ncol):
-                client_idx = np.random.randint(self.DEFAULT_TRAIN_CLIENTS_NUM)
-                tot_images = (
-                    self._client_data[client_idx]["train_x"].shape[0]
-                    + self._client_data[client_idx]["test_x"].shape[0]
-                )
-                image_idx = np.random.randint(tot_images)
+                while True:
+                    client_idx = rng.integers(self.DEFAULT_TRAIN_CLIENTS_NUM)
+                    tot_images = (
+                        self._client_data[client_idx]["train_x"].shape[0]
+                        + self._client_data[client_idx]["test_x"].shape[0]
+                    )
+                    image_idx = rng.integers(tot_images)
+                    if (client_idx, image_idx) not in selected:
+                        selected.append((client_idx, image_idx))
+                        break
                 if image_idx < self._client_data[client_idx]["train_x"].shape[0]:
                     img = self._client_data[client_idx]["train_x"][image_idx]
                     label = self._client_data[client_idx]["train_y"][image_idx]

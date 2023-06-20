@@ -1433,7 +1433,7 @@ class Client(Node):
                     self.optimizer.step()
                     batch_losses.append(loss.item())
                 epoch_losses.append(sum(batch_losses) / len(batch_losses))
-            self.lr_scheduler.step()
+                self.lr_scheduler.step()
 
         """
         raise NotImplementedError

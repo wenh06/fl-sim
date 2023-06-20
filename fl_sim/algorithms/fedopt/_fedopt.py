@@ -238,7 +238,7 @@ class FedOptServer(Server):
         """Global (outer) update."""
         # update delta_parameters, FedOpt paper Algorithm 2, line 10
         # self._logger_manager.log_message(
-        #     f"Before line 10: delta_parameters: {FedOptServer.get_norm(self.delta_parameters)}"
+        #     f"Before line 10: delta_parameters norm = {FedOptServer.get_norm(self.delta_parameters)}"
         # )
         for idx, param in enumerate(self.delta_parameters):
             param.data.mul_(self.config.betas[0])
@@ -248,7 +248,7 @@ class FedOptServer(Server):
                     alpha=(1 - self.config.betas[0]) / len(self._received_messages),
                 )
         # self._logger_manager.log_message(
-        #     f"After line 10: delta_parameters: {FedOptServer.get_norm(self.delta_parameters)}"
+        #     f"After line 10: delta_parameters norm = {FedOptServer.get_norm(self.delta_parameters)}"
         # )
         # update v_parameters, FedOpt paper Algorithm 2, line 11-13
         optimizer = self.config.optimizer.lower()
@@ -264,7 +264,7 @@ class FedOptServer(Server):
             raise ValueError(f"Unknown optimizer: {self.config.optimizer}")
         # update model parameters, FedOpt paper Algorithm 2, line 14
         # self._logger_manager.log_message(
-        #     f"Before line 14, parameters = {FedOptServer.get_norm(self.get_detached_model_parameters())}"
+        #     f"Before line 14, parameters norm = {FedOptServer.get_norm(self.get_detached_model_parameters())}"
         # )
         if self.v_parameters is None:
             for sp, dp in zip(self.model.parameters(), self.delta_parameters):
@@ -279,7 +279,7 @@ class FedOptServer(Server):
                     value=self.config.lr,
                 )
         # self._logger_manager.log_message(
-        #     f"After line 14, parameters = {FedOptServer.get_norm(self.get_detached_model_parameters())}"
+        #     f"After line 14, parameters norm = {FedOptServer.get_norm(self.get_detached_model_parameters())}"
         # )
 
     def update_avg(self) -> None:

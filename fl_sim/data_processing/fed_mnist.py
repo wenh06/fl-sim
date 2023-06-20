@@ -277,4 +277,46 @@ class FedMNIST(FedVisionDataset):
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
         """
-        raise NotImplementedError
+        import matplotlib.pyplot as plt
+
+        rng = np.random.default_rng()
+
+        fig, axes = plt.subplots(nrow, ncol, figsize=(ncol * 1, nrow * 1))
+        selected = []
+        for i in range(nrow):
+            for j in range(ncol):
+                while True:
+                    client_idx = rng.integers(len(self._train_data_dict["users"]))
+                    client_id = self._train_data_dict["users"][client_idx]
+                    total_num_images = len(
+                        self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+                    ) + len(self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE])
+                    image_idx = rng.integers(total_num_images)
+                    if (client_idx, image_idx) not in selected:
+                        selected.append((client_idx, image_idx))
+                        break
+                if image_idx < len(
+                    self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+                ):
+                    image = np.array(
+                        self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+                    )[image_idx].reshape(28, 28)
+                    image = np.clip(image, -self._clip_val, self._clip_val)
+                    image = (
+                        (image - image.min()) / (image.max() - image.min()) * 255
+                    ).astype(np.uint8)
+                else:
+                    image_idx -= len(
+                        self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+                    )
+                    image = np.array(
+                        self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+                    )[image_idx].reshape(28, 28)
+                    image = np.clip(image, -self._clip_val, self._clip_val)
+                    image = (
+                        (image - image.min()) / (image.max() - image.min()) * 255
+                    ).astype(np.uint8)
+                axes[i, j].imshow(image, cmap="gray")
+                axes[i, j].axis("off")
+        plt.tight_layout()
+        plt.show()

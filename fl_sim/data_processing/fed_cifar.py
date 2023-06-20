@@ -354,7 +354,29 @@ class FedCIFAR(FedVisionDataset):
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
         """
-        raise NotImplementedError
+        import matplotlib.pyplot as plt
+
+        rng = np.random.default_rng()
+
+        train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
+
+        fig, axes = plt.subplots(nrow, ncol, figsize=(ncol * 1, nrow * 1))
+        selected = []
+        for i in range(nrow):
+            for j in range(ncol):
+                while True:
+                    client_idx = rng.integers(len(self._client_ids_train))
+                    client_id = self._client_ids_train[client_idx]
+                    tot_img = train_h5[self._EXAMPLE][client_id][self._IMGAE][()]
+                    image_idx = rng.integers(len(tot_img))
+                    if (client_idx, image_idx) not in selected:
+                        selected.append((client_idx, image_idx))
+                        break
+                img = tot_img[image_idx]
+                axes[i, j].imshow(img)
+                axes[i, j].axis("off")
+        plt.tight_layout()
+        plt.show()
 
 
 @register_fed_dataset()
