@@ -73,7 +73,7 @@ class FedProxSent140(FedNLPDataset):
     def _preload(
         self,
         datadir: Optional[Union[str, Path]] = None,
-        embedding_name: str = "glove.6B.50d",
+        embedding_name: str = "glove.6B.300d",
     ) -> None:
         self.datadir = Path(datadir or FEDPROX_SENT140_DATA_DIR).expanduser().resolve()
         self.download_if_needed()

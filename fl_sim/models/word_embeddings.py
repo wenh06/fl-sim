@@ -336,7 +336,7 @@ class GloveEmbedding(WordEmbedding):
 
     Parameters
     ----------
-    name : str, default "glove.6B.50d"
+    name : str, default "glove.6B.300d"
         Name of the GLOVE embedding to load. Available options are:
 
             - glove.6B.50d
@@ -373,7 +373,7 @@ class GloveEmbedding(WordEmbedding):
 
     def __init__(
         self,
-        name: str = "glove.6B.50d",
+        name: str = "glove.6B.300d",
         device: Optional[torch.device] = None,
     ) -> None:
         assert name in self.GLOVE_EMBEDDING_NAMES, (
@@ -403,7 +403,7 @@ class GloveEmbedding(WordEmbedding):
         }[name]
 
     @staticmethod
-    def get_vocab_file(name: str = "glove.6B.50d") -> Path:
+    def get_vocab_file(name: str = "glove.6B.300d") -> Path:
         """Get the path to the vocab file for the GLOVE embedding file."""
         url = Path(GloveEmbedding.get_url(name))
         vocab_file = (
@@ -413,13 +413,13 @@ class GloveEmbedding(WordEmbedding):
 
     @staticmethod
     def get_tokenizer(
-        name: str = "glove.6B.50d", max_length: int = 256
+        name: str = "glove.6B.300d", max_length: int = 256
     ) -> "GloveTokenizer":
         """Get the tokenizer for the GLOVE embedding file.
 
         Parameters
         ----------
-        name : str, default "glove.6B.50d"
+        name : str, default "glove.6B.300d"
             Name of the GLOVE embedding to load. Available options are:
 
                 - glove.6B.50d
