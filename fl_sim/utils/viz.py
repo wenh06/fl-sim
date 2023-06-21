@@ -5,7 +5,6 @@ Functions for collecting experiment results, visualizing them, etc.
 import itertools
 import os
 import re
-import warnings
 from pathlib import Path
 from typing import Union, Sequence, Optional, Tuple, List, Dict, Any
 
@@ -13,6 +12,7 @@ import numpy as np
 import yaml
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import seaborn as sns
 from termcolor import colored
 from torch_ecg.utils import MovingAverage
 
@@ -21,10 +21,6 @@ try:
     from IPython.display import display
 except (ImportError, ModuleNotFoundError):
     widgets = display = None
-try:
-    import seaborn as sns
-except (ImportError, ModuleNotFoundError):
-    sns = None
 
 from ..nodes import Node
 from .const import LOG_DIR
@@ -64,6 +60,17 @@ _linestyle_tuple = [  # name, linestyle (offset, on-off-seq)
 # _linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
 _marker_cycle = ("o", "s", "v", "^", "<", ">", "p", "P", "*")
 
+# fmt: off
+_color_palettes = [
+    # seaborn color palettes
+    "deep", "muted", "bright", "pastel", "dark", "colorblind",
+    # matplotlib color palettes
+    "tab10", "tab20", "tab20b", "tab20c",
+    "Pastel1", "Pastel2", "Paired", "Accent", "Dark2",
+    "Set1", "Set2", "Set3",
+]
+# fmt: on
+sns.set_palette("tab10")
 
 DEFAULT_RC_PARAMS = {
     "xtick.labelsize": 18,
@@ -439,10 +446,7 @@ class Panel:
             set(mpl.rcParams)
         ), f"Invalid rc_params: {set(self._rc_params) - set(mpl.rcParams)}."
         self.reset_matplotlib()
-        if sns is not None:
-            sns.set()
-        else:
-            warnings.warn("`seaborn` is not installed. One gets better plots with it.")
+        sns.set()
         self.reset_matplotlib(rc_params=self._rc_params)
         self._debug = debug
 
@@ -739,6 +743,16 @@ class Panel:
             self._on_font_dropdown_selector_value_changed, names="value"
         )
 
+        self._palette_dropdown_selector = widgets.Dropdown(
+            options=_color_palettes,
+            value="tab10",
+            description="Palette:",
+            style={"description_width": "initial"},
+        )
+        self._palette_dropdown_selector.observe(
+            self._on_palette_dropdown_selector_value_changed, names="value"
+        )
+
         self._savefig_dir_input = widgets.Text(
             value="./images",
             description="Save dir:",
@@ -806,6 +820,7 @@ class Panel:
                         self._show_button,
                         self._clear_button,
                         self._font_dropdown_selector,
+                        self._palette_dropdown_selector,
                     ],
                     layout=widgets.Layout(align_items="center"),
                 ),
@@ -1032,6 +1047,14 @@ class Panel:
         if isinstance(change["new"], str):
             self._rc_params["font.family"] = change["new"]
             self.reset_matplotlib(rc_params=self._rc_params)
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_palette_dropdown_selector_value_changed(self, change: dict) -> None:
+        if widgets is None or not self._is_notebook:
+            return
+        if isinstance(change["new"], str):
+            sns.set_palette(change["new"])
         if self._show_fig_flag:
             self._show_fig()
 
