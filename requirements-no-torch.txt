@@ -1,6 +1,6 @@
 einops
 h5py
-numpy<1.25  # remove this restriction when other dependencies support numpy 1.25
+numpy
 pandas
 Pillow
 h5py
