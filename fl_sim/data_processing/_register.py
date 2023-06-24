@@ -1,6 +1,7 @@
 """
 """
 
+import warnings
 from typing import Any, List, Optional
 
 from .fed_dataset import FedDataset
@@ -24,16 +25,17 @@ def register_fed_dataset(name: Optional[str] = None) -> Any:
 
     """
 
-    def wrapper(cls: Any) -> Any:
+    def wrapper(cls_: Any) -> Any:
         if name is None:
-            _name = cls.__name__
+            _name = cls_.__name__
         else:
             _name = name
-        assert issubclass(cls, FedDataset), f"{cls} is not a valid dataset"
+        assert issubclass(cls_, FedDataset), f"{cls_} is not a valid dataset"
         if _name in _built_in_fed_datasets:
-            raise ValueError(f"{_name} has already been registered")
-        _built_in_fed_datasets[_name] = cls
-        return cls
+            # raise ValueError(f"{_name} has already been registered")
+            warnings.warn(f"{_name} has already been registered", RuntimeWarning)
+        _built_in_fed_datasets[_name] = cls_
+        return cls_
 
     return wrapper
 

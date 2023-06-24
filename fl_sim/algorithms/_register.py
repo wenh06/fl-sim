@@ -1,6 +1,7 @@
 """
 """
 
+import warnings
 from typing import Any, List, Dict
 
 from ..nodes import ServerConfig, ClientConfig, Server, Client
@@ -23,23 +24,24 @@ def register_algorithm(name: str) -> Any:
 
     """
 
-    def wrapper(cls: Any) -> Any:
-        if issubclass(cls, ServerConfig):
+    def wrapper(cls_: Any) -> Any:
+        if issubclass(cls_, ServerConfig):
             field = "server_config"
-        elif issubclass(cls, ClientConfig):
+        elif issubclass(cls_, ClientConfig):
             field = "client_config"
-        elif issubclass(cls, Server):
+        elif issubclass(cls_, Server):
             field = "server"
-        elif issubclass(cls, Client):
+        elif issubclass(cls_, Client):
             field = "client"
         else:
-            raise ValueError(f"{cls} is not a valid algorithm component")
+            raise ValueError(f"{cls_} is not a valid algorithm component")
         if name in _built_in_algorithms and field in _built_in_algorithms[name]:
-            raise ValueError(f"{name}.{field} has already been registered")
+            # raise ValueError(f"{name}.{field} has already been registered")
+            warnings.warn(f"{name}.{field} has already been registered", RuntimeWarning)
         elif name not in _built_in_algorithms:
             _built_in_algorithms[name] = {}
-        _built_in_algorithms[name][field] = cls
-        return cls
+        _built_in_algorithms[name][field] = cls_
+        return cls_
 
     return wrapper
 
