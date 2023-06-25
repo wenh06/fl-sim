@@ -43,7 +43,7 @@ def parse_args() -> List[CFG]:
     )
 
     args = vars(parser.parse_args())
-    config_file_path = Path(args["config_file_path"]).resolve()
+    config_file_path = Path(args["config_file_path"]).expanduser().resolve()
 
     assert config_file_path.exists(), f"Config file {config_file_path} not found"
     assert config_file_path.suffix in [".yml", ".yaml"], (
@@ -169,7 +169,7 @@ def single_run(config: CFG) -> None:
     # server and client configs
     builtin_algorithms = list_algorithms().copy()
     if config.algorithm.name not in builtin_algorithms:
-        algorithm_file = Path(config.algorithm.name).resolve()
+        algorithm_file = Path(config.algorithm.name).expanduser().resolve()
         if algorithm_file.suffix == ".py":
             # is a .py file
             # in this case, there should be only one algorithm in the file
@@ -178,7 +178,7 @@ def single_run(config: CFG) -> None:
             # of the form /path/to/algorithm_file_stem.algorithm_name
             # in this case, there could be multiple algorithms in the file
             algorithm_file, algorithm_name = str(algorithm_file).rsplit(".", 1)
-            algorithm_file = Path(algorithm_file + ".py").resolve()
+            algorithm_file = Path(algorithm_file + ".py").expanduser().resolve()
         assert algorithm_file.exists(), (
             f"Algorithm {config.algorithm.name} not found. "
             "Please check if the algorithm file exists and is a .py file, "

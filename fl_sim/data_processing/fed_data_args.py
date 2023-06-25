@@ -1,7 +1,6 @@
 """
 """
 
-import inspect
 from argparse import ArgumentParser
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -122,49 +121,58 @@ class FedDataArgs:
     def _create_fed_dataset_from_args(cls, args: Dict) -> FedDataset:
         fed_dataset_name = args.pop("name")
         # if args["name"] is a path to a dataset file, import the dataset from the file
-        if fed_dataset_name in list_fed_dataset():
+        builtin_fed_dataset_names = list_fed_dataset().copy()
+        if fed_dataset_name in builtin_fed_dataset_names:
             fed_dataset_cls = get_fed_dataset(fed_dataset_name)
         else:
             if fed_dataset_name.endswith(".py"):
                 # is a .py file
-                fed_dataset_file = fed_dataset_name
+                # in this case, there should be only one fed dataset class in the file
+                fed_dataset_file = Path(fed_dataset_name).expanduser().resolve()
                 fed_dataset_name = None
             else:
-                # of the form /path/to/dataset.class_name
+                # of the form /path/to/dataset_file_stem.class_name
                 fed_dataset_file, fed_dataset_name = fed_dataset_name.rsplit(".", 1)
-                fed_dataset_file += ".py"
-            fed_dataset_file = Path(fed_dataset_file).resolve()
-            assert (
-                fed_dataset_file.exists()
-            ), f"dataset file {fed_dataset_file} does not exist"
+                fed_dataset_file = Path(fed_dataset_file + ".py").expanduser().resolve()
+            assert fed_dataset_file.exists(), (
+                f"Dataset file {fed_dataset_file} not found. "
+                "Please check if the dataset file exists and is a .py file, "
+                "or of the form ``/path/to/dataset_file_stem.class_name``"
+            )
             module = load_module_from_file(fed_dataset_file)
+            # the custom federated dataset should be added to the dataset pool
+            # using the decorator @register_fed_dataset
+            new_fed_dataset_names = [
+                item
+                for item in list_fed_dataset()
+                if item not in builtin_fed_dataset_names
+            ]
             if fed_dataset_name is None:
-                for attr in dir(module):
-                    candidate = getattr(module, attr)
-                    if not inspect.isclass(candidate) or not issubclass(
-                        candidate, FedDataset
-                    ):
-                        continue
-                    if candidate.__module__.startswith("fl_sim"):
-                        continue
-                    fed_dataset_name = candidate.__name__
-                    fed_dataset_cls = candidate
-                    break
-                assert fed_dataset_name is not None, (
-                    f"dataset file {fed_dataset_file} does not contain a "
-                    "subclass of FedDataset"
-                )
-            else:
-                if hasattr(module, fed_dataset_name):
-                    fed_dataset_cls = getattr(module, fed_dataset_name)
-                else:
+                # only one fed dataset class in `new_fed_dataset_names`
+                # after `load_module_from_file`
+                if len(new_fed_dataset_names) == 0:
                     raise ValueError(
-                        f"dataset file {fed_dataset_file} does not contain "
-                        f"a class named {fed_dataset_name}"
+                        f"No federated dataset found in {fed_dataset_file}. "
+                        "Please check if the federated dataset is registered using "
+                        "the decorator ``@register_fed_dataset`` from ``fl_sim.data_processing``"
                     )
-        init_params = dict(
-            name=fed_dataset_name,
-        )
+                elif len(new_fed_dataset_names) > 1:
+                    raise ValueError(
+                        f"Multiple federated datasets found in {fed_dataset_file}. "
+                        "Please split the federated datasets into different files, "
+                        "or pass the federated dataset name in the form "
+                        "``/path/to/dataset_file_stem.class_name``"
+                    )
+                fed_dataset_name = new_fed_dataset_names[0]
+            else:
+                if fed_dataset_name not in new_fed_dataset_names:
+                    raise ValueError(
+                        f"Federated dataset {fed_dataset_name} not found in {fed_dataset_file}. "
+                        "Please check if the federated dataset is registered using "
+                        "the decorator ``@register_fed_dataset`` from ``fl_sim.data_processing``"
+                    )
+            fed_dataset_cls = get_fed_dataset(fed_dataset_name)
+        init_params = dict()
         if "datadir" in args:
             init_params["datadir"] = args.pop("datadir")
         if "seed" in args:
@@ -177,6 +185,7 @@ class FedDataArgs:
         if len(args) > 0:
             init_params["kwargs"] = args
 
+        init_params["name"] = fed_dataset_name
         obj = cls(**init_params)  # not used
 
         return ds
