@@ -1,7 +1,6 @@
 """
 """
 
-import importlib
 import inspect
 from argparse import ArgumentParser
 from dataclasses import dataclass, asdict
@@ -10,6 +9,7 @@ from typing import Optional, Dict
 
 from .fed_dataset import FedDataset
 from ._register import list_fed_dataset, get_fed_dataset
+from ..utils.imports import load_module_from_file
 
 
 __all__ = [
@@ -137,11 +137,7 @@ class FedDataArgs:
             assert (
                 fed_dataset_file.exists()
             ), f"dataset file {fed_dataset_file} does not exist"
-            spec = importlib.util.spec_from_file_location(
-                fed_dataset_file.stem, fed_dataset_file
-            )
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
+            module = load_module_from_file(fed_dataset_file)
             if fed_dataset_name is None:
                 for attr in dir(module):
                     candidate = getattr(module, attr)

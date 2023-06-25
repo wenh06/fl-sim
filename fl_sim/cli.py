@@ -5,7 +5,6 @@ Reads in a yaml file with experiment parameters and runs the experiment.
 """
 
 import argparse
-import importlib
 import inspect
 import os
 import re
@@ -21,6 +20,7 @@ from torch_ecg.cfg import CFG
 from fl_sim.algorithms import list_algorithms, get_algorithm
 from fl_sim.data_processing import FedDataArgs
 from fl_sim.utils.const import NAME
+from fl_sim.utils.imports import load_module_from_file
 
 
 def parse_args() -> List[CFG]:
@@ -167,18 +167,14 @@ def single_run(config: CFG) -> None:
         config.algorithm.server.num_clients = ds.DEFAULT_TRAIN_CLIENTS_NUM
 
     # server and client configs
-    builtin_algorithms = list_algorithms()
+    builtin_algorithms = list_algorithms().copy()
     if config.algorithm.name not in builtin_algorithms:
         algorithm_file = Path(config.algorithm.name).resolve()
         assert algorithm_file.exists() and algorithm_file.suffix == ".py", (
             f"Algorithm {config.algorithm.name} not found. "
             "Please check if the algorithm file exists and is a .py file."
         )
-        algorithm_spec = importlib.util.spec_from_file_location(
-            algorithm_file.stem, algorithm_file
-        )
-        algorithm_module = importlib.util.module_from_spec(algorithm_spec)
-        algorithm_spec.loader.exec_module(algorithm_module)
+        algorithm_module = load_module_from_file(algorithm_file)
         # the custom algorithm should be added to the algorithm pool
         # using the decorator @register_algorithm
         new_algorithms = [
