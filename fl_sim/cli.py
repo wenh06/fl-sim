@@ -170,9 +170,19 @@ def single_run(config: CFG) -> None:
     builtin_algorithms = list_algorithms().copy()
     if config.algorithm.name not in builtin_algorithms:
         algorithm_file = Path(config.algorithm.name).resolve()
-        assert algorithm_file.exists() and algorithm_file.suffix == ".py", (
+        if algorithm_file.suffix == ".py":
+            # is a .py file
+            # in this case, there should be only one algorithm in the file
+            algorithm_name = None
+        else:
+            # of the form /path/to/algorithm_file_stem.algorithm_name
+            # in this case, there could be multiple algorithms in the file
+            algorithm_file, algorithm_name = str(algorithm_file).rsplit(".", 1)
+            algorithm_file = Path(algorithm_file + ".py").resolve()
+        assert algorithm_file.exists(), (
             f"Algorithm {config.algorithm.name} not found. "
-            "Please check if the algorithm file exists and is a .py file."
+            "Please check if the algorithm file exists and is a .py file, "
+            "or of the form ``/path/to/algorithm_file_stem.algorithm_name``"
         )
         algorithm_module = load_module_from_file(algorithm_file)
         # the custom algorithm should be added to the algorithm pool
@@ -180,13 +190,32 @@ def single_run(config: CFG) -> None:
         new_algorithms = [
             item for item in list_algorithms() if item not in builtin_algorithms
         ]
-        assert len(new_algorithms) == 1, (
-            f"Algorithm {config.algorithm.name} not found. "
-            "Please check if the algorithm is registered using "
-            "the decorator @register_algorithm from fl_sim.algorithms"
-        )
-        config.algorithm.name = new_algorithms[0]
-    algorithm_dict = get_algorithm(config.algorithm.name)
+        if algorithm_name is None:
+            # only one algorithm in `new_algorithms` after `load_module_from_file`
+            if len(new_algorithms) == 0:
+                raise ValueError(
+                    f"No algorithm found in {algorithm_file}. "
+                    "Please check if the algorithm is registered using "
+                    "the decorator ``@register_algorithm`` from ``fl_sim.algorithms``"
+                )
+            elif len(new_algorithms) > 1:
+                raise ValueError(
+                    f"Multiple algorithms found in {algorithm_file}. "
+                    "Please split the algorithms into different files, "
+                    "or pass the algorithm name in the form "
+                    "``/path/to/algorithm_file_stem.algorithm_name``"
+                )
+            config.algorithm.name = new_algorithms[0]
+        else:
+            if algorithm_name not in new_algorithms:
+                raise ValueError(
+                    f"Algorithm {algorithm_name} not found in {algorithm_file}. "
+                    "Please check if the algorithm is registered using "
+                    "the decorator ``@register_algorithm`` from ``fl_sim.algorithms``"
+                )
+    else:
+        algorithm_name = config.algorithm.name  # builtin algorithm
+    algorithm_dict = get_algorithm(algorithm_name)
     server_config_cls = algorithm_dict["server_config"]
     client_config_cls = algorithm_dict["client_config"]
     server_config = server_config_cls(**(config.algorithm.server))
@@ -226,8 +255,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # typical usage:
-    # nohup python -u cli.py {{config.yml}} > .logs/cli.log 2>&1 & echo $! > .logs/cli.pid
-    # replace {{config.yml}} with the path to your config file
-
     main()
