@@ -30,7 +30,7 @@ __all__ = [
 ]
 
 
-@register_algorithm("FedPD")
+@register_algorithm()
 class FedPDServerConfig(ServerConfig):
     """Server config for the FedPD algorithm.
 
@@ -112,7 +112,7 @@ class FedPDServerConfig(ServerConfig):
         )
 
 
-@register_algorithm("FedPD")
+@register_algorithm()
 class FedPDClientConfig(ClientConfig):
     """Client config for the FedPD algorithm.
 
@@ -185,7 +185,7 @@ class FedPDClientConfig(ClientConfig):
         )
 
 
-@register_algorithm("FedPD")
+@register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.", "Server node for the FedPD algorithm."
@@ -268,7 +268,7 @@ class FedPDServer(Server):
         return ["10.1109/tsp.2021.3115952"]
 
 
-@register_algorithm("FedPD")
+@register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.", "Client node for the FedPD algorithm."

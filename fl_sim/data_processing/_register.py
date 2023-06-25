@@ -27,7 +27,10 @@ def register_fed_dataset(name: Optional[str] = None) -> Any:
 
     def wrapper(cls_: Any) -> Any:
         if name is None:
-            _name = cls_.__name__
+            if hasattr(cls_, "__name__"):
+                _name = cls_.__name__
+            else:
+                _name = cls_.__class__.__name__
         else:
             _name = name
         assert issubclass(cls_, FedDataset), f"{cls_} is not a valid dataset"

@@ -23,7 +23,7 @@ __all__ = [
 ]
 
 
-@register_algorithm("ProxSkip")
+@register_algorithm()
 class ProxSkipServerConfig(ServerConfig):
     """Server config for the ProxSkip algorithm.
 
@@ -100,7 +100,7 @@ class ProxSkipServerConfig(ServerConfig):
         )
 
 
-@register_algorithm("ProxSkip")
+@register_algorithm()
 class ProxSkipClientConfig(ClientConfig):
     """Client config for the ProxSkip algorithm.
 
@@ -164,7 +164,7 @@ class ProxSkipClientConfig(ClientConfig):
         )
 
 
-@register_algorithm("ProxSkip")
+@register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -277,7 +277,7 @@ class ProxSkipServer(Server):
         return ["10.48550/ARXIV.2202.09357"]
 
 
-@register_algorithm("ProxSkip")
+@register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

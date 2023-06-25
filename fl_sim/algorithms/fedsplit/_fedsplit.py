@@ -21,7 +21,7 @@ __all__ = [
 ]
 
 
-@register_algorithm("FedSplit")
+@register_algorithm()
 class FedSplitServerConfig(ServerConfig):
     """Server config for the FedSplit algorithm.
 
@@ -88,7 +88,7 @@ class FedSplitServerConfig(ServerConfig):
         )
 
 
-@register_algorithm("FedSplit")
+@register_algorithm()
 class FedSplitClientConfig(ClientConfig):
     """Client config for the FedSplit algorithm.
 
@@ -152,7 +152,7 @@ class FedSplitClientConfig(ClientConfig):
         )
 
 
-@register_algorithm("FedSplit")
+@register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -225,7 +225,7 @@ class FedSplitServer(Server):
         return ["10.48550/ARXIV.2005.05238"]
 
 
-@register_algorithm("FedSplit")
+@register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

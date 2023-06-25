@@ -27,7 +27,7 @@ __all__ = [
 ]
 
 
-@register_algorithm("pFedMe")
+@register_algorithm()
 class pFedMeServerConfig(ServerConfig):
     """Server config for the pFedMe algorithm.
 
@@ -93,7 +93,7 @@ class pFedMeServerConfig(ServerConfig):
         )
 
 
-@register_algorithm("pFedMe")
+@register_algorithm()
 class pFedMeClientConfig(ClientConfig):
     """Client config for the pFedMe algorithm.
 
@@ -178,7 +178,7 @@ class pFedMeClientConfig(ClientConfig):
         )
 
 
-@register_algorithm("pFedMe")
+@register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -234,7 +234,7 @@ class pFedMeServer(Server):
         return ["10.48550/ARXIV.2006.08848"]
 
 
-@register_algorithm("pFedMe")
+@register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

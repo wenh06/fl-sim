@@ -22,7 +22,7 @@ __all__ = [
 ]
 
 
-@register_algorithm("FedDR")
+@register_algorithm()
 class FedDRServerConfig(ServerConfig):
     """Server config for the FedDR algorithm.
 
@@ -101,7 +101,7 @@ class FedDRServerConfig(ServerConfig):
         )
 
 
-@register_algorithm("FedDR")
+@register_algorithm()
 class FedDRClientConfig(ClientConfig):
     """Client config for the FedDR algorithm.
 
@@ -169,7 +169,7 @@ class FedDRClientConfig(ClientConfig):
         )
 
 
-@register_algorithm("FedDR")
+@register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.", "Server node for the FedDR algorithm."
@@ -246,7 +246,7 @@ class FedDRServer(Server):
         return ["10.48550/ARXIV.2103.03452"]
 
 
-@register_algorithm("FedDR")
+@register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.", "Client node for the FedDR algorithm."

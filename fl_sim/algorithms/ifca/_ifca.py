@@ -35,7 +35,7 @@ __all__ = [
 _base_algorithm = "FedAvg"
 
 
-@register_algorithm("IFCA")
+@register_algorithm()
 class IFCAServerConfig(BaseServerConfig):
     """Server config for the IFCA algorithm.
 
@@ -106,7 +106,7 @@ class IFCAServerConfig(BaseServerConfig):
         self.num_clusters = num_clusters
 
 
-@register_algorithm("IFCA")
+@register_algorithm()
 class IFCAClientConfig(BaseClientConfig):
     """Client config for the IFCA algorithm.
 
@@ -160,7 +160,7 @@ class IFCAClientConfig(BaseClientConfig):
         self.algorithm = name
 
 
-@register_algorithm("IFCA")
+@register_algorithm()
 @add_docstring(BaseServer.__doc__.replace(_base_algorithm, "IFCA"))
 class IFCAServer(BaseServer):
 
@@ -264,7 +264,7 @@ class IFCAServer(BaseServer):
         super().aggregate_client_metrics(ignore=ignore)
 
 
-@register_algorithm("IFCA")
+@register_algorithm()
 @add_docstring(BaseClient.__doc__.replace(_base_algorithm, "IFCA"))
 class IFCAClient(BaseClient):
 

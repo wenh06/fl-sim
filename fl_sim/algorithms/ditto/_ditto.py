@@ -23,7 +23,7 @@ __all__ = [
 ]
 
 
-@register_algorithm("Ditto")
+@register_algorithm()
 class DittoServerConfig(ServerConfig):
     """Server config for the Ditto algorithm.
 
@@ -90,7 +90,7 @@ class DittoServerConfig(ServerConfig):
         )
 
 
-@register_algorithm("Ditto")
+@register_algorithm()
 class DittoClientConfig(ClientConfig):
     """Client config for the Ditto algorithm.
 
@@ -161,7 +161,7 @@ class DittoClientConfig(ClientConfig):
         )
 
 
-@register_algorithm("Ditto")
+@register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.", "Server node for the Ditto algorithm."
@@ -202,7 +202,7 @@ class DittoServer(Server):
         return ["10.48550/ARXIV.2012.04221"]
 
 
-@register_algorithm("Ditto")
+@register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.", "Client node for the Ditto algorithm."

@@ -22,7 +22,7 @@ __all__ = [
 ]
 
 
-@register_algorithm("FedProx")
+@register_algorithm()
 class FedProxServerConfig(ServerConfig):
     """Server config for the FedProx algorithm.
 
@@ -93,7 +93,7 @@ class FedProxServerConfig(ServerConfig):
         )
 
 
-@register_algorithm("FedProx")
+@register_algorithm()
 class FedProxClientConfig(ClientConfig):
     """Client config for the FedProx algorithm.
 
@@ -162,7 +162,7 @@ class FedProxClientConfig(ClientConfig):
         )
 
 
-@register_algorithm("FedProx")
+@register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -219,7 +219,7 @@ class FedProxServer(Server):
         return ["10.48550/ARXIV.1812.06127"]
 
 
-@register_algorithm("FedProx")
+@register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

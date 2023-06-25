@@ -13,7 +13,7 @@ from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
 from .._register import register_algorithm
 
 
-@register_algorithm("pFedMac")
+@register_algorithm()
 class pFedMacServerConfig(ServerConfig):
     """Server config for the pFedMac algorithm.
 
@@ -88,7 +88,7 @@ class pFedMacServerConfig(ServerConfig):
         )
 
 
-@register_algorithm("pFedMac")
+@register_algorithm()
 class pFedMacClientConfig(ClientConfig):
     """Client config for the pFedMac algorithm.
 
@@ -156,7 +156,7 @@ class pFedMacClientConfig(ClientConfig):
         )
 
 
-@register_algorithm("pFedMac")
+@register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -213,7 +213,7 @@ class pFedMacServer(Server):
         return ["10.48550/ARXIV.2107.05330"]
 
 
-@register_algorithm("pFedMac")
+@register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",

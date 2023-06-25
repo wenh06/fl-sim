@@ -22,7 +22,7 @@ __all__ = [
 ]
 
 
-@register_algorithm("SCAFFOLD")
+@register_algorithm()
 class SCAFFOLDServerConfig(ServerConfig):
     """Server config for the SCAFFOLD algorithm.
 
@@ -101,7 +101,7 @@ class SCAFFOLDServerConfig(ServerConfig):
         )
 
 
-@register_algorithm("SCAFFOLD")
+@register_algorithm()
 class SCAFFOLDClientConfig(ClientConfig):
     """Client config for the SCAFFOLD algorithm.
 
@@ -169,7 +169,7 @@ class SCAFFOLDClientConfig(ClientConfig):
         )
 
 
-@register_algorithm("SCAFFOLD")
+@register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
         "The class to simulate the server node.",
@@ -243,7 +243,7 @@ class SCAFFOLDServer(Server):
         return ["10.48550/ARXIV.1910.06378"]
 
 
-@register_algorithm("SCAFFOLD")
+@register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
         "The class to simulate the client node.",
