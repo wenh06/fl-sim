@@ -9,6 +9,7 @@ from torch.nn import Parameter
 from torch_ecg.utils import add_docstring
 
 from .base import AL_SGD_VR, AL_SGD
+from ._register import register_optimizer
 
 
 __all__ = [
@@ -17,6 +18,7 @@ __all__ = [
 ]
 
 
+@register_optimizer()
 class FedPD_VR(AL_SGD_VR):
     """Local optimizer for ``FedPD`` using SGD with variance reduction.
 
@@ -40,6 +42,7 @@ class FedPD_VR(AL_SGD_VR):
         super().__init__(params, lr=lr, mu=mu, momentum=0)
 
 
+@register_optimizer()
 @add_docstring(
     FedPD_VR.__doc__.replace(
         "Local optimizer for ``FedPD`` using SGD with variance reduction.",

@@ -8,6 +8,7 @@ from typing import Iterable, Union
 from torch.nn import Parameter
 
 from .base import ProxSGD
+from ._register import register_optimizer
 
 
 __all__ = [
@@ -15,6 +16,7 @@ __all__ = [
 ]
 
 
+@register_optimizer()
 class pFedMeOptimizer(ProxSGD):
     """Local optimizer for ``pFedMe`` using :class:`ProxSGD`.
 

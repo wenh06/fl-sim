@@ -11,6 +11,7 @@ from torch.optim.optimizer import Optimizer
 from torch_ecg.utils import add_docstring, remove_parameters_returns_from_docstring
 
 from . import functional as F
+from ._register import register_optimizer
 
 
 __all__ = [
@@ -48,6 +49,7 @@ _prox_sgd_params_doc = """
     """
 
 
+@register_optimizer()
 @add_docstring(_prox_sgd_params_doc, mode="append")
 class ProxSGD_VR(Optimizer):
     """Proximal Stochastic Gradient Descent with Variance Reduction.
@@ -187,6 +189,7 @@ class ProxSGD_VR(Optimizer):
         return loss
 
 
+@register_optimizer()
 @add_docstring(_prox_sgd_params_doc, mode="append")
 class ProxSGD(ProxSGD_VR):
     """Proximal Stochastic Gradient Descent.
@@ -220,6 +223,7 @@ class ProxSGD(ProxSGD_VR):
         return super().step(local_weights, None, closure)
 
 
+@register_optimizer()
 class SGD_VR(ProxSGD_VR):
     """Stochastic Gradient Descent with Variance Reduction.
 
@@ -302,6 +306,7 @@ _al_sgd_vr_params_doc = """
     """
 
 
+@register_optimizer()
 @add_docstring(_al_sgd_vr_params_doc, mode="append")
 class AL_SGD_VR(Optimizer):
     """Augmented Lagrangian Stochastic Gradient Descent with Variance Reduction.
@@ -441,6 +446,7 @@ class AL_SGD_VR(Optimizer):
         return loss
 
 
+@register_optimizer()
 @add_docstring(_al_sgd_vr_params_doc, mode="append")
 class AL_SGD(AL_SGD_VR):
     """Augmented Lagrangian Stochastic Gradient Descent.

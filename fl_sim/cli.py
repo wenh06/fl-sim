@@ -205,7 +205,7 @@ def single_run(config: CFG) -> None:
                     "or pass the algorithm name in the form "
                     "``/path/to/algorithm_file_stem.algorithm_name``"
                 )
-            config.algorithm.name = new_algorithms[0]
+            algorithm_name = new_algorithms[0]
         else:
             if algorithm_name not in new_algorithms:
                 raise ValueError(

@@ -7,6 +7,7 @@ from torch.nn.parameter import Parameter
 from torch_ecg.utils import add_docstring
 
 from .base import ProxSGD, ProxSGD_VR
+from ._register import register_optimizer
 
 
 __all__ = [
@@ -15,6 +16,7 @@ __all__ = [
 ]
 
 
+@register_optimizer()
 class FedProxOptimizer(ProxSGD):
     """Local optimizer for ``FedProx`` using ``ProxSGD``.
 
@@ -49,6 +51,7 @@ class FedProxOptimizer(ProxSGD):
         super().__init__(params, lr=lr, prox=mu, momentum=0)
 
 
+@register_optimizer()
 @add_docstring(
     FedProxOptimizer.__doc__.replace(
         "Local optimizer for ``FedProx`` using ``ProxSGD``.",

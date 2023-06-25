@@ -9,6 +9,7 @@ from torch.nn import Parameter
 from torch.optim.optimizer import Optimizer
 
 from . import functional as F
+from ._register import register_optimizer
 
 
 __all__ = [
@@ -16,6 +17,7 @@ __all__ = [
 ]
 
 
+@register_optimizer()
 class pFedMacOptimizer(Optimizer):
     """Local optimizer for ``pFedMac`` via maximizing correlation (Mac)
     using ``SGD`` (with variance reduction).

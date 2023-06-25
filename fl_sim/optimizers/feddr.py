@@ -6,6 +6,7 @@ from typing import Union, Iterable
 from torch.nn.parameter import Parameter
 
 from .base import ProxSGD
+from ._register import register_optimizer
 
 
 __all__ = [
@@ -13,6 +14,7 @@ __all__ = [
 ]
 
 
+@register_optimizer()
 class FedDROptimizer(ProxSGD):
     """Local optimizer for ``FedDR`` algorithm.
 
