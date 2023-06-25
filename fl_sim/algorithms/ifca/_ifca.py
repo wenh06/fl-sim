@@ -65,6 +65,8 @@ class IFCAServerConfig(BaseServerConfig):
         - ``visiable_gpus`` : Sequence[int], optional
             Visable GPU IDs for allocating devices for clients.
             Defaults to use all GPUs if available.
+        - ``extra_observes`` : List[str], optional
+            Extra attributes to observe during training.
         - ``seed`` : int, default 0
             The random seed.
         - ``tag`` : str, optional
@@ -122,6 +124,10 @@ class IFCAClientConfig(BaseClientConfig):
         - ``scheduler`` : dict, optional
             The scheduler config.
             None for no scheduler, using constant learning rate.
+        - ``extra_observes`` : List[str], optional
+            Extra attributes to observe during training,
+            which would be recorded in evaluated metrics,
+            sent to the server, and written to the log file.
         - ``verbose`` : int, default 1
             The verbosity level.
         - ``latency`` : float, default 0.0
