@@ -36,10 +36,6 @@ class SCAFFOLDServerConfig(ServerConfig):
         The ratio of clients to sample for each iteration.
     lr : float
         The learning rate.
-    client_size_aware : bool, default False
-        Whether to use client size aware model aggregation.
-    vr : bool, default False
-        Whether to use variance reduction.
     **kwargs : dict, optional
         Additional keyword arguments:
 
@@ -79,8 +75,6 @@ class SCAFFOLDServerConfig(ServerConfig):
         num_clients: int,
         clients_sample_ratio: float,
         lr: float,
-        client_size_aware: bool = False,
-        vr: bool = False,
         **kwargs: Any,
     ) -> None:
         name = self.__name__.replace("ServerConfig", "")
@@ -95,8 +89,6 @@ class SCAFFOLDServerConfig(ServerConfig):
             num_clients,
             clients_sample_ratio,
             lr=lr,
-            client_size_aware=client_size_aware,
-            vr=vr,
             **kwargs,
         )
 
@@ -115,8 +107,6 @@ class SCAFFOLDClientConfig(ClientConfig):
         The learning rate.
     control_variate_update_rule : int, default 1
         The update rule for the control variates.
-    vr : bool, default False
-        Whether to use variance reduction.
     **kwargs : dict, optional
         Additional keyword arguments:
 
@@ -143,7 +133,6 @@ class SCAFFOLDClientConfig(ClientConfig):
         num_epochs: int,
         lr: float = 1e-2,
         control_variate_update_rule: int = 1,
-        vr: bool = False,
         **kwargs: Any,
     ) -> None:
         name = self.__name__.replace("ClientConfig", "")
@@ -159,12 +148,12 @@ class SCAFFOLDClientConfig(ClientConfig):
             )
         super().__init__(
             name,
-            name,
+            # name,  # parameter explosion observed using the `SGD_VR` optimizer
+            "SGD",
             batch_size,
             num_epochs,
             lr,
             control_variate_update_rule=control_variate_update_rule,
-            vr=vr,
             **kwargs,
         )
 
@@ -189,7 +178,6 @@ class SCAFFOLDServer(Server):
         and check compatibility of server and client configs
         """
         super()._post_init()
-        assert self.config.vr == self._client_config.vr
         self._control_variates = [torch.zeros_like(p) for p in self.model.parameters()]
 
     @property
@@ -205,31 +193,17 @@ class SCAFFOLDServer(Server):
             "parameters": self.get_detached_model_parameters(),
             "control_variates": deepcopy(self._control_variates),
         }
-        if target.config.vr:
-            target._received_messages["gradients"] = [
-                p.grad.detach().clone() if p.grad is not None else torch.zeros_like(p)
-                for p in target.model.parameters()
-            ]
 
     def update(self) -> None:
-        total_samples = sum([m["train_samples"] for m in self._received_messages])
+        # SCAFFOLD paper Algorithm 1 line 16-17
+        ratio_p = self.config.lr / len(self._received_messages)
+        ratio_c = 1 / len(self._clients)
         for m in self._received_messages:
             # update global model parameters
-            if self.config.client_size_aware:
-                ratio = m["train_samples"] / total_samples
-            else:
-                # the ratio in the original paper
-                ratio = 1.0 / len(self._received_messages)
-            self.add_parameters(
-                m["parameters_delta"],
-                self.config.lr * ratio,
-            )
+            self.add_parameters(m["parameters_delta"], ratio_p)
             # update server-side control variates
-            ratio *= len(self._received_messages) / len(self._clients)
             for cv, cv_m in zip(self._control_variates, m["control_variates_delta"]):
-                cv.add_(cv_m.clone().to(self.device), alpha=ratio)
-        if self.config.vr:
-            self.update_gradients()
+                cv.add_(cv_m.clone().to(self.device), alpha=ratio_c)
 
     @property
     def config_cls(self) -> Dict[str, type]:
@@ -267,12 +241,6 @@ class SCAFFOLDClient(Client):
             torch.zeros_like(p) for p in self.model.parameters()
         ]
         self._updated_control_variates = None  # c_i^+ in the paper
-        if self.config.vr:
-            self._gradient_buffer = [
-                torch.zeros_like(p) for p in self.model.parameters()
-            ]
-        else:
-            self._gradient_buffer = None
 
     @property
     def required_config_fields(self) -> List[str]:
@@ -296,10 +264,6 @@ class SCAFFOLDClient(Client):
             "train_samples": len(self.train_loader.dataset),
             "metrics": self._metrics,
         }
-        if self.config.vr:
-            message["gradients"] = [
-                p.grad.detach().clone() for p in self.model.parameters()
-            ]
         target._received_messages.append(ClientMessage(**message))
         for cv, ucv in zip(self._control_variates, self._updated_control_variates):
             cv.copy_(ucv)
@@ -334,18 +298,17 @@ class SCAFFOLDClient(Client):
         self._server_control_variates = [
             scv.to(self.device) for scv in self._server_control_variates
         ]
-        if (
-            self.config.vr
-            and self._received_messages.get("gradients", None) is not None
-        ):
-            self._gradient_buffer = [
-                gd.clone().to(self.device)
-                for gd in self._received_messages["gradients"]
-            ]
         self.solve_inner()  # alias of self.train()
 
     def train(self) -> None:
+        # SCAFFOLD paper Algorithm 1 line 10
+        # c - c_i, control variates, compute in advance
+        variance_buffer = [
+            scv.detach().clone().sub(cv.detach().clone())
+            for scv, cv in zip(self._server_control_variates, self._control_variates)
+        ]
         self.model.train()
+        mini_batch_grads = []
         with tqdm(
             range(self.config.num_epochs),
             total=self.config.num_epochs,
@@ -361,47 +324,44 @@ class SCAFFOLDClient(Client):
                     output = self.model(X)
                     loss = self.criterion(output, y)
                     loss.backward()
-                    variance_buffer = [
-                        scv.detach().clone().sub(cv.detach().clone())
-                        for scv, cv in zip(
-                            self._server_control_variates, self._control_variates
-                        )
-                    ]
-                    if self._gradient_buffer is not None:
-                        for cv, gd in zip(variance_buffer, self._gradient_buffer):
-                            cv.add_(gd.clone())
+                    # should step or not?
                     self.optimizer.step(
-                        variance_buffer=variance_buffer,
+                        # variance_buffer=variance_buffer,
+                    )
+                    mini_batch_grads.append(
+                        [p.grad.detach().clone() for p in self.model.parameters()]
                     )
                     # free memory
                     del loss, output, X, y
+        mini_batch_grads = [
+            torch.stack(grads).mean(dim=0) for grads in zip(*mini_batch_grads)
+        ]
+        for p, g, v in zip(self.model.parameters(), mini_batch_grads, variance_buffer):
+            p = p.add(g.detach().clone().add(v.detach().clone()), alpha=-self.config.lr)
 
         # update local control variates
+        # SCAFFOLD paper Algorithm 1 line 12
         if self.config.control_variate_update_rule == 1:
             # an additional pass over the local data to compute the gradient at the server model
-            # grad_at_server_parameters = [
-            #     torch.zeros_like(p) for p in self.model.parameters()
-            # ]
             tmp_parameters = [
                 p.clone() for p in self.model.parameters()
             ]  # current model parameters
             self.set_parameters(self._cached_parameters)
+            self.optimizer.zero_grad()
             self.model.zero_grad()
+            self.model.train()
             for X, y in self.train_loader:
                 X, y = X.to(self.device), y.to(self.device)
                 output = self.model(X)
                 loss = self.criterion(output, y)
                 loss.backward()
                 # gradients are accumulated by default
-                # for gs, p in zip(grad_at_server_parameters, self.model.parameters()):
-                #     gs.add_(
-                #         p.grad.detach().clone(),
-                #         alpha=len(X) / len(self.train_loader.dataset),
-                #     )
-            grad_at_server_parameters = [
-                p.grad.detach().clone() for p in self.model.parameters()
+            # compute the gradient at the server model
+            # as the average of the accumulated gradients
+            self._updated_control_variates = [
+                p.grad.detach().clone().div_(len(self.train_loader))
+                for p in self.model.parameters()
             ]
-            self._updated_control_variates = grad_at_server_parameters
             # recover the current model parameters
             self.set_parameters(tmp_parameters)
             del tmp_parameters
@@ -413,8 +373,7 @@ class SCAFFOLDClient(Client):
                 self._cached_parameters,
                 self.get_detached_model_parameters(),
             ):
-                ucv.sub_(scv.detach().clone())
-                ucv.add_(
+                ucv.sub_(scv.detach().clone()).add_(
                     cp.detach().clone().sub(mp.detach().clone()),
                     alpha=1.0 / self.config.num_epochs / self.config.lr,
                 )

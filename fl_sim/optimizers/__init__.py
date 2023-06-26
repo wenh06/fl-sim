@@ -114,7 +114,7 @@ def get_optimizer(
     """
     if inspect.isclass(optimizer_name) and issubclass(optimizer_name, Optimizer):
         # the class is passed directly
-        optimizer = optimizer_name(params, **_get_args(optimizer_name, config))
+        optimizer = optimizer_name(params, **_get_cls_init_args(optimizer_name, config))
         step_args = inspect.getfullargspec(optimizer.step).args
         optimizer.step = add_kwargs(
             optimizer.step,
@@ -136,7 +136,7 @@ def get_optimizer(
 
     try:
         # try to use PyTorch built-in optimizer
-        _config = _get_args(eval(f"opt.{optimizer_name}"), config)
+        _config = _get_cls_init_args(eval(f"opt.{optimizer_name}"), config)
         optimizer = eval(f"opt.{optimizer_name}(params, **_config)")
         # print(f"PyTorch built-in optimizer {optimizer_name} is used.")
         step_args = inspect.getfullargspec(optimizer.step).args
@@ -154,7 +154,9 @@ def get_optimizer(
                 optimizer_cls = topt.get(optimizer_name)
             except ValueError:
                 optimizer_cls = eval(f"topt.{optimizer_name}")
-            optimizer = optimizer_cls(params, **_get_args(optimizer_cls, config))
+            optimizer = optimizer_cls(
+                params, **_get_cls_init_args(optimizer_cls, config)
+            )
             # print(f"Optimizer `{optimizer_name}` from torch_optimizer is used.")
             step_args = inspect.getfullargspec(optimizer.step).args
             optimizer.step = add_kwargs(
@@ -168,7 +170,7 @@ def get_optimizer(
 
     if isinstance(config, dict):
         # convert dict to easydict so that we can use dot notation
-        # to access config items in function `_get_args`
+        # to access config items in function `_get_cls_init_args`
         # like items in `ClientConfig` can be accessed by `config.xxx`
         config = ED(config)
 
@@ -228,7 +230,7 @@ def get_optimizer(
                     )
 
     optimizer_cls = get_builtin_optimizer(optimizer_name)
-    optimizer = optimizer_cls(params, **_get_args(optimizer_cls, config))
+    optimizer = optimizer_cls(params, **_get_cls_init_args(optimizer_cls, config))
     # step_args = inspect.getfullargspec(optimizer.step).args
     # print(f"step_args: {step_args}")
     # if not set(_extra_kwargs).issubset(set(step_args)):
@@ -240,7 +242,7 @@ def get_optimizer(
     return optimizer
 
 
-def _get_args(cls: type, config: Any) -> ED:
+def _get_cls_init_args(cls: type, config: Any) -> ED:
     """
     used to filter out the items in config that are not arguments of the class
     """
