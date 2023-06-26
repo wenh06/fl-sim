@@ -468,7 +468,16 @@ class Panel:
         self._subdir_dropdown_selector.observe(
             self._on_subdir_dropdown_change, names="value"
         )
-        self._refresh_button = widgets.Button(
+        self._subdir_refresh_button = widgets.Button(
+            description="Refresh",
+            disabled=False,
+            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            tooltip="Refresh",
+            icon="refresh",  # (FontAwesome names without the `fa-` prefix)
+        )
+        self._subdir_refresh_button.on_click(self._on_subdir_refresh_button_clicked)
+
+        self._files_refresh_button = widgets.Button(
             description="Refresh",
             disabled=False,
             button_style="",  # 'success', 'info', 'warning', 'danger' or ''
@@ -503,7 +512,7 @@ class Panel:
         self._log_files_mult_selector.observe(
             self._log_files_mult_selector_changed, names="value"
         )
-        self._refresh_button.on_click(self._on_refresh_button_clicked)
+        self._files_refresh_button.on_click(self._on_files_refresh_button_clicked)
 
         self._fig_curves, self._fig_stems = None, None
         fig_setup_slider_config = dict(
@@ -797,11 +806,13 @@ class Panel:
         # layout
         self._layout = widgets.VBox(
             [
-                self._subdir_dropdown_selector,
+                widgets.HBox(
+                    [self._subdir_dropdown_selector, self._subdir_refresh_button]
+                ),
                 widgets.HBox(
                     [
                         self._filters_input,
-                        self._refresh_button,
+                        self._files_refresh_button,
                         self._num_log_files_label,
                     ]
                 ),
@@ -878,7 +889,16 @@ class Panel:
             zip(self.log_files, self._log_files)
         )
 
-    def _on_refresh_button_clicked(self, button: widgets.Button) -> None:
+    def _on_subdir_refresh_button_clicked(self, button: widgets.Button) -> None:
+        if widgets is None or not self._is_notebook:
+            return
+        self._subdir_dropdown_selector.options = ["./"] + [
+            d.name
+            for d in self._logdir.iterdir()
+            if d.is_dir() and len(list(d.glob("*.json"))) > 0
+        ]
+
+    def _on_files_refresh_button_clicked(self, button: widgets.Button) -> None:
         if widgets is None or not self._is_notebook:
             return
         # update the list of log files
