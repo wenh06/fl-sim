@@ -87,11 +87,13 @@ def get_optimizer(
     Parameters
     ----------
     optimizer_name : Union[str, type]
-        optimizer name or class
+        Optimizer name or class
     params : Iterable[Union[dict, Parameter]]
-        parameters to be optimized
+        Parameters to be optimized
     config : Any
-        config for optimizer
+        Config for optimizer.
+        Should be a dict or a class with attributes
+        which can be accessed by `config.attr`.
 
     Returns
     -------
@@ -164,7 +166,11 @@ def get_optimizer(
         except Exception:
             pass
 
-    config = ED(config)
+    if isinstance(config, dict):
+        # convert dict to easydict so that we can use dot notation
+        # to access config items in function `_get_args`
+        # like items in `ClientConfig` can be accessed by `config.xxx`
+        config = ED(config)
 
     builtin_optimizers = list_builtin_optimizers().copy()
 
