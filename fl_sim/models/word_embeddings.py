@@ -332,12 +332,12 @@ class GensimWordEmbedding(AbstractWordEmbedding):
 
 
 class GloveEmbedding(WordEmbedding):
-    """Class for loading GLOVE word embeddings and related distances.
+    """Class for loading GloVe word embeddings and related distances.
 
     Parameters
     ----------
     name : str, default "glove.6B.300d"
-        Name of the GLOVE embedding to load. Available options are:
+        Name of the GloVe embedding to load. Available options are:
 
             - glove.6B.50d
             - glove.6B.100d
@@ -387,8 +387,9 @@ class GloveEmbedding(WordEmbedding):
 
     @staticmethod
     def get_url(name: str) -> str:
-        """Get the URL for the GLOVE embedding file."""
-        domain = "https://nlp.stanford.edu/data"
+        """Get the URL for the GloVe embedding file."""
+        # domain = "https://nlp.stanford.edu/data"
+        domain = "https://huggingface.co/stanfordnlp/glove/resolve/main"
         return {
             "glove.6B.50d": f"{domain}/glove.6B.zip",
             "glove.6B.100d": f"{domain}/glove.6B.zip",
@@ -404,7 +405,7 @@ class GloveEmbedding(WordEmbedding):
 
     @staticmethod
     def get_vocab_file(name: str = "glove.6B.300d") -> Path:
-        """Get the path to the vocab file for the GLOVE embedding file."""
+        """Get the path to the vocab file for the GloVe embedding file."""
         url = Path(GloveEmbedding.get_url(name))
         vocab_file = (
             _CACHE_DIR / url.stem / GloveEmbedding.GLOVE_EMBEDDING_NAMES[name]
@@ -415,12 +416,12 @@ class GloveEmbedding(WordEmbedding):
     def get_tokenizer(
         name: str = "glove.6B.300d", max_length: int = 256
     ) -> "GloveTokenizer":
-        """Get the tokenizer for the GLOVE embedding file.
+        """Get the tokenizer for the GloVe embedding file.
 
         Parameters
         ----------
         name : str, default "glove.6B.300d"
-            Name of the GLOVE embedding to load. Available options are:
+            Name of the GloVe embedding to load. Available options are:
 
                 - glove.6B.50d
                 - glove.6B.100d
@@ -451,7 +452,7 @@ class GloveEmbedding(WordEmbedding):
         return self.get_url(self.name)
 
     def _load_embedding(self) -> Tuple[np.ndarray, Dict[str, int], Dict[int, str]]:
-        """Load GLOVE embeddings from file.
+        """Load GloVe embeddings from file.
 
         Returns
         -------
@@ -512,11 +513,11 @@ class GloveEmbedding(WordEmbedding):
 
     @property
     def file_path(self) -> Path:
-        """File path of the GLOVE embedding file."""
+        """File path of the GloVe embedding file."""
         return self.cache_dir / self.GLOVE_EMBEDDING_NAMES[self.name]
 
     def download(self) -> None:
-        """Download the GLOVE embedding file."""
+        """Download the GloVe embedding file."""
         if not self.file_path.exists():
             super().download()
 
