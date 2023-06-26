@@ -3,6 +3,7 @@
 
 import json
 import os
+import types
 import warnings
 from abc import ABC, abstractmethod
 from itertools import repeat
@@ -318,7 +319,8 @@ class Node(ReprMixin, ABC):
             Tensor,
             np.ndarray,
             Parameter,
-            List[Union[np.ndarray, Tensor, Parameter]],
+            types.GeneratorType,
+            Sequence[Union[np.ndarray, Tensor, Parameter, types.GeneratorType]],
         ],
         norm: Union[str, int, float] = "fro",
     ) -> float:
@@ -326,7 +328,7 @@ class Node(ReprMixin, ABC):
 
         Parameters
         ----------
-        tensor : torch.Tensor or np.ndarray or torch.nn.Parameter or list
+        tensor : torch.Tensor or np.ndarray or torch.nn.Parameter or generator or list
             The tensor (array, parameter, etc.) to compute the norm.
         norm : str or int or float, default "fro"
             The norm to compute.
@@ -348,11 +350,13 @@ class Node(ReprMixin, ABC):
             tensor = [torch.from_numpy(tensor)]
         elif isinstance(tensor, Parameter):
             tensor = [tensor.data]
-        elif isinstance(tensor, list):
+        elif isinstance(tensor, (list, tuple)):
             tensor = [
                 torch.from_numpy(t) if isinstance(t, np.ndarray) else t.detach().clone()
                 for t in tensor
             ]
+        elif isinstance(tensor, types.GeneratorType):
+            return Node.get_norm(list(tensor), norm)
         else:
             raise TypeError(f"Unsupported type: {type(tensor)}")
         return torch.norm(torch.cat([t.view(-1) for t in tensor]), norm).item()
