@@ -84,7 +84,7 @@ s.train_federated()
 | [FedSplit](fl_sim/algorithms/fedsplit/) | [NeurIPS2020](https://proceedings.neurips.cc/paper/2020/hash/4ebd440d99504722d80de606ea8507da-Abstract.html) | N/A | [![test-fedsplit](https://github.com/wenh06/fl-sim/actions/workflows/test-fedsplit.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedsplit.yml) | :heavy_check_mark: :question: |
 | [FedDR](fl_sim/algorithms/feddr/)       | [NeurIPS2021](https://papers.nips.cc/paper/2021/hash/fe7ee8fc1959cc7214fa21c4840dff0a-Abstract.html) | [GitHub](https://github.com/unc-optimization/FedDR) | [![test-feddr](https://github.com/wenh06/fl-sim/actions/workflows/test-feddr.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-feddr.yml) | :interrobang: |
 | [FedPD](fl_sim/algorithms/fedpd/)       | [IEEE Trans. Signal Process](https://ieeexplore.ieee.org/document/9556559) | [GitHub](https://github.com/564612540/FedPD/) | [![test-fedpd](https://github.com/wenh06/fl-sim/actions/workflows/test-fedpd.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedpd.yml) | :interrobang: |
-| [SCAFFOLD](fl_sim/algorithms/scaffold/) | [PMLR](https://proceedings.mlr.press/v119/karimireddy20a.html) | N/A | [![test-scaffold](https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml/badge.svg)]((https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml)) | :interrobang: |
+| [SCAFFOLD](fl_sim/algorithms/scaffold/) | [PMLR](https://proceedings.mlr.press/v119/karimireddy20a.html) | N/A | [![test-scaffold](https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml/badge.svg)]((https://github.com/wenh06/fl-sim/actions/workflows/test-scaffold.yml)) | :heavy_check_mark: :question: |
 | [ProxSkip](fl_sim/algorithms/proxskip/) | [PMLR](https://proceedings.mlr.press/v162/mishchenko22b.html) | N/A | [![test-proxskip](https://github.com/wenh06/fl-sim/actions/workflows/test-proxskip.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-proxskip.yml) | :heavy_check_mark: :question: |
 | [Ditto](fl_sim/algorithms/ditto/)       | [PMLR](https://proceedings.mlr.press/v139/li21h.html) | [GitHub](https://github.com/litian96/ditto) | [![test-ditto](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml) | :heavy_check_mark: |
 | [IFCA](fl_sim/algorithms/ifca/)         | [NeurIPS2020](https://papers.nips.cc/paper_files/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html) | [GitHub](https://github.com/jichan3751/ifca) | [![test-ifca](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml) | :heavy_check_mark: |
@@ -95,10 +95,10 @@ s.train_federated()
 
 Standard Test Status Images:
 
-[Client sample ratio 10%](https://deep-psp.tech/FLSim/standard-test-ratio-10.svg)
-[Client sample ratio 30%](https://deep-psp.tech/FLSim/standard-test-ratio-30.svg)
-[Client sample ratio 70%](https://deep-psp.tech/FLSim/standard-test-ratio-70.svg)
-[Client sample ratio 100%](https://deep-psp.tech/FLSim/standard-test-ratio-100.svg)
+[Client sample ratio 10%](https://deep-psp.tech/FLSim/standard-test-ratio-10-val-acc.svg)
+[Client sample ratio 30%](https://deep-psp.tech/FLSim/standard-test-ratio-30-val-acc.svg)
+[Client sample ratio 70%](https://deep-psp.tech/FLSim/standard-test-ratio-70-val-acc.svg)
+[Client sample ratio 100%](https://deep-psp.tech/FLSim/standard-test-ratio-100-val-acc.svg)
 
 - :heavy_check_mark: means that the algorithm on the standard test cases reaches expected performance.
 - :heavy_check_mark: :question: means that the algorithm on the standard test cases is **below** expected performance.
