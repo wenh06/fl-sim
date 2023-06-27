@@ -339,6 +339,8 @@ class SCAFFOLDClient(Client):
         for p, g, v in zip(self.model.parameters(), mini_batch_grads, variance_buffer):
             p = p.add(g.detach().clone().add(v.detach().clone()), alpha=-self.config.lr)
 
+        del variance_buffer, mini_batch_grads
+
         # update local control variates
         # SCAFFOLD paper Algorithm 1 line 12
         if self.config.control_variate_update_rule == 1:
