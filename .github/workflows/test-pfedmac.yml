@@ -45,4 +45,4 @@ jobs:
         python -m pip install pytest pytest-cov # Testing packages
     - name: Run test with pytest
       run: |
-        pytest -v test/test-algorithms/test_pfedmac.py
+        pytest -v -s test/test-algorithms/test_pfedmac.py

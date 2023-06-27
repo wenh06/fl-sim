@@ -49,7 +49,7 @@ jobs:
         python -m pip freeze
     - name: Run test with pytest and collect coverage
       run: |
-        pytest -v \
+        pytest -v -s \
         --cov-config=.coveragerc \
         --cov-report term-missing \
         --cov=fl_sim \
