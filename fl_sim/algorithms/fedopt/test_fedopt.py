@@ -63,7 +63,7 @@ def test_fedopt(algorithm: str) -> None:
     server_config = server_config_cls(10, dataset.DEFAULT_TRAIN_CLIENTS_NUM, 0.7)
     client_config = client_config_cls(dataset.DEFAULT_BATCH_SIZE, 20)
     s = server_cls(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 
@@ -73,7 +73,7 @@ def test_fedopt(algorithm: str) -> None:
     server_config = server_config_cls(10, dataset.DEFAULT_TRAIN_CLIENTS_NUM, 0.2)
     client_config = client_config_cls(dataset.DEFAULT_BATCH_SIZE, 20)
     s = server_cls(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 

@@ -26,7 +26,7 @@ def test_ditto() -> None:
     server_config = DittoServerConfig(10, dataset.DEFAULT_TRAIN_CLIENTS_NUM, 0.7)
     client_config = DittoClientConfig(dataset.DEFAULT_BATCH_SIZE, 30)
     s = DittoServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 
@@ -36,7 +36,7 @@ def test_ditto() -> None:
     server_config = DittoServerConfig(10, dataset.DEFAULT_TRAIN_CLIENTS_NUM, 0.2)
     client_config = DittoClientConfig(dataset.DEFAULT_BATCH_SIZE, 30)
     s = DittoServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 

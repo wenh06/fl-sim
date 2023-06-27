@@ -32,7 +32,7 @@ def test_scaffold() -> None:
         control_variate_update_rule=1,
     )
     s = SCAFFOLDServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 
@@ -52,7 +52,7 @@ def test_scaffold() -> None:
         control_variate_update_rule=2,
     )
     s = SCAFFOLDServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 

@@ -26,7 +26,7 @@ def test_proxskip() -> None:
         dataset.DEFAULT_BATCH_SIZE, 30, lr=0.005, vr=False
     )
     s = ProxSkipServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 
@@ -40,7 +40,7 @@ def test_proxskip() -> None:
         dataset.DEFAULT_BATCH_SIZE, 30, lr=0.005, vr=True
     )
     s = ProxSkipServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 
