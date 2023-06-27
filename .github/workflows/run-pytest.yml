@@ -54,7 +54,6 @@ jobs:
         --cov-report term-missing \
         --cov=fl_sim \
         --ignore=test/test-algorithms \
-        --ignore=test/test_algorithms.py \
         test
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
