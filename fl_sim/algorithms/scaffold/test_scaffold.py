@@ -42,7 +42,7 @@ def test_scaffold() -> None:
     server_config = SCAFFOLDServerConfig(
         10,
         dataset.DEFAULT_TRAIN_CLIENTS_NUM,
-        0.5,
+        0.1,
         lr=0.01,
     )
     client_config = SCAFFOLDClientConfig(
