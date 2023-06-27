@@ -216,7 +216,7 @@ class pFedMeServer(Server):
         # aaggregate avergage model with previous model using parameter beta
         for pre_param, param in zip(previous_params, self.model.parameters()):
             param.data.mul_(self.config.beta).add_(
-                (1 - self.config.beta) * pre_param.data.detach().clone()
+                pre_param.data.detach().clone(), alpha=1 - self.config.beta
             )
 
         # clear received messages

@@ -9,6 +9,10 @@ omit =
     fl_sim/data_processing/_noniid_partition.py
     fl_sim/data_processing/leaf_sent140.py
     fl_sim/data_processing/cifar.py
+    # visualization panel requires notebook environment
+    fl_sim/utils/viz.py
+    # compressors not used currently
+    fl_sim/compressors
 
 [report]
 # Regexes for lines to exclude from consideration
