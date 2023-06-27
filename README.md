@@ -3,6 +3,7 @@
 [![formatting](https://github.com/wenh06/fl-sim/actions/workflows/check-formatting.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/check-formatting.yml)
 [![Docker CI](https://github.com/wenh06/fl-sim/actions/workflows/docker-image.yml/badge.svg?branch=docker-ci)](https://github.com/wenh06/fl-sim/actions/workflows/docker-image.yml)
 [![PyTest](https://github.com/wenh06/fl-sim/actions/workflows/run-pytest.yml/badge.svg?branch=dev)](https://github.com/wenh06/fl-sim/actions/workflows/run-pytest.yml)
+[![codecov](https://codecov.io/gh/wenh06/fl-sim/branch/master/graph/badge.svg?token=B36FC6VIFD)](https://codecov.io/gh/wenh06/fl-sim)
 
 This repository is migrated from [fl_seminar](https://github.com/wenh06/fl_seminar/tree/master/code)
 

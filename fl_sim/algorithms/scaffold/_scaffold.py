@@ -1,5 +1,7 @@
 """
 SCAFFOLD re-implemented in the new framework
+
+Warning: possible memory leak in the current version?
 """
 
 import warnings
@@ -308,7 +310,7 @@ class SCAFFOLDClient(Client):
             for scv, cv in zip(self._server_control_variates, self._control_variates)
         ]
         self.model.train()
-        mini_batch_grads = []
+        mini_batch_grads = [torch.zeros_like(p) for p in self._control_variates]
         with tqdm(
             range(self.config.num_epochs),
             total=self.config.num_epochs,
@@ -328,16 +330,16 @@ class SCAFFOLDClient(Client):
                     self.optimizer.step(
                         # variance_buffer=variance_buffer,
                     )
-                    mini_batch_grads.append(
-                        [p.grad.detach().clone() for p in self.model.parameters()]
-                    )
+                    for p, g in zip(self.model.parameters(), mini_batch_grads):
+                        g.add_(
+                            p.grad.detach().clone(), alpha=1.0 / self.config.num_epochs
+                        )
                     # free memory
                     del loss, output, X, y
-        mini_batch_grads = [
-            torch.stack(grads).mean(dim=0) for grads in zip(*mini_batch_grads)
-        ]
         for p, g, v in zip(self.model.parameters(), mini_batch_grads, variance_buffer):
             p = p.add(g.detach().clone().add(v.detach().clone()), alpha=-self.config.lr)
+
+        del variance_buffer, mini_batch_grads
 
         # update local control variates
         # SCAFFOLD paper Algorithm 1 line 12

@@ -49,12 +49,11 @@ jobs:
         python -m pip freeze
     - name: Run test with pytest and collect coverage
       run: |
-        pytest -v \
+        pytest -v -s \
         --cov-config=.coveragerc \
         --cov-report term-missing \
         --cov=fl_sim \
         --ignore=test/test-algorithms \
-        --ignore=test/test_algorithms.py \
         test
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3

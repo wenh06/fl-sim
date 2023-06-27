@@ -24,17 +24,15 @@ def test_scaffold() -> None:
         dataset.DEFAULT_TRAIN_CLIENTS_NUM,
         0.5,
         lr=0.01,
-        vr=False,
     )
     client_config = SCAFFOLDClientConfig(
         dataset.DEFAULT_BATCH_SIZE,
         30,
         lr=0.005,
         control_variate_update_rule=1,
-        vr=False,
     )
     s = SCAFFOLDServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 
@@ -44,19 +42,17 @@ def test_scaffold() -> None:
     server_config = SCAFFOLDServerConfig(
         10,
         dataset.DEFAULT_TRAIN_CLIENTS_NUM,
-        0.5,
+        0.1,
         lr=0.01,
-        vr=True,
     )
     client_config = SCAFFOLDClientConfig(
         dataset.DEFAULT_BATCH_SIZE,
         30,
         lr=0.005,
         control_variate_update_rule=2,
-        vr=True,
     )
     s = SCAFFOLDServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 

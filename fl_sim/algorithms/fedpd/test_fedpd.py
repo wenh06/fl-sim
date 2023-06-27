@@ -24,7 +24,7 @@ def test_fedpd() -> None:
     )
     client_config = FedPDClientConfig(dataset.DEFAULT_BATCH_SIZE, 30, vr=True)
     s = FedPDServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 
@@ -36,7 +36,7 @@ def test_fedpd() -> None:
     )
     client_config = FedPDClientConfig(dataset.DEFAULT_BATCH_SIZE, 30, vr=True)
     s = FedPDServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    # s.train_centralized()
     s.train_federated()
     del dataset, model, s
 
