@@ -103,7 +103,7 @@ if mpl is not None:
         "Nimbus Sans",  # alternative to Helvetica
         "CMU Serif",  # Computer Modern Roman, default for LaTeX, serif font
         "JDLangZhengTi",  # sans-serif font for Chinese
-        "Times New Roman",  # less recommended with serif font
+        "Times New Roman",  # less recommended, serif font
         "DejaVu Sans",  # default sans-serif font for matplotlib
     ]
     _fonts_priority = [item for item in _fonts_priority if item in _font_names]
@@ -411,8 +411,9 @@ class Panel:
     2. ~~add a input box and a button for saving the figure~~(done)
     3. ~~add a box for showing the config of the experiment~~(done)
     4. ~~use `ToggleButtons` or `TagsInput` to specify indicators for merging multiple curves~~(done)
-    5. add choices (via `Dropdown`) for color palette
+    5. ~~add choices (via `Dropdown`) for color palette~~(done)
     6. ~~add a dropdown selector for the sub-directories of the log directory~~(done)
+    7. load all the log files in background into a file-level cache buffer
 
     """
 
@@ -449,6 +450,7 @@ class Panel:
         sns.set()
         self.reset_matplotlib(rc_params=self._rc_params)
         self._debug = debug
+        self._debug_log_sep = "-" * 80
 
         self._curve_cache = {}
 
@@ -1116,6 +1118,9 @@ class Panel:
                     if len(indices) < len(self._log_files_mult_selector.value):
                         # second, fetch from the log files
                         for idx, item in enumerate(self._log_files_mult_selector.value):
+                            if idx in indices:
+                                # skip if already loaded
+                                continue
                             (
                                 new_fig_curves,
                                 new_fig_stems,
@@ -1147,6 +1152,7 @@ class Panel:
                 if self._debug:
                     with self._debug_message_area:
                         print(f"self._fig_stems: {self._fig_stems}")
+                        print(self._debug_log_sep)
                 self.fig, self.ax = plt.subplots(
                     figsize=self._rc_params["figure.figsize"]
                 )
@@ -1154,8 +1160,16 @@ class Panel:
                 linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
                 if self._merge_curve_tags_input is not None:
                     common_substring = find_longest_common_substring(
-                        self._fig_stems, min_len=5
+                        self._fig_stems,
+                        min_len=5,
+                        ignore=self._merge_curve_tags_input.value[0]
+                        if len(self._merge_curve_tags_input.value) == 1
+                        else None,
                     )
+                    if self._debug:
+                        with self._debug_message_area:
+                            print(f"common_substring: {common_substring}")
+                            print(self._debug_log_sep)
                     _fig_stems = [
                         item.replace(common_substring, "-") for item in self._fig_stems
                     ]
