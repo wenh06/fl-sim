@@ -274,7 +274,7 @@ class Node(ReprMixin, ABC):
         model: Optional[torch.nn.Module] = None,
     ) -> Union[float, List[Tensor]]:
         """Get the gradients or norm of the gradients
-        of the (local) model on the client.
+        of the model on the node.
 
         Parameters
         ----------
@@ -284,7 +284,7 @@ class Node(ReprMixin, ABC):
             refer to :func:`torch.norm` for more details.
         model : torch.nn.Module, optional
             The model to get the gradients,
-            default to the local model (self.model).
+            default to `self.model`.
 
         Returns
         -------
@@ -360,6 +360,29 @@ class Node(ReprMixin, ABC):
         else:
             raise TypeError(f"Unsupported type: {type(tensor)}")
         return torch.norm(torch.cat([t.view(-1) for t in tensor]), norm).item()
+
+    def set_parameters(
+        self, params: Iterable[Parameter], model: Optional[torch.nn.Module] = None
+    ) -> None:
+        """Set the parameters of the model on the node.
+
+        Parameters
+        ----------
+        params : Iterable[torch.nn.Parameter]
+            The parameters to set.
+        model : torch.nn.Module, optional
+            The model to set the parameters,
+            default to `self.model`.
+
+        Returns
+        -------
+        None
+
+        """
+        if model is None:
+            model = self.model
+        for node_param, param in zip(model.parameters(), params):
+            node_param.data = param.data.detach().clone().to(self.device)
 
     @staticmethod
     def aggregate_results_from_csv_log(
@@ -1495,29 +1518,6 @@ class Client(Node):
         # free the memory
         del all_logits, all_labels, X, y
         return self._metrics[part]
-
-    def set_parameters(
-        self, params: Iterable[Parameter], model: Optional[torch.nn.Module] = None
-    ) -> None:
-        """Set the parameters of the (local) model on the client.
-
-        Parameters
-        ----------
-        params : Iterable[torch.nn.Parameter]
-            The parameters to set.
-        model : torch.nn.Module, optional
-            The model to set the parameters,
-            default to the local model (self.model).
-
-        Returns
-        -------
-        None
-
-        """
-        if model is None:
-            model = self.model
-        for client_param, param in zip(model.parameters(), params):
-            client_param.data = param.data.detach().clone().to(self.device)
 
     def get_all_data(self) -> Tuple[Tensor, Tensor]:
         """Get all the data on the client.
