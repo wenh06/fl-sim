@@ -345,28 +345,9 @@ class SCAFFOLDClient(Client):
         # SCAFFOLD paper Algorithm 1 line 12
         if self.config.control_variate_update_rule == 1:
             # an additional pass over the local data to compute the gradient at the server model
-            tmp_parameters = [
-                p.clone() for p in self.model.parameters()
-            ]  # current model parameters
-            self.set_parameters(self._cached_parameters)
-            self.optimizer.zero_grad()
-            self.model.zero_grad()
-            self.model.train()
-            for X, y in self.train_loader:
-                X, y = X.to(self.device), y.to(self.device)
-                output = self.model(X)
-                loss = self.criterion(output, y)
-                loss.backward()
-                # gradients are accumulated by default
-            # compute the gradient at the server model
-            # as the average of the accumulated gradients
-            self._updated_control_variates = [
-                p.grad.detach().clone().div_(len(self.train_loader))
-                for p in self.model.parameters()
-            ]
-            # recover the current model parameters
-            self.set_parameters(tmp_parameters)
-            del tmp_parameters
+            self._updated_control_variates = self.compute_gradients(
+                at=self._cached_parameters
+            )
         elif self.config.control_variate_update_rule == 2:
             self._updated_control_variates = deepcopy(self._control_variates)
             for ucv, scv, cp, mp in zip(

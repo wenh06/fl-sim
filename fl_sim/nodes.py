@@ -314,7 +314,7 @@ class Node(ReprMixin, ABC):
             loss.backward()
         mini_batch_grads = [p.grad.detach().clone() for p in self.model.parameters()]
         # set the model state back and clear the gradients
-        self.model.load_state_dict(prev_model_state_dict, map_location=self.device)
+        self.model.load_state_dict(prev_model_state_dict)
         self.optimizer.zero_grad()
         self.model.train(prev_training)
         # garbage collection
