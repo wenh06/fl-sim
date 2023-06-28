@@ -414,6 +414,7 @@ class Panel:
     5. ~~add choices (via `Dropdown`) for color palette~~(done)
     6. ~~add a dropdown selector for the sub-directories of the log directory~~(done)
     7. load all the log files in background into a file-level cache buffer
+    8. use tabs to separate and add more configurations
 
     """
 
@@ -738,17 +739,30 @@ class Panel:
         self._clear_button = widgets.Button(
             description="Clear",
             disabled=False,
-            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            button_style="danger",  # 'success', 'info', 'warning', 'danger' or ''
             tooltip="Clear",
             icon="eraser",  # (FontAwesome names without the `fa-` prefix)
+            # layout={"width": "100px",},
         )
         self._clear_button.on_click(self._on_clear_button_clicked)
+
+        self._style_dropdown_selector = widgets.Dropdown(
+            options=["darkgrid", "whitegrid", "dark", "white", "ticks"],
+            value="darkgrid",
+            description="Style:",
+            style={"description_width": "initial"},
+            layout={"width": "150px"},
+        )
+        self._style_dropdown_selector.observe(
+            self._on_style_dropdown_selector_value_changed, names="value"
+        )
 
         self._font_dropdown_selector = widgets.Dropdown(
             options=_fonts_priority,
             value=_fonts_priority[0],
             description="Font family:",
             style={"description_width": "initial"},
+            layout={"width": "200px"},
         )
         self._font_dropdown_selector.observe(
             self._on_font_dropdown_selector_value_changed, names="value"
@@ -759,6 +773,7 @@ class Panel:
             value="tab10",
             description="Palette:",
             style={"description_width": "initial"},
+            layout={"width": "150px"},
         )
         self._palette_dropdown_selector.observe(
             self._on_palette_dropdown_selector_value_changed, names="value"
@@ -780,6 +795,7 @@ class Panel:
             options=["pdf", "svg", "png", "jpg", "ps"],
             description="Save format:",
             style={"description_width": "initial"},
+            layout={"width": "150px"},
         )
         self._savefig_button = widgets.Button(
             description="Save",
@@ -795,6 +811,7 @@ class Panel:
 
         self._log_file_dropdown_selector = widgets.Dropdown(
             options=list(zip(self.log_files, self._log_files)),
+            value=None,
             description="Select log file:",
             disabled=False,
             layout={"width": "500px"},
@@ -832,8 +849,9 @@ class Panel:
                     [
                         self._show_button,
                         self._clear_button,
-                        self._font_dropdown_selector,
+                        self._style_dropdown_selector,
                         self._palette_dropdown_selector,
+                        self._font_dropdown_selector,
                     ],
                     layout=widgets.Layout(align_items="center"),
                 ),
@@ -867,6 +885,9 @@ class Panel:
 
         display(self._layout)
 
+        with self._show_config_area:
+            print("Select a log file to show its config.")
+
     def _on_subdir_dropdown_change(self, change: dict) -> None:
         if widgets is None or not self._is_notebook:
             return
@@ -890,6 +911,10 @@ class Panel:
         self._log_file_dropdown_selector.options = list(
             zip(self.log_files, self._log_files)
         )
+        self._log_file_dropdown_selector.value = None
+        self._show_config_area.clear_output(wait=False)
+        with self._show_config_area:
+            print("Select a log file to show its config.")
 
     def _on_subdir_refresh_button_clicked(self, button: widgets.Button) -> None:
         if widgets is None or not self._is_notebook:
@@ -1060,6 +1085,17 @@ class Panel:
     ) -> None:
         if widgets is None or not self._is_notebook:
             return
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_style_dropdown_selector_value_changed(self, change: dict) -> None:
+        if widgets is None or not self._is_notebook:
+            return
+        if (
+            isinstance(change["new"], str)
+            and change["new"] in self._style_dropdown_selector.options
+        ):
+            sns.set_style(change["new"])
         if self._show_fig_flag:
             self._show_fig()
 
