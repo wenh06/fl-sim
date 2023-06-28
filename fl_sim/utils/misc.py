@@ -347,7 +347,7 @@ def is_notebook() -> bool:
 
 
 def find_longest_common_substring(
-    strings: Sequence[str], min_len: Optional[int] = None
+    strings: Sequence[str], min_len: Optional[int] = None, ignore: Optional[str] = None
 ) -> str:
     """Find the longest common substring of a list of strings.
 
@@ -357,6 +357,8 @@ def find_longest_common_substring(
         The list of strings.
     min_len : int, optional
         The minimum length of the common substring.
+    ignore : str, optional
+        The substring to be ignored.
 
     Returns
     -------
@@ -370,6 +372,8 @@ def find_longest_common_substring(
             for j in range(len(strings[0]) - i + 1):
                 if j > len(substr) and all(strings[0][i : i + j] in x for x in strings):
                     substr = strings[0][i : i + j]
+    if ignore is not None and ignore in substr:
+        substr = max(substr.split(ignore), key=len)
     if min_len is not None and len(substr) < min_len:
         return ""
     return substr

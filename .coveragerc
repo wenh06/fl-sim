@@ -12,7 +12,7 @@ omit =
     # visualization panel requires notebook environment
     fl_sim/utils/viz.py
     # compressors not used currently
-    fl_sim/compressors
+    fl_sim/compressors/*
 
 [report]
 # Regexes for lines to exclude from consideration
