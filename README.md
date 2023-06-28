@@ -119,6 +119,7 @@ The `Client` class is the base class for all clients.
 The abstract base class `Node` provides the following basic functionalities:
 
 - `get_detached_model_parameters`: get the model parameters of the node in a detached form.
+- `compute_gradients`: compute the gradients at specified model parameters (default: current model parameters on the node) using specified data (default: training data on the node).
 - `get_gradients`: get the gradients, or norm of the gradients, of the model parameters of the node.
 - `get_norm`: get the norm of given tensors or numpy arrays.
 - `set_parameters`: set the model parameters of the node.

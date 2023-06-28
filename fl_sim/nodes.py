@@ -268,6 +268,60 @@ class Node(ReprMixin, ABC):
         """Get the detached model parameters."""
         return [p.detach().clone() for p in self.model.parameters()]
 
+    def compute_gradients(
+        self,
+        at: Optional[Sequence[Tensor]] = None,
+        dataloader: Optional[DataLoader] = None,
+    ) -> List[Tensor]:
+        """Compute the gradients of the model on the node.
+
+        The gradients are computed on the model parameters `at` or the current model parameters,
+        as the average of the gradients on the mini-batches from `dataloader` or `self.train_loader`.
+
+        Parameters
+        ----------
+        at : list of torch.Tensor, optional
+            The model parameters to compute the gradients.
+            None for the current model parameters.
+        dataloader : torch.utils.data.DataLoader, optional
+            The dataloader to compute the gradients.
+            None for `self.train_loader`.
+
+        """
+        prev_training = self.model.training
+        prev_model_state_dict = self.model.state_dict()
+        if at is not None:
+            self.set_parameters(at)
+        if dataloader is None:
+            assert (
+                hasattr(self, "train_loader") and self.train_loader is not None
+            ), "train_loader is not set"
+            dataloader = self.train_loader
+        assert len(dataloader) > 0, "empty dataloader"
+
+        self.model.train()
+        self.optimizer.zero_grad()
+        total_samples = len(dataloader.dataset)
+        for X, y in dataloader:
+            X, y = X.to(self.device), y.to(self.device)
+            y_pred = self.model(X)
+            loss = self.criterion(y_pred, y) * len(X) / total_samples
+            # gradients are accumulated after each backward pass
+            # one should **NOT** call `optimizer.zero_grad()` before the backward pass
+            # and should **NOT** call `optimizer.step()` after the backward pass
+            # since the model parameters should not be updated
+            # otherwise, the result is not the gradients **at** ``at``
+            loss.backward()
+        mini_batch_grads = [p.grad.detach().clone() for p in self.model.parameters()]
+        # set the model state back and clear the gradients
+        self.model.load_state_dict(prev_model_state_dict, map_location=self.device)
+        self.optimizer.zero_grad()
+        self.model.train(prev_training)
+        # garbage collection
+        del prev_model_state_dict
+
+        return mini_batch_grads
+
     def get_gradients(
         self,
         norm: Optional[Union[str, int, float]] = None,
