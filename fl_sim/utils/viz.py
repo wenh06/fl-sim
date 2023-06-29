@@ -659,11 +659,18 @@ class Panel:
             layout={"width": "200px"},
         )
         self._refresh_part_metric_button = widgets.Button(
-            description="Refresh part/metric",
+            description="Refresh part/metric/ylabel",
             disabled=False,
-            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            button_style="warning",  # 'success', 'info', 'warning', 'danger' or ''
             tooltip="Refresh part/metric",
             icon="refresh",  # (FontAwesome names without the `fa-` prefix)
+            layout={"width": "200px"},
+        )
+        self._ylabel_input = widgets.Text(
+            value="",
+            placeholder="Test/Train/Val Accuracy/Loss/...",
+            description="Y label:",
+            style={"description_width": "initial"},
         )
         self._refresh_part_metric_button.on_click(
             self._on_refresh_part_metric_button_clicked
@@ -703,17 +710,13 @@ class Panel:
             self._merge_curve_tags_input.observe(
                 self._on_merge_curve_tags_input_value_changed, names="value"
             )
-            merge_curve_tags_box = widgets.VBox(
+            merge_curve_tags_box = widgets.HBox(
                 [
-                    widgets.HBox(
-                        [
-                            self._merge_curve_method_dropdown_selector,
-                            widgets.Label("Merge tags:"),
-                            self._merge_curve_tags_input,
-                        ]
-                    ),
+                    self._merge_curve_method_dropdown_selector,
+                    widgets.Label("Merge tags:"),
+                    self._merge_curve_tags_input,
                     self._merge_curve_with_err_bound_label_checkbox,
-                ],
+                ]
             )
         else:  # TagsInput was added in ipywidgets 8.x
             self._merge_curve_tags_input = None
@@ -840,6 +843,7 @@ class Panel:
                     [
                         self._part_input,
                         self._metric_input,
+                        self._ylabel_input,
                         self._refresh_part_metric_button,
                     ]
                 ),
@@ -1252,9 +1256,12 @@ class Panel:
                     )
                 else:
                     self.ax.legend(loc="best")
-                self.ax.set_ylabel(
-                    f"{self._part_input.value} {self._metric_input.value}"
-                )
+                if self._ylabel_input.value:  # not None or empty string
+                    self.ax.set_ylabel(self._ylabel_input.value)
+                else:
+                    self.ax.set_ylabel(
+                        f"{self._part_input.value} {self._metric_input.value}"
+                    )
                 self.ax.set_xlabel("Global Iter.")
                 # widgets.widgets.interaction.show_inline_matplotlib_plots()
                 # show_inline_matplotlib_plots might not work well for older versions of
