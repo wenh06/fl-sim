@@ -792,7 +792,7 @@ class Panel:
             description="Save filename:",
             style={"description_width": "initial"},
             placeholder="only filename, no extension",
-            layout={"width": "350px"},
+            layout={"width": "400px"},
         )
         self._savefig_format_dropdown_selector = widgets.Dropdown(
             value="pdf",
@@ -800,6 +800,18 @@ class Panel:
             description="Save format:",
             style={"description_width": "initial"},
             layout={"width": "150px"},
+        )
+        self._savefig_dpi_slider = widgets.IntSlider(
+            value=600,
+            min=100,
+            max=1000,
+            step=20,
+            description="DPI:",
+            orientation="horizontal",
+            readout=True,
+            readout_format="d",
+            style={"description_width": "initial"},
+            layout={"width": "300px"},
         )
         self._savefig_button = widgets.Button(
             description="Save",
@@ -864,6 +876,7 @@ class Panel:
                         self._savefig_dir_input,
                         self._savefig_filename_input,
                         self._savefig_format_dropdown_selector,
+                        self._savefig_dpi_slider,
                     ],
                     layout=widgets.Layout(align_items="center"),
                 ),
@@ -1310,7 +1323,7 @@ class Panel:
                 return
             self.fig.savefig(
                 save_fig_filename,
-                dpi=600,
+                dpi=self._savefig_dpi_slider.value,
                 bbox_inches="tight",
             )
             print(f"Figure saved to {save_fig_filename}")
