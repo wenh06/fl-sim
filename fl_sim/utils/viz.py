@@ -792,6 +792,7 @@ class Panel:
             description="Save filename:",
             style={"description_width": "initial"},
             placeholder="only filename, no extension",
+            layout={"width": "350px"},
         )
         self._savefig_format_dropdown_selector = widgets.Dropdown(
             value="pdf",
@@ -825,57 +826,67 @@ class Panel:
             self._on_log_file_dropdown_selector_change, names="value"
         )
 
-        # layout
-        self._layout = widgets.VBox(
+        # layout, from top to bottom
+        subdir_selection_hbox = widgets.HBox(
+            [self._subdir_dropdown_selector, self._subdir_refresh_button]
+        )
+        file_filters_hbox = widgets.HBox(
+            [
+                self._filters_input,
+                self._files_refresh_button,
+                self._num_log_files_label,
+            ]
+        )
+        # self._log_files_mult_selector
+        data_selection_hbox = widgets.HBox(
+            [
+                self._part_input,
+                self._metric_input,
+                self._ylabel_input,
+                self._refresh_part_metric_button,
+            ]
+        )
+        viz_layout_option_hbox = widgets.HBox(
+            [
+                self._show_button,
+                self._clear_button,
+                self._style_dropdown_selector,
+                self._palette_dropdown_selector,
+                self._font_dropdown_selector,
+            ],
+            layout=widgets.Layout(align_items="center"),
+        )
+        # self._canvas
+        savefig_box = widgets.VBox(
             [
                 widgets.HBox(
-                    [self._subdir_dropdown_selector, self._subdir_refresh_button]
-                ),
-                widgets.HBox(
                     [
-                        self._filters_input,
-                        self._files_refresh_button,
-                        self._num_log_files_label,
-                    ]
-                ),
-                self._log_files_mult_selector,
-                widgets.HBox(
-                    [
-                        self._part_input,
-                        self._metric_input,
-                        self._ylabel_input,
-                        self._refresh_part_metric_button,
-                    ]
-                ),
-                slider_box,
-                merge_curve_tags_box,
-                widgets.HBox(
-                    [
-                        self._show_button,
-                        self._clear_button,
-                        self._style_dropdown_selector,
-                        self._palette_dropdown_selector,
-                        self._font_dropdown_selector,
+                        self._savefig_dir_input,
+                        self._savefig_filename_input,
+                        self._savefig_format_dropdown_selector,
                     ],
                     layout=widgets.Layout(align_items="center"),
                 ),
-                widgets.Box([self._canvas]),
-                widgets.VBox(
-                    [
-                        widgets.HBox(
-                            [
-                                self._savefig_dir_input,
-                                self._savefig_filename_input,
-                                self._savefig_format_dropdown_selector,
-                            ],
-                            layout=widgets.Layout(align_items="center"),
-                        ),
-                        widgets.HBox(
-                            [self._savefig_button, self._savefig_message_area],
-                            layout=widgets.Layout(align_items="center"),
-                        ),
-                    ],
+                widgets.HBox(
+                    [self._savefig_button, self._savefig_message_area],
+                    layout=widgets.Layout(align_items="center"),
                 ),
+            ],
+        )
+        # self._log_file_dropdown_selector
+        # self._show_config_area
+
+        self._layout = widgets.VBox(
+            [
+                subdir_selection_hbox,
+                file_filters_hbox,
+                self._log_files_mult_selector,
+                data_selection_hbox,
+                slider_box,
+                merge_curve_tags_box,
+                viz_layout_option_hbox,
+                widgets.Box([self._canvas]),
+                savefig_box,
                 self._log_file_dropdown_selector,
                 self._show_config_area,
             ]
