@@ -232,6 +232,7 @@ def _plot_curves(
     curves: Sequence[np.ndarray],
     labels: Sequence[str],
     fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
+    markers: bool = True,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """Plot the curves.
 
@@ -243,6 +244,8 @@ def _plot_curves(
         The labels.
     fig_ax : Tuple[plt.Figure, plt.Axes]
         The figure and axes to plot on.
+    markers : bool, default True
+        Whether to use markers.
 
     """
     if fig_ax is None:
@@ -254,7 +257,8 @@ def _plot_curves(
     marker_cycle = itertools.cycle(_marker_cycle)
     plot_config = dict()
     for idx, curve in enumerate(curves):
-        plot_config["marker"] = next(marker_cycle)
+        if markers:
+            plot_config["marker"] = next(marker_cycle)
         plot_config["linestyle"] = next(linestyle_cycle)
         plot_config["label"] = labels[idx]
         ax.plot(curve, **plot_config)
@@ -710,13 +714,17 @@ class Panel:
             self._merge_curve_tags_input.observe(
                 self._on_merge_curve_tags_input_value_changed, names="value"
             )
-            merge_curve_tags_box = widgets.HBox(
+            merge_curve_tags_box = widgets.VBox(
                 [
-                    self._merge_curve_method_dropdown_selector,
-                    widgets.Label("Merge tags:"),
-                    self._merge_curve_tags_input,
+                    widgets.HBox(
+                        [
+                            self._merge_curve_method_dropdown_selector,
+                            widgets.Label("Merge tags:"),
+                            self._merge_curve_tags_input,
+                        ]
+                    ),
                     self._merge_curve_with_err_bound_label_checkbox,
-                ]
+                ],
             )
         else:  # TagsInput was added in ipywidgets 8.x
             self._merge_curve_tags_input = None
@@ -780,6 +788,26 @@ class Panel:
         )
         self._palette_dropdown_selector.observe(
             self._on_palette_dropdown_selector_value_changed, names="value"
+        )
+
+        self._markers_checkbox = widgets.Checkbox(
+            value=True,
+            description="Show markers",
+            style={"description_width": "initial"},
+            layout={"width": "150px"},
+        )
+        self._markers_checkbox.observe(
+            self._on_markers_checkbox_value_changed, names="value"
+        )
+
+        self._despine_checkbox = widgets.Checkbox(
+            value=False,
+            description="Despine",
+            style={"description_width": "initial"},
+            layout={"width": "100px"},
+        )
+        self._despine_checkbox.observe(
+            self._on_despine_checkbox_value_changed, names="value"
         )
 
         self._savefig_dir_input = widgets.Text(
@@ -865,6 +893,8 @@ class Panel:
                 self._style_dropdown_selector,
                 self._palette_dropdown_selector,
                 self._font_dropdown_selector,
+                self._markers_checkbox,
+                self._despine_checkbox,
             ],
             layout=widgets.Layout(align_items="center"),
         )
@@ -1144,6 +1174,18 @@ class Panel:
         if self._show_fig_flag:
             self._show_fig()
 
+    def _on_markers_checkbox_value_changed(self, change: dict) -> None:
+        if widgets is None or not self._is_notebook:
+            return
+        if self._show_fig_flag:
+            self._show_fig()
+
+    def _on_despine_checkbox_value_changed(self, change: dict) -> None:
+        if widgets is None or not self._is_notebook:
+            return
+        if self._show_fig_flag:
+            self._show_fig()
+
     def _on_show_button_clicked(self, button: widgets.Button) -> None:
         if widgets is None or not self._is_notebook:
             return
@@ -1277,6 +1319,7 @@ class Panel:
                         ],
                         [self._fig_stems[idx] for idx in raw_indices],
                         fig_ax=(self.fig, self.ax),
+                        markers=self._markers_checkbox.value,
                     )
                 else:
                     self.ax.legend(loc="best")
@@ -1287,6 +1330,14 @@ class Panel:
                         f"{self._part_input.value} {self._metric_input.value}"
                     )
                 self.ax.set_xlabel("Global Iter.")
+                if self._despine_checkbox.value:
+                    if self._style_dropdown_selector.value in ["white", "ticks"]:
+                        self.ax.spines.right.set_visible(False)
+                        self.ax.spines.top.set_visible(False)
+                    if self._style_dropdown_selector.value in ["ticks"]:
+                        self.ax.yaxis.set_ticks_position("left")
+                        self.ax.xaxis.set_ticks_position("bottom")
+
                 # widgets.widgets.interaction.show_inline_matplotlib_plots()
                 # show_inline_matplotlib_plots might not work well for older versions of
                 # related packages or systems
