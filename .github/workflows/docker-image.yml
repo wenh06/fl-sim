@@ -11,7 +11,7 @@ jobs:
 
   build:
     # Don't run on forked repos.
-    if: github.repository_owner == 'wenh06'
+    if: contains(fromJson('["wenh06"]'), github.repository_owner)
 
     runs-on: ubuntu-20.04
 
