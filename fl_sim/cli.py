@@ -8,6 +8,7 @@ import argparse
 import inspect
 import os
 import re
+import warnings
 from collections import OrderedDict
 from copy import deepcopy
 from itertools import product
@@ -79,6 +80,39 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
     if configs.get("env", None) is not None:
         for k, v in configs["env"].items():
             os.environ[k] = str(v)
+
+    if "strategy" not in configs or "matrix" not in configs["strategy"]:
+        # no matrix specified, run a single experiment
+        # replace pattern of the form ${{ xx.xx... }} with corresponding value
+        new_file_content = deepcopy(file_content)
+        new_config = CFG(yaml.safe_load(new_file_content))
+        pattern = re.compile(
+            "\\$\\{\\{ (?:\\s+)?(?P<repkey>\\w[\\.\\w]+\\w)(?:\\s+)?\\}\\}"
+        )
+        matches = re.finditer(pattern, new_file_content)
+        for match in matches:
+            repkey = match.group("repkey")
+            try:
+                repval = eval(f"new_config.{repkey}")
+            except Exception:
+                raise ValueError(f"Invalid key {repkey} in {config_file_path}")
+            rep_pattern = re.compile(f"\\$\\{{{{(?:\\s+)?{repkey}(?:\\s+)?}}}}")
+            new_file_content = re.sub(
+                rep_pattern,
+                re.sub("(\\n[\\.]{3})?\\n$", "", yaml.safe_dump(repval)),
+                new_file_content,
+                count=1,
+            )
+        new_config = CFG(yaml.safe_load(new_file_content))
+        new_config.pop("strategy", None)
+        if "strategy" in configs and configs["strategy"].get("n_parallel", 1) != 1:
+            warnings.warn(
+                "`n_parallel` is not supported for single experiment, "
+                "ignoring `n_parallel`"
+            )
+        configs = [new_config]
+        n_parallel = 1
+        return configs, n_parallel
 
     # number of parallel runs
     # currently not implemented, but kept for future use
