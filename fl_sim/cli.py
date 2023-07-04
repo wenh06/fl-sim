@@ -12,7 +12,7 @@ from collections import OrderedDict
 from copy import deepcopy
 from itertools import product
 from pathlib import Path
-from typing import List, Union
+from typing import List, Tuple, Union
 
 import yaml
 from torch_ecg.cfg import CFG
@@ -54,7 +54,7 @@ def parse_args() -> List[CFG]:
     return parse_config_file(config_file_path)
 
 
-def parse_config_file(config_file_path: Union[str, Path]) -> List[CFG]:
+def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], int]:
     """Parse config file.
 
     Parameters
@@ -79,6 +79,10 @@ def parse_config_file(config_file_path: Union[str, Path]) -> List[CFG]:
     if configs.get("env", None) is not None:
         for k, v in configs["env"].items():
             os.environ[k] = str(v)
+
+    # number of parallel runs
+    # currently not implemented, but kept for future use
+    n_parallel = int(configs["strategy"].get("n_parallel", 1))
 
     # further process configs to a list of configs
     # by replacing values of the pattern ${{ matrix.key }} with the value of key
@@ -123,7 +127,7 @@ def parse_config_file(config_file_path: Union[str, Path]) -> List[CFG]:
         new_config.pop("strategy")
         configs.append(new_config)
 
-    return configs
+    return configs, n_parallel
 
 
 def single_run(config: CFG) -> None:
@@ -248,7 +252,7 @@ def single_run(config: CFG) -> None:
 
 
 def main():
-    configs = parse_args()
+    configs, n_parallel = parse_args()
     # TODO: run multiple experiments in parallel using Ray, etc.
     for config in configs:
         single_run(config)

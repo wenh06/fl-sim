@@ -20,6 +20,7 @@ strategy:
     - 0.3
     # - 0.7
     # - 1.0
+  n_parallel: 1  # number of parallel jobs, not supported yet but kept for future use
 
 algorithm:
   name: ${{ matrix.algorithm }}

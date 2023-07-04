@@ -9,6 +9,7 @@ strategy:
     - 2
     - 3
     - 4
+  n_parallel: 1  # number of parallel jobs, not supported yet but kept for future use
 
 algorithm:
   name: FedAvg
