@@ -2,10 +2,14 @@
 """
 
 import sys
+from itertools import product
 from pathlib import Path
 from typing import Dict, List
 
 sys.path.append(str(Path(__file__).parents[1].resolve()))
+
+import numpy as np
+import torch
 
 from fl_sim.nodes import (
     Server,
@@ -105,6 +109,41 @@ class DummyClient(Client):
         pass
 
 
+def test_aggregate_results_from_json_log():
+    json_log_file = list(
+        (Path(__file__).parents[1].resolve() / "test-files").glob("*.json")
+    )[0]
+    for part, metric in product(["train", "val"], ["acc", "loss"]):
+        curve = Server.aggregate_results_from_json_log(
+            json_log_file, part=part, metric=metric
+        )
+        assert len(curve) > 0
+
+
+def test_get_norm():
+    tensors = FedSynthetic(1, 1, False, 30).candidate_models["mlp_d1"].parameters()
+    norm = Server.get_norm(tensors)
+    assert isinstance(norm, float) and norm > 0
+    tensors = None
+    norm = Server.get_norm(tensors)
+    assert np.isnan(norm)
+    tensors = 1.2
+    norm = Server.get_norm(tensors)
+    assert norm == 1.2
+    tensors = torch.randn(2, 3)
+    norm = Server.get_norm(tensors)
+    assert isinstance(norm, float) and norm > 0
+    tensors = np.random.randn(2, 3)
+    norm = Server.get_norm(tensors)
+    assert isinstance(norm, float) and norm > 0
+    tensors = [torch.randn(2, 3), np.random.randn(2, 3)]
+    norm = Server.get_norm(tensors)
+    assert isinstance(norm, float) and norm > 0
+    tensors = torch.nn.Parameter(torch.randn(2, 3))
+    norm = Server.get_norm(tensors)
+    assert isinstance(norm, float) and norm > 0
+
+
 def test_nodes():
     dataset = FedSynthetic(1, 1, False, 30)
     model = dataset.candidate_models["mlp_d1"]
@@ -112,10 +151,12 @@ def test_nodes():
     client_config = DummyClientConfig(1, 1)
     s = DummyServer(model, dataset, server_config, client_config)
     s.train_centralized()
-    s.train_federated()
+    s.train()  # federated training by default
     del dataset, model, s
 
 
 if __name__ == "__main__":
+    test_aggregate_results_from_json_log()
+    test_get_norm()
     test_nodes()
     print("Test nodes succeeded!")
