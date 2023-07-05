@@ -57,5 +57,7 @@ jobs:
         test
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
+      # only upload coverage reports when python version is 3.8
+      if: matrix.python-version == '3.8'
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

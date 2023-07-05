@@ -32,6 +32,7 @@ algorithm:
     lr: 0.03  # for SCAFFOLD
     num_clusters: 10  # for IFCA
     log_dir: all-alg-fedprox-femnist
+    tag: sample_ratio_${{ matrix.clients_sample_ratio }}-seed_${{ seed }}
   client:
     lr: 0.03
     num_epochs: 10

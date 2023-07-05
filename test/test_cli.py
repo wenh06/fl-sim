@@ -7,9 +7,13 @@ from pathlib import Path
 from typing import Union, List, Tuple
 
 
-action_test_config_file = (
-    Path(__file__).parents[1].resolve() / "example-configs" / "action-test.yml"
-)
+action_test_config_files = [
+    Path(__file__).parents[1].resolve() / "example-configs" / filename
+    for filename in [
+        "action-test.yml",
+        "action-test-simple.yml",
+    ]
+]
 
 
 def execute_cmd(
@@ -79,6 +83,7 @@ def execute_cmd(
 
 
 def test_cli():
-    cmd = f"fl-sim {str(action_test_config_file)}"
-    exitcode, _ = execute_cmd(cmd)
-    assert exitcode == 0
+    for file in action_test_config_files:
+        cmd = f"fl-sim {str(file)}"
+        exitcode, _ = execute_cmd(cmd)
+        assert exitcode == 0
