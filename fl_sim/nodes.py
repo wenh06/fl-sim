@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Any, Optional, Iterable, List, Tuple, Dict, Union, Sequence
 
 import numpy as np
-import pandas as pd
 import torch
 import torch.nn as nn
 import yaml
@@ -437,61 +436,6 @@ class Node(ReprMixin, ABC):
             model = self.model
         for node_param, param in zip(model.parameters(), params):
             node_param.data = param.data.detach().clone().to(self.device)
-
-    @staticmethod
-    def aggregate_results_from_csv_log(
-        df: Union[pd.DataFrame, str, Path], part: str = "val", metric: str = "acc"
-    ) -> np.ndarray:
-        """Aggregate the federated results from csv log.
-
-        Parameters
-        ----------
-        df : pd.DataFrame or str or Path
-            The dataframe of the csv log,
-            or the path to the csv log file.
-        part : str, default "train"
-            The part of the log to aggregate.
-        metric : str, default "acc"
-            The metric to aggregate.
-
-        Returns
-        -------
-        np.ndarray
-            The aggregated results (curve).
-
-        """
-        if isinstance(df, (str, Path)):
-            df = pd.read_csv(df)
-        df_part = df[df["part"] == part]
-        client_ids = np.unique(
-            [
-                int(c.split("-")[0].replace("Client", ""))
-                for c in df.columns
-                if c.startswith("Client")
-            ]
-        )
-        metric_curve = []
-        epochs = list(sorted(df_part["epoch"].unique()))
-        for epoch in tqdm(
-            epochs,
-            mininterval=1,
-            desc="Aggregating results",
-            leave=False,
-            disable=int(os.environ.get("FLSIM_VERBOSE", "1")) < 1,
-        ):
-            df_epoch = df_part[df_part["epoch"] == epoch]
-            num_samples = 0
-            current_metric = 0
-            for client_id in client_ids:
-                cols = [f"Client{client_id}-{metric}", f"Client{client_id}-num_samples"]
-                df_current = df_epoch[cols].dropna()
-                current_metric += (
-                    df_current[f"Client{client_id}-{metric}"].values[0]
-                    * df_current[f"Client{client_id}-num_samples"].values[0]
-                )
-                num_samples += df_current[f"Client{client_id}-num_samples"].values[0]
-            metric_curve.append(current_metric / num_samples)
-        return np.array(metric_curve)
 
     @staticmethod
     def aggregate_results_from_json_log(
