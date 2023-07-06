@@ -1,15 +1,12 @@
-# This is a simple config file for testing fl-sim command line interface in GitHub Actions
-# without "strategy" to run multiple experiments.
+# This is a custom configuration file for testing.
+# NOTE: the command `fl-sim test-files/custom_conf.yml` should be run in the root directory of fl-sim.
 
 algorithm:
-  name: SCAFFOLD
+  name: test-files/custom_alg.Custom
   server:
     num_clients: null
     clients_sample_ratio: 0.1
     num_iters: 2  # only for a quick test in GitHub Actions, normally much larger
-    P: 0.3  # for FedPD, ProxSkip
-    lr: 0.03  # for SCAFFOLD
-    num_clusters: 10  # for IFCA
     log_dir: action-test
     tag: sample_ratio_${{ algorithm.server.clients_sample_ratio }}-seed_${{ seed }}
   client:
@@ -21,7 +18,7 @@ algorithm:
       step_size: 1
       gamma: 0.99
 dataset:
-  name: FedProxFEMNIST
+  name: test-files/custom_dataset.CustomFEMNIST
   datadir: null  # default dir
   transform: none  # none for static transform (only normalization, no augmentation)
 model:
