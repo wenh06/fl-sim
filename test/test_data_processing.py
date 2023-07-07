@@ -78,6 +78,10 @@ def test_FedCIFAR100():
     train_dl, test_dl = ds.get_dataloader()
     assert len(train_dl) > 0 and len(test_dl) > 0
 
+    ds.load_partition_data_distributed(0)
+    ds.load_partition_data_distributed(1)
+    ds.load_partition_data()
+
 
 @torch.no_grad()
 def test_FedEMNIST():
@@ -283,6 +287,10 @@ def test_FedShakespeare():
         eval_res = ds.evaluate(torch.from_numpy(prob), batch[1])
         assert isinstance(eval_res, dict) and len(eval_res) > 0
 
+    ds.load_partition_data_distributed(0)
+    ds.load_partition_data_distributed(1)
+    ds.load_partition_data()
+
 
 @torch.no_grad()
 def test_FedProxSent140():
@@ -444,3 +452,7 @@ def test_FedSynthetic():
         assert isinstance(pred, list) and len(pred) == batch[0].shape[0]
         eval_res = ds.evaluate(torch.from_numpy(prob), batch[1])
         assert isinstance(eval_res, dict) and len(eval_res) > 0
+
+    ds.load_partition_data_distributed(0)
+    ds.load_partition_data_distributed(1)
+    ds.load_partition_data()
