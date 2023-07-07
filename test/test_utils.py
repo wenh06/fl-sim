@@ -15,10 +15,12 @@ from fl_sim.models import CNNFEMnist
 from fl_sim.optimizers import get_optimizer
 from fl_sim.utils.misc import (
     get_scheduler,
+    get_scheduler_info,
     add_kwargs,
     ndarray_to_list,
     ordered_dict_to_dict,
     default_dict_to_dict,
+    find_longest_common_substring,
 )
 
 
@@ -145,6 +147,24 @@ def test_get_scheduler():
     del X, y, loss, model, optimizer, scheduler
 
 
+def test_get_scheduler_info():
+    for name in [
+        "step",
+        "multi_step",
+        "exponential",
+        "cosine",
+        "cyclic",
+        "one_cycle",
+        "reduce_on_plateau",
+    ]:
+        info = get_scheduler_info(name)
+        assert isinstance(info, dict) and list(info) == [
+            "class",
+            "required_args",
+            "optional_args",
+        ]
+
+
 def test_add_kwargs():
     def func(a, b=1):
         return a + b
@@ -192,9 +212,20 @@ def test_default_dict_to_dict():
     }
 
 
+def test_find_longest_common_substring():
+    assert find_longest_common_substring(["abc", "ab", "abcd"]) == "ab"
+    assert find_longest_common_substring(["abc", "ab", "abcd"], min_len=3) == ""
+    assert (
+        find_longest_common_substring(["abxxxc", "abxxx", "abxxxcd"], ignore="xxx")
+        == "ab"
+    )
+
+
 if __name__ == "__main__":
     test_get_scheduler()
+    test_get_scheduler_info()
     test_add_kwargs()
     test_ndarray_to_list()
     test_ordered_dict_to_dict()
     test_default_dict_to_dict()
+    test_find_longest_common_substring()
