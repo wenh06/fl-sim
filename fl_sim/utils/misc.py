@@ -4,12 +4,12 @@
 import inspect
 import os
 import random
-import re
 import types
 import warnings
 from collections import OrderedDict, defaultdict
 from copy import deepcopy
 from functools import wraps
+from pathlib import Path
 from typing import Any, Callable, Union, Optional, Sequence
 
 import numpy as np
@@ -51,17 +51,35 @@ def experiment_indicator(name: str) -> Callable:
     return decorator
 
 
-def clear_logs(pattern: str = "*") -> None:
-    """Clear given log files in LOG_DIR.
+def clear_logs(
+    pattern: str = "*", directory: Optional[Union[str, Path]] = None
+) -> None:
+    """Clear given log files in given directory.
 
     Parameters
     ----------
     pattern : str, optional
         Pattern of log files to be cleared, by default "*"
-        The searching will be executed by :func:`re.search`.
+        The searching will be executed by :meth:`pathlib.Path.rglob`.
+    directory : str or Path, optional
+        Directory to be searched, by default the default log directory
+        :data:`LOG_DIR` will be used.
+        If the given directory is not absolute, it will be joined with
+        :data:`LOG_DIR`.
 
     """
-    for log_file in [fp for fp in LOG_DIR.glob("*") if re.search(pattern, fp.name)]:
+    if directory is None:
+        log_dir = LOG_DIR
+    elif Path(directory).is_absolute():
+        log_dir = Path(directory)
+    else:
+        log_dir = LOG_DIR / directory
+    log_extentions = [".log", ".txt", ".json", ".csv"]
+    for log_file in [
+        fp
+        for fp in log_dir.rglob(pattern)
+        if fp.is_file() and fp.suffix in log_extentions
+    ]:
         log_file.unlink()
 
 
