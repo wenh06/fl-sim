@@ -2,9 +2,12 @@
 """
 
 import collections
+import platform
 import subprocess
 from pathlib import Path
 from typing import Union, List, Tuple
+
+from fl_sim.utils.misc import clear_logs
 
 
 action_test_config_files = [
@@ -37,14 +40,14 @@ def execute_cmd(
         Outputs from `stdout` of `Popen`.
 
     """
-    shell_arg, executable_arg = True, None
+    shell_arg, executable_arg = False, None
     s = subprocess.Popen(
         cmd,
         shell=shell_arg,
         executable=executable_arg,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
-        close_fds=True,
+        close_fds=(not (platform.system().lower() == "windows")),
     )
     debug_stdout = collections.deque(maxlen=1000)
     print("\n" + "*" * 10 + "  execute_cmd starts  " + "*" * 10 + "\n")
@@ -87,3 +90,4 @@ def test_cli():
         cmd = f"fl-sim {str(file)}"
         exitcode, _ = execute_cmd(cmd)
         assert exitcode == 0
+    clear_logs()

@@ -1,19 +1,16 @@
 """
 """
 
-import collections
 import os
 import re
 import shutil
-import subprocess
-import platform
 import tempfile
 import tarfile
 import zipfile
 import urllib
 import warnings
 from pathlib import Path
-from typing import Union, List, Tuple, Optional, Iterable
+from typing import Union, Optional, Iterable
 
 import requests
 from tqdm.auto import tqdm
@@ -102,53 +99,6 @@ def http_get(
     else:
         shutil.copyfile(downloaded_file.name, Path(dst_dir) / Path(pure_url).name)
     os.remove(downloaded_file.name)
-
-
-def execute_cmd(
-    cmd: Union[str, List[str]], raise_error: bool = True
-) -> Tuple[int, List[str]]:
-    shell_arg, executable_arg = False, None
-    s = subprocess.Popen(
-        cmd,
-        shell=shell_arg,
-        executable=executable_arg,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        close_fds=(not (platform.system().lower() == "windows")),
-    )
-    debug_stdout = collections.deque(maxlen=1000)
-    while True:
-        line = s.stdout.readline().decode("utf-8", errors="replace")
-        if line.rstrip():
-            debug_stdout.append(line)
-        exitcode = s.poll()
-        if exitcode is not None:
-            for line in s.stdout:
-                debug_stdout.append(line.decode("utf-8", errors="replace"))
-            if exitcode is not None and exitcode != 0:
-                error_msg = " ".join(cmd) if not isinstance(cmd, str) else cmd
-                error_msg += "\n"
-                error_msg += "".join(debug_stdout)
-                s.communicate()
-                s.stdout.close()
-                if raise_error:
-                    raise subprocess.CalledProcessError(exitcode, error_msg)
-                else:
-                    output_msg = list(debug_stdout)
-                    return exitcode, output_msg
-            else:
-                break
-    s.communicate()
-    # s.terminate()
-    # s.kill()
-    # https://stackoverflow.com/questions/4789837/how-to-terminate-a-python-subprocess-launched-with-shell-true
-    # os.killpg(os.getpgid(pro.pid), signal.SIGTERM)
-    s.stdout.close()
-    output_msg = list(debug_stdout)
-
-    exitcode = 0
-
-    return exitcode, output_msg
 
 
 def _stem(path: Union[str, Path]) -> str:

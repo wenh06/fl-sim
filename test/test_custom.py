@@ -7,6 +7,7 @@ For the test to succeed, it should be run in the root directory of the project w
 """
 
 import collections
+import platform
 import subprocess
 from typing import Union, List, Tuple
 
@@ -32,14 +33,14 @@ def execute_cmd(
         Outputs from `stdout` of `Popen`.
 
     """
-    shell_arg, executable_arg = True, None
+    shell_arg, executable_arg = False, None
     s = subprocess.Popen(
         cmd,
         shell=shell_arg,
         executable=executable_arg,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
-        close_fds=True,
+        close_fds=(not (platform.system().lower() == "windows")),
     )
     debug_stdout = collections.deque(maxlen=1000)
     print("\n" + "*" * 10 + "  execute_cmd starts  " + "*" * 10 + "\n")
