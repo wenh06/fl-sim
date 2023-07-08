@@ -764,16 +764,35 @@ the `dataset` section specifies the dataset, and the `model` section specifies t
 
 One can implement custom federated learning algorithms, datasets, optimizers with corresponding registration functions.
 
-TODO: add more details.
+For example, in the [custom_confi.yml](test-files/custom_conf.yml) file, we set
+
+- `algorithm.name: test-files/custom_alg.Custom`
+- `dataset.name: test-files/custom_dataset.CustomFEMNIST`
+
+where [`test-files/custom_alg.py`](test-files/custom_alg.py) and [`test-files/custom_dataset.py`](test-files/custom_dataset.py) are the files containing the custom algorithm and dataset, respectively, and `Custom` is the name of the custom algorithm and `CustomFEMNIST` is the name of the custom dataset. One can run the following command to start the simulation:
+
+```bash
+fl-sim test-files/custom_conf.yml
+```
+
+in the root directory of this repository. If `algorithm.name` and `dataset.name` were changed to absolute paths, then one can run the command from any place.
 
 ### Custom Federated Learning Algorithms
 
-To write...
+In the [test-files/custom_alg.py](test-files/custom_alg.py) file, we implement a custom federated learning algorithm `Custom` via subclassing the 4 classes `ServerConfig`, `ClientConfig`, `Server`, and `Client`, and use the `register_algorithm` decorator to register the algorithm. For example, the `ServerConfig` class is defined as follows:
+
+```python
+@register_algorithm()
+@add_docstring(server_config_kw_doc, "append")
+class CustomServerConfig(ServerConfig):
+    ...
+
+```
 
 ### Custom Datasets
 
-To write...
+In the [test-files/custom_dataset.py](test-files/custom_dataset.py) file, we implement a custom dataset `CustomFEMNIST` via subclassing the `FEMNIST` class and use the `register_dataset` decorator to register the dataset.
 
 ### Custom Optimizers
 
-To write...
+One can implement custom optimizers via subclassing the `torch.optim.Optimizer` class and use the `register_optimizer` decorator to register the optimizer.
