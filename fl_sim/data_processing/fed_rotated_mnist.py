@@ -60,7 +60,7 @@ class FedRotatedMNIST(FedVisionDataset):
     num_rotations : int, default 4
         Number of rotations to apply to the images in the dataset.
         Typical values are 2, 4.
-    num_clients : int, default 4800
+    num_clients : int, default 2400
         Number of clients to simulate.
         Typical values are 1200, 2400, 4800.
     transform : str or callable, default 'none'
@@ -83,7 +83,7 @@ class FedRotatedMNIST(FedVisionDataset):
         self,
         datadir: Optional[Union[Path, str]] = None,
         num_rotations: int = 4,
-        num_clients: int = 4800,
+        num_clients: int = 2400,
         transform: Optional[Union[str, Callable]] = "none",
         seed: int = 0,
     ) -> None:

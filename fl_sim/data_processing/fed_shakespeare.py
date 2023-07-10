@@ -63,26 +63,23 @@ class FedShakespeare(FedNLPDataset):
 
     """
 
+    SEQUENCE_LENGTH = 80  # from McMahan et al AISTATS 2017
+    # Vocabulary re-used from the Federated Learning for Text Generation tutorial.
+    # https://www.tensorflow.org/federated/tutorials/federated_learning_for_text_generation
+    CHAR_VOCAB = list(
+        "dhlptx@DHLPTX $(,048cgkoswCGKOSW[_#'/37;?bfjnrvzBFJNRVZ\"&*.26:\naeimquyAEIMQUY]!%)-159\r"
+    )
+    _pad = "<pad>"
+    _bos = "<bos>"
+    _eos = "<eos>"
+    _oov = "<oov>"
+    _words = [_pad] + CHAR_VOCAB + [_bos] + [_eos]
+    word_dict = OrderedDict({w: i for i, w in enumerate(_words)})
+
     __name__ = "FedShakespeare"
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         self.datadir = Path(datadir or FED_SHAKESPEARE_DATA_DIR).expanduser().resolve()
-
-        self.SEQUENCE_LENGTH = 80  # from McMahan et al AISTATS 2017
-        # Vocabulary re-used from the Federated Learning for Text Generation tutorial.
-        # https://www.tensorflow.org/federated/tutorials/federated_learning_for_text_generation
-        self.CHAR_VOCAB = list(
-            "dhlptx@DHLPTX $(,048cgkoswCGKOSW[_#'/37;?bfjnrvzBFJNRVZ\"&*.26:\naeimquyAEIMQUY]!%)-159\r"
-        )
-        self._pad = "<pad>"
-        self._bos = "<bos>"
-        self._eos = "<eos>"
-        self._oov = "<oov>"
-
-        self._words = [self._pad] + self.CHAR_VOCAB + [self._bos] + [self._eos]
-        self.word_dict = OrderedDict()
-        for i, w in enumerate(self._words):
-            self.word_dict[w] = i
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = 715
         self.DEFAULT_TEST_CLIENTS_NUM = 715
