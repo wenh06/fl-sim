@@ -90,6 +90,7 @@ s.train_federated()
 | [Ditto](fl_sim/algorithms/ditto/)       | [PMLR](https://proceedings.mlr.press/v139/li21h.html) | [GitHub](https://github.com/litian96/ditto) | [![test-ditto](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-ditto.yml) | :heavy_check_mark: |
 | [IFCA](fl_sim/algorithms/ifca/)         | [NeurIPS2020](https://papers.nips.cc/paper_files/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html) | [GitHub](https://github.com/jichan3751/ifca) | [![test-ifca](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml) | :heavy_check_mark: |
 | [pFedMac](fl_sim/algorithms/pfedmac/)   | [arXiv:2107.05330](https://arxiv.org/abs/2107.05330) | N/A | [![test-pfedmac](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedmac.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedmac.yml) | :interrobang: |
+| [FedDyn](fl_sim/algorithms/feddyn/)   | [ICLR2021](https://openreview.net/forum?id=B7v4QMR6Z9w) | N/A | [![test-feddyn](https://github.com/wenh06/fl-sim/actions/workflows/test-feddyn.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-feddyn.yml) | :question: |
 
 [^1]: FedAvg is implemented as a special case of FedOpt.
 [^2]: Including FedAdam, FedYogi, FedAdagrad.
@@ -103,6 +104,7 @@ Standard Test Status Images:
 
 - :heavy_check_mark: means that the algorithm on the standard test cases reaches expected performance.
 - :heavy_check_mark: :question: means that the algorithm on the standard test cases is **below** expected performance.
+- :question: means that the algorithm has not yet been tested on the standard test cases.
 - :interrobang: means that the algorithm on the standard test cases **does not** converge, and the implementation has to be checked.
 
 ## Main Modules
