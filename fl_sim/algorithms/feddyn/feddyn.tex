@@ -1,0 +1,27 @@
+\begin{algorithm}[ht]
+% \SetAlgoNoLine
+% \DontPrintSemicolon
+\SetKwInOut{Input}{Input}
+\Input{penalty coeffecient $\mu$}
+{\bfseries Initiation:}\;
+\Indp
+    {\bfseries Init server:} global model parameters $\theta^{(0)} \in \R^d,$ $h = 0 \in \R^d$\;
+    {\bfseries Init clients:} local gradient $\mathfrak{g}_k^{(0)} \gets 0 \in \R^d, ~ \forall k \in [K]$\;
+\Indm
+\For{each round $t = 0, 1, \cdots, T-1$}{
+    $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$\;
+    broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$\;
+    \For{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}{
+        $\theta_k^{(t+1)} \gets \argmin\limits_{\theta_k} \left\{ f_k(\theta_k) - \langle \mathfrak{g}_k^{(t)}, \theta_k \rangle + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}$ \;
+        $\mathfrak{g}_k^{(t+1)} \gets \mathfrak{g}_k^{(t)} - \mu (\theta_k^{(t+1)} - \theta^{(t)})$ \tcc*[h]{update local gradient}\;
+        send $\theta_k^{(t+1)}$ to server\;
+    }
+    {\bfseries Server Update:}\;
+    \Indp
+    $h^{(t+1)} \gets h^{(t)} - \frac{\mu}{K} \left(\sum\limits_{k \in \mathcal{S}^{(t)}} \theta_k^{(t+1)} - \theta^{(t)} \right)$\;
+    $\theta^{(t+1)} \gets \left( \frac{1}{\# \mathcal{S}^{(t)}}\sum\limits_{k \in \mathcal{S}^{(t)}} \theta_k^{(t+1)} \right) - \frac{1}{\mu} h^{(t+1)}$\;
+    \Indm
+}
+\caption{Pseudo-code for \texttt{FedDyn}}
+\label{algo:feddyn}
+\end{algorithm}
