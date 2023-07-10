@@ -17,6 +17,7 @@ strategy:
     - pFedMe
     - ProxSkip
     - SCAFFOLD
+    - FedDyn
     clients_sample_ratio:
     - 0.1
     - 0.3

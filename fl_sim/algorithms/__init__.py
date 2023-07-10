@@ -4,6 +4,7 @@
 from . import (  # noqa: F401
     ditto,
     feddr,
+    feddyn,
     fedopt,
     fedpd,
     fedprox,

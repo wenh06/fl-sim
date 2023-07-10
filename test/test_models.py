@@ -28,6 +28,7 @@ from fl_sim.models import (
     SVR,
     reset_parameters,
 )
+from fl_sim.data_processing import FedShakespeare
 
 
 @torch.no_grad()
@@ -196,6 +197,9 @@ def test_models():
     assert len(pred) == 2 and all([len(p) == 90 for p in pred])
     prob = model.predict_proba(inp, batched=True)
     assert prob.shape == (2, 90, 50)
+    pred = model.pipeline(
+        "Yonder comes my master, your brother.", char_to_id=FedShakespeare.word_dict
+    )
 
     model = RNN_StackOverFlow().eval()
     inp = torch.randint(0, 1000, (2, 50))
@@ -205,6 +209,7 @@ def test_models():
     assert len(pred) == 2 and all([len(p) == 10004 for p in pred])
     prob = model.predict_proba(inp, batched=True)
     assert prob.shape == (2, 10004, 50)
+    # TODO: add test for pipeline
 
     model = LogisticRegression(num_features=50, num_classes=12).eval()
     inp = torch.rand(2, 50)
@@ -245,3 +250,5 @@ def test_models():
     assert isinstance(pred, int)
     prob = model.predict_proba(inp[0], batched=False)
     assert prob.shape == (2,)
+    pred = model.pipeline("ew. getting ready for work")
+    assert isinstance(pred, int) and pred in [0, 1]

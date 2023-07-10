@@ -287,6 +287,13 @@ def test_FedShakespeare():
         eval_res = ds.evaluate(torch.from_numpy(prob), batch[1])
         assert isinstance(eval_res, dict) and len(eval_res) > 0
 
+        pred = model.pipeline(
+            "Yonder comes my master, your brother.",
+            char_to_id=ds.char_to_id,
+            id_to_char=ds.id_to_word,
+        )
+        assert isinstance(pred, str)
+
     ds.load_partition_data_distributed(0)
     ds.load_partition_data_distributed(1)
     ds.load_partition_data()

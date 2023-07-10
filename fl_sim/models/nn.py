@@ -3,7 +3,7 @@ simple neural network models
 """
 
 import re
-from typing import Optional, Union, Sequence, Callable
+from typing import Optional, Union, Sequence, Callable, Dict
 
 from einops.layers.torch import Rearrange
 import torch
@@ -466,8 +466,8 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
     def pipeline(
         self,
         truncated_sentence: str,
-        char_to_id: Callable[[str], int],
-        id_to_char: Callable[[int], str],
+        char_to_id: Optional[Union[Callable[[str], int], Dict[str, int]]] = None,
+        id_to_char: Optional[Union[Callable[[int], str], Dict[int, str]]] = None,
     ) -> str:
         """Predict the next character given a truncated sentence.
 
@@ -475,9 +475,9 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         ----------
         truncated_sentence : str
             The truncated sentence.
-        char_to_id : Callable[[str], int]
+        char_to_id : Callable[[str], int] or Dict[str, int], optional
             A function that maps a character to its id.
-        id_to_char : Callable[[int], str]
+        id_to_char : Callable[[int], str] or Dict[int, str], optional
             A function that maps an id to its character.
 
         Returns
@@ -488,14 +488,37 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         """
         prev = self.training
         self.eval()
+        assert (
+            char_to_id is not None or id_to_char is not None
+        ), "Either `char_to_id` or `id_to_char` must be provided."
+        if char_to_id is None:
+            assert isinstance(
+                id_to_char, dict
+            ), "`id_to_char` must be a dict if `char_to_id` is not provided."
+            char_to_id = {v: k for k, v in id_to_char.items()}
+            id_to_char = id_to_char.get
+            char_to_id = char_to_id.get
+        elif id_to_char is None:
+            assert isinstance(
+                char_to_id, dict
+            ), "`char_to_id` must be a dict if `id_to_char` is not provided."
+            id_to_char = {v: k for k, v in char_to_id.items()}
+            char_to_id = char_to_id.get
+            id_to_char = id_to_char.get
+        else:  # both are provided
+            if isinstance(char_to_id, dict):
+                char_to_id = char_to_id.get
+            if isinstance(id_to_char, dict):
+                id_to_char = id_to_char.get
         with torch.no_grad():
             input_seq = torch.tensor(
                 [[char_to_id(c) for c in truncated_sentence]], dtype=torch.long
             )
             output = self(input_seq)
-            predicted_id = torch.argmax(output[:, -1], dim=-1)
+            predicted_ids = torch.argmax(output, dim=-1)
         self.train(prev)
-        return id_to_char(predicted_id.item())
+        # return id_to_char(predicted_id.item())
+        return "".join([id_to_char(idx.item()) for idx in predicted_ids[0]])
 
 
 class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
@@ -580,8 +603,8 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
     def pipeline(
         self,
         truncated_sentence: str,
-        word_to_id: Callable[[str], int],
-        id_to_word: Callable[[int], str],
+        word_to_id: Optional[Union[Callable[[str], int], Dict[str, int]]] = None,
+        id_to_word: Optional[Union[Callable[[int], str], Dict[int, str]]] = None,
     ) -> str:
         """Predict the next word given a truncated sentence.
 
@@ -589,9 +612,9 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         ----------
         truncated_sentence : str
             The truncated sentence.
-        word_to_id : Callable[[str], int]
+        word_to_id : Callable[[str], int] or Dict[str, int], optional
             A function that maps a word to its id.
-        id_to_word : Callable[[int], str]
+        id_to_word : Callable[[int], str] or Dict[int, str], optional
             A function that maps an id to its word.
 
         Returns
@@ -602,14 +625,37 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         """
         prev = self.training
         self.eval()
+        assert (
+            word_to_id is not None or id_to_word is not None
+        ), "Either `word_to_id` or `id_to_word` must be provided."
+        if word_to_id is None:
+            assert isinstance(
+                id_to_word, dict
+            ), "`id_to_word` must be a dict if `word_to_id` is not provided."
+            word_to_id = {v: k for k, v in id_to_word.items()}
+            id_to_word = id_to_word.get
+            word_to_id = word_to_id.get
+        elif id_to_word is None:
+            assert isinstance(
+                word_to_id, dict
+            ), "`word_to_id` must be a dict if `id_to_word` is not provided."
+            id_to_word = {v: k for k, v in word_to_id.items()}
+            word_to_id = word_to_id.get
+            id_to_word = id_to_word.get
+        else:  # both are provided
+            if isinstance(word_to_id, dict):
+                word_to_id = word_to_id.get
+            if isinstance(id_to_word, dict):
+                id_to_word = id_to_word.get
         with torch.no_grad():
             input_seq = torch.tensor(
                 [[word_to_id(w) for w in truncated_sentence.split()]], dtype=torch.long
             )
             output = self(input_seq)
-            predicted_id = torch.argmax(output[:, -1], dim=-1)
+            predicted_ids = torch.argmax(output, dim=-1)
         self.train(prev)
-        return id_to_word(predicted_id.item())
+        # return id_to_word(predicted_id.item())
+        return "".join([id_to_word(idx.item()) for idx in predicted_ids[0]])
 
 
 class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
@@ -702,7 +748,6 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
                 [self.tokenizer.encode(sentence)], dtype=torch.long
             )
             output = self(input_seq)
-            print(output)
             predicted_class = torch.argmax(output, dim=-1)
         self.train(prev)
         return predicted_class.item()
