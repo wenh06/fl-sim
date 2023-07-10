@@ -41,6 +41,8 @@ class FedDynServerConfig(ServerConfig):
         The number of (outer) iterations.
     num_clients : int
         The number of clients.
+    clients_sample_ratio : float
+        The ratio of clients to sample for each iteration.
     mu : float, default 1 / 10
         The coefficient of the "proximal" term.
     **kwargs : dict, optional
@@ -53,6 +55,7 @@ class FedDynServerConfig(ServerConfig):
         self,
         num_iters: int,
         num_clients: int,
+        clients_sample_ratio: float,
         mu: float = 1 / 10,
         **kwargs: Any,
     ) -> None:
@@ -66,6 +69,9 @@ class FedDynServerConfig(ServerConfig):
             name,
             num_iters,
             num_clients,
+            clients_sample_ratio,
+            mu=mu,
+            prox=mu,  # for the `ProxSGD` optimizer
             **kwargs,
         )
 
@@ -148,6 +154,7 @@ class FedDynServer(Server):
 
         # assign communication pattern to client config
         setattr(client_config, "mu", config.mu)
+        setattr(client_config, "prox", config.prox)
         super().__init__(model, dataset, config, client_config, lazy=lazy)
 
     def _post_init(self) -> None:
@@ -184,7 +191,7 @@ class FedDynServer(Server):
         # update global model
         self.avg_parameters()
         for p, hp in zip(self.model.parameters(), self.h_params):
-            p.add_(hp.to(self.device), alpha=-1 / self.config.mu)
+            p = p.add(hp.to(self.device), alpha=-1 / self.config.mu)
 
     @property
     def config_cls(self) -> Dict[str, type]:
