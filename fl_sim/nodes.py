@@ -762,7 +762,7 @@ class Server(Node, CitationMixin):
 
         Parameters
         ----------
-        mode : {"federated", "centralized"}, optional
+        mode : {"federated", "centralized", "local"}, optional
             The mode of training, by default "federated", case-insensitive.
         extra_configs : dict, optional
             The extra configs for the training `mode`.
@@ -774,7 +774,7 @@ class Server(Node, CitationMixin):
         """
         if self._complete_experiment:
             # reset before training if a previous experiment is completed
-            self._reset(reset_clients=(mode.lower() == "federated"))
+            self._reset(reset_clients=(mode.lower() != "centralized"))
         self._complete_experiment = False
         if mode.lower() == "federated":
             self.train_federated(extra_configs)

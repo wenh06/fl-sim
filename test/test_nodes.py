@@ -9,6 +9,7 @@ from typing import Dict, List
 sys.path.append(str(Path(__file__).parents[1].resolve()))
 
 import numpy as np
+import pytest
 import torch
 
 from fl_sim.nodes import (
@@ -150,8 +151,31 @@ def test_nodes():
     server_config = DummySeverConfig(1, 10)
     client_config = DummyClientConfig(1, 1)
     s = DummyServer(model, dataset, server_config, client_config)
-    s.train_centralized()
+    assert str(s) == repr(s)
+
+    # s.train_centralized()
+    s.train("local")
+    s.train("centralized")
     s.train()  # federated training by default
+
+    # misc functionalities of Node classes
+    data, labels = s.get_client_data(0)
+    with pytest.raises(ValueError):
+        s.get_client_data(len(s._clients))
+
+    model = s.get_client_model(0)
+    with pytest.raises(ValueError):
+        s.get_client_model(len(s._clients))
+
+    metrics = s.get_cached_metrics()
+    metrics = s.get_cached_metrics(0)
+    with pytest.raises(ValueError):
+        s.get_cached_metrics(len(s._clients))
+
+    assert str(s._clients[0]) == repr(s._clients[0])
+    assert isinstance(s.is_convergent, bool)
+    assert isinstance(s._clients[0].is_convergent, bool)
+
     del dataset, model, s
 
 
