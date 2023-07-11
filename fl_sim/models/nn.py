@@ -10,7 +10,7 @@ import torch
 from torch import nn, Tensor
 import torch.nn.functional as F  # noqa: F401
 from torchvision.models.resnet import ResNet, BasicBlock, resnet18
-from torch_ecg.utils import SizeMixin
+from torch_ecg.utils import SizeMixin, get_kwargs
 from torch_ecg.models._nets import get_activation
 
 from .utils import CLFMixin, REGMixin, DiffMixin
@@ -483,7 +483,7 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         Returns
         -------
         str
-            The predicted next character.
+            The predicted next characters.
 
         """
         prev = self.training
@@ -655,7 +655,7 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
             predicted_ids = torch.argmax(output, dim=-1)
         self.train(prev)
         # return id_to_word(predicted_id.item())
-        return "".join([id_to_word(idx.item()) for idx in predicted_ids[0]])
+        return " ".join([id_to_word(idx.item()) for idx in predicted_ids[0]])
 
 
 class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
@@ -837,7 +837,12 @@ class ResNet18(ResNet, CLFMixin, SizeMixin, DiffMixin):
             num_classes=num_classes,
         )
         if pretrained:
-            _model = resnet18(pretrained=True)
+            if "weights" in get_kwargs(resnet18):
+                from torchvision.models.resnet import ResNet18_Weights
+
+                _model = resnet18(weights=ResNet18_Weights.DEFAULT)
+            else:  # older versions of torchvision
+                _model = resnet18(pretrained=True)
             self.load_state_dict(
                 {
                     k: v

@@ -28,6 +28,7 @@ from fl_sim.models import (
     SVR,
     reset_parameters,
 )
+from fl_sim.models.tokenizers import words_from_text
 from fl_sim.data_processing import FedShakespeare
 
 
@@ -42,6 +43,10 @@ def test_models():
     assert prob.shape == (2, 62)
     pred = model.predict(inp, batched=True)
     assert len(pred) == 2
+
+    pred = model.predict(inp, batched=True, thr=0.01)
+    assert isinstance(pred, list) and len(pred) == 2
+    assert all(isinstance(p, list) for p in pred)
 
     reset_parameters(model)
 
@@ -179,6 +184,10 @@ def test_models():
     assert len(pred) == 2
     prob = model.predict_proba(inp, batched=True)
     assert prob.shape == (2, 10)
+    model = ResNet18(num_classes=10, pretrained=True).eval()
+    inp = torch.rand(2, 3, 32, 32)
+    out = model(inp)
+    assert out.shape == (2, 10)
 
     model = ResNet10(num_classes=10).eval()
     inp = torch.rand(2, 3, 32, 32)
@@ -252,3 +261,12 @@ def test_models():
     assert prob.shape == (2,)
     pred = model.pipeline("ew. getting ready for work")
     assert isinstance(pred, int) and pred in [0, 1]
+
+
+def test_misc():
+    words = words_from_text("Yonder comes my master, your brother.")
+    assert words == ["Yonder", "comes", "my", "master", "your", "brother"]
+    words = words_from_text(
+        "Yonder comes my master, your brother.", words_to_ignore=["my"]
+    )
+    assert words == ["Yonder", "comes", "master", "your", "brother"]

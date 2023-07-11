@@ -407,6 +407,8 @@ def words_from_text(
         A list of words to ignore.
     ignore_punctuations : bool, default False
         Whether to ignore punctuations.
+        NOTE: This is not implemented yet,
+        but kept for compatibility with other tokenizers.
 
     Returns
     -------
