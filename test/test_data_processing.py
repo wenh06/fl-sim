@@ -32,6 +32,7 @@ from fl_sim.data_processing import (  # noqa: F401
     FedLibSVMDataset,
     libsvmread,
 )  # noqa: F401
+from fl_sim.data_processing.fed_dataset import NLPDataset  # noqa: F401
 
 
 @torch.no_grad()
@@ -92,6 +93,7 @@ def test_FedEMNIST():
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
     ds.view_image(0, 0)
+    ds.random_grid_view(3, 3, save_path="test_FedEMNIST.pdf")
 
     assert str(ds) == repr(ds)
 
@@ -136,6 +138,7 @@ def test_FedMNIST():
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
     ds.view_image(0, 0)
+    ds.random_grid_view(3, 3, save_path="test_FedMNIST.pdf")
 
     assert str(ds) == repr(ds)
 
@@ -179,6 +182,7 @@ def test_FedRotatedCIFAR10():
     assert ds.n_class == 10
 
     ds.view_image(0, 0)
+    ds.random_grid_view(3, 3, save_path="test_FedRotatedCIFAR10.pdf")
 
     assert str(ds) == repr(ds)
 
@@ -219,6 +223,7 @@ def test_FedRotatedMNIST():
     assert ds.n_class == 10
 
     ds.view_image(0, 0)
+    ds.random_grid_view(3, 3, save_path="test_FedRotatedMNIST.pdf")
 
     assert str(ds) == repr(ds)
 
@@ -345,6 +350,7 @@ def test_FedProxFEMNIST():
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
     ds.view_image(0, 0)
+    ds.random_grid_view(3, 3, save_path="test_FedProxFEMNIST.pdf")
 
     assert str(ds) == repr(ds)
 
@@ -390,6 +396,7 @@ def test_FedProxMNIST():
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
     ds.view_image(0, 0)
+    ds.random_grid_view(3, 3, save_path="test_FedProxMNIST.pdf")
 
     assert str(ds) == repr(ds)
 
@@ -463,3 +470,7 @@ def test_FedSynthetic():
     ds.load_partition_data_distributed(0)
     ds.load_partition_data_distributed(1)
     ds.load_partition_data()
+
+
+def test_NLPDataset():
+    pass  # TODO

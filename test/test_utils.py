@@ -21,6 +21,7 @@ from fl_sim.utils.misc import (
     ordered_dict_to_dict,
     default_dict_to_dict,
     find_longest_common_substring,
+    experiment_indicator,
 )
 
 
@@ -221,6 +222,11 @@ def test_find_longest_common_substring():
     )
 
 
+@experiment_indicator("Dummy")
+def test_experiment_indicator():
+    pass
+
+
 if __name__ == "__main__":
     test_get_scheduler()
     test_get_scheduler_info()
@@ -229,3 +235,4 @@ if __name__ == "__main__":
     test_ordered_dict_to_dict()
     test_default_dict_to_dict()
     test_find_longest_common_substring()
+    test_experiment_indicator()
