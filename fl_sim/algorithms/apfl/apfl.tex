@@ -1,0 +1,37 @@
+\begin{algorithm}[ht]
+\SetKwInOut{Input}{Input}
+\Input{mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$}
+{\bfseries Initiation:}\;
+\Indp
+    {\bfseries Init server:} global model parameters $\theta^{(0)} \in \R^d,$ random set of clients $S^{(t)} \subseteq [K]$\;
+    {\bfseries Init clients:} local model parameters $\omega_k^{(0)} \in \R^d, ~ \theta_k^{(0)} \gets \theta^{(0)}, ~ \forall k \in [K]$\;
+    {\bfseries Constants:} condition number $\kappa \gets \frac{L}{\mu},$ $a \gets \max\{128\kappa, \tau\}$\;
+\Indm
+\For{each round $t = 0, 1, \cdots, T-1$}{
+    \For{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}{
+        $\bar{\omega}_k^{(t)} \gets \alpha_k \omega_k^{(t)} + (1-\alpha_k) \theta_k^{(t)}$ \tcc*[h]{mixture model}\;
+        $\eta^{(t)} \gets \frac{16}{\mu(t+a)}$ \tcc*[h]{decay learning rate}\;
+        $\theta_k^{(t+1)} \gets \theta^{(t)} - \eta^{(t)} \nabla f_k(\theta^{(t)})$ \tcc*[h]{inner problem (global model) update}\;
+        $\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta^{(t)} \nabla f_k(\bar{\omega}_k^{(t)})$ \tcc*[h]{outer problem (personalized model) update}\;
+        \tcc{Optional: adaptive mixture weights update}
+        \tcc{$\alpha_k \gets \alpha_k - \eta^{(t)} \nabla_{\alpha_k} f_k(\bar{\omega}_k^{(t)}) = \alpha_k - \eta^{(t)} \left\langle \omega_k^{(t)} - \theta_k^{(t)}, \nabla f_k(\bar{\omega}_k^{(t)}) \right\rangle$}
+    }
+    \uIf{$t$ not divides synchronization gap $\tau$}{
+        {\bfseries Server updates}: $\mathcal{S}^{(t+1)} \gets \mathcal{S}^{(t)}$\;
+    }
+    \Else{
+        each client $k \in \mathcal{S}^{(t)}$ sends $\theta_k^{(t+1)}$ to server\;
+        {\bfseries Server updates}:\;
+        \Indp
+        $\theta^{(t+1)} \gets \frac{1}{\# \mathcal{S}^{(t)}} \theta_k^{(t)}$\;
+        $\mathcal{S}^{(t+1)} \gets$ (random set of clients) $\subseteq [K]$\;
+        broadcast $\theta^{(t+1)}$ to clients $k \in S^{(t+1)}$\;
+        \Indm
+    }
+final personalized model: $\hat{\omega}_k \gets \frac{1}{S_T}\sum\limits_{t=1}^{T} p_t \left( \alpha_k \omega_k^{(t)} + (1-\alpha_k)\frac{1}{\#\mathcal{S}^{(t-1)}}\sum\limits_{k\in\mathcal{S}^{(t-1)}}\theta_k^{(t)} \right)$\;
+final global model: $\hat{\theta} \gets \frac{1}{S_T}\sum\limits_{t=1}^{T} \frac{p_t}{\#\mathcal{S}^{(t-1)}} \sum\limits_{k\in\mathcal{S}^{(t-1)}}\theta_k^{(t)}$\;
+where $p_t = (t+a)^2, S_T = \sum\limits_{t=1}^{T}p_t$\;
+}
+\caption{Pseudo-code for \texttt{APFL}}
+\label{algo:apfl}
+\end{algorithm}
