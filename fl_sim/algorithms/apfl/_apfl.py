@@ -302,6 +302,7 @@ class APFLClient(Client):
 
     def train_per(self) -> None:
         """Train the personalized model with local data."""
+        self.model_per.train()
         with tqdm(
             range(self.config.num_epochs),
             total=self.config.num_epochs,
@@ -310,8 +311,53 @@ class APFLClient(Client):
             leave=False,
         ) as pbar:
             for epoch in pbar:
+                # compute gradients at the mixture parameters
                 grads = self.compute_gradients(at=self.mixture_parameters)
+                # update the personalized model parameters via (stochastic) gradient descent
                 for p, g in zip(self.model_per.parameters(), grads):
                     p.data = p.data.add(g, alpha=-self.lr_scheduler.get_last_lr()[0])
                 # free memory
                 del grads
+
+    @torch.no_grad()
+    def evaluate(self, part: str) -> Dict[str, float]:
+        """Evaluate the model and personalized model
+        on the given part of the dataset.
+
+        Parameters
+        ----------
+        part : str
+            The part of the dataset to evaluate on,
+            can be either "train" or "val".
+
+        Returns
+        -------
+        Dict[str, float]
+            The metrics of the evaluation.
+
+        """
+        assert part in self.dataset.data_parts, "Invalid part name"
+        for idx, model in enumerate([self.model, self.model_per]):
+            model.eval()
+            _metrics = []
+            data_loader = self.val_loader if part == "val" else self.train_loader
+            for X, y in data_loader:
+                X, y = X.to(self.device), y.to(self.device)
+                logits = model(X)
+                _metrics.append(self.dataset.evaluate(logits, y))
+            if part not in self._metrics:
+                self._metrics[part] = {
+                    "num_samples": sum([m["num_samples"] for m in _metrics]),
+                }
+            suffix = "_per" if idx == 1 else ""
+            for k in _metrics[0]:
+                if k != "num_samples":  # average over all metrics
+                    self._metrics[part][f"{k}{suffix}"] = (
+                        sum([m[k] * m["num_samples"] for m in _metrics])
+                        / self._metrics[part]["num_samples"]
+                    )
+            # compute gradient norm of the models
+            self._metrics[part][f"grad_norm{suffix}"] = self.get_gradients(norm="fro")
+            # free memory
+            del X, y, logits
+        return self._metrics[part]
