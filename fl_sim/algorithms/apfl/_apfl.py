@@ -40,6 +40,8 @@ class APFLServerConfig(ServerConfig):
         The number of clients.
     clients_sample_ratio : float
         The ratio of clients to sample for each iteration.
+    tau : int, default 1,
+        synchronization gap.
     **kwargs : dict, optional
         Additional keyword arguments:
     """
@@ -51,6 +53,7 @@ class APFLServerConfig(ServerConfig):
         num_iters: int,
         num_clients: int,
         clients_sample_ratio: float,
+        tau: int = 1,
         **kwargs: Any,
     ) -> None:
         name = self.__name__.replace("ServerConfig", "")
@@ -59,11 +62,15 @@ class APFLServerConfig(ServerConfig):
                 f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
                 RuntimeWarning,
             )
+        assert (
+            isinstance(tau, int) and tau >= 1
+        ), "`tau` (synchronization gap) must be a positive integer."
         super().__init__(
             name,
             num_iters,
             num_clients,
             clients_sample_ratio,
+            tau=tau,
             **kwargs,
         )
 
@@ -83,6 +90,8 @@ class APFLClientConfig(ClientConfig):
         The name of the optimizer to solve the local (inner) problem.
     lr : float, default 1e-2
         The learning rate.
+    mixture_weight : float, default 0.5
+        The weight of the local model parameters and the global model parameters.
     **kwargs : dict, optional
         Additional keyword arguments:
     """
@@ -95,6 +104,7 @@ class APFLClientConfig(ClientConfig):
         num_epochs: int,
         optimizer: str = "SGD",
         lr: float = 1e-2,
+        mixture_weight: float = 0.5,
         **kwargs: Any,
     ) -> None:
         name = self.__name__.replace("ClientConfig", "")
@@ -109,6 +119,7 @@ class APFLClientConfig(ClientConfig):
             batch_size,
             num_epochs,
             lr,
+            mixture_weight=mixture_weight,
             **kwargs,
         )
 
@@ -126,20 +137,44 @@ class APFLServer(Server):
 
     __name__ = "APFLServer"
 
+    def _post_init(self) -> None:
+        """
+        check if all required field in the config are set,
+        and set attributes for maintaining itermidiate states
+        """
+        super()._post_init()
+        self.mixture_parameters = [torch.zeros_like(p) for p in self.model.parameters()]
+        self._selected_clients = super()._sample_clients()
+
+    def _sample_clients(self) -> List[int]:
+        """Sample clients for the current iteration."""
+        if self.config.tau % self.n_iter == 0:
+            # if the current iteration divides the synchronization gap,
+            # update the selected clients
+            self._selected_clients = super()._sample_clients()
+            # else, keep the selected clients unchanged
+        return self._selected_clients
+
     @property
     def client_cls(self) -> type:
         return APFLClient
 
     @property
     def required_config_fields(self) -> List[str]:
-        return []
+        return ["tau"]
 
     def communicate(self, target: "APFLClient") -> None:
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
 
     @add_docstring(Server.update)
     def update(self) -> None:
-        raise NotImplementedError
+        if self.config.tau % self.n_iter == 0:
+            # if the current iteration divides the synchronization gap,
+            # update the global model parameters via averaging
+            # otherwise, do nothing
+            # NOTE that the re-sampling of clients is done
+            # in `self._sample_clients()` in the training loop
+            self.avg_parameters()
 
     @property
     def config_cls(self) -> Dict[str, type]:
