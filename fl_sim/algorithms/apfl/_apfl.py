@@ -2,19 +2,21 @@
 """
 
 import warnings
+from copy import deepcopy
 from typing import List, Dict, Any
 
-import torch  # noqa: F401
+import torch
 from torch_ecg.utils.misc import add_docstring
-from tqdm.auto import tqdm  # noqa: F401
+from tqdm.auto import tqdm
 
-from ...nodes import (  # noqa: F401
+from ...nodes import (
     Server,
     Client,
     ServerConfig,
     ClientConfig,
     ClientMessage,
-)  # noqa: F401
+)
+from ...data_processing.fed_dataset import FedDataset
 from .._register import register_algorithm
 from .._misc import server_config_kw_doc, client_config_kw_doc
 
@@ -137,18 +139,30 @@ class APFLServer(Server):
 
     __name__ = "APFLServer"
 
+    def __init__(
+        self,
+        model: torch.nn.Module,
+        dataset: FedDataset,
+        config: APFLServerConfig,
+        client_config: APFLClientConfig,
+        lazy: bool = False,
+    ) -> None:
+
+        # assign communication pattern to client config
+        setattr(client_config, "sync_gap", config.tau)
+        super().__init__(model, dataset, config, client_config, lazy=lazy)
+
     def _post_init(self) -> None:
         """
         check if all required field in the config are set,
         and set attributes for maintaining itermidiate states
         """
         super()._post_init()
-        self.mixture_parameters = [torch.zeros_like(p) for p in self.model.parameters()]
         self._selected_clients = super()._sample_clients()
 
     def _sample_clients(self) -> List[int]:
         """Sample clients for the current iteration."""
-        if self.config.tau % self.n_iter == 0:
+        if self.n_iter == 0 or self.config.tau % self.n_iter == 0:
             # if the current iteration divides the synchronization gap,
             # update the selected clients
             self._selected_clients = super()._sample_clients()
@@ -164,11 +178,17 @@ class APFLServer(Server):
         return ["tau"]
 
     def communicate(self, target: "APFLClient") -> None:
-        target._received_messages = {"parameters": self.get_detached_model_parameters()}
+        if self.n_iter == 0 or self.config.tau % self.n_iter == 0:
+            # if the current iteration divides the synchronization gap,
+            # transmit the global model parameters to the client
+            # otherwise, do nothing
+            target._received_messages = {
+                "parameters": self.get_detached_model_parameters()
+            }
 
     @add_docstring(Server.update)
     def update(self) -> None:
-        if self.config.tau % self.n_iter == 0:
+        if self.n_iter == 0 or self.config.tau % self.n_iter == 0:
             # if the current iteration divides the synchronization gap,
             # update the global model parameters via averaging
             # otherwise, do nothing
@@ -204,18 +224,94 @@ class APFLClient(Client):
         check if all required field in the config are set,
         and set attributes for maintaining itermidiate states
         """
-        raise NotImplementedError
+        super()._post_init()
+        self.model_per = deepcopy(self.model)
+        self.mixture_parameters = [torch.zeros_like(p) for p in self.model.parameters()]
+        self._sync_counter = 0
 
     @property
     def required_config_fields(self) -> List[str]:
-        return []
+        return ["mixture_weight", "sync_gap"]
 
     def communicate(self, target: "APFLServer") -> None:
-        raise NotImplementedError
+        self._sync_counter += 1
+        message = {
+            "client_id": self.client_id,
+            "train_samples": len(self.train_loader.dataset),
+            "metrics": self._metrics,
+        }
+        if self._sync_counter == self.config.sync_gap:
+            # if the current iteration reaches the synchronization gap,
+            # transmit the local model parameters to the server
+            # otherwise, only transmit the metrics
+            message["parameters"] = self.get_detached_model_parameters()
+            # reset the synchronization counter
+            self._sync_counter = 0
+        target._received_messages.append(ClientMessage(**message))
 
     def update(self) -> None:
-        raise NotImplementedError
+        if self._sync_counter == 0:
+            # just received the global model parameters
+            assert (
+                "parameters" in self._received_messages
+            ), "No global model parameters received."
+            # update the local model parameters
+            self.set_parameters(self._received_messages["parameters"])
+        # update the mixture parameters
+        # which is the convex combination of the local model parameters
+        # and the personalized model parameters
+        for p, p_per, p_mixture in zip(
+            self.model.parameters(),
+            self.model_per.parameters(),
+            self.mixture_parameters,
+        ):
+            p_mixture.data = (
+                self.config.mixture_weight * p.data
+                + (1 - self.config.mixture_weight) * p_per.data
+            )
+        # NOTE: we use the optimizer to update the local model parameters automatically in `self.train`,
+        # but we need to update the personalized model parameters manually in `self.train_per`,
+        # since the gradients are **NOT** computed at the personalized model parameters
+        # but at the mixture parameters
+        self.solve_inner()  # alias of `train`
+        self.train_per()
+        self.lr_scheduler.step()
 
     def train(self) -> None:
-        """Train (the copy of) the global model with local data."""
-        raise NotImplementedError
+        """Train (the copy of) the global model and with local data."""
+        self.model.train()
+        with tqdm(
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
+            leave=False,
+        ) as pbar:
+            for epoch in pbar:  # local update
+                self.model.train()
+                for X, y in self.train_loader:
+                    X, y = X.to(self.device), y.to(self.device)
+                    self.optimizer.zero_grad()
+                    output = self.model(X)
+                    loss = self.criterion(output, y)
+                    loss.backward()
+                    # self.optimizer.step(local_weights=self._cached_parameters)
+                    self.optimizer.step()
+                    # free memory
+                    del X, y, output, loss
+
+    def train_per(self) -> None:
+        """Train the personalized model with local data."""
+        with tqdm(
+            range(self.config.num_epochs),
+            total=self.config.num_epochs,
+            mininterval=1.0,
+            disable=self.config.verbose < 2,
+            leave=False,
+        ) as pbar:
+            for epoch in pbar:
+                grads = self.compute_gradients(at=self.mixture_parameters)
+                for p, g in zip(self.model_per.parameters(), grads):
+                    p.data = p.data.add(g, alpha=-self.lr_scheduler.get_last_lr()[0])
+                # free memory
+                del grads

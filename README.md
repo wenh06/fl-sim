@@ -91,6 +91,7 @@ s.train_federated()
 | [IFCA](fl_sim/algorithms/ifca/)         | [NeurIPS2020](https://papers.nips.cc/paper_files/paper/2020/hash/e32cc80bf07915058ce90722ee17bb71-Abstract.html) | [GitHub](https://github.com/jichan3751/ifca) | [![test-ifca](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-ifca.yml) | :heavy_check_mark: |
 | [pFedMac](fl_sim/algorithms/pfedmac/)   | [arXiv:2107.05330](https://arxiv.org/abs/2107.05330) | N/A | [![test-pfedmac](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedmac.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedmac.yml) | :interrobang: |
 | [FedDyn](fl_sim/algorithms/feddyn/)   | [ICLR2021](https://openreview.net/forum?id=B7v4QMR6Z9w) | N/A | [![test-feddyn](https://github.com/wenh06/fl-sim/actions/workflows/test-feddyn.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-feddyn.yml) | :question: |
+| [APFL](fl_sim/algorithms/apfl/)   | [arXiv:2003.13461](https://arxiv.org/abs/2003.13461) | N/A | [![test-apfl](https://github.com/wenh06/fl-sim/actions/workflows/test-apfl.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-apfl.yml) | :question: |
 
 [^1]: FedAvg is implemented as a special case of FedOpt.
 [^2]: Including FedAdam, FedYogi, FedAdagrad.
