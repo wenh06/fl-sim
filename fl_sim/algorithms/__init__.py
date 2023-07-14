@@ -2,6 +2,7 @@
 """
 
 from . import (  # noqa: F401
+    apfl,
     ditto,
     feddr,
     feddyn,
