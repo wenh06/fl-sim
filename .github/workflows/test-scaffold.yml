@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  TEST_FILENAME: test_scaffold.py
+
 jobs:
   build:
     # Don't run on forked repos.
@@ -45,4 +48,4 @@ jobs:
         python -m pip install pytest pytest-cov # Testing packages
     - name: Run test with pytest
       run: |
-        pytest -v -s test/test-algorithms/test_scaffold.py
+        pytest -v -s test/test-algorithms/$TEST_FILENAME
