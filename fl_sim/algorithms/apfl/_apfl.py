@@ -162,7 +162,7 @@ class APFLServer(Server):
 
     def _sample_clients(self) -> List[int]:
         """Sample clients for the current iteration."""
-        if self.n_iter == 0 or self.config.tau % self.n_iter == 0:
+        if self.n_iter % self.config.tau == 0:
             # if the current iteration divides the synchronization gap,
             # update the selected clients
             self._selected_clients = super()._sample_clients()
@@ -178,7 +178,7 @@ class APFLServer(Server):
         return ["tau"]
 
     def communicate(self, target: "APFLClient") -> None:
-        if self.n_iter == 0 or self.config.tau % self.n_iter == 0:
+        if self.n_iter % self.config.tau == 0:
             # if the current iteration divides the synchronization gap,
             # transmit the global model parameters to the client
             # otherwise, do nothing
@@ -188,7 +188,7 @@ class APFLServer(Server):
 
     @add_docstring(Server.update)
     def update(self) -> None:
-        if self.n_iter == 0 or self.config.tau % self.n_iter == 0:
+        if self.n_iter % self.config.tau == 0:
             # if the current iteration divides the synchronization gap,
             # update the global model parameters via averaging
             # otherwise, do nothing
