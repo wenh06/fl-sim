@@ -311,6 +311,7 @@ def plot_mean_curve_with_error_bounds(
     error_type: str = "std",
     fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
     label: Optional[str] = None,
+    show_error_bounds: bool = True,
     error_bound_label: bool = True,
     plot_config: Optional[Dict[str, Any]] = None,
     fill_between_config: Dict[str, Any] = {"alpha": 0.3},
@@ -333,6 +334,8 @@ def plot_mean_curve_with_error_bounds(
     label : Optional[str], optional
         The label for the mean curve.
         Default to ``"mean"``.
+    show_error_bounds : bool, default True
+        Whether to show the error bounds.
     error_bound_label : bool, default True
         Whether to add the label for the error bounds.
     plot_config : Optional[Dict[str, Any]], optional
@@ -358,44 +361,45 @@ def plot_mean_curve_with_error_bounds(
         )
     curves = np.array(curves)
     mean_curve = np.nanmean(curves, axis=0)
-    if error_type == "std":
-        std_curve = np.nanstd(curves, axis=0)
-        upper_curve = mean_curve + std_curve
-        lower_curve = mean_curve - std_curve
-    elif error_type == "sem":
-        std_curve = np.nanstd(curves, axis=0)
-        upper_curve = mean_curve + std_curve / np.sqrt(len(curves))
-        lower_curve = mean_curve - std_curve / np.sqrt(len(curves))
-    elif error_type == "quartile":
-        q3 = np.nanquantile(curves, 0.75, axis=0)
-        q1 = np.nanquantile(curves, 0.25, axis=0)
-        upper_curve = q3
-        lower_curve = q1
-    elif error_type == "iqr":
-        q3 = np.nanquantile(curves, 0.75, axis=0)
-        q1 = np.nanquantile(curves, 0.25, axis=0)
-        iqr = q3 - q1
-        upper_curve = q3 + 1.5 * iqr
-        lower_curve = q1 - 1.5 * iqr
-    else:
-        raise ValueError(f"Unknown error type: {error_type}")
     ax.plot(mean_curve, label=label or "mean", **(plot_config or {}))
-    if error_bound_label:
-        _error_type = {
-            "std": "STD",
-            "sem": "SEM",
-            "quartile": "Quartile",
-            "iqr": "IQR",
-        }[error_type]
-        fill_between_config["label"] = (
-            error_type if label is None else f"{label}±{_error_type}"
+    if show_error_bounds:
+        if error_type == "std":
+            std_curve = np.nanstd(curves, axis=0)
+            upper_curve = mean_curve + std_curve
+            lower_curve = mean_curve - std_curve
+        elif error_type == "sem":
+            std_curve = np.nanstd(curves, axis=0)
+            upper_curve = mean_curve + std_curve / np.sqrt(len(curves))
+            lower_curve = mean_curve - std_curve / np.sqrt(len(curves))
+        elif error_type == "quartile":
+            q3 = np.nanquantile(curves, 0.75, axis=0)
+            q1 = np.nanquantile(curves, 0.25, axis=0)
+            upper_curve = q3
+            lower_curve = q1
+        elif error_type == "iqr":
+            q3 = np.nanquantile(curves, 0.75, axis=0)
+            q1 = np.nanquantile(curves, 0.25, axis=0)
+            iqr = q3 - q1
+            upper_curve = q3 + 1.5 * iqr
+            lower_curve = q1 - 1.5 * iqr
+        else:
+            raise ValueError(f"Unknown error type: {error_type}")
+        if error_bound_label:
+            _error_type = {
+                "std": "STD",
+                "sem": "SEM",
+                "quartile": "Quartile",
+                "iqr": "IQR",
+            }[error_type]
+            fill_between_config["label"] = (
+                error_type if label is None else f"{label}±{_error_type}"
+            )
+        ax.fill_between(
+            np.arange(len(mean_curve)),
+            lower_curve,
+            upper_curve,
+            **fill_between_config,
         )
-    ax.fill_between(
-        np.arange(len(mean_curve)),
-        lower_curve,
-        upper_curve,
-        **fill_between_config,
-    )
     ax.legend(loc="best")
     return fig, ax
 
@@ -703,6 +707,14 @@ class Panel:
             self._on_merge_curve_with_err_bound_label_checkbox_value_changed,
             names="value",
         )
+        self._show_error_bounds_checkbox = widgets.Checkbox(
+            value=True,
+            description="Show error bounds",
+            style={"description_width": "initial"},
+        )
+        self._show_error_bounds_checkbox.observe(
+            self._on_show_error_bounds_checkbox_value_changed, names="value"
+        )
         if widgets.__version__ >= "8":
             self._merge_curve_tags_input = widgets.TagsInput(
                 value=[],
@@ -723,7 +735,12 @@ class Panel:
                             self._merge_curve_tags_input,
                         ]
                     ),
-                    self._merge_curve_with_err_bound_label_checkbox,
+                    widgets.HBox(
+                        [
+                            self._show_error_bounds_checkbox,
+                            self._merge_curve_with_err_bound_label_checkbox,
+                        ]
+                    ),
                 ],
             )
         else:  # TagsInput was added in ipywidgets 8.x
@@ -1146,6 +1163,12 @@ class Panel:
         if self._show_fig_flag:
             self._show_fig()
 
+    def _on_show_error_bounds_checkbox_value_changed(self, change: dict) -> None:
+        if widgets is None or not self._is_notebook:
+            return
+        if self._show_fig_flag:
+            self._show_fig()
+
     def _on_style_dropdown_selector_value_changed(self, change: dict) -> None:
         if widgets is None or not self._is_notebook:
             return
@@ -1299,6 +1322,7 @@ class Panel:
                             error_type=self._merge_curve_method_dropdown_selector.value,
                             fig_ax=(self.fig, self.ax),
                             label=tag,
+                            show_error_bounds=self._show_error_bounds_checkbox.value,
                             error_bound_label=self._merge_curve_with_err_bound_label_checkbox.value,
                             plot_config={"linestyle": next(linestyle_cycle)},
                             fill_between_config={
