@@ -236,6 +236,7 @@ class SCAFFOLDClient(Client):
 
     def update(self) -> None:
         try:
+            # self.set_parameters(self._received_messages["parameters"])
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
             warnings.warn(

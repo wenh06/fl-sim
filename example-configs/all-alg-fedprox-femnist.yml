@@ -18,6 +18,7 @@ strategy:
     - ProxSkip
     - SCAFFOLD
     - FedDyn
+    - APFL
     clients_sample_ratio:
     - 0.1
     - 0.3
