@@ -32,7 +32,7 @@ from fl_sim.data_processing import (  # noqa: F401
     FedLibSVMDataset,
     libsvmread,
 )  # noqa: F401
-from fl_sim.data_processing.fed_dataset import NLPDataset  # noqa: F401
+from fl_sim.data_processing.fed_dataset import NLPDataset
 
 
 @torch.no_grad()
@@ -473,4 +473,54 @@ def test_FedSynthetic():
 
 
 def test_NLPDataset():
-    pass  # TODO
+    from collections import OrderedDict
+
+    ds = NLPDataset(
+        dataset=[
+            ("Not good not bad.", 2),
+            ("It is funny.", 1),
+            ("Not interesting at all!", 0),
+        ],
+        input_columns=["sentence"],
+        label_names=["negative", "positive", "neutral"],
+        shuffle=True,
+    )
+
+    assert ds.dataset_name is None
+    assert str(ds) == repr(ds)
+
+    assert len(ds) == 3
+    assert isinstance(ds[0], tuple) and len(ds[0]) == 2
+    assert isinstance(list, ds[0:2])
+
+    assert ds._format_as_dict(("It is funny", 1)) == (
+        OrderedDict([("sentence", "It is funny")]),
+        1,
+    )
+
+    ds.filter_by_labels_(labels_to_keep=[0, 1])
+    assert len(ds) == 2
+
+    assert (
+        NLPDataset._gen_input({"sentence": "It is funny."}, ["sentence"])
+        == "It is funny."
+    )
+
+    for schema in [
+        ("premise", "hypothesis", "label"),
+        ("question", "sentence", "label"),
+        ("sentence1", "sentence2", "label"),
+        ("question1", "question2", "label"),
+        ("question", "sentence", "label"),
+        ("text", "label"),
+        ("sentence", "label"),
+        ("document", "summary"),
+        ("content", "summary"),
+        ("label", "review"),
+    ]:
+        input_columns, output_column = NLPDataset._split_dataset_columns(schema)
+        assert isinstance(input_columns, tuple) and isinstance(output_column, str)
+        assert all(isinstance(col, str) for col in input_columns)
+
+    ds = NLPDataset.from_huggingface_dataset("sst2", split="train")
+    assert len(ds) > 0
