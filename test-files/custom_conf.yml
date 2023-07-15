@@ -7,12 +7,14 @@ algorithm:
     num_clients: null
     clients_sample_ratio: 0.1
     num_iters: 2  # only for a quick test in GitHub Actions, normally much larger
+    vr: true
     log_dir: action-test
     tag: sample_ratio_${{ algorithm.server.clients_sample_ratio }}-seed_${{ seed }}
   client:
     lr: 0.03
     num_epochs: 10
     batch_size: null  # null for default batch size
+    vr: ${{ algorithm.server.vr }}
     scheduler:
       name: step  # StepLR
       step_size: 1
