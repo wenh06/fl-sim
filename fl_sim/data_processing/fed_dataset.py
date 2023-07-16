@@ -309,10 +309,27 @@ class FedVisionDataset(FedDataset, ABC):
 
     @staticmethod
     def show_image(tensor: Union[torch.Tensor, np.ndarray]) -> Image.Image:
+        """Show image from tensor.
+
+        Parameters
+        ----------
+        tensor : Union[torch.Tensor, np.ndarray]
+            Image tensor with shape (C, H, W) or (H, W, C) or (H, W),
+            where C is channel, H is height, W is width. C must be 1 or 3.
+
+        Returns
+        -------
+        Image.Image
+            PIL image.
+
+        """
+        if isinstance(tensor, np.ndarray):
+            tensor = torch.from_numpy(tensor)
         assert tensor.ndim in [2, 3]
         if tensor.ndim == 3:
-            if tensor.shape[0] in [1, 3]:
-                tensor = tensor.transpose(1, 2, 0)
+            if tensor.shape[0] not in [1, 3]:
+                # channel last to channel first
+                tensor = tensor.permute(2, 0, 1)
             if tensor.shape[-1] == 1:
                 tensor = tensor.squeeze(-1)
         return transforms.ToPILImage()(tensor)

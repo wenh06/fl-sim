@@ -35,6 +35,16 @@ from fl_sim.data_processing import (  # noqa: F401
 from fl_sim.data_processing.fed_dataset import NLPDataset
 
 
+def test_FedVisionDataset():
+    from PIL import Image
+
+    for shape in [(32, 32), (32, 32, 1), (32, 32, 3), (1, 32, 32), (3, 32, 32)]:
+        img = FedVisionDataset.show_image(torch.randn(*shape))
+        assert isinstance(img, Image.Image)
+        img = FedVisionDataset.show_image(np.random.randn(*shape))
+        assert isinstance(img, Image.Image)
+
+
 @torch.no_grad()
 def test_FedCIFAR100():
     """ """
@@ -43,7 +53,11 @@ def test_FedCIFAR100():
     assert len(ds._client_ids_train) == ds.DEFAULT_TRAIN_CLIENTS_NUM
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
+    assert isinstance(ds.get_classes(), list)
+    assert isinstance(ds.get_class(torch.tensor(0)), str)
+
     ds.view_image(0, 0)
+    ds.random_grid_view(3, 3, save_path="test_FedCIFAR100.pdf")
 
     assert str(ds) == repr(ds)
 
@@ -491,7 +505,7 @@ def test_NLPDataset():
 
     assert len(ds) == 3
     assert isinstance(ds[0], tuple) and len(ds[0]) == 2
-    assert isinstance(list, ds[0:2])
+    assert isinstance(ds[0:2], list) and len(ds[0:2]) == 2
 
     assert ds._format_as_dict(("It is funny", 1)) == (
         OrderedDict([("sentence", "It is funny")]),
