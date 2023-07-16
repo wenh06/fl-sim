@@ -193,7 +193,14 @@ class AbstractWordEmbedding(ReprMixin, ABC):
             input_sentences = [input_sentences]
         if not hasattr(self, "_tokenizer") or self._tokenizer is None:
             self._tokenizer = self._get_tokenizer()
-        return torch.tensor(self._tokenizer.encode_batch(input_sentences))
+        return torch.tensor(
+            [
+                encoding.ids
+                for encoding in self._tokenizer.encode_batch(
+                    input_sentences, add_special_tokens=False
+                )
+            ]
+        )
 
     @property
     def sizeof(self) -> str:
@@ -266,69 +273,6 @@ class WordEmbedding(AbstractWordEmbedding):
 
     def index2word(self, index: int) -> str:
         return self._index2word[index]
-
-
-class GensimWordEmbedding(AbstractWordEmbedding):
-    """
-    Wraps Gensim's `models.keyedvectors` module
-    (https://radimrehurek.com/gensim/models/keyedvectors.html)
-
-    Currently not used.
-
-    Parameters
-    ----------
-    keyed_vectors : gensim.models.keyedvectors.Word2VecKeyedVectors
-        Gensim's Word2VecKeyedVectors object.
-
-    """
-
-    __name__ = "GensimWordEmbedding"
-
-    def __init__(self, keyed_vectors: "Word2VecKeyedVectors") -> None:  # noqa: F821
-        try:
-            import gensim
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "GensimWordEmbedding requires gensim to be installed. "
-                "Please install it using `pip install gensim`."
-            )
-        assert gensim.__version__ >= "4.0", (
-            f"gensim version must be >= 4.0, current version is {gensim.__version__}. ",
-            "Please upgrade gensim by running `pip install --U gensim`",
-        )
-
-        if isinstance(keyed_vectors, gensim.models.keyedvectors.Word2VecKeyedVectors):
-            self.keyed_vectors = keyed_vectors
-        else:
-            raise ValueError(
-                "`keyed_vectors` argument must be a "
-                "`gensim.models.keyedvectors.Word2VecKeyedVectors` object"
-            )
-
-    def __getitem__(self, index: Union[int, str]) -> np.ndarray:
-        if isinstance(index, int):
-            try:
-                index = self.index2word(index)
-            except KeyError:
-                return None
-        try:
-            return self.keyed_vectors.get_vector(index, norm=True)
-        except IndexError:
-            # word embedding ID out of bounds
-            return None
-
-    def word2index(self, word: str) -> int:
-        return self.keyed_vectors.key_to_index[word]
-
-    def index2word(self, index: int) -> str:
-        try:
-            # this is a list, so the error would be IndexError
-            return self.keyed_vectors.index_to_key[index]
-        except IndexError:
-            raise KeyError(index)
-
-    def get_embedding_matrix(self) -> np.ndarray:
-        return self.keyed_vectors.vectors
 
 
 class GloveEmbedding(WordEmbedding):

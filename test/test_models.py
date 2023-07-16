@@ -29,6 +29,7 @@ from fl_sim.models import (
     reset_parameters,
 )
 from fl_sim.models.tokenizers import words_from_text
+from fl_sim.models.word_embeddings import GloveEmbedding
 from fl_sim.data_processing import FedShakespeare
 
 
@@ -261,6 +262,24 @@ def test_models():
     assert prob.shape == (2,)
     pred = model.pipeline("ew. getting ready for work")
     assert isinstance(pred, int) and pred in [0, 1]
+
+
+def test_GloveEmbedding():
+    import tokenizers as hf_tokenizers
+
+    embedding = GloveEmbedding("glove.6B.300d")
+    assert isinstance(embedding.sizeof, str)
+    assert embedding.dim == 300
+    assert embedding.vocab_size == 400000
+    assert isinstance(embedding[0], np.ndarray) and embedding[0].shape == (300,)
+    assert isinstance(embedding.word2index("correct"), int)
+    assert isinstance(embedding.index2word(0), str)
+    assert isinstance(embedding.get_embedding_layer(), torch.nn.Module)
+    assert isinstance(
+        embedding._get_tokenizer(), hf_tokenizers.implementations.BaseTokenizer
+    )
+    input_tensor = embedding.get_input_tensor("It is correct")
+    assert isinstance(input_tensor, torch.Tensor) and input_tensor.shape == (1, 256)
 
 
 def test_misc():
