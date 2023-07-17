@@ -619,7 +619,7 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         """
         if not isinstance(labels_to_keep, set):
             labels_to_keep = set(labels_to_keep)
-        self._dataset = filter(lambda x: x[1] in labels_to_keep, self._dataset)
+        self._dataset = list(filter(lambda x: x[1] in labels_to_keep, self._dataset))
 
     def __getitem__(self, i: Union[slice, int]) -> Union[tuple, List[tuple]]:
         """Return i-th sample."""

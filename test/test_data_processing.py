@@ -53,7 +53,7 @@ def test_FedCIFAR100():
     assert len(ds._client_ids_train) == ds.DEFAULT_TRAIN_CLIENTS_NUM
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
-    assert isinstance(ds.get_classes(), list)
+    assert isinstance(ds.get_classes(torch.tensor([0, 1])), list)
     assert isinstance(ds.get_class(torch.tensor(0)), str)
 
     ds.view_image(0, 0)
