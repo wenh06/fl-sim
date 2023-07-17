@@ -270,7 +270,7 @@ def test_GloveEmbedding():
     embedding = GloveEmbedding("glove.6B.300d")
     assert isinstance(embedding.sizeof, str)
     assert embedding.dim == 300
-    assert embedding.vocab_size == 400000
+    assert embedding.vocab_size == 400001  # 400,000 words + 1 for unknown <unk>
     assert isinstance(embedding[0], np.ndarray) and embedding[0].shape == (300,)
     assert isinstance(embedding.word2index("correct"), int)
     assert isinstance(embedding.index2word(0), str)

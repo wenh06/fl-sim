@@ -412,16 +412,16 @@ class GloveEmbedding(WordEmbedding):
         index2word = {}
         embedding_matrix = []
         total_lines = {
-            "glove.6B.50d": 400000,
-            "glove.6B.100d": 400000,
-            "glove.6B.200d": 400000,
-            "glove.6B.300d": 400000,
-            "glove.42B.300d": 1917494,
-            "glove.840B.300d": 2196017,
-            "glove.twitter.27B.25d": 1193514,
-            "glove.twitter.27B.50d": 1193514,
-            "glove.twitter.27B.100d": 1193514,
-            "glove.twitter.27B.200d": 1193514,
+            "glove.6B.50d": 400001,  # update from 400000 to 400001, <unk> is added
+            "glove.6B.100d": 400001,
+            "glove.6B.200d": 400001,
+            "glove.6B.300d": 400001,
+            "glove.42B.300d": 1917495,  # by copilot, might be wrong
+            "glove.840B.300d": 2196017,  # by copilot, might be wrong
+            "glove.twitter.27B.25d": 1193514,  # by copilot, might be wrong
+            "glove.twitter.27B.50d": 1193514,  # by copilot, might be wrong
+            "glove.twitter.27B.100d": 1193514,  # by copilot, might be wrong
+            "glove.twitter.27B.200d": 1193514,  # by copilot, might be wrong
         }[self.name]
         with open(self.file_path, "r") as f:
             with tqdm(
