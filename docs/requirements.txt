@@ -1,0 +1,13 @@
+sphinx
+nbsphinx
+sphinx-theme
+pydata-sphinx-theme
+sphinx-autobuild
+sphinx-rtd-theme
+sphinx-markdown-tables
+sphinx-copybutton
+sphinx-multiversion
+sphinxcontrib-napoleon
+sphinxcontrib-tikz
+numpydoc
+recommonmark

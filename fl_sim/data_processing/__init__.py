@@ -1,4 +1,77 @@
 """
+fl_sim.data_processing
+=======================
+
+This module contains federated datasets and data processing utilities.
+
+.. contents:: fl_sim.data_processing
+    :depth: 2
+    :local:
+    :backlinks: top
+
+.. currentmodule:: fl_sim.data_processing
+
+Base classes
+------------------
+.. autosummary::
+    :toctree: generated/
+    :recursive:
+
+    FedDataset
+    FedVisionDataset
+    FedNLPDataset
+
+Vision datasets
+--------------------------
+.. autosummary::
+    :toctree: generated/
+    :recursive:
+
+    FedCIFAR
+    FedCIFAR100
+    FedEMNIST
+    FedMNIST
+    FedRotatedCIFAR10
+    FedRotatedMNIST
+    FedProxFEMNIST
+    FedProxMNIST
+    FedProxSent140
+
+NLP datasets
+--------------------------
+.. autosummary::
+    :toctree: generated/
+    :recursive:
+
+    FedShakespeare
+    FedProxSent140
+
+Synthetic datasets
+--------------------------
+.. autosummary::
+    :toctree: generated/
+    :recursive:
+
+    FedSynthetic
+
+LibSVM datasets
+--------------------------
+.. autosummary::
+    :toctree: generated/
+    :recursive:
+
+    FedLibSVMDataset
+
+Dataset registry utilities
+--------------------------
+.. autosummary::
+    :toctree: generated/
+    :recursive:
+
+    register_fed_dataset
+    list_fed_dataset
+    get_fed_dataset
+
 """
 
 from .fed_data_args import FedDataArgs

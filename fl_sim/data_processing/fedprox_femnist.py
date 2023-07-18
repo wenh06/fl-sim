@@ -29,8 +29,7 @@ _label_mapping = {i: c for i, c in enumerate("abcdefghijklmnopqrstuvwxyz"[:10])}
 
 @register_fed_dataset()
 class FedProxFEMNIST(FedVisionDataset):
-    """
-    (part of) federeated EMNIST used in the FedProx paper and the FedDR paper.
+    """(part of) federeated EMNIST used in the FedProx paper [1]_ and the FedDR paper.
 
     `The FEMNIST data we used in the paper is a subsampled (and repartitioned) version
     of the original full dataset in order to impose additional statistical heterogeneity.

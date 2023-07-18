@@ -34,6 +34,7 @@ class FedMNIST(FedVisionDataset):
     To simulate a heterogeneous setting, FedML distribute the data
     among 1000 devices such that each device has samples of only 2 digits
     and the number of samples per device follows a power law.
+    This dataset is adopted from [1]_, which is also used in [2]_.
 
     NOTE: the maximum value of the raw data is 264.2510681152344, which could
     lead to numerical instability. We normalize the data to range [0, 1].

@@ -1,9 +1,5 @@
 """
-The dataset Sent140 used in the FedProx paper
-
-References
-----------
-1. https://github.com/litian96/FedProx/tree/master/data/sent140
+The dataset Sent140 used in the FedProx paper.
 """
 
 import json

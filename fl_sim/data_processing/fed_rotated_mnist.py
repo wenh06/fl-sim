@@ -1,12 +1,5 @@
 """
-Datasets used in the numerical experiments in
-"An Efficient Framework for Clustered Federated Learning"
-
-Reference
----------
-1. https://github.com/jichan3751/ifca
-2. https://arxiv.org/abs/2006.04088
-
+Federated Rotated MNIST dataset.
 """
 
 import gzip
@@ -46,7 +39,7 @@ __all__ = [
 
 @register_fed_dataset()
 class FedRotatedMNIST(FedVisionDataset):
-    """MNIST augmented with rotations.
+    """MNIST [1]_ augmented with rotations [2]_.
 
     The rotations are fixed and are multiples of 360 / num_rotations.
 

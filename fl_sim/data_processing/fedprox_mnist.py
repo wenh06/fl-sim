@@ -28,7 +28,7 @@ FEDPROX_MNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 @register_fed_dataset()
 class FedProxMNIST(FedVisionDataset):
-    """Federeated MNIST used in the FedProx paper,
+    """Federeated MNIST used in the FedProx paper [1]_, [2]_,
     where the data is partitioned in a non-IID manner.
 
     Parameters

@@ -1,12 +1,4 @@
 """
-Datasets used in the numerical experiments in
-"An Efficient Framework for Clustered Federated Learning"
-
-Reference
----------
-1. https://github.com/jichan3751/ifca
-2. https://arxiv.org/abs/2006.04088
-
 """
 
 import pickle
@@ -44,7 +36,7 @@ __all__ = [
 
 @register_fed_dataset()
 class FedRotatedCIFAR10(FedVisionDataset):
-    """CIFAR10 dataset with rotation augmentation.
+    """CIFAR10 dataset [1]_ with rotation augmentation [2]_.
 
     The rotations are fixed and are multiples of 360 / num_rotations.
 
