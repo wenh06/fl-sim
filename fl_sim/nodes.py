@@ -18,13 +18,13 @@ import torch
 import torch.nn as nn
 import yaml
 from bib_lookup import CitationMixin
-from easydict import EasyDict as ED
 from tqdm.auto import tqdm
 from torch import Tensor
 from torch.utils.data import DataLoader
 from torch.nn.parameter import Parameter
 from torch.optim import SGD
 from torch.optim.lr_scheduler import LambdaLR
+from torch_ecg.cfg import CFG
 from torch_ecg.utils import ReprMixin, add_docstring, get_kwargs
 
 from .data_processing.fed_dataset import FedDataset
@@ -807,7 +807,7 @@ class Server(Node, CitationMixin):
             self._reset(reset_clients=False)
 
         self._logger_manager.log_message("Training centralized...")
-        extra_configs = ED(extra_configs or {})
+        extra_configs = CFG(extra_configs or {})
 
         batch_size = extra_configs.get("batch_size", self.config.batch_size)
         train_loader, val_loader = self.dataset.get_dataloader(

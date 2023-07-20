@@ -7,9 +7,9 @@ from typing import Iterable, Union, Any
 
 import torch.optim as opt
 import torch_optimizer as topt
-from easydict import EasyDict as ED
 from torch.nn.parameter import Parameter
 from torch.optim import Optimizer
+from torch_ecg.cfg import CFG
 from torch_ecg.utils import add_docstring
 
 from ..utils.misc import add_kwargs
@@ -169,10 +169,10 @@ def get_optimizer(
             pass
 
     if isinstance(config, dict):
-        # convert dict to easydict so that we can use dot notation
+        # convert dict to CFG so that we can use dot notation
         # to access config items in function `_get_cls_init_args`
         # like items in `ClientConfig` can be accessed by `config.xxx`
-        config = ED(config)
+        config = CFG(config)
 
     builtin_optimizers = list_builtin_optimizers().copy()
 
@@ -242,12 +242,12 @@ def get_optimizer(
     return optimizer
 
 
-def _get_cls_init_args(cls: type, config: Any) -> ED:
+def _get_cls_init_args(cls: type, config: Any) -> CFG:
     """
     used to filter out the items in config that are not arguments of the class
     """
     if isinstance(config, dict):
-        config = ED(config)
+        config = CFG(config)
     args = [
         k
         for k in inspect.getfullargspec(cls.__init__).args
@@ -257,7 +257,7 @@ def _get_cls_init_args(cls: type, config: Any) -> ED:
             "params",
         ]
     ]
-    kwargs = ED()
+    kwargs = CFG()
     for k in args:
         try:
             kwargs[k] = eval(f"config.{k}")
