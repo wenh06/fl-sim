@@ -1,7 +1,3 @@
-"""
-federated Cifar10, Cifar100
-"""
-
 from pathlib import Path
 from typing import Optional, Union, List, Callable, Tuple, Dict, Sequence, Any
 
@@ -49,13 +45,13 @@ for n_class in [
 class FedCIFAR(FedVisionDataset):
     """Federated CIFAR10/100 dataset.
 
-    This dataset is loaded from TensorFlow Federated (TFF) cifar100 load_data API (ref. [1]_),
+    This dataset is loaded from TensorFlow Federated (TFF) cifar100 load_data API [1]_,
     and saved as h5py files. This dataset is pre-divided into 500 training clients
     containing 50,000 examples in total, and 100 testing clients containing 10,000
     examples in total.
 
     The images are saved in the channel last format, i.e.,
-    N x H x W x C, **NOT** the usual channel first format for PyTorch.
+    ``N x H x W x C``, **NOT** the usual channel first format for PyTorch.
     A single image (and similarly for label and coarse_label) can be accessed by
 
     .. code-block:: python
@@ -66,7 +62,7 @@ class FedCIFAR(FedVisionDataset):
     where ``path`` is the path to the h5py file, "0" is the client id, and 0 is the
     index of the image in the client's dataset.
 
-    Most methods in this class are adopted and modified from FedML (ref. [2]_).
+    Most methods in this class are adopted and modified from FedML [2]_.
 
     Parameters
     ----------

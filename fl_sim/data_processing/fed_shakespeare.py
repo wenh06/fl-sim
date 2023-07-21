@@ -1,6 +1,3 @@
-"""
-"""
-
 from pathlib import Path
 from collections import OrderedDict
 from itertools import repeat
@@ -33,7 +30,7 @@ class FedShakespeare(FedNLPDataset):
 
     Shakespeare dataset is built from the collective works of William Shakespeare.
     This dataset is used to perform tasks of next character prediction.
-    FedML loaded data from TensorFlow Federated (TFF) shakespeare load_data API (ref [1]_)
+    FedML [1]_ loaded data from TensorFlow Federated (TFF) shakespeare load_data API [2]_
     and saved the unzipped data into hdf5 files.
 
     Data partition is the same as TFF, with the following statistics.
@@ -58,8 +55,8 @@ class FedShakespeare(FedNLPDataset):
 
     References
     ----------
-    .. [1] https://www.tensorflow.org/federated/api_docs/python/tff/simulation/datasets/shakespeare/load_data
-    .. [2] https://github.com/FedML-AI/FedML/tree/master/python/fedml/data/fed_shakespeare
+    .. [1] https://github.com/FedML-AI/FedML/tree/master/python/fedml/data/fed_shakespeare
+    .. [2] https://www.tensorflow.org/federated/api_docs/python/tff/simulation/datasets/shakespeare/load_data
 
     """
 

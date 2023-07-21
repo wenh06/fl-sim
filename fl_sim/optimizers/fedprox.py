@@ -22,7 +22,7 @@ class FedProxOptimizer(ProxSGD):
 
     Parameters
     ----------
-    params : Iterable[dict] or Iterable[torch.nn.Parameter]
+    params : Iterable[dict] or Iterable[torch.nn.parameter.Parameter]
         The parameters to optimize or dicts defining parameter groups.
     lr : float, default: 1e-3
         Learning rate.

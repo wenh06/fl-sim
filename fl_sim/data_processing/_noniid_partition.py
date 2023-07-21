@@ -1,8 +1,3 @@
-"""
-This file is modified from the corresponding file of the FedML project
-https://github.com/FedML-AI/FedML/blob/master/fedml_core/non_iid_partition/noniid_partition.py
-"""
-
 from typing import Dict, Tuple, List, Any
 
 import numpy as np
@@ -24,6 +19,8 @@ def non_iid_partition_with_dirichlet_distribution(
     """
     Obtain sample index list for each client from the Dirichlet distribution.
 
+    Modified from `FedML <https://github.com/FedML-AI/FedML/blob/master/fedml_core/non_iid_partition/noniid_partition.py>`_.
+
     This LDA method is first proposed by :
     Measuring the Effects of Non-Identical Data Distribution for
     Federated Visual Classification (https://arxiv.org/pdf/1909.06335.pdf).
@@ -36,20 +33,20 @@ def non_iid_partition_with_dirichlet_distribution(
 
     Parameters
     ----------
-    label_list:
+    label_list : numpy.ndarray
         the label list from classification/segmentation dataset
-    client_num:
+    client_num : int
         number of clients
-    classes:
+    classes : int or list
         the number of classification (e.g., 10 for CIFAR-10) OR a list of segmentation categories
-    alpha:
+    alpha : float
         a concentration parameter controlling the identicalness among clients.
-    task:
+    task : {"classification", "segmentation"}
         CV specific task eg. classification, segmentation
 
     Returns
     -------
-    net_dataidx_map: dict,
+    net_dataidx_map : dict
         keys are indices of clients,
         values are sample index list
 
@@ -122,7 +119,6 @@ def _partition_class_samples_with_dirichlet_distribution(
     idx_batch: list,
     idx_k: np.ndarray,
 ) -> Tuple[List[int], int]:
-    """ """
     np.random.shuffle(idx_k)
     # using dirichlet distribution to determine the unbalanced proportion for each client (client_num in total)
     # e.g., when client_num = 4, proportions = [0.29543505 0.38414498 0.31998781 0.00043216], sum(proportions) = 1
@@ -150,7 +146,6 @@ def record_data_stats(
     net_dataidx_map: Dict[int, List[int]],
     task: str = "classification",
 ) -> Dict[int, Dict[Any, int]]:
-    """ """
     net_cls_counts = {}
 
     for net_i, dataidx in net_dataidx_map.items():

@@ -1,5 +1,28 @@
 """
-Regularizers for the optimization problems.
+fl_sim.regularizers
+===================
+
+This module contains the regularizers for the optimization problems.
+
+.. contents:: fl_sim.regularizers
+    :depth: 2
+    :local:
+    :backlinks: top
+
+.. currentmodule:: fl_sim.regularizers
+
+.. autosummary::
+    :toctree: generated/
+    :recursive:
+
+    get_regularizer
+    Regularizer
+    L1Norm
+    L2Norm
+    L2NormSquared
+    LInfNorm
+    NullRegularizer
+
 """
 
 from .regularizers import (

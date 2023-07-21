@@ -107,7 +107,7 @@ def distribute_images(
 
     Parameters
     ----------
-    total : int or np.ndarray
+    total : int or numpy.ndarray
         Total number of images,
         or an array of indices of images.
     num_clients : int
@@ -117,7 +117,7 @@ def distribute_images(
 
     Returns
     -------
-    list of np.ndarray
+    list of numpy.ndarray
         A list of arrays of indices of images.
 
     """

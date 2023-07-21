@@ -1,5 +1,5 @@
 """
-this file is forked from https://github.com/unc-optimization/FedDR/tree/main/FedDR/flearn/regularizers
+this file is forked from `FedDR <https://github.com/unc-optimization/FedDR/tree/main/FedDR/flearn/regularizers>`_.
 """
 
 import re
@@ -7,7 +7,6 @@ from abc import ABC, abstractmethod
 from math import sqrt
 from typing import Iterable, List, Optional
 
-import torch  # noqa: F401
 from torch.nn.parameter import Parameter
 from torch_ecg.utils import ReprMixin, add_docstring
 
@@ -44,7 +43,7 @@ class Regularizer(ReprMixin, ABC):
 
         Parameters
         ----------
-        params : Iterable[torch.nn.Parameter]
+        params : Iterable[torch.nn.parameter.Parameter]
             The parameters to be evaluated on.
         coeff : float, optional
             The coefficient of the regularizer.
@@ -63,6 +62,7 @@ class Regularizer(ReprMixin, ABC):
         i.e. evaluate the following function:
 
         .. math::
+
             \\mathrm{prox}_{\\lambda R}(\\mathbf{w})
             = \\arg\\min_{\\mathbf{u}} \\frac{1}{2s} \\lVert \\mathbf{u} - \\mathbf{w} \\rVert_2^2
             + \\lambda R(\\mathbf{u})
@@ -71,7 +71,7 @@ class Regularizer(ReprMixin, ABC):
 
         Parameters
         ----------
-        params : Iterable[torch.nn.Parameter]
+        params : Iterable[torch.nn.parameter.Parameter]
             The parameters to be evaluated on.
         coeff : float, optional
             The coefficient of the regularizer.
@@ -79,7 +79,7 @@ class Regularizer(ReprMixin, ABC):
 
         Returns
         -------
-        Iterable[torch.nn.Parameter]
+        Iterable[torch.nn.parameter.Parameter]
             The proximity operator of the regularizer
             evaluated on the given parameters.
 

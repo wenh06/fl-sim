@@ -1,6 +1,5 @@
 """
-For original implementation, see:
-https://github.com/CharlieDinh/pFedMe
+For original implementation, see `pFedMe <https://github.com/CharlieDinh/pFedMe>`_.
 """
 
 from typing import Iterable, Union

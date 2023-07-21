@@ -1,6 +1,3 @@
-"""
-"""
-
 from pathlib import Path
 from typing import Optional, Union, List, Tuple, Dict
 
@@ -27,8 +24,8 @@ LEAF_SENT140_DATA_DIR.mkdir(parents=True, exist_ok=True)
 class LeafSent140(FedNLPDataset):
     """Federeated Sentiment140 dataset from Leaf.
 
-    Sentiment140 dataset (ref. [1]_) is built from the tweets of Twitter
-    and is used to perform sentiment analysis tasks. The Leaf library (ref. [2]_)
+    Sentiment140 dataset [1]_ is built from the tweets of Twitter
+    and is used to perform sentiment analysis tasks. The Leaf library [2]_
     further processed the data.
 
     Parameters

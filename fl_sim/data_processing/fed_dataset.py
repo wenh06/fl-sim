@@ -1,7 +1,3 @@
-"""
-abstract base classes of federated dataset provided by FedML, and more
-"""
-
 import random
 import re
 from abc import ABC, abstractmethod
@@ -41,16 +37,18 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
     """Base class for all federated datasets.
 
     Methods that have to be implemented by subclasses:
-        - `get_dataloader`
-        - `_preload`
-        - `load_partition_data`
-        - `load_partition_data_distributed`
-        - `evaluate`
+
+    - `get_dataloader`
+    - `_preload`
+    - `load_partition_data`
+    - `load_partition_data_distributed`
+    - `evaluate`
 
     Properties that have to be implemented by subclasses:
-        - `url`
-        - `candidate_models`
-        - `doi`
+
+    - `url`
+    - `candidate_models`
+    - `doi`
 
     """
 
@@ -131,15 +129,17 @@ class FedVisionDataset(FedDataset, ABC):
     """Base class for all federated vision datasets.
 
     Methods that have to be implemented by subclasses:
-        - `get_dataloader`
-        - `_preload`
-        - `evaluate`
+
+    - `get_dataloader`
+    - `_preload`
+    - `evaluate`
 
     Properties that have to be implemented by subclasses:
-        - `url`
-        - `candidate_models`
-        - `doi`
-        - `label_map`
+
+    - `url`
+    - `candidate_models`
+    - `doi`
+    - `label_map`
 
     Parameters
     ----------
@@ -314,7 +314,7 @@ class FedVisionDataset(FedDataset, ABC):
         Parameters
         ----------
         tensor : Union[torch.Tensor, np.ndarray]
-            Image tensor with shape (C, H, W) or (H, W, C) or (H, W),
+            Image tensor with shape ``(C, H, W)`` or ``(H, W, C)`` or ``(H, W)``,
             where C is channel, H is height, W is width. C must be 1 or 3.
 
         Returns
@@ -350,15 +350,17 @@ class FedNLPDataset(FedDataset, ABC):
     """Base class for all federated NLP datasets.
 
     Methods that have to be implemented by subclasses:
-        - `get_dataloader`
-        - `_preload`
-        - `evaluate`
-        - `get_word_dict`
+
+    - `get_dataloader`
+    - `_preload`
+    - `evaluate`
+    - `get_word_dict`
 
     Properties that have to be implemented by subclasses:
-        - `url`
-        - `candidate_models`
-        - `doi`
+
+    - `url`
+    - `candidate_models`
+    - `doi`
 
     Parameters
     ----------
@@ -521,19 +523,19 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
 
     Parameters
     ----------
-    dataset: List[tuple]
+    dataset : List[tuple]
         A list of tuples, each tuple contains a text and a label.
-    input_columns: List[str], optional
+    input_columns : List[str], optional
         The column names of the input text and label.
-    label_map: Dict[int, int], optional
+    label_map : Dict[int, int], optional
         A dictionary that maps the original label to a new label.
-    label_names: List[str], optional
+    label_names : List[str], optional
         A list of label names.
-    output_scale_factor: float, optional
+    output_scale_factor : float, optional
         The scale factor of the output label.
-    shuffle: bool, optional
+    shuffle : bool, optional
         Whether to shuffle the dataset.
-    max_len: int, optional
+    max_len : int, optional
         The maximum length of the input text. If the length of the input text is
         greater than `max_len`, the text will be truncated to `max_len`.
 
@@ -609,8 +611,8 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
 
         Parameters
         ----------
-        labels_to_keep:
-            Set, tuple, list, or iterable of integers representing labels.
+        labels_to_keep : Union[set, tuple, list, Iterable]
+            Integers representing labels.
 
         Returns
         -------
@@ -642,11 +644,11 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
 
         Parameters
         ----------
-        ds: str or datasets.Dataset
+        ds : str or datasets.Dataset
             The name of the dataset or the HuggingFace dataset object.
-        split: datasets.NamedSplit, optional
+        split : datasets.NamedSplit, optional
             The name of the split to load.
-        max_len: int, optional
+        max_len : int, optional
             The maximum length of the input text. If the length of the input text is
             greater than `max_len`, the text will be truncated to `max_len`.
 

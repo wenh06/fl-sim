@@ -1,7 +1,3 @@
-"""
-Federated Rotated MNIST dataset.
-"""
-
 import gzip
 import posixpath
 from pathlib import Path

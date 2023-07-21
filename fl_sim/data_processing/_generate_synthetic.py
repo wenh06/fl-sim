@@ -1,16 +1,9 @@
-"""
-Modified from `generate_synthetic.py` in `FedProx`
-
-ref. https://github.com/litian96/FedProx/blob/master/data/
-
-"""
-
 import itertools
 from pathlib import Path
 from typing import List, Dict
 
 import numpy as np
-import torch  # noqa: F401
+import torch
 from scipy.io import loadmat, savemat
 
 from ..utils.const import CACHED_DATA_DIR
@@ -39,7 +32,11 @@ def generate_synthetic(
     shuffle: bool = True,
     recompute: bool = False,
 ) -> List[Dict[str, np.ndarray]]:
-    """Generate synthetic data using methods proposed in FedProx paper."""
+    """Generate synthetic data using methods proposed in FedProx paper.
+
+    Modified from `generate_synthetic.py` in `FedProx <https://github.com/litian96/FedProx/blob/master/data/>`_.
+
+    """
     file = _get_path(alpha, beta, iid, num_clients, num_classes, dimension, seed)
     if recompute or not file.exists():
         data_dict = _generate_synthetic(

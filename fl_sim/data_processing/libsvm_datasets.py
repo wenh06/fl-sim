@@ -1,7 +1,3 @@
-"""
-dataset readers, for datasets from LIBSVM library
-"""
-
 import posixpath
 from pathlib import Path
 from typing import Union, Optional, Tuple, Dict, List

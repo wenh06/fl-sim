@@ -1,6 +1,5 @@
 """
-For original implementation, see:
-https://github.com/564612540/FedPD
+For original implementation, see `FedPD <https://github.com/564612540/FedPD>`_.
 """
 
 from typing import Iterable, Union

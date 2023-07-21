@@ -19,8 +19,10 @@ A Simple Simulation Framework for Federated Learning Based on PyTorch.
    :caption: API Reference
    :maxdepth: 2
 
-   api/datasets
-   api/models
+   datasets
+   models
+   optimizers
+   regularizers
 
 .. toctree::
    :caption: Advanced Topics

@@ -1,7 +1,6 @@
 """
-Adjusted from
-1. [TextAttack](https://github.com/QData/TextAttack)
-2. [AI-Testing](https://git.openi.org.cn/Numbda/AI-Testing)
+Adjusted from `TextAttack <https://github.com/QData/TextAttack>`_, and
+`AI-Testing <https://git.openi.org.cn/Numbda/AI-Testing>`_.
 """
 
 import json

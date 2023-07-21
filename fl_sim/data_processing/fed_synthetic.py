@@ -4,7 +4,7 @@
 from typing import Optional, List, Tuple, Dict, Any
 
 import numpy as np
-import torch  # noqa: F401
+import torch
 import torch.utils.data as torchdata
 
 from ..models import nn as mnn
@@ -22,12 +22,15 @@ __all__ = [
 
 @register_fed_dataset()
 class FedSynthetic(FedDataset):
-    """Federated Synthetic dataset proposed in FedProx paper [1]_.
+    """Federated Synthetic dataset proposed in FedProx paper [1]_ [2]_.
 
     Parameters
     ----------
-    alpha, beta : float
-        The parameters for generating synthetic data
+    alpha : float
+        Parameters for generating synthetic data
+        using normal distributions.
+    beta : float
+        Parameters for generating synthetic data
         using normal distributions.
     iid : bool
         Whether to generate iid data.

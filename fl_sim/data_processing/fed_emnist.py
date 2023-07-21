@@ -1,7 +1,3 @@
-"""
-federeated EMNIST
-"""
-
 import warnings
 from pathlib import Path
 from typing import Optional, Union, List, Tuple, Dict
@@ -31,7 +27,7 @@ FED_EMNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 class FedEMNIST(FedVisionDataset):
     """
     Federated EMNIST dataset extends MNIST dataset with upper and lower case English characters
-    Data partition is the same as TensorFlow Federated (TFF) (ref. [1]_) with the following statistics:
+    Data partition is the same as TensorFlow Federated (TFF) [1]_ with the following statistics:
 
     +-----------+---------------+----------------+--------------+---------------+
     | DATASET   | TRAIN CLIENTS | TRAIN EXAMPLES | TEST CLIENTS | TEST EXAMPLES |
@@ -39,7 +35,7 @@ class FedEMNIST(FedVisionDataset):
     | EMNIST-62 | 3,400         | 671,585        | 3,400        | 77,483        |
     +-----------+---------------+----------------+--------------+---------------+
 
-    Most methods in this class are modified from FedML (ref. [2]_).
+    Most methods in this class are modified from FedML [2]_.
 
     NOTE: the images are processed using min-max normalization to range [0, 1].
 

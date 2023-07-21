@@ -1,7 +1,3 @@
-"""
-dataset readers, including Cifar10, Cifar100
-"""
-
 import json
 from pathlib import Path
 from typing import Optional, Union, List, Callable, Tuple, Dict
@@ -106,13 +102,6 @@ class CIFAR_truncated(ReprMixin, torchdata.Dataset):
             self.data[gs_index, :, :, 2] = 0.0
 
     def __getitem__(self, index: int) -> Tuple[torch.Tensor, torch.Tensor]:
-        """
-        Args:
-            index (int): Index
-
-        Returns:
-            tuple: (image, target) where target is index of the target class.
-        """
         img, target = self.data[index], self.target[index]
 
         if self.transform is not None:
@@ -175,7 +164,7 @@ class Cutout(object):
 
     def __call__(self, img: torch.Tensor) -> torch.Tensor:
         """
-        img of shape [..., H, W]
+        img of shape ``[..., H, W]``
         """
         h, w = img.shape[-2:]
         mask = np.ones((h, w), np.float32)

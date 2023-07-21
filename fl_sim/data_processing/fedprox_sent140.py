@@ -1,26 +1,12 @@
-"""
-The dataset Sent140 used in the FedProx paper.
-"""
-
 import json
 import re
-import warnings
 from pathlib import Path
 from string import punctuation
 from typing import Optional, Union, List, Tuple, Dict
 
 import torch
 import torch.utils.data as torchdata
-
-try:
-    from bs4 import BeautifulSoup
-except ModuleNotFoundError:
-    BeautifulSoup = None
-    warnings.warn(
-        "Text preprocessing is better with Beautiful Soup 4. "
-        "One can install it by `pip install beautifulsoup4`.",
-        RuntimeWarning,
-    )
+from bs4 import BeautifulSoup
 
 from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
@@ -43,8 +29,8 @@ FEDPROX_SENT140_DATA_DIR.mkdir(parents=True, exist_ok=True)
 class FedProxSent140(FedNLPDataset):
     """Federated Sentiment140 dataset used in FedProx paper.
 
-    Sentiment140 dataset (ref. [1]_) is built from the tweets
-    with positive and negative sentiment. FedProx (ref. [2]_)
+    Sentiment140 dataset [1]_ is built from the tweets
+    with positive and negative sentiment. FedProx [2]_
     preprocessed the data and saved the data into json files.
 
     Parameters
@@ -204,8 +190,7 @@ class FedProxSent140(FedNLPDataset):
         remove URLs and leading "@user" in the text,
         then remove leading and trailing punctuation
         """
-        if BeautifulSoup is not None:
-            text = BeautifulSoup(text, "html.parser").get_text()
+        text = BeautifulSoup(text, "html.parser").get_text()
         # remove the URLs
         text = re.sub(r"(^|\s*)https?://\S+(\s+|$)", "", text.strip())
         # remove the leading "@user"

@@ -41,6 +41,7 @@ class MLP(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
     """Multi-layer perceptron.
 
     can be used for
+
     1. logistic regression (for classification) using cross entropy loss (CrossEntropyLoss, BCEWithLogitsLoss, etc)
     2. regression (for regression) using MSE loss
     3. SVM (for classification) using hinge loss (MultiMarginLoss, MultiLabelMarginLoss, etc)
@@ -112,7 +113,8 @@ class MLP(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
 
 
 class FedPDMLP(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
-    """Multi-layer perceptron modified from FedPD/models.py
+    """Multi-layer perceptron modified from
+    `FedPD/models.py <https://github.com/564612540/FedPD>`_.
 
     Parameters
     ----------
@@ -153,7 +155,7 @@ class FedPDMLP(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
 class CNNMnist(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
     """Convolutional neural network using MNIST type input.
 
-    Modified from FedPD/models.py
+    Modified from `FedPD/models.py <https://github.com/564612540/FedPD>`_.
 
     Input size: ``(batch_size, 1, 28, 28)``.
 
@@ -185,7 +187,7 @@ class CNNMnist(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
 class CNNFEMnist(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
     """Convolutional neural network using FEMnist type input.
 
-    Modified from FedPD/models.py
+    Modified from `FedPD/models.py <https://github.com/564612540/FedPD>`_.
 
     Input shape: ``(batch_size, 1, 28, 28)``.
 
@@ -226,7 +228,7 @@ class CNNFEMnist(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
 class CNNFEMnist_Tiny(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
     """Tiny version of :class:`CNNFEMnist`.
 
-    Modified from FedPD/models.py
+    Modified from `FedPD/models.py <https://github.com/564612540/FedPD>`_.
 
     Input shape: ``(batch_size, 1, 28, 28)``.
 
@@ -346,7 +348,7 @@ class CNNCifar_Small(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
 class CNNCifar_Tiny(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
     """Convolutional neural network using CIFAR type input.
 
-    Modified from FedPD/models.py
+    Modified from `FedPD/models.py <https://github.com/564612540/FedPD>`_.
 
     Input shape: ``(batch_size, 3, 32, 32)``.
 
@@ -355,7 +357,9 @@ class CNNCifar_Tiny(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
     num_classes : int
         Number of output classes.
 
-    NOTE: this model is too tiny.
+    NOTE
+    ----
+    This model is too tiny.
 
     """
 
@@ -393,7 +397,8 @@ class CNNCifar_Tiny(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
 
 
 class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
-    """Creates a RNN model using LSTM layers for Shakespeare language models (next character prediction task).
+    """Creates a RNN model using LSTM layers for
+    Shakespeare language models (next character prediction task).
 
     This replicates the model structure in the paper [#fedavg]_.
     This is also recommended model by [#fedopt]_.
@@ -659,10 +664,10 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
 
 
 class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
-    """Stacked :class:`torch.nn.LSTM` model for sentiment analysis
+    """Stacked :class:`~torch.nn.LSTM` model for sentiment analysis
     on the ``Sent140`` dataset.
 
-    Adapted from FedProx/flearn/models/sent140/stacked_lstm.py
+    Adapted from FedProx/flearn/models/sent140/stacked_lstm.py [#fedprox]_.
 
     Parameters
     ----------
@@ -671,10 +676,14 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
     num_classes : int, default 2
         The number of output classes.
     num_layers : int, default 2
-        The number of recurrent layers (:class:`torch.nn.LSTM`).
-    embedding : str or :class:`.GloveEmbedding`, default "glove.6B.50d"
+        The number of recurrent layers (:class:`~torch.nn.LSTM`).
+    embedding : str or :class:`GloveEmbedding`, default "glove.6B.50d"
         The name of the pre-trained GloVe embedding to use or a
-        :class:`.GloveEmbedding` object.
+        :class:`GloveEmbedding` object.
+
+    References
+    ----------
+    .. [#fedprox] https://github.com/litian96/FedProx
 
     """
 
@@ -754,10 +763,10 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
 
 
 class RNN_Sent140_LITE(nn.Module, CLFMixin, SizeMixin, DiffMixin):
-    """Stacked :class:`torch.nn.LSTM` model for sentiment analysis
+    """Stacked :class:`~torch.nn.LSTM` model for sentiment analysis
     on the ``Sent140`` dataset.
 
-    The same as :class:`.RNN_Sent140` but without the GloVe embedding layer.
+    The same as :class:`RNN_Sent140` but without the GloVe embedding layer.
     Hence the inputs of this model are embedd vectors.
 
     Parameters

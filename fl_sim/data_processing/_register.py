@@ -1,6 +1,3 @@
-"""
-"""
-
 import warnings
 from typing import Any, List, Optional
 
@@ -44,10 +41,12 @@ def register_fed_dataset(name: Optional[str] = None) -> Any:
 
 
 def list_fed_dataset() -> List[str]:
+    """List all registered federated datasets."""
     return list(_built_in_fed_datasets)
 
 
 def get_fed_dataset(name: str) -> Any:
+    """Get a registered federated dataset by name."""
     if name not in _built_in_fed_datasets:
         raise ValueError(f"Federated dataset {name} is not registered")
     return _built_in_fed_datasets[name]

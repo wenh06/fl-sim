@@ -1,4 +1,28 @@
 """
+fl_sim.optimizers
+==================
+
+This module contains the optimizers (local solvers) used in federated learning.
+Despite optimizers from :mod:`torch.optim` and :mod:`torch_optimizer`, we also
+provide some custom optimizers for federated learning for solving for example
+
+- proximal optimization problem
+- lagrangian dual problem
+
+.. contents:: fl_sim.optimizers
+    :depth: 2
+    :local:
+    :backlinks: top
+
+.. currentmodule:: fl_sim.optimizers
+
+.. autosummary::
+    :toctree: generated/
+    :recursive:
+
+    get_optimizer
+    register_optimizer
+
 """
 
 import inspect
@@ -88,7 +112,7 @@ def get_optimizer(
     ----------
     optimizer_name : Union[str, type]
         Optimizer name or class
-    params : Iterable[Union[dict, Parameter]]
+    params : Iterable[Union[dict, torch.nn.parameter.Parameter]]
         Parameters to be optimized
     config : Any
         Config for optimizer.
@@ -97,7 +121,7 @@ def get_optimizer(
 
     Returns
     -------
-    Optimizer
+    torch.optim.Optimizer
         Instance of the given optimizer.
 
     Examples
