@@ -9,6 +9,11 @@ This repository is migrated from [fl_seminar](https://github.com/wenh06/fl_semin
 
 The main part of this code repository is a standalone simulation framework for federated training.
 
+Documentation (under development):
+
+- [GitHub Pages](https://wenh06.github.io/fl-sim/)  [![gh-page status](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml)
+- [Read the Docs](http://fl-sim.rtfd.io/)  [![RTD Status](https://readthedocs.org/projects/fl-sim/badge/?version=latest)](https://fl-sim.readthedocs.io/en/latest/?badge=latest)
+
 <!-- toc -->
 
 - [Installation](#installation)
