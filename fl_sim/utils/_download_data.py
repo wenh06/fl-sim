@@ -120,7 +120,7 @@ def _unzip_file(path_to_zip_file: Union[str, Path], dst_dir: Union[str, Path]) -
 
 
 def _untar_file(path_to_tar_file: Union[str, Path], dst_dir: Union[str, Path]) -> None:
-    """decompress a .tar.xx file to folder path."""
+    """Decompress a .tar.xx file to folder path."""
     print(f"Extracting file {path_to_tar_file} to {dst_dir}.")
     mode = Path(path_to_tar_file).suffix.replace(".", "r:").replace("tar", "")
     # print(f"mode: {mode}")
@@ -137,14 +137,14 @@ def _is_within_directory(directory: Union[str, Path], target: Union[str, Path]) 
 
     Parameters
     ----------
-    directory: str or Path,
-        path to the directory
-    target: str or Path,
-        path to the target
+    directory : str or pathlib.Path
+        Path to the directory
+    target : str or pathlib.Path
+        Path to the target
 
     Returns
     -------
-    bool,
+    bool
         True if the target is within the directory, False otherwise.
 
     """
@@ -168,16 +168,21 @@ def _safe_tar_extract(
 
     Parameters
     ----------
-    tar: tarfile.TarFile,
-        the tarfile to extract from
-    dst_dir: str or Path,
-        the destination directory
-    members: Iterable[tarfile.TarInfo], optional,
-        the members to extract,
-        if None, extract all members,
-        if not None, must be a subset of the list returned by `tar.getmembers()`
-    numeric_owner: bool, default False,
-        if True, only the numbers for user/group names are used and not the names.
+    tar : tarfile.TarFile
+        The tarfile to extract from.
+    dst_dir : str or pathlib.Path
+        The destination directory.
+    members : Iterable[tarfile.TarInfo], optional
+        The members to extract.
+        If is ``None``, extract all members;
+        if not ``None``, must be a subset of the list returned
+        by :meth:`tarfile.TarFile.getmembers`.
+    numeric_owner : bool, default False
+        If ``True``, only the numbers for user/group names are used and not the names.
+
+    Returns
+    -------
+    None
 
     """
     for member in members or tar.getmembers():

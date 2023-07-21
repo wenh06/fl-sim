@@ -26,7 +26,7 @@ __all__ = [
 _prox_sgd_params_doc = """
     Parameters
     ----------
-    params : Iterable[dict] or Iterable[torch.nn.Parameter]
+    params : Iterable[dict] or Iterable[torch.nn.parameter.Parameter]
         The model parameters to optimize.
     lr : float, default 1e-3
         Learning rate.
@@ -120,7 +120,7 @@ class ProxSGD_VR(Optimizer):
 
         Parameters
         ----------
-        local_weights : Iterable[torch.nn.Parameter]
+        local_weights : Iterable[torch.nn.parameter.Parameter]
             The local weights updated by the local optimizer,
             or of the previous iteration,
             i.e. the term :math:`v` in
@@ -229,7 +229,7 @@ class SGD_VR(ProxSGD_VR):
 
     Parameters
     ----------
-    params : Iterable[dict] or Iterable[torch.nn.Parameter]
+    params : Iterable[dict] or Iterable[torch.nn.parameter.Parameter]
         The parameters to optimize or dicts defining parameter groups.
     lr : float, default 1e-3
         Learning rate.
@@ -283,7 +283,7 @@ class SGD_VR(ProxSGD_VR):
 _al_sgd_vr_params_doc = """
     Parameters
     ----------
-    params : Iterable[dict] or Iterable[torch.nn.Parameter]
+    params : Iterable[dict] or Iterable[torch.nn.parameter.Parameter]
         The parameters to optimize or dicts defining parameter groups.
     lr : float, default 1e-3
         Learning rate.
@@ -373,14 +373,14 @@ class AL_SGD_VR(Optimizer):
 
         Parameters
         ----------
-        local_weights : Iterable[torch.nn.Parameter]
+        local_weights : Iterable[torch.nn.parameter.Parameter]
             The (init) local weights, i.e. the term :math:`x_0` in
 
             .. math::
 
                 \\mathcal{L}_{\\mu}(x, x_0, \\lambda)
 
-        dual_weights : Iterable[torch.nn.Parameter]
+        dual_weights : Iterable[torch.nn.parameter.Parameter]
             The weights of dual variables,
             i.e. the term :math:`\\lambda` in
 

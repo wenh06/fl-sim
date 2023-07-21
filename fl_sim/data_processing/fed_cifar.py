@@ -69,7 +69,7 @@ class FedCIFAR(FedVisionDataset):
     n_class : {10, 100}, default 10
         Number of classes in the dataset.
         10 for CIFAR10, 100 for CIFAR100.
-    datadir : str or Path, default None
+    datadir : str or pathlib.Path, default None
         Path to the dataset directory. Default: ``None``.
         If ``None``, will use built-in default directory.
     transform : str or callable, default "none"

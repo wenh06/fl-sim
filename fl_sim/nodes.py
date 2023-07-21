@@ -56,7 +56,7 @@ class ServerConfig(ReprMixin):
         The number of clients.
     clients_sample_ratio : float
         The ratio of clients to sample for each iteration.
-    log_dir : str or Path, optional
+    log_dir : str or pathlib.Path, optional
         The log directory.
         If not specified, will use the default log directory.
         If not absolute, will be relative to the default log directory.
@@ -381,7 +381,7 @@ class Node(ReprMixin, ABC):
 
         Parameters
         ----------
-        tensor : torch.Tensor or np.ndarray or torch.nn.Parameter or generator or list
+        tensor : torch.Tensor or np.ndarray or torch.nn.parameter.Parameter or generator or list
             The tensor (array, parameter, etc.) to compute the norm.
         norm : str or int or float, default "fro"
             The norm to compute.
@@ -421,7 +421,7 @@ class Node(ReprMixin, ABC):
 
         Parameters
         ----------
-        params : Iterable[torch.nn.Parameter]
+        params : Iterable[torch.nn.parameter.Parameter]
             The parameters to set.
         model : torch.nn.Module, optional
             The model to set the parameters,
@@ -445,7 +445,7 @@ class Node(ReprMixin, ABC):
 
         Parameters
         ----------
-        d : dict or str or Path
+        d : dict or str or pathlib.Path
             The dict of the json/yaml log,
             or the path to the json/yaml log file.
         part : str, default "train"
@@ -1119,7 +1119,7 @@ class Server(Node, CitationMixin):
 
         Parameters
         ----------
-        params : Iterable[torch.nn.Parameter]
+        params : Iterable[torch.nn.parameter.Parameter]
             The parameters to be added.
         ratio : float
             The ratio of the parameters to be added.

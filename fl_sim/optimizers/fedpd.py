@@ -23,7 +23,7 @@ class FedPD_VR(AL_SGD_VR):
 
     Parameters
     ----------
-    params : Iterable[dict] or Iterable[torch.nn.Parameter]
+    params : Iterable[dict] or Iterable[torch.nn.parameter.Parameter]
         Model parameters to be optimized.
     lr : float, default: 1e-3
         Learning rate.

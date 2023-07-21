@@ -37,7 +37,7 @@ class FedMNIST(FedVisionDataset):
 
     Parameters
     ----------
-    datadir : Union[Path, str], optional
+    datadir : Union[pathlib.Path, str], optional
         Directory to store data.
         If ``None``, use default directory.
     transform : Union[str, Callable], default "none"

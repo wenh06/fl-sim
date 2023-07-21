@@ -31,7 +31,7 @@ class pFedMacOptimizer(Optimizer):
 
     Parameters
     ----------
-    params : Iterable[dict] or Iterable[torch.nn.Parameter]
+    params : Iterable[dict] or Iterable[torch.nn.parameter.Parameter]
         The parameters to optimize or dicts defining parameter groups.
     lr : float, default: 1e-3
         Learning rate.
@@ -102,7 +102,7 @@ class pFedMacOptimizer(Optimizer):
 
         Parameters
         ----------
-        local_weights : Iterable[torch.nn.Parameter]
+        local_weights : Iterable[torch.nn.parameter.Parameter]
             The local weights updated by the local optimizer,
             or of the previous iteration,
             i.e. the term :math:`x_0` in

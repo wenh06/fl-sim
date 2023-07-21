@@ -35,16 +35,16 @@ __all__ = [
 
 @register_fed_dataset()
 class FedRotatedMNIST(FedVisionDataset):
-    """MNIST [1]_ augmented with rotations [2]_.
+    """MNIST dataset with rotation augmentation.
 
-    The rotations are fixed and are multiples of 360 / num_rotations.
+    The rotations are fixed and are multiples of 360 / num_rotations [1]_.
 
-    The original MNIST dataset contains 60,000 training images and 10,000 test images.
+    The original MNIST dataset [2]_ contains 60,000 training images and 10,000 test images.
     Images are 28x28 grayscale images in 10 classes (0-9 handwritten digits).
 
     Parameters
     ----------
-    datadir : str or Path, optional
+    datadir : str or pathlib.Path, optional
         Path to store the dataset. If not specified, the default path is used.
     num_rotations : int, default 4
         Number of rotations to apply to the images in the dataset.
@@ -61,8 +61,10 @@ class FedRotatedMNIST(FedVisionDataset):
 
     References
     ----------
-    .. [1] https://pytorch.org/vision/stable/_modules/torchvision/datasets/mnist.html#MNIST
-    .. [2] "An Efficient Framework for Clustered Federated Learning"
+    .. [1] Ghosh, A., Chung, J., Yin, D., & Ramchandran, K. (2020).
+           An efficient framework for clustered federated learning.
+           Advances in Neural Information Processing Systems, 33, 19586-19597.
+    .. [2] https://pytorch.org/vision/stable/_modules/torchvision/datasets/mnist.html#MNIST
 
     """
 

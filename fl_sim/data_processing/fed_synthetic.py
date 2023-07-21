@@ -22,7 +22,9 @@ __all__ = [
 
 @register_fed_dataset()
 class FedSynthetic(FedDataset):
-    """Federated Synthetic dataset proposed in FedProx paper [1]_ [2]_.
+    """Federated synthetic dataset.
+
+    This dataset is proposed in the FedProx paper [1]_ [2]_.
 
     Parameters
     ----------

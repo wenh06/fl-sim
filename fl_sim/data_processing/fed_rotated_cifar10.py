@@ -33,16 +33,16 @@ __all__ = [
 
 @register_fed_dataset()
 class FedRotatedCIFAR10(FedVisionDataset):
-    """CIFAR10 dataset [1]_ with rotation augmentation [2]_.
+    """CIFAR10 dataset with rotation augmentation.
 
-    The rotations are fixed and are multiples of 360 / num_rotations.
+    The rotations are fixed and are multiples of 360 / num_rotations [1]_
 
-    The original CIFAR10 dataset contains 50k training images and 10k test images.
+    The original CIFAR10 dataset [2]_ contains 50k training images and 10k test images.
     Images are 32x32 RGB images in 10 classes.
 
     Parameters
     ----------
-    datadir : str or Path, optional
+    datadir : str or pathlib.Path, optional
         Path to store the dataset. If not specified, the default path is used.
     num_rotations : int, default 2
         Number of rotations to apply to the images in the dataset.
@@ -57,8 +57,10 @@ class FedRotatedCIFAR10(FedVisionDataset):
 
     References
     ----------
-    .. [1] https://pytorch.org/vision/stable/_modules/torchvision/datasets/cifar.html#CIFAR10
-    .. [2] "An Efficient Framework for Clustered Federated Learning"
+    .. [1] Ghosh, A., Chung, J., Yin, D., & Ramchandran, K. (2020).
+           An efficient framework for clustered federated learning.
+           Advances in Neural Information Processing Systems, 33, 19586-19597.
+    .. [2] https://pytorch.org/vision/stable/_modules/torchvision/datasets/cifar.html#CIFAR10
 
     """
 

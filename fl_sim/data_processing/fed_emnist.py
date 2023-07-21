@@ -25,8 +25,9 @@ FED_EMNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 @register_fed_dataset()
 class FedEMNIST(FedVisionDataset):
-    """
-    Federated EMNIST dataset extends MNIST dataset with upper and lower case English characters
+    """Federated EMNIST dataset.
+
+    This dataset extends MNIST dataset with upper and lower case English characters.
     Data partition is the same as TensorFlow Federated (TFF) [1]_ with the following statistics:
 
     +-----------+---------------+----------------+--------------+---------------+
@@ -37,11 +38,9 @@ class FedEMNIST(FedVisionDataset):
 
     Most methods in this class are modified from FedML [2]_.
 
-    NOTE: the images are processed using min-max normalization to range [0, 1].
-
     Parameters
     ----------
-    datadir : Union[Path, str], optional
+    datadir : Union[pathlib.Path, str], optional
         Directory to store data.
         If ``None``, use default directory.
     transform : Union[str, Callable], default "none"
@@ -51,6 +50,10 @@ class FedEMNIST(FedVisionDataset):
         Random seed for data partitioning.
     **extra_config : dict, optional
         Extra configurations.
+
+    NOTE
+    ----
+    The images are processed using min-max normalization to range 0 to 1.
 
     References
     ----------

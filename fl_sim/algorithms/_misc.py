@@ -2,7 +2,7 @@
 """
 
 server_config_kw_doc = """
-        - ``log_dir`` : str or Path, optional
+        - ``log_dir`` : str or pathlib.Path, optional
             The log directory.
             If not specified, will use the default log directory.
             If not absolute, will be relative to the default log directory.

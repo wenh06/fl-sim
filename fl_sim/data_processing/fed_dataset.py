@@ -143,7 +143,7 @@ class FedVisionDataset(FedDataset, ABC):
 
     Parameters
     ----------
-    datadir : Union[Path, str], optional
+    datadir : Union[pathlib.Path, str], optional
         Directory to store data.
         If ``None``, use default directory.
     transform : Union[str, Callable], default "none"
@@ -364,7 +364,7 @@ class FedNLPDataset(FedDataset, ABC):
 
     Parameters
     ----------
-    datadir : Union[str, Path], optional
+    datadir : Union[str, pathlib.Path], optional
         The directory to store the dataset.
         If ``None``, use default directory.
     seed : int, default 0
@@ -757,7 +757,8 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
             output_column = "label"
         else:
             raise ValueError(
-                f"Unsupported dataset column_names {_column_names}. Try passing your own `dataset_columns` argument."
+                f"Unsupported dataset column_names {_column_names}. "
+                "Try passing your own `dataset_columns` argument."
             )
 
         return input_columns, output_column

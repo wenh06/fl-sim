@@ -60,7 +60,7 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
 
     Parameters
     ----------
-    config_file_path : Union[str, Path]
+    config_file_path : Union[str, pathlib.Path]
         The path to the config file.
 
     Returns

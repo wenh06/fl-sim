@@ -47,7 +47,7 @@ class BaseLogger(ReprMixin, ABC):
 
         Parameters
         ----------
-        log_dir : str or Path
+        log_dir : str or pathlib.Path
             The log directory.
 
         Returns

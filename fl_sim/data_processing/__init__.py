@@ -35,7 +35,6 @@ Vision datasets
     FedRotatedMNIST
     FedProxFEMNIST
     FedProxMNIST
-    FedProxSent140
 
 NLP datasets
 --------------------------

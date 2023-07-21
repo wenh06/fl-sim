@@ -30,7 +30,7 @@ class LeafSent140(FedNLPDataset):
 
     Parameters
     ----------
-    datadir : Union[Path, str], optional
+    datadir : Union[pathlib.Path, str], optional
         Directory to store data.
         If ``None``, use default directory.
     seed : int, default 0

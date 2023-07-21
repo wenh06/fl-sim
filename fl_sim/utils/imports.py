@@ -18,7 +18,7 @@ def load_module_from_file(file_path: Union[str, Path]) -> types.ModuleType:
 
     Parameters
     ----------
-    file_path : str or Path
+    file_path : str or pathlib.Path
         The path of the file.
 
     Returns

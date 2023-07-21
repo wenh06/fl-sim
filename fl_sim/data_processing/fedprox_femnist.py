@@ -26,7 +26,10 @@ _label_mapping = {i: c for i, c in enumerate("abcdefghijklmnopqrstuvwxyz"[:10])}
 
 @register_fed_dataset()
 class FedProxFEMNIST(FedVisionDataset):
-    """(part of) federeated EMNIST used in the FedProx paper [1]_ and the FedDR paper.
+    """A subset of the federeated EMNIST proposed in FedProx.
+
+    This dataset is proposed in the FedProx paper [1]_
+    and used in the FedDR paper [2]_.
 
     `The FEMNIST data we used in the paper is a subsampled (and repartitioned) version
     of the original full dataset in order to impose additional statistical heterogeneity.
@@ -39,7 +42,7 @@ class FedProxFEMNIST(FedVisionDataset):
 
     Parameters
     ----------
-    datadir : Union[Path, str], optional
+    datadir : Union[pathlib.Path, str], optional
         Directory to store data.
         If ``None``, use default directory.
     transform : Union[str, Callable], default "none"
@@ -53,6 +56,7 @@ class FedProxFEMNIST(FedVisionDataset):
     References
     ----------
     .. [1] https://github.com/litian96/FedProx/tree/master/data/nist
+    .. [2] https://github.com/unc-optimization/FedDR
 
     """
 

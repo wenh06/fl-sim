@@ -25,12 +25,14 @@ FEDPROX_MNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 @register_fed_dataset()
 class FedProxMNIST(FedVisionDataset):
-    """Federeated MNIST used in the FedProx paper [1]_, [2]_,
+    """Federeated MNIST proposed in FedProx.
+
+    This dataset is proposed and used in [1]_ [2]_,
     where the data is partitioned in a non-IID manner.
 
     Parameters
     ----------
-    datadir : Union[Path, str], optional
+    datadir : Union[pathlib.Path, str], optional
         Directory to store data.
         If ``None``, use default directory.
     transform : Union[str, Callable], default "none"

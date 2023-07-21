@@ -45,7 +45,7 @@ class FedShakespeare(FedNLPDataset):
 
     Parameters
     ----------
-    datadir : Union[str, Path], optional
+    datadir : Union[str, pathlib.Path], optional
         The directory to store the dataset.
         If ``None``, use default directory.
     seed : int, default 0

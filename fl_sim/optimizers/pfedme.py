@@ -21,7 +21,7 @@ class pFedMeOptimizer(ProxSGD):
 
     Parameters
     ----------
-    params : Iterable[dict] or Iterable[torch.nn.Parameter]
+    params : Iterable[dict] or Iterable[torch.nn.parameter.Parameter]
         Model parameters to be optimized.
     lr : float, default 0.01
         Learning rate.
