@@ -57,6 +57,21 @@ class FedProxSent140(FedNLPDataset):
         datadir: Optional[Union[str, Path]] = None,
         embedding_name: str = "glove.6B.300d",
     ) -> None:
+        """Preload the dataset.
+
+        Parameters
+        ----------
+        datadir : Union[pathlib.Path, str], optional
+            Directory to store data.
+            If ``None``, use default directory.
+        embedding_name : str, default "glove.6B.300d"
+            Name of the word embedding to use.
+
+        Returns
+        -------
+        None
+
+        """
         self.datadir = Path(datadir or FEDPROX_SENT140_DATA_DIR).expanduser().resolve()
         self.download_if_needed()
 
@@ -132,6 +147,29 @@ class FedProxSent140(FedNLPDataset):
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get local dataloader at client `client_idx` or get the global dataloader.
+
+        Parameters
+        ----------
+        train_bs : int, optional
+            Batch size for training dataloader.
+            If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader.
+            If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data.
+            Usually used for centralized training.
+
+        Returns
+        -------
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader.
+        test_dl : torch.utils.data.DataLoader
+            Testing dataloader.
+
+        """
         # load data
         if client_idx is None:
             # get ids of all clients

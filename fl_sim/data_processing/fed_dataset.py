@@ -61,26 +61,29 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
         test_bs: int,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get dataloader for client `client_idx` or get global dataloader."""
         raise NotImplementedError
 
     @abstractmethod
     def _preload(self, datadir: Optional[str] = None) -> None:
+        """Preload data."""
         raise NotImplementedError
 
     @abstractmethod
     def load_partition_data_distributed(
         self, process_id: int, batch_size: Optional[int] = None
     ) -> tuple:
-        """get local dataloader at client `process_id` or get global dataloader"""
+        """Get local dataloader at client `process_id` or get global dataloader"""
         raise NotImplementedError
 
     @abstractmethod
     def load_partition_data(self, batch_size: Optional[int] = None) -> tuple:
-        """partition data into all local clients"""
+        """Partition data into all local clients."""
         raise NotImplementedError
 
     @abstractmethod
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
+        """Evaluation using predictions and ground truth."""
         raise NotImplementedError
 
     def extra_repr_keys(self) -> List[str]:
@@ -91,9 +94,11 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
     @property
     @abstractmethod
     def url(self) -> str:
+        """URL for downloading the dataset."""
         raise NotImplementedError
 
     def download_if_needed(self) -> None:
+        """Download data if needed."""
         if self.url:
             if self.datadir is None:
                 dst_dir = CACHED_DATA_DIR
@@ -110,18 +115,18 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
     @property
     @abstractmethod
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
-        """
-        a set of candidate models
-        """
+        """A set of candidate models."""
         raise NotImplementedError
 
     @property
     def data_parts(self) -> List[str]:
+        """Data part names."""
         return ["train", "val"]
 
     @property
     @abstractmethod
     def doi(self) -> Union[str, List[str]]:
+        """DOI(s) related to the dataset."""
         raise NotImplementedError
 
 
@@ -217,7 +222,39 @@ class FedVisionDataset(FedDataset, ABC):
     def load_partition_data_distributed(
         self, process_id: int, batch_size: Optional[int] = None
     ) -> tuple:
-        """get local dataloader at client `process_id` or get global dataloader"""
+        """Get local dataloader at client `process_id` or get global dataloader.
+
+        Parameters
+        ----------
+        process_id : int
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data,
+            usually used for centralized training.
+        batch_size : int, optional
+            Batch size for dataloader.
+            If ``None``, use default batch size.
+
+        Returns
+        -------
+        tuple
+            - train_clients_num : int
+                Number of training clients.
+            - train_data_num : int
+                Number of training data.
+            - train_data_global : torch.utils.data.DataLoader or None
+                Global training dataloader.
+            - test_data_global : torch.utils.data.DataLoader or None
+                Global testing dataloader.
+            - local_data_num : int
+                Number of local training data.
+            - train_data_local : torch.utils.data.DataLoader or None
+                Local training dataloader.
+            - test_data_local : torch.utils.data.DataLoader or None
+                Local testing dataloader.
+            - n_class : int
+                Number of classes.
+
+        """
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         if process_id == 0:
             # get global dataset
@@ -250,7 +287,37 @@ class FedVisionDataset(FedDataset, ABC):
         return retval
 
     def load_partition_data(self, batch_size: Optional[int] = None) -> tuple:
-        """partition data into all local clients"""
+        """Partition data into all local clients.
+
+        Parameters
+        ----------
+        batch_size : int, optional
+            Batch size for dataloader.
+            If ``None``, use default batch size.
+
+        Returns
+        -------
+        tuple
+            - train_clients_num : int
+                Number of training clients.
+            - train_data_num : int
+                Number of training data.
+            - test_data_num : int
+                Number of testing data.
+            - train_data_global : torch.utils.data.DataLoader
+                Global training dataloader.
+            - test_data_global : torch.utils.data.DataLoader
+                Global testing dataloader.
+            - data_local_num_dict : dict
+                Number of local training data for each client.
+            - train_data_local_dict : dict
+                Local training dataloader for each client.
+            - test_data_local_dict : dict
+                Local testing dataloader for each client.
+            - n_class : int
+                Number of classes.
+
+        """
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         # get local dataset
         data_local_num_dict = dict()
@@ -305,6 +372,7 @@ class FedVisionDataset(FedDataset, ABC):
 
     @property
     def n_class(self) -> int:
+        """Number of classes."""
         return self._n_class
 
     @staticmethod
@@ -337,12 +405,39 @@ class FedVisionDataset(FedDataset, ABC):
     @property
     @abstractmethod
     def label_map(self) -> dict:
+        """Label map."""
         raise NotImplementedError
 
     def get_class(self, label: torch.Tensor) -> str:
+        """Get class name from label.
+
+        Parameters
+        ----------
+        label : torch.Tensor
+            Label.
+
+        Returns
+        -------
+        str
+            Class name.
+
+        """
         return self.label_map[label.item()]
 
     def get_classes(self, labels: torch.Tensor) -> List[str]:
+        """Get class names from labels.
+
+        Parameters
+        ----------
+        labels : torch.Tensor
+            Labels.
+
+        Returns
+        -------
+        List[str]
+            Class names.
+
+        """
         return [self.label_map[lb] for lb in labels.cpu().numpy()]
 
 

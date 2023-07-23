@@ -111,6 +111,19 @@ class FedCIFAR(FedVisionDataset):
         )
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
+        """Preload the dataset.
+
+        Parameters
+        ----------
+        datadir : Union[pathlib.Path, str], optional
+            Directory to store data.
+            If ``None``, use default directory.
+
+        Returns
+        -------
+        None
+
+        """
         self.DEFAULT_TRAIN_CLIENTS_NUM = 500
         self.DEFAULT_TEST_CLIENTS_NUM = 100
         self.DEFAULT_BATCH_SIZE = 20
@@ -163,7 +176,29 @@ class FedCIFAR(FedVisionDataset):
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
-        """get local dataloader at client `client_idx` or get the global dataloader"""
+        """Get local dataloader at client `client_idx` or get the global dataloader.
+
+        Parameters
+        ----------
+        train_bs : int, optional
+            Batch size for training dataloader.
+            If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader.
+            If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data.
+            Usually used for centralized training.
+
+        Returns
+        -------
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader.
+        test_dl : torch.utils.data.DataLoader
+            Testing dataloader.
+
+        """
         train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
         test_h5 = h5py.File(str(self.datadir / self.DEFAULT_TEST_FILE), "r")
         train_x, train_y, test_x, test_y = [], [], [], []
@@ -271,6 +306,21 @@ class FedCIFAR(FedVisionDataset):
         ] + super().extra_repr_keys()
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
+        """Evaluation using predictions and ground truth.
+
+        Parameters
+        ----------
+        probs : torch.Tensor
+            Predicted probabilities.
+        truths : torch.Tensor
+            Ground truth labels.
+
+        Returns
+        -------
+        Dict[str, float]
+            Evaluation results.
+
+        """
         return {
             "acc": top_n_accuracy(probs, truths, 1),
             "top3_acc": top_n_accuracy(probs, truths, 3),
@@ -281,9 +331,7 @@ class FedCIFAR(FedVisionDataset):
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
-        """
-        a set of candidate models
-        """
+        """A set of candidate models."""
         return {
             "cnn_cifar": mnn.CNNCifar(num_classes=self.n_class),
             "cnn_cifar_small": mnn.CNNCifar_Small(num_classes=self.n_class),

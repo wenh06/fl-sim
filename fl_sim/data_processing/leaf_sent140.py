@@ -48,6 +48,19 @@ class LeafSent140(FedNLPDataset):
     __name__ = "LeafSent140"
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
+        """Preload the dataset.
+
+        Parameters
+        ----------
+        datadir : Union[pathlib.Path, str], optional
+            Directory to store data.
+            If ``None``, use default directory.
+
+        Returns
+        -------
+        None
+
+        """
         self.criterion = torch.nn.CrossEntropyLoss()
         raise NotImplementedError
 
@@ -57,6 +70,29 @@ class LeafSent140(FedNLPDataset):
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get local dataloader at client `client_idx` or get the global dataloader.
+
+        Parameters
+        ----------
+        train_bs : int, optional
+            Batch size for training dataloader.
+            If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader.
+            If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data.
+            Usually used for centralized training.
+
+        Returns
+        -------
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader.
+        test_dl : torch.utils.data.DataLoader
+            Testing dataloader.
+
+        """
         raise NotImplementedError
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:

@@ -80,6 +80,19 @@ class FedRotatedCIFAR10(FedVisionDataset):
         super().__init__(datadir=datadir, transform=transform, seed=seed)
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
+        """Preload the dataset.
+
+        Parameters
+        ----------
+        datadir : Union[pathlib.Path, str], optional
+            Directory to store data.
+            If ``None``, use default directory.
+
+        Returns
+        -------
+        None
+
+        """
         default_datadir = CACHED_DATA_DIR / "fed-rotated-cifar10"
         self.datadir = Path(datadir or default_datadir).expanduser().resolve()
         self.datadir.mkdir(parents=True, exist_ok=True)
@@ -239,6 +252,29 @@ class FedRotatedCIFAR10(FedVisionDataset):
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get local dataloader at client `client_idx` or get the global dataloader.
+
+        Parameters
+        ----------
+        train_bs : int, optional
+            Batch size for training dataloader.
+            If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader.
+            If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data.
+            Usually used for centralized training.
+
+        Returns
+        -------
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader.
+        test_dl : torch.utils.data.DataLoader
+            Testing dataloader.
+
+        """
         if client_idx is None:
             train_slice = slice(None)
             test_slice = slice(None)

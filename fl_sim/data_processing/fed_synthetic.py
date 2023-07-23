@@ -78,6 +78,18 @@ class FedSynthetic(FedDataset):
         self._preload(seed=seed)
 
     def _preload(self, seed: int = 0) -> None:
+        """Preload the dataset.
+
+        Parameters
+        ----------
+        seed : int, default 0
+            The random seed for data generation.
+
+        Returns
+        -------
+        None
+
+        """
         self.seed = seed
         set_seed(self.seed)
         self.criterion = torch.nn.CrossEntropyLoss()
@@ -95,6 +107,18 @@ class FedSynthetic(FedDataset):
         self.DEFAULT_TEST_CLIENTS_NUM = self.num_clients
 
     def reset_seed(self, seed: int) -> None:
+        """Reset the random seed and re-generate the dataset.
+
+        Parameters
+        ----------
+        seed : int
+            The random seed.
+
+        Returns
+        -------
+        None
+
+        """
         self._preload(seed)
 
     def get_dataloader(
@@ -103,7 +127,29 @@ class FedSynthetic(FedDataset):
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
-        """get local dataloader at client `client_idx` or get the global dataloader"""
+        """Get local dataloader at client `client_idx` or get the global dataloader.
+
+        Parameters
+        ----------
+        train_bs : int, optional
+            Batch size for training dataloader.
+            If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader.
+            If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data.
+            Usually used for centralized training.
+
+        Returns
+        -------
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader.
+        test_dl : torch.utils.data.DataLoader
+            Testing dataloader.
+
+        """
         assert client_idx is None or 0 <= client_idx < self.num_clients
         if client_idx is None:
             train_X = np.concatenate([d["train_X"] for d in self._data], axis=0)

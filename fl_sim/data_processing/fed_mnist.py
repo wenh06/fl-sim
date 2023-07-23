@@ -58,6 +58,19 @@ class FedMNIST(FedVisionDataset):
     __name__ = "FedMNIST"
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
+        """Preload the dataset.
+
+        Parameters
+        ----------
+        datadir : Union[pathlib.Path, str], optional
+            Directory to store data.
+            If ``None``, use default directory.
+
+        Returns
+        -------
+        None
+
+        """
         self.datadir = Path(datadir or FED_MNIST_DATA_DIR).expanduser().resolve()
         self.datadir.mkdir(parents=True, exist_ok=True)
 
@@ -111,6 +124,29 @@ class FedMNIST(FedVisionDataset):
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get local dataloader at client `client_idx` or get the global dataloader.
+
+        Parameters
+        ----------
+        train_bs : int, optional
+            Batch size for training dataloader.
+            If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader.
+            If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data.
+            Usually used for centralized training.
+
+        Returns
+        -------
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader.
+        test_dl : torch.utils.data.DataLoader
+            Testing dataloader.
+
+        """
         # load data
         if client_idx is None:
             # get ids of all clients
@@ -186,6 +222,21 @@ class FedMNIST(FedVisionDataset):
         ] + super().extra_repr_keys()
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
+        """Evaluation method for the dataset and related models.
+
+        Parameters
+        ----------
+        probs : torch.Tensor
+            Predicted probabilities.
+        truths : torch.Tensor
+            Ground truth labels.
+
+        Returns
+        -------
+        Dict[str, float]
+            Evaluation results.
+
+        """
         return {
             "acc": top_n_accuracy(probs, truths, 1),
             "top3_acc": top_n_accuracy(probs, truths, 3),
@@ -196,13 +247,12 @@ class FedMNIST(FedVisionDataset):
 
     @property
     def url(self) -> str:
+        """URL to download the dataset."""
         return "https://fedcv.s3.us-west-1.amazonaws.com/MNIST.zip"
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
-        """
-        a set of candidate models
-        """
+        """A set of candidate models."""
         return {
             "cnn_mnist": mnn.CNNMnist(num_classes=self.n_class),
             "cnn_femmist_tiny": mnn.CNNFEMnist_Tiny(num_classes=self.n_class),
@@ -213,6 +263,7 @@ class FedMNIST(FedVisionDataset):
 
     @property
     def doi(self) -> List[str]:
+        """DOI(s) related to the dataset."""
         return [
             "10.1109/5.726791",  # MNIST
             "10.48550/ARXIV.2007.13518",  # FedML
@@ -223,6 +274,20 @@ class FedMNIST(FedVisionDataset):
         return MNIST_LABEL_MAP
 
     def view_image(self, client_idx: int, image_idx: int) -> None:
+        """View a single image.
+
+        Parameters
+        ----------
+        client_idx : int
+            Index of the client on which the image is located.
+        image_idx : int
+            Index of the image in the client.
+
+        Returns
+        -------
+        None
+
+        """
         import matplotlib.pyplot as plt
 
         if client_idx >= len(self._train_data_dict["users"]):
@@ -275,6 +340,20 @@ class FedMNIST(FedVisionDataset):
     ) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
+
+        Parameters
+        ----------
+        nrow : int
+            Number of rows in the grid.
+        ncol : int
+            Number of columns in the grid.
+        save_path : Union[str, Path], optional
+            Path to save the figure. If ``None``, do not save the figure.
+
+        Returns
+        -------
+        None
+
         """
         import matplotlib.pyplot as plt
 

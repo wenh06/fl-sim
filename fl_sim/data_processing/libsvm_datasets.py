@@ -70,6 +70,18 @@ class FedLibSVMDataset(FedDataset):
         self._preload(seed=seed)
 
     def _preload(self, seed: int = 0) -> None:
+        """Preload the dataset.
+
+        Parameters
+        ----------
+        seed : int, default 0
+            Random seed for data partitioning.
+
+        Returns
+        -------
+        None
+
+        """
         self.seed = seed
         set_seed(self.seed)
         rng = np.random.default_rng(self.seed)
@@ -124,6 +136,18 @@ class FedLibSVMDataset(FedDataset):
         self.DEFAULT_TEST_CLIENTS_NUM = self.num_clients
 
     def reset_seed(self, seed: int) -> None:
+        """Reset the seed and re-partition the data.
+
+        Parameters
+        ----------
+        seed : int
+            Random seed for data partitioning.
+
+        Returns
+        -------
+        None
+
+        """
         self._preload(seed)
 
     def get_dataloader(
@@ -132,6 +156,29 @@ class FedLibSVMDataset(FedDataset):
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get local dataloader at client `client_idx` or get the global dataloader.
+
+        Parameters
+        ----------
+        train_bs : int, optional
+            Batch size for training dataloader.
+            If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader.
+            If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data.
+            Usually used for centralized training.
+
+        Returns
+        -------
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader.
+        test_dl : torch.utils.data.DataLoader
+            Testing dataloader.
+
+        """
         assert client_idx is None or 0 <= client_idx < self.num_clients
         if client_idx is None:
             train_X = np.concatenate(
@@ -266,6 +313,21 @@ class FedLibSVMDataset(FedDataset):
         return retval
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
+        """Evaluation using predictions and ground truth.
+
+        Parameters
+        ----------
+        probs : torch.Tensor
+            Predicted probabilities.
+        truths : torch.Tensor
+            Ground truth labels.
+
+        Returns
+        -------
+        Dict[str, float]
+            Evaluation results.
+
+        """
         return {
             "acc": top_n_accuracy(probs, truths, 1),
             "loss": self.criterion(probs, truths).item(),
@@ -274,6 +336,7 @@ class FedLibSVMDataset(FedDataset):
 
     @property
     def url(self) -> str:
+        """URL for downloading the dataset."""
         raise posixpath.dirname(_libsvm_datasets[self.dataset_name][0]) + ".html"
 
     def download_if_needed(self) -> None:
@@ -284,9 +347,7 @@ class FedLibSVMDataset(FedDataset):
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
-        """
-        a set of candidate models
-        """
+        """A set of candidate models."""
         return {
             "svm": mnn.SVC(self.num_features, self.num_classes),
             "lr": mnn.LogisticRegression(self.num_features, self.num_classes),
@@ -294,14 +355,17 @@ class FedLibSVMDataset(FedDataset):
 
     @classmethod
     def list_datasets(cls) -> List[str]:
+        """List all available LibSVM datasets."""
         return list(_libsvm_datasets.keys())
 
     @classmethod
     def list_all_libsvm_datasets(cls) -> pd.DataFrame:
+        """List all LibSVM datasets."""
         return pd.read_html(_libsvm_domain)[0]
 
     @property
     def criteria_mapping(self) -> Dict[str, torch.nn.Module]:
+        """Mapping from criterion name to criterion."""
         return {
             "svm": torch.nn.MultiMarginLoss(),
             "svr": torch.nn.MSELoss(),
@@ -311,10 +375,12 @@ class FedLibSVMDataset(FedDataset):
 
     @property
     def num_features(self) -> int:
+        """Number of features."""
         return self.__num_features
 
     @property
     def num_classes(self) -> int:
+        """Number of classes."""
         return self.__num_classes
 
     def extra_repr_keys(self) -> List[str]:
@@ -328,6 +394,25 @@ class FedLibSVMDataset(FedDataset):
 def libsvmread(
     fp: Union[str, Path], multilabel: bool = False, toarray: bool = True
 ) -> Tuple[np.ndarray, np.ndarray]:
+    """Read data file in libsvm format.
+
+    Parameters
+    ----------
+    fp : Union[str, pathlib.Path]
+        Path to the file.
+    multilabel : bool, default False
+        Whether the labels are multilabel.
+    toarray : bool, default True
+        Whether to convert the features to dense array.
+
+    Returns
+    -------
+    features : numpy.ndarray
+        Features in numpy array.
+    labels : numpy.ndarray
+        Labels in numpy array.
+
+    """
     features, labels = load_svmlight_file(
         str(fp), multilabel=multilabel, dtype=np.float32
     )

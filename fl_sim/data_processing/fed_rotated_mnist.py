@@ -84,6 +84,19 @@ class FedRotatedMNIST(FedVisionDataset):
         super().__init__(datadir=datadir, transform=transform, seed=seed)
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
+        """Preload the dataset.
+
+        Parameters
+        ----------
+        datadir : Union[pathlib.Path, str], optional
+            Directory to store data.
+            If ``None``, use default directory.
+
+        Returns
+        -------
+        None
+
+        """
         default_datadir = CACHED_DATA_DIR / "fed-rotated-mnist"
         self.datadir = Path(datadir or default_datadir).expanduser().resolve()
         self.datadir.mkdir(parents=True, exist_ok=True)
@@ -227,22 +240,27 @@ class FedRotatedMNIST(FedVisionDataset):
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
-        """Get dataloader for training and testing.
+        """Get local dataloader at client `client_idx` or get the global dataloader.
 
         Parameters
         ----------
-        train_bs : int, default None
-            Batch size for training.
-        test_bs : int, default None
-            Batch size for testing.
-        client_idx : int, default None
-            Index of client.
-            If None, return dataloader for all clients.
+        train_bs : int, optional
+            Batch size for training dataloader.
+            If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader.
+            If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data.
+            Usually used for centralized training.
 
         Returns
         -------
-        tuple of torch.utils.data.DataLoader
-            Dataloader for training and testing.
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader.
+        test_dl : torch.utils.data.DataLoader
+            Testing dataloader.
 
         """
         if client_idx is None:

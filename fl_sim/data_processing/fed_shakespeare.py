@@ -76,6 +76,19 @@ class FedShakespeare(FedNLPDataset):
     __name__ = "FedShakespeare"
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
+        """Preload the dataset.
+
+        Parameters
+        ----------
+        datadir : Union[pathlib.Path, str], optional
+            Directory to store data.
+            If ``None``, use default directory.
+
+        Returns
+        -------
+        None
+
+        """
         self.datadir = Path(datadir or FED_SHAKESPEARE_DATA_DIR).expanduser().resolve()
 
         self.DEFAULT_TRAIN_CLIENTS_NUM = 715
@@ -106,6 +119,29 @@ class FedShakespeare(FedNLPDataset):
         test_bs: Optional[int] = None,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get local dataloader at client `client_idx` or get the global dataloader.
+
+        Parameters
+        ----------
+        train_bs : int, optional
+            Batch size for training dataloader.
+            If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader.
+            If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data.
+            Usually used for centralized training.
+
+        Returns
+        -------
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader.
+        test_dl : torch.utils.data.DataLoader
+            Testing dataloader.
+
+        """
         train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
         test_h5 = h5py.File(str(self.datadir / self.DEFAULT_TEST_FILE), "r")
         train_ds = []
