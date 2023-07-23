@@ -306,6 +306,21 @@ class FedRotatedMNIST(FedVisionDataset):
         ] + super().extra_repr_keys()
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
+        """Evaluation using predictions and ground truth.
+
+        Parameters
+        ----------
+        probs : torch.Tensor
+            Predicted probabilities.
+        truths : torch.Tensor
+            Ground truth labels.
+
+        Returns
+        -------
+        Dict[str, float]
+            Evaluation results.
+
+        """
         return {
             "acc": top_n_accuracy(probs, truths, 1),
             "top3_acc": top_n_accuracy(probs, truths, 3),
@@ -323,6 +338,7 @@ class FedRotatedMNIST(FedVisionDataset):
 
     @property
     def url(self) -> Dict[str, str]:
+        """URLs for downloading the dataset."""
         return {
             "train-images": "train-images-idx3-ubyte.gz",
             "train-labels": "train-labels-idx1-ubyte.gz",
@@ -348,9 +364,7 @@ class FedRotatedMNIST(FedVisionDataset):
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
-        """
-        a set of candidate models
-        """
+        """A set of candidate models."""
         return {
             "cnn_mnist": mnn.CNNMnist(num_classes=self.n_class),
             "cnn_femmist_tiny": mnn.CNNFEMnist_Tiny(num_classes=self.n_class),

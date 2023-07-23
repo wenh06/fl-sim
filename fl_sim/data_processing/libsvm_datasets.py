@@ -226,7 +226,7 @@ class FedLibSVMDataset(FedDataset):
     def load_partition_data_distributed(
         self, process_id: int, batch_size: Optional[int] = None
     ) -> tuple:
-        """get local dataloader at client `process_id` or get global dataloader"""
+        """Get local dataloader at client `process_id` or get global dataloader"""
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         if process_id == 0:
             # get global dataset

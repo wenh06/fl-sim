@@ -222,7 +222,7 @@ class FedMNIST(FedVisionDataset):
         ] + super().extra_repr_keys()
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
-        """Evaluation method for the dataset and related models.
+        """Evaluation using predictions and ground truth.
 
         Parameters
         ----------
@@ -247,7 +247,7 @@ class FedMNIST(FedVisionDataset):
 
     @property
     def url(self) -> str:
-        """URL to download the dataset."""
+        """URL for downloading the dataset."""
         return "https://fedcv.s3.us-west-1.amazonaws.com/MNIST.zip"
 
     @property

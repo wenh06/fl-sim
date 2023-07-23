@@ -96,6 +96,21 @@ class LeafSent140(FedNLPDataset):
         raise NotImplementedError
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
+        """Evaluation using predictions and ground truth.
+
+        Parameters
+        ----------
+        probs : torch.Tensor
+            Predicted probabilities.
+        truths : torch.Tensor
+            Ground truth labels.
+
+        Returns
+        -------
+        Dict[str, float]
+            Evaluation results.
+
+        """
         return {
             "acc": top_n_accuracy(probs, truths, 1),
             "loss": self.criterion(probs, truths).item(),
@@ -104,13 +119,12 @@ class LeafSent140(FedNLPDataset):
 
     @property
     def url(self) -> str:
+        """URL for downloading the dataset."""
         return "http://cs.stanford.edu/people/alecmgo/trainingandtestdata.zip"
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
-        """
-        a set of candidate models
-        """
+        """A set of candidate models."""
         return {
             "rnn": mnn.RNN_Sent140(),
         }

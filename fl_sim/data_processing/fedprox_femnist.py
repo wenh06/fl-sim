@@ -221,6 +221,21 @@ class FedProxFEMNIST(FedVisionDataset):
         ] + super().extra_repr_keys()
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
+        """Evaluation using predictions and ground truth.
+
+        Parameters
+        ----------
+        probs : torch.Tensor
+            Predicted probabilities.
+        truths : torch.Tensor
+            Ground truth labels.
+
+        Returns
+        -------
+        Dict[str, float]
+            Evaluation results.
+
+        """
         return {
             "acc": top_n_accuracy(probs, truths, 1),
             "top3_acc": top_n_accuracy(probs, truths, 3),
@@ -231,15 +246,14 @@ class FedProxFEMNIST(FedVisionDataset):
 
     @property
     def url(self) -> str:
+        """URL for downloading the dataset."""
         # https://drive.google.com/file/d/1tCEcJgRJ8NdRo11UJZR6WSKMNdmox4GC/view?usp=sharing
         # "http://218.245.5.12/NLP/federated/fedprox-femnist.zip"
         return "https://www.dropbox.com/s/55ibep82qqars9w/fedprox-femnist.zip?dl=1"
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
-        """
-        a set of candidate models
-        """
+        """A set of candidate models."""
         return {
             "cnn_femmist_tiny": mnn.CNNFEMnist_Tiny(num_classes=self.n_class),
             "cnn_femmist": mnn.CNNFEMnist(num_classes=self.n_class),

@@ -242,6 +242,21 @@ class FedProxSent140(FedNLPDataset):
         return self.tokenizer._tokenizer.get_vocab()
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
+        """Evaluation using predictions and ground truth.
+
+        Parameters
+        ----------
+        probs : torch.Tensor
+            Predicted probabilities.
+        truths : torch.Tensor
+            Ground truth labels.
+
+        Returns
+        -------
+        Dict[str, float]
+            Evaluation results.
+
+        """
         return {
             "acc": top_n_accuracy(probs, truths, 1),
             "loss": self.criterion(probs, truths).item(),
@@ -250,14 +265,13 @@ class FedProxSent140(FedNLPDataset):
 
     @property
     def url(self) -> str:
+        """URL for downloading the dataset."""
         # https://drive.google.com/file/d/1pgHf4DUZkGI6q-NLjBzMawX5yn4Y40k0/view?usp=sharing
         return "https://www.dropbox.com/s/jbmubdtehkwade1/fedprox-sent140.zip?dl=1"
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
-        """
-        a set of candidate models
-        """
+        """A set of candidate models."""
         return {
             "rnn": mnn.RNN_Sent140_LITE(embed_dim=self.word_embeddings.dim),
         }

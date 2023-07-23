@@ -246,7 +246,7 @@ class FedEMNIST(FedVisionDataset):
 
     @property
     def url(self) -> str:
-        """URL to download the dataset."""
+        """URL for downloading the dataset."""
         return "https://fedml.s3-us-west-1.amazonaws.com/fed_emnist.tar.bz2"
 
     @property

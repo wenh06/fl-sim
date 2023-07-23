@@ -443,6 +443,7 @@ class FedCIFAR100(FedCIFAR):
 
     @property
     def url(self) -> str:
+        """URL for downloading the dataset."""
         return "https://fedml.s3-us-west-1.amazonaws.com/fed_cifar100.tar.bz2"
 
 
