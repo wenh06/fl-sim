@@ -94,6 +94,38 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../nodes.html">fl_sim.nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../nodes.html#base-node-class">Base Node class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.Node.html">Node</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.Node.html#fl_sim.nodes.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes.html#server-classes">Server classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.Server.html">Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.Server.html#fl_sim.nodes.Server"><code class="docutils literal notranslate"><span class="pre">Server</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.ServerConfig.html">ServerConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig"><code class="docutils literal notranslate"><span class="pre">ServerConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes.html#client-classes">Client classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.Client.html">Client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.Client.html#fl_sim.nodes.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.ClientConfig.html">ClientConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig"><code class="docutils literal notranslate"><span class="pre">ClientConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1 current"><a class="reference internal" href="../datasets.html">fl_sim.data_processing</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../datasets.html#base-classes">Base classes</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedDataset.html">FedDataset</a><ul>
@@ -443,15 +475,185 @@ If <code class="docutils literal notranslate"><span class="pre">None</span></cod
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="fl_sim.data_processing.FedVisionDataset.get_class">
+<span class="sig-name descname"><span class="pre">get_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">Tensor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/fl_sim/data_processing/fed_dataset.html#FedVisionDataset.get_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.data_processing.FedVisionDataset.get_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get class name from label.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>label</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><em>torch.Tensor</em></a>) – Label.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Class name.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fl_sim.data_processing.FedVisionDataset.get_classes">
+<span class="sig-name descname"><span class="pre">get_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">Tensor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/fl_sim/data_processing/fed_dataset.html#FedVisionDataset.get_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.data_processing.FedVisionDataset.get_classes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get class names from labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>labels</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><em>torch.Tensor</em></a>) – Labels.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Class names.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fl_sim.data_processing.FedVisionDataset.get_dataloader">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_bs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_bs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader" title="(in PyTorch v2.0)"><span class="pre">DataLoader</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader" title="(in PyTorch v2.0)"><span class="pre">DataLoader</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/fl_sim/data_processing/fed_dataset.html#FedVisionDataset.get_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.data_processing.FedVisionDataset.get_dataloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dataloader for client <cite>client_idx</cite> or get global dataloader.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fl_sim.data_processing.FedVisionDataset.label_map">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">label_map</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></em><a class="headerlink" href="#fl_sim.data_processing.FedVisionDataset.label_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Label map for the dataset.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="fl_sim.data_processing.FedVisionDataset.load_partition_data">
 <span class="sig-name descname"><span class="pre">load_partition_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a></span></span><a class="reference internal" href="../_modules/fl_sim/data_processing/fed_dataset.html#FedVisionDataset.load_partition_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.data_processing.FedVisionDataset.load_partition_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>partition data into all local clients</p>
+<dd><p>Partition data into all local clients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – Batch size for dataloader.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, use default batch size.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><dl class="simple">
+<dt>train_clients_num<span class="classifier">int</span></dt><dd><p>Number of training clients.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>train_data_num<span class="classifier">int</span></dt><dd><p>Number of training data.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>test_data_num<span class="classifier">int</span></dt><dd><p>Number of testing data.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>train_data_global<span class="classifier">torch.utils.data.DataLoader</span></dt><dd><p>Global training dataloader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>test_data_global<span class="classifier">torch.utils.data.DataLoader</span></dt><dd><p>Global testing dataloader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>data_local_num_dict<span class="classifier">dict</span></dt><dd><p>Number of local training data for each client.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>train_data_local_dict<span class="classifier">dict</span></dt><dd><p>Local training dataloader for each client.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>test_data_local_dict<span class="classifier">dict</span></dt><dd><p>Local testing dataloader for each client.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>n_class<span class="classifier">int</span></dt><dd><p>Number of classes.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fl_sim.data_processing.FedVisionDataset.load_partition_data_distributed">
 <span class="sig-name descname"><span class="pre">load_partition_data_distributed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">process_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a></span></span><a class="reference internal" href="../_modules/fl_sim/data_processing/fed_dataset.html#FedVisionDataset.load_partition_data_distributed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.data_processing.FedVisionDataset.load_partition_data_distributed" title="Permalink to this definition">¶</a></dt>
-<dd><p>get local dataloader at client <cite>process_id</cite> or get global dataloader</p>
+<dd><p>Get local dataloader at client <cite>process_id</cite> or get global dataloader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Index of the client to get dataloader.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, get the dataloader containing all data,
+usually used for centralized training.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – Batch size for dataloader.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, use default batch size.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><dl class="simple">
+<dt>train_clients_num<span class="classifier">int</span></dt><dd><p>Number of training clients.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>train_data_num<span class="classifier">int</span></dt><dd><p>Number of training data.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>train_data_global<span class="classifier">torch.utils.data.DataLoader or None</span></dt><dd><p>Global training dataloader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>test_data_global<span class="classifier">torch.utils.data.DataLoader or None</span></dt><dd><p>Global testing dataloader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>local_data_num<span class="classifier">int</span></dt><dd><p>Number of local training data.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>train_data_local<span class="classifier">torch.utils.data.DataLoader or None</span></dt><dd><p>Local training dataloader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>test_data_local<span class="classifier">torch.utils.data.DataLoader or None</span></dt><dd><p>Local testing dataloader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>n_class<span class="classifier">int</span></dt><dd><p>Number of classes.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fl_sim.data_processing.FedVisionDataset.n_class">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#fl_sim.data_processing.FedVisionDataset.n_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of classes.</p>
 </dd></dl>
 
 <dl class="py method">

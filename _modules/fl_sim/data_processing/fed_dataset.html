@@ -91,6 +91,38 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../nodes.html">fl_sim.nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes.html#base-node-class">Base Node class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.Node.html">Node</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes.html#server-classes">Server classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.Server.html">Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server"><code class="docutils literal notranslate"><span class="pre">Server</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig"><code class="docutils literal notranslate"><span class="pre">ServerConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes.html#client-classes">Client classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.Client.html">Client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig"><code class="docutils literal notranslate"><span class="pre">ClientConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datasets.html">fl_sim.data_processing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../datasets.html#base-classes">Base classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.data_processing.FedDataset.html">FedDataset</a><ul>
@@ -463,34 +495,37 @@
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;FedDataset&quot;</span>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="FedDataset.get_dataloader"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.get_dataloader">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">train_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">test_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">client_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dataloader for client `client_idx` or get global dataloader.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preload data.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
 <div class="viewcode-block" id="FedDataset.load_partition_data_distributed"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.load_partition_data_distributed">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">load_partition_data_distributed</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get local dataloader at client `process_id` or get global dataloader&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local dataloader at client `process_id` or get global dataloader&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="FedDataset.load_partition_data"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.load_partition_data">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;partition data into all local clients&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Partition data into all local clients.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="FedDataset.evaluate"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.evaluate">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluation using predictions and ground truth.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="FedDataset.extra_repr_keys"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.extra_repr_keys">[docs]</a>    <span class="k">def</span> <span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span>
@@ -500,9 +535,11 @@
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;URL for downloading the dataset.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span> <span class="nf">download_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FedDataset.download_if_needed"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.download_if_needed">[docs]</a>    <span class="k">def</span> <span class="nf">download_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download data if needed.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datadir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">dst_dir</span> <span class="o">=</span> <span class="n">CACHED_DATA_DIR</span>
@@ -514,23 +551,23 @@
                 <span class="k">pass</span>
             <span class="n">download_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datadir</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">return</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No url for downloading data&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No url for downloading data&quot;</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        a set of candidate models</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A set of candidate models.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">data_parts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Data part names.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;val&quot;</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">doi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;DOI(s) related to the dataset.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
@@ -610,23 +647,57 @@
             <span class="p">]</span>
         <span class="p">)</span>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="FedVisionDataset.get_dataloader"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_dataloader">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">train_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">test_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">client_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dataloader for client `client_idx` or get global dataloader.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preload data.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
 <div class="viewcode-block" id="FedVisionDataset.load_partition_data_distributed"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.load_partition_data_distributed">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data_distributed</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get local dataloader at client `process_id` or get global dataloader&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local dataloader at client `process_id` or get global dataloader.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        process_id : int</span>
+<span class="sd">            Index of the client to get dataloader.</span>
+<span class="sd">            If ``None``, get the dataloader containing all data,</span>
+<span class="sd">            usually used for centralized training.</span>
+<span class="sd">        batch_size : int, optional</span>
+<span class="sd">            Batch size for dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            - train_clients_num : int</span>
+<span class="sd">                Number of training clients.</span>
+<span class="sd">            - train_data_num : int</span>
+<span class="sd">                Number of training data.</span>
+<span class="sd">            - train_data_global : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Global training dataloader.</span>
+<span class="sd">            - test_data_global : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Global testing dataloader.</span>
+<span class="sd">            - local_data_num : int</span>
+<span class="sd">                Number of local training data.</span>
+<span class="sd">            - train_data_local : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Local training dataloader.</span>
+<span class="sd">            - test_data_local : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Local testing dataloader.</span>
+<span class="sd">            - n_class : int</span>
+<span class="sd">                Number of classes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_BATCH_SIZE</span>
         <span class="k">if</span> <span class="n">process_id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># get global dataset</span>
@@ -659,7 +730,37 @@
         <span class="k">return</span> <span class="n">retval</span></div>
 
 <div class="viewcode-block" id="FedVisionDataset.load_partition_data"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.load_partition_data">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;partition data into all local clients&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Partition data into all local clients.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        batch_size : int, optional</span>
+<span class="sd">            Batch size for dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            - train_clients_num : int</span>
+<span class="sd">                Number of training clients.</span>
+<span class="sd">            - train_data_num : int</span>
+<span class="sd">                Number of training data.</span>
+<span class="sd">            - test_data_num : int</span>
+<span class="sd">                Number of testing data.</span>
+<span class="sd">            - train_data_global : torch.utils.data.DataLoader</span>
+<span class="sd">                Global training dataloader.</span>
+<span class="sd">            - test_data_global : torch.utils.data.DataLoader</span>
+<span class="sd">                Global testing dataloader.</span>
+<span class="sd">            - data_local_num_dict : dict</span>
+<span class="sd">                Number of local training data for each client.</span>
+<span class="sd">            - train_data_local_dict : dict</span>
+<span class="sd">                Local training dataloader for each client.</span>
+<span class="sd">            - test_data_local_dict : dict</span>
+<span class="sd">                Local testing dataloader for each client.</span>
+<span class="sd">            - n_class : int</span>
+<span class="sd">                Number of classes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_BATCH_SIZE</span>
         <span class="c1"># get local dataset</span>
         <span class="n">data_local_num_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -714,6 +815,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">n_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of classes.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_class</span>
 
 <div class="viewcode-block" id="FedVisionDataset.show_image"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.show_image">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -746,13 +848,40 @@
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">label_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Label map for the dataset.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span> <span class="nf">get_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">label</span><span class="o">.</span><span class="n">item</span><span class="p">()]</span>
+<div class="viewcode-block" id="FedVisionDataset.get_class"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_class">[docs]</a>    <span class="k">def</span> <span class="nf">get_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get class name from label.</span>
 
-    <span class="k">def</span> <span class="nf">get_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">lb</span><span class="p">]</span> <span class="k">for</span> <span class="n">lb</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()]</span></div>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label : torch.Tensor</span>
+<span class="sd">            Label.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Class name.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">label</span><span class="o">.</span><span class="n">item</span><span class="p">()]</span></div>
+
+<div class="viewcode-block" id="FedVisionDataset.get_classes"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_classes">[docs]</a>    <span class="k">def</span> <span class="nf">get_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get class names from labels.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        labels : torch.Tensor</span>
+<span class="sd">            Labels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Class names.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">lb</span><span class="p">]</span> <span class="k">for</span> <span class="n">lb</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()]</span></div></div>
 
 
 <div class="viewcode-block" id="FedNLPDataset"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset">[docs]</a><span class="k">class</span> <span class="nc">FedNLPDataset</span><span class="p">(</span><span class="n">FedDataset</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
@@ -817,19 +946,52 @@
             <span class="p">]</span>
         <span class="p">)</span>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="FedNLPDataset.get_dataloader"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.get_dataloader">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">train_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">test_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">client_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dataloader for client `client_idx` or get global dataloader.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="FedNLPDataset.load_partition_data_distributed"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.load_partition_data_distributed">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data_distributed</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get local dataloader at client `process_id` or get global dataloader&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local dataloader at client `process_id` or get global dataloader.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        process_id : int</span>
+<span class="sd">            Index of the client to get dataloader.</span>
+<span class="sd">            If ``None``, get the dataloader containing all data,</span>
+<span class="sd">            usually used for centralized training.</span>
+<span class="sd">        batch_size : int, optional</span>
+<span class="sd">            Batch size for dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            - train_clients_num : int</span>
+<span class="sd">                Number of training clients.</span>
+<span class="sd">            - train_data_num : int</span>
+<span class="sd">                Number of training data.</span>
+<span class="sd">            - train_data_global : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Global training dataloader.</span>
+<span class="sd">            - test_data_global : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Global testing dataloader.</span>
+<span class="sd">            - local_data_num : int</span>
+<span class="sd">                Number of local training data.</span>
+<span class="sd">            - train_data_local : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Local training dataloader.</span>
+<span class="sd">            - test_data_local : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Local testing dataloader.</span>
+<span class="sd">            - vocab_len : int</span>
+<span class="sd">                Length of the vocabulary.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_BATCH_SIZE</span>
         <span class="k">if</span> <span class="n">process_id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># get global dataset</span>
@@ -866,7 +1028,37 @@
         <span class="k">return</span> <span class="n">retval</span></div>
 
 <div class="viewcode-block" id="FedNLPDataset.load_partition_data"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.load_partition_data">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;partition data into all local clients&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Partition data into all local clients.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        batch_size : int, optional</span>
+<span class="sd">            Batch size for dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            - train_clients_num : int</span>
+<span class="sd">                Number of training clients.</span>
+<span class="sd">            - train_data_num : int</span>
+<span class="sd">                Number of training data.</span>
+<span class="sd">            - test_data_num : int</span>
+<span class="sd">                Number of testing data.</span>
+<span class="sd">            - train_data_global : torch.utils.data.DataLoader</span>
+<span class="sd">                Global training dataloader.</span>
+<span class="sd">            - test_data_global : torch.utils.data.DataLoader</span>
+<span class="sd">                Global testing dataloader.</span>
+<span class="sd">            - data_local_num_dict : dict</span>
+<span class="sd">                Number of local training data for each client.</span>
+<span class="sd">            - train_data_local_dict : dict</span>
+<span class="sd">                Local training dataloader for each client.</span>
+<span class="sd">            - test_data_local_dict : dict</span>
+<span class="sd">                Local testing dataloader for each client.</span>
+<span class="sd">            - vocab_len : int</span>
+<span class="sd">                Length of the vocabulary.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_BATCH_SIZE</span>
 
         <span class="c1"># get local dataset</span>
@@ -981,6 +1173,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">max_len</span> <span class="o">=</span> <span class="n">max_len</span>
 
     <span class="k">def</span> <span class="nf">_format_as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Format the example as a dictionary.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        example : tuple</span>
+<span class="sd">            A tuple containing the input text and the label.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        input_dict : OrderedDict</span>
+<span class="sd">            An ordered dictionary containing the input text and the label.</span>
+<span class="sd">        output : int or float</span>
+<span class="sd">            The label or the scaled label.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">example</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">:</span>
             <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">output</span><span class="p">]</span>
@@ -1011,6 +1217,7 @@
         <span class="k">return</span> <span class="n">input_dict</span><span class="p">,</span> <span class="n">output</span>
 
     <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shuffle the dataset.&quot;&quot;&quot;</span>
         <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shuffled</span> <span class="o">=</span> <span class="kc">True</span>
 
@@ -1115,6 +1322,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">dataset_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
 
     <span class="k">def</span> <span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -1123,7 +1331,22 @@
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_gen_input</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">input_columns</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_gen_input</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">input_columns</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate input from a row of an NLP dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        row : dict</span>
+<span class="sd">            A row of an NLP dataset.</span>
+<span class="sd">        input_columns : Tuple[str]</span>
+<span class="sd">            The column names of the input text.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple[str]</span>
+<span class="sd">            A tuple containing the input text.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_columns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">row</span><span class="p">[</span><span class="n">input_columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">input_columns</span><span class="p">)</span>
@@ -1132,7 +1355,21 @@
     <span class="k">def</span> <span class="nf">_split_dataset_columns</span><span class="p">(</span>
         <span class="n">column_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Common schemas for datasets found in huggingface datasets hub.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Common schemas for datasets found in huggingface datasets hub.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        column_names : Sequence[str]</span>
+<span class="sd">            The column names of the dataset.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        input_columns : Tuple[str, ...]</span>
+<span class="sd">            The column names of the input text.</span>
+<span class="sd">        output_column : str</span>
+<span class="sd">            The column name of the label.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_column_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">column_names</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">{</span><span class="s2">&quot;premise&quot;</span><span class="p">,</span> <span class="s2">&quot;hypothesis&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">}</span> <span class="o">&lt;=</span> <span class="n">_column_names</span><span class="p">:</span>
             <span class="n">input_columns</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;premise&quot;</span><span class="p">,</span> <span class="s2">&quot;hypothesis&quot;</span><span class="p">)</span>
@@ -1177,8 +1414,23 @@
         <span class="n">tokenizer</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span>
         <span class="n">labels_to_keep</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">TensorDataset</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to a tensor dataset.</span>
+
 <span class="sd">        CAUTION: This method is not tested yet.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tokenizer : Callable[[Union[str, Sequence[str]]], torch.Tensor]</span>
+<span class="sd">            A tokenizer that takes a string or a list of strings as input and</span>
+<span class="sd">            returns a tensor.</span>
+<span class="sd">        labels_to_keep : Optional[Iterable[int]], optional</span>
+<span class="sd">            A list of labels to keep. If ``None``, keep all labels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        torch.utils.data.TensorDataset</span>
+<span class="sd">            A tensor dataset instance.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">label_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>

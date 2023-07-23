@@ -91,6 +91,38 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../nodes.html">fl_sim.nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes.html#base-node-class">Base Node class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.Node.html">Node</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes.html#server-classes">Server classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.Server.html">Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server"><code class="docutils literal notranslate"><span class="pre">Server</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig"><code class="docutils literal notranslate"><span class="pre">ServerConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes.html#client-classes">Client classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.Client.html">Client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig"><code class="docutils literal notranslate"><span class="pre">ClientConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datasets.html">fl_sim.data_processing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../datasets.html#base-classes">Base classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.data_processing.FedDataset.html">FedDataset</a><ul>
@@ -466,6 +498,21 @@
         <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">embedding_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;glove.6B.300d&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preload the dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        datadir : Union[pathlib.Path, str], optional</span>
+<span class="sd">            Directory to store data.</span>
+<span class="sd">            If ``None``, use default directory.</span>
+<span class="sd">        embedding_name : str, default &quot;glove.6B.300d&quot;</span>
+<span class="sd">            Name of the word embedding to use.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">datadir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">datadir</span> <span class="ow">or</span> <span class="n">FEDPROX_SENT140_DATA_DIR</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">download_if_needed</span><span class="p">()</span>
 
@@ -535,12 +582,35 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_client_ids_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_train_data_dict</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client_ids_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_data_dict</span><span class="p">[</span><span class="s2">&quot;users&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
+<div class="viewcode-block" id="FedProxSent140.get_dataloader"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.get_dataloader">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">train_bs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">test_bs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">client_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local dataloader at client `client_idx` or get the global dataloader.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        train_bs : int, optional</span>
+<span class="sd">            Batch size for training dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+<span class="sd">        test_bs : int, optional</span>
+<span class="sd">            Batch size for testing dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+<span class="sd">        client_idx : int, optional</span>
+<span class="sd">            Index of the client to get dataloader.</span>
+<span class="sd">            If ``None``, get the dataloader containing all data.</span>
+<span class="sd">            Usually used for centralized training.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        train_dl : torch.utils.data.DataLoader</span>
+<span class="sd">            Training dataloader.</span>
+<span class="sd">        test_dl : torch.utils.data.DataLoader</span>
+<span class="sd">            Testing dataloader.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># load data</span>
         <span class="k">if</span> <span class="n">client_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># get ids of all clients</span>
@@ -591,13 +661,12 @@
             <span class="n">drop_last</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">test_dl</span>
+        <span class="k">return</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">test_dl</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_preprocess_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        remove URLs and leading &quot;@user&quot; in the text,</span>
-<span class="sd">        then remove leading and trailing punctuation</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove URLs and leading &quot;@user&quot; in the text,</span>
+<span class="sd">        then remove leading and trailing punctuation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
         <span class="c1"># remove the URLs</span>
@@ -612,35 +681,64 @@
     <span class="k">def</span> <span class="nf">get_word_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">_tokenizer</span><span class="o">.</span><span class="n">get_vocab</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="FedProxSent140.evaluate"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluation using predictions and ground truth.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        probs : torch.Tensor</span>
+<span class="sd">            Predicted probabilities.</span>
+<span class="sd">        truths : torch.Tensor</span>
+<span class="sd">            Ground truth labels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict[str, float]</span>
+<span class="sd">            Evaluation results.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;acc&quot;</span><span class="p">:</span> <span class="n">top_n_accuracy</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">truths</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
             <span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">truths</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
             <span class="s2">&quot;num_samples&quot;</span><span class="p">:</span> <span class="n">probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="p">}</span>
+        <span class="p">}</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;URL for downloading the dataset.&quot;&quot;&quot;</span>
         <span class="c1"># https://drive.google.com/file/d/1pgHf4DUZkGI6q-NLjBzMawX5yn4Y40k0/view?usp=sharing</span>
         <span class="k">return</span> <span class="s2">&quot;https://www.dropbox.com/s/jbmubdtehkwade1/fedprox-sent140.zip?dl=1&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        a set of candidate models</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A set of candidate models.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;rnn&quot;</span><span class="p">:</span> <span class="n">mnn</span><span class="o">.</span><span class="n">RNN_Sent140_LITE</span><span class="p">(</span><span class="n">embed_dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">word_embeddings</span><span class="o">.</span><span class="n">dim</span><span class="p">),</span>
         <span class="p">}</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">doi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;DOIs related to the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="s2">&quot;10.48550/ARXIV.1812.01097&quot;</span><span class="p">,</span>  <span class="c1"># LEAF</span>
             <span class="s2">&quot;10.48550/ARXIV.1812.06127&quot;</span><span class="p">,</span>  <span class="c1"># FedProx</span>
         <span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">view_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sample_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FedProxSent140.view_sample"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.view_sample">[docs]</a>    <span class="k">def</span> <span class="nf">view_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sample_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;View a sample from the dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        client_idx : int</span>
+<span class="sd">            Index of the client on which the sample is located.</span>
+<span class="sd">        sample_idx : int</span>
+<span class="sd">            Index of the sample in the client.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">client_idx</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_client_ids_train</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;client_idx should be less than </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_client_ids_train</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -661,7 +759,7 @@
 
         <span class="n">new_line</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Text:</span><span class="si">{</span><span class="n">new_line</span><span class="si">}{</span><span class="n">text</span><span class="si">}{</span><span class="n">new_line</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Label:</span><span class="si">{</span><span class="n">new_line</span><span class="si">}{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Label:</span><span class="si">{</span><span class="n">new_line</span><span class="si">}{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

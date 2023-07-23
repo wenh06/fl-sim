@@ -19,6 +19,7 @@ A Simple Simulation Framework for Federated Learning Based on PyTorch.
    :caption: API Reference
    :maxdepth: 2
 
+   nodes
    datasets
    models
    optimizers

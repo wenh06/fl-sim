@@ -91,6 +91,38 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../nodes.html">fl_sim.nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes.html#base-node-class">Base Node class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.Node.html">Node</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes.html#server-classes">Server classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.Server.html">Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server"><code class="docutils literal notranslate"><span class="pre">Server</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig"><code class="docutils literal notranslate"><span class="pre">ServerConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nodes.html#client-classes">Client classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.Client.html">Client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../generated/fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig"><code class="docutils literal notranslate"><span class="pre">ClientConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../datasets.html">fl_sim.data_processing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../datasets.html#base-classes">Base classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../generated/fl_sim.data_processing.FedDataset.html">FedDataset</a><ul>
@@ -487,6 +519,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_preload</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preload the dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        seed : int, default 0</span>
+<span class="sd">            The random seed for data generation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
         <span class="n">set_seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
@@ -503,8 +547,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_TRAIN_CLIENTS_NUM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_clients</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_TEST_CLIENTS_NUM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_clients</span>
 
-    <span class="k">def</span> <span class="nf">reset_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_preload</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<div class="viewcode-block" id="FedSynthetic.reset_seed"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.reset_seed">[docs]</a>    <span class="k">def</span> <span class="nf">reset_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the random seed and re-generate the dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        seed : int</span>
+<span class="sd">            The random seed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_preload</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="FedSynthetic.get_dataloader"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.get_dataloader">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -512,7 +568,29 @@
         <span class="n">test_bs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">client_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get local dataloader at client `client_idx` or get the global dataloader&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local dataloader at client `client_idx` or get the global dataloader.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        train_bs : int, optional</span>
+<span class="sd">            Batch size for training dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+<span class="sd">        test_bs : int, optional</span>
+<span class="sd">            Batch size for testing dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+<span class="sd">        client_idx : int, optional</span>
+<span class="sd">            Index of the client to get dataloader.</span>
+<span class="sd">            If ``None``, get the dataloader containing all data.</span>
+<span class="sd">            Usually used for centralized training.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        train_dl : torch.utils.data.DataLoader</span>
+<span class="sd">            Training dataloader.</span>
+<span class="sd">        test_dl : torch.utils.data.DataLoader</span>
+<span class="sd">            Testing dataloader.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="n">client_idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">client_idx</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_clients</span>
         <span class="k">if</span> <span class="n">client_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">train_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;train_X&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -552,7 +630,39 @@
 <div class="viewcode-block" id="FedSynthetic.load_partition_data_distributed"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.load_partition_data_distributed">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data_distributed</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get local dataloader at client `process_id` or get global dataloader&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local dataloader at client `process_id` or get global dataloader.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        process_id : int</span>
+<span class="sd">            Index of the client to get dataloader.</span>
+<span class="sd">            If ``None``, get the dataloader containing all data,</span>
+<span class="sd">            usually used for centralized training.</span>
+<span class="sd">        batch_size : int, optional</span>
+<span class="sd">            Batch size for dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            - train_clients_num : int</span>
+<span class="sd">                Number of training clients.</span>
+<span class="sd">            - train_data_num : int</span>
+<span class="sd">                Number of training data.</span>
+<span class="sd">            - train_data_global : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Global training dataloader.</span>
+<span class="sd">            - test_data_global : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Global testing dataloader.</span>
+<span class="sd">            - local_data_num : int</span>
+<span class="sd">                Number of local training data.</span>
+<span class="sd">            - train_data_local : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Local training dataloader.</span>
+<span class="sd">            - test_data_local : torch.utils.data.DataLoader or None</span>
+<span class="sd">                Local testing dataloader.</span>
+<span class="sd">            - n_class : int</span>
+<span class="sd">                Number of classes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_BATCH_SIZE</span>
         <span class="k">if</span> <span class="n">process_id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># get global dataset</span>
@@ -585,7 +695,37 @@
         <span class="k">return</span> <span class="n">retval</span></div>
 
 <div class="viewcode-block" id="FedSynthetic.load_partition_data"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.load_partition_data">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;partition data into all local clients&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Partition data into all local clients.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        batch_size : int, optional</span>
+<span class="sd">            Batch size for dataloader.</span>
+<span class="sd">            If ``None``, use default batch size.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            - train_clients_num : int</span>
+<span class="sd">                Number of training clients.</span>
+<span class="sd">            - train_data_num : int</span>
+<span class="sd">                Number of training data.</span>
+<span class="sd">            - test_data_num : int</span>
+<span class="sd">                Number of testing data.</span>
+<span class="sd">            - train_data_global : torch.utils.data.DataLoader</span>
+<span class="sd">                Global training dataloader.</span>
+<span class="sd">            - test_data_global : torch.utils.data.DataLoader</span>
+<span class="sd">                Global testing dataloader.</span>
+<span class="sd">            - data_local_num_dict : dict</span>
+<span class="sd">                Number of local training data for each client.</span>
+<span class="sd">            - train_data_local_dict : dict</span>
+<span class="sd">                Local training dataloader for each client.</span>
+<span class="sd">            - test_data_local_dict : dict</span>
+<span class="sd">                Local testing dataloader for each client.</span>
+<span class="sd">            - n_class : int</span>
+<span class="sd">                Number of classes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_BATCH_SIZE</span>
         <span class="c1"># get local dataset</span>
         <span class="n">data_local_num_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -648,24 +788,38 @@
             <span class="s2">&quot;dimension&quot;</span><span class="p">,</span>
         <span class="p">]</span></div>
 
-    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="FedSynthetic.evaluate"><a class="viewcode-back" href="../../../generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluation using predictions and ground truth.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        probs : torch.Tensor</span>
+<span class="sd">            Predicted probabilities.</span>
+<span class="sd">        truths : torch.Tensor</span>
+<span class="sd">            Ground truth labels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict[str, float]</span>
+<span class="sd">            Evaluation results.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;acc&quot;</span><span class="p">:</span> <span class="n">top_n_accuracy</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">truths</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
             <span class="s2">&quot;top3_acc&quot;</span><span class="p">:</span> <span class="n">top_n_accuracy</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">truths</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
             <span class="s2">&quot;top5_acc&quot;</span><span class="p">:</span> <span class="n">top_n_accuracy</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">truths</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
             <span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">truths</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
             <span class="s2">&quot;num_samples&quot;</span><span class="p">:</span> <span class="n">probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="p">}</span>
+        <span class="p">}</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;URL for downloading the dataset. Empty for synthetic dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        a set of candidate models</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A set of candidate models.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;mlp_d1&quot;</span><span class="p">:</span> <span class="n">mnn</span><span class="o">.</span><span class="n">MLP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dimension</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
             <span class="s2">&quot;mlp_d2&quot;</span><span class="p">:</span> <span class="n">mnn</span><span class="o">.</span><span class="n">MLP</span><span class="p">(</span>
@@ -699,6 +853,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">doi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;DOI(s) related to the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;10.48550/ARXIV.1812.06127&quot;</span><span class="p">]</span></div>
 </pre></div>
 
