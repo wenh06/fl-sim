@@ -213,10 +213,12 @@ class FedVisionDataset(FedDataset, ABC):
         test_bs: int,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get dataloader for client `client_idx` or get global dataloader."""
         raise NotImplementedError
 
     @abstractmethod
     def _preload(self, datadir: Optional[str] = None) -> None:
+        """Preload data."""
         raise NotImplementedError
 
     def load_partition_data_distributed(
@@ -405,7 +407,7 @@ class FedVisionDataset(FedDataset, ABC):
     @property
     @abstractmethod
     def label_map(self) -> dict:
-        """Label map."""
+        """Label map for the dataset."""
         raise NotImplementedError
 
     def get_class(self, label: torch.Tensor) -> str:
@@ -510,12 +512,45 @@ class FedNLPDataset(FedDataset, ABC):
         test_bs: int,
         client_idx: Optional[int] = None,
     ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get dataloader for client `client_idx` or get global dataloader."""
         raise NotImplementedError
 
     def load_partition_data_distributed(
         self, process_id: int, batch_size: Optional[int] = None
     ) -> tuple:
-        """get local dataloader at client `process_id` or get global dataloader"""
+        """Get local dataloader at client `process_id` or get global dataloader.
+
+        Parameters
+        ----------
+        process_id : int
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data,
+            usually used for centralized training.
+        batch_size : int, optional
+            Batch size for dataloader.
+            If ``None``, use default batch size.
+
+        Returns
+        -------
+        tuple
+            - train_clients_num : int
+                Number of training clients.
+            - train_data_num : int
+                Number of training data.
+            - train_data_global : torch.utils.data.DataLoader or None
+                Global training dataloader.
+            - test_data_global : torch.utils.data.DataLoader or None
+                Global testing dataloader.
+            - local_data_num : int
+                Number of local training data.
+            - train_data_local : torch.utils.data.DataLoader or None
+                Local training dataloader.
+            - test_data_local : torch.utils.data.DataLoader or None
+                Local testing dataloader.
+            - vocab_len : int
+                Length of the vocabulary.
+
+        """
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         if process_id == 0:
             # get global dataset
@@ -552,7 +587,37 @@ class FedNLPDataset(FedDataset, ABC):
         return retval
 
     def load_partition_data(self, batch_size: Optional[int] = None) -> tuple:
-        """partition data into all local clients"""
+        """Partition data into all local clients.
+
+        Parameters
+        ----------
+        batch_size : int, optional
+            Batch size for dataloader.
+            If ``None``, use default batch size.
+
+        Returns
+        -------
+        tuple
+            - train_clients_num : int
+                Number of training clients.
+            - train_data_num : int
+                Number of training data.
+            - test_data_num : int
+                Number of testing data.
+            - train_data_global : torch.utils.data.DataLoader
+                Global training dataloader.
+            - test_data_global : torch.utils.data.DataLoader
+                Global testing dataloader.
+            - data_local_num_dict : dict
+                Number of local training data for each client.
+            - train_data_local_dict : dict
+                Local training dataloader for each client.
+            - test_data_local_dict : dict
+                Local testing dataloader for each client.
+            - vocab_len : int
+                Length of the vocabulary.
+
+        """
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
 
         # get local dataset
@@ -667,6 +732,20 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         self.max_len = max_len
 
     def _format_as_dict(self, example: tuple) -> tuple:
+        """Format the example as a dictionary.
+
+        Parameters
+        ----------
+        example : tuple
+            A tuple containing the input text and the label.
+
+        Returns
+        -------
+        input_dict : OrderedDict
+            An ordered dictionary containing the input text and the label.
+        output : int or float
+            The label or the scaled label.
+        """
         output = example[1]
         if self.label_map:
             output = self.label_map[output]
@@ -697,6 +776,7 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         return input_dict, output
 
     def shuffle(self) -> None:
+        """Shuffle the dataset."""
         random.shuffle(self._dataset)
         self.shuffled = True
 
@@ -801,6 +881,7 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
 
     @property
     def dataset_name(self) -> str:
+        """Name of the dataset."""
         return self._name
 
     def extra_repr_keys(self) -> List[str]:
@@ -809,7 +890,22 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         return super().extra_repr_keys()
 
     @staticmethod
-    def _gen_input(row: dict, input_columns: Tuple[str]) -> Union[Tuple[str, ...], str]:
+    def _gen_input(row: dict, input_columns: Tuple[str]) -> Tuple[str, ...]:
+        """Generate input from a row of an NLP dataset.
+
+        Parameters
+        ----------
+        row : dict
+            A row of an NLP dataset.
+        input_columns : Tuple[str]
+            The column names of the input text.
+
+        Returns
+        -------
+        Tuple[str]
+            A tuple containing the input text.
+
+        """
         if len(input_columns) == 1:
             return row[input_columns[0]]
         return tuple(row[c] for c in input_columns)
@@ -818,7 +914,21 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
     def _split_dataset_columns(
         column_names: Sequence[str],
     ) -> Tuple[Tuple[str, ...], str]:
-        """Common schemas for datasets found in huggingface datasets hub."""
+        """Common schemas for datasets found in huggingface datasets hub.
+
+        Parameters
+        ----------
+        column_names : Sequence[str]
+            The column names of the dataset.
+
+        Returns
+        -------
+        input_columns : Tuple[str, ...]
+            The column names of the input text.
+        output_column : str
+            The column name of the label.
+
+        """
         _column_names = set(column_names)
         if {"premise", "hypothesis", "label"} <= _column_names:
             input_columns = ("premise", "hypothesis")
@@ -863,8 +973,23 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         tokenizer: Callable[[Union[str, Sequence[str]]], torch.Tensor],
         labels_to_keep: Optional[Iterable[int]] = None,
     ) -> torchdata.TensorDataset:
-        """
+        """Convert to a tensor dataset.
+
         CAUTION: This method is not tested yet.
+
+        Parameters
+        ----------
+        tokenizer : Callable[[Union[str, Sequence[str]]], torch.Tensor]
+            A tokenizer that takes a string or a list of strings as input and
+            returns a tensor.
+        labels_to_keep : Optional[Iterable[int]], optional
+            A list of labels to keep. If ``None``, keep all labels.
+
+        Returns
+        -------
+        torch.utils.data.TensorDataset
+            A tensor dataset instance.
+
         """
         assert (
             self.label_map is not None

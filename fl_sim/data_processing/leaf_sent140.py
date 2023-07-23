@@ -131,6 +131,7 @@ class LeafSent140(FedNLPDataset):
 
     @property
     def doi(self) -> List[str]:
+        """DOI(s) related to the dataset."""
         return [
             "10.48550/ARXIV.1812.01097",  # LEAF
         ]

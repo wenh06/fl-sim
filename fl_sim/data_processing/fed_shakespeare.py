@@ -199,16 +199,42 @@ class FedShakespeare(FedNLPDataset):
     def preprocess(
         self, sentences: Sequence[str], max_seq_len: Optional[int] = None
     ) -> List[List[int]]:
+        """Preprocess a list of sentences.
+
+        Parameters
+        ----------
+        sentences : Sequence[str]
+            List of sentences to be preprocessed.
+        max_seq_len : int, optional
+            Maximum sequence length.
+            If ``None``, use default sequence length.
+
+        Returns
+        -------
+        List[List[int]]
+            List of tokenized sentences.
+
+        """
         sequences = []
         if max_seq_len is None:
             max_seq_len = self.SEQUENCE_LENGTH
 
         def to_ids(sentence: str, num_oov_buckets: int = 1) -> Tuple[List[int]]:
-            """
-            map list of sentence to list of [idx..] and pad to max_seq_len + 1
-            Args:
-                num_oov_buckets : The number of out of vocabulary buckets.
-                max_seq_len: Integer determining shape of padded batches.
+            """Map list of sentence to list of ``[idx..]``
+            and pad to ``max_seq_len + 1``.
+
+            Parameters
+            ----------
+            sentence : str
+                Sentence to be converted.
+            num_oov_buckets : int, default 1
+                The number of out of vocabulary buckets.
+
+            Returns
+            -------
+            Tuple[List[int]]
+                List of tokenized sentence.
+
             """
             tokens = [self.char_to_id(c) for c in sentence]
             tokens = (
@@ -227,16 +253,20 @@ class FedShakespeare(FedNLPDataset):
         return sequences
 
     def id_to_word(self, idx: int) -> str:
+        """Convert an integer index to a character."""
         return self.words[idx]
 
     def char_to_id(self, char: str) -> int:
+        """Convert a character to an integer index."""
         return self.word_dict.get(char, len(self.word_dict))
 
     @property
     def words(self) -> List[str]:
+        """Get the word list."""
         return self._words
 
     def get_word_dict(self) -> Dict[str, int]:
+        """Get the word dictionary."""
         return self.word_dict
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
@@ -277,12 +307,27 @@ class FedShakespeare(FedNLPDataset):
 
     @property
     def doi(self) -> List[str]:
+        """DOI(s) related to the dataset."""
         return [
             "10.48550/ARXIV.1812.06127",  # FedProx
             "10.48550/ARXIV.2007.13518",  # FedML
         ]
 
     def view_sample(self, client_idx: int, sample_idx: Optional[int] = None) -> None:
+        """View a sample from the dataset.
+
+        Parameters
+        ----------
+        client_idx : int
+            Index of the client on which the sample is located.
+        sample_idx : int
+            Index of the sample in the client.
+
+        Returns
+        -------
+        None
+
+        """
         if client_idx >= len(self._client_ids_train):
             raise ValueError(
                 f"client_idx must be less than {len(self._client_ids_train)}"

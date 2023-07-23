@@ -331,6 +331,7 @@ class FedRotatedMNIST(FedVisionDataset):
 
     @property
     def mirror(self) -> Dict[str, str]:
+        """Mirror sites for downloading the dataset."""
         return {
             "lecun": "http://yann.lecun.com/exdb/mnist/",
             "aws": "https://ossci-datasets.s3.amazonaws.com/mnist/",
@@ -347,6 +348,7 @@ class FedRotatedMNIST(FedVisionDataset):
         }
 
     def download_if_needed(self) -> None:
+        """Download data if needed."""
         default_mirror = "lecun"
         alt_mirror = [k for k in self.mirror if k != default_mirror][0]
         # check if default_mirror is available
@@ -375,14 +377,30 @@ class FedRotatedMNIST(FedVisionDataset):
 
     @property
     def doi(self) -> List[str]:
+        """DOI(s) related to the dataset."""
         # TODO: add doi of MNIST and IFCA
         return None
 
     @property
     def label_map(self) -> dict:
+        """Label map for the dataset."""
         return MNIST_LABEL_MAP
 
     def view_image(self, client_idx: int, image_idx: int) -> None:
+        """View a single image.
+
+        Parameters
+        ----------
+        client_idx : int
+            Index of the client on which the image is located.
+        image_idx : int
+            Index of the image in the client.
+
+        Returns
+        -------
+        None
+
+        """
         import matplotlib.pyplot as plt
 
         if client_idx >= self.num_clients:
@@ -436,6 +454,20 @@ class FedRotatedMNIST(FedVisionDataset):
     ) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
+
+        Parameters
+        ----------
+        nrow : int
+            Number of rows in the grid.
+        ncol : int
+            Number of columns in the grid.
+        save_path : Union[str, Path], optional
+            Path to save the figure. If ``None``, do not save the figure.
+
+        Returns
+        -------
+        None
+
         """
         import matplotlib.pyplot as plt
 

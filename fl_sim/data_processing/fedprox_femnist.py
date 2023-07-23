@@ -263,6 +263,7 @@ class FedProxFEMNIST(FedVisionDataset):
 
     @property
     def doi(self) -> List[str]:
+        """DOIs related to the dataset."""
         return [
             "10.1109/5.726791",  # MNIST
             "10.1109/ijcnn.2017.7966217",  # EMNIST
@@ -272,9 +273,24 @@ class FedProxFEMNIST(FedVisionDataset):
 
     @property
     def label_map(self) -> dict:
+        """Label map for the dataset."""
         return _label_mapping
 
     def view_image(self, client_idx: int, image_idx: int) -> None:
+        """View a single image.
+
+        Parameters
+        ----------
+        client_idx : int
+            Index of the client on which the image is located.
+        image_idx : int
+            Index of the image in the client.
+
+        Returns
+        -------
+        None
+
+        """
         import matplotlib.pyplot as plt
 
         if client_idx >= len(self._train_data_dict["users"]):
@@ -325,6 +341,20 @@ class FedProxFEMNIST(FedVisionDataset):
     ) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
+
+        Parameters
+        ----------
+        nrow : int
+            Number of rows in the grid.
+        ncol : int
+            Number of columns in the grid.
+        save_path : Union[str, Path], optional
+            Path to save the figure. If ``None``, do not save the figure.
+
+        Returns
+        -------
+        None
+
         """
         import matplotlib.pyplot as plt
 

@@ -341,18 +341,34 @@ class FedCIFAR(FedVisionDataset):
 
     @property
     def doi(self) -> str:
+        """DOI(s) related to the dataset."""
         return [
             "10.48550/ARXIV.2007.13518",  # FedML
         ]
 
     @property
     def label_map(self) -> dict:
+        """Label map for the dataset."""
         return {
             10: CIFAR10_LABEL_MAP,
             100: CIFAR100_FINE_LABEL_MAP,
         }[self.n_class]
 
     def view_image(self, client_idx: int, image_idx: int) -> None:
+        """View a single image.
+
+        Parameters
+        ----------
+        client_idx : int
+            Index of the client on which the image is located.
+        image_idx : int
+            Index of the image in the client.
+
+        Returns
+        -------
+        None
+
+        """
         import matplotlib.pyplot as plt
 
         if client_idx >= len(self._client_ids_train):
@@ -399,6 +415,20 @@ class FedCIFAR(FedVisionDataset):
     ) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
+
+        Parameters
+        ----------
+        nrow : int
+            Number of rows in the grid.
+        ncol : int
+            Number of columns in the grid.
+        save_path : Union[str, Path], optional
+            Path to save the figure. If ``None``, do not save the figure.
+
+        Returns
+        -------
+        None
+
         """
         import matplotlib.pyplot as plt
 
@@ -454,6 +484,30 @@ def _data_transforms_fed_cifar(
     train: bool = True,
     crop_size: Sequence[int] = (24, 24),
 ) -> Callable:
+    """Get data transforms for CIFAR10/100 dataset.
+
+    Parameters
+    ----------
+    n_class : int
+        Number of classes in the dataset.
+        10 for CIFAR10, 100 for CIFAR100.
+    mean : Sequence[float], optional
+        Mean for normalization.
+        If ``None``, use default mean.
+    std : Sequence[float], optional
+        Standard deviation for normalization.
+        If ``None``, use default standard deviation.
+    train : bool, default True
+        Whether to get training transforms.
+    crop_size : Sequence[int], default (24, 24)
+        Crop size for random crop.
+
+    Returns
+    -------
+    Callable
+        Transforms to apply to the images.
+
+    """
     assert n_class in [10, 100]
     if mean is None:
         mean = CIFAR10_MEAN if n_class == 10 else CIFAR100_MEAN

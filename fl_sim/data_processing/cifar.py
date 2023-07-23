@@ -50,8 +50,30 @@ for n_class in [
 
 
 class CIFAR_truncated(ReprMixin, torchdata.Dataset):
-    """
-    this class is modified from FedML
+    """Truncated CIFAR dataset.
+
+    This class is modified from `FedML <https://github.com/FedML-AI/FedML>`_.
+
+    Parameters
+    ----------
+    n_class : {10, 100}
+        Number of classes.
+    root : str or pathlib.Path, optional
+        Directory to store the data,
+        defaults to pre-defined directory for CIFAR data.
+    dataidxs : list of int, optional
+        List of indices of the data to be used.
+    train : bool, default True
+        Whether to use training data.
+    transform : callable, optional
+        Transform to apply to the data.
+    target_transform : callable, optional
+        Transform to apply to the targets (labels).
+    download : bool, default False
+        Whether to download the data if not found locally.
+    seed : int, default 0
+        Random seed for reproducibility.
+
     """
 
     __name__ = "CIFAR10_truncated"
@@ -81,6 +103,8 @@ class CIFAR_truncated(ReprMixin, torchdata.Dataset):
         self.data, self.target = self.__build_truncated_dataset__()
 
     def __build_truncated_dataset__(self) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Build the truncated dataset via
+        filtering the data with the given `dataidxs`."""
         DS = {10: CIFAR10, 100: CIFAR100}[self.n_class]
         cifar_dataobj = DS(
             self.root, self.train, self.transform, self.target_transform, self.download
@@ -96,12 +120,39 @@ class CIFAR_truncated(ReprMixin, torchdata.Dataset):
         return data, target
 
     def truncate_channel(self, index: np.ndarray) -> None:
+        """Truncate the channel of the image.
+
+        Parameters
+        ----------
+        index : numpy.ndarray
+            Indices of the samples to be truncated.
+
+        Returns
+        -------
+        None
+
+        """
         for i in range(index.shape[0]):
             gs_index = index[i]
             self.data[gs_index, :, :, 1] = 0.0
             self.data[gs_index, :, :, 2] = 0.0
 
     def __getitem__(self, index: int) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Get the sample given the index.
+
+        Parameters
+        ----------
+        index : int
+            Index of the sample.
+
+        Returns
+        -------
+        img : torch.Tensor
+            The image.
+        target : torch.Tensor
+            The label.
+
+        """
         img, target = self.data[index], self.target[index]
 
         if self.transform is not None:
@@ -113,6 +164,7 @@ class CIFAR_truncated(ReprMixin, torchdata.Dataset):
         return img, target
 
     def __len__(self) -> int:
+        """Return the number of samples."""
         return len(self.data)
 
     def extra_repr_keys(self) -> List[str]:
@@ -123,6 +175,25 @@ class CIFAR_truncated(ReprMixin, torchdata.Dataset):
 
 
 class CIFAR10_truncated(CIFAR_truncated):
+    """Truncated CIFAR10 dataset.
+
+    Parameters
+    ----------
+    root : str or pathlib.Path, optional
+        Directory to store the data,
+        defaults to pre-defined directory for CIFAR data.
+    dataidxs : list of int, optional
+        List of indices of the data to be used.
+    train : bool, default True
+        Whether to use training data.
+    transform : callable, optional
+        Transform to apply to the data.
+    target_transform : callable, optional
+        Transform to apply to the targets (labels).
+    download : bool, default False
+        Whether to download the data if not found locally.
+
+    """
 
     __name__ = "CIFAR10_truncated"
 
@@ -141,6 +212,25 @@ class CIFAR10_truncated(CIFAR_truncated):
 
 
 class CIFAR100_truncated(CIFAR_truncated):
+    """Truncated CIFAR100 dataset.
+
+    Parameters
+    ----------
+    root : str or pathlib.Path, optional
+        Directory to store the data,
+        defaults to pre-defined directory for CIFAR data.
+    dataidxs : list of int, optional
+        List of indices of the data to be used.
+    train : bool, default True
+        Whether to use training data.
+    transform : callable, optional
+        Transform to apply to the data.
+    target_transform : callable, optional
+        Transform to apply to the targets (labels).
+    download : bool, default False
+        Whether to download the data if not found locally.
+
+    """
 
     __name__ = "CIFAR100_truncated"
 
@@ -159,6 +249,15 @@ class CIFAR100_truncated(CIFAR_truncated):
 
 
 class Cutout(object):
+    """The cutout augmentation.
+
+    Parameters
+    ----------
+    length : int
+        The length of the cutout square.
+
+    """
+
     def __init__(self, length: int) -> None:
         self.length = length
 
@@ -184,6 +283,21 @@ class Cutout(object):
 
 
 def _data_transforms_cifar(n_class: int) -> Tuple[Callable, Callable]:
+    """Get data transforms for CIFAR data.
+
+    Parameters
+    ----------
+    n_class : {10, 100}
+        Number of classes.
+
+    Returns
+    -------
+    train_transform : Callable
+        Transform for training data.
+    test_transform : Callable
+        Transform for testing data.
+
+    """
     if n_class == 10:
         mean, std = CIFAR10_MEAN, CIFAR10_STD
     elif n_class == 100:
@@ -213,6 +327,24 @@ def _data_transforms_cifar(n_class: int) -> Tuple[Callable, Callable]:
 def load_cifar_data(
     n_class: int, datadir: Optional[Union[str, Path]] = None, to_numpy: bool = False
 ) -> Tuple[Union[np.ndarray, torch.Tensor], ...]:
+    """Load CIFAR data with preprocessing.
+
+    Parameters
+    ----------
+    n_class : int
+        Number of classes.
+    datadir : str or pathlib.Path, optional
+        Directory to store the data,
+        defaults to pre-defined directory for CIFAR data.
+    to_numpy : bool, default False
+        Whether to convert the data to numpy array.
+
+    Returns
+    -------
+    tuple
+        ``(X_train, y_train, X_test, y_test)``
+
+    """
     train_transform, test_transform = _data_transforms_cifar(n_class)
 
     cifar_train_ds = CIFAR_truncated(
@@ -238,7 +370,22 @@ def load_cifar_data(
 
 def record_net_data_stats(
     y_train: torch.Tensor, net_dataidx_map: Dict[int, List[int]]
-) -> Dict[int, int]:
+) -> Dict[int, Dict[int, int]]:
+    """Record the number of training samples for each class on each client.
+
+    Parameters
+    ----------
+    y_train : torch.Tensor
+        Training labels.
+    net_dataidx_map : Dict[int, List[int]]
+        Mapping from client index to the list of training sample indices.
+
+    Returns
+    -------
+    Dict[int, Dict[int, int]]
+        Number of training samples for each class on each client.
+
+    """
     net_cls_counts = {}
     for net_i, dataidx in net_dataidx_map.items():
         unq, unq_cnt = np.unique(y_train[dataidx].cpu().numpy(), return_counts=True)
@@ -255,6 +402,33 @@ def partition_cifar_data(
     to_numpy: bool = False,
     datadir: Optional[Union[str, Path]] = None,
 ) -> tuple:
+    """Partition CIFAR data.
+
+    Parameters
+    ----------
+    dataset : type
+        CIFAR (10 or 100) dataset class.
+    partition : str
+        Partition method.
+    n_net : int
+        Number of clients.
+    alpha : float
+        Parameter for Dirichlet distribution.
+    to_numpy : bool, default False
+        Whether to convert the data to numpy array.
+    datadir : str or pathlibPath, optional
+        Directory to store the data,
+        defaults to pre-defined directory for CIFAR data.
+
+    Returns
+    -------
+    tuple
+        ``(X_train, y_train, X_test, y_test, net_dataidx_map, traindata_cls_counts)``
+        where ``net_dataidx_map`` is a dict mapping from client index to the list of
+        training sample indices, and ``traindata_cls_counts`` is a dict mapping from
+        client index to the number of training samples for each class.
+
+    """
     n_class = dataset.n_class
     X_train, y_train, X_test, y_test = load_cifar_data(n_class, datadir, to_numpy)
     n_train = X_train.shape[0]

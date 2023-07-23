@@ -224,9 +224,8 @@ class FedProxSent140(FedNLPDataset):
 
     @staticmethod
     def _preprocess_text(text: str) -> str:
-        """
-        remove URLs and leading "@user" in the text,
-        then remove leading and trailing punctuation
+        """Remove URLs and leading "@user" in the text,
+        then remove leading and trailing punctuation.
         """
         text = BeautifulSoup(text, "html.parser").get_text()
         # remove the URLs
@@ -278,12 +277,27 @@ class FedProxSent140(FedNLPDataset):
 
     @property
     def doi(self) -> List[str]:
+        """DOIs related to the dataset."""
         return [
             "10.48550/ARXIV.1812.01097",  # LEAF
             "10.48550/ARXIV.1812.06127",  # FedProx
         ]
 
     def view_sample(self, client_idx: int, sample_idx: int) -> None:
+        """View a sample from the dataset.
+
+        Parameters
+        ----------
+        client_idx : int
+            Index of the client on which the sample is located.
+        sample_idx : int
+            Index of the sample in the client.
+
+        Returns
+        -------
+        None
+
+        """
         if client_idx >= len(self._client_ids_train):
             raise ValueError(
                 f"client_idx should be less than {len(self._client_ids_train)}"

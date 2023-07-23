@@ -34,7 +34,33 @@ def generate_synthetic(
 ) -> List[Dict[str, np.ndarray]]:
     """Generate synthetic data using methods proposed in FedProx paper.
 
-    Modified from `generate_synthetic.py` in `FedProx <https://github.com/litian96/FedProx/blob/master/data/>`_.
+    Modified from `generate_synthetic.py` in
+    `FedProx <https://github.com/litian96/FedProx/blob/master/data/>`_.
+
+    Parameters
+    ----------
+    alpha : float
+        Mean of the Gaussian distribution modeling the intra-client variance.
+    beta : float
+        Mean of the Gaussian distribution modeling the inter-client variance.
+    iid : bool
+        Whether the data is generated in an i.i.d. manner.
+        i.i.d. stands for independent and identically distributed.
+    num_clients : int
+        Number of clients.
+    num_classes : int, default 10
+        Number of classes.
+    dimension : int, default 60
+        Dimension of the data.
+    seed : int, default 0
+        Random seed for generating the data.
+    train_ratio : float, default 0.8
+        Ratio of training data.
+    shuffle : bool, default True
+        Whether to shuffle the data.
+    recompute : bool, default False
+        Whether to recompute the data
+        if the data has already been computed and cached in the disk.
 
     """
     file = _get_path(alpha, beta, iid, num_clients, num_classes, dimension, seed)
@@ -86,6 +112,7 @@ def _generate_synthetic(
     dimension: int = 60,
     seed: int = 0,
 ) -> Dict[str, np.ndarray]:
+    """Generate synthetic data using methods proposed in FedProx paper."""
     rng = np.random.default_rng(seed)
     samples_per_client = rng.lognormal(4, 2, (num_clients)).astype(int) + 50
     num_samples = np.sum(samples_per_client)
@@ -154,6 +181,7 @@ def _get_path(
     dimension: int = 60,
     seed: int = 0,
 ) -> Path:
+    """Generate path for synthetic data."""
     return (
         CACHED_DATA_DIR
         / "synthetic"

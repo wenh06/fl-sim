@@ -189,7 +189,39 @@ class FedSynthetic(FedDataset):
     def load_partition_data_distributed(
         self, process_id: int, batch_size: Optional[int] = None
     ) -> tuple:
-        """get local dataloader at client `process_id` or get global dataloader"""
+        """Get local dataloader at client `process_id` or get global dataloader.
+
+        Parameters
+        ----------
+        process_id : int
+            Index of the client to get dataloader.
+            If ``None``, get the dataloader containing all data,
+            usually used for centralized training.
+        batch_size : int, optional
+            Batch size for dataloader.
+            If ``None``, use default batch size.
+
+        Returns
+        -------
+        tuple
+            - train_clients_num : int
+                Number of training clients.
+            - train_data_num : int
+                Number of training data.
+            - train_data_global : torch.utils.data.DataLoader or None
+                Global training dataloader.
+            - test_data_global : torch.utils.data.DataLoader or None
+                Global testing dataloader.
+            - local_data_num : int
+                Number of local training data.
+            - train_data_local : torch.utils.data.DataLoader or None
+                Local training dataloader.
+            - test_data_local : torch.utils.data.DataLoader or None
+                Local testing dataloader.
+            - n_class : int
+                Number of classes.
+
+        """
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         if process_id == 0:
             # get global dataset
@@ -222,7 +254,37 @@ class FedSynthetic(FedDataset):
         return retval
 
     def load_partition_data(self, batch_size: Optional[int] = None) -> tuple:
-        """partition data into all local clients"""
+        """Partition data into all local clients.
+
+        Parameters
+        ----------
+        batch_size : int, optional
+            Batch size for dataloader.
+            If ``None``, use default batch size.
+
+        Returns
+        -------
+        tuple
+            - train_clients_num : int
+                Number of training clients.
+            - train_data_num : int
+                Number of training data.
+            - test_data_num : int
+                Number of testing data.
+            - train_data_global : torch.utils.data.DataLoader
+                Global training dataloader.
+            - test_data_global : torch.utils.data.DataLoader
+                Global testing dataloader.
+            - data_local_num_dict : dict
+                Number of local training data for each client.
+            - train_data_local_dict : dict
+                Local training dataloader for each client.
+            - test_data_local_dict : dict
+                Local testing dataloader for each client.
+            - n_class : int
+                Number of classes.
+
+        """
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         # get local dataset
         data_local_num_dict = dict()
@@ -350,4 +412,5 @@ class FedSynthetic(FedDataset):
 
     @property
     def doi(self) -> List[str]:
+        """DOI(s) related to the dataset."""
         return ["10.48550/ARXIV.1812.06127"]

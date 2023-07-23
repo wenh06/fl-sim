@@ -271,6 +271,7 @@ class FedMNIST(FedVisionDataset):
 
     @property
     def label_map(self) -> dict:
+        """Label map for the dataset."""
         return MNIST_LABEL_MAP
 
     def view_image(self, client_idx: int, image_idx: int) -> None:

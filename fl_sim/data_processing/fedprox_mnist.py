@@ -239,6 +239,7 @@ class FedProxMNIST(FedVisionDataset):
 
     @property
     def doi(self) -> List[str]:
+        """DOIs related to the dataset."""
         return [
             "10.1109/5.726791",  # MNIST
             "10.48550/ARXIV.1812.01097",  # LEAF
@@ -247,13 +248,29 @@ class FedProxMNIST(FedVisionDataset):
 
     @property
     def raw_data(self) -> Dict[str, np.ndarray]:
+        """Raw data."""
         return self.__raw_data
 
     @property
     def label_map(self) -> dict:
+        """Label map for the dataset."""
         return MNIST_LABEL_MAP
 
     def view_image(self, client_idx: int, image_idx: int) -> None:
+        """View a single image.
+
+        Parameters
+        ----------
+        client_idx : int
+            Index of the client on which the image is located.
+        image_idx : int
+            Index of the image in the client.
+
+        Returns
+        -------
+        None
+
+        """
         import matplotlib.pyplot as plt
 
         if client_idx >= self.DEFAULT_TRAIN_CLIENTS_NUM:
@@ -289,6 +306,20 @@ class FedProxMNIST(FedVisionDataset):
     ) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
+
+        Parameters
+        ----------
+        nrow : int
+            Number of rows in the grid.
+        ncol : int
+            Number of columns in the grid.
+        save_path : Union[str, Path], optional
+            Path to save the figure. If ``None``, do not save the figure.
+
+        Returns
+        -------
+        None
+
         """
         import matplotlib.pyplot as plt
 
@@ -337,7 +368,28 @@ def generate_niid(
 ) -> List[Dict[str, np.ndarray]]:
     """
     modified from
-    https://github.com/litian96/FedProx/blob/master/data/mnist/generate_niid.py
+    `FedProx <https://github.com/litian96/FedProx/blob/master/data/mnist/generate_niid.py>`_.
+
+    Parameters
+    ----------
+    mnist_data : Dict[str, np.ndarray]
+        Raw MNIST data.
+    num_clients : int, default 1000
+        Number of clients.
+    lower_bound : int, default 10
+        Lower bound of number of samples per client.
+    class_per_client : int, default 2
+        Number of classes per client.
+    seed : int, default 42
+        Random seed for data partitioning.
+    train_ratio : float, default 0.9
+        Ratio of training data.
+
+    Returns
+    -------
+    List[Dict[str, np.ndarray]]
+        Partitioned data.
+
     """
     NUM_CLASSES = 10
     IMG_SHAPE = (28, 28)
