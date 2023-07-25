@@ -5,23 +5,21 @@
 [![PyTest](https://github.com/wenh06/fl-sim/actions/workflows/run-pytest.yml/badge.svg?branch=dev)](https://github.com/wenh06/fl-sim/actions/workflows/run-pytest.yml)
 [![codecov](https://codecov.io/gh/wenh06/fl-sim/branch/master/graph/badge.svg?token=B36FC6VIFD)](https://codecov.io/gh/wenh06/fl-sim)
 
-[中文版](README_zh.md)
+[English Version](README.md)
 
-This repository is migrated from [fl_seminar](https://github.com/wenh06/fl_seminar/tree/master/code)
+本仓库迁移自 [fl_seminar](https://github.com/wenh06/fl_seminar/tree/master/code)，主体部分是一个基于 PyTorch 的简单的联邦学习仿真框架。
 
-The main part of this code repository is a standalone simulation framework for federated training.
-
-Documentation (under development):
+文档地址（正在完善）：
 
 - [GitHub Pages](https://wenh06.github.io/fl-sim/)  [![gh-page status](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml)
 - [Read the Docs](http://fl-sim.rtfd.io/)  [![RTD Status](https://readthedocs.org/projects/fl-sim/badge/?version=latest)](https://fl-sim.readthedocs.io/en/latest/?badge=latest)
 
 <!-- toc -->
 
-- [Installation](#installation)
-- [Usage Examples](#usage-examples)
-- [Algorithms Implemented](#algorithms-implemented)
-- [Main Modules](#main-modules)
+- [安装](#安装)
+- [示例](#示例)
+- [复现的算法](#复现的算法)
+- [主要模块](#主要模块)
   - [Nodes](#nodes)
   - [Data Processing](#data-processing)
   - [Optimizers](#optimizers)
@@ -30,31 +28,31 @@ Documentation (under development):
   - [Models](#models)
   - [Utils](#utils)
   - [Visualization Panel](#visualization-panel)
-- [Command Line Interface](#command-line-interface)
-- [Customization](#customization)
+- [命令行接口](#命令行接口)
+- [自定义算法的实现](#自定义算法的实现)
 
 <!-- tocstop -->
 
-## Installation
+## 安装
 
-Run the following command to install the package:
+可以在命令行中使用以下命令安装：
 
 ```bash
 pip install git+https://github.com/wenh06/fl-sim.git
 ```
 
-or clone the repository and run the following command in the root directory of the repository:
+或者，可以先将仓库克隆到本地，然后在仓库根目录下使用以下命令安装：
 
 ```bash
 pip install -e .
 ```
 
-## Usage Examples
+## 示例
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
-The following code snippet shows how to use the framework to train a model on the `FedProxFEMNIST` dataset using the `FedProx` algorithm.
+以下代码片段展示了如何使用框架在 `FedProxFEMNIST` 数据集上使用 `FedProx` 算法训练模型。
 
 ```python
 from fl_sim.data_processing.fedprox_femnist import FedProxFEMNIST
@@ -81,9 +79,9 @@ s.train_federated()
 
 </details>
 
-## [Algorithms Implemented](fl_sim/algorithms)
+## [复现的算法](fl_sim/algorithms)
 
-| Algorithm  | Paper | Upstream | Action Status | Validity on [Standard Test](example-configs/all-alg-fedprox-femnist.yml) |
+| 算法  | 文章 | 源仓库 | Action 状态 | [标准测试用例](example-configs/all-alg-fedprox-femnist.yml)上的效果 |
 | ---------- | ----- | -------- | ------------- | --------------------------------------------------------------------- |
 | [FedAvg[^1]](fl_sim/algorithms/fedopt/) | [AISTATS2017](https://proceedings.mlr.press/v54/mcmahan17a.html) | N/A | [![test-fedopt](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml) | :heavy_check_mark: |
 | [FedOpt[^2]](fl_sim/algorithms/fedopt/) | [arXiv:2003.00295](https://arxiv.org/abs/2003.00295) | N/A | [![test-fedopt](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-fedopt.yml) | :heavy_check_mark: |
@@ -115,12 +113,12 @@ Standard Test Status Images:
 - :question: means that the algorithm has not yet been tested on the standard test cases.
 - :interrobang: means that the algorithm on the standard test cases **does not** converge, and the implementation has to be checked.
 
-## Main Modules
+## 主要模块
 
 ### [Nodes](fl_sim/nodes.py)
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
 `Node`s are the core of the simulation framework. `Node` has two subclasses: `Server` and `Client`.
 The `Server` class is the base class for all servers, which acts as the coordinator of the training process, as well as maintainer of status variables.
@@ -238,7 +236,7 @@ ClientConfig(
 To implement a new algorithm, one needs to implement a subclass of `Server`, `Client`, `ServerConfig`, and `ClientConfig`. For example, the following implementation of FedProx is provided in the file [fedprox](fl_sim/algorithms/fedprox/_fedprox.py):
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
 ```python
 import warnings
@@ -536,7 +534,7 @@ class FedProxClient(Client):
 ### [Data Processing](fl_sim/data_processing)
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
 The module (folder) [data_processing](fl_sim/data_processing) contains code for data preprocessing, io, etc.
 The following datasets are included in this module:
@@ -585,7 +583,7 @@ By setting `transform="none"` (default), the train subset is wrapped with a stat
 ### [Models](fl_sim/models)
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
 The module (folder) [models](fl_sim/models) contains pre-defined (neural network) models, most of which are very simple:
 
@@ -615,7 +613,7 @@ One can call the `module_size` or `module_size_` properties to check the size (i
 ### [Optimizers](fl_sim/optimizers)
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
 The module (folder) [optimizers](fl_sim/optimizers) contains optimizers for solving inner (local) optimization problems. Despite optimizers from `torch` and `torch_optimizers`, this module implements
 
@@ -637,7 +635,7 @@ Most of the optimizers are derived from `ProxSGD`.
 ### [Regularizers](fl_sim/regularizers)
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
 The module (folder) [regularizers](fl_sim/regularizers) contains code for regularizers for model parameters (weights).
 
@@ -655,7 +653,7 @@ These regularizers are subclasses of a base class `Regularizer`, and can be obta
 ### [Compression](fl_sim/compressors)
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
 The module (folder) [compressors](fl_sim/compressors) contains code for constructing compressors.
 
@@ -666,7 +664,7 @@ The module (folder) [compressors](fl_sim/compressors) contains code for construc
 ### [Utils](fl_sim/utils)
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
 The module (folder) [utils](fl_sim/utils) contains utility functions for [data downloading](fl_sim/utils/_download_data.py),
 [training metrics logging](fl_sim/utils/loggers.py), [experiment visualization](fl_sim/utils/viz.py), etc.
@@ -701,7 +699,7 @@ sudo apt install ttf-mscorefonts-installer
 sudo fc-cache -fv
 ```
 
-## Command Line Interface
+## 命令行接口
 
 A command line interface (CLI) is provided for running multiple federated learning experiments.
 The only argument is the path to the configuration file (in YAML format) for the experiments.
@@ -709,7 +707,7 @@ Examples of configuration files can be found in the [example-configs](example-co
 For example, in the [all-alg-fedprox-femnist.yml](example-configs/all-alg-fedprox-femnist.yml) file, we have
 
 <details>
-<summary>Click to expand!</summary>
+<summary>点击展开</summary>
 
 ```yaml
 # Example config file for fl-sim command line interface
@@ -770,7 +768,7 @@ the `algorithm` section specifies the hyperparameters of the federated learning 
 and `client` specifies the hyperparameters of the client;
 the `dataset` section specifies the dataset, and the `model` section specifies the named model (ref. the `candidate_models` property of the dataset classes) to be used.
 
-## Customization
+## 自定义算法的实现
 
 One can implement custom federated learning algorithms, datasets, optimizers with corresponding registration functions.
 
