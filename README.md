@@ -161,7 +161,7 @@ providing the following additional functionalities or properties:
 - `_sample_clients`: sample a subset of clients from the client pool.
 - `_communicate`: execute the `communicate` method of the clients, and increment the global communication counter (`_num_communications`).
 - `_update`: checks the validity messages (`_received_messages`) received from the clients, execute the `update` method of the server, and finally clears the received messages.
-- `train`: the main training procedure, which calls either `train_centralized` or `train_federated` depending on the argument `mode` passed to this method.
+- `train`: the main training procedure, which calls one of `train_centralized`, `train_federated`,  `train_local` depending on the argument `mode` passed to this method.
 - `train_centralized`: centralized training procedure, mainly used for comparison.
 - `train_federated`: federated training procedure, which calls the `_communicate` (to clients), wait for the clients to execute `_update` and `_communicate`, and finally calls `_update` to update the server.
 - `train_local`: local training procedure, which calls the `train` method of the clients **without** communication with the server.
@@ -194,7 +194,7 @@ Client(
 
 providing the following additional functionalities:
 
-- `_communicate`: execute the `communicate` method of the server, increment the global communication counter (`_num_communications`), and clears the cached local evaluation results.
+- `_communicate`: execute the `communicate` method of the client, increment the communication counter (`_num_communications`), and clears the cached local evaluation results.
 - `_update`: execute the `update` method of the client, and clears the received messages from the server.
 - `evaluate`: evaluate the model on the local test data.
 - `get_all_data`: helper function to get all the data of the client.
@@ -204,7 +204,7 @@ and **abstract methods that need to be implemented by subclasses**:
 - `train`: training procedure of the client.
 
 The configuration classes `ServerConfig` and `ClientConfig` are used to store the configuration of the server and clients, respectively.
-These two classes are similar to a `dataclass`, but accept arbitrary additional fields. The signature of `ServerConfig` is
+These two classes are similar to a [`dataclass`](https://docs.python.org/3/library/dataclasses.html), but accept arbitrary additional fields. The signature of `ServerConfig` is
 
 ```python
 ServerConfig(
@@ -235,7 +235,7 @@ ClientConfig(
 ) -> None
 ```
 
-To implement a new algorithm, one needs to implement a subclass of `Server`, `Client`, `ServerConfig`, and `ClientConfig`. For example, the following implementation of FedProx is provided in the file [fedprox](fl_sim/algorithms/fedprox/_fedprox.py):
+To implement a **new federated algorithm**, one needs to implement a subclass of `Server`, `Client`, `ServerConfig`, and `ClientConfig`. For example, the following implementation of FedProx is provided in the file [fedprox](fl_sim/algorithms/fedprox/_fedprox.py):
 
 <details>
 <summary>Click to expand!</summary>
@@ -538,7 +538,7 @@ class FedProxClient(Client):
 <details>
 <summary>Click to expand!</summary>
 
-The module (folder) [data_processing](fl_sim/data_processing) contains code for data preprocessing, io, etc.
+The module (folder) [data_processing](fl_sim/data_processing) contains code for data preprocessing, IO, etc.
 The following datasets are included in this module:
 
 1. [`FedCIFAR`](fl_sim/data_processing/fed_cifar.py)

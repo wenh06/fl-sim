@@ -98,20 +98,20 @@ s.train_federated()
 | [FedDyn](fl_sim/algorithms/feddyn/)   | [ICLR2021](https://openreview.net/forum?id=B7v4QMR6Z9w) | N/A | [![test-feddyn](https://github.com/wenh06/fl-sim/actions/workflows/test-feddyn.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-feddyn.yml) | :question: |
 | [APFL](fl_sim/algorithms/apfl/)   | [arXiv:2003.13461](https://arxiv.org/abs/2003.13461) | N/A | [![test-apfl](https://github.com/wenh06/fl-sim/actions/workflows/test-apfl.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/test-apfl.yml) | :question: |
 
-[^1]: FedAvg is implemented as a special case of FedOpt.
-[^2]: Including FedAdam, FedYogi, FedAdagrad.
+[^1]: FedAvg 是作为 FedOpt 的特例进行实现的。
+[^2]: 包括 FedAdam, FedYogi, FedAdagrad 等算法。
 
-Standard Test Status Images:
+标准测试效果图：
 
 [Client sample ratio 10%](https://deep-psp.tech/FLSim/standard-test-ratio-10-val-acc.svg)
 [Client sample ratio 30%](https://deep-psp.tech/FLSim/standard-test-ratio-30-val-acc.svg)
 [Client sample ratio 70%](https://deep-psp.tech/FLSim/standard-test-ratio-70-val-acc.svg)
 [Client sample ratio 100%](https://deep-psp.tech/FLSim/standard-test-ratio-100-val-acc.svg)
 
-- :heavy_check_mark: means that the algorithm on the standard test cases reaches expected performance.
-- :heavy_check_mark: :question: means that the algorithm on the standard test cases is **below** expected performance.
-- :question: means that the algorithm has not yet been tested on the standard test cases.
-- :interrobang: means that the algorithm on the standard test cases **does not** converge, and the implementation has to be checked.
+- :heavy_check_mark: 算法在标准测试用例上的效果符合预期。
+- :heavy_check_mark: :question: 算法在标准测试用例上的效果 **低于** 预期。
+- :question: 算法暂未在标准测试用例上进行测试。
+- :interrobang: 算法在标准测试用例上的 **发散** ，相关的算法实现需要进一步检查。
 
 ## 主要模块
 
@@ -120,28 +120,28 @@ Standard Test Status Images:
 <details>
 <summary>点击展开</summary>
 
-`Node`s are the core of the simulation framework. `Node` has two subclasses: `Server` and `Client`.
-The `Server` class is the base class for all servers, which acts as the coordinator of the training process, as well as maintainer of status variables.
-The `Client` class is the base class for all clients.
+`Node` 类是本仿真框架的核心。`Node` 有两个子类： `Server` 和 `Client`。
+`Server` 类是所有联邦学习算法中心节点的基类，它在训练过程中充当协调者和状态变量维护者的角色。
+`Client` 类是所有联邦学习算法子节点的基类。
 
-The abstract base class `Node` provides the following basic functionalities:
+抽象基类 `Node` 提供了以下基本功能：
 
-- `get_detached_model_parameters`: get the model parameters of the node in a detached form.
-- `compute_gradients`: compute the gradients at specified model parameters (default: current model parameters on the node) using specified data (default: training data on the node).
-- `get_gradients`: get the gradients, or norm of the gradients, of the model parameters of the node.
-- `get_norm`: get the norm of given tensors or numpy arrays.
-- `set_parameters`: set the model parameters of the node.
-- ~~`aggregate_results_from_csv_log`: aggregate the experiment results from the csv log file.~~
-- `aggregate_results_from_json_log`: aggregate the experiment results from the json log file.
+- `get_detached_model_parameters`: 获取节点上模型参数的副本。
+- `compute_gradients`: 计算指定模型参数（默认为节点上的当前模型参数）在指定数据（默认为节点上的训练数据）上的梯度。
+- `get_gradients`: 获取当前节点上模型当前的梯度，或者梯度的范数。
+- `get_norm`: 计算一个 tensor 或者 array 的范数。
+- `set_parameters`: 设置节点上模型参数。
+- ~~`aggregate_results_from_csv_log`: 从 csv 日志文件中聚合实验结果。~~
+- `aggregate_results_from_json_log`: 从 json 日志文件中聚合实验结果。
 
-and abstract methods or properties that need to be implemented by subclasses:
+以及需要子类实现的抽象方法或属性：
 
-- `communicate`: communicate procedure with other (type of) nodes in each iteration.
-- `update`: updating procedure in each iteration.
-- `required_config_fields` (property): required fields in the configuration class, which is used to check the validity of the configuration in the `_post_init` method.
-- `_post_init`: post-initialization procedure, called in the end of `__init__` method, used in companion with `required_config_fields` to check the validity of the configuration.
+- `communicate`: 在每一轮训练中，与另一种类型节点进行通信的方法 （子节点 -> 中心节点 或者 中心节点 -> 子节点）。
+- `update`: 在每一轮训练中，更新节点状态的方法。
+- `required_config_fields` (property): 需要在配置类中指定的必要字段，用于在 `_post_init` 方法中检查配置的有效性。
+- `_post_init`: 在 `__init__` 方法的最后调用的后初始化方法，用于在 `__init__` 方法中检查配置的有效性。
 
-The `Server` class has signature
+`Server` 类的签名（signature）为
 
 ```python
 Server(
@@ -153,32 +153,32 @@ Server(
 ) -> None
 ```
 
-providing the following additional functionalities or properties:
+`Server` 类提供以下额外的方法（method）或属性（property）：
 
-- `_setup_clients`: setup (initialize) the clients, and allocate devices to them.
-- `_sample_clients`: sample a subset of clients from the client pool.
-- `_communicate`: execute the `communicate` method of the clients, and increment the global communication counter (`_num_communications`).
-- `_update`: checks the validity messages (`_received_messages`) received from the clients, execute the `update` method of the server, and finally clears the received messages.
-- `train`: the main training procedure, which calls either `train_centralized` or `train_federated` depending on the argument `mode` passed to this method.
-- `train_centralized`: centralized training procedure, mainly used for comparison.
-- `train_federated`: federated training procedure, which calls the `_communicate` (to clients), wait for the clients to execute `_update` and `_communicate`, and finally calls `_update` to update the server.
-- `train_local`: local training procedure, which calls the `train` method of the clients **without** communication with the server.
-- `add_parameters`: addition of parameters (values) to the server model parameters.
-- `avg_parameters`: averaging the model parameters in the received messages.
-- `update_gradients`: update the gradients of the server model parameters using the received gradients.
-- `get_client_data`: helper function to get the data of the clients.
-- `get_client_model`: helper function to get the model of the clients.
-- `get_cached_metrics`: helper function to get the cached aggregated metrics of the clients stored on the server.
-- `_reset`: reset the server to the initial state. Before carrying out a new training process, the flag `_complete_experiment` will be checked. If it is `True`, this method will be called to reset the server.
-- `is_convergent` (property): check whether the training process has converged. Currently, this property is **NOT** fully implemented.
+- `_setup_clients`: 初始化客户端，为客户端分配计算资源。
+- `_sample_clients`: 从所有子节点中随机抽取一定数量的子节点。
+- `_communicate`: 执行子节点的 `communicate` 方法，并更新全局通信计数器（`_num_communications`）。
+- `_update`: 检查从子节点接收到消息（`_received_messages`）的有效性，执行中心节点的 `update` 方法，最后清除所有从子节点接收到的消息。
+- `train`: 联邦训练主循环，根据传入的 `mode` 参数调用 `train_centralized` 或者 `train_federated` 或者 `train_local` 方法。
+- `train_centralized`: 中心化训练，主要用于对比。
+- `train_federated`: 联邦训练，调用 `_communicate` 方法（与子节点通信），等待子节点执行 `_update` 和 `_communicate` 方法，最后调用 `_update` 方法（更新中心节点）。
+- `train_local`: 本地训练，调用子节点的 `train` 方法，**不** 与中心节点通信。
+- `add_parameters`: 中心节点模型参数的增量更新。
+- `avg_parameters`: 将从子节点接收到的模型参数进行平均。
+- `update_gradients`: 使用从子节点接收到的梯度更新中心节点模型的梯度。
+- `get_client_data`: 获取特定子节点的数据。
+- `get_client_model`: 获取特定子节点的模型。
+- `get_cached_metrics`: 获取中心节点缓存的每一次训练循环的模型评估指标。
+- `_reset`: 将中心节点重置为初始状态。在执行新的训练过程之前，将检查 `_complete_experiment` 标志。如果为 `True`，将调用此方法重置中心节点。
+- `is_convergent` (property): 检查训练过程是否收敛。目前，此属性 **未** 完全实现。
 
-and **abstract properties that need to be implemented by subclasses**:
+以及 **需要子类实现的抽象属性**：
 
 - `client_cls`: the client class used when initializing the clients via `_setup_clients`.
 - `config_cls`: a dictionary of configuration classes for the server and clients, used in `__init__` method.
 - `doi`: the DOI of the paper that proposes the algorithm.
 
-The `Client` class has signature
+`Client` 类的签名为
 
 ```python
 Client(
@@ -191,18 +191,18 @@ Client(
 ```
 
 providing the following additional functionalities:
+`Client` 类还提供以下额外的方法：
 
-- `_communicate`: execute the `communicate` method of the server, increment the global communication counter (`_num_communications`), and clears the cached local evaluation results.
-- `_update`: execute the `update` method of the client, and clears the received messages from the server.
-- `evaluate`: evaluate the model on the local test data.
-- `get_all_data`: helper function to get all the data of the client.
+- `_communicate`: 执行子节点的 `communicate` 方法，并更新子节点上的通信计数器（`_num_communications`），并清除缓存的（上一循环）子节点上模型评测结果。
+- `_update`: 执行子节点的 `update` 方法，并清除从中心节点接收到的消息。
+- `evaluate`: 利用子节点上的测试数据，评测子节点上的模型。
+- `get_all_data`: 获取子节点上的所有数据。
 
-and **abstract methods that need to be implemented by subclasses**:
+以及 **需要子类实现的抽象方法**：
 
-- `train`: training procedure of the client.
+- `train`: 子节点的训练循环。
 
-The configuration classes `ServerConfig` and `ClientConfig` are used to store the configuration of the server and clients, respectively.
-These two classes are similar to a `dataclass`, but accept arbitrary additional fields. The signature of `ServerConfig` is
+配置类（config class）是用于存储服务器和客户端配置的类。这两个类类似于 [`dataclass`](https://docs.python.org/3/library/dataclasses.html)，但是可以接受任意额外的字段。`ServerConfig` 的签名为
 
 ```python
 ServerConfig(
@@ -219,7 +219,7 @@ ServerConfig(
 ) -> None
 ```
 
-and the signature of `ClientConfig` is
+`ClientConfig` 的签名为
 
 ```python
 ClientConfig(
@@ -233,7 +233,7 @@ ClientConfig(
 ) -> None
 ```
 
-To implement a new algorithm, one needs to implement a subclass of `Server`, `Client`, `ServerConfig`, and `ClientConfig`. For example, the following implementation of FedProx is provided in the file [fedprox](fl_sim/algorithms/fedprox/_fedprox.py):
+实现 **新的联邦学习算法** 的方法：需要实现 `Server` 和 `Client` 的子类，以及 `ServerConfig` 和 `ClientConfig` 的子类。如下的例子，是取自 [`FedProx`](fl_sim/algorithms/fedprox/_fedprox.py) 算法的实现：
 
 <details>
 <summary>点击展开</summary>
@@ -527,7 +527,7 @@ class FedProxClient(Client):
 
 </details>
 
-:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
+:point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 </details>
 
@@ -536,8 +536,7 @@ class FedProxClient(Client):
 <details>
 <summary>点击展开</summary>
 
-The module (folder) [data_processing](fl_sim/data_processing) contains code for data preprocessing, io, etc.
-The following datasets are included in this module:
+[data_processing](fl_sim/data_processing) 模块包含数据预处理、IO 等代码，其中包含以下数据集：
 
 1. [`FedCIFAR`](fl_sim/data_processing/fed_cifar.py)
 2. [`FedCIFAR100`](fl_sim/data_processing/fed_cifar.py)
@@ -549,21 +548,21 @@ The following datasets are included in this module:
 8. [`FedProxMNIST`](fl_sim/data_processing/fedprox_mnist.py)
 9. [`FedProxSent140`](fl_sim/data_processing/fedprox_sent140.py)
 
-Each dataset is wrapped in a class, providing the following functionalities:
+以上每一个数据集都被封装在一个类中，提供以下功能：
 
-1. Automatic data downloading and preprocessing
-2. Data partitioning (into clients) via methods `get_dataloader`
-3. A list of candidate [models] (#models) via the property `candidate_models`
-4. Criterion and method for evaluating the performance of a model using its output on the dataset via the method `evaluate`
-5. Several helper methods for data visualization and citation (biblatex format)
+1. 数据集的自动下载和预处理
+2. 数据集的切分（分配给子节点）方法 `get_dataloader`
+3. 预置了一系列候选 [模型](#models)，可以通过 `candidate_models` 属性获取
+4. 基于模型预测值的 `evaluate` 方法，可以评测模型在数据集上的性能
+5. 一些辅助方法，用于数据可视化和参考文献的获取（biblatex 格式）
 
-Additionally, one can get the list of `LIBSVM` datasets via
+此外， `LIBSVM` 数据集列表可以通过如下语句获取
 
 ```python
 pd.read_html("https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/")[0]
 ```
 
-**NEW**: Part of the vision datasets support dynamic data augmentation for the train subset. The base class `FedVisionDataset` has signature
+**更新**: 一部分计算机视觉数据集的训练集支持动态数据增强。基类 `FedVisionDataset` 的签名为
 
 ```python
 FedVisionDataset(
@@ -576,7 +575,7 @@ By setting `transform="none"` (default), the train subset is wrapped with a stat
 
 **NOTE** that most of the federated vision datasets are provided with processed values rather than raw pixels, hence not supporting dynamic data augmentation using `torchvision.transforms`.
 
-:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
+:point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 </details>
 
@@ -606,7 +605,7 @@ Most models are proposed or suggested by previous literature.
 
 One can call the `module_size` or `module_size_` properties to check the size (in terms of number of parameters and memory consumption respectively) of the model.
 
-:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
+:point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 </details>
 
@@ -628,7 +627,7 @@ The module (folder) [optimizers](fl_sim/optimizers) contains optimizers for solv
 
 Most of the optimizers are derived from `ProxSGD`.
 
-:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
+:point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 </details>
 
@@ -646,7 +645,7 @@ The module (folder) [regularizers](fl_sim/regularizers) contains code for regula
 
 These regularizers are subclasses of a base class `Regularizer`, and can be obtained by passing the name of the regularizer to the function `get_regularizer`. The regularizers share common methods `eval` and `prox_eval`.
 
-:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
+:point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 </details>
 
@@ -657,7 +656,7 @@ These regularizers are subclasses of a base class `Regularizer`, and can be obta
 
 The module (folder) [compressors](fl_sim/compressors) contains code for constructing compressors.
 
-:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
+:point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 </details>
 
@@ -673,7 +672,7 @@ The module (folder) [utils](fl_sim/utils) contains utility functions for [data d
 - `CSVLogger`: A logger for logging training metrics to a CSV file. **NOT** recommended since not memory-efficient.
 - `JsonLogger`: A logger for logging training metrics to a JSON file. Also can be saved as a YAML file.
 
-:point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
+:point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
 </details>
 
