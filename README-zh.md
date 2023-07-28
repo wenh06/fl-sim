@@ -571,9 +571,9 @@ FedVisionDataset(
 ) -> None
 ```
 
-By setting `transform="none"` (default), the train subset is wrapped with a static `TensorDataset`. By setting `transform=None`, the train subset uses built-in dynamic augmentation, for example `FedCIFAR100` uses `torchvision.transforms.RandAugment`.
+通过将 `transform` 参数设置为 `"none"` （这也是 `transform` 参数的默认值），训练集将被封装在一个静态的 `TensorDataset` 中。通过将 `transform` 参数设置为 `None`，训练集将使用内置的动态数据增强，例如 `FedCIFAR100` 使用 `torchvision.transforms.RandAugment`。
 
-**NOTE** that most of the federated vision datasets are provided with processed values rather than raw pixels, hence not supporting dynamic data augmentation using `torchvision.transforms`.
+**注意**，大部分计算机视觉的联邦数据集包含的数据都是经过预处理后的而不是原始像素值，因此不支持使用 `torchvision.transforms` 进行动态数据增强。
 
 :point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
@@ -584,7 +584,7 @@ By setting `transform="none"` (default), the train subset is wrapped with a stat
 <details>
 <summary>点击展开</summary>
 
-The module (folder) [models](fl_sim/models) contains pre-defined (neural network) models, most of which are very simple:
+[models](fl_sim/models) 模块包含预定义的（神经网络）模型，其中大部分结构都非常简单：
 
 1. `MLP`
 2. `FedPDMLP`
@@ -601,9 +601,9 @@ The module (folder) [models](fl_sim/models) contains pre-defined (neural network
 13. `SVC`
 14. `SVR`
 
-Most models are proposed or suggested by previous literature.
+以上大部分模型都是之前文献中使用过的，或是基于此进行修改的。
 
-One can call the `module_size` or `module_size_` properties to check the size (in terms of number of parameters and memory consumption respectively) of the model.
+通过调用 `model_size` 或 `model_size_` 属性可以获取模型的大小（参数数量和内存占用）。
 
 :point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
@@ -614,7 +614,7 @@ One can call the `module_size` or `module_size_` properties to check the size (i
 <details>
 <summary>点击展开</summary>
 
-The module (folder) [optimizers](fl_sim/optimizers) contains optimizers for solving inner (local) optimization problems. Despite optimizers from `torch` and `torch_optimizers`, this module implements
+[optimizers](fl_sim/optimizers) 模块包含用于解决联邦优化问题内循环（子节点上的）优化问题的优化器。除了 `torch` 和 `torch_optimizers` 中的优化器外，本模块实现了以下优化器：
 
 1. `ProxSGD`
 2. `FedPD_SGD`
@@ -625,7 +625,7 @@ The module (folder) [optimizers](fl_sim/optimizers) contains optimizers for solv
 7. `FedProx`
 8. `FedDR`
 
-Most of the optimizers are derived from `ProxSGD`.
+其中大部分都是基于 `ProxSGD` 的变体，即目标是带有临近项的优化问题。
 
 :point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
@@ -636,14 +636,14 @@ Most of the optimizers are derived from `ProxSGD`.
 <details>
 <summary>点击展开</summary>
 
-The module (folder) [regularizers](fl_sim/regularizers) contains code for regularizers for model parameters (weights).
+[regularizers](fl_sim/regularizers) 模块包含用于对模型参数进行正则化的正则化项（用类来实现）。正则化项的目的是防止模型过拟合，从而提高模型的泛化能力。本模块实现了以下正则化项：
 
 1. `L1Norm`
 2. `L2Norm`
 3. `L2NormSquared`
 4. `NullRegularizer`
 
-These regularizers are subclasses of a base class `Regularizer`, and can be obtained by passing the name of the regularizer to the function `get_regularizer`. The regularizers share common methods `eval` and `prox_eval`.
+以上的正则化项都是基类 `Regularizer` 的子类，可以通过将正则化项的名称传递给函数 `get_regularizer` 来获取。正则化项都有 `eval` 和 `prox_eval` 两个方法，分别用于计算正则化项的值和其临近项的值。
 
 :point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
@@ -654,7 +654,7 @@ These regularizers are subclasses of a base class `Regularizer`, and can be obta
 <details>
 <summary>点击展开</summary>
 
-The module (folder) [compressors](fl_sim/compressors) contains code for constructing compressors.
+[compressors](fl_sim/compressors) 模块包含了模型参数压缩器的实现。压缩器的目的是减少模型参数的传输量，从而减少通信开销。
 
 :point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
@@ -665,12 +665,11 @@ The module (folder) [compressors](fl_sim/compressors) contains code for construc
 <details>
 <summary>点击展开</summary>
 
-The module (folder) [utils](fl_sim/utils) contains utility functions for [data downloading](fl_sim/utils/_download_data.py),
-[training metrics logging](fl_sim/utils/loggers.py), [experiment visualization](fl_sim/utils/viz.py), etc.
+[utils](fl_sim/utils) 模块包含了一些工具函数，例如 [数据下载](fl_sim/utils/_download_data.py)、 [日志记录](fl_sim/utils/loggers.py)、 [可视化](fl_sim/utils/viz.py) 等。
 
-- `TxTLogger`: A logger for logging training metrics to a text file, as well as printing them to the console, in a human-readable format.
-- `CSVLogger`: A logger for logging training metrics to a CSV file. **NOT** recommended since not memory-efficient.
-- `JsonLogger`: A logger for logging training metrics to a JSON file. Also can be saved as a YAML file.
+- `TxTLogger`: 用于将训练指标记录到文本文件中，同时也会在控制台以适合人类阅读习惯的格式打印出来。
+- ~~`CSVLogger`: 用于将训练指标记录到 CSV 文件中。**不推荐使用**，因为存储消耗较大。~~
+- `JsonLogger`: 用于将训练指标记录到 JSON 文件中。也可以保存为 YAML 文件。
 
 :point_right: [返回目录](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
 
@@ -678,20 +677,19 @@ The module (folder) [utils](fl_sim/utils) contains utility functions for [data d
 
 ### [Visualization Panel](fl_sim/utils/viz.py)
 
-The visualization panel is a GUI for visualizing the training results of federated learning algorithms.
-It is based on `ipywidgets` and `matplotlib`, and can be used in Jupyter notebooks. It has the following features:
+本框架实现了一个可视化面板，用于可视化联邦学习算法的训练结果。它基于 `ipywidgets` 和 `matplotlib` 进行开发，可以在 Jupyter notebook 中使用。它具有以下功能：
 
-1. Automatically search and display the log files of complete experiments in the specified directory.
-2. Automatically decode the log files and aggregate the training metrics into curves in a matplotlib figure.
-3. Support interactive operations on the figure, including zooming, font family selection, curve smoothing, etc.
-4. Support saving the figure as a PDF/SVG/PNG/JPEG/PS file.
-5. Support curves merging via tags (e.g. `FedAvg` and `FedProx` can be merged into a single curve `FedAvg/FedProx`) into mean curves with error bounds (standard deviation, standard error of the mean, quantiles, interquartile range, etc.).
+1. 自动搜索并显示指定目录中完整实验的日志文件。
+2. 自动解析日志文件，并将训练指标进行聚合，利用 matplotlib 生成曲线。
+3. 支持对绘制的图像进行交互式操作，包括缩放、字体选择、曲线平滑等。
+4. 支持将绘制的图像保存为 PDF/SVG/PNG/JPEG/PS 等格式的文件。
+5. 支持将不同实验曲线进行合并，例如可以将使用不同随机数种子的 `FedAvg` 算法的数值曲线合并成一条均值曲线。合并后的曲线可以选择是否显示标准差、标准误差、分位数、四分位距等误差范围。
 
-The following GIF (created using [ScreenToGif](https://github.com/NickeManarin/ScreenToGif)) shows a demo of the visualization panel:
+下面的 GIF （使用 [ScreenToGif](https://github.com/NickeManarin/ScreenToGif) 制作生成）是可视化面板的演示示例：
 
 <img src="https://raw.githubusercontent.com/wenh06/fl-sim/master/images/panel-demo.gif" alt="FL-SIM Panel Demo GIF" style="display: block; margin: 0 auto;" />
 
-**NOTE:** to use Windows fonts on a Linux machine (e.g. Ubuntu), one can execute the following commands:
+**注意：** 若希望在 Linux 系统下（例如 Ubuntu）上使用 Windows 字体，可以执行以下命令获取相关字体：
 
 ```bash
 sudo apt install ttf-mscorefonts-installer
@@ -700,10 +698,7 @@ sudo fc-cache -fv
 
 ## 命令行接口
 
-A command line interface (CLI) is provided for running multiple federated learning experiments.
-The only argument is the path to the configuration file (in YAML format) for the experiments.
-Examples of configuration files can be found in the [example-configs](example-configs) folder.
-For example, in the [all-alg-fedprox-femnist.yml](example-configs/all-alg-fedprox-femnist.yml) file, we have
+本仿真框架提供了命令行接口（CLI），用于一次性执行多个联邦学习实验。命令行接口只有一个参数，即实验的配置文件（YAML 格式）路径。配置文件的示例可以在 [example-configs](example-configs) 文件夹中找到。例如，在 [all-alg-fedprox-femnist.yml](example-configs/all-alg-fedprox-femnist.yml) 文件中，我们写入了如下的配置：
 
 <details>
 <summary>点击展开</summary>
@@ -761,32 +756,31 @@ seed: 0
 
 </details>
 
-The `strategy` section specifies the grid search strategy;
-the `algorithm` section specifies the hyperparameters of the federated learning algorithm:
-`name` is the name of the algorithm, `server` specifies the hyperparameters of the server,
-and `client` specifies the hyperparameters of the client;
-the `dataset` section specifies the dataset, and the `model` section specifies the named model (ref. the `candidate_models` property of the dataset classes) to be used.
+`strategy` 字段指定了网格搜索的策略。
+`algorithm` 字段指定了联邦学习算法的超参数：
+其中 `name` 字段指定了算法的名称，`server` 字段指定了中心节点的超参数，`client` 字段指定了子节点的超参数。
+`dataset` 字段指定了实验使用的数据集，`model` 字段指定了实验使用的模型。
 
 ## 自定义算法的实现
 
-One can implement custom federated learning algorithms, datasets, optimizers with corresponding registration functions.
-
-For example, in the [custom_confi.yml](test-files/custom_conf.yml) file, we set
+利用本仿真框架实现的注册机制（registration functions），可以很方便地实现自定义的联邦学习算法，数据集，优化器等。例如，在文件 [custom_confi.yml](test-files/custom_conf.yml) 中，我们写入了如下的配置：
 
 - `algorithm.name: test-files/custom_alg.Custom`
 - `dataset.name: test-files/custom_dataset.CustomFEMNIST`
 
-where [`test-files/custom_alg.py`](test-files/custom_alg.py) and [`test-files/custom_dataset.py`](test-files/custom_dataset.py) are the files containing the custom algorithm and dataset, respectively, and `Custom` is the name of the custom algorithm and `CustomFEMNIST` is the name of the custom dataset. One can run the following command to start the simulation:
+其中 [`test-files/custom_alg.py`](test-files/custom_alg.py)， [`test-files/custom_dataset.py`](test-files/custom_dataset.py) 分别是自定义算法和自定义数据集的文件，`Custom` 是自定义算法的名称，`CustomFEMNIST` 是自定义数据集的名称。我们可以在本仓库的根目录下执行以下命令来执行仿真数值试验
 
 ```bash
 fl-sim test-files/custom_conf.yml
 ```
 
-in the root directory of this repository. If `algorithm.name` and `dataset.name` were changed to absolute paths, then one can run the command from any place.
+若 `algorithm.name` 和 `dataset.name` 是绝对路径，则可以在任意位置执行该命令。
 
-### Custom Federated Learning Algorithms
+### 自定义联邦学习算法
 
-In the [test-files/custom_alg.py](test-files/custom_alg.py) file, we implement a custom federated learning algorithm `Custom` via subclassing the 4 classes `ServerConfig`, `ClientConfig`, `Server`, and `Client`, and use the `register_algorithm` decorator to register the algorithm. For example, the `ServerConfig` class is defined as follows:
+在文件 [test-files/custom_alg.py](test-files/custom_alg.py) 中，我们实现了一个自定义的联邦学习算法 `Custom`，该算法的实现细节如下：
+将算法的超参数配置写入 `CustomServerConfig` 和 `CustomClientConfig` 类中，这两个类分别继承了 `ServerConfig` 和 `ClientConfig` 类。
+将算法的实现写入 `CustomServer` 和 `CustomClient` 类中，这两个类分别继承了 `Server` 和 `Client` 类。同时，利用装饰器 `register_algorithm`，我们将 `CustomServerConfig`，`CustomClientConfig`，`CustomServer`，`CustomClient` 注册到了本仿真框架中，例如：
 
 ```python
 @register_algorithm()
@@ -796,10 +790,12 @@ class CustomServerConfig(ServerConfig):
 
 ```
 
+之后在利用命令行接口执行仿真数值试验时，就可以通过 `algorithm.name` 指定 `Custom` 算法。
+
 ### Custom Datasets
 
-In the [test-files/custom_dataset.py](test-files/custom_dataset.py) file, we implement a custom dataset `CustomFEMNIST` via subclassing the `FEMNIST` class and use the `register_dataset` decorator to register the dataset.
+类似地，我们可以实现自定义的联邦数据集。在文件 [test-files/custom_dataset.py](test-files/custom_dataset.py) 中，我们实现了一个自定义的联邦数据集 `CustomFEMNIST`，其继承了 `FEMNIST` 类。同时，利用装饰器 `register_dataset`，我们将 `CustomFEMNIST` 注册到了本仿真框架中。
 
 ### Custom Optimizers
 
-One can implement custom optimizers via subclassing the `torch.optim.Optimizer` class and use the `register_optimizer` decorator to register the optimizer.
+自定义的优化器也可以通过类似的方式实现，即将其实现为 `torch.optim.Optimizer` 的子类，并利用装饰器 `register_optimizer` 将其注册到本仿真框架中。

@@ -688,7 +688,7 @@ It is based on `ipywidgets` and `matplotlib`, and can be used in Jupyter noteboo
 2. Automatically decode the log files and aggregate the training metrics into curves in a matplotlib figure.
 3. Support interactive operations on the figure, including zooming, font family selection, curve smoothing, etc.
 4. Support saving the figure as a PDF/SVG/PNG/JPEG/PS file.
-5. Support curves merging via tags (e.g. `FedAvg` and `FedProx` can be merged into a single curve `FedAvg/FedProx`) into mean curves with error bounds (standard deviation, standard error of the mean, quantiles, interquartile range, etc.).
+5. Support curves merging via tags (e.g. experiments on the algorithm `FedAvg` using different seeds can be merged into a single curve) into mean curves with error bounds (standard deviation, standard error of the mean, quantiles, interquartile range, etc.).
 
 The following GIF (created using [ScreenToGif](https://github.com/NickeManarin/ScreenToGif)) shows a demo of the visualization panel:
 
@@ -764,7 +764,7 @@ seed: 0
 
 </details>
 
-The `strategy` section specifies the grid search strategy;
+The `strategy` (optional) section specifies the grid search strategy;
 the `algorithm` section specifies the hyperparameters of the federated learning algorithm:
 `name` is the name of the algorithm, `server` specifies the hyperparameters of the server,
 and `client` specifies the hyperparameters of the client;
@@ -779,7 +779,7 @@ For example, in the [custom_confi.yml](test-files/custom_conf.yml) file, we set
 - `algorithm.name: test-files/custom_alg.Custom`
 - `dataset.name: test-files/custom_dataset.CustomFEMNIST`
 
-where [`test-files/custom_alg.py`](test-files/custom_alg.py) and [`test-files/custom_dataset.py`](test-files/custom_dataset.py) are the files containing the custom algorithm and dataset, respectively, and `Custom` is the name of the custom algorithm and `CustomFEMNIST` is the name of the custom dataset. One can run the following command to start the simulation:
+where [`test-files/custom_alg.py`](test-files/custom_alg.py) and [`test-files/custom_dataset.py`](test-files/custom_dataset.py) are the files containing the custom algorithm and dataset, respectively, and `Custom` is the name of the custom algorithm and `CustomFEMNIST` is the name of the custom dataset. One can run the following command to start the simulation experiment:
 
 ```bash
 fl-sim test-files/custom_conf.yml
