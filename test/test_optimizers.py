@@ -17,6 +17,7 @@ from fl_sim.optimizers import (
     available_optimizers,
     available_optimizers_plus,
 )
+from fl_sim.optimizers._register import _built_in_optimizers
 
 
 def test_optimizers():
@@ -88,6 +89,41 @@ def test_optimizers():
         del oracle, model
 
     model = ResNet10(10).train()
+    inner_solver = get_inner_solver(torch.optim.SGD, model.parameters(), config)
+    assert isinstance(inner_solver, torch.optim.Optimizer)
+    inner_solver.zero_grad()
+    loss = criterion(model(x), y)
+    loss.backward()
+    inner_solver.step()
+    del inner_solver, model
+
+    model = ResNet10(10).train()
+    local_model = ResNet10(10).train()
+    inner_solver = get_inner_solver(
+        "test-files/custom_optimizer.py", model.parameters(), config
+    )
+    assert isinstance(inner_solver, torch.optim.Optimizer)
+    inner_solver.zero_grad()
+    loss = criterion(model(x), y)
+    loss.backward()
+    inner_solver.step(local_weights=local_model.parameters())
+    del inner_solver, model, local_model
+
+    _built_in_optimizers.pop("Custom")  # not CustomOptimizer
+
+    model = ResNet10(10).train()
+    local_model = ResNet10(10).train()
+    inner_solver = get_inner_solver(
+        "test-files/custom_optimizer.CustomOptimizer", model.parameters(), config
+    )
+    assert isinstance(inner_solver, torch.optim.Optimizer)
+    inner_solver.zero_grad()
+    loss = criterion(model(x), y)
+    loss.backward()
+    inner_solver.step(local_weights=local_model.parameters())
+    del inner_solver, model, local_model
+
+    model = ResNet10(10).train()
     innner_solver = get_inner_solver("SCAFFOLD", model.parameters(), config)
     assert isinstance(innner_solver, torch.optim.Optimizer)
     innner_solver.zero_grad()
@@ -95,8 +131,3 @@ def test_optimizers():
     loss.backward()
     innner_solver.step(variance_buffer=variance_buffer)
     del innner_solver, model
-
-
-if __name__ == "__main__":
-    test_optimizers()
-    print("test_optimizers succeeded!")

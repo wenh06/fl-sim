@@ -23,34 +23,6 @@ __all__ = [
 ]
 
 
-if nltk_word_tokenize is not None:
-    # download necessary nltk data if not downloaded
-    try:
-        nltk_find("tokenizers/punkt")
-    except LookupError:
-        nltk_download("punkt", quiet=True)
-    try:
-        nltk_find("taggers/averaged_perceptron_tagger")
-    except LookupError:
-        nltk_download("averaged_perceptron_tagger", quiet=True)
-    try:
-        nltk_find("taggers/universal_tagset")
-    except LookupError:
-        nltk_download("universal_tagset", quiet=True)
-    try:
-        nltk_find("corpora/wordnet")
-    except LookupError:
-        nltk_download("wordnet", quiet=True)
-    try:
-        nltk_find("corpora/stopwords")
-    except LookupError:
-        nltk_download("stopwords", quiet=True)
-    try:
-        nltk_find("corpora/omw")
-    except LookupError:
-        nltk_download("omw", quiet=True)
-
-
 class WordLevelTokenizer(hf_tokenizers.implementations.BaseTokenizer):
     """Word-level tokenizer.
 
@@ -451,3 +423,37 @@ def tokenize(
         )
     words = list(filter(lambda w: w not in words_to_ignore + [""], words))
     return words
+
+
+def init_nltk():
+    """Initialize the NLTK library.
+
+    Download necessary nltk data if not downloaded.
+    """
+    try:
+        nltk_find("tokenizers/punkt")
+    except LookupError:
+        nltk_download("punkt", quiet=True)
+    try:
+        nltk_find("taggers/averaged_perceptron_tagger")
+    except LookupError:
+        nltk_download("averaged_perceptron_tagger", quiet=True)
+    try:
+        nltk_find("taggers/universal_tagset")
+    except LookupError:
+        nltk_download("universal_tagset", quiet=True)
+    try:
+        nltk_find("corpora/wordnet")
+    except LookupError:
+        nltk_download("wordnet", quiet=True)
+    try:
+        nltk_find("corpora/stopwords")
+    except LookupError:
+        nltk_download("stopwords", quiet=True)
+    try:
+        nltk_find("corpora/omw")
+    except LookupError:
+        nltk_download("omw", quiet=True)
+
+
+init_nltk()
