@@ -7,6 +7,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parents[1].resolve()))
 
 import numpy as np
+import pytest
 import torch
 
 from fl_sim.models import (
@@ -28,7 +29,7 @@ from fl_sim.models import (
     SVR,
     reset_parameters,
 )
-from fl_sim.models.tokenizers import words_from_text
+from fl_sim.models.tokenizers import words_from_text, tokenize
 from fl_sim.models.word_embeddings import GloveEmbedding
 from fl_sim.data_processing import FedShakespeare
 
@@ -282,10 +283,17 @@ def test_GloveEmbedding():
     assert isinstance(input_tensor, torch.Tensor) and input_tensor.shape == (1, 256)
 
 
-def test_misc():
-    words = words_from_text("Yonder comes my master, your brother.")
+def test_tokenizers():
+    sentence = "Yonder comes my master, your brother."
+    words = words_from_text(sentence)
     assert words == ["Yonder", "comes", "my", "master", "your", "brother"]
-    words = words_from_text(
-        "Yonder comes my master, your brother.", words_to_ignore=["my"]
-    )
+    words = words_from_text(sentence, words_to_ignore=["my"])
     assert words == ["Yonder", "comes", "master", "your", "brother"]
+
+    words = tokenize(sentence, backend="nltk")
+    assert words == ["Yonder", "comes", "my", "master", ",", "your", "brother", "."]
+    words = tokenize(sentence, backend="nltk", ignore_punctuations=True)
+    assert words == ["Yonder", "comes", "my", "master", "your", "brother"]
+
+    with pytest.raises(ValueError):
+        tokenize(sentence, backend="unknown")

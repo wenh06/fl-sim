@@ -6,33 +6,15 @@ Adjusted from `TextAttack <https://github.com/QData/TextAttack>`_, and
 import json
 import re
 import tempfile
-import warnings
 from pathlib import Path
 from string import punctuation
 from typing import Optional, Sequence, List, Union, Dict
 
 import torch
-
-try:
-    from nltk.tokenize import word_tokenize as nltk_word_tokenize
-    from nltk import download as nltk_download
-    from nltk.data import find as nltk_find
-except ModuleNotFoundError:
-    nltk_word_tokenize = None
-    nltk_download = None
-    nltk_find = None
-    warnings.warn(
-        "Package `nltk` is not installed, using naive tokenizer instead.",
-        RuntimeWarning,
-    )
-
-try:
-    import tokenizers as hf_tokenizers
-except ModuleNotFoundError:
-    raise ModuleNotFoundError(
-        "Please install the `tokenizers` package first. "
-        "You can install it by running `pip install tokenizers`."
-    )
+import tokenizers as hf_tokenizers
+from nltk.tokenize import word_tokenize as nltk_word_tokenize
+from nltk import download as nltk_download
+from nltk.data import find as nltk_find
 
 
 __all__ = [
@@ -458,11 +440,7 @@ def tokenize(
     # TODO: deal with exceptions like `he 's`
     _s = s
     if backend.lower() == "nltk":
-        if nltk_word_tokenize is None:
-            warnings.warn("NLTK not installed. Using naive tokenizer.", RuntimeWarning)
-            words = words_from_text(_s)
-        else:
-            words = nltk_word_tokenize(_s)
+        words = nltk_word_tokenize(_s)
     elif backend.lower() == "naive":
         words = words_from_text(_s)
     else:
