@@ -26,6 +26,7 @@ provide some custom optimizers for federated learning for solving for example
 """
 
 import inspect
+import re
 from pathlib import Path
 from typing import Iterable, Union, Any
 
@@ -227,7 +228,7 @@ def get_optimizer(
             # using the decorator @register_optimizer
             new_optimizers = [
                 item
-                for item in get_builtin_optimizer()
+                for item in list_builtin_optimizers()
                 if item not in builtin_optimizers
             ]
             if optimizer_name is None:
@@ -246,6 +247,7 @@ def get_optimizer(
                     )
                 optimizer_name = new_optimizers[0]
             else:
+                optimizer_name = re.sub("(?:Optimizer)?$", "", optimizer_name)
                 if optimizer_name not in new_optimizers:
                     raise ValueError(
                         f"Optimizer `{optimizer_name}` not found in `{optimizer_file}`. "
