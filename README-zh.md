@@ -687,7 +687,7 @@ FedVisionDataset(
 
 下面的 GIF （使用 [ScreenToGif](https://github.com/NickeManarin/ScreenToGif) 制作生成）是可视化面板的演示示例：
 
-<img src="https://raw.githubusercontent.com/wenh06/fl-sim/master/images/panel-demo.gif" alt="FL-SIM Panel Demo GIF" style="display: block; margin: 0 auto;" />
+<img src="https://raw.githubusercontent.com/wenh06/fl-sim/master/docs/source/_static/images/panel-demo.gif" alt="FL-SIM Panel Demo GIF" style="display: block; margin: 0 auto;" />
 
 **注意：** 若希望在 Linux 系统下（例如 Ubuntu）上使用 Windows 字体，可以执行以下命令获取相关字体：
 
