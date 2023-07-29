@@ -30,6 +30,7 @@ A Simple Simulation Framework for Federated Learning Based on PyTorch.
    :maxdepth: 2
 
    algorithms
+   cli
    viz
 
 Indices and tables
