@@ -1,7 +1,7 @@
 Installation instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:code:`fl_sim` requires **Python 3.6+** and is available through pip:
+:code:`fl-sim` requires **Python 3.6+** and is available through pip:
 
 .. code-block:: bash
     

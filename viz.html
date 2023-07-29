@@ -39,7 +39,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="fl-sim 0.0.1 documentation" href="index.html"/>
-        <link rel="prev" title="Federated learning algorithms" href="algorithms.html"/> 
+        <link rel="prev" title="Command line interface" href="cli.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -370,7 +370,15 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Federated learning algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Federated learning algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms.html#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms.html#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms.html#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms.html#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms.html#skipping-algorithms-in-federated-learning">Skipping Algorithms in Federated Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Visualization subsystem</a></li>
 </ul>
 
@@ -439,7 +447,35 @@
             
   <section id="visualization-subsystem">
 <h1>Visualization subsystem<a class="headerlink" href="#visualization-subsystem" title="Permalink to this heading">¶</a></h1>
-<p>to write….</p>
+<p><cite>fl-sim</cite> implements a simple visualization subsystem named <cite>Panel</cite> along with a logging system.
+<cite>Panel</cite> is based on Jupyter Widgets (<a class="reference external" href="https://ipywidgets.readthedocs.io/en/latest/">ipywidgets</a>), <a class="reference external" href="https://matplotlib.org/">matplotlib</a> and <a class="reference external" href="https://seaborn.pydata.org/">seaborn</a>.
+It runs in a Jupyter Notebook or similar environment (Jupyter Lab, Google Colab, Amazon SageMaker, etc.).
+<cite>Panel</cite> has the following features:</p>
+<ul>
+<li><p>It automatically searches, lists the log files of completed simulations (numerical experiments) in the specified directory, and displays them in a multi-select list box.</p></li>
+<li><p>It automatically decodes the log files and plots the curves of the specified metrics.</p></li>
+<li><p>It supports interactive operations on the plotted curves, such as zooming, smoothing, font family and size adjustment, etc.</p></li>
+<li><p>It supports saving the plotted curves to a file in PDF/SVG/PNG/JPEG/PS formats.</p></li>
+<li><p>It supports curve merging via tags into mean-value curves with error bars (optional). The error bounds have 4 options:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>standard deviation (STD)</p></li>
+<li><p>standard error of the mean (SEM)</p></li>
+<li><p>quantile (QTL)</p></li>
+<li><p>interquartile range (IQR)</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>The following GIF (created using <a class="reference external" href="https://github.com/NickeManarin/ScreenToGif">ScreenToGif</a>) shows a demo of the visualization <cite>Panel</cite>:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/panel-demo.gif"><img alt="FL-SIM Panel Demo GIF" src="_images/panel-demo.gif" style="width: 100%;" /></a>
+</figure>
+<p><strong>NOTE:</strong> to use Windows fonts on a Linux machine (e.g. Ubuntu), one can execute the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>install<span class="w"> </span>ttf-mscorefonts-installer
+$<span class="w"> </span>sudo<span class="w"> </span>fc-cache<span class="w"> </span>-fv
+</pre></div>
+</div>
 </section>
 
 
@@ -450,7 +486,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="algorithms.html" class="btn btn-neutral" title="Federated learning algorithms" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cli.html" class="btn btn-neutral" title="Command line interface" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
