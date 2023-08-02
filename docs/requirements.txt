@@ -9,5 +9,6 @@ sphinx-copybutton
 sphinx-multiversion
 sphinxcontrib-napoleon
 sphinxcontrib-tikz
+sphinxcontrib-pseudocode
 numpydoc
 recommonmark

@@ -51,6 +51,13 @@ jobs:
       run: |
         sudo apt update
         sudo apt install build-essential ffmpeg libsm6 libxext6 libsndfile1 -y
+    # - name: Set up Node.js 18.x
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: 18
+    #     cache: 'npm'
+    # - name: Install node dependencies
+    #   run: npm i pseudocode
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:

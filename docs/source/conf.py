@@ -59,6 +59,7 @@ extensions = [
     "sphinx_multiversion",
     # "numpydoc",
     "sphinxcontrib.tikz",
+    "sphinxcontrib.pseudocode",
 ]
 
 intersphinx_mapping = {
@@ -127,3 +128,5 @@ html_theme_options = {
 html_static_path = ["_static"]
 
 master_doc = "index"
+
+numfig = True
