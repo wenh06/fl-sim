@@ -17,6 +17,12 @@ build:
     - libsm6
     - libxext6
     - libsndfile1
+    - latexmk
+    - pandoc
+    - pdf2svg
+  jobs:
+    pre_build:
+      - python docs/pre_build.py
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:

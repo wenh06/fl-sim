@@ -78,6 +78,9 @@ jobs:
       with:
         packages: >-
           scheme-basic
+          amsmath
+          amsfonts
+          amssymb
           algorithm2e
           biber
           biblatex
@@ -94,6 +97,7 @@ jobs:
     - name: Build docs with Sphinx and check for errors
       run: |
         cd docs
+        python pre_build.py
         make html
         make linkcheck
     - name: Publish to GitHub Pages

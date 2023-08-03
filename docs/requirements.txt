@@ -12,3 +12,4 @@ sphinxcontrib-tikz
 sphinxcontrib-pseudocode
 numpydoc
 recommonmark
+tqdm
