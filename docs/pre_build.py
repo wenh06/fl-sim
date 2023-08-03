@@ -46,7 +46,7 @@ DOC_BODY = r"""
 
 def main():
     pre_build_dir = (
-        Path(__file__).resolve().parent / "source/generated/algorithms-pdf/pre-build"
+        Path(__file__).resolve().parent / "source/generated/algorithms/pre-build"
     )
     pre_build_dir.mkdir(parents=True, exist_ok=True)
     # find algorithm folders in ../fl_sim/algorithms
@@ -75,10 +75,16 @@ def main():
             exitcode, _ = execute_cmd(cmd)
             generated_pdf_file = pre_build_dir / f"{tex_file.stem}.pdf"
             assert generated_pdf_file.exists()
-            # move the generated pdf file to ../fl_sim/docs/source/generated/algorithms-pdf
+            # move the generated pdf file to ../fl_sim/docs/source/generated/algorithms
             generated_pdf_file.rename(
                 generated_pdf_file.parents[1] / f"{tex_file.stem}.pdf"
             )
+            generated_pdf_file = generated_pdf_file.parents[1] / f"{tex_file.stem}.pdf"
+            # convert the pdf file to svg file using pdf2svg
+            generated_svg_file = generated_pdf_file.with_suffix(".svg")
+            cmd = f"""pdf2svg "{str(generated_pdf_file)}" "{str(generated_svg_file)}" """
+            exitcode, _ = execute_cmd(cmd)
+            assert generated_svg_file.exists()
     # remove the temp directory pre_build_dir
     shutil.rmtree(pre_build_dir)
 
