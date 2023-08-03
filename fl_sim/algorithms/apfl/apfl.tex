@@ -1,4 +1,4 @@
-\begin{algorithm}[ht]
+\begin{algorithm}[H]
 \SetKwInOut{Input}{Input}
 \Input{mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$}
 {\bfseries Initiation:}\;
@@ -28,10 +28,10 @@
         broadcast $\theta^{(t+1)}$ to clients $k \in S^{(t+1)}:$ $\theta_k^{(t+1)} \gets \theta^{(t+1)}$\;
         \Indm
     }
+}
 final personalized model: $\hat{\omega}_k \gets \frac{1}{S_T}\sum\limits_{t=1}^{T} p_t \left( \alpha_k \omega_k^{(t)} + (1-\alpha_k)\frac{1}{\#\mathcal{S}^{(t-1)}}\sum\limits_{k\in\mathcal{S}^{(t-1)}}\theta_k^{(t)} \right)$\;
 final global model: $\hat{\theta} \gets \frac{1}{S_T}\sum\limits_{t=1}^{T} \frac{p_t}{\#\mathcal{S}^{(t-1)}} \sum\limits_{k\in\mathcal{S}^{(t-1)}}\theta_k^{(t)}$\;
 where $p_t = (t+a)^2, S_T = \sum\limits_{t=1}^{T}p_t$\;
-}
 \caption{Pseudo-code for \texttt{APFL}}
 \label{algo:apfl}
 \end{algorithm}
