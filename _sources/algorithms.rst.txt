@@ -6,6 +6,11 @@ Overview of Optimization Algorithms in Federated Learning
 
 to write....
 
+.. image:: ./generated/algorithms/fedopt.svg
+   :align: center
+   :width: 80%
+   :alt: Psuedocode for FedOpt
+
 Proximal Algorithms in Federated Learning
 -----------------------------------------
 
