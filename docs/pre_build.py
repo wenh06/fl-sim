@@ -82,7 +82,9 @@ def main():
             generated_pdf_file = generated_pdf_file.parents[1] / f"{tex_file.stem}.pdf"
             # convert the pdf file to svg file using pdf2svg
             generated_svg_file = generated_pdf_file.with_suffix(".svg")
-            cmd = f"""pdf2svg "{str(generated_pdf_file)}" "{str(generated_svg_file)}" """
+            cmd = (
+                f"""pdf2svg "{str(generated_pdf_file)}" "{str(generated_svg_file)}" """
+            )
             exitcode, _ = execute_cmd(cmd)
             assert generated_svg_file.exists()
     # remove the temp directory pre_build_dir

@@ -78,9 +78,6 @@ jobs:
       with:
         packages: >-
           scheme-basic
-          amsmath
-          amsfonts
-          amssymb
           algorithm2e
           biber
           biblatex
