@@ -76,6 +76,8 @@ jobs:
       # This is used to render the tikz plots in the docs.
       uses: teatimeguest/setup-texlive-action@v2
       with:
+        # List of TeXLive-packages contained in the scheme-basic
+        # https://gist.github.com/zr-tex8r/86b3b28f6bf21e0c24b151ce10840387
         packages: >-
           scheme-basic
           algorithm2e
@@ -87,6 +89,7 @@ jobs:
           standalone
           xetex
           xecjk
+          ifoddpage
     - name: Install latexmk and pandoc and extra software
       run: |
         sudo apt install latexmk pandoc -y
