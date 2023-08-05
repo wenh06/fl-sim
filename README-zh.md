@@ -7,12 +7,13 @@
 
 [English Version](README.md)
 
-本仓库迁移自 [fl_seminar](https://github.com/wenh06/fl_seminar/tree/master/code)，主体部分是一个基于 PyTorch 的简单的联邦学习仿真框架。
+项目链接:
 
-文档地址（正在完善）：
+- 源代码: [GitHub](https://github.com/wenh06/fl-sim) | [gitee](https://gitee.com/wenh06/fl-sim)
+- 文档（正在完善）: [GitHub Pages](https://wenh06.github.io/fl-sim/)  [![gh-page status](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml) | [Read the Docs](http://fl-sim.rtfd.io/)  [![RTD Status](https://readthedocs.org/projects/fl-sim/badge/?version=latest)](https://fl-sim.readthedocs.io/en/latest/?badge=latest)
 
-- [GitHub Pages](https://wenh06.github.io/fl-sim/)  [![gh-page status](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml)
-- [Read the Docs](http://fl-sim.rtfd.io/)  [![RTD Status](https://readthedocs.org/projects/fl-sim/badge/?version=latest)](https://fl-sim.readthedocs.io/en/latest/?badge=latest)
+本仓库迁移自 [fl_seminar](https://github.com/wenh06/fl_seminar/tree/master/code)，
+主体部分是一个基于 PyTorch 的简单的联邦学习仿真框架。
 
 <!-- toc -->
 

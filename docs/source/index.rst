@@ -8,6 +8,8 @@ Welcome to fl-sim's documentation!
 
 A Simple Simulation Framework for Federated Learning Based on PyTorch.
 
+Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gitee.com/wenh06/fl-sim/>`_
+
 .. toctree::
    :caption: Getting started
    :maxdepth: 2
