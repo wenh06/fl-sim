@@ -373,7 +373,10 @@
 <p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Federated learning algorithms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="algorithms.html#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms.html#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="algorithms.html#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="algorithms.html#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="algorithms.html#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="algorithms.html#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
@@ -449,10 +452,10 @@
             
   <section id="visualization-subsystem">
 <h1>Visualization subsystem<a class="headerlink" href="#visualization-subsystem" title="Permalink to this heading">¶</a></h1>
-<p><cite>fl-sim</cite> implements a simple visualization subsystem named <cite>Panel</cite> along with a logging system.
-<cite>Panel</cite> is based on Jupyter Widgets (<a class="reference external" href="https://ipywidgets.readthedocs.io/en/latest/">ipywidgets</a>), <a class="reference external" href="https://matplotlib.org/">matplotlib</a> and <a class="reference external" href="https://seaborn.pydata.org/">seaborn</a>.
+<p><code class="docutils literal notranslate"><span class="pre">fl-sim</span></code> implements a simple visualization subsystem named <code class="docutils literal notranslate"><span class="pre">Panel</span></code> along with a logging system.
+<code class="docutils literal notranslate"><span class="pre">Panel</span></code> is based on Jupyter Widgets (<a class="reference external" href="https://ipywidgets.readthedocs.io/en/latest/">ipywidgets</a>), <a class="reference external" href="https://matplotlib.org/">matplotlib</a> and <a class="reference external" href="https://seaborn.pydata.org/">seaborn</a>.
 It runs in a Jupyter Notebook or similar environment (Jupyter Lab, Google Colab, Amazon SageMaker, etc.).
-<cite>Panel</cite> has the following features:</p>
+<code class="docutils literal notranslate"><span class="pre">Panel</span></code> has the following features:</p>
 <ul>
 <li><p>It automatically searches, lists the log files of completed simulations (numerical experiments) in the specified directory, and displays them in a multi-select list box.</p></li>
 <li><p>It automatically decodes the log files and plots the curves of the specified metrics.</p></li>
@@ -469,7 +472,7 @@ It runs in a Jupyter Notebook or similar environment (Jupyter Lab, Google Colab,
 </div></blockquote>
 </li>
 </ul>
-<p>The following GIF (created using <a class="reference external" href="https://github.com/NickeManarin/ScreenToGif">ScreenToGif</a>) shows a demo of the visualization <cite>Panel</cite>:</p>
+<p>The following GIF (created using <a class="reference external" href="https://github.com/NickeManarin/ScreenToGif">ScreenToGif</a>) shows a demo of the visualization <code class="docutils literal notranslate"><span class="pre">Panel</span></code>:</p>
 <figure class="align-center">
 <a class="reference internal image-reference" href="_images/panel-demo.gif"><img alt="FL-SIM Panel Demo GIF" src="_images/panel-demo.gif" style="width: 100%;" /></a>
 </figure>

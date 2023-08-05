@@ -374,7 +374,10 @@
 <p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Federated learning algorithms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="algorithms.html#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms.html#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="algorithms.html#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="algorithms.html#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="algorithms.html#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="algorithms.html#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
@@ -451,8 +454,69 @@
   <section id="command-line-interface">
 <h1>Command line interface<a class="headerlink" href="#command-line-interface" title="Permalink to this heading">¶</a></h1>
 <p>A command line interface (CLI) is provided for running multiple federated learning experiments.
-The only argument is the path to the configuration file (in YAML format) for the experiments.</p>
-<p>to write more….</p>
+The only argument is the path to the configuration file (in YAML format) for the experiments.
+Examples of configuration files can be found in the <a class="reference external" href="https://github.com/wenh06/fl-sim/tree/master/example-configs">example-configs</a> directory.
+For example, in the <a class="reference external" href="https://github.com/wenh06/fl-sim/tree/master/example-configs/all-alg-fedprox-femnist.yml">all-alg-fedprox-femnist.yml</a> file, we have</p>
+<details class="summary-example-configs-all-alg-fedprox-femnist-yml">
+<summary>[example-configs/all-alg-fedprox-femnist.yml]</summary><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example config file for fl-sim command line interface</span>
+
+<span class="nt">strategy</span><span class="p">:</span>
+<span class="nt">matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">algorithm</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ditto</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FedDR</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FedAvg</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FedAdam</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FedProx</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FedPD</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FedSplit</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IFCA</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pFedMac</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pFedMe</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ProxSkip</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCAFFOLD</span>
+<span class="w">    </span><span class="nt">clients_sample_ratio</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.3</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.7</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+
+<span class="nt">algorithm</span><span class="p">:</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ matrix.algorithm }}</span>
+<span class="nt">server</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">num_clients</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="w">    </span><span class="nt">clients_sample_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ matrix.clients_sample_ratio }}</span>
+<span class="w">    </span><span class="nt">num_iters</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">    </span><span class="nt">p</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.3</span><span class="w">  </span><span class="c1"># for FedPD, ProxSkip</span>
+<span class="w">    </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.03</span><span class="w">  </span><span class="c1"># for SCAFFOLD</span>
+<span class="w">    </span><span class="nt">num_clusters</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">  </span><span class="c1"># for IFCA</span>
+<span class="w">    </span><span class="nt">log_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all-alg-fedprox-femnist</span>
+<span class="nt">client</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.03</span>
+<span class="w">    </span><span class="nt">num_epochs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">    </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">  </span><span class="c1"># null for default batch size</span>
+<span class="w">    </span><span class="nt">scheduler</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">step</span><span class="w">  </span><span class="c1"># StepLR</span>
+<span class="w">    </span><span class="nt">step_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">gamma</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.99</span>
+<span class="nt">dataset</span><span class="p">:</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FedProxFEMNIST</span>
+<span class="nt">datadir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">  </span><span class="c1"># default dir</span>
+<span class="nt">transform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">none</span><span class="w">  </span><span class="c1"># none for static transform (only normalization, no augmentation)</span>
+<span class="nt">model</span><span class="p">:</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cnn_femmist_tiny</span>
+<span class="nt">seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</pre></div>
+</div>
+</details><div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">strategy</span></code> (optional) section specifies the grid search strategy;
+the <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> section specifies the hyperparameters of the federated learning algorithm:
+<code class="docutils literal notranslate"><span class="pre">name</span></code> is the name of the algorithm, <code class="docutils literal notranslate"><span class="pre">server</span></code> specifies the hyperparameters of the server,
+and <code class="docutils literal notranslate"><span class="pre">client</span></code> specifies the hyperparameters of the client;
+the <code class="docutils literal notranslate"><span class="pre">dataset</span></code> section specifies the dataset, and the <code class="docutils literal notranslate"><span class="pre">model</span></code> section specifies
+the named model (ref. the <code class="docutils literal notranslate"><span class="pre">candidate_models</span></code> property of the dataset classes) to be used.</p>
 </section>
 
 

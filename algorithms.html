@@ -374,7 +374,10 @@
 <p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Federated learning algorithms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
@@ -452,12 +455,118 @@
 <h1>Federated learning algorithms<a class="headerlink" href="#federated-learning-algorithms" title="Permalink to this heading">¶</a></h1>
 <section id="overview-of-optimization-algorithms-in-federated-learning">
 <h2>Overview of Optimization Algorithms in Federated Learning<a class="headerlink" href="#overview-of-optimization-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
+<p>Federated Optimization algorithms have been the central problem in the field of federated learning since its inception.
+The most important contribution of the initial work on federated learning <span id="id1">[<a class="reference internal" href="#id24" title="Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In Artificial Intelligence and Statistics, 1273–1282. PMLR, 2017.">MMR+17</a>]</span> was the introduction of the Federated Averaging algorithm (FedAvg).</p>
+<p>Mathematically, federated learning solves the following problem of minimization of empirical risk function</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\expectation}{\mathbb{E}}
+\DeclareMathOperator*{\minimize}{minimize}
+\newcommand{\R}{\mathbb{R}}\\\begin{split}\begin{array}{cl}
+\minimize\limits_{\theta \in \R^d} &amp; f(\theta) = \expectation\limits_{k \sim {\mathcal{P}}} [f_k(\theta)], \\
+\text{where} &amp; f_k(\theta) = \expectation\limits_{(x, y) \sim \mathcal{D}_k} [\ell_k(\theta; x, y)],
+\end{array}\end{split}\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(\ell_k\)</span> is the loss function of client <span class="math notranslate nohighlight">\(k\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{D}_k\)</span> is the data distribution of client <span class="math notranslate nohighlight">\(k\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{P}\)</span> is the distribution of clients, and <span class="math notranslate nohighlight">\(\mathbb{E}\)</span> is the expectation operator.
+If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1, 2, \ldots, K\}\)</span>, then the optimization problem can be simplified as</p>
+<div class="math notranslate nohighlight">
+\[\begin{array}{cl}
+\minimize\limits_{\theta \in \R^d} &amp; f(\theta) = \sum\limits_{k=1}^K w_k f_k(\theta).
+\end{array}\]</div>
+<p>For further simplicity, we often take <span class="math notranslate nohighlight">\(w_k = \frac{1}{K}\)</span>. The functions <span class="math notranslate nohighlight">\(f_k\)</span> and <span class="math notranslate nohighlight">\(f\)</span> are usually assumed to satisfy the following conditions:</p>
+<blockquote>
+<div><ul>
+<li><p>(A1) <span class="math notranslate nohighlight">\(f_k\)</span> and <span class="math notranslate nohighlight">\(f\)</span> are <span class="math notranslate nohighlight">\(L\)</span>-smooth (<span class="math notranslate nohighlight">\(L &gt; 0\)</span>), i.e. they have <span class="math notranslate nohighlight">\(L\)</span>-Lipschitz continuous gradients:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+\lVert \nabla f (\theta) - f (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert, \\
+\lVert \nabla f_k (\theta) - f_k (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert,
+\end{array}
+\quad \forall \theta, \theta' \in \R^d, k = 1, \ldots, K.\end{split}\]</div>
+</div></blockquote>
+</li>
+<li><p>(A2) The range of <span class="math notranslate nohighlight">\(f\)</span></p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\dom}{dom}\\\dom(f) := \{ \theta \in \R^d ~|~ f(\theta) &lt; + \infty \}\end{aligned}\end{align} \]</div>
+<p>is nonempty and lower bounded, i.e. there exists a constant <span class="math notranslate nohighlight">\(c \in \R\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[f(\theta) \geqslant c &gt; -\infty, ~ \forall \theta \in \R^d,\]</div>
+<p>or equivalently,</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[f^* := \inf\limits_{\theta \in \R^d} f(\theta) &gt; - \infty.\]</div>
+</div></blockquote>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>In many cases, in order to facilitate the analysis of convergence, we will also make some assumptions about the gradient of the objective function:</p>
+<blockquote>
+<div><ul>
+<li><p>(A3) Bounded gradient: there exists a constant <span class="math notranslate nohighlight">\(G &gt; 0\)</span> such that</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\lVert \nabla f_k (\theta) \rVert^2 \leqslant G^2, ~ \forall \theta \in \R^d, ~ k = 1, \ldots K.\]</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>And the following assumptions on data distributions:</p>
+<blockquote>
+<div><ul>
+<li><p>(A4-1) Data distribution is I.I.D. (identically and independently distributed) across clients, i.e.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\nabla f(\theta) = \expectation [f_k(\theta)] = \expectation\limits_{(x, y) \sim \mathcal{D}_k}[\nabla \ell_k(\theta; x, y)], ~ \forall \theta \in \R^d, ~ k = 1, \ldots K,\]</div>
+<p>or equivalently, for any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, there exists a constant <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[\sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2, ~ \forall \theta \in \left\{ \theta \in \R^d ~ \middle| ~ \lVert f(\theta) \rVert^2 &gt; \varepsilon \right\}.\]</div>
+</div></blockquote>
+</li>
+<li><p>(A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways <span id="id2">[<a class="reference internal" href="#id34" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>, <a class="reference internal" href="#id33" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>, <a class="reference internal" href="#id29" title="Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In International Conference on Learning Representations. OpenReview.net, 2020.">LHY+20</a>, <a class="reference internal" href="#id41" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>. For example, in <span id="id3">[<a class="reference internal" href="#id34" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>]</span> and <span id="id4">[<a class="reference internal" href="#id41" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>, the so-called bounded gradient dissimilarity (BGD), denoted as <span class="math notranslate nohighlight">\((G; B)\)</span>-BGD, is used as this quantity. More specifically, there exists constants <span class="math notranslate nohighlight">\(G &gt; 0\)</span> and <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\dfrac{1}{K} \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 \leqslant G^2 + B^2 \lVert \nabla f(\theta) \rVert^2, ~ \forall \theta \in \R^d.\]</div>
+<p>It should be noted that letting <span class="math notranslate nohighlight">\(B = 0\)</span>, the bounded gradient dissimilarity condition (A4-2) degenrates to the bounded gradient condition (A3).</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>Sometimes, in the proof of algorithm convergence, one needs to make assumptions on the convexity of the objective function <span class="math notranslate nohighlight">\(f\)</span>, which can be defined as follows:</p>
+<blockquote>
+<div><ul>
+<li><p>(A5-1) convexity:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[f(a \theta + (1 - a) \theta') \leqslant a f(\theta) + (1 - a) f(\theta'), ~ \forall \theta, \theta' \in \mathcal{C}, ~ \alpha \in [0, 1].\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> is a convex set on which <span class="math notranslate nohighlight">\(f\)</span> is defined.</p>
+</div></blockquote>
+</li>
+<li><p>(A5-2) Strong convexity: there exists a constant <span class="math notranslate nohighlight">\(\mu &gt; 0\)</span> such that <span class="math notranslate nohighlight">\(f - \frac{\mu}{2} \lVert \theta \rVert^2\)</span> is convex. In this case, we say that <span class="math notranslate nohighlight">\(f\)</span> is <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex.</p></li>
+</ul>
+</div></blockquote>
+<p>Due to the natural layered and decoupled structure of the federal learning problem, it is more natural to consider the following constrained optimization problem:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{cl}
+\minimize &amp; \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
+\text{subject to} &amp; \theta_k = \theta, ~ k = 1, \ldots, K.
+\end{array}\end{split}\]</div>
+<section id="federated-averaging-algorithm">
+<h3>Federated Averaging Algorithm<a class="headerlink" href="#federated-averaging-algorithm" title="Permalink to this heading">¶</a></h3>
 <p>to write….</p>
+<a class="reference internal image-reference" href="_images/fedavg.svg"><img alt="Psuedocode for FedAvg" class="align-center" src="_images/fedavg.svg" width="80%" /></a>
 <a class="reference internal image-reference" href="_images/fedopt.svg"><img alt="Psuedocode for FedOpt" class="align-center" src="_images/fedopt.svg" width="80%" /></a>
+</section>
 </section>
 <section id="proximal-algorithms-in-federated-learning">
 <h2>Proximal Algorithms in Federated Learning<a class="headerlink" href="#proximal-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
-<p>to write….</p>
+<div class="figure" id="id139" style="text-align: center"><p><img width="80%" src="_images/tikz-a4a11a93d19f47c1e3a684dd5159c5d79f350276.svg" alt="Figure made with TikZ" /></p>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Schematic diagram for <span class="math notranslate nohighlight">\(f_k(\alpha_k \omega_k + (1 - \alpha_k) \theta^*)\)</span> in the APFL algorithm.</span></p>
+</div><div class="figure" id="id140" style="text-align: center"><p><img width="80%" src="_images/tikz-ea5939230cbfad9f08b2efbb2087d0f52426b2e4.svg" alt="Figure made with TikZ" /></p>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Client model parameter update schematic diagram of the FedDyn algorithm.</span></p>
+</div><p>to write….</p>
 </section>
 <section id="primal-dual-algorithms-in-federated-learning">
 <h2>Primal-Dual Algorithms in Federated Learning<a class="headerlink" href="#primal-dual-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
@@ -470,6 +579,31 @@
 <section id="skipping-algorithms-in-federated-learning">
 <h2>Skipping Algorithms in Federated Learning<a class="headerlink" href="#skipping-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
 <p>to write….</p>
+<div class="docutils container" id="id5">
+<div class="citation" id="id34" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>KKM+20<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<p>Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In <em>International Conference on Machine Learning</em>, 5132–5143. PMLR, 2020.</p>
+</div>
+<div class="citation" id="id33" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">LSZ+20</a><span class="fn-bracket">]</span></span>
+<p>Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, <em>Proceedings of Machine Learning and Systems</em>, volume 2, 429–450. 2020.</p>
+</div>
+<div class="citation" id="id29" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">LHY+20</a><span class="fn-bracket">]</span></span>
+<p>Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In <em>International Conference on Learning Representations</em>. OpenReview.net, 2020.</p>
+</div>
+<div class="citation" id="id24" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">MMR+17</a><span class="fn-bracket">]</span></span>
+<p>Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In <em>Artificial Intelligence and Statistics</em>, 1273–1282. PMLR, 2017.</p>
+</div>
+<div class="citation" id="id41" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>ZHD+21<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<p>Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. <em>IEEE Transactions on Signal Processing</em>, 69:6055–6070, 2021. <a class="reference external" href="https://doi.org/10.1109/tsp.2021.3115952">doi:10.1109/tsp.2021.3115952</a>.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 
@@ -526,6 +660,7 @@
       <script type="text/javascript" src="_static/sphinx_highlight.js"></script>
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   
 

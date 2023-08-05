@@ -1,10 +1,10 @@
 Visualization subsystem
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`fl-sim` implements a simple visualization subsystem named `Panel` along with a logging system.
-`Panel` is based on Jupyter Widgets (`ipywidgets <https://ipywidgets.readthedocs.io/en/latest/>`_), `matplotlib <https://matplotlib.org/>`_ and `seaborn <https://seaborn.pydata.org/>`_.
+``fl-sim`` implements a simple visualization subsystem named ``Panel`` along with a logging system.
+``Panel`` is based on Jupyter Widgets (`ipywidgets <https://ipywidgets.readthedocs.io/en/latest/>`_), `matplotlib <https://matplotlib.org/>`_ and `seaborn <https://seaborn.pydata.org/>`_.
 It runs in a Jupyter Notebook or similar environment (Jupyter Lab, Google Colab, Amazon SageMaker, etc.).
-`Panel` has the following features:
+``Panel`` has the following features:
 
 - It automatically searches, lists the log files of completed simulations (numerical experiments) in the specified directory, and displays them in a multi-select list box.
 - It automatically decodes the log files and plots the curves of the specified metrics.
@@ -17,12 +17,12 @@ It runs in a Jupyter Notebook or similar environment (Jupyter Lab, Google Colab,
     - quantile (QTL)
     - interquartile range (IQR)
 
-The following GIF (created using `ScreenToGif <https://github.com/NickeManarin/ScreenToGif>`_) shows a demo of the visualization `Panel`:
+The following GIF (created using `ScreenToGif <https://github.com/NickeManarin/ScreenToGif>`_) shows a demo of the visualization ``Panel``:
 
 .. figure:: ./_static/images/panel-demo.gif
-   :align: center
-   :width: 100%
-   :alt: FL-SIM Panel Demo GIF
+    :align: center
+    :width: 100%
+    :alt: FL-SIM Panel Demo GIF
 
 **NOTE:** to use Windows fonts on a Linux machine (e.g. Ubuntu), one can execute the following commands:
 
