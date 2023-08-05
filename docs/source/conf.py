@@ -57,11 +57,14 @@ extensions = [
     "recommonmark",
     # 'sphinx.ext.autosectionlabel',
     "sphinx_multiversion",
+    "sphinx_toolbox.collapse",
     # "numpydoc",
     "sphinxcontrib.tikz",
     "sphinxcontrib.pseudocode",
-    "sphinx_toolbox.collapse",
+    "sphinxcontrib.bibtex",
 ]
+
+bibtex_bibfiles = ["references.bib"]
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
