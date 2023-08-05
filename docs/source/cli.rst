@@ -3,8 +3,8 @@ Command line interface
 
 A command line interface (CLI) is provided for running multiple federated learning experiments.
 The only argument is the path to the configuration file (in YAML format) for the experiments.
-Examples of configuration files can be found in the `example-configs <https://github.com/wenh06/fl-sim/example-configs>`_ directory.
-For example, in the `all-alg-fedprox-femnist.yml <https://github.com/wenh06/fl-sim/example-configs/all-alg-fedprox-femnist.yml>`_ file, we have
+Examples of configuration files can be found in the `example-configs <https://github.com/wenh06/fl-sim/tree/master/example-configs>`_ directory.
+For example, in the `all-alg-fedprox-femnist.yml <https://github.com/wenh06/fl-sim/tree/master/example-configs/all-alg-fedprox-femnist.yml>`_ file, we have
 
 .. collapse:: [example-configs/all-alg-fedprox-femnist.yml]
 

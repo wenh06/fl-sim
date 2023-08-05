@@ -134,3 +134,7 @@ html_static_path = ["_static"]
 master_doc = "index"
 
 numfig = True
+
+linkcheck_ignore = [
+    r"https://doi.org/*",  # 418 Client Error
+]
