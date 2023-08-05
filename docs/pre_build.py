@@ -58,6 +58,14 @@ def main():
         if folder.is_dir()
         and f"{folder.name}.tex" in [file.name for file in folder.iterdir()]
     ]
+    # and also tex files in ./source/_extra_algorithms
+    algorithm_tex_blocks += [
+        file
+        for file in (
+            Path(__file__).resolve().parent / "source/_extra_algorithms"
+        ).iterdir()
+        if file.is_file() and file.suffix == ".tex"
+    ]
 
     temp_tex_file = pre_build_dir / "temp.tex"
     with tqdm(algorithm_tex_blocks) as pbar:
