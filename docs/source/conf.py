@@ -60,6 +60,7 @@ extensions = [
     # "numpydoc",
     "sphinxcontrib.tikz",
     "sphinxcontrib.pseudocode",
+    "sphinx_toolbox.collapse",
 ]
 
 intersphinx_mapping = {
