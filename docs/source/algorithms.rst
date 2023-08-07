@@ -206,3 +206,4 @@ Skipping Algorithms in Federated Learning
 to write....
 
 .. bibliography::
+   :filter: docname in docnames

@@ -65,6 +65,9 @@ extensions = [
 ]
 
 bibtex_bibfiles = ["references.bib"]
+# bibtex_bibliography_header = ".. rubric:: 参考文献"
+bibtex_bibliography_header = ".. rubric:: References"
+bibtex_footbibliography_header = bibtex_bibliography_header
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
