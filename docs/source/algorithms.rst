@@ -10,7 +10,7 @@ The most important contribution of the initial work on federated learning :cite:
 Mathematically, federated learning solves the following problem of minimization of empirical risk function
 
 .. math::
-   :label: eq:fl-basic-dist
+   :label: fl-basic-dist
 
    \DeclareMathOperator*{\expectation}{\mathbb{E}}
    \DeclareMathOperator*{\minimize}{minimize}
@@ -27,7 +27,7 @@ where :math:`\ell_k` is the loss function of client :math:`k`,
 If we simply let :math:`\mathcal{P} = \{1, 2, \ldots, K\}`, then the optimization problem can be simplified as
 
 .. math::
-   :label: eq:fl-basic
+   :label: fl-basic
 
    \begin{array}{cl}
    \minimize\limits_{\theta \in \R^d} & f(\theta) = \sum\limits_{k=1}^K w_k f_k(\theta).
@@ -38,7 +38,7 @@ For further simplicity, we often take :math:`w_k = \frac{1}{K}`. The functions :
    * (A1) :math:`f_k` and :math:`f` are :math:`L`-smooth (:math:`L > 0`), i.e. they have :math:`L`-Lipschitz continuous gradients:
    
       .. math::
-         :label: eq:l-smooth
+         :label: l-smooth
 
          \begin{array}{c}
          \lVert \nabla f (\theta) - f (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert, \\
@@ -56,14 +56,14 @@ For further simplicity, we often take :math:`w_k = \frac{1}{K}`. The functions :
       is nonempty and lower bounded, i.e. there exists a constant :math:`c \in \R` such that
 
       .. math::
-         :label: eq:lower-bounded
+         :label: lower-bounded
 
          f(\theta) \geqslant c > -\infty, ~ \forall \theta \in \R^d,
 
       or equivalently,
       
          .. math::
-            :label: eq:lower-bounded-2
+            :label: lower-bounded-2
 
             f^* := \inf\limits_{\theta \in \R^d} f(\theta) > - \infty.
 
@@ -72,7 +72,7 @@ In many cases, in order to facilitate the analysis of convergence, we will also 
    * (A3) Bounded gradient: there exists a constant :math:`G > 0` such that
 
       .. math::
-         :label: eq:bdd_grad
+         :label: bdd_grad
 
          \lVert \nabla f_k (\theta) \rVert^2 \leqslant G^2, ~ \forall \theta \in \R^d, ~ k = 1, \ldots K.
 
@@ -81,20 +81,20 @@ And the following assumptions on data distributions:
    * (A4-1) Data distribution is I.I.D. (identically and independently distributed) across clients, i.e.
    
       .. math::
-         :label: eq:iid-1
+         :label: iid-1
 
          \nabla f(\theta) = \expectation [f_k(\theta)] = \expectation\limits_{(x, y) \sim \mathcal{D}_k}[\nabla \ell_k(\theta; x, y)], ~ \forall \theta \in \R^d, ~ k = 1, \ldots K,
 
       or equivalently, for any :math:`\varepsilon > 0`, there exists a constant :math:`B \geqslant 0` such that
 
       .. math::
-         :label: eq:iid-2
+         :label: iid-2
 
          \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2, ~ \forall \theta \in \left\{ \theta \in \R^d ~ \middle| ~ \lVert f(\theta) \rVert^2 > \varepsilon \right\}.
    * (A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways :cite:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`. For example, in :cite:p:`karimireddy2020scaffold` and :cite:p:`zhang2020fedpd`, the so-called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity. More specifically, there exists constants :math:`G > 0` and :math:`B \geqslant 0` such that
 
       .. math::
-         :label: eq:bdd_grad_dissim
+         :label: bdd_grad_dissim
 
          \dfrac{1}{K} \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 \leqslant G^2 + B^2 \lVert \nabla f(\theta) \rVert^2, ~ \forall \theta \in \R^d.
 
@@ -105,7 +105,7 @@ Sometimes, in the proof of algorithm convergence, one needs to make assumptions 
    * (A5-1) convexity:
 
       .. math::
-         :label: eq:def-convex-function
+         :label: def-convex-function
 
          f(a \theta + (1 - a) \theta') \leqslant a f(\theta) + (1 - a) f(\theta'), ~ \forall \theta, \theta' \in \mathcal{C}, ~ \alpha \in [0, 1].
 
@@ -122,6 +122,11 @@ Due to the natural layered and decoupled structure of the federal learning probl
    \text{subject to} & \theta_k = \theta, ~ k = 1, \ldots, K.
    \end{array}
 
+It is easy to find the equivalence between the constrained optimization problem :eq:`fl-basic-constraint`
+and the unconstrained optimization problem :eq:`fl-basic`. The constrained formulation
+:eq:`fl-basic-constraint` is called the **consensus problem** in the literature of distributed optimization :cite:p:`boyd2011distributed`. The superiority of the constrained formulation :eq:`fl-basic-constraint` is that
+the objective function becomes block-separable, which is more suitable for the design of parallel and distributed algorithms.
+
 Federated Averaging Algorithm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -131,6 +136,16 @@ to write....
    :align: center
    :width: 80%
    :alt: Psuedocode for FedAvg
+
+FedAvg from the Perspective of Optimization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+to write....
+
+A Direct Improvement of FedAvg
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+to write....
 
 .. image:: ./generated/algorithms/fedopt.svg
    :align: center
