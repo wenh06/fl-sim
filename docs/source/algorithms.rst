@@ -134,10 +134,13 @@ Federated Averaging Algorithm
 
 to write....
 
+.. _pseduocode-fedavg:
+
 .. image:: ./generated/algorithms/fedavg.svg
    :align: center
    :width: 80%
    :alt: Psuedocode for FedAvg
+   :class: no-scaled-link
 
 FedAvg from the Perspective of Optimization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -149,13 +152,18 @@ A Direct Improvement of FedAvg
 
 to write....
 
+.. _pseduocode-fedopt:
+
 .. image:: ./generated/algorithms/fedopt.svg
    :align: center
    :width: 80%
    :alt: Psuedocode for FedOpt
+   :class: no-scaled-link
 
 Proximal Algorithms in Federated Learning
 -----------------------------------------
+
+.. _fig-apfl:
 
 .. tikz:: Schematic diagram for :math:`f_k(\alpha_k \omega_k + (1 - \alpha_k) \theta^*)` in the APFL algorithm.
    :align: center
@@ -187,6 +195,8 @@ Proximal Algorithms in Federated Learning
    \draw[dashed, thin] (theta) circle (1.9);
    \draw[dashed, thin] (theta) circle (3.2);
    \end{scope}
+
+.. _fig-feddyn:
 
 .. tikz:: Client model parameter update schematic diagram of the FedDyn algorithm.
    :align: center
