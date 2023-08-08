@@ -1,0 +1,551 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>fl_sim.data_processing.register_fed_dataset &mdash; fl-sim 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="fl-sim 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="fl_sim.data_processing" href="../datasets.html"/>
+        <link rel="next" title="fl_sim.data_processing.list_fed_dataset" href="fl_sim.data_processing.list_fed_dataset.html"/>
+        <link rel="prev" title="FedLibSVMDataset" href="fl_sim.data_processing.FedLibSVMDataset.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> fl-sim
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Usage examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../nodes.html">fl_sim.nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../nodes.html#base-node-class">Base Node class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.Node.html">Node</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.Node.html#fl_sim.nodes.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes.html#server-classes">Server classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.Server.html">Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.Server.html#fl_sim.nodes.Server"><code class="docutils literal notranslate"><span class="pre">Server</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.ServerConfig.html">ServerConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig"><code class="docutils literal notranslate"><span class="pre">ServerConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes.html#client-classes">Client classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.Client.html">Client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.Client.html#fl_sim.nodes.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.nodes.ClientConfig.html">ClientConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig"><code class="docutils literal notranslate"><span class="pre">ClientConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../datasets.html">fl_sim.data_processing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html#base-classes">Base classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedDataset.html">FedDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset"><code class="docutils literal notranslate"><span class="pre">FedDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset"><code class="docutils literal notranslate"><span class="pre">FedVisionDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset"><code class="docutils literal notranslate"><span class="pre">FedNLPDataset</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html#vision-datasets">Vision datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR"><code class="docutils literal notranslate"><span class="pre">FedCIFAR</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedCIFAR100.html#fl_sim.data_processing.FedCIFAR100"><code class="docutils literal notranslate"><span class="pre">FedCIFAR100</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST"><code class="docutils literal notranslate"><span class="pre">FedEMNIST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedMNIST.html">FedMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST"><code class="docutils literal notranslate"><span class="pre">FedMNIST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10"><code class="docutils literal notranslate"><span class="pre">FedRotatedCIFAR10</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST"><code class="docutils literal notranslate"><span class="pre">FedRotatedMNIST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST"><code class="docutils literal notranslate"><span class="pre">FedProxFEMNIST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST"><code class="docutils literal notranslate"><span class="pre">FedProxMNIST</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html#nlp-datasets">NLP datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare"><code class="docutils literal notranslate"><span class="pre">FedShakespeare</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140"><code class="docutils literal notranslate"><span class="pre">FedProxSent140</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html#synthetic-datasets">Synthetic datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic"><code class="docutils literal notranslate"><span class="pre">FedSynthetic</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html#libsvm-datasets">LibSVM datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset"><code class="docutils literal notranslate"><span class="pre">FedLibSVMDataset</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../datasets.html#dataset-registry-utilities">Dataset registry utilities</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">fl_sim.data_processing.register_fed_dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fl_sim.data_processing.register_fed_dataset"><code class="docutils literal notranslate"><span class="pre">register_fed_dataset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.list_fed_dataset.html#fl_sim.data_processing.list_fed_dataset"><code class="docutils literal notranslate"><span class="pre">list_fed_dataset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.data_processing.get_fed_dataset.html#fl_sim.data_processing.get_fed_dataset"><code class="docutils literal notranslate"><span class="pre">get_fed_dataset()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">fl_sim.models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#convolutional-neural-networks-cnn">Convolutional neural networks (CNN)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.CNNMnist.html">CNNMnist</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.CNNMnist.html#fl_sim.models.CNNMnist"><code class="docutils literal notranslate"><span class="pre">CNNMnist</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.CNNFEMnist.html">CNNFEMnist</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.CNNFEMnist.html#fl_sim.models.CNNFEMnist"><code class="docutils literal notranslate"><span class="pre">CNNFEMnist</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.CNNFEMnist_Tiny.html#fl_sim.models.CNNFEMnist_Tiny"><code class="docutils literal notranslate"><span class="pre">CNNFEMnist_Tiny</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.CNNCifar.html">CNNCifar</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.CNNCifar.html#fl_sim.models.CNNCifar"><code class="docutils literal notranslate"><span class="pre">CNNCifar</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.CNNCifar_Small.html#fl_sim.models.CNNCifar_Small"><code class="docutils literal notranslate"><span class="pre">CNNCifar_Small</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.CNNCifar_Tiny.html#fl_sim.models.CNNCifar_Tiny"><code class="docutils literal notranslate"><span class="pre">CNNCifar_Tiny</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.ResNet18.html">ResNet18</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.ResNet18.html#fl_sim.models.ResNet18"><code class="docutils literal notranslate"><span class="pre">ResNet18</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.ResNet10.html">ResNet10</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.ResNet10.html#fl_sim.models.ResNet10"><code class="docutils literal notranslate"><span class="pre">ResNet10</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#recurrent-neural-networks-rnn">Recurrent neural networks (RNN)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg"><code class="docutils literal notranslate"><span class="pre">RNN_OriginalFedAvg</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow"><code class="docutils literal notranslate"><span class="pre">RNN_StackOverFlow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.RNN_Sent140.html">RNN_Sent140</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140"><code class="docutils literal notranslate"><span class="pre">RNN_Sent140</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.RNN_Sent140_LITE.html#fl_sim.models.RNN_Sent140_LITE"><code class="docutils literal notranslate"><span class="pre">RNN_Sent140_LITE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#multilayer-perceptron-mlp">Multilayer perceptron (MLP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.MLP.html">MLP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.MLP.html#fl_sim.models.MLP"><code class="docutils literal notranslate"><span class="pre">MLP</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.FedPDMLP.html">FedPDMLP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.FedPDMLP.html#fl_sim.models.FedPDMLP"><code class="docutils literal notranslate"><span class="pre">FedPDMLP</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#linear-models">Linear models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.LogisticRegression.html">LogisticRegression</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.LogisticRegression.html#fl_sim.models.LogisticRegression"><code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.SVC.html">SVC</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.SVC.html#fl_sim.models.SVC"><code class="docutils literal notranslate"><span class="pre">SVC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.models.SVR.html">SVR</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.models.SVR.html#fl_sim.models.SVR"><code class="docutils literal notranslate"><span class="pre">SVR</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../optimizers.html">fl_sim.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.optimizers.get_optimizer.html#fl_sim.optimizers.get_optimizer"><code class="docutils literal notranslate"><span class="pre">get_optimizer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.optimizers.register_optimizer.html#fl_sim.optimizers.register_optimizer"><code class="docutils literal notranslate"><span class="pre">register_optimizer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../regularizers.html">fl_sim.regularizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.regularizers.get_regularizer.html#fl_sim.regularizers.get_regularizer"><code class="docutils literal notranslate"><span class="pre">get_regularizer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fl_sim.regularizers.Regularizer.html">Regularizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer"><code class="docutils literal notranslate"><span class="pre">Regularizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.eval"><code class="docutils literal notranslate"><span class="pre">Regularizer.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">Regularizer.extra_repr_keys()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.prox_eval"><code class="docutils literal notranslate"><span class="pre">Regularizer.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fl_sim.regularizers.L1Norm.html">L1Norm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm"><code class="docutils literal notranslate"><span class="pre">L1Norm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.eval"><code class="docutils literal notranslate"><span class="pre">L1Norm.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.prox_eval"><code class="docutils literal notranslate"><span class="pre">L1Norm.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fl_sim.regularizers.L2Norm.html">L2Norm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm"><code class="docutils literal notranslate"><span class="pre">L2Norm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.eval"><code class="docutils literal notranslate"><span class="pre">L2Norm.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.prox_eval"><code class="docutils literal notranslate"><span class="pre">L2Norm.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared"><code class="docutils literal notranslate"><span class="pre">L2NormSquared</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.eval"><code class="docutils literal notranslate"><span class="pre">L2NormSquared.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.prox_eval"><code class="docutils literal notranslate"><span class="pre">L2NormSquared.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fl_sim.regularizers.LInfNorm.html">LInfNorm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm"><code class="docutils literal notranslate"><span class="pre">LInfNorm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.eval"><code class="docutils literal notranslate"><span class="pre">LInfNorm.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.prox_eval"><code class="docutils literal notranslate"><span class="pre">LInfNorm.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer"><code class="docutils literal notranslate"><span class="pre">NullRegularizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.eval"><code class="docutils literal notranslate"><span class="pre">NullRegularizer.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.prox_eval"><code class="docutils literal notranslate"><span class="pre">NullRegularizer.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../algorithms.html">Federated learning algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms.html#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../algorithms.html#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../algorithms.html#fedavg-from-the-perspective-of-optimization">FedAvg from the Perspective of Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../algorithms.html#a-direct-improvement-of-fedavg">A Direct Improvement of FedAvg</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms.html#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms.html#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms.html#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms.html#skipping-algorithms-in-federated-learning">Skipping Algorithms in Federated Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../viz.html">Visualization subsystem</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">fl-sim</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../datasets.html">fl_sim.data_processing</a> &raquo;</li>
+        
+      <li>fl_sim.data_processing.register_fed_dataset</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/wenh06/fl-sim/blob/master/docs/source/api/generated/fl_sim.data_processing.register_fed_dataset.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="fl-sim-data-processing-register-fed-dataset">
+<h1>fl_sim.data_processing.register_fed_dataset<a class="headerlink" href="#fl-sim-data-processing-register-fed-dataset" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="fl_sim.data_processing.register_fed_dataset">
+<span class="sig-prename descclassname"><span class="pre">fl_sim.data_processing.</span></span><span class="sig-name descname"><span class="pre">register_fed_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></span><a class="reference internal" href="../../_modules/fl_sim/data_processing/_register.html#register_fed_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.data_processing.register_fed_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator to register a new federated dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – Name of the federated dataset.
+If not specified, the class name will be used.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>The decorated class.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="fl_sim.data_processing.list_fed_dataset.html" class="btn btn-neutral float-right" title="fl_sim.data_processing.list_fed_dataset" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="fl_sim.data_processing.FedLibSVMDataset.html" class="btn btn-neutral" title="FedLibSVMDataset" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, WEN Hao.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/sphinx_highlight.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
