@@ -173,9 +173,9 @@ class FedLibSVMDataset(FedDataset):
 
         Returns
         -------
-        train_dl : torch.utils.data.DataLoader
+        train_dl : :class:`torch.utils.data.DataLoader`
             Training dataloader.
-        test_dl : torch.utils.data.DataLoader
+        test_dl : :class:`torch.utils.data.DataLoader`
             Testing dataloader.
 
         """
@@ -241,21 +241,21 @@ class FedLibSVMDataset(FedDataset):
         Returns
         -------
         tuple
-            - train_clients_num : int
+            - train_clients_num: :obj:`int`
                 Number of training clients.
-            - train_data_num : int
+            - train_data_num: :obj:`int`
                 Number of training data.
-            - train_data_global : torch.utils.data.DataLoader or None
+            - train_data_global: :class:`torch.utils.data.DataLoader` or None
                 Global training dataloader.
-            - test_data_global : torch.utils.data.DataLoader or None
+            - test_data_global: :class:`torch.utils.data.DataLoader` or None
                 Global testing dataloader.
-            - local_data_num : int
+            - local_data_num: :obj:`int`
                 Number of local training data.
-            - train_data_local : torch.utils.data.DataLoader or None
+            - train_data_local: :class:`torch.utils.data.DataLoader` or None
                 Local training dataloader.
-            - test_data_local : torch.utils.data.DataLoader or None
+            - test_data_local: :class:`torch.utils.data.DataLoader` or None
                 Local testing dataloader.
-            - n_class : int
+            - n_class: :obj:`int`
                 Number of classes.
 
         """
@@ -302,23 +302,23 @@ class FedLibSVMDataset(FedDataset):
         Returns
         -------
         tuple
-            - train_clients_num : int
+            - train_clients_num: :obj:`int`
                 Number of training clients.
-            - train_data_num : int
+            - train_data_num: :obj:`int`
                 Number of training data.
-            - test_data_num : int
+            - test_data_num: :obj:`int`
                 Number of testing data.
-            - train_data_global : torch.utils.data.DataLoader
+            - train_data_global: :class:`torch.utils.data.DataLoader`
                 Global training dataloader.
-            - test_data_global : torch.utils.data.DataLoader
+            - test_data_global: :class:`torch.utils.data.DataLoader`
                 Global testing dataloader.
-            - data_local_num_dict : dict
+            - data_local_num_dict: :obj:`dict`
                 Number of local training data for each client.
-            - train_data_local_dict : dict
+            - train_data_local_dict: :obj:`dict`
                 Local training dataloader for each client.
-            - test_data_local_dict : dict
+            - test_data_local_dict: :obj:`dict`
                 Local testing dataloader for each client.
-            - n_class : int
+            - n_class: :obj:`int`
                 Number of classes.
 
         """

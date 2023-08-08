@@ -76,6 +76,7 @@ intersphinx_mapping = {
     # "scipy": ("https://docs.scipy.org/doc/scipy/", None),
     "torch": ("https://pytorch.org/docs/stable/", None),
     "matplotlib": ("https://matplotlib.org/stable/", None),
+    "torch_ecg": ("https://DeepPSP.github.io/torch_ecg/", None),
 }
 
 autodoc_default_options = {

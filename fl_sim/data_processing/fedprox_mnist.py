@@ -136,9 +136,9 @@ class FedProxMNIST(FedVisionDataset):
 
         Returns
         -------
-        train_dl : torch.utils.data.DataLoader
+        train_dl : :class:`torch.utils.data.DataLoader`
             Training dataloader.
-        test_dl : torch.utils.data.DataLoader
+        test_dl : :class:`torch.utils.data.DataLoader`
             Testing dataloader.
 
         """

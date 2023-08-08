@@ -1,6 +1,8 @@
 Federated learning algorithms
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+.. _fl_alg_overview:
+
 Overview of Optimization Algorithms in Federated Learning
 ---------------------------------------------------------
 
@@ -228,15 +230,22 @@ Proximal Algorithms in Federated Learning
 
 to write....
 
+
+.. _fl_alg_primal_dual:
+
 Primal-Dual Algorithms in Federated Learning
 --------------------------------------------
 
 to write....
 
+.. _fl_alg_operator_splitting:
+
 Operator Splitting Algorithms in Federated Learning
 ---------------------------------------------------
 
 to write....
+
+.. _fl_alg_skipping:
 
 Skipping Algorithms in Federated Learning
 ---------------------------------------------------
