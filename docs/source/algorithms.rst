@@ -132,7 +132,12 @@ the objective function becomes block-separable, which is more suitable for the d
 Federated Averaging Algorithm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-to write....
+The core idea of the FedAvg algorithm is to make full use of the local computation resources of each client
+so that each client can perform multiple local iterations before uploading the local model to the server.
+It alleviates the problem of straggler clients and reduces the communication overhead,
+hence accelerating the convergence of the algorithm. This may well be thought of as a simple form of
+**skipping** algorithm, which were further developed in :cite:p:`zhang2020fedpd, proxskip, proxskip-vr`.
+Pseudocode for FedAvg is shown as follows:
 
 .. _pseduocode-fedavg:
 
@@ -142,10 +147,49 @@ to write....
    :alt: Psuedocode for FedAvg
    :class: no-scaled-link
 
+FedAvg achieved some good numerical results (see Section 3 of :cite:p:`mcmahan2017fed_avg`),
+but its convergence, espcially under non-I.I.D. data distributions, is not properly analyzed
+(see :cite:p:`khaled2019_first, Khaled2020_tighter`). There are several works that deal with this issue
+(such as :cite:p:`zhou_2018_convergence, li2019convergence`) with extra assumptions such as
+the convexity of the objective function :math:`f`, etc.
+
 FedAvg from the Perspective of Optimization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-to write....
+In this section, we will analyze the FedAvg algorithm from the perspective of optimization theory.
+In fact, the optimization problem :eq:`fl-basic` that FedAvg solves can be equivalently reformulated
+as the following constrained optimization problem:
+
+.. math::
+   :label: fedavg-constraint
+
+   \newcommand{\col}{\operatorname{col}}
+
+   \begin{array}{cl}
+   \minimize & F(\Theta) := \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
+   \text{subject to} & \Theta \in \mathcal{E},
+   \end{array}
+
+where :math:`\Theta = \col(\theta_1, \cdots, \theta_K) := \begin{pmatrix} \theta_1 \\ \vdots \\ \theta_K \end{pmatrix}, \theta_1, \ldots, \theta_K \in \R^d`
+and :math:`\mathcal{E} = \left\{ \Theta ~ \middle| ~ \theta_1 = \cdots = \theta_K \right\}` is a convex set in :math:`\R^{Kd}`.
+Projected gradient descent (PGD) is an effective method for solving the constrained optimization problem :eq:`fedavg-constraint`, which has the following update rule:
+
+.. math::
+   :label: fedavg-pgd
+
+   \Theta^{(t+1)} = \Pi_{\mathcal{E}} \left( \Theta^{(t)} - \eta \nabla F(\Theta^{(t)}) \right),
+
+where :math:`\Pi_{\mathcal{E}}` is the projection operator onto the set :math:`\mathcal{E}`. It is easy to show that
+the projection operator onto the set :math:`\mathcal{E}` is indeed the average operator, i.e.,
+
+.. math::
+   :label: fedavg-projection
+
+   \Pi_{\mathcal{E}}: \R^{Kd} \to \mathcal{E}: ( \theta_1, \ldots, \theta_K) \mapsto \left(\frac{1}{K}\sum\limits_{k=1}^K \theta_K, \ldots, \frac{1}{K}\sum\limits_{k=1}^K \theta_K \right).
+
+We have shown that mathematically the FedAvg algorithm is indeed a kind of stochastic projected gradient descent (SPGD)
+algorithm, where the clients perform local stochastic gradient descent (SGD) updates and the server performs
+the projection step :eq:`fedavg-projection`.
 
 A Direct Improvement of FedAvg
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
