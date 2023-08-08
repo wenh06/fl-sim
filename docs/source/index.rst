@@ -21,11 +21,11 @@ Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gi
    :caption: API Reference
    :maxdepth: 2
 
-   nodes
-   datasets
-   models
-   optimizers
-   regularizers
+   api/nodes
+   api/datasets
+   api/models
+   api/optimizers
+   api/regularizers
 
 .. toctree::
    :caption: Advanced Topics
