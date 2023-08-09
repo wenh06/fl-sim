@@ -11,7 +11,7 @@ import torch.optim as optim
 _built_in_optimizers = {}
 
 
-def register_optimizer(name: Optional[str] = None) -> Any:
+def register_optimizer(name: Optional[str] = None, override: bool = False) -> Any:
     """Decorator to register a new optimizer.
 
     Parameters
@@ -20,6 +20,8 @@ def register_optimizer(name: Optional[str] = None) -> Any:
         Name of the optimizer.
         If not specified, the class name with "(?:Optimizer)?"
         removed will be used.
+    override : bool, default False
+        Whether to override the existing optimizer with the same name.
 
     Returns
     -------
@@ -38,9 +40,13 @@ def register_optimizer(name: Optional[str] = None) -> Any:
             _name = name
         assert issubclass(cls_, optim.Optimizer), f"{cls_} is not a valid optimizer"
         if _name in _built_in_optimizers:
-            # raise ValueError(f"{_name} has already been registered")
-            warnings.warn(f"{_name} has already been registered", RuntimeWarning)
-        _built_in_optimizers[_name] = cls_
+            if override:
+                _built_in_optimizers[_name] = cls_
+            else:
+                # raise ValueError(f"{_name} has already been registered")
+                warnings.warn(f"{_name} has already been registered", RuntimeWarning)
+        else:
+            _built_in_optimizers[_name] = cls_
         return cls_
 
     return wrapper

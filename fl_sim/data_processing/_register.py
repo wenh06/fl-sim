@@ -7,7 +7,7 @@ from .fed_dataset import FedDataset
 _built_in_fed_datasets = {}
 
 
-def register_fed_dataset(name: Optional[str] = None) -> Any:
+def register_fed_dataset(name: Optional[str] = None, override: bool = False) -> Any:
     """Decorator to register a new federated dataset.
 
     Parameters
@@ -15,6 +15,8 @@ def register_fed_dataset(name: Optional[str] = None) -> Any:
     name : str, optional
         Name of the federated dataset.
         If not specified, the class name will be used.
+    override : bool, default False
+        Whether to override the existing federated dataset with the same name.
 
     Returns
     -------
@@ -32,9 +34,13 @@ def register_fed_dataset(name: Optional[str] = None) -> Any:
             _name = name
         assert issubclass(cls_, FedDataset), f"{cls_} is not a valid dataset"
         if _name in _built_in_fed_datasets:
-            # raise ValueError(f"{_name} has already been registered")
-            warnings.warn(f"{_name} has already been registered", RuntimeWarning)
-        _built_in_fed_datasets[_name] = cls_
+            if override:
+                _built_in_fed_datasets[_name] = cls_
+            else:
+                # raise ValueError(f"{_name} has already been registered")
+                warnings.warn(f"{_name} has already been registered", RuntimeWarning)
+        else:
+            _built_in_fed_datasets[_name] = cls_
         return cls_
 
     return wrapper

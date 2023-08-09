@@ -11,7 +11,7 @@ from ..nodes import ServerConfig, ClientConfig, Server, Client
 _built_in_algorithms = {}
 
 
-def register_algorithm(name: Optional[str] = None) -> Any:
+def register_algorithm(name: Optional[str] = None, override: bool = False) -> Any:
     """Decorator to register a new algorithm.
 
     Parameters
@@ -20,6 +20,8 @@ def register_algorithm(name: Optional[str] = None) -> Any:
         Name of the algorithm.
         If not specified, the class name with "(Server|Client)(?:Config)?"
         removed will be used.
+    override : bool, default False
+        Whether to override the existing algorithm with the same name.
 
     Returns
     -------
@@ -48,12 +50,14 @@ def register_algorithm(name: Optional[str] = None) -> Any:
             raise ValueError(f"{cls_} is not a valid algorithm component")
         if _name in _built_in_algorithms and field in _built_in_algorithms[_name]:
             # raise ValueError(f"{_name}.{field} has already been registered")
-            warnings.warn(
-                f"{_name}.{field} has already been registered", RuntimeWarning
-            )
+            if not override:
+                warnings.warn(
+                    f"{_name}.{field} has already been registered", RuntimeWarning
+                )
         elif _name not in _built_in_algorithms:
             _built_in_algorithms[_name] = {}
-        _built_in_algorithms[_name][field] = cls_
+        if override or field not in _built_in_algorithms[_name]:
+            _built_in_algorithms[_name][field] = cls_
         return cls_
 
     return wrapper
