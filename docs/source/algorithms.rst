@@ -7,7 +7,7 @@ Overview of Optimization Algorithms in Federated Learning
 ---------------------------------------------------------
 
 Federated Optimization algorithms have been the central problem in the field of federated learning since its inception.
-The most important contribution of the initial work on federated learning :cite:p:`mcmahan2017fed_avg` was the introduction of the Federated Averaging algorithm (FedAvg).
+The most important contribution of the initial work on federated learning :cite:p:`mcmahan2017fed_avg` was the introduction of the Federated Averaging algorithm (``FedAvg``).
 
 Mathematically, federated learning solves the following problem of minimization of empirical risk function
 
@@ -132,32 +132,32 @@ the objective function becomes block-separable, which is more suitable for the d
 Federated Averaging Algorithm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The core idea of the FedAvg algorithm is to make full use of the local computation resources of each client
+The core idea of the ``FedAvg`` algorithm is to make full use of the local computation resources of each client
 so that each client can perform multiple local iterations before uploading the local model to the server.
 It alleviates the problem of straggler clients and reduces the communication overhead,
 hence accelerating the convergence of the algorithm. This may well be thought of as a simple form of
 **skipping** algorithm, which were further developed in :cite:p:`zhang2020fedpd, proxskip, proxskip-vr`.
-Pseudocode for FedAvg is shown as follows:
+Pseudocode for ``FedAvg`` is shown as follows:
 
 .. _pseduocode-fedavg:
 
 .. image:: ./generated/algorithms/fedavg.svg
    :align: center
    :width: 80%
-   :alt: Psuedocode for FedAvg
+   :alt: Psuedocode for ``FedAvg``
    :class: no-scaled-link
 
-FedAvg achieved some good numerical results (see Section 3 of :cite:p:`mcmahan2017fed_avg`),
+``FedAvg`` achieved some good numerical results (see Section 3 of :cite:p:`mcmahan2017fed_avg`),
 but its convergence, espcially under non-I.I.D. data distributions, is not properly analyzed
 (see :cite:p:`khaled2019_first, Khaled2020_tighter`). There are several works that deal with this issue
 (such as :cite:p:`zhou_2018_convergence, li2019convergence`) with extra assumptions such as
 the convexity of the objective function :math:`f`, etc.
 
-FedAvg from the Perspective of Optimization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``FedAvg`` from the Perspective of Optimization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this section, we will analyze the FedAvg algorithm from the perspective of optimization theory.
-In fact, the optimization problem :eq:`fl-basic` that FedAvg solves can be equivalently reformulated
+In this section, we will analyze the ``FedAvg`` algorithm from the perspective of optimization theory.
+In fact, the optimization problem :eq:`fl-basic` that ``FedAvg`` solves can be equivalently reformulated
 as the following constrained optimization problem:
 
 .. math::
@@ -187,25 +187,97 @@ the projection operator onto the set :math:`\mathcal{E}` is indeed the average o
 
    \Pi_{\mathcal{E}}: \R^{Kd} \to \mathcal{E}: ( \theta_1, \ldots, \theta_K) \mapsto \left(\frac{1}{K}\sum\limits_{k=1}^K \theta_K, \ldots, \frac{1}{K}\sum\limits_{k=1}^K \theta_K \right).
 
-We have shown that mathematically the FedAvg algorithm is indeed a kind of stochastic projected gradient descent (SPGD)
+We have shown that mathematically the ``FedAvg`` algorithm is indeed a kind of stochastic projected gradient descent (SPGD)
 algorithm, where the clients perform local stochastic gradient descent (SGD) updates and the server performs
 the projection step :eq:`fedavg-projection`.
 
-A Direct Improvement of FedAvg
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A Direct Improvement of ``FedAvg``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-to write....
+Since ``FedAvg`` is based on stochastic gradient descent (SGD), it is natural to consider applying
+acceleration techniques :cite:p:`adagrad, adam, Zaheer_2018_yogi, adamw_amsgrad` to improve the algorithm performance.
+Computation on clients and on the server are relatively decoupled, so it does not require large modifications
+to the whole algorithm framework. Indeed, the authors of the ``FedAvg`` paper put this idea into practice and proposed
+a federated learning framework called ``FedOpt`` :cite:p:`reddi2020fed_opt` which has stronger adaptability.
+The pseudocode for ``FedOpt`` is shown as follows:
 
 .. _pseduocode-fedopt:
 
 .. image:: ./generated/algorithms/fedopt.svg
    :align: center
    :width: 80%
-   :alt: Psuedocode for FedOpt
+   :alt: Psuedocode for ``FedOpt``
+   :class: no-scaled-link
+
+In the above pseudocode, :math:`\operatorname{aggregate} \left( \left\{ \Delta_{k}^{(t)} \right\}_{k \in \mathcal{S}^{(t)}} \right)`
+refers to some method that aggregates the local inertia updates :math:`\Delta_{k}^{(t)}` from the selected clients
+:math:`\mathcal{S}^{(t)}` into a global inertia update :math:`\Delta^{(t)}`. This method, for example, can be simply averaging
+
+.. math::
+   :label: fedopt-agg-inertia-average
+
+   \Delta^{(t)} \gets \frac{1}{\lvert \mathcal{S}^{(t)} \rvert} \sum\limits_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)},
+
+or linear combination with inertia of the previous iteration
+
+.. math::
+   :label: fedopt-agg-inertia-lin-comb
+
+   \Delta^{(t)} \gets \beta_1 \Delta^{(t-1)} + \left( (1 - \beta_1) / \lvert \mathcal{S}^{(t)} \rvert \right) \sum_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)}.
+
+As one has already noticed, compared to ``FedAvg``, ``FedOpt`` introduces some momentum terms on the server node (in **ServerOpt**) to
+accelerate the convergence. In :cite:p:`reddi2020fed_opt`, the authors listed several options for **ServerOpt**:
+
+- ``FedAdagrad``:
+
+   .. math::
+      :label: fedopt-serveropt-fedadagrad
+   
+      \begin{aligned}
+      v^{(t)} & \gets v^{(t-1)} + ( \Delta^{(t)} )^2 \\
+      \theta^{(t+1)} & \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
+      \end{aligned}
+
+- ``FedYogi``:
+
+   .. math::
+      :label: fedopt-serveropt-fedyogi
+
+      \begin{aligned}
+      v^{(t)} & \gets v^{(t-1)} - (1 - \beta_2) ( \Delta^{(t)} )^2 \operatorname{sign}(v^{(t-1)} - ( \Delta^{(t)} )^2) \\
+      \theta^{(t+1)} & \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
+      \end{aligned}
+
+- ``FedAdam``:
+
+   .. math::
+      :label: fedopt-serveropt-fedadam
+
+      \begin{aligned}
+      v^{(t)} & \gets \beta_2 v^{(t-1)} + (1 - \beta_2) ( \Delta^{(t)} )^2 \\
+      \theta^{(t+1)} & \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
+      \end{aligned}
+
+``FedOpt`` applys acceleration techniques which are frequently used in general machine learning tasks to the field of
+federated learning. It is a direct improvement of ``FedAvg`` which is simple but important. Moreover, it demonstrates
+the decoupling of the computation on clients and on the server, which is a key feature of federated learning.
+
+to write more ....
+
+.. _pseduocode-scaffold:
+
+.. image:: ./generated/algorithms/scaffold.svg
+   :align: center
+   :width: 80%
+   :alt: Psuedocode for ``Scaffold``
    :class: no-scaled-link
 
 Proximal Algorithms in Federated Learning
 -----------------------------------------
+
+In non-I.I.D. scenarios, based on the idea of reducing the impact of local updates of clients on the global model,
+:cite:p:`sahu2018fedprox` first introduced a proximal term to the local objective functions, aiming at making the
+algorithm more stable and converging faster.
 
 .. _fig-apfl:
 

@@ -13,5 +13,6 @@ sphinxcontrib-tikz
 sphinxcontrib-pseudocode
 sphinxcontrib-bibtex
 numpydoc
+nbsphinx
 recommonmark
 tqdm
