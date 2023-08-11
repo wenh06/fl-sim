@@ -379,8 +379,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../algorithms.html">Federated learning algorithms</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../algorithms.html#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../algorithms.html#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../algorithms.html#fedavg-from-the-perspective-of-optimization">FedAvg from the Perspective of Optimization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../algorithms.html#a-direct-improvement-of-fedavg">A Direct Improvement of FedAvg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../algorithms.html#fedavg-from-the-perspective-of-optimization"><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../algorithms.html#a-direct-improvement-of-fedavg">A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../algorithms.html#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
@@ -462,13 +462,16 @@
 <h1>fl_sim.optimizers.register_optimizer<a class="headerlink" href="#fl-sim-optimizers-register-optimizer" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="fl_sim.optimizers.register_optimizer">
-<span class="sig-prename descclassname"><span class="pre">fl_sim.optimizers.</span></span><span class="sig-name descname"><span class="pre">register_optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></span><a class="reference internal" href="../../_modules/fl_sim/optimizers/_register.html#register_optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.optimizers.register_optimizer" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">fl_sim.optimizers.</span></span><span class="sig-name descname"><span class="pre">register_optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></span><a class="reference internal" href="../../_modules/fl_sim/optimizers/_register.html#register_optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.optimizers.register_optimizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator to register a new optimizer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – Name of the optimizer.
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – Name of the optimizer.
 If not specified, the class name with “(?:Optimizer)?”
-removed will be used.</p>
+removed will be used.</p></li>
+<li><p><strong>override</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>default False</em>) – Whether to override the existing optimizer with the same name.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>The decorated class.</p>
@@ -531,6 +534,7 @@ removed will be used.</p>
       <script type="text/javascript" src="../../_static/sphinx_highlight.js"></script>
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
   
 
