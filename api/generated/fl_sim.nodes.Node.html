@@ -581,7 +581,7 @@ of the model on the node.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>norm</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The norm of the gradients to compute.
 None for the raw gradients (list of tensors).
-refer to <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.norm.html#torch.norm" title="(in PyTorch v2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.norm()</span></code></a> for more details.</p></li>
+Refer to <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.linalg.norm.html#torch.linalg.norm" title="(in PyTorch v2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.norm()</span></code></a> for more details.</p></li>
 <li><p><strong>model</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch v2.0)"><em>torch.nn.Module</em></a><em>, </em><em>optional</em>) – The model to get the gradients,
 default to <cite>self.model</cite>.</p></li>
 </ul>
@@ -604,7 +604,7 @@ default to <cite>self.model</cite>.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tensor</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><em>torch.Tensor</em></a><em> or </em><em>np.ndarray</em><em> or </em><a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.parameter.Parameter.html#torch.nn.parameter.Parameter" title="(in PyTorch v2.0)"><em>torch.nn.parameter.Parameter</em></a><em> or </em><em>generator</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The tensor (array, parameter, etc.) to compute the norm.</p></li>
 <li><p><strong>norm</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>default &quot;fro&quot;</em>) – The norm to compute.
-refer to <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.norm.html#torch.norm" title="(in PyTorch v2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.norm()</span></code></a> for more details.</p></li>
+Refer to <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.linalg.norm.html#torch.linalg.norm" title="(in PyTorch v2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.norm()</span></code></a> for more details.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

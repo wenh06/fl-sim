@@ -831,7 +831,7 @@
 <span class="sd">        norm : str or int or float, optional</span>
 <span class="sd">            The norm of the gradients to compute.</span>
 <span class="sd">            None for the raw gradients (list of tensors).</span>
-<span class="sd">            refer to :func:`torch.norm` for more details.</span>
+<span class="sd">            Refer to :func:`torch.linalg.norm` for more details.</span>
 <span class="sd">        model : torch.nn.Module, optional</span>
 <span class="sd">            The model to get the gradients,</span>
 <span class="sd">            default to `self.model`.</span>
@@ -857,7 +857,7 @@
                     <span class="s2">&quot;No gradients available. Set to 0.0 by default.&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">grads</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                <span class="n">grads</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
                     <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">grad</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">grad</span> <span class="ow">in</span> <span class="n">grads</span><span class="p">]),</span> <span class="n">norm</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">grads</span></div>
@@ -882,7 +882,7 @@
 <span class="sd">            The tensor (array, parameter, etc.) to compute the norm.</span>
 <span class="sd">        norm : str or int or float, default &quot;fro&quot;</span>
 <span class="sd">            The norm to compute.</span>
-<span class="sd">            refer to :func:`torch.norm` for more details.</span>
+<span class="sd">            Refer to :func:`torch.linalg.norm` for more details.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -909,7 +909,7 @@
             <span class="k">return</span> <span class="n">Node</span><span class="o">.</span><span class="n">get_norm</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tensor</span><span class="p">),</span> <span class="n">norm</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tensor</span><span class="p">]),</span> <span class="n">norm</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tensor</span><span class="p">]),</span> <span class="n">norm</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Node.set_parameters"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.set_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
