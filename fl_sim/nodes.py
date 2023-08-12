@@ -373,7 +373,7 @@ class Node(ReprMixin, ABC):
         norm : str or int or float, optional
             The norm of the gradients to compute.
             None for the raw gradients (list of tensors).
-            refer to :func:`torch.norm` for more details.
+            Refer to :func:`torch.linalg.norm` for more details.
         model : torch.nn.Module, optional
             The model to get the gradients,
             default to `self.model`.
@@ -399,7 +399,7 @@ class Node(ReprMixin, ABC):
                     "No gradients available. Set to 0.0 by default.", RuntimeWarning
                 )
             else:
-                grads = torch.norm(
+                grads = torch.linalg.norm(
                     torch.cat([grad.view(-1) for grad in grads]), norm
                 ).item()
         return grads
@@ -424,7 +424,7 @@ class Node(ReprMixin, ABC):
             The tensor (array, parameter, etc.) to compute the norm.
         norm : str or int or float, default "fro"
             The norm to compute.
-            refer to :func:`torch.norm` for more details.
+            Refer to :func:`torch.linalg.norm` for more details.
 
         Returns
         -------
@@ -451,7 +451,7 @@ class Node(ReprMixin, ABC):
             return Node.get_norm(list(tensor), norm)
         else:
             raise TypeError(f"Unsupported type: {type(tensor)}")
-        return torch.norm(torch.cat([t.view(-1) for t in tensor]), norm).item()
+        return torch.linalg.norm(torch.cat([t.view(-1) for t in tensor]), norm).item()
 
     def set_parameters(
         self, params: Iterable[Parameter], model: Optional[torch.nn.Module] = None

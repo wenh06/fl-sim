@@ -171,7 +171,7 @@ class DiffMixin(object):
         norm : str or int or float, optional
             The norm to compute the difference.
             None for the raw difference.
-            refer to :func:`torch.norm` for more details.
+            Refer to :func:`torch.linalg.norm` for more details.
 
         Returns
         -------
@@ -195,7 +195,7 @@ class DiffMixin(object):
         try:
             if norm is not None:
                 diff = [
-                    torch.norm(p1.data.cpu() - p2.data.cpu(), p=norm).item()
+                    torch.linalg.norm(p1.data.cpu() - p2.data.cpu(), ord=norm).item()
                     for p1, p2 in zip(self.parameters(), other.parameters())
                 ]
             else:
