@@ -8,6 +8,8 @@ import numpy as np
 import torch
 from torch import Tensor
 
+from ..utils.torch_compat import torch_norm
+
 
 __all__ = [
     "CLFMixin",
@@ -195,7 +197,7 @@ class DiffMixin(object):
         try:
             if norm is not None:
                 diff = [
-                    torch.linalg.norm(p1.data.cpu() - p2.data.cpu(), ord=norm).item()
+                    torch_norm(p1.data.cpu() - p2.data.cpu(), norm).item()
                     for p1, p2 in zip(self.parameters(), other.parameters())
                 ]
             else:

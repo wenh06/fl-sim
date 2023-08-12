@@ -71,6 +71,7 @@ from .models import reset_parameters
 from .optimizers import get_optimizer
 from .utils.loggers import LoggerManager
 from .utils.misc import default_dict_to_dict, set_seed, get_scheduler
+from .utils.torch_compat import torch_norm
 
 
 __all__ = [
@@ -399,7 +400,7 @@ class Node(ReprMixin, ABC):
                     "No gradients available. Set to 0.0 by default.", RuntimeWarning
                 )
             else:
-                grads = torch.linalg.norm(
+                grads = torch_norm(
                     torch.cat([grad.view(-1) for grad in grads]), norm
                 ).item()
         return grads
@@ -451,7 +452,7 @@ class Node(ReprMixin, ABC):
             return Node.get_norm(list(tensor), norm)
         else:
             raise TypeError(f"Unsupported type: {type(tensor)}")
-        return torch.linalg.norm(torch.cat([t.view(-1) for t in tensor]), norm).item()
+        return torch_norm(torch.cat([t.view(-1) for t in tensor]), norm).item()
 
     def set_parameters(
         self, params: Iterable[Parameter], model: Optional[torch.nn.Module] = None
