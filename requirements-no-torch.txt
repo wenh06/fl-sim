@@ -10,7 +10,7 @@ tqdm
 beautifulsoup4
 nltk
 datasets
-tokenizers==0.12.1
+tokenizers>=0.12.1
 requests
 bib-lookup>=0.0.19
 deprecate-kwargs
