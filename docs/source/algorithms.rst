@@ -262,7 +262,13 @@ accelerate the convergence. In :cite:p:`reddi2020fed_opt`, the authors listed se
 federated learning. It is a direct improvement of ``FedAvg`` which is simple but important. Moreover, it demonstrates
 the decoupling of the computation on clients and on the server, which is a key feature of federated learning.
 
-to write more ....
+To better handle non-I.I.D. data, one needs to introduce some other techniques. In non-I.I.D. scenarios,
+the gradients have different distributions across clients. A natural idea is to bring in some extra parameters
+which update along with the model parameters to make corrections (modifications) to the gradients on clients,
+reducing their variance and further accelerating the convergence. This technique is the so-called **variance reduction**
+technique :cite:p:`johnson2013accelerating`, which was first introduced to federated learning in
+:cite:p:`karimireddy2020scaffold` in the form of a new federated learning algorithm called **SCAFFOLD**
+(Stochastic Controlled Averaging algorithm). The pseudocode for **SCAFFOLD** is shown as follows:
 
 .. _pseduocode-scaffold:
 
@@ -272,12 +278,40 @@ to write more ....
    :alt: Psuedocode for ``Scaffold``
    :class: no-scaled-link
 
+Variance reduction is a technique that can be flexibly combined with most algorithms and has been widely used
+in federated learning for dealing with statistical heterogeneity. However, it should be noted in the
+`SCAFFOLD algorithm <pseduocode-scaffold_>`_ that on both the server and the clients, there are extra parameters
+:math:`c` and :math:`c_k` to maintain, which may increase the communication cost. In scenarios which are sensitive
+to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of
+the variance reduction technique and some **skipping** techniques (e.g. :cite:p:`proxskip-vr`),
+which will be introduced in next sections.
+
 Proximal Algorithms in Federated Learning
 -----------------------------------------
 
 In non-I.I.D. scenarios, based on the idea of reducing the impact of local updates of clients on the global model,
 :cite:p:`sahu2018fedprox` first introduced a proximal term to the local objective functions, aiming at making the
-algorithm more stable and converging faster.
+algorithm more stable and converging faster. Compared to ``SCAFFOLD``, methods using proximal terms do not need to
+maintain extra parameters (mainly related to the gradients), hence having no communication overhead and no
+additional cost to security (refer to :cite:p:`zhu2019deep_leakage` for more details).
+
+To be more specific, in the :math:`(t+1)`-th iteration, the local objective function of client :math:`k` changes from
+:math:`f_k(\theta_k)` to the following form with a proximal term:
+
+.. math::
+   :label: fedprox-local-obj
+
+   h_k(\theta_k, \theta^{(t)}) := f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,
+
+where :math:`\mu` is a penalty constant.
+
+.. _pseduocode-fedprox:
+
+.. image:: ./generated/algorithms/fedprox.svg
+   :align: center
+   :width: 80%
+   :alt: Psuedocode for ``FedProx``
+   :class: no-scaled-link
 
 .. _fig-apfl:
 
