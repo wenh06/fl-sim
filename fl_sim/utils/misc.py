@@ -1,4 +1,11 @@
 """
+.. _misc:
+
+fl_sim.utils.misc
+-----------------------
+
+This module provides miscellaneous utilities.
+
 """
 
 import collections

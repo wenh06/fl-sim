@@ -177,7 +177,7 @@ class DiffMixin(object):
 
         Returns
         -------
-        diff : float or list of torch.Tensor
+        diff : float or List[torch.Tensor]
             The difference.
 
         """

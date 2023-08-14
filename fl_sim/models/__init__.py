@@ -56,6 +56,18 @@ Linear models
     SVC
     SVR
 
+Utilities
+------------------------------------
+.. autosummary::
+    :toctree: generated/
+    :recursive:
+
+    reset_parameters
+    top_n_accuracy
+    CLFMixin
+    REGMixin
+    DiffMixin
+
 """
 
 from .nn import (
@@ -77,7 +89,7 @@ from .nn import (
     SVC,
     SVR,
 )
-from .utils import reset_parameters, top_n_accuracy
+from .utils import reset_parameters, top_n_accuracy, CLFMixin, REGMixin, DiffMixin
 
 
 __all__ = [
@@ -100,4 +112,7 @@ __all__ = [
     "SVR",
     "reset_parameters",
     "top_n_accuracy",
+    "CLFMixin",
+    "REGMixin",
+    "DiffMixin",
 ]

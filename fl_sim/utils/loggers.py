@@ -1,4 +1,12 @@
-"""Loggers."""
+"""
+.. _loggers:
+
+fl_sim.utils.loggers
+----------------------
+
+This module contains various loggers.
+
+"""
 
 import csv
 import json
@@ -814,27 +822,27 @@ class LoggerManager(ReprMixin):
         config : dict
             Configuration of the logger manager. The following keys are used:
 
-                - ``"algorithm"``: str,
+                - ``"algorithm"``: :obj:`str`,
                   algorithm name.
-                - ``"dataset"``: str,
+                - ``"dataset"``: :obj:`str`,
                   dataset name.
-                - ``"model"``: str,
+                - ``"model"``: :obj:`str`,
                   model name.
-                - ``"log_dir"``: str or pathlib.Path, optional,
+                - ``"log_dir"``: :obj:`str` or :class:`pathlib.Path`, optional,
                   directory to save the log files.
-                - ``"log_suffix"``: str, optional,
+                - ``"log_suffix"``: :obj:`str`, optional,
                   suffix of the log files.
-                - ``"txt_logger"``: bool, optional,
+                - ``"txt_logger"``: :obj:`bool`, optional,
                   whether to add a :class:`TxtLogger` instance.
-                - ``"csv_logger"``: bool, optional,
+                - ``"csv_logger"``: :obj:`bool`, optional,
                   whether to add a :class:`CSVLogger` instance.
-                - ``"json_logger"``: bool, optional,
-                    whether to add a :class:`JsonLogger` instance.
+                - ``"json_logger"``: :obj:`bool`, optional,
+                  whether to add a :class:`JsonLogger` instance.
                 - ``"fmt"``: {"json", "yaml"}, optional,
-                    format of the json log file, default: ``"json"``,
-                    valid when ``"json_logger"`` is ``True``.
-                - ``"verbose"``: int, optional,
-                    verbosity level of the logger manager.
+                  format of the json log file, default: ``"json"``,
+                  valid when ``"json_logger"`` is ``True``.
+                - ``"verbose"``: :obj:`int`, optional,
+                  verbosity level of the logger manager.
 
         Returns
         -------

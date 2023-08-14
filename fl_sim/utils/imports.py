@@ -1,5 +1,11 @@
 """
-Utilities for dynamic imports.
+.. _imports:
+
+fl_sim.utils.imports
+----------------------
+
+This module contains utilities for dynamic imports.
+
 """
 
 import importlib
