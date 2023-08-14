@@ -36,19 +36,19 @@ jobs:
         context: .
         file: ./python3.8-slim.Dockerfile
         push: true
-        tags: $DOCKER_HUB_USERNAME/$DOCKER_HUB_REPOSITORY:python3.8-slim
+        tags: ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:python3.8-slim
     - name: Build and push pytorch1.13.1-cu116 version
       uses: docker/build-push-action@v4
       with:
         context: .
         file: ./pytorch1.13.1-cu116.Dockerfile
         push: true
-        tags: $DOCKER_HUB_USERNAME/$DOCKER_HUB_REPOSITORY:pytorch1.13.1-cu116
+        tags: ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116
     # - name: Build the Docker image
     #   run: |
     #     docker build . --file python3.8-slim.Dockerfile --tag $DOCKER_IMAGE_TAG-python3.8-slim
     #     docker build . --file pytorch1.13.1-cu116.Dockerfile --tag $DOCKER_IMAGE_TAG-pytorch1.13.1-cu116
     - name: Test the Docker image
       run: |
-        docker run --rm $DOCKER_HUB_USERNAME/$DOCKER_HUB_REPOSITORY:python3.8-slim bash -c "fl-sim example-configs/action-test.yml"
-        docker run --rm $DOCKER_HUB_USERNAME/$DOCKER_HUB_REPOSITORY:pytorch1.13.1-cu116 bash -c "fl-sim example-configs/action-test.yml"
+        docker run --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:python3.8-slim bash -c "fl-sim example-configs/action-test.yml"
+        docker run --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116 bash -c "fl-sim example-configs/action-test.yml"
