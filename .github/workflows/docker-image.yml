@@ -50,5 +50,5 @@ jobs:
     #     docker build . --file pytorch1.13.1-cu116.Dockerfile --tag $DOCKER_IMAGE_TAG-pytorch1.13.1-cu116
     - name: Test the Docker image
       run: |
-        docker run --rm $DOCKER_HUB_USERNAME/$DOCKER_HUB_REPOSITORY:python3.8-slim bash -c "python3 docker_test.py"
-        docker run --rm $DOCKER_HUB_USERNAME/$DOCKER_HUB_REPOSITORY:pytorch1.13.1-cu116 bash -c "python3 docker_test.py"
+        docker run --rm $DOCKER_HUB_USERNAME/$DOCKER_HUB_REPOSITORY:python3.8-slim bash -c "fl-sim example-configs/action-test.yml"
+        docker run --rm $DOCKER_HUB_USERNAME/$DOCKER_HUB_REPOSITORY:pytorch1.13.1-cu116 bash -c "fl-sim example-configs/action-test.yml"
