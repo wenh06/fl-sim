@@ -10,6 +10,7 @@
 Project Links:
 
 - Source Code: [GitHub](https://github.com/wenh06/fl-sim) | [gitee](https://gitee.com/wenh06/fl-sim)
+- Docker Image: [wenh06/fl-sim](https://hub.docker.com/r/wenh06/fl-sim)
 - Documentation (under development):
   - [GitHub Pages](https://wenh06.github.io/fl-sim/)  [![gh-page status](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml)
   - [Read the Docs](http://fl-sim.rtfd.io/)  [![RTD Status](https://readthedocs.org/projects/fl-sim/badge/?version=latest)](https://fl-sim.readthedocs.io/en/latest/?badge=latest)
@@ -50,6 +51,20 @@ or clone the repository and run the following command in the root directory of t
 ```bash
 pip install -e .
 ```
+
+Alternatively, one can use the Docker image [wenh06/fl-sim](https://hub.docker.com/r/wenh06/fl-sim) to run the code. The image is built with the [Docker Image CI action](.github/workflows/docker-image.yml). To pull the image, run the following command:
+
+```bash
+docker pull wenh06/fl-sim
+```
+
+For the usage (interactive mode), run the following command:
+
+```bash
+docker run -it wenh06/fl-sim bash
+```
+
+For more advanced usages (e.g., run a script), refer to the [Docker official documentation](https://docs.docker.com/engine/reference/commandline/run/).
 
 ## Usage Examples
 

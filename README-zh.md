@@ -10,6 +10,7 @@
 项目链接:
 
 - 源代码: [GitHub](https://github.com/wenh06/fl-sim) | [gitee](https://gitee.com/wenh06/fl-sim)
+- Docker 镜像: [wenh06/fl-sim](https://hub.docker.com/r/wenh06/fl-sim)
 - 文档（正在完善）:
   - [GitHub Pages](https://wenh06.github.io/fl-sim/)  [![gh-page status](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml/badge.svg)](https://github.com/wenh06/fl-sim/actions/workflows/docs-test-publish.yml)
   - [Read the Docs](http://fl-sim.rtfd.io/)  [![RTD Status](https://readthedocs.org/projects/fl-sim/badge/?version=latest)](https://fl-sim.readthedocs.io/en/latest/?badge=latest)
@@ -49,6 +50,20 @@ pip install git+https://github.com/wenh06/fl-sim.git
 ```bash
 pip install -e .
 ```
+
+使用者也可以使用 [Docker 镜像](https://hub.docker.com/r/wenh06/fl-sim) 运行本项目。该镜像是使用 [Docker Image CI action](.github/workflows/docker-image.yml) 构建的。可以使用以下命令拉取镜像：
+
+```bash
+docker pull wenh06/fl-sim
+```
+
+通过如下的命令可以交互式地运行镜像：
+
+```bash
+docker run -it wenh06/fl-sim bash
+```
+
+关于 Docker 镜像更多的使用方法，请参考 [Docker 官方文档](https://docs.docker.com/engine/reference/commandline/run/)。
 
 ## 示例
 
