@@ -11,7 +11,7 @@ from ..nodes import ServerConfig, ClientConfig, Server, Client
 _built_in_algorithms = {}
 
 
-def register_algorithm(name: Optional[str] = None, override: bool = False) -> Any:
+def register_algorithm(name: Optional[str] = None, override: bool = True) -> Any:
     """Decorator to register a new algorithm.
 
     Parameters
@@ -20,7 +20,7 @@ def register_algorithm(name: Optional[str] = None, override: bool = False) -> An
         Name of the algorithm.
         If not specified, the class name with "(Server|Client)(?:Config)?"
         removed will be used.
-    override : bool, default False
+    override : bool, default True
         Whether to override the existing algorithm with the same name.
 
     Returns

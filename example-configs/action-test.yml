@@ -6,7 +6,7 @@ strategy:
     # - Ditto
     # - FedDR
     - FedAvg
-    # - FedAdam
+    - FedAdam
     # - FedProx
     # - FedPD
     # - FedSplit

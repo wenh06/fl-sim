@@ -18,7 +18,7 @@ from typing import List, Tuple, Union
 import yaml
 from torch_ecg.cfg import CFG
 
-from fl_sim.algorithms import list_algorithms, get_algorithm
+from fl_sim.algorithms import list_algorithms, get_algorithm, builtin_algorithms
 from fl_sim.data_processing import FedDataArgs
 from fl_sim.utils.const import NAME
 from fl_sim.utils.imports import load_module_from_file
@@ -206,7 +206,7 @@ def single_run(config: CFG) -> None:
         config.algorithm.server.num_clients = ds.DEFAULT_TRAIN_CLIENTS_NUM
 
     # server and client configs
-    builtin_algorithms = list_algorithms().copy()
+    # builtin_algorithms = list_algorithms().copy()
     if config.algorithm.name not in builtin_algorithms:
         algorithm_file = Path(config.algorithm.name).expanduser().resolve()
         if algorithm_file.suffix == ".py":

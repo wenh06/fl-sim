@@ -7,7 +7,7 @@ from .fed_dataset import FedDataset
 _built_in_fed_datasets = {}
 
 
-def register_fed_dataset(name: Optional[str] = None, override: bool = False) -> Any:
+def register_fed_dataset(name: Optional[str] = None, override: bool = True) -> Any:
     """Decorator to register a new federated dataset.
 
     Parameters
@@ -15,7 +15,7 @@ def register_fed_dataset(name: Optional[str] = None, override: bool = False) -> 
     name : str, optional
         Name of the federated dataset.
         If not specified, the class name will be used.
-    override : bool, default False
+    override : bool, default True
         Whether to override the existing federated dataset with the same name.
 
     Returns

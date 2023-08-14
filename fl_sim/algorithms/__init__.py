@@ -25,3 +25,12 @@ for name in list_algorithms():
         set(get_algorithm(name))
     ), f"{name} has missing attributes."
 del name
+builtin_algorithms = list_algorithms()
+
+
+__all__ = [
+    "list_algorithms",
+    "get_algorithm",
+    "register_algorithm",
+    "builtin_algorithms",
+]
