@@ -9,7 +9,7 @@ provide some custom optimizers for federated learning for solving for example
 - proximal optimization problem
 - lagrangian dual problem
 
-.. contents:: fl_sim.optimizers
+.. contents::
     :depth: 2
     :local:
     :backlinks: top

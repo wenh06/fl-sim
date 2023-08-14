@@ -4,7 +4,7 @@ fl_sim.models
 
 This module contains built-in simple models.
 
-.. contents:: fl_sim.models
+.. contents::
     :depth: 2
     :local:
     :backlinks: top

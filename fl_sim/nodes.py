@@ -8,7 +8,7 @@ The :class:`Server` class is the base class for all servers,
 which acts as the coordinator of the training process, as well as maintainer of status variables.
 The :class:`Client` class is the base class for all clients.
 
-.. contents:: fl_sim.nodes
+.. contents::
     :depth: 2
     :local:
     :backlinks: top

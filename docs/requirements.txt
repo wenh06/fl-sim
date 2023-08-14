@@ -8,6 +8,7 @@ sphinx-markdown-tables
 sphinx-copybutton
 sphinx-multiversion
 sphinx-toolbox
+sphinx-proof
 sphinxcontrib-napoleon
 sphinxcontrib-tikz
 sphinxcontrib-pseudocode

@@ -303,7 +303,20 @@ To be more specific, in the :math:`(t+1)`-th iteration, the local objective func
 
    h_k(\theta_k, \theta^{(t)}) := f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,
 
-where :math:`\mu` is a penalty constant.
+where :math:`\mu` is a penalty constant. It should be noticed that the proximal center :math:`\theta^{(t)}` is
+the model parameter on the server node obtained in the previous iteration (the :math:`t`-th iteration). Indeed,
+the overall optimization problem can be modeled as the following constrained optimization problem
+
+.. math::
+   :label: fedprox-whole
+
+   \begin{array}{cl}
+   \minimize & \frac{1}{K} \sum\limits_{k=1}^K \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta \rVert^2 \right\} \\
+   \text{subject to} & \theta = \frac{1}{K} \sum\limits_{k=1}^K \theta_k.
+   \end{array}
+
+For alternatives for the proximal center, studies were conducted in :cite:p:`hanzely2020federated, li_2021_ditto` which would be
+introduced later. Now, we summarize the pseudocode for ``FedProx`` as follows:
 
 .. _pseduocode-fedprox:
 
@@ -312,6 +325,40 @@ where :math:`\mu` is a penalty constant.
    :width: 80%
    :alt: Psuedocode for ``FedProx``
    :class: no-scaled-link
+
+We denote the :math:`\gamma`-inexact solution :math:`\theta_k^{(t)}` as
+
+.. math::
+   :label: prox-op
+
+   \DeclareMathOperator*{\argmax}{arg\,max}
+   \DeclareMathOperator*{\argmin}{arg\,min}
+   % \DeclareMathOperator*{\prox}{prox}
+   \newcommand{\prox}{\mathbf{prox}}
+
+   \theta_k^{(t)} \approx \prox_{f_k, \mu} (\theta^{(t)}) := \argmin\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\},
+
+where :math:`\prox_{f_k, \mu}` is the proximal operator :cite:p:`Moreau_1965_prox` of :math:`f_k` with respect to :math:`\mu`.
+Let :math:`s = \frac{1}{\mu}`, since one has :math:`\prox_{f_k, \mu} = \prox_{sf_k, 1}`, we also denote :math:`\prox_{f_k, \mu}`
+as :math:`\prox_{sf_k}`. Corresponding function
+
+.. math::
+   :label: moreau_env
+
+   \mathcal{M}_{sf_k} (\theta^{(t)}) = \mathcal{M}_{f_k, \mu} (\theta^{(t)}) := \inf\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}
+
+is called **Moreau envelope** or **Moreau-Yosida regularization** of :math:`f_k` with respect to :math:`\mu`.
+Moreau envelope of a function :math:`f_k` has the following relationship :cite:p:`Parikh_2014_pa` with its proximal operator:
+
+.. math::
+   :label: prox-moreau-relation
+   
+   \prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.
+
+Namely, :math:`\prox_{sf_k}` can be regarded as the gradient descent operator for minimizing :math:`\mathcal{M}_{sf_k}` with step size :math:`s`.
+
+For the convergence of ``FedProx`` in non-I.I.D. scenarios, :cite:p:`sahu2018fedprox` has the following theorem:
+
 
 .. _fig-apfl:
 

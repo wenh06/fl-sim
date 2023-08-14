@@ -58,6 +58,7 @@ extensions = [
     # 'sphinx.ext.autosectionlabel',
     "sphinx_multiversion",
     "sphinx_toolbox.collapse",
+    "sphinx_proof",
     # "numpydoc",
     "sphinxcontrib.tikz",
     "sphinxcontrib.pseudocode",
