@@ -58,11 +58,11 @@ extensions = [
     # 'sphinx.ext.autosectionlabel',
     "sphinx_multiversion",
     "sphinx_toolbox.collapse",
-    "sphinx_proof",
     # "numpydoc",
     "sphinxcontrib.tikz",
     "sphinxcontrib.pseudocode",
     "sphinxcontrib.bibtex",
+    "sphinxcontrib.proof",
 ]
 
 bibtex_bibfiles = ["references.bib"]
@@ -112,6 +112,20 @@ napoleon_custom_sections = [
 ]
 # napoleon_custom_section_rename = False # True is default for backwards compatibility.
 
+proof_theorem_types = {
+   "algorithm": "Algorithm",
+   "conjecture": "Conjecture",
+   "corollary": "Corollary",
+   "definition": "Definition",
+   "example": "Example",
+   "lemma": "Lemma",
+   "observation": "Observation",
+   "proof": "Proof",
+   "property": "Property",
+   "theorem": "Theorem",
+   "remark": "Remark",  # new
+}
+
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -157,3 +171,4 @@ def setup(app):
     )
     app.add_transform(AutoStructify)
     app.add_css_file("css/custom.css")
+    app.add_css_file("css/proof.css")
