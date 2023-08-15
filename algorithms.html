@@ -33,6 +33,8 @@
   
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
+    <link rel="stylesheet" href="_static/proof.css" type="text/css" />
+  
     <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" type="text/css" />
@@ -44,7 +46,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="fl-sim 0.0.1 documentation" href="index.html"/>
         <link rel="next" title="Command line interface" href="cli.html"/>
-        <link rel="prev" title="NullRegularizer" href="api/generated/fl_sim.regularizers.NullRegularizer.html"/> 
+        <link rel="prev" title="fl_sim.utils" href="api/utils.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -303,6 +305,29 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html#utilities">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.reset_parameters.html#fl_sim.models.reset_parameters"><code class="docutils literal notranslate"><span class="pre">reset_parameters()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.top_n_accuracy.html#fl_sim.models.top_n_accuracy"><code class="docutils literal notranslate"><span class="pre">top_n_accuracy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.CLFMixin.html#fl_sim.models.CLFMixin"><code class="docutils literal notranslate"><span class="pre">CLFMixin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.REGMixin.html">REGMixin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.REGMixin.html#fl_sim.models.REGMixin"><code class="docutils literal notranslate"><span class="pre">REGMixin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.DiffMixin.html#fl_sim.models.DiffMixin"><code class="docutils literal notranslate"><span class="pre">DiffMixin</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/optimizers.html">fl_sim.optimizers</a><ul>
@@ -370,6 +395,90 @@
 </li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/utils.html">fl_sim.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl-sim-utils-loggers">fl_sim.utils.loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger"><code class="docutils literal notranslate"><span class="pre">BaseLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.close"><code class="docutils literal notranslate"><span class="pre">BaseLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_end"><code class="docutils literal notranslate"><span class="pre">BaseLogger.epoch_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_start"><code class="docutils literal notranslate"><span class="pre">BaseLogger.epoch_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">BaseLogger.extra_repr_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.filename"><code class="docutils literal notranslate"><span class="pre">BaseLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.flush"><code class="docutils literal notranslate"><span class="pre">BaseLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.from_config"><code class="docutils literal notranslate"><span class="pre">BaseLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_dir</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.log_message"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.reset"><code class="docutils literal notranslate"><span class="pre">BaseLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.set_log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.set_log_dir()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger"><code class="docutils literal notranslate"><span class="pre">CSVLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.close"><code class="docutils literal notranslate"><span class="pre">CSVLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.filename"><code class="docutils literal notranslate"><span class="pre">CSVLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.flush"><code class="docutils literal notranslate"><span class="pre">CSVLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.from_config"><code class="docutils literal notranslate"><span class="pre">CSVLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.log_message"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.reset"><code class="docutils literal notranslate"><span class="pre">CSVLogger.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger"><code class="docutils literal notranslate"><span class="pre">JsonLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.close"><code class="docutils literal notranslate"><span class="pre">JsonLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.filename"><code class="docutils literal notranslate"><span class="pre">JsonLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.flush"><code class="docutils literal notranslate"><span class="pre">JsonLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.from_config"><code class="docutils literal notranslate"><span class="pre">JsonLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.log_message"><code class="docutils literal notranslate"><span class="pre">JsonLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">JsonLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.reset"><code class="docutils literal notranslate"><span class="pre">JsonLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.strftime"><code class="docutils literal notranslate"><span class="pre">JsonLogger.strftime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.strptime"><code class="docutils literal notranslate"><span class="pre">JsonLogger.strptime()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager"><code class="docutils literal notranslate"><span class="pre">LoggerManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.close"><code class="docutils literal notranslate"><span class="pre">LoggerManager.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_end"><code class="docutils literal notranslate"><span class="pre">LoggerManager.epoch_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_start"><code class="docutils literal notranslate"><span class="pre">LoggerManager.epoch_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">LoggerManager.extra_repr_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.flush"><code class="docutils literal notranslate"><span class="pre">LoggerManager.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.from_config"><code class="docutils literal notranslate"><span class="pre">LoggerManager.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_dir"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_dir</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_message"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_metrics"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_suffix"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_suffix</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.loggers"><code class="docutils literal notranslate"><span class="pre">LoggerManager.loggers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.reset"><code class="docutils literal notranslate"><span class="pre">LoggerManager.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger"><code class="docutils literal notranslate"><span class="pre">TxtLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.close"><code class="docutils literal notranslate"><span class="pre">TxtLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_end"><code class="docutils literal notranslate"><span class="pre">TxtLogger.epoch_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_start"><code class="docutils literal notranslate"><span class="pre">TxtLogger.epoch_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.filename"><code class="docutils literal notranslate"><span class="pre">TxtLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.flush"><code class="docutils literal notranslate"><span class="pre">TxtLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.from_config"><code class="docutils literal notranslate"><span class="pre">TxtLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.log_message"><code class="docutils literal notranslate"><span class="pre">TxtLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">TxtLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.long_sep"><code class="docutils literal notranslate"><span class="pre">TxtLogger.long_sep</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.reset"><code class="docutils literal notranslate"><span class="pre">TxtLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.short_sep"><code class="docutils literal notranslate"><span class="pre">TxtLogger.short_sep</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl-sim-utils-imports">fl_sim.utils.imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.imports.load_module_from_file"><code class="docutils literal notranslate"><span class="pre">load_module_from_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl-sim-utils-misc">fl_sim.utils.misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.add_kwargs"><code class="docutils literal notranslate"><span class="pre">add_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.clear_logs"><code class="docutils literal notranslate"><span class="pre">clear_logs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.default_dict_to_dict"><code class="docutils literal notranslate"><span class="pre">default_dict_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.experiment_indicator"><code class="docutils literal notranslate"><span class="pre">experiment_indicator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.find_longest_common_substring"><code class="docutils literal notranslate"><span class="pre">find_longest_common_substring()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.get_scheduler"><code class="docutils literal notranslate"><span class="pre">get_scheduler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.get_scheduler_info"><code class="docutils literal notranslate"><span class="pre">get_scheduler_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.is_notebook"><code class="docutils literal notranslate"><span class="pre">is_notebook()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.ndarray_to_list"><code class="docutils literal notranslate"><span class="pre">ndarray_to_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.ordered_dict_to_dict"><code class="docutils literal notranslate"><span class="pre">ordered_dict_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.set_seed"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -460,7 +569,7 @@
 <section id="overview-of-optimization-algorithms-in-federated-learning">
 <span id="fl-alg-overview"></span><h2>Overview of Optimization Algorithms in Federated Learning<a class="headerlink" href="#overview-of-optimization-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
 <p>Federated Optimization algorithms have been the central problem in the field of federated learning since its inception.
-The most important contribution of the initial work on federated learning <span id="id1">[<a class="reference internal" href="#id33" title="Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In Artificial Intelligence and Statistics, 1273–1282. PMLR, 2017.">MMR+17</a>]</span> was the introduction of the Federated Averaging algorithm (<code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>).</p>
+The most important contribution of the initial work on federated learning <span id="id1">[<a class="reference internal" href="#id41" title="Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In Artificial Intelligence and Statistics, 1273–1282. PMLR, 2017.">MMR+17</a>]</span> was the introduction of the Federated Averaging algorithm (<code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>).</p>
 <p>Mathematically, federated learning solves the following problem of minimization of empirical risk function</p>
 <div class="math notranslate nohighlight" id="equation-fl-basic-dist">
 <span class="eqno">(1)<a class="headerlink" href="#equation-fl-basic-dist" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\expectation}{\mathbb{E}}
@@ -529,7 +638,7 @@ If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1,
 <span class="eqno">(8)<a class="headerlink" href="#equation-iid-2" title="Permalink to this equation">¶</a></span>\[\sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2, ~ \forall \theta \in \left\{ \theta \in \R^d ~ \middle| ~ \lVert f(\theta) \rVert^2 &gt; \varepsilon \right\}.\]</div>
 </div></blockquote>
 </li>
-<li><p>(A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways <span id="id2">[<a class="reference internal" href="#id43" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>, <a class="reference internal" href="#id42" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>, <a class="reference internal" href="#id38" title="Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In International Conference on Learning Representations. OpenReview.net, 2020.">LHY+20</a>, <a class="reference internal" href="#id50" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>. For example, in <span id="id3">[<a class="reference internal" href="#id43" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>]</span> and <span id="id4">[<a class="reference internal" href="#id50" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>, the so-called bounded gradient dissimilarity (BGD), denoted as <span class="math notranslate nohighlight">\((G; B)\)</span>-BGD, is used as this quantity. More specifically, there exists constants <span class="math notranslate nohighlight">\(G &gt; 0\)</span> and <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
+<li><p>(A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways <span id="id2">[<a class="reference internal" href="#id51" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>, <a class="reference internal" href="#id50" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>, <a class="reference internal" href="#id46" title="Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In International Conference on Learning Representations. OpenReview.net, 2020.">LHY+20</a>, <a class="reference internal" href="#id58" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>. For example, in <span id="id3">[<a class="reference internal" href="#id51" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>]</span> and <span id="id4">[<a class="reference internal" href="#id58" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>, the so-called bounded gradient dissimilarity (BGD), denoted as <span class="math notranslate nohighlight">\((G; B)\)</span>-BGD, is used as this quantity. More specifically, there exists constants <span class="math notranslate nohighlight">\(G &gt; 0\)</span> and <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-bdd-grad-dissim">
 <span class="eqno">(9)<a class="headerlink" href="#equation-bdd-grad-dissim" title="Permalink to this equation">¶</a></span>\[\dfrac{1}{K} \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 \leqslant G^2 + B^2 \lVert \nabla f(\theta) \rVert^2, ~ \forall \theta \in \R^d.\]</div>
@@ -559,7 +668,7 @@ If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1,
 \end{array}\end{split}\]</div>
 <p>It is easy to find the equivalence between the constrained optimization problem <a class="reference internal" href="#equation-fl-basic-constraint">(11)</a>
 and the unconstrained optimization problem <a class="reference internal" href="#equation-fl-basic">(2)</a>. The constrained formulation
-<a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is called the <strong>consensus problem</strong> in the literature of distributed optimization <span id="id5">[<a class="reference internal" href="#id21" title="Stephen Boyd, Neal Parikh, and Eric Chu. Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers. Now Publishers Inc., 2011.">BPC11</a>]</span>. The superiority of the constrained formulation <a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is that
+<a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is called the <strong>consensus problem</strong> in the literature of distributed optimization <span id="id5">[<a class="reference internal" href="#id29" title="Stephen Boyd, Neal Parikh, and Eric Chu. Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers. Now Publishers Inc., 2011.">BPC11</a>]</span>. The superiority of the constrained formulation <a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is that
 the objective function becomes block-separable, which is more suitable for the design of parallel and distributed algorithms.</p>
 <section id="federated-averaging-algorithm">
 <h3>Federated Averaging Algorithm<a class="headerlink" href="#federated-averaging-algorithm" title="Permalink to this heading">¶</a></h3>
@@ -567,12 +676,12 @@ the objective function becomes block-separable, which is more suitable for the d
 so that each client can perform multiple local iterations before uploading the local model to the server.
 It alleviates the problem of straggler clients and reduces the communication overhead,
 hence accelerating the convergence of the algorithm. This may well be thought of as a simple form of
-<strong>skipping</strong> algorithm, which were further developed in <span id="id6">[<a class="reference internal" href="#id78" title="Konstantin Mishchenko, Grigory Malinovsky, Sebastian Stich, and Peter Richtarik. ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally! In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, Proceedings of the 39th International Conference on Machine Learning, volume 162 of Proceedings of Machine Learning Research, 15750–15769. PMLR, 7 2022.">MMSR22</a>, <a class="reference internal" href="#id79" title="Siqi Zhang and Nicolas Loizou. ProxSkip for Stochastic Variational Inequalities: A Federated Learning Algorithm for Provable Communication Acceleration. In OPT 2022: Optimization for Machine Learning (NeurIPS 2022 Workshop). 2022.">ZL22</a>, <a class="reference internal" href="#id50" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>.
+<strong>skipping</strong> algorithm, which were further developed in <span id="id6">[<a class="reference internal" href="#id86" title="Konstantin Mishchenko, Grigory Malinovsky, Sebastian Stich, and Peter Richtarik. ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally! In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, Proceedings of the 39th International Conference on Machine Learning, volume 162 of Proceedings of Machine Learning Research, 15750–15769. PMLR, 7 2022.">MMSR22</a>, <a class="reference internal" href="#id87" title="Siqi Zhang and Nicolas Loizou. ProxSkip for Stochastic Variational Inequalities: A Federated Learning Algorithm for Provable Communication Acceleration. In OPT 2022: Optimization for Machine Learning (NeurIPS 2022 Workshop). 2022.">ZL22</a>, <a class="reference internal" href="#id58" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>.
 Pseudocode for <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> is shown as follows:</p>
-<img alt="Psuedocode for ``FedAvg``" class="no-scaled-link align-center" id="pseduocode-fedavg" src="_images/fedavg.svg" width="80%" /><p><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> achieved some good numerical results (see Section 3 of <span id="id7">[<a class="reference internal" href="#id33" title="Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In Artificial Intelligence and Statistics, 1273–1282. PMLR, 2017.">MMR+17</a>]</span>),
+<img alt="Psuedocode for ``FedAvg``" class="no-scaled-link align-center" id="pseduocode-fedavg" src="_images/fedavg.svg" width="80%" /><p><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> achieved some good numerical results (see Section 3 of <span id="id7">[<a class="reference internal" href="#id41" title="Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In Artificial Intelligence and Statistics, 1273–1282. PMLR, 2017.">MMR+17</a>]</span>),
 but its convergence, espcially under non-I.I.D. data distributions, is not properly analyzed
-(see <span id="id8">[<a class="reference internal" href="#id36" title="Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. First Analysis of Local GD on Heterogeneous Data. arXiv preprint arXiv:1909.04715v2, 9 2019. doi:10.48550/ARXIV.1909.04715.">KMR19</a>, <a class="reference internal" href="#id37" title="Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. Tighter Theory for Local SGD on Identical and Heterogeneous Data. In Silvia Chiappa and Roberto Calandra, editors, Proceedings of the Twenty Third International Conference on Artificial Intelligence and Statistics, volume 108 of Proceedings of Machine Learning Research, 4519–4529. PMLR, 8 2020.">KMR20</a>]</span>). There are several works that deal with this issue
-(such as <span id="id9">[<a class="reference internal" href="#id38" title="Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In International Conference on Learning Representations. OpenReview.net, 2020.">LHY+20</a>, <a class="reference internal" href="#id100" title="Fan Zhou and Guojing Cong. On the Convergence Properties of a K-Step Averaging Stochastic Gradient Descent Algorithm for Nonconvex Optimization. In Proceedings of the 27th International Joint Conference on Artificial Intelligence, IJCAI'18, 3219–3227. AAAI Press, 2018.">ZC18</a>]</span>) with extra assumptions such as
+(see <span id="id8">[<a class="reference internal" href="#id44" title="Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. First Analysis of Local GD on Heterogeneous Data. arXiv preprint arXiv:1909.04715v2, 9 2019. doi:10.48550/ARXIV.1909.04715.">KMR19</a>, <a class="reference internal" href="#id45" title="Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. Tighter Theory for Local SGD on Identical and Heterogeneous Data. In Silvia Chiappa and Roberto Calandra, editors, Proceedings of the Twenty Third International Conference on Artificial Intelligence and Statistics, volume 108 of Proceedings of Machine Learning Research, 4519–4529. PMLR, 8 2020.">KMR20</a>]</span>). There are several works that deal with this issue
+(such as <span id="id9">[<a class="reference internal" href="#id46" title="Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In International Conference on Learning Representations. OpenReview.net, 2020.">LHY+20</a>, <a class="reference internal" href="#id108" title="Fan Zhou and Guojing Cong. On the Convergence Properties of a K-Step Averaging Stochastic Gradient Descent Algorithm for Nonconvex Optimization. In Proceedings of the 27th International Joint Conference on Artificial Intelligence, IJCAI'18, 3219–3227. AAAI Press, 2018.">ZC18</a>]</span>) with extra assumptions such as
 the convexity of the objective function <span class="math notranslate nohighlight">\(f\)</span>, etc.</p>
 </section>
 <section id="fedavg-from-the-perspective-of-optimization">
@@ -601,10 +710,10 @@ the projection step <a class="reference internal" href="#equation-fedavg-project
 <section id="a-direct-improvement-of-fedavg">
 <h3>A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code><a class="headerlink" href="#a-direct-improvement-of-fedavg" title="Permalink to this heading">¶</a></h3>
 <p>Since <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> is based on stochastic gradient descent (SGD), it is natural to consider applying
-acceleration techniques <span id="id10">[<a class="reference internal" href="#id31" title="John Duchi, Elad Hazan, and Yoram Singer. Adaptive Subgradient Methods for Online Learning and Stochastic Optimization. Journal of Machine Learning Research, 12(61):2121–2159, 7 2011.">DHS11</a>, <a class="reference internal" href="#id19" title="Diederik P. Kingma and Jimmy Ba. Adam: A Method for Stochastic Optimization. In 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings. 2015.">KB15</a>, <a class="reference internal" href="#id57" title="Sashank J. Reddi, Satyen Kale, and Sanjiv Kumar. On the Convergence of Adam and Beyond. In 6th International Conference on Learning Representations (ICLR). OpenReview.net, 5 2018. URL: https://openreview.net/forum?id=ryQu7f-RZ.">RKK18</a>, <a class="reference internal" href="#id32" title="Manzil Zaheer, Sashank J. Reddi, Devendra Sachan, Satyen Kale, and Sanjiv Kumar. Adaptive Methods for Nonconvex Optimization. In Proceedings of the 32nd International Conference on Neural Information Processing Systems, NIPS'18, 9815–9825. Red Hook, NY, USA, 2018. Curran Associates Inc.">ZRS+18</a>]</span> to improve the algorithm performance.
+acceleration techniques <span id="id10">[<a class="reference internal" href="#id39" title="John Duchi, Elad Hazan, and Yoram Singer. Adaptive Subgradient Methods for Online Learning and Stochastic Optimization. Journal of Machine Learning Research, 12(61):2121–2159, 7 2011.">DHS11</a>, <a class="reference internal" href="#id27" title="Diederik P. Kingma and Jimmy Ba. Adam: A Method for Stochastic Optimization. In 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings. 2015.">KB15</a>, <a class="reference internal" href="#id65" title="Sashank J. Reddi, Satyen Kale, and Sanjiv Kumar. On the Convergence of Adam and Beyond. In 6th International Conference on Learning Representations (ICLR). OpenReview.net, 5 2018. URL: https://openreview.net/forum?id=ryQu7f-RZ.">RKK18</a>, <a class="reference internal" href="#id40" title="Manzil Zaheer, Sashank J. Reddi, Devendra Sachan, Satyen Kale, and Sanjiv Kumar. Adaptive Methods for Nonconvex Optimization. In Proceedings of the 32nd International Conference on Neural Information Processing Systems, NIPS'18, 9815–9825. Red Hook, NY, USA, 2018. Curran Associates Inc.">ZRS+18</a>]</span> to improve the algorithm performance.
 Computation on clients and on the server are relatively decoupled, so it does not require large modifications
 to the whole algorithm framework. Indeed, the authors of the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> paper put this idea into practice and proposed
-a federated learning framework called <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> <span id="id11">[<a class="reference internal" href="#id39" title="Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In International Conference on Learning Representations. 2021.">RCZ+21</a>]</span> which has stronger adaptability.
+a federated learning framework called <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> <span id="id11">[<a class="reference internal" href="#id47" title="Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In International Conference on Learning Representations. 2021.">RCZ+21</a>]</span> which has stronger adaptability.
 The pseudocode for <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> is shown as follows:</p>
 <img alt="Psuedocode for ``FedOpt``" class="no-scaled-link align-center" id="pseduocode-fedopt" src="_images/fedopt.svg" width="80%" /><p>In the above pseudocode, <span class="math notranslate nohighlight">\(\operatorname{aggregate} \left( \left\{ \Delta_{k}^{(t)} \right\}_{k \in \mathcal{S}^{(t)}} \right)\)</span>
 refers to some method that aggregates the local inertia updates <span class="math notranslate nohighlight">\(\Delta_{k}^{(t)}\)</span> from the selected clients
@@ -615,7 +724,7 @@ refers to some method that aggregates the local inertia updates <span class="mat
 <div class="math notranslate nohighlight" id="equation-fedopt-agg-inertia-lin-comb">
 <span class="eqno">(16)<a class="headerlink" href="#equation-fedopt-agg-inertia-lin-comb" title="Permalink to this equation">¶</a></span>\[\Delta^{(t)} \gets \beta_1 \Delta^{(t-1)} + \left( (1 - \beta_1) / \lvert \mathcal{S}^{(t)} \rvert \right) \sum_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)}.\]</div>
 <p>As one has already noticed, compared to <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>, <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> introduces some momentum terms on the server node (in <strong>ServerOpt</strong>) to
-accelerate the convergence. In <span id="id12">[<a class="reference internal" href="#id39" title="Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In International Conference on Learning Representations. 2021.">RCZ+21</a>]</span>, the authors listed several options for <strong>ServerOpt</strong>:</p>
+accelerate the convergence. In <span id="id12">[<a class="reference internal" href="#id47" title="Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In International Conference on Learning Representations. 2021.">RCZ+21</a>]</span>, the authors listed several options for <strong>ServerOpt</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">FedAdagrad</span></code>:</p>
 <blockquote>
@@ -648,20 +757,66 @@ v^{(t)} &amp; \gets \beta_2 v^{(t-1)} + (1 - \beta_2) ( \Delta^{(t)} )^2 \\
 <p><code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> applys acceleration techniques which are frequently used in general machine learning tasks to the field of
 federated learning. It is a direct improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> which is simple but important. Moreover, it demonstrates
 the decoupling of the computation on clients and on the server, which is a key feature of federated learning.</p>
-<p>to write more ….</p>
-<img alt="Psuedocode for ``Scaffold``" class="no-scaled-link align-center" id="pseduocode-scaffold" src="_images/scaffold.svg" width="80%" /></section>
+<p>To better handle non-I.I.D. data, one needs to introduce some other techniques. In non-I.I.D. scenarios,
+the gradients have different distributions across clients. A natural idea is to bring in some extra parameters
+which update along with the model parameters to make corrections (modifications) to the gradients on clients,
+reducing their variance and further accelerating the convergence. This technique is the so-called <strong>variance reduction</strong>
+technique <span id="id13">[<a class="reference internal" href="#id69" title="Rie Johnson and Tong Zhang. Accelerating Stochastic Gradient Descent using Predictive Variance Reduction. In C.J. Burges, L. Bottou, M. Welling, Z. Ghahramani, and K.Q. Weinberger, editors, Advances in Neural Information Processing Systems, volume 26. Curran Associates, Inc., 2013.">JZ13</a>]</span>, which was first introduced to federated learning in
+<span id="id14">[<a class="reference internal" href="#id51" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>]</span> in the form of a new federated learning algorithm called <strong>SCAFFOLD</strong>
+(Stochastic Controlled Averaging algorithm). The pseudocode for <strong>SCAFFOLD</strong> is shown as follows:</p>
+<img alt="Psuedocode for ``Scaffold``" class="no-scaled-link align-center" id="pseduocode-scaffold" src="_images/scaffold.svg" width="80%" /><p>Variance reduction is a technique that can be flexibly combined with most algorithms and has been widely used
+in federated learning for dealing with statistical heterogeneity. However, it should be noted in the
+<a class="reference internal" href="#pseduocode-scaffold">SCAFFOLD algorithm</a> that on both the server and the clients, there are extra parameters
+<span class="math notranslate nohighlight">\(c\)</span> and <span class="math notranslate nohighlight">\(c_k\)</span> to maintain, which may increase the communication cost. In scenarios which are sensitive
+to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of
+the variance reduction technique and some <strong>skipping</strong> techniques (e.g. <span id="id15">[<a class="reference internal" href="#id87" title="Siqi Zhang and Nicolas Loizou. ProxSkip for Stochastic Variational Inequalities: A Federated Learning Algorithm for Provable Communication Acceleration. In OPT 2022: Optimization for Machine Learning (NeurIPS 2022 Workshop). 2022.">ZL22</a>]</span>),
+which will be introduced in next sections.</p>
+</section>
 </section>
 <section id="proximal-algorithms-in-federated-learning">
 <h2>Proximal Algorithms in Federated Learning<a class="headerlink" href="#proximal-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
 <p>In non-I.I.D. scenarios, based on the idea of reducing the impact of local updates of clients on the global model,
-<span id="id13">[<a class="reference internal" href="#id42" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>]</span> first introduced a proximal term to the local objective functions, aiming at making the
-algorithm more stable and converging faster.</p>
-<div class="figure" id="id148" style="text-align: center">
+<span id="id16">[<a class="reference internal" href="#id50" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>]</span> first introduced a proximal term to the local objective functions, aiming at making the
+algorithm more stable and converging faster. Compared to <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code>, methods using proximal terms do not need to
+maintain extra parameters (mainly related to the gradients), hence having no communication overhead and no
+additional cost to security (refer to <span id="id17">[<a class="reference internal" href="#id63" title="Ligeng Zhu, Zhijian Liu, and Song Han. Deep Leakage from Gradients. Advances in Neural Information Processing Systems, 32:14774–14784, 2019.">ZLH19</a>]</span> for more details).</p>
+<p>To be more specific, in the <span class="math notranslate nohighlight">\((t+1)\)</span>-th iteration, the local objective function of client <span class="math notranslate nohighlight">\(k\)</span> changes from
+<span class="math notranslate nohighlight">\(f_k(\theta_k)\)</span> to the following form with a proximal term:</p>
+<div class="math notranslate nohighlight" id="equation-fedprox-local-obj">
+<span class="eqno">(20)<a class="headerlink" href="#equation-fedprox-local-obj" title="Permalink to this equation">¶</a></span>\[h_k(\theta_k, \theta^{(t)}) := f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu\)</span> is a penalty constant. It should be noticed that the proximal center <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> is
+the model parameter on the server node obtained in the previous iteration (the <span class="math notranslate nohighlight">\(t\)</span>-th iteration). Indeed,
+the overall optimization problem can be modeled as the following constrained optimization problem</p>
+<div class="math notranslate nohighlight" id="equation-fedprox-whole">
+<span class="eqno">(21)<a class="headerlink" href="#equation-fedprox-whole" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{array}{cl}
+\minimize &amp; \frac{1}{K} \sum\limits_{k=1}^K \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta \rVert^2 \right\} \\
+\text{subject to} &amp; \theta = \frac{1}{K} \sum\limits_{k=1}^K \theta_k.
+\end{array}\end{split}\]</div>
+<p>For alternatives for the proximal center, studies were conducted in <span id="id18">[<a class="reference internal" href="#id48" title="Filip Hanzely and Peter Richtárik. Federated Learning of a Mixture of Global and Local Models. arXiv preprint arXiv:2002.05516, 2020.">HRichtarik20</a>, <a class="reference internal" href="#id49" title="Tian Li, Shengyuan Hu, Ahmad Beirami, and Virginia Smith. Ditto: Fair and Robust Federated Learning Through Personalization. In Marina Meila and Tong Zhang, editors, Proceedings of the 38th International Conference on Machine Learning, volume 139 of Proceedings of Machine Learning Research, 6357–6368. PMLR, 7 2021.">LHBS21</a>]</span> which would be
+introduced later. Now, we summarize the pseudocode for <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> as follows:</p>
+<img alt="Psuedocode for ``FedProx``" class="no-scaled-link align-center" id="pseduocode-fedprox" src="_images/fedprox.svg" width="80%" /><p>We denote the <span class="math notranslate nohighlight">\(\gamma\)</span>-inexact solution <span class="math notranslate nohighlight">\(\theta_k^{(t)}\)</span> as</p>
+<div class="math notranslate nohighlight" id="equation-prox-op">
+<span class="eqno">(22)<a class="headerlink" href="#equation-prox-op" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+% \DeclareMathOperator*{\prox}{prox}
+\newcommand{\prox}{\mathbf{prox}}\\\theta_k^{(t)} \approx \prox_{f_k, \mu} (\theta^{(t)}) := \argmin\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\},\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span> is the proximal operator <span id="id19">[<a class="reference internal" href="#id36" title="J.J. Moreau. Proximité et Dualité dans un Espace Hilbertien. Bulletin de la Société Mathématique de France, 79:273–299, 1965. doi:10.24033/bsmf.1625.">Mor65</a>]</span> of <span class="math notranslate nohighlight">\(f_k\)</span> with respect to <span class="math notranslate nohighlight">\(\mu\)</span>.
+Let <span class="math notranslate nohighlight">\(s = \frac{1}{\mu}\)</span>, since one has <span class="math notranslate nohighlight">\(\prox_{f_k, \mu} = \prox_{sf_k, 1}\)</span>, we also denote <span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span>
+as <span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span>. Corresponding function</p>
+<div class="math notranslate nohighlight" id="equation-moreau-env">
+<span class="eqno">(23)<a class="headerlink" href="#equation-moreau-env" title="Permalink to this equation">¶</a></span>\[\mathcal{M}_{sf_k} (\theta^{(t)}) = \mathcal{M}_{f_k, \mu} (\theta^{(t)}) := \inf\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}\]</div>
+<p>is called <strong>Moreau envelope</strong> or <strong>Moreau-Yosida regularization</strong> of <span class="math notranslate nohighlight">\(f_k\)</span> with respect to <span class="math notranslate nohighlight">\(\mu\)</span>.
+Moreau envelope of a function <span class="math notranslate nohighlight">\(f_k\)</span> has the following relationship <span id="id20">[<a class="reference internal" href="#id30" title="Neal Parikh and Stephen Boyd. Proximal Algorithms. Foundations and Trends® in Optimization, 1(3):127–239, 2014. doi:10.1561/2400000003.">PB14</a>]</span> with its proximal operator:</p>
+<div class="math notranslate nohighlight" id="equation-prox-moreau-relation">
+<span class="eqno">(24)<a class="headerlink" href="#equation-prox-moreau-relation" title="Permalink to this equation">¶</a></span>\[\prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.\]</div>
+<p>Namely, <span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span> can be regarded as the gradient descent operator for minimizing <span class="math notranslate nohighlight">\(\mathcal{M}_{sf_k}\)</span> with step size <span class="math notranslate nohighlight">\(s\)</span>.</p>
+<p>For the convergence of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> in non-I.I.D. scenarios, <span id="id21">[<a class="reference internal" href="#id50" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>]</span> has the following theorem:</p>
+<div class="figure" id="id156" style="text-align: center">
 <span id="fig-apfl"></span><p><img width="80%" src="_images/tikz-a4a11a93d19f47c1e3a684dd5159c5d79f350276.svg" alt="Figure made with TikZ" /></p>
-<p><span class="caption-text">Schematic diagram for <span class="math notranslate nohighlight">\(f_k(\alpha_k \omega_k + (1 - \alpha_k) \theta^*)\)</span> in the APFL algorithm.</span></p>
-</div><div class="figure" id="id149" style="text-align: center">
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Schematic diagram for <span class="math notranslate nohighlight">\(f_k(\alpha_k \omega_k + (1 - \alpha_k) \theta^*)\)</span> in the APFL algorithm.</span></p>
+</div><div class="figure" id="id157" style="text-align: center">
 <span id="fig-feddyn"></span><p><img width="80%" src="_images/tikz-ea5939230cbfad9f08b2efbb2087d0f52426b2e4.svg" alt="Figure made with TikZ" /></p>
-<p><span class="caption-text">Client model parameter update schematic diagram of the FedDyn algorithm.</span></p>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Client model parameter update schematic diagram of the FedDyn algorithm.</span></p>
 </div><p>to write….</p>
 </section>
 <section id="primal-dual-algorithms-in-federated-learning">
@@ -675,78 +830,103 @@ algorithm more stable and converging faster.</p>
 <section id="skipping-algorithms-in-federated-learning">
 <span id="fl-alg-skipping"></span><h2>Skipping Algorithms in Federated Learning<a class="headerlink" href="#skipping-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
 <p>to write….</p>
-<div class="docutils container" id="id14">
+<div class="docutils container" id="id22">
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
-<div class="citation" id="id21" role="doc-biblioentry">
+<div class="citation" id="id29" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">BPC11</a><span class="fn-bracket">]</span></span>
 <p>Stephen Boyd, Neal Parikh, and Eric Chu. <em>Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers</em>. Now Publishers Inc., 2011.</p>
 </div>
-<div class="citation" id="id31" role="doc-biblioentry">
+<div class="citation" id="id39" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">DHS11</a><span class="fn-bracket">]</span></span>
 <p>John Duchi, Elad Hazan, and Yoram Singer. Adaptive Subgradient Methods for Online Learning and Stochastic Optimization. <em>Journal of Machine Learning Research</em>, 12(61):2121–2159, 7 2011.</p>
 </div>
-<div class="citation" id="id43" role="doc-biblioentry">
+<div class="citation" id="id48" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">HRichtarik20</a><span class="fn-bracket">]</span></span>
+<p>Filip Hanzely and Peter Richtárik. Federated Learning of a Mixture of Global and Local Models. <em>arXiv preprint arXiv:2002.05516</em>, 2020.</p>
+</div>
+<div class="citation" id="id69" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">JZ13</a><span class="fn-bracket">]</span></span>
+<p>Rie Johnson and Tong Zhang. Accelerating Stochastic Gradient Descent using Predictive Variance Reduction. In C.J. Burges, L. Bottou, M. Welling, Z. Ghahramani, and K.Q. Weinberger, editors, <em>Advances in Neural Information Processing Systems</em>, volume 26. Curran Associates, Inc., 2013.</p>
+</div>
+<div class="citation" id="id51" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>KKM+20<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>,<a role="doc-backlink" href="#id14">3</a>)</span>
 <p>Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In <em>International Conference on Machine Learning</em>, 5132–5143. PMLR, 2020.</p>
 </div>
-<div class="citation" id="id36" role="doc-biblioentry">
+<div class="citation" id="id44" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">KMR19</a><span class="fn-bracket">]</span></span>
 <p>Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. First Analysis of Local GD on Heterogeneous Data. <em>arXiv preprint arXiv:1909.04715v2</em>, 9 2019. <a class="reference external" href="https://doi.org/10.48550/ARXIV.1909.04715">doi:10.48550/ARXIV.1909.04715</a>.</p>
 </div>
-<div class="citation" id="id37" role="doc-biblioentry">
+<div class="citation" id="id45" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">KMR20</a><span class="fn-bracket">]</span></span>
 <p>Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. Tighter Theory for Local SGD on Identical and Heterogeneous Data. In Silvia Chiappa and Roberto Calandra, editors, <em>Proceedings of the Twenty Third International Conference on Artificial Intelligence and Statistics</em>, volume 108 of Proceedings of Machine Learning Research, 4519–4529. PMLR, 8 2020.</p>
 </div>
-<div class="citation" id="id19" role="doc-biblioentry">
+<div class="citation" id="id27" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">KB15</a><span class="fn-bracket">]</span></span>
 <p>Diederik P. Kingma and Jimmy Ba. Adam: A Method for Stochastic Optimization. In <em>3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings</em>. 2015.</p>
 </div>
-<div class="citation" id="id42" role="doc-biblioentry">
+<div class="citation" id="id49" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">LHBS21</a><span class="fn-bracket">]</span></span>
+<p>Tian Li, Shengyuan Hu, Ahmad Beirami, and Virginia Smith. Ditto: Fair and Robust Federated Learning Through Personalization. In Marina Meila and Tong Zhang, editors, <em>Proceedings of the 38th International Conference on Machine Learning</em>, volume 139 of Proceedings of Machine Learning Research, 6357–6368. PMLR, 7 2021.</p>
+</div>
+<div class="citation" id="id50" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>LSZ+20<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id13">2</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id16">2</a>,<a role="doc-backlink" href="#id21">3</a>)</span>
 <p>Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, <em>Proceedings of Machine Learning and Systems</em>, volume 2, 429–450. 2020.</p>
 </div>
-<div class="citation" id="id38" role="doc-biblioentry">
+<div class="citation" id="id46" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>LHY+20<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
 <p>Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In <em>International Conference on Learning Representations</em>. OpenReview.net, 2020.</p>
 </div>
-<div class="citation" id="id33" role="doc-biblioentry">
+<div class="citation" id="id41" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>MMR+17<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id7">2</a>)</span>
 <p>Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In <em>Artificial Intelligence and Statistics</em>, 1273–1282. PMLR, 2017.</p>
 </div>
-<div class="citation" id="id78" role="doc-biblioentry">
+<div class="citation" id="id86" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">MMSR22</a><span class="fn-bracket">]</span></span>
 <p>Konstantin Mishchenko, Grigory Malinovsky, Sebastian Stich, and Peter Richtarik. ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally! In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, <em>Proceedings of the 39th International Conference on Machine Learning</em>, volume 162 of Proceedings of Machine Learning Research, 15750–15769. PMLR, 7 2022.</p>
 </div>
-<div class="citation" id="id39" role="doc-biblioentry">
+<div class="citation" id="id36" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">Mor65</a><span class="fn-bracket">]</span></span>
+<p>J.J. Moreau. Proximité et Dualité dans un Espace Hilbertien. <em>Bulletin de la Société Mathématique de France</em>, 79:273–299, 1965. <a class="reference external" href="https://doi.org/10.24033/bsmf.1625">doi:10.24033/bsmf.1625</a>.</p>
+</div>
+<div class="citation" id="id30" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id20">PB14</a><span class="fn-bracket">]</span></span>
+<p>Neal Parikh and Stephen Boyd. Proximal Algorithms. <em>Foundations and Trends® in Optimization</em>, 1(3):127–239, 2014. <a class="reference external" href="https://doi.org/10.1561/2400000003">doi:10.1561/2400000003</a>.</p>
+</div>
+<div class="citation" id="id47" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>RCZ+21<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id11">1</a>,<a role="doc-backlink" href="#id12">2</a>)</span>
 <p>Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In <em>International Conference on Learning Representations</em>. 2021.</p>
 </div>
-<div class="citation" id="id57" role="doc-biblioentry">
+<div class="citation" id="id65" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">RKK18</a><span class="fn-bracket">]</span></span>
 <p>Sashank J. Reddi, Satyen Kale, and Sanjiv Kumar. On the Convergence of Adam and Beyond. In <em>6th International Conference on Learning Representations (ICLR)</em>. OpenReview.net, 5 2018. URL: <a class="reference external" href="https://openreview.net/forum?id=ryQu7f-RZ">https://openreview.net/forum?id=ryQu7f-RZ</a>.</p>
 </div>
-<div class="citation" id="id32" role="doc-biblioentry">
+<div class="citation" id="id40" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">ZRS+18</a><span class="fn-bracket">]</span></span>
 <p>Manzil Zaheer, Sashank J. Reddi, Devendra Sachan, Satyen Kale, and Sanjiv Kumar. Adaptive Methods for Nonconvex Optimization. In <em>Proceedings of the 32nd International Conference on Neural Information Processing Systems</em>, NIPS'18, 9815–9825. Red Hook, NY, USA, 2018. Curran Associates Inc.</p>
 </div>
-<div class="citation" id="id79" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">ZL22</a><span class="fn-bracket">]</span></span>
+<div class="citation" id="id87" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>ZL22<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id15">2</a>)</span>
 <p>Siqi Zhang and Nicolas Loizou. ProxSkip for Stochastic Variational Inequalities: A Federated Learning Algorithm for Provable Communication Acceleration. In <em>OPT 2022: Optimization for Machine Learning (NeurIPS 2022 Workshop)</em>. 2022.</p>
 </div>
-<div class="citation" id="id50" role="doc-biblioentry">
+<div class="citation" id="id58" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>ZHD+21<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id4">2</a>,<a role="doc-backlink" href="#id6">3</a>)</span>
 <p>Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. <em>IEEE Transactions on Signal Processing</em>, 69:6055–6070, 2021. <a class="reference external" href="https://doi.org/10.1109/tsp.2021.3115952">doi:10.1109/tsp.2021.3115952</a>.</p>
 </div>
-<div class="citation" id="id100" role="doc-biblioentry">
+<div class="citation" id="id108" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">ZC18</a><span class="fn-bracket">]</span></span>
 <p>Fan Zhou and Guojing Cong. On the Convergence Properties of a K-Step Averaging Stochastic Gradient Descent Algorithm for Nonconvex Optimization. In <em>Proceedings of the 27th International Joint Conference on Artificial Intelligence</em>, IJCAI'18, 3219–3227. AAAI Press, 2018.</p>
+</div>
+<div class="citation" id="id63" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">ZLH19</a><span class="fn-bracket">]</span></span>
+<p>Ligeng Zhu, Zhijian Liu, and Song Han. Deep Leakage from Gradients. <em>Advances in Neural Information Processing Systems</em>, 32:14774–14784, 2019.</p>
 </div>
 </div>
 </div>
@@ -763,7 +943,7 @@ algorithm more stable and converging faster.</p>
         <a href="cli.html" class="btn btn-neutral float-right" title="Command line interface" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api/generated/fl_sim.regularizers.NullRegularizer.html" class="btn btn-neutral" title="NullRegularizer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api/utils.html" class="btn btn-neutral" title="fl_sim.utils" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

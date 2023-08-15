@@ -1,0 +1,1173 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>fl_sim.utils.misc &mdash; fl-sim 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../../_static/proof.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="fl-sim 0.0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> fl-sim
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Usage examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/nodes.html">fl_sim.nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/nodes.html#base-node-class">Base Node class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.Node.html">Node</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/nodes.html#server-classes">Server classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.Server.html">Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server"><code class="docutils literal notranslate"><span class="pre">Server</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig"><code class="docutils literal notranslate"><span class="pre">ServerConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/nodes.html#client-classes">Client classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.Client.html">Client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig"><code class="docutils literal notranslate"><span class="pre">ClientConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/datasets.html">fl_sim.data_processing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/datasets.html#base-classes">Base classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset"><code class="docutils literal notranslate"><span class="pre">FedDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset"><code class="docutils literal notranslate"><span class="pre">FedVisionDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset"><code class="docutils literal notranslate"><span class="pre">FedNLPDataset</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/datasets.html#vision-datasets">Vision datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR"><code class="docutils literal notranslate"><span class="pre">FedCIFAR</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedCIFAR100.html#fl_sim.data_processing.FedCIFAR100"><code class="docutils literal notranslate"><span class="pre">FedCIFAR100</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST"><code class="docutils literal notranslate"><span class="pre">FedEMNIST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST"><code class="docutils literal notranslate"><span class="pre">FedMNIST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10"><code class="docutils literal notranslate"><span class="pre">FedRotatedCIFAR10</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST"><code class="docutils literal notranslate"><span class="pre">FedRotatedMNIST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST"><code class="docutils literal notranslate"><span class="pre">FedProxFEMNIST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST"><code class="docutils literal notranslate"><span class="pre">FedProxMNIST</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/datasets.html#nlp-datasets">NLP datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare"><code class="docutils literal notranslate"><span class="pre">FedShakespeare</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140"><code class="docutils literal notranslate"><span class="pre">FedProxSent140</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/datasets.html#synthetic-datasets">Synthetic datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic"><code class="docutils literal notranslate"><span class="pre">FedSynthetic</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/datasets.html#libsvm-datasets">LibSVM datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset"><code class="docutils literal notranslate"><span class="pre">FedLibSVMDataset</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/datasets.html#dataset-registry-utilities">Dataset registry utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.register_fed_dataset.html#fl_sim.data_processing.register_fed_dataset"><code class="docutils literal notranslate"><span class="pre">register_fed_dataset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.list_fed_dataset.html#fl_sim.data_processing.list_fed_dataset"><code class="docutils literal notranslate"><span class="pre">list_fed_dataset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.get_fed_dataset.html#fl_sim.data_processing.get_fed_dataset"><code class="docutils literal notranslate"><span class="pre">get_fed_dataset()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/models.html">fl_sim.models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/models.html#convolutional-neural-networks-cnn">Convolutional neural networks (CNN)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNMnist.html#fl_sim.models.CNNMnist"><code class="docutils literal notranslate"><span class="pre">CNNMnist</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNFEMnist.html#fl_sim.models.CNNFEMnist"><code class="docutils literal notranslate"><span class="pre">CNNFEMnist</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNFEMnist_Tiny.html#fl_sim.models.CNNFEMnist_Tiny"><code class="docutils literal notranslate"><span class="pre">CNNFEMnist_Tiny</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNCifar.html#fl_sim.models.CNNCifar"><code class="docutils literal notranslate"><span class="pre">CNNCifar</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNCifar_Small.html#fl_sim.models.CNNCifar_Small"><code class="docutils literal notranslate"><span class="pre">CNNCifar_Small</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNCifar_Tiny.html#fl_sim.models.CNNCifar_Tiny"><code class="docutils literal notranslate"><span class="pre">CNNCifar_Tiny</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.ResNet18.html">ResNet18</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.ResNet18.html#fl_sim.models.ResNet18"><code class="docutils literal notranslate"><span class="pre">ResNet18</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.ResNet10.html">ResNet10</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.ResNet10.html#fl_sim.models.ResNet10"><code class="docutils literal notranslate"><span class="pre">ResNet10</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/models.html#recurrent-neural-networks-rnn">Recurrent neural networks (RNN)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg"><code class="docutils literal notranslate"><span class="pre">RNN_OriginalFedAvg</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow"><code class="docutils literal notranslate"><span class="pre">RNN_StackOverFlow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140"><code class="docutils literal notranslate"><span class="pre">RNN_Sent140</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_Sent140_LITE.html#fl_sim.models.RNN_Sent140_LITE"><code class="docutils literal notranslate"><span class="pre">RNN_Sent140_LITE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/models.html#multilayer-perceptron-mlp">Multilayer perceptron (MLP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.MLP.html">MLP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.MLP.html#fl_sim.models.MLP"><code class="docutils literal notranslate"><span class="pre">MLP</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.FedPDMLP.html#fl_sim.models.FedPDMLP"><code class="docutils literal notranslate"><span class="pre">FedPDMLP</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/models.html#linear-models">Linear models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.LogisticRegression.html#fl_sim.models.LogisticRegression"><code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.SVC.html">SVC</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.SVC.html#fl_sim.models.SVC"><code class="docutils literal notranslate"><span class="pre">SVC</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.SVR.html">SVR</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.SVR.html#fl_sim.models.SVR"><code class="docutils literal notranslate"><span class="pre">SVR</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/models.html#utilities">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.reset_parameters.html#fl_sim.models.reset_parameters"><code class="docutils literal notranslate"><span class="pre">reset_parameters()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.top_n_accuracy.html#fl_sim.models.top_n_accuracy"><code class="docutils literal notranslate"><span class="pre">top_n_accuracy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.CLFMixin.html#fl_sim.models.CLFMixin"><code class="docutils literal notranslate"><span class="pre">CLFMixin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.REGMixin.html">REGMixin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.REGMixin.html#fl_sim.models.REGMixin"><code class="docutils literal notranslate"><span class="pre">REGMixin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.DiffMixin.html#fl_sim.models.DiffMixin"><code class="docutils literal notranslate"><span class="pre">DiffMixin</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/optimizers.html">fl_sim.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.optimizers.get_optimizer.html#fl_sim.optimizers.get_optimizer"><code class="docutils literal notranslate"><span class="pre">get_optimizer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.optimizers.register_optimizer.html#fl_sim.optimizers.register_optimizer"><code class="docutils literal notranslate"><span class="pre">register_optimizer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/regularizers.html">fl_sim.regularizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.get_regularizer.html#fl_sim.regularizers.get_regularizer"><code class="docutils literal notranslate"><span class="pre">get_regularizer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer"><code class="docutils literal notranslate"><span class="pre">Regularizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.eval"><code class="docutils literal notranslate"><span class="pre">Regularizer.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">Regularizer.extra_repr_keys()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.prox_eval"><code class="docutils literal notranslate"><span class="pre">Regularizer.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm"><code class="docutils literal notranslate"><span class="pre">L1Norm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.eval"><code class="docutils literal notranslate"><span class="pre">L1Norm.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.prox_eval"><code class="docutils literal notranslate"><span class="pre">L1Norm.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm"><code class="docutils literal notranslate"><span class="pre">L2Norm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.eval"><code class="docutils literal notranslate"><span class="pre">L2Norm.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.prox_eval"><code class="docutils literal notranslate"><span class="pre">L2Norm.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared"><code class="docutils literal notranslate"><span class="pre">L2NormSquared</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.eval"><code class="docutils literal notranslate"><span class="pre">L2NormSquared.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.prox_eval"><code class="docutils literal notranslate"><span class="pre">L2NormSquared.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm"><code class="docutils literal notranslate"><span class="pre">LInfNorm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.eval"><code class="docutils literal notranslate"><span class="pre">LInfNorm.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.prox_eval"><code class="docutils literal notranslate"><span class="pre">LInfNorm.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer"><code class="docutils literal notranslate"><span class="pre">NullRegularizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.eval"><code class="docutils literal notranslate"><span class="pre">NullRegularizer.eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.prox_eval"><code class="docutils literal notranslate"><span class="pre">NullRegularizer.prox_eval()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/utils.html">fl_sim.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl-sim-utils-loggers">fl_sim.utils.loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger"><code class="docutils literal notranslate"><span class="pre">BaseLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.close"><code class="docutils literal notranslate"><span class="pre">BaseLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_end"><code class="docutils literal notranslate"><span class="pre">BaseLogger.epoch_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_start"><code class="docutils literal notranslate"><span class="pre">BaseLogger.epoch_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">BaseLogger.extra_repr_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.filename"><code class="docutils literal notranslate"><span class="pre">BaseLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.flush"><code class="docutils literal notranslate"><span class="pre">BaseLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.from_config"><code class="docutils literal notranslate"><span class="pre">BaseLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_dir</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_message"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.reset"><code class="docutils literal notranslate"><span class="pre">BaseLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.set_log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.set_log_dir()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger"><code class="docutils literal notranslate"><span class="pre">CSVLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.close"><code class="docutils literal notranslate"><span class="pre">CSVLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.filename"><code class="docutils literal notranslate"><span class="pre">CSVLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.flush"><code class="docutils literal notranslate"><span class="pre">CSVLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.from_config"><code class="docutils literal notranslate"><span class="pre">CSVLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.log_message"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.reset"><code class="docutils literal notranslate"><span class="pre">CSVLogger.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger"><code class="docutils literal notranslate"><span class="pre">JsonLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.close"><code class="docutils literal notranslate"><span class="pre">JsonLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.filename"><code class="docutils literal notranslate"><span class="pre">JsonLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.flush"><code class="docutils literal notranslate"><span class="pre">JsonLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.from_config"><code class="docutils literal notranslate"><span class="pre">JsonLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.log_message"><code class="docutils literal notranslate"><span class="pre">JsonLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">JsonLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.reset"><code class="docutils literal notranslate"><span class="pre">JsonLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.strftime"><code class="docutils literal notranslate"><span class="pre">JsonLogger.strftime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.strptime"><code class="docutils literal notranslate"><span class="pre">JsonLogger.strptime()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager"><code class="docutils literal notranslate"><span class="pre">LoggerManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.close"><code class="docutils literal notranslate"><span class="pre">LoggerManager.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_end"><code class="docutils literal notranslate"><span class="pre">LoggerManager.epoch_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_start"><code class="docutils literal notranslate"><span class="pre">LoggerManager.epoch_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">LoggerManager.extra_repr_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.flush"><code class="docutils literal notranslate"><span class="pre">LoggerManager.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.from_config"><code class="docutils literal notranslate"><span class="pre">LoggerManager.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_dir"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_dir</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_message"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_metrics"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_suffix"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_suffix</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.loggers"><code class="docutils literal notranslate"><span class="pre">LoggerManager.loggers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.reset"><code class="docutils literal notranslate"><span class="pre">LoggerManager.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger"><code class="docutils literal notranslate"><span class="pre">TxtLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.close"><code class="docutils literal notranslate"><span class="pre">TxtLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_end"><code class="docutils literal notranslate"><span class="pre">TxtLogger.epoch_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_start"><code class="docutils literal notranslate"><span class="pre">TxtLogger.epoch_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.filename"><code class="docutils literal notranslate"><span class="pre">TxtLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.flush"><code class="docutils literal notranslate"><span class="pre">TxtLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.from_config"><code class="docutils literal notranslate"><span class="pre">TxtLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.log_message"><code class="docutils literal notranslate"><span class="pre">TxtLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">TxtLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.long_sep"><code class="docutils literal notranslate"><span class="pre">TxtLogger.long_sep</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.reset"><code class="docutils literal notranslate"><span class="pre">TxtLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.short_sep"><code class="docutils literal notranslate"><span class="pre">TxtLogger.short_sep</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl-sim-utils-imports">fl_sim.utils.imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.imports.load_module_from_file"><code class="docutils literal notranslate"><span class="pre">load_module_from_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl-sim-utils-misc">fl_sim.utils.misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.add_kwargs"><code class="docutils literal notranslate"><span class="pre">add_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.clear_logs"><code class="docutils literal notranslate"><span class="pre">clear_logs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.default_dict_to_dict"><code class="docutils literal notranslate"><span class="pre">default_dict_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.experiment_indicator"><code class="docutils literal notranslate"><span class="pre">experiment_indicator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.find_longest_common_substring"><code class="docutils literal notranslate"><span class="pre">find_longest_common_substring()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler"><code class="docutils literal notranslate"><span class="pre">get_scheduler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler_info"><code class="docutils literal notranslate"><span class="pre">get_scheduler_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.is_notebook"><code class="docutils literal notranslate"><span class="pre">is_notebook()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.ndarray_to_list"><code class="docutils literal notranslate"><span class="pre">ndarray_to_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.ordered_dict_to_dict"><code class="docutils literal notranslate"><span class="pre">ordered_dict_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.set_seed"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../algorithms.html">Federated learning algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms.html#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../algorithms.html#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../algorithms.html#fedavg-from-the-perspective-of-optimization"><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../algorithms.html#a-direct-improvement-of-fedavg">A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms.html#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms.html#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms.html#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms.html#skipping-algorithms-in-federated-learning">Skipping Algorithms in Federated Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../viz.html">Visualization subsystem</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">fl-sim</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>fl_sim.utils.misc</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/wenh06/fl-sim/blob/master/docs/source/_modules/fl_sim/utils/misc" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for fl_sim.utils.misc</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. _misc:</span>
+
+<span class="sd">fl_sim.utils.misc</span>
+<span class="sd">-----------------------</span>
+
+<span class="sd">This module provides miscellaneous utilities.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch_ecg.utils</span> <span class="kn">import</span> <span class="n">get_kwargs</span><span class="p">,</span> <span class="n">get_required_args</span>
+
+<span class="kn">from</span> <span class="nn">.const</span> <span class="kn">import</span> <span class="n">LOG_DIR</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;experiment_indicator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;clear_logs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ndarray_to_list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ordered_dict_to_dict&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;default_dict_to_dict&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;set_seed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_scheduler&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_scheduler_info&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_notebook&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;find_longest_common_substring&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;add_kwargs&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="experiment_indicator"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.experiment_indicator">[docs]</a><span class="k">def</span> <span class="nf">experiment_indicator</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Start experiment </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  &quot;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  End experiment </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  &quot;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<div class="viewcode-block" id="clear_logs"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.clear_logs">[docs]</a><span class="k">def</span> <span class="nf">clear_logs</span><span class="p">(</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clear given log files in given directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pattern : str, optional</span>
+<span class="sd">        Pattern of log files to be cleared, by default &quot;*&quot;</span>
+<span class="sd">        The searching will be executed by :meth:`pathlib.Path.rglob`.</span>
+<span class="sd">    directory : str or Path, optional</span>
+<span class="sd">        Directory to be searched, by default the default log directory</span>
+<span class="sd">        :data:`LOG_DIR` will be used.</span>
+<span class="sd">        If the given directory is not absolute, it will be joined with</span>
+<span class="sd">        :data:`LOG_DIR`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">log_dir</span> <span class="o">=</span> <span class="n">LOG_DIR</span>
+    <span class="k">elif</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">():</span>
+        <span class="n">log_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">log_dir</span> <span class="o">=</span> <span class="n">LOG_DIR</span> <span class="o">/</span> <span class="n">directory</span>
+    <span class="n">log_extentions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;.log&quot;</span><span class="p">,</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;.json&quot;</span><span class="p">,</span> <span class="s2">&quot;.csv&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">log_file</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="n">fp</span>
+        <span class="k">for</span> <span class="n">fp</span> <span class="ow">in</span> <span class="n">log_dir</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fp</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span> <span class="ow">and</span> <span class="n">fp</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="n">log_extentions</span>
+    <span class="p">]:</span>
+        <span class="n">log_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span></div>
+
+
+<span class="c1"># fmt: off</span>
+<span class="c1"># numpy data types will be converted to python native types</span>
+<span class="n">_numpy_data_types</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;int_&quot;</span><span class="p">,</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;intc&quot;</span><span class="p">,</span> <span class="s2">&quot;intp&quot;</span><span class="p">,</span> <span class="s2">&quot;int8&quot;</span><span class="p">,</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="s2">&quot;int64&quot;</span><span class="p">,</span> <span class="s2">&quot;uint8&quot;</span><span class="p">,</span> <span class="s2">&quot;uint16&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uint32&quot;</span><span class="p">,</span> <span class="s2">&quot;uint64&quot;</span><span class="p">,</span> <span class="s2">&quot;float_&quot;</span><span class="p">,</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;float16&quot;</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">,</span> <span class="s2">&quot;bool_&quot;</span><span class="p">,</span> <span class="s2">&quot;bool&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;short&quot;</span><span class="p">,</span> <span class="s2">&quot;ushort&quot;</span><span class="p">,</span> <span class="s2">&quot;uint&quot;</span><span class="p">,</span> <span class="s2">&quot;uintc&quot;</span><span class="p">,</span> <span class="s2">&quot;longlong&quot;</span><span class="p">,</span> <span class="s2">&quot;ulonglong&quot;</span><span class="p">,</span> <span class="s2">&quot;half&quot;</span><span class="p">,</span> <span class="s2">&quot;single&quot;</span><span class="p">,</span> <span class="s2">&quot;double&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;longdouble&quot;</span><span class="p">,</span> <span class="s2">&quot;csingle&quot;</span><span class="p">,</span> <span class="s2">&quot;cdouble&quot;</span><span class="p">,</span> <span class="s2">&quot;clongdouble&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;str_&quot;</span><span class="p">,</span> <span class="s2">&quot;str&quot;</span><span class="p">,</span> <span class="s2">&quot;unicode_&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;unicode&quot;</span><span class="p">,</span> <span class="s2">&quot;void&quot;</span><span class="p">,</span> <span class="s2">&quot;byte&quot;</span><span class="p">,</span> <span class="s2">&quot;ubyte&quot;</span><span class="p">,</span> <span class="s2">&quot;complex_&quot;</span><span class="p">,</span> <span class="s2">&quot;complex&quot;</span><span class="p">,</span> <span class="s2">&quot;longcomplex&quot;</span><span class="p">,</span> <span class="s2">&quot;datetime64&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;timedelta64&quot;</span><span class="p">,</span> <span class="s2">&quot;float128&quot;</span><span class="p">,</span> <span class="s2">&quot;complex128&quot;</span><span class="p">,</span> <span class="s2">&quot;complex256&quot;</span><span class="p">,</span> <span class="s2">&quot;datetime64&quot;</span><span class="p">,</span> <span class="s2">&quot;csingle&quot;</span><span class="p">,</span> <span class="s2">&quot;cdouble&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;clongdouble&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="c1"># fmt: on</span>
+
+
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="c1"># turn off possible DeprecationWarning from numpy</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+    <span class="n">_numpy_data_types</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_numpy_data_types</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;numpy&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="ndarray_to_list"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.ndarray_to_list">[docs]</a><span class="k">def</span> <span class="nf">ndarray_to_list</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert numpy array to list.</span>
+
+<span class="sd">    This function is used to convert numpy array to list, so that it can be</span>
+<span class="sd">    serialized by :mod:`json`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : Union[np.ndarray, dict, list, tuple]</span>
+<span class="sd">        Input data, which can be numpy array,</span>
+<span class="sd">        or dict, list, tuple containing numpy arrays.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Union[list, dict]</span>
+<span class="sd">        Converted data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="c1"># to avoid cases where the list contains numpy data types</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ndarray_to_list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">ndarray_to_list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_numpy_data_types</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="c1"># the other types will be returned directly</span>
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="ordered_dict_to_dict"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.ordered_dict_to_dict">[docs]</a><span class="k">def</span> <span class="nf">ordered_dict_to_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert ordered dict to dict.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d : Union[OrderedDict, dict, list, tuple]</span>
+<span class="sd">        Input ordered dict,</span>
+<span class="sd">        or dict, list, tuple containing ordered dicts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Union[dict, list]</span>
+<span class="sd">        Converted dict.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+        <span class="n">new_d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">new_d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">ordered_dict_to_dict</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">new_d</span> <span class="o">=</span> <span class="p">[</span><span class="n">ordered_dict_to_dict</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">d</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_d</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">new_d</span></div>
+
+
+<div class="viewcode-block" id="default_dict_to_dict"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.default_dict_to_dict">[docs]</a><span class="k">def</span> <span class="nf">default_dict_to_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">defaultdict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert default dict to dict.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d : Union[defaultdict, dict, list, tuple]</span>
+<span class="sd">        Input default dict,</span>
+<span class="sd">        or dict, list, tuple containing default dicts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Union[dict, list]</span>
+<span class="sd">        Converted dict.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="n">defaultdict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+        <span class="n">new_d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">new_d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_dict_to_dict</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">new_d</span> <span class="o">=</span> <span class="p">[</span><span class="n">default_dict_to_dict</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">d</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_d</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">new_d</span></div>
+
+
+<div class="viewcode-block" id="set_seed"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.set_seed">[docs]</a><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set random seed for numpy and pytorch,</span>
+<span class="sd">    as well as disable cudnn to ensure reproducibility.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    seed : int</span>
+<span class="sd">        Random seed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYTHONHASHSEED&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="get_scheduler"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler">[docs]</a><span class="k">def</span> <span class="nf">get_scheduler</span><span class="p">(</span>
+    <span class="n">scheduler_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">_LRScheduler</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get learning rate scheduler.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scheduler_name : str</span>
+<span class="sd">        Name of the scheduler.</span>
+<span class="sd">    optimizer : torch.optim.Optimizer</span>
+<span class="sd">        Optimizer.</span>
+<span class="sd">    config : dict</span>
+<span class="sd">        Configuration of the scheduler.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    torch.optim.lr_scheduler._LRScheduler</span>
+<span class="sd">        Learning rate scheduler.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">scheduler_name</span> <span class="o">=</span> <span class="n">scheduler_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">config</span>
+
+    <span class="k">if</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">config</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Scheduler is not used, but config is provided. &quot;</span>
+                <span class="s2">&quot;The config will be ignored.&quot;</span><span class="p">,</span>
+                <span class="ne">RuntimeWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">LambdaLR</span><span class="p">(</span>
+            <span class="n">optimizer</span><span class="p">,</span> <span class="n">lr_lambda</span><span class="o">=</span><span class="k">lambda</span> <span class="n">epoch</span><span class="p">:</span> <span class="mf">1.0</span>
+        <span class="p">)</span>
+        <span class="n">scheduler</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">_step_count</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># to prevent scheduler warning</span>
+        <span class="k">return</span> <span class="n">scheduler</span>
+
+    <span class="k">if</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;cosine&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">CosineAnnealingLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;step&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;multi_step&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">MultiStepLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">ExponentialLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;reduce_on_plateau&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">ReduceLROnPlateau</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;cyclic&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">CyclicLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;one_cycle&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">OneCycleLR</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported scheduler: </span><span class="si">{</span><span class="n">scheduler_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">defaul_configs</span> <span class="o">=</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">scheduler_cls</span><span class="p">)</span>
+    <span class="n">required_configs</span> <span class="o">=</span> <span class="n">get_required_args</span><span class="p">(</span><span class="n">scheduler_cls</span><span class="p">)</span>
+    <span class="n">required_configs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;optimizer&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;self&quot;</span> <span class="ow">in</span> <span class="n">required_configs</span><span class="p">:</span>
+        <span class="c1"># normally, &quot;self&quot; is not in required_configs</span>
+        <span class="c1"># just in case</span>
+        <span class="n">required_configs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;self&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">required_configs</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Missing required configs for </span><span class="si">{</span><span class="n">scheduler_name</span><span class="si">}</span><span class="s2">: &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="n">required_configs</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">set</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">required_configs</span><span class="p">))</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span>
+        <span class="nb">set</span><span class="p">(</span><span class="n">defaul_configs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="p">),</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Unsupported configs for </span><span class="si">{</span><span class="n">scheduler_name</span><span class="si">}</span><span class="s2">: &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">set</span><span class="p">(</span><span class="n">required_configs</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">set</span><span class="p">(</span><span class="n">defaul_configs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">scheduler_config</span> <span class="o">=</span> <span class="n">defaul_configs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">scheduler_config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">scheduler_cls</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="o">**</span><span class="n">scheduler_config</span><span class="p">)</span>
+    <span class="n">scheduler</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">_step_count</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># to prevent scheduler warning</span>
+
+    <span class="k">return</span> <span class="n">scheduler</span></div>
+
+
+<div class="viewcode-block" id="get_scheduler_info"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler_info">[docs]</a><span class="k">def</span> <span class="nf">get_scheduler_info</span><span class="p">(</span><span class="n">scheduler_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get information of the scheduler,</span>
+<span class="sd">    including the required and optional configs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;cosine&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">CosineAnnealingLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;step&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;multi_step&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">MultiStepLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">ExponentialLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;reduce_on_plateau&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">ReduceLROnPlateau</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;cyclic&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">CyclicLR</span>
+    <span class="k">elif</span> <span class="n">scheduler_name</span> <span class="o">==</span> <span class="s2">&quot;one_cycle&quot;</span><span class="p">:</span>
+        <span class="n">scheduler_cls</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">OneCycleLR</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported scheduler: </span><span class="si">{</span><span class="n">scheduler_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">defaul_configs</span> <span class="o">=</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">scheduler_cls</span><span class="p">)</span>
+    <span class="n">required_configs</span> <span class="o">=</span> <span class="n">get_required_args</span><span class="p">(</span><span class="n">scheduler_cls</span><span class="p">)</span>
+    <span class="n">required_configs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;optimizer&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;self&quot;</span> <span class="ow">in</span> <span class="n">required_configs</span><span class="p">:</span>
+        <span class="c1"># normally, &quot;self&quot; is not in required_configs</span>
+        <span class="c1"># just in case</span>
+        <span class="n">required_configs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;self&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">scheduler_cls</span><span class="p">,</span>
+        <span class="s2">&quot;required_args&quot;</span><span class="p">:</span> <span class="n">required_configs</span><span class="p">,</span>
+        <span class="s2">&quot;optional_args&quot;</span><span class="p">:</span> <span class="n">defaul_configs</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="is_notebook"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.is_notebook">[docs]</a><span class="k">def</span> <span class="nf">is_notebook</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the current environment is a notebook (Jupyter or Colab).</span>
+
+<span class="sd">    Implementation adapted from [#sa]_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        Whether the code is running in a notebook</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [#sa] https://stackoverflow.com/questions/15411967/how-can-i-check-if-code-is-executed-in-the-ipython-notebook</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">shell</span> <span class="o">=</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="vm">__class__</span>
+        <span class="k">if</span> <span class="n">shell</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;ZMQInteractiveShell&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Jupyter notebook or qtconsole</span>
+        <span class="k">elif</span> <span class="s2">&quot;colab&quot;</span> <span class="ow">in</span> <span class="nb">repr</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Google Colab</span>
+        <span class="k">elif</span> <span class="n">shell</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;TerminalInteractiveShell&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Terminal running IPython</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Other type (?)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>  <span class="c1"># Probably standard Python interpreter</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># get_ipython is None</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="find_longest_common_substring"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.find_longest_common_substring">[docs]</a><span class="k">def</span> <span class="nf">find_longest_common_substring</span><span class="p">(</span>
+    <span class="n">strings</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">min_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the longest common substring of a list of strings.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    strings : sequence of str</span>
+<span class="sd">        The list of strings.</span>
+<span class="sd">    min_len : int, optional</span>
+<span class="sd">        The minimum length of the common substring.</span>
+<span class="sd">    ignore : str, optional</span>
+<span class="sd">        The substring to be ignored.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The longest common substring.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">substr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">substr</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">strings</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">strings</span><span class="p">):</span>
+                    <span class="n">substr</span> <span class="o">=</span> <span class="n">strings</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">ignore</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ignore</span> <span class="ow">in</span> <span class="n">substr</span><span class="p">:</span>
+        <span class="n">substr</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">substr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">ignore</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">min_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">substr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">min_len</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">substr</span></div>
+
+
+<div class="viewcode-block" id="add_kwargs"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.add_kwargs">[docs]</a><span class="k">def</span> <span class="nf">add_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="nb">callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add keyword arguments to a function.</span>
+
+<span class="sd">    This function is used to add keyword arguments to a function</span>
+<span class="sd">    in order to make it compatible with other functions。</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    func : callable</span>
+<span class="sd">        The function to be decorated.</span>
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        The keyword arguments to be added.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    callable</span>
+<span class="sd">        The decorated function, with the keyword arguments added.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">old_kwargs</span> <span class="o">=</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="n">func_signature</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="n">func_parameters</span> <span class="o">=</span> <span class="n">func_signature</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># ordered dict</span>
+
+    <span class="n">full_kwargs</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">old_kwargs</span><span class="p">)</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">POSITIONAL_OR_KEYWORD</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">func_parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span><span class="p">:</span>
+            <span class="n">kind</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span>
+            <span class="k">break</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">old_kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;keyword argument `</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">` already exists!&quot;</span><span class="p">)</span>
+        <span class="n">full_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="n">func_parameters</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="c1"># move the VAR_POSITIONAL and VAR_KEYWORD in `func_parameters` to the end</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">func_parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">VAR_POSITIONAL</span><span class="p">:</span>
+            <span class="n">func_parameters</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">break</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">func_parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">VAR_KEYWORD</span><span class="p">:</span>
+            <span class="n">func_parameters</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">):</span>
+        <span class="c1"># can not assign `__signature__` to a bound method directly</span>
+        <span class="n">func</span><span class="o">.</span><span class="vm">__func__</span><span class="o">.</span><span class="n">__signature__</span> <span class="o">=</span> <span class="n">func_signature</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">func_parameters</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">__signature__</span> <span class="o">=</span> <span class="n">func_signature</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">func_parameters</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="c1"># docstring is automatically copied by `functools.wraps`</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">kwargs_</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">full_kwargs</span><span class="p">),</span> <span class="p">(</span>
+            <span class="s2">&quot;got unexpected keyword arguments: &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">kwargs_</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">full_kwargs</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">filtered_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs_</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">old_kwargs</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">filtered_kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<span class="k">def</span> <span class="nf">execute_cmd</span><span class="p">(</span>
+    <span class="n">cmd</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">raise_error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute shell command using `Popen`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cmd : str or list of str</span>
+<span class="sd">        Shell command to be executed,</span>
+<span class="sd">        or a list of .sh files to be executed.</span>
+<span class="sd">    raise_error : bool, default True</span>
+<span class="sd">        If True, error will be raised when occured.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    exitcode : int</span>
+<span class="sd">        Exit code returned by `Popen`.</span>
+<span class="sd">    output_msg : list of str</span>
+<span class="sd">        Outputs from `stdout` of `Popen`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">shell_arg</span><span class="p">,</span> <span class="n">executable_arg</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+        <span class="n">cmd</span><span class="p">,</span>
+        <span class="n">shell</span><span class="o">=</span><span class="n">shell_arg</span><span class="p">,</span>
+        <span class="n">executable</span><span class="o">=</span><span class="n">executable_arg</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+        <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
+        <span class="n">close_fds</span><span class="o">=</span><span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;windows&quot;</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">debug_stdout</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="s2">&quot;  execute_cmd starts  &quot;</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">():</span>
+            <span class="n">debug_stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="c1"># print(line)</span>
+        <span class="n">exitcode</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">exitcode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+                <span class="n">debug_stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">exitcode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">exitcode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">error_msg</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">cmd</span>
+                <span class="n">error_msg</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">error_msg</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">debug_stdout</span><span class="p">)</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="s2">&quot;  execute_cmd failed  &quot;</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">raise_error</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">(</span><span class="n">exitcode</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">output_msg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">debug_stdout</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">exitcode</span><span class="p">,</span> <span class="n">output_msg</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">output_msg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">debug_stdout</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="s2">&quot;  execute_cmd succeeded  &quot;</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">exitcode</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">exitcode</span><span class="p">,</span> <span class="n">output_msg</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, WEN Hao.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/sphinx_highlight.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

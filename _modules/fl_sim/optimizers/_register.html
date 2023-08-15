@@ -32,6 +32,8 @@
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/proof.css" type="text/css" />
+  
     <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" type="text/css" />
@@ -301,6 +303,29 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/models.html#utilities">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.reset_parameters.html#fl_sim.models.reset_parameters"><code class="docutils literal notranslate"><span class="pre">reset_parameters()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.top_n_accuracy.html#fl_sim.models.top_n_accuracy"><code class="docutils literal notranslate"><span class="pre">top_n_accuracy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.CLFMixin.html#fl_sim.models.CLFMixin"><code class="docutils literal notranslate"><span class="pre">CLFMixin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.REGMixin.html">REGMixin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.REGMixin.html#fl_sim.models.REGMixin"><code class="docutils literal notranslate"><span class="pre">REGMixin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/generated/fl_sim.models.DiffMixin.html#fl_sim.models.DiffMixin"><code class="docutils literal notranslate"><span class="pre">DiffMixin</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/optimizers.html">fl_sim.optimizers</a><ul>
@@ -368,6 +393,90 @@
 </li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/utils.html">fl_sim.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl-sim-utils-loggers">fl_sim.utils.loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger"><code class="docutils literal notranslate"><span class="pre">BaseLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.close"><code class="docutils literal notranslate"><span class="pre">BaseLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_end"><code class="docutils literal notranslate"><span class="pre">BaseLogger.epoch_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_start"><code class="docutils literal notranslate"><span class="pre">BaseLogger.epoch_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">BaseLogger.extra_repr_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.filename"><code class="docutils literal notranslate"><span class="pre">BaseLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.flush"><code class="docutils literal notranslate"><span class="pre">BaseLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.from_config"><code class="docutils literal notranslate"><span class="pre">BaseLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_dir</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_message"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.reset"><code class="docutils literal notranslate"><span class="pre">BaseLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.set_log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.set_log_dir()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger"><code class="docutils literal notranslate"><span class="pre">CSVLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.close"><code class="docutils literal notranslate"><span class="pre">CSVLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.filename"><code class="docutils literal notranslate"><span class="pre">CSVLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.flush"><code class="docutils literal notranslate"><span class="pre">CSVLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.from_config"><code class="docutils literal notranslate"><span class="pre">CSVLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.log_message"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.CSVLogger.reset"><code class="docutils literal notranslate"><span class="pre">CSVLogger.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger"><code class="docutils literal notranslate"><span class="pre">JsonLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.close"><code class="docutils literal notranslate"><span class="pre">JsonLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.filename"><code class="docutils literal notranslate"><span class="pre">JsonLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.flush"><code class="docutils literal notranslate"><span class="pre">JsonLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.from_config"><code class="docutils literal notranslate"><span class="pre">JsonLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.log_message"><code class="docutils literal notranslate"><span class="pre">JsonLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">JsonLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.reset"><code class="docutils literal notranslate"><span class="pre">JsonLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.strftime"><code class="docutils literal notranslate"><span class="pre">JsonLogger.strftime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.strptime"><code class="docutils literal notranslate"><span class="pre">JsonLogger.strptime()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager"><code class="docutils literal notranslate"><span class="pre">LoggerManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.close"><code class="docutils literal notranslate"><span class="pre">LoggerManager.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_end"><code class="docutils literal notranslate"><span class="pre">LoggerManager.epoch_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_start"><code class="docutils literal notranslate"><span class="pre">LoggerManager.epoch_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">LoggerManager.extra_repr_keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.flush"><code class="docutils literal notranslate"><span class="pre">LoggerManager.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.from_config"><code class="docutils literal notranslate"><span class="pre">LoggerManager.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_dir"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_dir</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_message"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_metrics"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_suffix"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_suffix</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.loggers"><code class="docutils literal notranslate"><span class="pre">LoggerManager.loggers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.reset"><code class="docutils literal notranslate"><span class="pre">LoggerManager.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger"><code class="docutils literal notranslate"><span class="pre">TxtLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.close"><code class="docutils literal notranslate"><span class="pre">TxtLogger.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_end"><code class="docutils literal notranslate"><span class="pre">TxtLogger.epoch_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_start"><code class="docutils literal notranslate"><span class="pre">TxtLogger.epoch_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.filename"><code class="docutils literal notranslate"><span class="pre">TxtLogger.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.flush"><code class="docutils literal notranslate"><span class="pre">TxtLogger.flush()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.from_config"><code class="docutils literal notranslate"><span class="pre">TxtLogger.from_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.log_message"><code class="docutils literal notranslate"><span class="pre">TxtLogger.log_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">TxtLogger.log_metrics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.long_sep"><code class="docutils literal notranslate"><span class="pre">TxtLogger.long_sep</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.reset"><code class="docutils literal notranslate"><span class="pre">TxtLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.short_sep"><code class="docutils literal notranslate"><span class="pre">TxtLogger.short_sep</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl-sim-utils-imports">fl_sim.utils.imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.imports.load_module_from_file"><code class="docutils literal notranslate"><span class="pre">load_module_from_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl-sim-utils-misc">fl_sim.utils.misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.add_kwargs"><code class="docutils literal notranslate"><span class="pre">add_kwargs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.clear_logs"><code class="docutils literal notranslate"><span class="pre">clear_logs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.default_dict_to_dict"><code class="docutils literal notranslate"><span class="pre">default_dict_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.experiment_indicator"><code class="docutils literal notranslate"><span class="pre">experiment_indicator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.find_longest_common_substring"><code class="docutils literal notranslate"><span class="pre">find_longest_common_substring()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler"><code class="docutils literal notranslate"><span class="pre">get_scheduler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler_info"><code class="docutils literal notranslate"><span class="pre">get_scheduler_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.is_notebook"><code class="docutils literal notranslate"><span class="pre">is_notebook()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.ndarray_to_list"><code class="docutils literal notranslate"><span class="pre">ndarray_to_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.ordered_dict_to_dict"><code class="docutils literal notranslate"><span class="pre">ordered_dict_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/utils.html#fl_sim.utils.misc.set_seed"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -471,7 +580,7 @@
 <span class="n">_built_in_optimizers</span> <span class="o">=</span> <span class="p">{}</span>
 
 
-<div class="viewcode-block" id="register_optimizer"><a class="viewcode-back" href="../../../api/generated/fl_sim.optimizers.register_optimizer.html#fl_sim.optimizers.register_optimizer">[docs]</a><span class="k">def</span> <span class="nf">register_optimizer</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">override</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="register_optimizer"><a class="viewcode-back" href="../../../api/generated/fl_sim.optimizers.register_optimizer.html#fl_sim.optimizers.register_optimizer">[docs]</a><span class="k">def</span> <span class="nf">register_optimizer</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">override</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator to register a new optimizer.</span>
 
 <span class="sd">    Parameters</span>
@@ -480,7 +589,7 @@
 <span class="sd">        Name of the optimizer.</span>
 <span class="sd">        If not specified, the class name with &quot;(?:Optimizer)?&quot;</span>
 <span class="sd">        removed will be used.</span>
-<span class="sd">    override : bool, default False</span>
+<span class="sd">    override : bool, default True</span>
 <span class="sd">        Whether to override the existing optimizer with the same name.</span>
 
 <span class="sd">    Returns</span>
