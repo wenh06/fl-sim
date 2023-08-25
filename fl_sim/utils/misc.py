@@ -93,30 +93,6 @@ def clear_logs(
         log_file.unlink()
 
 
-# fmt: off
-# numpy data types will be converted to python native types
-_numpy_data_types = [
-    "int_", "int", "intc", "intp", "int8", "int16", "int32", "int64", "uint8", "uint16",
-    "uint32", "uint64", "float_", "float", "float16", "float32", "float64", "bool_", "bool",
-    "short", "ushort", "uint", "uintc", "longlong", "ulonglong", "half", "single", "double",
-    "longdouble", "csingle", "cdouble", "clongdouble", "object", "str_", "str", "unicode_",
-    "unicode", "void", "byte", "ubyte", "complex_", "complex", "longcomplex", "datetime64",
-    "timedelta64", "float128", "complex128", "complex256", "datetime64", "csingle", "cdouble",
-    "clongdouble",
-]
-# fmt: on
-
-
-with warnings.catch_warnings():
-    # turn off possible DeprecationWarning from numpy
-    warnings.filterwarnings("ignore")
-    _numpy_data_types = tuple(
-        getattr(np, item)
-        for item in _numpy_data_types
-        if hasattr(np, item) and "numpy" in str(getattr(np, item))
-    )
-
-
 def ndarray_to_list(x: Union[np.ndarray, dict, list, tuple]) -> Union[list, dict]:
     """Convert numpy array to list.
 
@@ -143,7 +119,7 @@ def ndarray_to_list(x: Union[np.ndarray, dict, list, tuple]) -> Union[list, dict
     elif isinstance(x, dict):
         for k, v in x.items():
             x[k] = ndarray_to_list(v)
-    elif isinstance(x, _numpy_data_types):
+    elif isinstance(x, np.generic):
         return x.item()
     # the other types will be returned directly
     return x
