@@ -403,6 +403,16 @@ For the convergence of ``FedProx`` in non-I.I.D. scenarios, :cite:p:`sahu2018fed
    then in the neighbourhood, :math:`B_{\varepsilon}` goes rapidly to infinity as :math:`\varepsilon \to 0`, thus violating
    the condition :math:`\rho > 0`. In this case, the inequality :eq:`fedprox_obj_decrease` becomes meaningless.
 
+   When the data distribution across clients is identical (ideal case), then :math:`B_{\varepsilon}` is constantly equal to 1,
+   which would not have the problem mentioned above. This problem is the start point of a series of follow-up works :cite:p:`pathak2020fedsplit,tran2021feddr`.
+
+The positive significance of the ``FedProx`` algorithm is that it first introduced the proximal point algorithms (PPA) in the field of
+federated learning, although which were only used for solving local optimization problems (or equivalently the inner loop problem) and the
+whole of the ``FedProx`` algorithm is not a PPA in strict sense. The ``FedProx`` algorithm provides not only a good framework for theoretical
+analysis, but also a good starting point for the design of new algorithms. A large proportion of the algorithms proposed later for personalized
+fedrated learning :cite:p:`hanzely2020federated, acar2021feddyn, li_2021_ditto, t2020pfedme, li2021pfedmac` rely on the proximal terms (or similar terms)
+as the main technical tool for personalization.
+
 .. _fig-apfl:
 
 .. tikz:: Schematic diagram for :math:`f_k(\alpha_k \omega_k + (1 - \alpha_k) \theta^*)` in the APFL algorithm.
@@ -485,6 +495,8 @@ to write....
 
 Primal-Dual Algorithms in Federated Learning
 --------------------------------------------
+
+In traditional optimization methods, the primal-dual algorithm is a kind of frequently used algorithm that solves the primal and dual problems.
 
 to write....
 

@@ -75,6 +75,7 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable/", None),
     "np": ("https://numpy.org/doc/stable/", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
+    "pd": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     # "scipy": ("https://docs.scipy.org/doc/scipy/", None),
     "torch": ("https://pytorch.org/docs/stable/", None),
     "matplotlib": ("https://matplotlib.org/stable/", None),
@@ -113,17 +114,17 @@ napoleon_custom_sections = [
 # napoleon_custom_section_rename = False # True is default for backwards compatibility.
 
 proof_theorem_types = {
-   "algorithm": "Algorithm",
-   "conjecture": "Conjecture",
-   "corollary": "Corollary",
-   "definition": "Definition",
-   "example": "Example",
-   "lemma": "Lemma",
-   "observation": "Observation",
-   "proof": "Proof",
-   "property": "Property",
-   "theorem": "Theorem",
-   "remark": "Remark",  # new
+    "algorithm": "Algorithm",
+    "conjecture": "Conjecture",
+    "corollary": "Corollary",
+    "definition": "Definition",
+    "example": "Example",
+    "lemma": "Lemma",
+    "observation": "Observation",
+    "proof": "Proof",
+    "property": "Property",
+    "theorem": "Theorem",
+    "remark": "Remark",  # new
 }
 
 
