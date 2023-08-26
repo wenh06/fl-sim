@@ -93,6 +93,9 @@ And the following assumptions on data distributions:
          :label: iid-2
 
          \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2, ~ \forall \theta \in \left\{ \theta \in \R^d ~ \middle| ~ \lVert f(\theta) \rVert^2 > \varepsilon \right\}.
+
+.. _bdd_grad_dissim:
+
    * (A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways :cite:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`. For example, in :cite:p:`karimireddy2020scaffold` and :cite:p:`zhang2020fedpd`, the so-called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity. More specifically, there exists constants :math:`G > 0` and :math:`B \geqslant 0` such that
 
       .. math::
@@ -359,6 +362,56 @@ Namely, :math:`\prox_{sf_k}` can be regarded as the gradient descent operator fo
 
 For the convergence of ``FedProx`` in non-I.I.D. scenarios, :cite:p:`sahu2018fedprox` has the following theorem:
 
+.. _fedprox_thm4:
+
+.. proof:theorem:: :cite:p:`sahu2018fedprox` Theorem 4
+
+   Assume that the objective functions on clients :math:`\{f_k\}_{k=1}^K` are non-convex, :math:`L`-smooth (definition see :eq:`l-smooth`), and there exists a constant :math:`L_- > 0` such that :math:`\nabla^2 f_k \succcurlyeq -L_- I_d`.
+   Assume further that the functions :math:`\{f_k\}_{k=1}^K` satisfy the so-called bounded dissimilarity condition, i.e.
+   for any :math:`\varepsilon > 0`, there exists a constant :math:`B_{\varepsilon} > 0` such that for any point :math:`\theta`
+   in the set :math:`\mathcal{S}_{\varepsilon}^c := \{ \theta ~|~ \lVert \nabla f(\theta) \rVert^2 > \varepsilon\}`,
+   the following inequality holds
+
+   .. math::
+      :label: fedprox_bdd_dissim
+
+      B(\theta) := \frac{\expectation_k [\lVert \nabla f_k(\theta) \rVert^2]}{\lVert \nabla f(\theta) \rVert^2} \leqslant B_{\varepsilon}.
+
+   Fix constants :math:`\mu, \gamma` satisfying
+
+   .. math::
+      :label: fedprox_mu_gamma
+
+      \rho := \left( \frac{1}{\mu} - \frac{\gamma B}{\mu} - \frac{B(1+\gamma)\sqrt{2}}{\bar{\mu}\sqrt{K}} - \frac{LB(1+\gamma)}{\bar{\mu}\mu} - \frac{LB^2(1+\gamma)^2}{2\bar{\mu}^2} - \frac{LB^2(1+\gamma)^2}{\bar{\mu}^2 K} \left( 2\sqrt{2K} + 2 \right) \right) > 0,
+
+   where :math:`\bar{\mu} = \mu - L_- > 0`. Then, in the :math:`(t+1)`-th iteration of ``FedProx``, assuming that the global model
+   :math:`\theta^{(t)}` of the previous iteration is not the first-order stationary point of the global objective function :math:`f(\theta)`,
+   (i.e. :math:`\theta^{(t)} \in \mathcal{S}_{\varepsilon}^c`), the following decrease in the global objective function holds
+
+   .. math::
+      :label: fedprox_obj_decrease
+
+      \expectation\nolimits_{\mathcal{S}^{(t)}}[f(\theta^{(t+1)})] \leqslant f(\theta^{(t)}) - \rho \lVert \nabla f (\theta^{(t)}) \rVert^2.
+
+.. _fedprox_rem1:
+
+.. proof:remark::
+
+   For the `convergence theorem <fedprox_thm4_>`_ of ``FedProx``, we have the following observations: in a neighbourhood of
+   some zero of :math:`\lVert \nabla f \rVert`, if this zero is not cancelled by :math:`\mathbb{E}_k[\lVert \nabla f_k \rVert]`,
+   i.e. this point is also a zero of :math:`\mathbb{E}_k[\lVert \nabla f_k \rVert]` with the same or higher multiplicity,
+   then in the neighbourhood, :math:`B_{\varepsilon}` goes rapidly to infinity as :math:`\varepsilon \to 0`, thus violating
+   the condition :math:`\rho > 0`. In this case, the inequality :eq:`fedprox_obj_decrease` becomes meaningless.
+
+   When the data distribution across clients is identical (ideal case), then :math:`B_{\varepsilon}` is constantly equal to 1,
+   which would not have the problem mentioned above. This problem is the start point of a series of follow-up works :cite:p:`pathak2020fedsplit,tran2021feddr`.
+
+The positive significance of the ``FedProx`` algorithm is that it first introduced the proximal point algorithms (PPA) in the field of
+federated learning, although which were only used for solving local optimization problems (or equivalently the inner loop problem) and the
+whole of the ``FedProx`` algorithm is not a PPA in strict sense. The ``FedProx`` algorithm provides not only a good framework for theoretical
+analysis, but also a good starting point for the design of new algorithms. A large proportion of the algorithms proposed later for personalized
+fedrated learning :cite:p:`hanzely2020federated, acar2021feddyn, li_2021_ditto, t2020pfedme, li2021pfedmac` rely on the proximal terms (or similar terms)
+as the main technical tool for personalization.
 
 .. _fig-apfl:
 
@@ -442,6 +495,8 @@ to write....
 
 Primal-Dual Algorithms in Federated Learning
 --------------------------------------------
+
+In traditional optimization methods, the primal-dual algorithm is a kind of frequently used algorithm that solves the primal and dual problems.
 
 to write....
 

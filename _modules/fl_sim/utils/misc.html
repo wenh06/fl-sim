@@ -36,6 +36,8 @@
   
     <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/css/proof.css" type="text/css" />
+  
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" type="text/css" />
   
 
@@ -660,30 +662,6 @@
         <span class="n">log_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span></div>
 
 
-<span class="c1"># fmt: off</span>
-<span class="c1"># numpy data types will be converted to python native types</span>
-<span class="n">_numpy_data_types</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;int_&quot;</span><span class="p">,</span> <span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;intc&quot;</span><span class="p">,</span> <span class="s2">&quot;intp&quot;</span><span class="p">,</span> <span class="s2">&quot;int8&quot;</span><span class="p">,</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="s2">&quot;int64&quot;</span><span class="p">,</span> <span class="s2">&quot;uint8&quot;</span><span class="p">,</span> <span class="s2">&quot;uint16&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;uint32&quot;</span><span class="p">,</span> <span class="s2">&quot;uint64&quot;</span><span class="p">,</span> <span class="s2">&quot;float_&quot;</span><span class="p">,</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;float16&quot;</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="s2">&quot;float64&quot;</span><span class="p">,</span> <span class="s2">&quot;bool_&quot;</span><span class="p">,</span> <span class="s2">&quot;bool&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;short&quot;</span><span class="p">,</span> <span class="s2">&quot;ushort&quot;</span><span class="p">,</span> <span class="s2">&quot;uint&quot;</span><span class="p">,</span> <span class="s2">&quot;uintc&quot;</span><span class="p">,</span> <span class="s2">&quot;longlong&quot;</span><span class="p">,</span> <span class="s2">&quot;ulonglong&quot;</span><span class="p">,</span> <span class="s2">&quot;half&quot;</span><span class="p">,</span> <span class="s2">&quot;single&quot;</span><span class="p">,</span> <span class="s2">&quot;double&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;longdouble&quot;</span><span class="p">,</span> <span class="s2">&quot;csingle&quot;</span><span class="p">,</span> <span class="s2">&quot;cdouble&quot;</span><span class="p">,</span> <span class="s2">&quot;clongdouble&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;str_&quot;</span><span class="p">,</span> <span class="s2">&quot;str&quot;</span><span class="p">,</span> <span class="s2">&quot;unicode_&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;unicode&quot;</span><span class="p">,</span> <span class="s2">&quot;void&quot;</span><span class="p">,</span> <span class="s2">&quot;byte&quot;</span><span class="p">,</span> <span class="s2">&quot;ubyte&quot;</span><span class="p">,</span> <span class="s2">&quot;complex_&quot;</span><span class="p">,</span> <span class="s2">&quot;complex&quot;</span><span class="p">,</span> <span class="s2">&quot;longcomplex&quot;</span><span class="p">,</span> <span class="s2">&quot;datetime64&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;timedelta64&quot;</span><span class="p">,</span> <span class="s2">&quot;float128&quot;</span><span class="p">,</span> <span class="s2">&quot;complex128&quot;</span><span class="p">,</span> <span class="s2">&quot;complex256&quot;</span><span class="p">,</span> <span class="s2">&quot;datetime64&quot;</span><span class="p">,</span> <span class="s2">&quot;csingle&quot;</span><span class="p">,</span> <span class="s2">&quot;cdouble&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;clongdouble&quot;</span><span class="p">,</span>
-<span class="p">]</span>
-<span class="c1"># fmt: on</span>
-
-
-<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-    <span class="c1"># turn off possible DeprecationWarning from numpy</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-    <span class="n">_numpy_data_types</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
-        <span class="nb">getattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_numpy_data_types</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;numpy&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span>
-    <span class="p">)</span>
-
-
 <div class="viewcode-block" id="ndarray_to_list"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.ndarray_to_list">[docs]</a><span class="k">def</span> <span class="nf">ndarray_to_list</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert numpy array to list.</span>
 
@@ -710,7 +688,7 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">ndarray_to_list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_numpy_data_types</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
     <span class="c1"># the other types will be returned directly</span>
     <span class="k">return</span> <span class="n">x</span></div>
@@ -1149,6 +1127,7 @@
       <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
       <script type="text/javascript" src="../../../_static/sphinx_highlight.js"></script>
+      <script type="text/javascript" src="../../../_static/proof.js"></script>
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

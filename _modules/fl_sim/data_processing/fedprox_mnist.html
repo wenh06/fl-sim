@@ -36,6 +36,8 @@
   
     <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/css/proof.css" type="text/css" />
+  
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" type="text/css" />
   
 
@@ -575,6 +577,7 @@
 <span class="kn">import</span> <span class="nn">torch.utils.data</span> <span class="k">as</span> <span class="nn">torchdata</span>
 
 <span class="kn">from</span> <span class="nn">..utils.const</span> <span class="kn">import</span> <span class="n">CACHED_DATA_DIR</span><span class="p">,</span> <span class="n">MNIST_LABEL_MAP</span>
+<span class="kn">from</span> <span class="nn">..utils._download_data</span> <span class="kn">import</span> <span class="n">url_is_reachable</span>
 <span class="kn">from</span> <span class="nn">..models</span> <span class="kn">import</span> <span class="n">nn</span> <span class="k">as</span> <span class="n">mnn</span>
 <span class="kn">from</span> <span class="nn">..models.utils</span> <span class="kn">import</span> <span class="n">top_n_accuracy</span>
 <span class="kn">from</span> <span class="nn">.fed_dataset</span> <span class="kn">import</span> <span class="n">FedVisionDataset</span>
@@ -791,7 +794,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;URL for downloading the dataset.&quot;&quot;&quot;</span>
         <span class="c1"># https://drive.google.com/file/d/1tCEcJgRJ8NdRo11UJZR6WSKMNdmox4GC/view?usp=sharing</span>
         <span class="c1"># &quot;http://218.245.5.12/NLP/federated/fedprox-mnist.zip&quot;</span>
-        <span class="k">return</span> <span class="s2">&quot;https://www.dropbox.com/s/ndri55jt0w9juk1/fedprox-mnist.zip?dl=1&quot;</span>
+        <span class="k">if</span> <span class="n">url_is_reachable</span><span class="p">(</span><span class="s2">&quot;https://www.dropbox.com/&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;https://www.dropbox.com/s/ndri55jt0w9juk1/fedprox-mnist.zip?dl=1&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;https://deep-psp.tech/Data/FL/fedprox-mnist.zip&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
@@ -1079,6 +1085,7 @@
       <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
       <script type="text/javascript" src="../../../_static/sphinx_highlight.js"></script>
+      <script type="text/javascript" src="../../../_static/proof.js"></script>
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
