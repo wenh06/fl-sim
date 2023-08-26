@@ -12,6 +12,7 @@ import torch
 import torch.utils.data as torchdata
 
 from fl_sim.utils.const import CACHED_DATA_DIR
+from fl_sim.utils._download_data import url_is_reachable
 from fl_sim.models import nn as mnn
 from fl_sim.models.utils import top_n_accuracy
 from fl_sim.data_processing.fed_dataset import FedVisionDataset
@@ -198,13 +199,14 @@ class CustomFEMNIST(FedVisionDataset):
     def url(self) -> str:
         # https://drive.google.com/file/d/1tCEcJgRJ8NdRo11UJZR6WSKMNdmox4GC/view?usp=sharing
         # "http://218.245.5.12/NLP/federated/fedprox-femnist.zip"
-        return "https://www.dropbox.com/s/55ibep82qqars9w/fedprox-femnist.zip?dl=1"
+        if url_is_reachable("http://www.dropbox.com"):
+            return "https://www.dropbox.com/s/55ibep82qqars9w/fedprox-femnist.zip?dl=1"
+        else:
+            return "https://deep-psp.tech/Data/FL/fedprox-femnist.zip"
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
-        """
-        a set of candidate models
-        """
+        """A set of candidate models."""
         return {
             "cnn_femmist_tiny": mnn.CNNFEMnist_Tiny(num_classes=self.n_class),
             "cnn_femmist": mnn.CNNFEMnist(num_classes=self.n_class),

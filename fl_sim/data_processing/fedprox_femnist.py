@@ -8,6 +8,7 @@ import torch
 import torch.utils.data as torchdata
 
 from ..utils.const import CACHED_DATA_DIR
+from ..utils._download_data import url_is_reachable
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from .fed_dataset import FedVisionDataset
@@ -249,7 +250,10 @@ class FedProxFEMNIST(FedVisionDataset):
         """URL for downloading the dataset."""
         # https://drive.google.com/file/d/1tCEcJgRJ8NdRo11UJZR6WSKMNdmox4GC/view?usp=sharing
         # "http://218.245.5.12/NLP/federated/fedprox-femnist.zip"
-        return "https://www.dropbox.com/s/55ibep82qqars9w/fedprox-femnist.zip?dl=1"
+        if url_is_reachable("https://www.dropbox.com"):
+            return "https://www.dropbox.com/s/55ibep82qqars9w/fedprox-femnist.zip?dl=1"
+        else:
+            return "https://deep-psp.tech/Data/FL/fedprox-femnist.zip"
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:

@@ -9,6 +9,7 @@ import torch.utils.data as torchdata
 from bs4 import BeautifulSoup
 
 from ..utils.const import CACHED_DATA_DIR
+from ..utils._download_data import url_is_reachable
 from ..models import nn as mnn
 from ..models.word_embeddings import GloveEmbedding
 from ..models.utils import top_n_accuracy
@@ -266,7 +267,10 @@ class FedProxSent140(FedNLPDataset):
     def url(self) -> str:
         """URL for downloading the dataset."""
         # https://drive.google.com/file/d/1pgHf4DUZkGI6q-NLjBzMawX5yn4Y40k0/view?usp=sharing
-        return "https://www.dropbox.com/s/jbmubdtehkwade1/fedprox-sent140.zip?dl=1"
+        if url_is_reachable("https://www.dropbox.com"):
+            return "https://www.dropbox.com/s/jbmubdtehkwade1/fedprox-sent140.zip?dl=1"
+        else:
+            return "https://deep-psp.tech/Data/FL/fedprox-sent140.zip"
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
