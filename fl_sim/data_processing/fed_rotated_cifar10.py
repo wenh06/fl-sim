@@ -378,8 +378,10 @@ class FedRotatedCIFAR10(FedVisionDataset):
     @property
     def doi(self) -> List[str]:
         """DOI(s) related to the dataset."""
-        # TODO: add doi of CIFAR10 and IFCA
-        return None
+        return [
+            "10.1109/5.726791",  # MNIST
+            "10.1109/tit.2022.3192506",  # IFCA
+        ]
 
     @property
     def label_map(self) -> dict:

@@ -90,7 +90,6 @@ def http_get(
             os.remove(downloaded_file.name)
             raise Exception(f"Unknown file type {_suffix(pure_url)}.")
         # avoid the case the compressed file is a folder with the same name
-        # DO NOT use _stem(Path(pure_url))
         _folder = Path(url).name.replace(_suffix(url), "")
         if _folder in os.listdir(dst_dir):
             tmp_folder = str(dst_dir).rstrip(os.sep) + "_tmp"
@@ -100,13 +99,6 @@ def http_get(
     else:
         shutil.copyfile(downloaded_file.name, Path(dst_dir) / Path(pure_url).name)
     os.remove(downloaded_file.name)
-
-
-def _stem(path: Union[str, Path]) -> str:
-    ret = Path(path).stem
-    for _ in range(3):
-        ret = Path(ret).stem
-    return ret
 
 
 def _suffix(path: Union[str, Path]) -> str:
