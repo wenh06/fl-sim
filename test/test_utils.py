@@ -23,6 +23,7 @@ from fl_sim.utils.misc import (
     find_longest_common_substring,
     experiment_indicator,
 )
+from fl_sim.utils._download_data import url_is_reachable
 
 
 def test_get_scheduler():
@@ -227,12 +228,6 @@ def test_experiment_indicator():
     pass
 
 
-if __name__ == "__main__":
-    test_get_scheduler()
-    test_get_scheduler_info()
-    test_add_kwargs()
-    test_ndarray_to_list()
-    test_ordered_dict_to_dict()
-    test_default_dict_to_dict()
-    test_find_longest_common_substring()
-    test_experiment_indicator()
+def test_url_is_reachable():
+    assert url_is_reachable("https://www.google.com/")
+    assert not url_is_reachable("https://www.google.com/xxx")

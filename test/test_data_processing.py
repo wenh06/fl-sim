@@ -55,6 +55,7 @@ def test_FedCIFAR100():
 
     assert isinstance(ds.get_classes(torch.tensor([0, 1])), list)
     assert isinstance(ds.get_class(torch.tensor(0)), str)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
 
     ds.view_image(0, 0)
     ds.random_grid_view(3, 3, save_path="test_FedCIFAR100.pdf")
@@ -102,14 +103,15 @@ def test_FedCIFAR100():
 def test_FedEMNIST():
     ds = FedEMNIST()
 
+    assert str(ds) == repr(ds)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
+
     assert ds.n_class == 62
     assert len(ds._client_ids_train) == ds.DEFAULT_TRAIN_CLIENTS_NUM
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
     ds.view_image(0, 0)
     ds.random_grid_view(3, 3, save_path="test_FedEMNIST.pdf")
-
-    assert str(ds) == repr(ds)
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0
@@ -147,14 +149,15 @@ def test_FedEMNIST():
 def test_FedMNIST():
     ds = FedMNIST()
 
+    assert str(ds) == repr(ds)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
+
     assert ds.n_class == 10
     assert len(ds._client_ids_train) == ds.DEFAULT_TRAIN_CLIENTS_NUM
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
     ds.view_image(0, 0)
     ds.random_grid_view(3, 3, save_path="test_FedMNIST.pdf")
-
-    assert str(ds) == repr(ds)
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0
@@ -193,12 +196,12 @@ def test_FedRotatedCIFAR10():
     ds = FedRotatedCIFAR10()
     ds = FedRotatedCIFAR10(num_rotations=4, transform=None)
 
+    assert str(ds) == repr(ds)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
     assert ds.n_class == 10
 
     ds.view_image(0, 0)
     ds.random_grid_view(3, 3, save_path="test_FedRotatedCIFAR10.pdf")
-
-    assert str(ds) == repr(ds)
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0
@@ -234,12 +237,12 @@ def test_FedRotatedMNIST():
     ds = FedRotatedMNIST()
     ds = FedRotatedMNIST(num_rotations=2, transform=None)
 
+    assert str(ds) == repr(ds)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
     assert ds.n_class == 10
 
     ds.view_image(0, 0)
     ds.random_grid_view(3, 3, save_path="test_FedRotatedMNIST.pdf")
-
-    assert str(ds) == repr(ds)
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0
@@ -275,6 +278,8 @@ def test_FedShakespeare():
     ds = FedShakespeare()
 
     assert str(ds) == repr(ds)
+    assert isinstance(ds.get_word_dict(), dict)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0
@@ -323,6 +328,8 @@ def test_FedProxSent140():
     ds = FedProxSent140()
 
     assert str(ds) == repr(ds)
+    assert isinstance(ds.get_word_dict(), dict)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0
@@ -359,14 +366,15 @@ def test_FedProxFEMNIST():
     """ """
     ds = FedProxFEMNIST()
 
+    assert str(ds) == repr(ds)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
+
     assert ds.n_class == 10
     assert len(ds._client_ids_train) == ds.DEFAULT_TRAIN_CLIENTS_NUM
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
     ds.view_image(0, 0)
     ds.random_grid_view(3, 3, save_path="test_FedProxFEMNIST.pdf")
-
-    assert str(ds) == repr(ds)
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0
@@ -405,14 +413,15 @@ def test_FedProxMNIST():
     """ """
     ds = FedProxMNIST()
 
+    assert str(ds) == repr(ds)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
+
     assert ds.n_class == 10
     assert len(ds._client_ids_train) == ds.DEFAULT_TRAIN_CLIENTS_NUM
     assert len(ds._client_ids_test) == ds.DEFAULT_TEST_CLIENTS_NUM
 
     ds.view_image(0, 0)
     ds.random_grid_view(3, 3, save_path="test_FedProxMNIST.pdf")
-
-    assert str(ds) == repr(ds)
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0
@@ -452,6 +461,7 @@ def test_FedSynthetic():
     ds = FedSynthetic(1, 1, False, 30)
 
     assert repr(ds) == str(ds)
+    assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0

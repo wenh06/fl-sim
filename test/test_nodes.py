@@ -177,10 +177,3 @@ def test_nodes():
     assert isinstance(s._clients[0].is_convergent, bool)
 
     del dataset, model, s
-
-
-if __name__ == "__main__":
-    test_aggregate_results_from_json_log()
-    test_get_norm()
-    test_nodes()
-    print("Test nodes succeeded!")
