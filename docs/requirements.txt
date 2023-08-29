@@ -2,8 +2,8 @@ sphinx<7.0
 nbsphinx
 sphinx-theme
 pydata-sphinx-theme
-sphinx-autobuild
 sphinx-rtd-theme
+sphinx-autobuild
 sphinx-markdown-tables
 sphinx-copybutton
 sphinx-multiversion
@@ -14,6 +14,5 @@ sphinxcontrib-pseudocode
 sphinxcontrib-bibtex
 sphinxcontrib-proof
 numpydoc
-nbsphinx
 recommonmark
 tqdm
