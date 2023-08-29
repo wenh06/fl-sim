@@ -12,14 +12,14 @@ Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gi
 
 .. toctree::
    :caption: Getting started
-   :maxdepth: 2
+   :maxdepth: 1
 
    install
    examples
 
 .. toctree::
    :caption: API Reference
-   :maxdepth: 2
+   :maxdepth: 1
 
    api/nodes
    api/datasets
@@ -30,7 +30,7 @@ Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gi
 
 .. toctree::
    :caption: Advanced Topics
-   :maxdepth: 2
+   :maxdepth: 1
 
    algorithms
    cli
