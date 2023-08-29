@@ -1,580 +1,462 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Federated learning algorithms &#8212; fl-sim 0.0.1 documentation</title>
   
-  <title>Federated learning algorithms &mdash; fl-sim 0.0.1 documentation</title>
   
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/proof.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/proof.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Command line interface" href="cli.html" />
+    <link rel="prev" title="fl_sim.utils" href="api/utils.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
   
   
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
 
   
-
-  
-  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-
-  
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-    <link rel="stylesheet" href="_static/proof.css" type="text/css" />
-  
-    <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  
-    <link rel="stylesheet" href="_static/css/proof.css" type="text/css" />
-  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="fl-sim 0.0.1 documentation" href="index.html"/>
-        <link rel="next" title="Command line interface" href="cli.html"/>
-        <link rel="prev" title="fl_sim.utils" href="api/utils.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-   
-  <div class="wy-grid-for-nav">
-
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
 
-          
-            <a href="index.html" class="icon icon-home"> fl-sim
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-                <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
-<ul>
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">fl-sim 0.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="api/nodes.html">fl_sim.nodes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/nodes.html#base-node-class">Base Node class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.nodes.Node.html">Node</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/nodes.html#server-classes">Server classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.nodes.Server.html">Server</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server"><code class="docutils literal notranslate"><span class="pre">Server</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig"><code class="docutils literal notranslate"><span class="pre">ServerConfig</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/nodes.html#client-classes">Client classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.nodes.Client.html">Client</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig"><code class="docutils literal notranslate"><span class="pre">ClientConfig</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/datasets.html">fl_sim.data_processing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/datasets.html#base-classes">Base classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset"><code class="docutils literal notranslate"><span class="pre">FedDataset</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset"><code class="docutils literal notranslate"><span class="pre">FedVisionDataset</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset"><code class="docutils literal notranslate"><span class="pre">FedNLPDataset</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/datasets.html#vision-datasets">Vision datasets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR"><code class="docutils literal notranslate"><span class="pre">FedCIFAR</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR100.html#fl_sim.data_processing.FedCIFAR100"><code class="docutils literal notranslate"><span class="pre">FedCIFAR100</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST"><code class="docutils literal notranslate"><span class="pre">FedEMNIST</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST"><code class="docutils literal notranslate"><span class="pre">FedMNIST</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10"><code class="docutils literal notranslate"><span class="pre">FedRotatedCIFAR10</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST"><code class="docutils literal notranslate"><span class="pre">FedRotatedMNIST</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST"><code class="docutils literal notranslate"><span class="pre">FedProxFEMNIST</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST"><code class="docutils literal notranslate"><span class="pre">FedProxMNIST</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/datasets.html#nlp-datasets">NLP datasets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare"><code class="docutils literal notranslate"><span class="pre">FedShakespeare</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140"><code class="docutils literal notranslate"><span class="pre">FedProxSent140</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/datasets.html#synthetic-datasets">Synthetic datasets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic"><code class="docutils literal notranslate"><span class="pre">FedSynthetic</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/datasets.html#libsvm-datasets">LibSVM datasets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset"><code class="docutils literal notranslate"><span class="pre">FedLibSVMDataset</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/datasets.html#dataset-registry-utilities">Dataset registry utilities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.register_fed_dataset.html#fl_sim.data_processing.register_fed_dataset"><code class="docutils literal notranslate"><span class="pre">register_fed_dataset()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.list_fed_dataset.html#fl_sim.data_processing.list_fed_dataset"><code class="docutils literal notranslate"><span class="pre">list_fed_dataset()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.data_processing.get_fed_dataset.html#fl_sim.data_processing.get_fed_dataset"><code class="docutils literal notranslate"><span class="pre">get_fed_dataset()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/models.html">fl_sim.models</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/models.html#convolutional-neural-networks-cnn">Convolutional neural networks (CNN)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.CNNMnist.html#fl_sim.models.CNNMnist"><code class="docutils literal notranslate"><span class="pre">CNNMnist</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist.html#fl_sim.models.CNNFEMnist"><code class="docutils literal notranslate"><span class="pre">CNNFEMnist</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist_Tiny.html#fl_sim.models.CNNFEMnist_Tiny"><code class="docutils literal notranslate"><span class="pre">CNNFEMnist_Tiny</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar.html#fl_sim.models.CNNCifar"><code class="docutils literal notranslate"><span class="pre">CNNCifar</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Small.html#fl_sim.models.CNNCifar_Small"><code class="docutils literal notranslate"><span class="pre">CNNCifar_Small</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Tiny.html#fl_sim.models.CNNCifar_Tiny"><code class="docutils literal notranslate"><span class="pre">CNNCifar_Tiny</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.ResNet18.html">ResNet18</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.ResNet18.html#fl_sim.models.ResNet18"><code class="docutils literal notranslate"><span class="pre">ResNet18</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.ResNet10.html">ResNet10</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.ResNet10.html#fl_sim.models.ResNet10"><code class="docutils literal notranslate"><span class="pre">ResNet10</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/models.html#recurrent-neural-networks-rnn">Recurrent neural networks (RNN)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg"><code class="docutils literal notranslate"><span class="pre">RNN_OriginalFedAvg</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow"><code class="docutils literal notranslate"><span class="pre">RNN_StackOverFlow</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140"><code class="docutils literal notranslate"><span class="pre">RNN_Sent140</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140_LITE.html#fl_sim.models.RNN_Sent140_LITE"><code class="docutils literal notranslate"><span class="pre">RNN_Sent140_LITE</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/models.html#multilayer-perceptron-mlp">Multilayer perceptron (MLP)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.MLP.html">MLP</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.MLP.html#fl_sim.models.MLP"><code class="docutils literal notranslate"><span class="pre">MLP</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.FedPDMLP.html#fl_sim.models.FedPDMLP"><code class="docutils literal notranslate"><span class="pre">FedPDMLP</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/models.html#linear-models">Linear models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.LogisticRegression.html#fl_sim.models.LogisticRegression"><code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.SVC.html">SVC</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.SVC.html#fl_sim.models.SVC"><code class="docutils literal notranslate"><span class="pre">SVC</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.SVR.html">SVR</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.SVR.html#fl_sim.models.SVR"><code class="docutils literal notranslate"><span class="pre">SVR</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/models.html#utilities">Utilities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.reset_parameters.html#fl_sim.models.reset_parameters"><code class="docutils literal notranslate"><span class="pre">reset_parameters()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.top_n_accuracy.html#fl_sim.models.top_n_accuracy"><code class="docutils literal notranslate"><span class="pre">top_n_accuracy()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.CLFMixin.html#fl_sim.models.CLFMixin"><code class="docutils literal notranslate"><span class="pre">CLFMixin</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.REGMixin.html">REGMixin</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.REGMixin.html#fl_sim.models.REGMixin"><code class="docutils literal notranslate"><span class="pre">REGMixin</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.models.DiffMixin.html#fl_sim.models.DiffMixin"><code class="docutils literal notranslate"><span class="pre">DiffMixin</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/optimizers.html">fl_sim.optimizers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.optimizers.get_optimizer.html#fl_sim.optimizers.get_optimizer"><code class="docutils literal notranslate"><span class="pre">get_optimizer()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.optimizers.register_optimizer.html#fl_sim.optimizers.register_optimizer"><code class="docutils literal notranslate"><span class="pre">register_optimizer()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/regularizers.html">fl_sim.regularizers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.regularizers.get_regularizer.html#fl_sim.regularizers.get_regularizer"><code class="docutils literal notranslate"><span class="pre">get_regularizer()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer"><code class="docutils literal notranslate"><span class="pre">Regularizer</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.eval"><code class="docutils literal notranslate"><span class="pre">Regularizer.eval()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">Regularizer.extra_repr_keys()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.prox_eval"><code class="docutils literal notranslate"><span class="pre">Regularizer.prox_eval()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm"><code class="docutils literal notranslate"><span class="pre">L1Norm</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.eval"><code class="docutils literal notranslate"><span class="pre">L1Norm.eval()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.prox_eval"><code class="docutils literal notranslate"><span class="pre">L1Norm.prox_eval()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm"><code class="docutils literal notranslate"><span class="pre">L2Norm</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.eval"><code class="docutils literal notranslate"><span class="pre">L2Norm.eval()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.prox_eval"><code class="docutils literal notranslate"><span class="pre">L2Norm.prox_eval()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared"><code class="docutils literal notranslate"><span class="pre">L2NormSquared</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.eval"><code class="docutils literal notranslate"><span class="pre">L2NormSquared.eval()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.prox_eval"><code class="docutils literal notranslate"><span class="pre">L2NormSquared.prox_eval()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm"><code class="docutils literal notranslate"><span class="pre">LInfNorm</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.eval"><code class="docutils literal notranslate"><span class="pre">LInfNorm.eval()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.prox_eval"><code class="docutils literal notranslate"><span class="pre">LInfNorm.prox_eval()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer"><code class="docutils literal notranslate"><span class="pre">NullRegularizer</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.eval"><code class="docutils literal notranslate"><span class="pre">NullRegularizer.eval()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.prox_eval"><code class="docutils literal notranslate"><span class="pre">NullRegularizer.prox_eval()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/utils.html">fl_sim.utils</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl-sim-utils-loggers">fl_sim.utils.loggers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger"><code class="docutils literal notranslate"><span class="pre">BaseLogger</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.close"><code class="docutils literal notranslate"><span class="pre">BaseLogger.close()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_end"><code class="docutils literal notranslate"><span class="pre">BaseLogger.epoch_end()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_start"><code class="docutils literal notranslate"><span class="pre">BaseLogger.epoch_start()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">BaseLogger.extra_repr_keys()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.filename"><code class="docutils literal notranslate"><span class="pre">BaseLogger.filename</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.flush"><code class="docutils literal notranslate"><span class="pre">BaseLogger.flush()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.from_config"><code class="docutils literal notranslate"><span class="pre">BaseLogger.from_config()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_dir</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.log_message"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_message()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_metrics()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.reset"><code class="docutils literal notranslate"><span class="pre">BaseLogger.reset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.BaseLogger.set_log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.set_log_dir()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger"><code class="docutils literal notranslate"><span class="pre">CSVLogger</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.close"><code class="docutils literal notranslate"><span class="pre">CSVLogger.close()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.filename"><code class="docutils literal notranslate"><span class="pre">CSVLogger.filename</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.flush"><code class="docutils literal notranslate"><span class="pre">CSVLogger.flush()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.from_config"><code class="docutils literal notranslate"><span class="pre">CSVLogger.from_config()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.log_message"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_message()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_metrics()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.CSVLogger.reset"><code class="docutils literal notranslate"><span class="pre">CSVLogger.reset()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger"><code class="docutils literal notranslate"><span class="pre">JsonLogger</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.close"><code class="docutils literal notranslate"><span class="pre">JsonLogger.close()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.filename"><code class="docutils literal notranslate"><span class="pre">JsonLogger.filename</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.flush"><code class="docutils literal notranslate"><span class="pre">JsonLogger.flush()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.from_config"><code class="docutils literal notranslate"><span class="pre">JsonLogger.from_config()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.log_message"><code class="docutils literal notranslate"><span class="pre">JsonLogger.log_message()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">JsonLogger.log_metrics()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.reset"><code class="docutils literal notranslate"><span class="pre">JsonLogger.reset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.strftime"><code class="docutils literal notranslate"><span class="pre">JsonLogger.strftime()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.JsonLogger.strptime"><code class="docutils literal notranslate"><span class="pre">JsonLogger.strptime()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager"><code class="docutils literal notranslate"><span class="pre">LoggerManager</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.close"><code class="docutils literal notranslate"><span class="pre">LoggerManager.close()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_end"><code class="docutils literal notranslate"><span class="pre">LoggerManager.epoch_end()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_start"><code class="docutils literal notranslate"><span class="pre">LoggerManager.epoch_start()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">LoggerManager.extra_repr_keys()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.flush"><code class="docutils literal notranslate"><span class="pre">LoggerManager.flush()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.from_config"><code class="docutils literal notranslate"><span class="pre">LoggerManager.from_config()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_dir"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_dir</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_message"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_message()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_metrics"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_metrics()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_suffix"><code class="docutils literal notranslate"><span class="pre">LoggerManager.log_suffix</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.loggers"><code class="docutils literal notranslate"><span class="pre">LoggerManager.loggers</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.LoggerManager.reset"><code class="docutils literal notranslate"><span class="pre">LoggerManager.reset()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger"><code class="docutils literal notranslate"><span class="pre">TxtLogger</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.close"><code class="docutils literal notranslate"><span class="pre">TxtLogger.close()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_end"><code class="docutils literal notranslate"><span class="pre">TxtLogger.epoch_end()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_start"><code class="docutils literal notranslate"><span class="pre">TxtLogger.epoch_start()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.filename"><code class="docutils literal notranslate"><span class="pre">TxtLogger.filename</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.flush"><code class="docutils literal notranslate"><span class="pre">TxtLogger.flush()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.from_config"><code class="docutils literal notranslate"><span class="pre">TxtLogger.from_config()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.log_message"><code class="docutils literal notranslate"><span class="pre">TxtLogger.log_message()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">TxtLogger.log_metrics()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.long_sep"><code class="docutils literal notranslate"><span class="pre">TxtLogger.long_sep</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.reset"><code class="docutils literal notranslate"><span class="pre">TxtLogger.reset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/utils.html#fl_sim.utils.loggers.TxtLogger.short_sep"><code class="docutils literal notranslate"><span class="pre">TxtLogger.short_sep</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl-sim-utils-imports">fl_sim.utils.imports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.imports.load_module_from_file"><code class="docutils literal notranslate"><span class="pre">load_module_from_file()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl-sim-utils-misc">fl_sim.utils.misc</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.add_kwargs"><code class="docutils literal notranslate"><span class="pre">add_kwargs()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.clear_logs"><code class="docutils literal notranslate"><span class="pre">clear_logs()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.default_dict_to_dict"><code class="docutils literal notranslate"><span class="pre">default_dict_to_dict()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.experiment_indicator"><code class="docutils literal notranslate"><span class="pre">experiment_indicator()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.find_longest_common_substring"><code class="docutils literal notranslate"><span class="pre">find_longest_common_substring()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.get_scheduler"><code class="docutils literal notranslate"><span class="pre">get_scheduler()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.get_scheduler_info"><code class="docutils literal notranslate"><span class="pre">get_scheduler_info()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.is_notebook"><code class="docutils literal notranslate"><span class="pre">is_notebook()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.ndarray_to_list"><code class="docutils literal notranslate"><span class="pre">ndarray_to_list()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.ordered_dict_to_dict"><code class="docutils literal notranslate"><span class="pre">ordered_dict_to_dict()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/utils.html#fl_sim.utils.misc.set_seed"><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code></a></li>
-</ul>
-</li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Federated learning algorithms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fedavg-from-the-perspective-of-optimization"><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#a-direct-improvement-of-fedavg">A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#skipping-algorithms-in-federated-learning">Skipping Algorithms in Federated Learning</a></li>
-</ul>
-</li>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/nodes.html">fl_sim.nodes</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Server.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/datasets.html">fl_sim.data_processing</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/models.html">fl_sim.models</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ResNet18.html">ResNet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ResNet10.html">ResNet10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.MLP.html">MLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.SVC.html">SVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.SVR.html">SVR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.REGMixin.html">REGMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/optimizers.html">fl_sim.optimizers</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/regularizers.html">fl_sim.regularizers</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/utils.html">fl_sim.utils</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Federated learning algorithms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viz.html">Visualization subsystem</a></li>
 </ul>
 
-            
-          
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">fl-sim</a>
-        
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>Federated learning algorithms</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            
-              <a href="https://github.com/wenh06/fl-sim/blob/master/docs/source/algorithms.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
-        
-      </li>
-    
-  </ul>
-
+    </div>
+</nav></div>
+    </div>
   
-  <hr/>
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/edit/master/docs/source/algorithms.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/issues/new?title=Issue%20on%20page%20%2Falgorithms.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/algorithms.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Federated learning algorithms</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fedavg-from-the-perspective-of-optimization"><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-direct-improvement-of-fedavg">A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skipping-algorithms-in-federated-learning">Skipping Algorithms in Federated Learning</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section id="federated-learning-algorithms">
-<h1>Federated learning algorithms<a class="headerlink" href="#federated-learning-algorithms" title="Permalink to this heading">¶</a></h1>
+<h1>Federated learning algorithms<a class="headerlink" href="#federated-learning-algorithms" title="Permalink to this heading">#</a></h1>
 <section id="overview-of-optimization-algorithms-in-federated-learning">
-<span id="fl-alg-overview"></span><h2>Overview of Optimization Algorithms in Federated Learning<a class="headerlink" href="#overview-of-optimization-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
+<span id="fl-alg-overview"></span><h2>Overview of Optimization Algorithms in Federated Learning<a class="headerlink" href="#overview-of-optimization-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
 <p>Federated Optimization algorithms have been the central problem in the field of federated learning since its inception.
 The most important contribution of the initial work on federated learning <span id="id1">[<a class="reference internal" href="#id44" title="Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In Artificial Intelligence and Statistics, 1273–1282. PMLR, 2017.">MMR+17</a>]</span> was the introduction of the Federated Averaging algorithm (<code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>).</p>
 <p>Mathematically, federated learning solves the following problem of minimization of empirical risk function</p>
 <div class="math notranslate nohighlight" id="equation-fl-basic-dist">
-<span class="eqno">(1)<a class="headerlink" href="#equation-fl-basic-dist" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\expectation}{\mathbb{E}}
+<span class="eqno">(1)<a class="headerlink" href="#equation-fl-basic-dist" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\expectation}{\mathbb{E}}
 \DeclareMathOperator*{\minimize}{minimize}
 \newcommand{\R}{\mathbb{R}}\\\begin{split}\begin{array}{cl}
 \minimize\limits_{\theta \in \R^d} &amp; f(\theta) = \expectation\limits_{k \sim {\mathcal{P}}} [f_k(\theta)], \\
@@ -585,7 +467,7 @@ The most important contribution of the initial work on federated learning <span 
 <span class="math notranslate nohighlight">\(\mathcal{P}\)</span> is the distribution of clients, and <span class="math notranslate nohighlight">\(\mathbb{E}\)</span> is the expectation operator.
 If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1, 2, \ldots, K\}\)</span>, then the optimization problem can be simplified as</p>
 <div class="math notranslate nohighlight" id="equation-fl-basic">
-<span class="eqno">(2)<a class="headerlink" href="#equation-fl-basic" title="Permalink to this equation">¶</a></span>\[\begin{array}{cl}
+<span class="eqno">(2)<a class="headerlink" href="#equation-fl-basic" title="Permalink to this equation">#</a></span>\[\begin{array}{cl}
 \minimize\limits_{\theta \in \R^d} &amp; f(\theta) = \sum\limits_{k=1}^K w_k f_k(\theta).
 \end{array}\]</div>
 <p>For further simplicity, we often take <span class="math notranslate nohighlight">\(w_k = \frac{1}{K}\)</span>. The functions <span class="math notranslate nohighlight">\(f_k\)</span> and <span class="math notranslate nohighlight">\(f\)</span> are usually assumed to satisfy the following conditions:</p>
@@ -594,7 +476,7 @@ If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1,
 <li><p>(A1) <span class="math notranslate nohighlight">\(f_k\)</span> and <span class="math notranslate nohighlight">\(f\)</span> are <span class="math notranslate nohighlight">\(L\)</span>-smooth (<span class="math notranslate nohighlight">\(L &gt; 0\)</span>), i.e. they have <span class="math notranslate nohighlight">\(L\)</span>-Lipschitz continuous gradients:</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-l-smooth">
-<span class="eqno">(3)<a class="headerlink" href="#equation-l-smooth" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{array}{c}
+<span class="eqno">(3)<a class="headerlink" href="#equation-l-smooth" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{array}{c}
 \lVert \nabla f (\theta) - f (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert, \\
 \lVert \nabla f_k (\theta) - f_k (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert,
 \end{array}
@@ -607,11 +489,11 @@ If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1,
 \[ \begin{align}\begin{aligned}\DeclareMathOperator*{\dom}{dom}\\\dom(f) := \{ \theta \in \R^d ~|~ f(\theta) &lt; + \infty \}\end{aligned}\end{align} \]</div>
 <p>is nonempty and lower bounded, i.e. there exists a constant <span class="math notranslate nohighlight">\(c \in \R\)</span> such that</p>
 <div class="math notranslate nohighlight" id="equation-lower-bounded">
-<span class="eqno">(4)<a class="headerlink" href="#equation-lower-bounded" title="Permalink to this equation">¶</a></span>\[f(\theta) \geqslant c &gt; -\infty, ~ \forall \theta \in \R^d,\]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-lower-bounded" title="Permalink to this equation">#</a></span>\[f(\theta) \geqslant c &gt; -\infty, ~ \forall \theta \in \R^d,\]</div>
 <p>or equivalently,</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-lower-bounded-2">
-<span class="eqno">(5)<a class="headerlink" href="#equation-lower-bounded-2" title="Permalink to this equation">¶</a></span>\[f^* := \inf\limits_{\theta \in \R^d} f(\theta) &gt; - \infty.\]</div>
+<span class="eqno">(5)<a class="headerlink" href="#equation-lower-bounded-2" title="Permalink to this equation">#</a></span>\[f^* := \inf\limits_{\theta \in \R^d} f(\theta) &gt; - \infty.\]</div>
 </div></blockquote>
 </div></blockquote>
 </li>
@@ -623,7 +505,7 @@ If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1,
 <li><p>(A3) Bounded gradient: there exists a constant <span class="math notranslate nohighlight">\(G &gt; 0\)</span> such that</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-bdd-grad">
-<span class="eqno">(6)<a class="headerlink" href="#equation-bdd-grad" title="Permalink to this equation">¶</a></span>\[\lVert \nabla f_k (\theta) \rVert^2 \leqslant G^2, ~ \forall \theta \in \R^d, ~ k = 1, \ldots K.\]</div>
+<span class="eqno">(6)<a class="headerlink" href="#equation-bdd-grad" title="Permalink to this equation">#</a></span>\[\lVert \nabla f_k (\theta) \rVert^2 \leqslant G^2, ~ \forall \theta \in \R^d, ~ k = 1, \ldots K.\]</div>
 </div></blockquote>
 </li>
 </ul>
@@ -634,10 +516,10 @@ If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1,
 <li><p>(A4-1) Data distribution is I.I.D. (identically and independently distributed) across clients, i.e.</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-iid-1">
-<span class="eqno">(7)<a class="headerlink" href="#equation-iid-1" title="Permalink to this equation">¶</a></span>\[\nabla f(\theta) = \expectation [f_k(\theta)] = \expectation\limits_{(x, y) \sim \mathcal{D}_k}[\nabla \ell_k(\theta; x, y)], ~ \forall \theta \in \R^d, ~ k = 1, \ldots K,\]</div>
+<span class="eqno">(7)<a class="headerlink" href="#equation-iid-1" title="Permalink to this equation">#</a></span>\[\nabla f(\theta) = \expectation [f_k(\theta)] = \expectation\limits_{(x, y) \sim \mathcal{D}_k}[\nabla \ell_k(\theta; x, y)], ~ \forall \theta \in \R^d, ~ k = 1, \ldots K,\]</div>
 <p>or equivalently, for any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, there exists a constant <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
 <div class="math notranslate nohighlight" id="equation-iid-2">
-<span class="eqno">(8)<a class="headerlink" href="#equation-iid-2" title="Permalink to this equation">¶</a></span>\[\sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2, ~ \forall \theta \in \left\{ \theta \in \R^d ~ \middle| ~ \lVert f(\theta) \rVert^2 &gt; \varepsilon \right\}.\]</div>
+<span class="eqno">(8)<a class="headerlink" href="#equation-iid-2" title="Permalink to this equation">#</a></span>\[\sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2, ~ \forall \theta \in \left\{ \theta \in \R^d ~ \middle| ~ \lVert f(\theta) \rVert^2 &gt; \varepsilon \right\}.\]</div>
 </div></blockquote>
 </li>
 </ul>
@@ -647,7 +529,7 @@ If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1,
 <li><p>(A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways <span id="id2">[<a class="reference internal" href="#id54" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>, <a class="reference internal" href="#id53" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>, <a class="reference internal" href="#id49" title="Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In International Conference on Learning Representations. OpenReview.net, 2020.">LHY+20</a>, <a class="reference internal" href="#id61" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>. For example, in <span id="id3">[<a class="reference internal" href="#id54" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>]</span> and <span id="id4">[<a class="reference internal" href="#id61" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>, the so-called bounded gradient dissimilarity (BGD), denoted as <span class="math notranslate nohighlight">\((G; B)\)</span>-BGD, is used as this quantity. More specifically, there exists constants <span class="math notranslate nohighlight">\(G &gt; 0\)</span> and <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-bdd-grad-dissim">
-<span class="eqno">(9)<a class="headerlink" href="#equation-bdd-grad-dissim" title="Permalink to this equation">¶</a></span>\[\dfrac{1}{K} \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 \leqslant G^2 + B^2 \lVert \nabla f(\theta) \rVert^2, ~ \forall \theta \in \R^d.\]</div>
+<span class="eqno">(9)<a class="headerlink" href="#equation-bdd-grad-dissim" title="Permalink to this equation">#</a></span>\[\dfrac{1}{K} \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 \leqslant G^2 + B^2 \lVert \nabla f(\theta) \rVert^2, ~ \forall \theta \in \R^d.\]</div>
 <p>It should be noted that letting <span class="math notranslate nohighlight">\(B = 0\)</span>, the bounded gradient dissimilarity condition (A4-2) degenrates to the bounded gradient condition (A3).</p>
 </div></blockquote>
 </li>
@@ -659,7 +541,7 @@ If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1,
 <li><p>(A5-1) convexity:</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-def-convex-function">
-<span class="eqno">(10)<a class="headerlink" href="#equation-def-convex-function" title="Permalink to this equation">¶</a></span>\[f(a \theta + (1 - a) \theta') \leqslant a f(\theta) + (1 - a) f(\theta'), ~ \forall \theta, \theta' \in \mathcal{C}, ~ \alpha \in [0, 1].\]</div>
+<span class="eqno">(10)<a class="headerlink" href="#equation-def-convex-function" title="Permalink to this equation">#</a></span>\[f(a \theta + (1 - a) \theta') \leqslant a f(\theta) + (1 - a) f(\theta'), ~ \forall \theta, \theta' \in \mathcal{C}, ~ \alpha \in [0, 1].\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> is a convex set on which <span class="math notranslate nohighlight">\(f\)</span> is defined.</p>
 </div></blockquote>
 </li>
@@ -668,7 +550,7 @@ If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1,
 </div></blockquote>
 <p>Due to the natural layered and decoupled structure of the federal learning problem, it is more natural to consider the following constrained optimization problem:</p>
 <div class="math notranslate nohighlight" id="equation-fl-basic-constraint">
-<span class="eqno">(11)<a class="headerlink" href="#equation-fl-basic-constraint" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{array}{cl}
+<span class="eqno">(11)<a class="headerlink" href="#equation-fl-basic-constraint" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize &amp; \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
 \text{subject to} &amp; \theta_k = \theta, ~ k = 1, \ldots, K.
 \end{array}\end{split}\]</div>
@@ -677,7 +559,7 @@ and the unconstrained optimization problem <a class="reference internal" href="#
 <a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is called the <strong>consensus problem</strong> in the literature of distributed optimization <span id="id5">[<a class="reference internal" href="#id32" title="Stephen Boyd, Neal Parikh, and Eric Chu. Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers. Now Publishers Inc., 2011.">BPC11</a>]</span>. The superiority of the constrained formulation <a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is that
 the objective function becomes block-separable, which is more suitable for the design of parallel and distributed algorithms.</p>
 <section id="federated-averaging-algorithm">
-<h3>Federated Averaging Algorithm<a class="headerlink" href="#federated-averaging-algorithm" title="Permalink to this heading">¶</a></h3>
+<h3>Federated Averaging Algorithm<a class="headerlink" href="#federated-averaging-algorithm" title="Permalink to this heading">#</a></h3>
 <p>The core idea of the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> algorithm is to make full use of the local computation resources of each client
 so that each client can perform multiple local iterations before uploading the local model to the server.
 It alleviates the problem of straggler clients and reduces the communication overhead,
@@ -691,12 +573,12 @@ but its convergence, espcially under non-I.I.D. data distributions, is not prope
 the convexity of the objective function <span class="math notranslate nohighlight">\(f\)</span>, etc.</p>
 </section>
 <section id="fedavg-from-the-perspective-of-optimization">
-<h3><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization<a class="headerlink" href="#fedavg-from-the-perspective-of-optimization" title="Permalink to this heading">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization<a class="headerlink" href="#fedavg-from-the-perspective-of-optimization" title="Permalink to this heading">#</a></h3>
 <p>In this section, we will analyze the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> algorithm from the perspective of optimization theory.
 In fact, the optimization problem <a class="reference internal" href="#equation-fl-basic">(2)</a> that <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> solves can be equivalently reformulated
 as the following constrained optimization problem:</p>
 <div class="math notranslate nohighlight" id="equation-fedavg-constraint">
-<span class="eqno">(12)<a class="headerlink" href="#equation-fedavg-constraint" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\newcommand{\col}{\operatorname{col}}\\\begin{split}\begin{array}{cl}
+<span class="eqno">(12)<a class="headerlink" href="#equation-fedavg-constraint" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\newcommand{\col}{\operatorname{col}}\\\begin{split}\begin{array}{cl}
 \minimize &amp; F(\Theta) := \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
 \text{subject to} &amp; \Theta \in \mathcal{E},
 \end{array}\end{split}\end{aligned}\end{align} \]</div>
@@ -704,17 +586,17 @@ as the following constrained optimization problem:</p>
 and <span class="math notranslate nohighlight">\(\mathcal{E} = \left\{ \Theta ~ \middle| ~ \theta_1 = \cdots = \theta_K \right\}\)</span> is a convex set in <span class="math notranslate nohighlight">\(\R^{Kd}\)</span>.
 Projected gradient descent (PGD) is an effective method for solving the constrained optimization problem <a class="reference internal" href="#equation-fedavg-constraint">(12)</a>, which has the following update rule:</p>
 <div class="math notranslate nohighlight" id="equation-fedavg-pgd">
-<span class="eqno">(13)<a class="headerlink" href="#equation-fedavg-pgd" title="Permalink to this equation">¶</a></span>\[\Theta^{(t+1)} = \Pi_{\mathcal{E}} \left( \Theta^{(t)} - \eta \nabla F(\Theta^{(t)}) \right),\]</div>
+<span class="eqno">(13)<a class="headerlink" href="#equation-fedavg-pgd" title="Permalink to this equation">#</a></span>\[\Theta^{(t+1)} = \Pi_{\mathcal{E}} \left( \Theta^{(t)} - \eta \nabla F(\Theta^{(t)}) \right),\]</div>
 <p>where <span class="math notranslate nohighlight">\(\Pi_{\mathcal{E}}\)</span> is the projection operator onto the set <span class="math notranslate nohighlight">\(\mathcal{E}\)</span>. It is easy to show that
 the projection operator onto the set <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> is indeed the average operator, i.e.,</p>
 <div class="math notranslate nohighlight" id="equation-fedavg-projection">
-<span class="eqno">(14)<a class="headerlink" href="#equation-fedavg-projection" title="Permalink to this equation">¶</a></span>\[\Pi_{\mathcal{E}}: \R^{Kd} \to \mathcal{E}: ( \theta_1, \ldots, \theta_K) \mapsto \left(\frac{1}{K}\sum\limits_{k=1}^K \theta_K, \ldots, \frac{1}{K}\sum\limits_{k=1}^K \theta_K \right).\]</div>
+<span class="eqno">(14)<a class="headerlink" href="#equation-fedavg-projection" title="Permalink to this equation">#</a></span>\[\Pi_{\mathcal{E}}: \R^{Kd} \to \mathcal{E}: ( \theta_1, \ldots, \theta_K) \mapsto \left(\frac{1}{K}\sum\limits_{k=1}^K \theta_K, \ldots, \frac{1}{K}\sum\limits_{k=1}^K \theta_K \right).\]</div>
 <p>We have shown that mathematically the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> algorithm is indeed a kind of stochastic projected gradient descent (SPGD)
 algorithm, where the clients perform local stochastic gradient descent (SGD) updates and the server performs
 the projection step <a class="reference internal" href="#equation-fedavg-projection">(14)</a>.</p>
 </section>
 <section id="a-direct-improvement-of-fedavg">
-<h3>A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code><a class="headerlink" href="#a-direct-improvement-of-fedavg" title="Permalink to this heading">¶</a></h3>
+<h3>A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code><a class="headerlink" href="#a-direct-improvement-of-fedavg" title="Permalink to this heading">#</a></h3>
 <p>Since <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> is based on stochastic gradient descent (SGD), it is natural to consider applying
 acceleration techniques <span id="id10">[<a class="reference internal" href="#id42" title="John Duchi, Elad Hazan, and Yoram Singer. Adaptive Subgradient Methods for Online Learning and Stochastic Optimization. Journal of Machine Learning Research, 12(61):2121–2159, 7 2011.">DHS11</a>, <a class="reference internal" href="#id30" title="Diederik P. Kingma and Jimmy Ba. Adam: A Method for Stochastic Optimization. In 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings. 2015.">KB15</a>, <a class="reference internal" href="#id68" title="Sashank J. Reddi, Satyen Kale, and Sanjiv Kumar. On the Convergence of Adam and Beyond. In 6th International Conference on Learning Representations (ICLR). OpenReview.net, 5 2018. URL: https://openreview.net/forum?id=ryQu7f-RZ.">RKK18</a>, <a class="reference internal" href="#id43" title="Manzil Zaheer, Sashank J. Reddi, Devendra Sachan, Satyen Kale, and Sanjiv Kumar. Adaptive Methods for Nonconvex Optimization. In Proceedings of the 32nd International Conference on Neural Information Processing Systems, NIPS'18, 9815–9825. Red Hook, NY, USA, 2018. Curran Associates Inc.">ZRS+18</a>]</span> to improve the algorithm performance.
 Computation on clients and on the server are relatively decoupled, so it does not require large modifications
@@ -725,17 +607,17 @@ The pseudocode for <code class="docutils literal notranslate"><span class="pre">
 refers to some method that aggregates the local inertia updates <span class="math notranslate nohighlight">\(\Delta_{k}^{(t)}\)</span> from the selected clients
 <span class="math notranslate nohighlight">\(\mathcal{S}^{(t)}\)</span> into a global inertia update <span class="math notranslate nohighlight">\(\Delta^{(t)}\)</span>. This method, for example, can be simply averaging</p>
 <div class="math notranslate nohighlight" id="equation-fedopt-agg-inertia-average">
-<span class="eqno">(15)<a class="headerlink" href="#equation-fedopt-agg-inertia-average" title="Permalink to this equation">¶</a></span>\[\Delta^{(t)} \gets \frac{1}{\lvert \mathcal{S}^{(t)} \rvert} \sum\limits_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)},\]</div>
+<span class="eqno">(15)<a class="headerlink" href="#equation-fedopt-agg-inertia-average" title="Permalink to this equation">#</a></span>\[\Delta^{(t)} \gets \frac{1}{\lvert \mathcal{S}^{(t)} \rvert} \sum\limits_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)},\]</div>
 <p>or linear combination with inertia of the previous iteration</p>
 <div class="math notranslate nohighlight" id="equation-fedopt-agg-inertia-lin-comb">
-<span class="eqno">(16)<a class="headerlink" href="#equation-fedopt-agg-inertia-lin-comb" title="Permalink to this equation">¶</a></span>\[\Delta^{(t)} \gets \beta_1 \Delta^{(t-1)} + \left( (1 - \beta_1) / \lvert \mathcal{S}^{(t)} \rvert \right) \sum_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)}.\]</div>
+<span class="eqno">(16)<a class="headerlink" href="#equation-fedopt-agg-inertia-lin-comb" title="Permalink to this equation">#</a></span>\[\Delta^{(t)} \gets \beta_1 \Delta^{(t-1)} + \left( (1 - \beta_1) / \lvert \mathcal{S}^{(t)} \rvert \right) \sum_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)}.\]</div>
 <p>As one has already noticed, compared to <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>, <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> introduces some momentum terms on the server node (in <strong>ServerOpt</strong>) to
 accelerate the convergence. In <span id="id12">[<a class="reference internal" href="#id50" title="Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In International Conference on Learning Representations. 2021.">RCZ+21</a>]</span>, the authors listed several options for <strong>ServerOpt</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">FedAdagrad</span></code>:</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-fedopt-serveropt-fedadagrad">
-<span class="eqno">(17)<a class="headerlink" href="#equation-fedopt-serveropt-fedadagrad" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{aligned}
+<span class="eqno">(17)<a class="headerlink" href="#equation-fedopt-serveropt-fedadagrad" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
 v^{(t)} &amp; \gets v^{(t-1)} + ( \Delta^{(t)} )^2 \\
 \theta^{(t+1)} &amp; \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
 \end{aligned}\end{split}\]</div>
@@ -744,7 +626,7 @@ v^{(t)} &amp; \gets v^{(t-1)} + ( \Delta^{(t)} )^2 \\
 <li><p><code class="docutils literal notranslate"><span class="pre">FedYogi</span></code>:</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-fedopt-serveropt-fedyogi">
-<span class="eqno">(18)<a class="headerlink" href="#equation-fedopt-serveropt-fedyogi" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{aligned}
+<span class="eqno">(18)<a class="headerlink" href="#equation-fedopt-serveropt-fedyogi" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
 v^{(t)} &amp; \gets v^{(t-1)} - (1 - \beta_2) ( \Delta^{(t)} )^2 \operatorname{sign}(v^{(t-1)} - ( \Delta^{(t)} )^2) \\
 \theta^{(t+1)} &amp; \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
 \end{aligned}\end{split}\]</div>
@@ -753,7 +635,7 @@ v^{(t)} &amp; \gets v^{(t-1)} - (1 - \beta_2) ( \Delta^{(t)} )^2 \operatorname{s
 <li><p><code class="docutils literal notranslate"><span class="pre">FedAdam</span></code>:</p>
 <blockquote>
 <div><div class="math notranslate nohighlight" id="equation-fedopt-serveropt-fedadam">
-<span class="eqno">(19)<a class="headerlink" href="#equation-fedopt-serveropt-fedadam" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{aligned}
+<span class="eqno">(19)<a class="headerlink" href="#equation-fedopt-serveropt-fedadam" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
 v^{(t)} &amp; \gets \beta_2 v^{(t-1)} + (1 - \beta_2) ( \Delta^{(t)} )^2 \\
 \theta^{(t+1)} &amp; \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
 \end{aligned}\end{split}\]</div>
@@ -780,7 +662,7 @@ which will be introduced in next sections.</p>
 </section>
 </section>
 <section id="proximal-algorithms-in-federated-learning">
-<h2>Proximal Algorithms in Federated Learning<a class="headerlink" href="#proximal-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
+<h2>Proximal Algorithms in Federated Learning<a class="headerlink" href="#proximal-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
 <p>In non-I.I.D. scenarios, based on the idea of reducing the impact of local updates of clients on the global model,
 <span id="id16">[<a class="reference internal" href="#id53" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>]</span> first introduced a proximal term to the local objective functions, aiming at making the
 algorithm more stable and converging faster. Compared to <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code>, methods using proximal terms do not need to
@@ -789,12 +671,12 @@ additional cost to security (refer to <span id="id17">[<a class="reference inter
 <p>To be more specific, in the <span class="math notranslate nohighlight">\((t+1)\)</span>-th iteration, the local objective function of client <span class="math notranslate nohighlight">\(k\)</span> changes from
 <span class="math notranslate nohighlight">\(f_k(\theta_k)\)</span> to the following form with a proximal term:</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-local-obj">
-<span class="eqno">(20)<a class="headerlink" href="#equation-fedprox-local-obj" title="Permalink to this equation">¶</a></span>\[h_k(\theta_k, \theta^{(t)}) := f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,\]</div>
+<span class="eqno">(20)<a class="headerlink" href="#equation-fedprox-local-obj" title="Permalink to this equation">#</a></span>\[h_k(\theta_k, \theta^{(t)}) := f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mu\)</span> is a penalty constant. It should be noticed that the proximal center <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> is
 the model parameter on the server node obtained in the previous iteration (the <span class="math notranslate nohighlight">\(t\)</span>-th iteration). Indeed,
 the overall optimization problem can be modeled as the following constrained optimization problem</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-whole">
-<span class="eqno">(21)<a class="headerlink" href="#equation-fedprox-whole" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{array}{cl}
+<span class="eqno">(21)<a class="headerlink" href="#equation-fedprox-whole" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize &amp; \frac{1}{K} \sum\limits_{k=1}^K \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta \rVert^2 \right\} \\
 \text{subject to} &amp; \theta = \frac{1}{K} \sum\limits_{k=1}^K \theta_k.
 \end{array}\end{split}\]</div>
@@ -802,7 +684,7 @@ the overall optimization problem can be modeled as the following constrained opt
 introduced later. Now, we summarize the pseudocode for <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> as follows:</p>
 <img alt="Psuedocode for ``FedProx``" class="no-scaled-link align-center" id="pseduocode-fedprox" src="_images/fedprox.svg" width="80%" /><p>We denote the <span class="math notranslate nohighlight">\(\gamma\)</span>-inexact solution <span class="math notranslate nohighlight">\(\theta_k^{(t)}\)</span> as</p>
 <div class="math notranslate nohighlight" id="equation-prox-op">
-<span class="eqno">(22)<a class="headerlink" href="#equation-prox-op" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\argmax}{arg\,max}
+<span class="eqno">(22)<a class="headerlink" href="#equation-prox-op" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 % \DeclareMathOperator*{\prox}{prox}
 \newcommand{\prox}{\mathbf{prox}}\\\theta_k^{(t)} \approx \prox_{f_k, \mu} (\theta^{(t)}) := \argmin\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\},\end{aligned}\end{align} \]</div>
@@ -810,11 +692,11 @@ introduced later. Now, we summarize the pseudocode for <code class="docutils lit
 Let <span class="math notranslate nohighlight">\(s = \frac{1}{\mu}\)</span>, since one has <span class="math notranslate nohighlight">\(\prox_{f_k, \mu} = \prox_{sf_k, 1}\)</span>, we also denote <span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span>
 as <span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span>. Corresponding function</p>
 <div class="math notranslate nohighlight" id="equation-moreau-env">
-<span class="eqno">(23)<a class="headerlink" href="#equation-moreau-env" title="Permalink to this equation">¶</a></span>\[\mathcal{M}_{sf_k} (\theta^{(t)}) = \mathcal{M}_{f_k, \mu} (\theta^{(t)}) := \inf\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}\]</div>
+<span class="eqno">(23)<a class="headerlink" href="#equation-moreau-env" title="Permalink to this equation">#</a></span>\[\mathcal{M}_{sf_k} (\theta^{(t)}) = \mathcal{M}_{f_k, \mu} (\theta^{(t)}) := \inf\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}\]</div>
 <p>is called <strong>Moreau envelope</strong> or <strong>Moreau-Yosida regularization</strong> of <span class="math notranslate nohighlight">\(f_k\)</span> with respect to <span class="math notranslate nohighlight">\(\mu\)</span>.
 Moreau envelope of a function <span class="math notranslate nohighlight">\(f_k\)</span> has the following relationship <span id="id20">[<a class="reference internal" href="#id33" title="Neal Parikh and Stephen Boyd. Proximal Algorithms. Foundations and Trends® in Optimization, 1(3):127–239, 2014. doi:10.1561/2400000003.">PB14</a>]</span> with its proximal operator:</p>
 <div class="math notranslate nohighlight" id="equation-prox-moreau-relation">
-<span class="eqno">(24)<a class="headerlink" href="#equation-prox-moreau-relation" title="Permalink to this equation">¶</a></span>\[\prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.\]</div>
+<span class="eqno">(24)<a class="headerlink" href="#equation-prox-moreau-relation" title="Permalink to this equation">#</a></span>\[\prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.\]</div>
 <p>Namely, <span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span> can be regarded as the gradient descent operator for minimizing <span class="math notranslate nohighlight">\(\mathcal{M}_{sf_k}\)</span> with step size <span class="math notranslate nohighlight">\(s\)</span>.</p>
 <p>For the convergence of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> in non-I.I.D. scenarios, <span id="id21">[<a class="reference internal" href="#id53" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>]</span> has the following theorem:</p>
 <div class="proof proof-type-theorem" id="id159">
@@ -831,15 +713,15 @@ for any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>
 in the set <span class="math notranslate nohighlight">\(\mathcal{S}_{\varepsilon}^c := \{ \theta ~|~ \lVert \nabla f(\theta) \rVert^2 &gt; \varepsilon\}\)</span>,
 the following inequality holds</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-bdd-dissim">
-<span class="eqno">(25)<a class="headerlink" href="#equation-fedprox-bdd-dissim" title="Permalink to this equation">¶</a></span>\[B(\theta) := \frac{\expectation_k [\lVert \nabla f_k(\theta) \rVert^2]}{\lVert \nabla f(\theta) \rVert^2} \leqslant B_{\varepsilon}.\]</div>
+<span class="eqno">(25)<a class="headerlink" href="#equation-fedprox-bdd-dissim" title="Permalink to this equation">#</a></span>\[B(\theta) := \frac{\expectation_k [\lVert \nabla f_k(\theta) \rVert^2]}{\lVert \nabla f(\theta) \rVert^2} \leqslant B_{\varepsilon}.\]</div>
 <p>Fix constants <span class="math notranslate nohighlight">\(\mu, \gamma\)</span> satisfying</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-mu-gamma">
-<span class="eqno">(26)<a class="headerlink" href="#equation-fedprox-mu-gamma" title="Permalink to this equation">¶</a></span>\[\rho := \left( \frac{1}{\mu} - \frac{\gamma B}{\mu} - \frac{B(1+\gamma)\sqrt{2}}{\bar{\mu}\sqrt{K}} - \frac{LB(1+\gamma)}{\bar{\mu}\mu} - \frac{LB^2(1+\gamma)^2}{2\bar{\mu}^2} - \frac{LB^2(1+\gamma)^2}{\bar{\mu}^2 K} \left( 2\sqrt{2K} + 2 \right) \right) &gt; 0,\]</div>
+<span class="eqno">(26)<a class="headerlink" href="#equation-fedprox-mu-gamma" title="Permalink to this equation">#</a></span>\[\rho := \left( \frac{1}{\mu} - \frac{\gamma B}{\mu} - \frac{B(1+\gamma)\sqrt{2}}{\bar{\mu}\sqrt{K}} - \frac{LB(1+\gamma)}{\bar{\mu}\mu} - \frac{LB^2(1+\gamma)^2}{2\bar{\mu}^2} - \frac{LB^2(1+\gamma)^2}{\bar{\mu}^2 K} \left( 2\sqrt{2K} + 2 \right) \right) &gt; 0,\]</div>
 <p>where <span class="math notranslate nohighlight">\(\bar{\mu} = \mu - L_- &gt; 0\)</span>. Then, in the <span class="math notranslate nohighlight">\((t+1)\)</span>-th iteration of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code>, assuming that the global model
 <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> of the previous iteration is not the first-order stationary point of the global objective function <span class="math notranslate nohighlight">\(f(\theta)\)</span>,
 (i.e. <span class="math notranslate nohighlight">\(\theta^{(t)} \in \mathcal{S}_{\varepsilon}^c\)</span>), the following decrease in the global objective function holds</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-obj-decrease">
-<span class="eqno">(27)<a class="headerlink" href="#equation-fedprox-obj-decrease" title="Permalink to this equation">¶</a></span>\[\expectation\nolimits_{\mathcal{S}^{(t)}}[f(\theta^{(t+1)})] \leqslant f(\theta^{(t)}) - \rho \lVert \nabla f (\theta^{(t)}) \rVert^2.\]</div>
+<span class="eqno">(27)<a class="headerlink" href="#equation-fedprox-obj-decrease" title="Permalink to this equation">#</a></span>\[\expectation\nolimits_{\mathcal{S}^{(t)}}[f(\theta^{(t+1)})] \leqslant f(\theta^{(t)}) - \rho \lVert \nabla f (\theta^{(t)}) \rVert^2.\]</div>
 </div></div><div class="proof proof-type-remark" id="id160">
 <span id="fedprox-rem1"></span>
     <div class="proof-title">
@@ -868,16 +750,16 @@ as the main technical tool for personalization.</p>
 </div><p>to write….</p>
 </section>
 <section id="primal-dual-algorithms-in-federated-learning">
-<span id="fl-alg-primal-dual"></span><h2>Primal-Dual Algorithms in Federated Learning<a class="headerlink" href="#primal-dual-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
+<span id="fl-alg-primal-dual"></span><h2>Primal-Dual Algorithms in Federated Learning<a class="headerlink" href="#primal-dual-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
 <p>In traditional optimization methods, the primal-dual algorithm is a kind of frequently used algorithm that solves the primal and dual problems.</p>
 <p>to write….</p>
 </section>
 <section id="operator-splitting-algorithms-in-federated-learning">
-<span id="fl-alg-operator-splitting"></span><h2>Operator Splitting Algorithms in Federated Learning<a class="headerlink" href="#operator-splitting-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
+<span id="fl-alg-operator-splitting"></span><h2>Operator Splitting Algorithms in Federated Learning<a class="headerlink" href="#operator-splitting-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
 <p>to write….</p>
 </section>
 <section id="skipping-algorithms-in-federated-learning">
-<span id="fl-alg-skipping"></span><h2>Skipping Algorithms in Federated Learning<a class="headerlink" href="#skipping-algorithms-in-federated-learning" title="Permalink to this heading">¶</a></h2>
+<span id="fl-alg-skipping"></span><h2>Skipping Algorithms in Federated Learning<a class="headerlink" href="#skipping-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
 <p>to write….</p>
 <div class="docutils container" id="id25">
 <p class="rubric">References</p>
@@ -1005,78 +887,114 @@ as the main technical tool for personalization.</p>
 </section>
 
 
-           </div>
-          </div>
-          <footer>
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
   
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="cli.html" class="btn btn-neutral float-right" title="Command line interface" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="api/utils.html" class="btn btn-neutral" title="fl_sim.utils" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2023, WEN Hao.
-
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
-
-        </div>
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="api/utils.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">fl_sim.utils</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="cli.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Command line interface</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
 
-    </section>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fedavg-from-the-perspective-of-optimization"><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-direct-improvement-of-fedavg">A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skipping-algorithms-in-federated-learning">Skipping Algorithms in Federated Learning</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By WEN Hao
+</p>
 
   </div>
   
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, WEN Hao.
+      <br/>
+    
+  </p>
 
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
 
+      </main>
+    </div>
+  </div>
   
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.0.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/documentation_options.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/sphinx_highlight.js"></script>
-      <script type="text/javascript" src="_static/proof.js"></script>
-      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script type="text/javascript" src="None"></script>
-      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
-
-</body>
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>
