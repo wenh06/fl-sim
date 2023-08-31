@@ -502,38 +502,41 @@ class Node(ReprMixin, ABC):
         ----
         The parameter `d` should be a dict similar to the following structure:
 
-        .. code-block:: json
+        .. dropdown::
+            :animate: fade-in-slide-down
 
-            {
-                "train": {
-                    "client0": [
-                        {
-                            "epoch": 1,
-                            "step": 1,
-                            "time": "2020-01-01 00:00:00",
-                            "loss": 0.1,
-                            "acc": 0.2,
-                            "top3_acc": 0.3,
-                            "top5_acc": 0.4,
-                            "num_samples": 100
-                        }
-                    ]
-                },
-                "val": {
-                    "client0": [
-                        {
-                            "epoch": 1,
-                            "step": 1,
-                            "time": "2020-01-01 00:00:00",
-                            "loss": 0.1,
-                            "acc": 0.2,
-                            "top3_acc": 0.3,
-                            "top5_acc": 0.4,
-                            "num_samples": 100
-                        }
-                    ]
+            .. code-block:: json
+
+                {
+                    "train": {
+                        "client0": [
+                            {
+                                "epoch": 1,
+                                "step": 1,
+                                "time": "2020-01-01 00:00:00",
+                                "loss": 0.1,
+                                "acc": 0.2,
+                                "top3_acc": 0.3,
+                                "top5_acc": 0.4,
+                                "num_samples": 100
+                            }
+                        ]
+                    },
+                    "val": {
+                        "client0": [
+                            {
+                                "epoch": 1,
+                                "step": 1,
+                                "time": "2020-01-01 00:00:00",
+                                "loss": 0.1,
+                                "acc": 0.2,
+                                "top3_acc": 0.3,
+                                "top5_acc": 0.4,
+                                "num_samples": 100
+                            }
+                        ]
+                    }
                 }
-            }
 
         """
         if isinstance(d, (str, Path)):

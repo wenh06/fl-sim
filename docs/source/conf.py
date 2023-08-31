@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 import sphinx_rtd_theme
-import stanford_theme
+import sphinx_theme
 import sphinx_book_theme
 import pydata_sphinx_theme
 
@@ -52,11 +52,12 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
     "sphinx_copybutton",
+    "sphinx_design",
     "nbsphinx",
     "recommonmark",
     # 'sphinx.ext.autosectionlabel',
     "sphinx_multiversion",
-    "sphinx_toolbox.collapse",
+    # "sphinx_toolbox.collapse",  # replaced by dropdown of sphinx_design
     # "numpydoc",
     "sphinxcontrib.tikz",
     "sphinxcontrib.pseudocode",
@@ -132,11 +133,11 @@ proof_theorem_types = {
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-_theme_name = "sphinx_book_theme"  # "sphinx_book_theme"
+_theme_name = "sphinx_book_theme"  # "pydata_sphinx_theme", "stanford_theme", etc.
 
 if _theme_name == "stanford_theme":
     html_theme = "stanford_theme"
-    html_theme_path = [stanford_theme.get_html_theme_path()]
+    html_theme_path = [sphinx_theme.get_html_theme_path("stanford-theme")]
     html_theme_options = {
         "collapse_navigation": False,
         "display_version": True,

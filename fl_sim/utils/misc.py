@@ -101,7 +101,7 @@ def ndarray_to_list(x: Union[np.ndarray, dict, list, tuple]) -> Union[list, dict
 
     Parameters
     ----------
-    x : Union[np.ndarray, dict, list, tuple]
+    x : Union[numpy.ndarray, dict, list, tuple]
         Input data, which can be numpy array,
         or dict, list, tuple containing numpy arrays.
 

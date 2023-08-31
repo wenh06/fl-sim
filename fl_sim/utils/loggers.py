@@ -329,15 +329,15 @@ class TxtLogger(BaseLogger):
         config : dict
             Configuration for the logger. The following keys are used:
 
-                - ``"algorithm"``: str,
-                    name of the algorithm.
-                - ``"dataset"``: str,
-                    name of the dataset.
-                - ``"model"``: str,
-                    name of the model.
-                - ``"log_dir"``: str or pathlib.Path, optional,
+                - ``"algorithm"``: :obj:`str`,
+                  name of the algorithm.
+                - ``"dataset"``: :obj:`str`,
+                  name of the dataset.
+                - ``"model"``: :obj:`str`,
+                  name of the model.
+                - ``"log_dir"``: :obj:`str` or :class:`pathlib.Path`, optional,
                   directory to save the log file.
-                - ``"log_suffix"``: str, optional,
+                - ``"log_suffix"``: :obj:`str`, optional,
                   suffix of the log file.
 
         Returns
@@ -461,15 +461,15 @@ class CSVLogger(BaseLogger):
         config : dict
             Configuration for the logger. The following keys are used:
 
-                - ``"algorithm"``: str,
-                    name of the algorithm.
-                - ``"dataset"``: str,
-                    name of the dataset.
-                - ``"model"``: str,
-                    name of the model.
-                - ``"log_dir"``: str or pathlib.Path, optional,
+                - ``"algorithm"``: :obj:`str`,
+                  name of the algorithm.
+                - ``"dataset"``: :obj:`str`,
+                  name of the dataset.
+                - ``"model"``: :obj:`str`,
+                  name of the model.
+                - ``"log_dir"``: :obj:`str` or :class:`pathlib.Path`, optional,
                   directory to save the log file.
-                - ``"log_suffix"``: str, optional,
+                - ``"log_suffix"``: :obj:`str`, optional,
                   suffix of the log file.
 
         Returns
@@ -491,38 +491,41 @@ class JsonLogger(BaseLogger):
 
     The structure is as follows for example:
 
-    .. code-block:: json
+    .. dropdown::
+        :animate: fade-in-slide-down
 
-        {
-            "train": {
-                "client0": [
-                    {
-                        "epoch": 1,
-                        "step": 1,
-                        "time": "2020-01-01 00:00:00",
-                        "loss": 0.1,
-                        "acc": 0.2,
-                        "top3_acc": 0.3,
-                        "top5_acc": 0.4,
-                        "num_samples": 100
-                    }
-                ]
-            },
-            "val": {
-                "client0": [
-                    {
-                        "epoch": 1,
-                        "step": 1,
-                        "time": "2020-01-01 00:00:00",
-                        "loss": 0.1,
-                        "acc": 0.2,
-                        "top3_acc": 0.3,
-                        "top5_acc": 0.4,
-                        "num_samples": 100
-                    }
-                ]
+        .. code-block:: json
+
+            {
+                "train": {
+                    "client0": [
+                        {
+                            "epoch": 1,
+                            "step": 1,
+                            "time": "2020-01-01 00:00:00",
+                            "loss": 0.1,
+                            "acc": 0.2,
+                            "top3_acc": 0.3,
+                            "top5_acc": 0.4,
+                            "num_samples": 100
+                        }
+                    ]
+                },
+                "val": {
+                    "client0": [
+                        {
+                            "epoch": 1,
+                            "step": 1,
+                            "time": "2020-01-01 00:00:00",
+                            "loss": 0.1,
+                            "acc": 0.2,
+                            "top3_acc": 0.3,
+                            "top5_acc": 0.4,
+                            "num_samples": 100
+                        }
+                    ]
+                }
             }
-        }
 
     Parameters
     ----------
@@ -647,17 +650,17 @@ class JsonLogger(BaseLogger):
         config : dict
             Configuration for the logger. The following keys are used:
 
-                - ``"algorithm"``: str,
-                    name of the algorithm.
-                - ``"dataset"``: str,
-                    name of the dataset.
-                - ``"model"``: str,
-                    name of the model.
+                - ``"algorithm"``: :obj:`str`,
+                  name of the algorithm.
+                - ``"dataset"``: :obj:`str`,
+                  name of the dataset.
+                - ``"model"``: :obj:`str`,
+                  name of the model.
                 - ``"fmt"``: {"json", "yaml"}, optional,
-                    format of the log file, default: ``"json"``.
-                - ``"log_dir"``: str or pathlib.Path, optional,
+                  format of the log file, default: ``"json"``.
+                - ``"log_dir"``: :obj:`str` or :class:`pathlib.Path`, optional,
                   directory to save the log file.
-                - ``"log_suffix"``: str, optional,
+                - ``"log_suffix"``: :obj:`str`, optional,
                   suffix of the log file.
 
         Returns
