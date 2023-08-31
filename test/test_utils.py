@@ -17,7 +17,7 @@ from fl_sim.utils.misc import (
     get_scheduler,
     get_scheduler_info,
     add_kwargs,
-    ndarray_to_list,
+    make_serializable,
     ordered_dict_to_dict,
     default_dict_to_dict,
     find_longest_common_substring,
@@ -187,11 +187,17 @@ def test_add_kwargs():
     assert get_kwargs(new_func) == {"b": 1, "xxx": "yyy", "zzz": None}
 
 
-def test_ndarray_to_list():
-    obj = np.array([1, 2, 3])
-    assert ndarray_to_list(obj) == [1, 2, 3]
-    obj = {"a": np.array([1, 2, 3]), "b": [np.array([4, 5, 6]), np.array([7, 8, 9])]}
-    assert ndarray_to_list(obj) == {"a": [1, 2, 3], "b": [[4, 5, 6], [7, 8, 9]]}
+def test_make_serializable():
+    x = np.array([1, 2, 3])
+    assert make_serializable(x) == [1, 2, 3]
+    x = {"a": np.array([1, 2, 3]), "b": [np.array([4, 5, 6]), np.array([7, 8, 9])]}
+    assert make_serializable(x) == {"a": [1, 2, 3], "b": [[4, 5, 6], [7, 8, 9]]}
+    x = [np.array([1, 2, 3]), np.array([4, 5, 6])]
+    assert make_serializable(x) == [[1, 2, 3], [4, 5, 6]]
+    x = (np.array([1, 2, 3]), np.array([4, 5, 6]).mean())
+    obj = make_serializable(x)
+    assert obj == [[1, 2, 3], 5.0]
+    assert isinstance(obj[1], float) and isinstance(x[1], np.float64)
 
 
 def test_ordered_dict_to_dict():

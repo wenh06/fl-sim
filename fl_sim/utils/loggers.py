@@ -31,7 +31,7 @@ from torch_ecg.utils import (
 )
 
 from .const import LOG_DIR as DEFAULT_LOG_DIR, NAME as LOG_NAME
-from .misc import ndarray_to_list, default_dict_to_dict
+from .misc import make_serializable, default_dict_to_dict
 
 
 __all__ = [
@@ -606,7 +606,7 @@ class JsonLogger(BaseLogger):
     def flush(self) -> None:
         if not self._flushed:
             # convert to list to make it json serializable
-            flush_buffer = ndarray_to_list(default_dict_to_dict(self.logger))
+            flush_buffer = make_serializable(default_dict_to_dict(self.logger))
             if self.fmt == "json":
                 Path(self.filename).write_text(
                     json.dumps(flush_buffer, indent=4, ensure_ascii=False)

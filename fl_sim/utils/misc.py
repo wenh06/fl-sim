@@ -19,6 +19,7 @@ import warnings
 from collections import OrderedDict, defaultdict
 from copy import deepcopy
 from functools import wraps
+from numbers import Number
 from pathlib import Path
 from typing import Any, Callable, Union, Optional, Sequence, Tuple, List
 
@@ -32,7 +33,7 @@ from .const import LOG_DIR
 __all__ = [
     "experiment_indicator",
     "clear_logs",
-    "ndarray_to_list",
+    "make_serializable",
     "ordered_dict_to_dict",
     "default_dict_to_dict",
     "set_seed",
@@ -93,32 +94,55 @@ def clear_logs(
         log_file.unlink()
 
 
-def ndarray_to_list(x: Union[np.ndarray, dict, list, tuple]) -> Union[list, dict]:
-    """Convert numpy array to list.
+def make_serializable(
+    x: Union[np.ndarray, np.generic, dict, list, tuple]
+) -> Union[list, dict, Number]:
+    """Make an object serializable.
 
-    This function is used to convert numpy array to list, so that it can be
-    serialized by :mod:`json`.
+    This function is used to convert all numpy arrays to list in an object,
+    and also convert numpy data types to python data types in the object,
+    so that it can be serialized by :mod:`json`.
 
     Parameters
     ----------
-    x : Union[numpy.ndarray, dict, list, tuple]
-        Input data, which can be numpy array,
-        or dict, list, tuple containing numpy arrays.
+    x : Union[numpy.ndarray, numpy.generic, dict, list, tuple]
+        Input data, which can be numpy array (or numpy data type),
+        or dict, list, tuple containing numpy arrays (or numpy data type).
 
     Returns
     -------
-    Union[list, dict]
+    Union[list, dict, numbers.Number]
         Converted data.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from fl_sim.utils.misc import make_serializable
+    >>> x = np.array([1, 2, 3])
+    >>> make_serializable(x)
+    [1, 2, 3]
+    >>> x = {"a": np.array([1, 2, 3]), "b": np.array([4, 5, 6])}
+    >>> make_serializable(x)
+    {'a': [1, 2, 3], 'b': [4, 5, 6]}
+    >>> x = [np.array([1, 2, 3]), np.array([4, 5, 6])]
+    >>> make_serializable(x)
+    [[1, 2, 3], [4, 5, 6]]
+    >>> x = (np.array([1, 2, 3]), np.array([4, 5, 6]).mean())
+    >>> obj = make_serializable(x)
+    >>> obj
+    [[1, 2, 3], 5.0]
+    >>> type(obj[1]), type(x[1])
+    (float, numpy.float64)
 
     """
     if isinstance(x, np.ndarray):
         return x.tolist()
     elif isinstance(x, (list, tuple)):
         # to avoid cases where the list contains numpy data types
-        return [ndarray_to_list(v) for v in x]
+        return [make_serializable(v) for v in x]
     elif isinstance(x, dict):
         for k, v in x.items():
-            x[k] = ndarray_to_list(v)
+            x[k] = make_serializable(v)
     elif isinstance(x, np.generic):
         return x.item()
     # the other types will be returned directly
