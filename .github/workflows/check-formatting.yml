@@ -32,7 +32,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install --upgrade wheel
-        python -m pip install black==22.3.0 flake8 # Testing packages
+        python -m pip install black==22.8.0 flake8 importlib-metadata==4.8.3 # Testing packages
         python -m pip install -r requirements.txt
     - name: List installed Python packages
       run: |
