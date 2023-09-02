@@ -16,5 +16,4 @@ sphinxcontrib-pseudocode
 sphinxcontrib-bibtex
 sphinxcontrib-proof
 numpydoc
-recommonmark
 tqdm
