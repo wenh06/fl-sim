@@ -400,8 +400,8 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
     """Creates a RNN model using LSTM layers for
     Shakespeare language models (next character prediction task).
 
-    This replicates the model structure in the paper [#fedavg]_.
-    This is also recommended model by [#fedopt]_.
+    This replicates the model structure in the paper [:footcite:ct:`mcmahan2017fed_avg`].
+    This is also recommended model by [:footcite:ct:`reddi2020fed_opt`].
 
     Modified from `FedML <https://github.com/FedML-AI/FedML>`_.
 
@@ -414,12 +414,8 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
     hidden_size : int
         The number of features in the hidden state h.
 
-    References
-    ----------
-    .. [#fedavg] H. Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, Blaise Agueray Arcas.
-                 Communication-Efficient Learning of Deep Networks from Decentralized Data. AISTATS 2017.
-    .. [#fedopt] Reddi, S. J., Charles, Z., Zaheer, M., Garrett, Z., Rush, K., Konečný, J., Kumar, S., & McMahan, H. B.
-                 Adaptive Federated Optimization. International Conference on Learning Representations 2021.
+
+    .. footbibliography::
 
     """
 
@@ -529,7 +525,7 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
 class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
     """Creates a RNN model using LSTM layers for StackOverFlow (next word prediction task).
 
-    This replicates the model structure in the paper [#fedopt]_ Table 9.
+    This replicates the model structure in the paper [:footcite:ct:`reddi2020fed_opt`].
 
     Modified from `FedML <https://github.com/FedML-AI/FedML>`_.
 
@@ -546,10 +542,8 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
     num_layers : int, default 1
         The number of recurrent layers (:class:`torch.nn.LSTM`).
 
-    References
-    ----------
-    .. [#fedopt] Reddi, S. J., Charles, Z., Zaheer, M., Garrett, Z., Rush, K., Konečný, J., Kumar, S., & McMahan, H. B.
-                 Adaptive Federated Optimization. International Conference on Learning Representations 2021.
+
+    .. footbibliography::
 
     """
 

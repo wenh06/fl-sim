@@ -35,9 +35,12 @@ __all__ = [
 class FedRotatedCIFAR10(FedVisionDataset):
     """CIFAR10 dataset with rotation augmentation.
 
-    The rotations are fixed and are multiples of 360 / num_rotations [1]_
+    The rotations are fixed and are multiples of 360 / num_rotations
+    [:footcite:ct:`Ghosh_2022_cfl`].
 
-    The original CIFAR10 dataset [2]_ contains 50k training images and 10k test images.
+    The original CIFAR10 dataset
+    `<https://pytorch.org/vision/stable/_modules/torchvision/datasets/cifar.html#CIFAR10>`_
+    contains 50k training images and 10k test images.
     Images are 32x32 RGB images in 10 classes.
 
     Parameters
@@ -48,19 +51,15 @@ class FedRotatedCIFAR10(FedVisionDataset):
         Number of rotations to apply to the images in the dataset.
     num_clients : int, default 200
         Number of clients to simulate.
-    transform : str or callable, default 'none'
+    transform : str or callable, default "none"
         Transform (augmentation) to apply to the dataset.
-        If 'none', no augmentation is applied,
+        If "none", no augmentation is applied,
         only the normalization transform is applied.
     seed : int, default 0
         Random seed for reproducibility.
 
-    References
-    ----------
-    .. [1] Ghosh, A., Chung, J., Yin, D., & Ramchandran, K. (2020).
-           An efficient framework for clustered federated learning.
-           Advances in Neural Information Processing Systems, 33, 19586-19597.
-    .. [2] https://pytorch.org/vision/stable/_modules/torchvision/datasets/cifar.html#CIFAR10
+
+    .. footbibliography::
 
     """
 

@@ -20,6 +20,8 @@ __all__ = [
 class FedProxOptimizer(ProxSGD):
     """Local optimizer for ``FedProx`` using ``ProxSGD``.
 
+    The original implementation is in [1]_, [2]_.
+
     Parameters
     ----------
     params : Iterable[dict] or Iterable[torch.nn.parameter.Parameter]
@@ -31,10 +33,12 @@ class FedProxOptimizer(ProxSGD):
 
     References
     ----------
-    1. https://github.com/litian96/FedProx/blob/master/flearn/optimizer/pgd.py
-    2. https://github.com/litian96/FedProx/blob/master/flearn/optimizer/pggd.py
+    .. [1] https://github.com/litian96/FedProx/blob/master/flearn/optimizer/pgd.py
+    .. [2] https://github.com/litian96/FedProx/blob/master/flearn/optimizer/pggd.py
 
-    The ``gold`` (reference 2) is not re-implemented yet.
+    .. note::
+
+        The ``gold`` [2]_ is not re-implemented yet.
 
     """
 
@@ -46,7 +50,6 @@ class FedProxOptimizer(ProxSGD):
         lr: float = 1e-3,
         mu: float = 1e-2,
     ) -> None:
-        """ """
         self.mu = mu
         super().__init__(params, lr=lr, prox=mu, momentum=0)
 

@@ -28,10 +28,12 @@ class CustomOptimizer(ProxSGD):
 
     References
     ----------
-    1. https://github.com/litian96/FedProx/blob/master/flearn/optimizer/pgd.py
-    2. https://github.com/litian96/FedProx/blob/master/flearn/optimizer/pggd.py
+    .. [1] https://github.com/litian96/FedProx/blob/master/flearn/optimizer/pgd.py
+    .. [2] https://github.com/litian96/FedProx/blob/master/flearn/optimizer/pggd.py
 
-    The ``gold`` (reference 2) is not re-implemented yet.
+    .. note::
+
+        The ``gold`` [2]_ is not re-implemented yet.
 
     """
 

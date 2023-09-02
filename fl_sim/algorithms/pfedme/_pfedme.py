@@ -73,12 +73,13 @@ class pFedMeServerConfig(ServerConfig):
     """
     References
     ----------
-    1. https://github.com/CharlieDinh/pFedMe/blob/master/FLAlgorithms/users/userpFedMe.py
+    .. [1] https://github.com/CharlieDinh/pFedMe/blob/master/FLAlgorithms/users/userpFedMe.py
 
-    Note:
-    1. `lr` is the `personal_learning_rate` in the original implementation
-    2. `eta` is the `learning_rate` in the original implementation
-    3. `mu` is the momentum factor in the original implemented optimzer
+    .. note::
+
+        1. `lr` is the `personal_learning_rate` in the original implementation
+        2. `eta` is the `learning_rate` in the original implementation
+        3. `mu` is the momentum factor in the original implemented optimzer
 
     """,
     "append",
