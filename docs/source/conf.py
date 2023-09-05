@@ -51,7 +51,6 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_design",
     "nbsphinx",
-    "recommonmark",
     # 'sphinx.ext.autosectionlabel',
     "sphinx_multiversion",
     # "sphinx_toolbox.collapse",  # replaced by dropdown of sphinx_design
@@ -168,7 +167,6 @@ elif _theme_name == "pydata_sphinx_theme":
     }
 else:
     raise ValueError(f"Unknown theme name: {_theme_name}")
-# htmlhelp_basename = "Recommonmarkdoc"
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
