@@ -7,7 +7,7 @@ Overview of Optimization Algorithms in Federated Learning
 ---------------------------------------------------------
 
 Federated Optimization algorithms have been the central problem in the field of federated learning since its inception.
-The most important contribution of the initial work on federated learning :cite:p:`mcmahan2017fed_avg` was the introduction of the Federated Averaging algorithm (``FedAvg``).
+The most important contribution of the initial work on federated learning [:footcite:ct:`mcmahan2017fed_avg`] was the introduction of the Federated Averaging algorithm (``FedAvg``).
 
 Mathematically, federated learning solves the following problem of minimization of empirical risk function
 
@@ -96,7 +96,7 @@ And the following assumptions on data distributions:
 
 .. _bdd_grad_dissim:
 
-   * (A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways :cite:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`. For example, in :cite:p:`karimireddy2020scaffold` and :cite:p:`zhang2020fedpd`, the so-called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity. More specifically, there exists constants :math:`G > 0` and :math:`B \geqslant 0` such that
+   * (A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`]. For example, in [:footcite:ct:`karimireddy2020scaffold`] and [:footcite:ct:`zhang2020fedpd`], the so-called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity. More specifically, there exists constants :math:`G > 0` and :math:`B \geqslant 0` such that
 
       .. math::
          :label: bdd_grad_dissim
@@ -129,7 +129,7 @@ Due to the natural layered and decoupled structure of the federal learning probl
 
 It is easy to find the equivalence between the constrained optimization problem :eq:`fl-basic-constraint`
 and the unconstrained optimization problem :eq:`fl-basic`. The constrained formulation
-:eq:`fl-basic-constraint` is called the **consensus problem** in the literature of distributed optimization :cite:p:`boyd2011distributed`. The superiority of the constrained formulation :eq:`fl-basic-constraint` is that
+:eq:`fl-basic-constraint` is called the **consensus problem** in the literature of distributed optimization [:footcite:ct:`boyd2011distributed`]. The superiority of the constrained formulation :eq:`fl-basic-constraint` is that
 the objective function becomes block-separable, which is more suitable for the design of parallel and distributed algorithms.
 
 Federated Averaging Algorithm
@@ -139,7 +139,7 @@ The core idea of the ``FedAvg`` algorithm is to make full use of the local compu
 so that each client can perform multiple local iterations before uploading the local model to the server.
 It alleviates the problem of straggler clients and reduces the communication overhead,
 hence accelerating the convergence of the algorithm. This may well be thought of as a simple form of
-**skipping** algorithm, which were further developed in :cite:p:`zhang2020fedpd, proxskip, proxskip-vr`.
+**skipping** algorithm, which were further developed in [:footcite:ct:`zhang2020fedpd, proxskip, proxskip-vr`].
 Pseudocode for ``FedAvg`` is shown as follows:
 
 .. _pseduocode-fedavg:
@@ -150,10 +150,10 @@ Pseudocode for ``FedAvg`` is shown as follows:
    :alt: Psuedocode for ``FedAvg``
    :class: no-scaled-link
 
-``FedAvg`` achieved some good numerical results (see Section 3 of :cite:p:`mcmahan2017fed_avg`),
+``FedAvg`` achieved some good numerical results (see Section 3 of [:footcite:ct:`mcmahan2017fed_avg`]),
 but its convergence, espcially under non-I.I.D. data distributions, is not properly analyzed
-(see :cite:p:`khaled2019_first, Khaled2020_tighter`). There are several works that deal with this issue
-(such as :cite:p:`zhou_2018_convergence, li2019convergence`) with extra assumptions such as
+(see [:footcite:ct:`khaled2019_first, Khaled2020_tighter`]). There are several works that deal with this issue
+(such as [:footcite:ct:`zhou_2018_convergence, li2019convergence`]) with extra assumptions such as
 the convexity of the objective function :math:`f`, etc.
 
 ``FedAvg`` from the Perspective of Optimization
@@ -198,10 +198,10 @@ A Direct Improvement of ``FedAvg``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since ``FedAvg`` is based on stochastic gradient descent (SGD), it is natural to consider applying
-acceleration techniques :cite:p:`adagrad, adam, Zaheer_2018_yogi, adamw_amsgrad` to improve the algorithm performance.
+acceleration techniques [:footcite:ct:`adagrad, adam, Zaheer_2018_yogi, adamw_amsgrad`] to improve the algorithm performance.
 Computation on clients and on the server are relatively decoupled, so it does not require large modifications
 to the whole algorithm framework. Indeed, the authors of the ``FedAvg`` paper put this idea into practice and proposed
-a federated learning framework called ``FedOpt`` :cite:p:`reddi2020fed_opt` which has stronger adaptability.
+a federated learning framework called ``FedOpt`` [:footcite:ct:`reddi2020fed_opt`] which has stronger adaptability.
 The pseudocode for ``FedOpt`` is shown as follows:
 
 .. _pseduocode-fedopt:
@@ -229,7 +229,7 @@ or linear combination with inertia of the previous iteration
    \Delta^{(t)} \gets \beta_1 \Delta^{(t-1)} + \left( (1 - \beta_1) / \lvert \mathcal{S}^{(t)} \rvert \right) \sum_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)}.
 
 As one has already noticed, compared to ``FedAvg``, ``FedOpt`` introduces some momentum terms on the server node (in **ServerOpt**) to
-accelerate the convergence. In :cite:p:`reddi2020fed_opt`, the authors listed several options for **ServerOpt**:
+accelerate the convergence. In [:footcite:ct:`reddi2020fed_opt`], the authors listed several options for **ServerOpt**:
 
 - ``FedAdagrad``:
 
@@ -269,8 +269,8 @@ To better handle non-I.I.D. data, one needs to introduce some other techniques. 
 the gradients have different distributions across clients. A natural idea is to bring in some extra parameters
 which update along with the model parameters to make corrections (modifications) to the gradients on clients,
 reducing their variance and further accelerating the convergence. This technique is the so-called **variance reduction**
-technique :cite:p:`johnson2013accelerating`, which was first introduced to federated learning in
-:cite:p:`karimireddy2020scaffold` in the form of a new federated learning algorithm called **SCAFFOLD**
+technique [:footcite:ct:`johnson2013accelerating`], which was first introduced to federated learning in
+[:footcite:ct:`karimireddy2020scaffold`] in the form of a new federated learning algorithm called **SCAFFOLD**
 (Stochastic Controlled Averaging algorithm). The pseudocode for **SCAFFOLD** is shown as follows:
 
 .. _pseduocode-scaffold:
@@ -286,17 +286,17 @@ in federated learning for dealing with statistical heterogeneity. However, it sh
 `SCAFFOLD algorithm <pseduocode-scaffold_>`_ that on both the server and the clients, there are extra parameters
 :math:`c` and :math:`c_k` to maintain, which may increase the communication cost. In scenarios which are sensitive
 to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of
-the variance reduction technique and some **skipping** techniques (e.g. :cite:p:`proxskip-vr`),
+the variance reduction technique and some **skipping** techniques (e.g. [:footcite:ct:`proxskip-vr`]),
 which will be introduced in next sections.
 
 Proximal Algorithms in Federated Learning
 -----------------------------------------
 
 In non-I.I.D. scenarios, based on the idea of reducing the impact of local updates of clients on the global model,
-:cite:p:`sahu2018fedprox` first introduced a proximal term to the local objective functions, aiming at making the
+[:footcite:ct:`sahu2018fedprox`] first introduced a proximal term to the local objective functions, aiming at making the
 algorithm more stable and converging faster. Compared to ``SCAFFOLD``, methods using proximal terms do not need to
 maintain extra parameters (mainly related to the gradients), hence having no communication overhead and no
-additional cost to security (refer to :cite:p:`zhu2019deep_leakage` for more details).
+additional cost to security (refer to [:footcite:ct:`zhu2019deep_leakage`] for more details).
 
 To be more specific, in the :math:`(t+1)`-th iteration, the local objective function of client :math:`k` changes from
 :math:`f_k(\theta_k)` to the following form with a proximal term:
@@ -318,7 +318,7 @@ the overall optimization problem can be modeled as the following constrained opt
    \text{subject to} & \theta = \frac{1}{K} \sum\limits_{k=1}^K \theta_k.
    \end{array}
 
-For alternatives for the proximal center, studies were conducted in :cite:p:`hanzely2020federated, li_2021_ditto` which would be
+For alternatives for the proximal center, studies were conducted in [:footcite:ct:`hanzely2020federated, li_2021_ditto`] which would be
 introduced later. Now, we summarize the pseudocode for ``FedProx`` as follows:
 
 .. _pseduocode-fedprox:
@@ -341,7 +341,7 @@ We denote the :math:`\gamma`-inexact solution :math:`\theta_k^{(t)}` as
 
    \theta_k^{(t)} \approx \prox_{f_k, \mu} (\theta^{(t)}) := \argmin\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\},
 
-where :math:`\prox_{f_k, \mu}` is the proximal operator :cite:p:`Moreau_1965_prox` of :math:`f_k` with respect to :math:`\mu`.
+where :math:`\prox_{f_k, \mu}` is the proximal operator [:footcite:ct:`Moreau_1965_prox`] of :math:`f_k` with respect to :math:`\mu`.
 Let :math:`s = \frac{1}{\mu}`, since one has :math:`\prox_{f_k, \mu} = \prox_{sf_k, 1}`, we also denote :math:`\prox_{f_k, \mu}`
 as :math:`\prox_{sf_k}`. Corresponding function
 
@@ -351,7 +351,7 @@ as :math:`\prox_{sf_k}`. Corresponding function
    \mathcal{M}_{sf_k} (\theta^{(t)}) = \mathcal{M}_{f_k, \mu} (\theta^{(t)}) := \inf\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}
 
 is called **Moreau envelope** or **Moreau-Yosida regularization** of :math:`f_k` with respect to :math:`\mu`.
-Moreau envelope of a function :math:`f_k` has the following relationship :cite:p:`Parikh_2014_pa` with its proximal operator:
+Moreau envelope of a function :math:`f_k` has the following relationship [:footcite:ct:`Parikh_2014_pa`] with its proximal operator:
 
 .. math::
    :label: prox-moreau-relation
@@ -360,11 +360,11 @@ Moreau envelope of a function :math:`f_k` has the following relationship :cite:p
 
 Namely, :math:`\prox_{sf_k}` can be regarded as the gradient descent operator for minimizing :math:`\mathcal{M}_{sf_k}` with step size :math:`s`.
 
-For the convergence of ``FedProx`` in non-I.I.D. scenarios, :cite:p:`sahu2018fedprox` has the following theorem:
+For the convergence of ``FedProx`` in non-I.I.D. scenarios, [:footcite:ct:`sahu2018fedprox`] has the following theorem:
 
 .. _fedprox_thm4:
 
-.. proof:theorem:: :cite:p:`sahu2018fedprox` Theorem 4
+.. proof:theorem:: [:footcite:ct:`sahu2018fedprox`] Theorem 4
 
    Assume that the objective functions on clients :math:`\{f_k\}_{k=1}^K` are non-convex, :math:`L`-smooth (definition see :eq:`l-smooth`), and there exists a constant :math:`L_- > 0` such that :math:`\nabla^2 f_k \succcurlyeq -L_- I_d`.
    Assume further that the functions :math:`\{f_k\}_{k=1}^K` satisfy the so-called bounded dissimilarity condition, i.e.
@@ -404,13 +404,13 @@ For the convergence of ``FedProx`` in non-I.I.D. scenarios, :cite:p:`sahu2018fed
    the condition :math:`\rho > 0`. In this case, the inequality :eq:`fedprox_obj_decrease` becomes meaningless.
 
    When the data distribution across clients is identical (ideal case), then :math:`B_{\varepsilon}` is constantly equal to 1,
-   which would not have the problem mentioned above. This problem is the start point of a series of follow-up works :cite:p:`pathak2020fedsplit,tran2021feddr`.
+   which would not have the problem mentioned above. This problem is the start point of a series of follow-up works [:footcite:ct:`pathak2020fedsplit,tran2021feddr`].
 
 The positive significance of the ``FedProx`` algorithm is that it first introduced the proximal point algorithms (PPA) in the field of
 federated learning, although which were only used for solving local optimization problems (or equivalently the inner loop problem) and the
 whole of the ``FedProx`` algorithm is not a PPA in strict sense. The ``FedProx`` algorithm provides not only a good framework for theoretical
 analysis, but also a good starting point for the design of new algorithms. A large proportion of the algorithms proposed later for personalized
-fedrated learning :cite:p:`hanzely2020federated, acar2021feddyn, li_2021_ditto, t2020pfedme, li2021pfedmac` rely on the proximal terms (or similar terms)
+fedrated learning [:footcite:ct:`hanzely2020federated, acar2021feddyn, li_2021_ditto, t2020pfedme, li2021pfedmac`] rely on the proximal terms (or similar terms)
 as the main technical tool for personalization.
 
 .. _fig-apfl:
@@ -514,5 +514,4 @@ Skipping Algorithms in Federated Learning
 
 to write....
 
-.. bibliography::
-   :filter: docname in docnames
+.. footbibliography::
