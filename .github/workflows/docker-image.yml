@@ -58,11 +58,15 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags:
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116
+    - name: Build and push pytorch2.0.1-cu117 version
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: ./pytorch2.0.1-cu117.Dockerfile
+        push: ${{ github.event_name != 'pull_request' }}
+        tags:
+          ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch2.0.1-cu117
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:latest
-    # - name: Build the Docker image
-    #   run: |
-    #     docker build . --file python3.8-slim.Dockerfile --tag $DOCKER_IMAGE_TAG-python3.8-slim
-    #     docker build . --file pytorch1.13.1-cu116.Dockerfile --tag $DOCKER_IMAGE_TAG-pytorch1.13.1-cu116
     - name: Test the Docker image
       run: |
         docker images  # list local images
@@ -71,4 +75,8 @@ jobs:
         docker rmi ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:python3.8-slim  # remove tested image to save space
         docker images  # list local images
         docker run --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116 bash -c "fl-sim example-configs/action-test.yml"
+        docker images  # list local images
+        docker rmi ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116  # remove tested image to save space
+        docker images  # list local images
+        docker run --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch2.0.1-cu117 bash -c "fl-sim example-configs/action-test.yml"
         docker images  # list local images
