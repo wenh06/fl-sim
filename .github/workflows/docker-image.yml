@@ -49,14 +49,15 @@ jobs:
         context: .
         file: ./python3.8-slim.Dockerfile
         push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:python3.8-slim
+        tags: |
+          ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:python3.8-slim
     - name: Build and push pytorch1.13.1-cu116 version
       uses: docker/build-push-action@v4
       with:
         context: .
         file: ./pytorch1.13.1-cu116.Dockerfile
         push: ${{ github.event_name != 'pull_request' }}
-        tags:
+        tags: |
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116
     - name: Build and push pytorch2.0.1-cu117 version
       uses: docker/build-push-action@v4
@@ -64,7 +65,7 @@ jobs:
         context: .
         file: ./pytorch2.0.1-cu117.Dockerfile
         push: ${{ github.event_name != 'pull_request' }}
-        tags:
+        tags: |
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch2.0.1-cu117
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:latest
     - name: Test the Docker image
