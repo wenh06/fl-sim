@@ -506,7 +506,7 @@ def execute_cmd(
         close_fds=(not (platform.system().lower() == "windows")),
     )
     debug_stdout = collections.deque(maxlen=1000)
-    print("\n" + "*" * 10 + "  execute_cmd starts  " + "*" * 10 + "\n")
+    # print("\n" + "*" * 10 + "  execute_cmd starts  " + "*" * 10 + "\n")
     while 1:
         line = s.stdout.readline().decode("utf-8", errors="replace")
         if line.rstrip():
@@ -534,7 +534,7 @@ def execute_cmd(
     s.stdout.close()
     output_msg = list(debug_stdout)
 
-    print("\n" + "*" * 10 + "  execute_cmd succeeded  " + "*" * 10 + "\n")
+    # print("\n" + "*" * 10 + "  execute_cmd succeeded  " + "*" * 10 + "\n")
 
     exitcode = 0
 
