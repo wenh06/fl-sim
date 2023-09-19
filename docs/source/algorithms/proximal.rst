@@ -15,6 +15,10 @@ To be more specific, in the :math:`(t+1)`-th iteration, the local objective func
 .. math::
    :label: fedprox-local-obj
 
+   \DeclareMathOperator*{\expectation}{\mathbb{E}}
+   \DeclareMathOperator*{\minimize}{minimize}
+   \newcommand{\R}{\mathbb{R}}
+
    h_k(\theta_k, \theta^{(t)}) := f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,
 
 where :math:`\mu` is a penalty constant. It should be noticed that the proximal center :math:`\theta^{(t)}` is
