@@ -21,6 +21,7 @@ extras["test"] = [
     "pytest",
     "pytest-xdist",
     "pytest-cov",
+    "pre-commit",
 ]
 extras["viz"] = (cwd / "requirements-viz.txt").read_text(encoding="utf-8").splitlines()
 extras["docs"] = (
