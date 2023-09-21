@@ -2,7 +2,7 @@
 """
 
 import warnings
-from typing import Iterable, Union, Optional, Any
+from typing import Any, Iterable, Optional, Union
 
 import torch  # noqa: F401
 from torch import Tensor
@@ -12,7 +12,6 @@ from torch_ecg.utils import add_docstring, remove_parameters_returns_from_docstr
 
 from . import functional as F
 from ._register import register_optimizer
-
 
 __all__ = [
     "ProxSGD_VR",
@@ -89,8 +88,7 @@ class ProxSGD_VR(Optimizer):
             raise ValueError(f"Invalid prox value: {prox}")
         if prox * lr >= 1:
             warnings.warn(
-                f"prox * lr = {prox * lr:.3f} >= 1 with prox = {prox}, lr = {lr}, "
-                f"you may encounter gradient exploding.",
+                f"prox * lr = {prox * lr:.3f} >= 1 with prox = {prox}, lr = {lr}, " f"you may encounter gradient exploding.",
                 RuntimeWarning,
             )
         defaults = dict(
@@ -209,11 +207,7 @@ class ProxSGD(ProxSGD_VR):
     __name__ = "ProxSGD"
 
     @torch.no_grad()
-    @add_docstring(
-        remove_parameters_returns_from_docstring(
-            ProxSGD_VR.step.__doc__, parameters="variance_buffer"
-        )
-    )
+    @add_docstring(remove_parameters_returns_from_docstring(ProxSGD_VR.step.__doc__, parameters="variance_buffer"))
     def step(
         self,
         local_weights: Iterable[Parameter],
@@ -266,11 +260,7 @@ class SGD_VR(ProxSGD_VR):
         self.defaults = defaults
 
     @torch.no_grad()
-    @add_docstring(
-        remove_parameters_returns_from_docstring(
-            ProxSGD_VR.step.__doc__, parameters="local_weights"
-        )
-    )
+    @add_docstring(remove_parameters_returns_from_docstring(ProxSGD_VR.step.__doc__, parameters="local_weights"))
     def step(
         self,
         variance_buffer: Iterable[Tensor],
@@ -464,11 +454,7 @@ class AL_SGD(AL_SGD_VR):
     """
 
     @torch.no_grad()
-    @add_docstring(
-        remove_parameters_returns_from_docstring(
-            AL_SGD_VR.step.__doc__, parameters="variance_buffer"
-        )
-    )
+    @add_docstring(remove_parameters_returns_from_docstring(AL_SGD_VR.step.__doc__, parameters="variance_buffer"))
     def step(
         self,
         local_weights: Iterable[Parameter],

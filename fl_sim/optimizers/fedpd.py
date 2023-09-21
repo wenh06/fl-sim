@@ -7,9 +7,8 @@ from typing import Iterable, Union
 from torch.nn import Parameter
 from torch_ecg.utils import add_docstring
 
-from .base import AL_SGD_VR, AL_SGD
 from ._register import register_optimizer
-
+from .base import AL_SGD, AL_SGD_VR
 
 __all__ = [
     "FedPD_VR",

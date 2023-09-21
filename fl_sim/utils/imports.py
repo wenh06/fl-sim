@@ -13,7 +13,6 @@ import types
 from pathlib import Path
 from typing import Union
 
-
 _all__ = [
     "load_module_from_file",
 ]

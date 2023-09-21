@@ -2,20 +2,19 @@ import json
 import re
 from pathlib import Path
 from string import punctuation
-from typing import Optional, Union, List, Tuple, Dict
+from typing import Dict, List, Optional, Tuple, Union
 
 import torch
 import torch.utils.data as torchdata
 from bs4 import BeautifulSoup
 
-from ..utils.const import CACHED_DATA_DIR
-from ..utils._download_data import url_is_reachable
 from ..models import nn as mnn
-from ..models.word_embeddings import GloveEmbedding
 from ..models.utils import top_n_accuracy
-from .fed_dataset import FedNLPDataset
+from ..models.word_embeddings import GloveEmbedding
+from ..utils._download_data import url_is_reachable
+from ..utils.const import CACHED_DATA_DIR
 from ._register import register_fed_dataset
-
+from .fed_dataset import FedNLPDataset
 
 __all__ = [
     "FedProxSent140",
@@ -103,20 +102,14 @@ class FedProxSent140(FedNLPDataset):
         # then remove leading and trailing punctuation
         raw_max_len = 0
         for user in self._train_data_dict["users"]:
-            for idx in range(
-                len(self._train_data_dict[self._EXAMPLE][user][self._TEXT])
-            ):
-                text = self._train_data_dict[self._EXAMPLE][user][self._TEXT][idx][
-                    4
-                ].strip()
+            for idx in range(len(self._train_data_dict[self._EXAMPLE][user][self._TEXT])):
+                text = self._train_data_dict[self._EXAMPLE][user][self._TEXT][idx][4].strip()
                 text = self._preprocess_text(text)
                 self._train_data_dict[self._EXAMPLE][user][self._TEXT][idx][4] = text
                 raw_max_len = max(raw_max_len, len(text.split()))
         for user in self._test_data_dict["users"]:
             for idx in range(len(self._test_data_dict[self._EXAMPLE][user])):
-                text = self._test_data_dict[self._EXAMPLE][user][self._TEXT][idx][
-                    4
-                ].strip()
+                text = self._test_data_dict[self._EXAMPLE][user][self._TEXT][idx][4].strip()
                 text = self._preprocess_text(text)
                 self._test_data_dict[self._EXAMPLE][user][self._TEXT][idx][4] = text
                 raw_max_len = max(raw_max_len, len(text.split()))
@@ -183,20 +176,10 @@ class FedProxSent140(FedNLPDataset):
 
         train_x, train_y, test_x, test_y = [], [], [], []
         for user in train_ids:
-            train_x.extend(
-                [
-                    item[4]
-                    for item in self._train_data_dict[self._EXAMPLE][user][self._TEXT]
-                ]
-            )
+            train_x.extend([item[4] for item in self._train_data_dict[self._EXAMPLE][user][self._TEXT]])
             train_y.extend(self._train_data_dict[self._EXAMPLE][user][self._LABEL])
         for user in test_ids:
-            test_x.extend(
-                [
-                    item[4]
-                    for item in self._test_data_dict[self._EXAMPLE][user][self._TEXT]
-                ]
-            )
+            test_x.extend([item[4] for item in self._test_data_dict[self._EXAMPLE][user][self._TEXT]])
             test_y.extend(self._test_data_dict[self._EXAMPLE][user][self._LABEL])
 
         # tokenize to tensor
@@ -303,21 +286,15 @@ class FedProxSent140(FedNLPDataset):
 
         """
         if client_idx >= len(self._client_ids_train):
-            raise ValueError(
-                f"client_idx should be less than {len(self._client_ids_train)}"
-            )
+            raise ValueError(f"client_idx should be less than {len(self._client_ids_train)}")
         user = self._client_ids_train[client_idx]
         raw_texts = (
-            self._train_data_dict[self._EXAMPLE][user][self._TEXT]
-            + self._test_data_dict[self._EXAMPLE][user][self._TEXT]
+            self._train_data_dict[self._EXAMPLE][user][self._TEXT] + self._test_data_dict[self._EXAMPLE][user][self._TEXT]
         )
         if sample_idx >= len(raw_texts):
             raise ValueError(f"sample_idx should be less than {len(raw_texts)}")
         text = raw_texts[sample_idx][4]
-        label = (
-            self._train_data_dict[self._EXAMPLE][user][self._LABEL]
-            + self._test_data_dict[self._EXAMPLE][user][self._LABEL]
-        )
+        label = self._train_data_dict[self._EXAMPLE][user][self._LABEL] + self._test_data_dict[self._EXAMPLE][user][self._LABEL]
         label = label[sample_idx]
 
         new_line = "\n" + "-" * 50 + "\n"

@@ -4,24 +4,17 @@ FedPD re-implemented in the new framework
 
 import warnings
 from copy import deepcopy
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 import numpy as np
 import torch
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import (
-    Server,
-    Client,
-    ServerConfig,
-    ClientConfig,
-    ClientMessage,
-)
 from ...data_processing.fed_dataset import FedDataset
+from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
 
 __all__ = [
     "FedPDServerConfig",
@@ -149,9 +142,7 @@ class FedPDClientConfig(ClientConfig):
 
 @register_algorithm()
 @add_docstring(
-    Server.__doc__.replace(
-        "The class to simulate the server node.", "Server node for the FedPD algorithm."
-    )
+    Server.__doc__.replace("The class to simulate the server node.", "Server node for the FedPD algorithm.")
     .replace("ServerConfig", "FedPDServerConfig")
     .replace("ClientConfig", "FedPDClientConfig")
 )
@@ -201,8 +192,7 @@ class FedPDServer(Server):
         }
         if target.config.vr:
             target._received_messages["gradients"] = [
-                p.grad.detach().clone() if p.grad is not None else torch.zeros_like(p)
-                for p in target.model.parameters()
+                p.grad.detach().clone() if p.grad is not None else torch.zeros_like(p) for p in target.model.parameters()
             ]
 
     def update(self) -> None:
@@ -232,9 +222,9 @@ class FedPDServer(Server):
 
 @register_algorithm()
 @add_docstring(
-    Client.__doc__.replace(
-        "The class to simulate the client node.", "Client node for the FedPD algorithm."
-    ).replace("ClientConfig", "FedPDClientConfig")
+    Client.__doc__.replace("The class to simulate the client node.", "Client node for the FedPD algorithm.").replace(
+        "ClientConfig", "FedPDClientConfig"
+    )
 )
 class FedPDClient(Client):
     """Client node for the FedPD algorithm."""
@@ -248,9 +238,7 @@ class FedPDClient(Client):
         """
         super()._post_init()
         if self.config.vr:
-            self._gradient_buffer = [
-                torch.zeros_like(p) for p in self.model.parameters()
-            ]
+            self._gradient_buffer = [torch.zeros_like(p) for p in self.model.parameters()]
         else:
             self._gradient_buffer = None
         if self.config.dual_rand_init:
@@ -285,9 +273,7 @@ class FedPDClient(Client):
             "metrics": self._metrics,
         }
         if self.config.vr:
-            message["gradients"] = [
-                p.grad.detach().clone() for p in self.model.parameters()
-            ]
+            message["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
         target._received_messages.append(ClientMessage(**message))
 
     def update(self) -> None:
@@ -299,25 +285,16 @@ class FedPDClient(Client):
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
             warnings.warn(
-                "No parameters received from server. "
-                "Using current model parameters as initial parameters.",
+                "No parameters received from server. " "Using current model parameters as initial parameters.",
                 RuntimeWarning,
             )
             if self._cached_parameters is None:
-                self._cached_parameters = [
-                    p.detach().clone() for p in self.model.parameters()
-                ]
+                self._cached_parameters = [p.detach().clone() for p in self.model.parameters()]
         except Exception as err:
             raise err
         self._cached_parameters = [p.to(self.device) for p in self._cached_parameters]
-        if (
-            self.config.vr
-            and self._received_messages.get("gradients", None) is not None
-        ):
-            self._gradient_buffer = [
-                gd.clone().to(self.device)
-                for gd in self._received_messages["gradients"]
-            ]
+        if self.config.vr and self._received_messages.get("gradients", None) is not None:
+            self._gradient_buffer = [gd.clone().to(self.device) for gd in self._received_messages["gradients"]]
         self.solve_inner()  # alias of self.train()
         # update dual weights and cached parameters
         for i, p in enumerate(self.model.parameters()):

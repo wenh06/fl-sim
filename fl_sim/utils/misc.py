@@ -21,14 +21,13 @@ from copy import deepcopy
 from functools import wraps
 from numbers import Number
 from pathlib import Path
-from typing import Any, Callable, Union, Optional, Sequence, Tuple, List
+from typing import Any, Callable, List, Optional, Sequence, Tuple, Union
 
 import numpy as np
 import torch
 from torch_ecg.utils import get_kwargs, get_required_args
 
 from .const import LOG_DIR
-
 
 __all__ = [
     "experiment_indicator",
@@ -62,9 +61,7 @@ def experiment_indicator(name: str) -> Callable:
     return decorator
 
 
-def clear_logs(
-    pattern: str = "*", directory: Optional[Union[str, Path]] = None
-) -> None:
+def clear_logs(pattern: str = "*", directory: Optional[Union[str, Path]] = None) -> None:
     """Clear given log files in given directory.
 
     Parameters
@@ -86,17 +83,11 @@ def clear_logs(
     else:
         log_dir = LOG_DIR / directory
     log_extentions = [".log", ".txt", ".json", ".csv"]
-    for log_file in [
-        fp
-        for fp in log_dir.rglob(pattern)
-        if fp.is_file() and fp.suffix in log_extentions
-    ]:
+    for log_file in [fp for fp in log_dir.rglob(pattern) if fp.is_file() and fp.suffix in log_extentions]:
         log_file.unlink()
 
 
-def make_serializable(
-    x: Union[np.ndarray, np.generic, dict, list, tuple]
-) -> Union[list, dict, Number]:
+def make_serializable(x: Union[np.ndarray, np.generic, dict, list, tuple]) -> Union[list, dict, Number]:
     """Make an object serializable.
 
     This function is used to convert all numpy arrays to list in an object,
@@ -251,13 +242,10 @@ def get_scheduler(
     if scheduler_name == "none":
         if config:
             warnings.warn(
-                "Scheduler is not used, but config is provided. "
-                "The config will be ignored.",
+                "Scheduler is not used, but config is provided. " "The config will be ignored.",
                 RuntimeWarning,
             )
-        scheduler = torch.optim.lr_scheduler.LambdaLR(
-            optimizer, lr_lambda=lambda epoch: 1.0
-        )
+        scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda epoch: 1.0)
         scheduler.optimizer._step_count = 1  # to prevent scheduler warning
         return scheduler
 
@@ -286,12 +274,9 @@ def get_scheduler(
         # just in case
         required_configs.remove("self")
     assert set(required_configs).issubset(set(config.keys())), (
-        f"Missing required configs for {scheduler_name}: "
-        f"{set(required_configs) - set(config.keys())}"
+        f"Missing required configs for {scheduler_name}: " f"{set(required_configs) - set(config.keys())}"
     )
-    assert (set(config.keys()) - set(required_configs)).issubset(
-        set(defaul_configs.keys())
-    ), (
+    assert (set(config.keys()) - set(required_configs)).issubset(set(defaul_configs.keys())), (
         f"Unsupported configs for {scheduler_name}: "
         f"{set(config.keys()) - set(required_configs) - set(defaul_configs.keys())}"
     )
@@ -374,9 +359,7 @@ def is_notebook() -> bool:
         return False
 
 
-def find_longest_common_substring(
-    strings: Sequence[str], min_len: Optional[int] = None, ignore: Optional[str] = None
-) -> str:
+def find_longest_common_substring(strings: Sequence[str], min_len: Optional[int] = None, ignore: Optional[str] = None) -> str:
     """Find the longest common substring of a list of strings.
 
     Parameters
@@ -455,9 +438,7 @@ def add_kwargs(func: callable, **kwargs: Any) -> callable:
 
     if isinstance(func, types.MethodType):
         # can not assign `__signature__` to a bound method directly
-        func.__func__.__signature__ = func_signature.replace(
-            parameters=func_parameters.values()
-        )
+        func.__func__.__signature__ = func_signature.replace(parameters=func_parameters.values())
     else:
         func.__signature__ = func_signature.replace(parameters=func_parameters.values())
 
@@ -466,8 +447,7 @@ def add_kwargs(func: callable, **kwargs: Any) -> callable:
     @wraps(func)
     def wrapper(*args: Any, **kwargs_: Any) -> Any:
         assert set(kwargs_).issubset(full_kwargs), (
-            "got unexpected keyword arguments: "
-            f"{list(set(kwargs_).difference(full_kwargs))}"
+            "got unexpected keyword arguments: " f"{list(set(kwargs_).difference(full_kwargs))}"
         )
         filtered_kwargs = {k: v for k, v in kwargs_.items() if k in old_kwargs}
         return func(*args, **filtered_kwargs)
@@ -475,9 +455,7 @@ def add_kwargs(func: callable, **kwargs: Any) -> callable:
     return wrapper
 
 
-def execute_cmd(
-    cmd: Union[str, List[str]], raise_error: bool = True
-) -> Tuple[int, List[str]]:
+def execute_cmd(cmd: Union[str, List[str]], raise_error: bool = True) -> Tuple[int, List[str]]:
     """Execute shell command using `Popen`.
 
     Parameters

@@ -1,15 +1,14 @@
 from pathlib import Path
-from typing import Optional, Union, List, Tuple, Dict
+from typing import Dict, List, Optional, Tuple, Union
 
 import torch
 import torch.utils.data as torchdata
 
-from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy  # noqa: F401
-from .fed_dataset import FedNLPDataset  # noqa: F401
+from ..utils.const import CACHED_DATA_DIR
 from ._register import register_fed_dataset  # noqa: F401
-
+from .fed_dataset import FedNLPDataset  # noqa: F401
 
 __all__ = [
     "LeafSent140",

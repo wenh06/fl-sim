@@ -1,16 +1,10 @@
 """
 """
 
-from ...utils.misc import experiment_indicator
 from ...data_processing.fed_synthetic import FedSynthetic
 from ...data_processing.fedprox_femnist import FedProxFEMNIST
-
-from ._apfl import (
-    APFLServer,
-    APFLClientConfig,
-    APFLServerConfig,
-)
-
+from ...utils.misc import experiment_indicator
+from ._apfl import APFLClientConfig, APFLServer, APFLServerConfig
 
 __all__ = [
     "test_apfl",

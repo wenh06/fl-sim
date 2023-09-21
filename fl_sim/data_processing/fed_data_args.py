@@ -1,12 +1,11 @@
 from argparse import ArgumentParser
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Optional, Dict
+from typing import Dict, Optional
 
-from .fed_dataset import FedDataset
-from ._register import list_fed_dataset, get_fed_dataset
 from ..utils.imports import load_module_from_file
-
+from ._register import get_fed_dataset, list_fed_dataset
+from .fed_dataset import FedDataset
 
 __all__ = [
     "FedDataArgs",
@@ -139,11 +138,7 @@ class FedDataArgs:
             module = load_module_from_file(fed_dataset_file)
             # the custom federated dataset should be added to the dataset pool
             # using the decorator @register_fed_dataset
-            new_fed_dataset_names = [
-                item
-                for item in list_fed_dataset()
-                if item not in builtin_fed_dataset_names
-            ]
+            new_fed_dataset_names = [item for item in list_fed_dataset() if item not in builtin_fed_dataset_names]
             if fed_dataset_name is None:
                 # only one fed dataset class in `new_fed_dataset_names`
                 # after `load_module_from_file`

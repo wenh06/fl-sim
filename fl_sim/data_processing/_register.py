@@ -3,7 +3,6 @@ from typing import Any, List, Optional
 
 from .fed_dataset import FedDataset
 
-
 _built_in_fed_datasets = {}
 
 

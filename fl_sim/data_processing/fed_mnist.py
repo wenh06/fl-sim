@@ -1,18 +1,17 @@
 import json
 import warnings
 from pathlib import Path
-from typing import Optional, Union, List, Tuple, Dict
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import torch
 import torch.utils.data as torchdata
 
-from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
-from .fed_dataset import FedVisionDataset
+from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP
 from ._register import register_fed_dataset
-
+from .fed_dataset import FedVisionDataset
 
 __all__ = [
     "FedMNIST",
@@ -85,8 +84,7 @@ class FedMNIST(FedVisionDataset):
 
         if self.transform != "none":
             warnings.warn(
-                "The images are not raw pixels, but processed. "
-                "The transform argument will be ignored.",
+                "The images are not raw pixels, but processed. " "The transform argument will be ignored.",
                 RuntimeWarning,
             )
             self.transform = "none"
@@ -106,9 +104,7 @@ class FedMNIST(FedVisionDataset):
             np.unique(
                 np.concatenate(
                     [
-                        self._train_data_dict[self._EXAMPLE][
-                            self._client_ids_train[idx]
-                        ][self._LABEL]
+                        self._train_data_dict[self._EXAMPLE][self._client_ids_train[idx]][self._LABEL]
                         for idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM)
                     ]
                 )
@@ -158,40 +154,18 @@ class FedMNIST(FedVisionDataset):
             test_ids = [self._client_ids_test[client_idx]]
 
         # load data
-        train_x = np.vstack(
-            [
-                self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-                for client_id in train_ids
-            ]
-        )
+        train_x = np.vstack([self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE] for client_id in train_ids])
         # clip the values to avoid numerical instability
         train_x = np.clip(train_x, -self._clip_val, self._clip_val)
-        train_y = np.concatenate(
-            [
-                self._train_data_dict[self._EXAMPLE][client_id][self._LABEL]
-                for client_id in train_ids
-            ]
-        )
-        test_x = np.vstack(
-            [
-                self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-                for client_id in test_ids
-            ]
-        )
+        train_y = np.concatenate([self._train_data_dict[self._EXAMPLE][client_id][self._LABEL] for client_id in train_ids])
+        test_x = np.vstack([self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE] for client_id in test_ids])
         # clip the values to avoid numerical instability
         test_x = np.clip(test_x, -self._clip_val, self._clip_val)
-        test_y = np.concatenate(
-            [
-                self._test_data_dict[self._EXAMPLE][client_id][self._LABEL]
-                for client_id in test_ids
-            ]
-        )
+        test_y = np.concatenate([self._test_data_dict[self._EXAMPLE][client_id][self._LABEL] for client_id in test_ids])
 
         # dataloader
         train_ds = torchdata.TensorDataset(
-            torch.from_numpy(
-                train_x.reshape((-1, 28, 28)).astype(np.float32)
-            ).unsqueeze(1),
+            torch.from_numpy(train_x.reshape((-1, 28, 28)).astype(np.float32)).unsqueeze(1),
             torch.from_numpy(train_y.astype(np.int64)),
         )
         train_dl = torchdata.DataLoader(
@@ -202,9 +176,7 @@ class FedMNIST(FedVisionDataset):
         )
 
         test_ds = torchdata.TensorDataset(
-            torch.from_numpy(test_x.reshape((-1, 28, 28)).astype(np.float32)).unsqueeze(
-                1
-            ),
+            torch.from_numpy(test_x.reshape((-1, 28, 28)).astype(np.float32)).unsqueeze(1),
             torch.from_numpy(test_y.astype(np.int64)),
         )
         test_dl = torchdata.DataLoader(
@@ -292,53 +264,29 @@ class FedMNIST(FedVisionDataset):
         import matplotlib.pyplot as plt
 
         if client_idx >= len(self._train_data_dict["users"]):
-            raise ValueError(
-                f"client_idx must be less than {len(self._train_data_dict['users'])}"
-            )
+            raise ValueError(f"client_idx must be less than {len(self._train_data_dict['users'])}")
         client_id = self._train_data_dict["users"][client_idx]
-        total_num_images = len(
-            self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-        ) + len(self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE])
-        if image_idx >= total_num_images:
-            raise ValueError(
-                f"image_idx must be less than {total_num_images} (total number of images)"
-            )
-        if image_idx < len(
-            self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-        ):
-            image = np.array(
-                self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-            )[image_idx].reshape(28, 28)
-            image = np.clip(image, -self._clip_val, self._clip_val)
-            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(
-                np.uint8
-            )
-            label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][
-                image_idx
-            ]
-        else:
-            image_idx -= len(
-                self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-            )
-            image = np.array(
-                self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-            )[image_idx].reshape(28, 28)
-            image = np.clip(image, -self._clip_val, self._clip_val)
-            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(
-                np.uint8
-            )
-            label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][
-                image_idx
-            ]
-        plt.imshow(image, cmap="gray")
-        plt.title(
-            f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})"
+        total_num_images = len(self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]) + len(
+            self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE]
         )
+        if image_idx >= total_num_images:
+            raise ValueError(f"image_idx must be less than {total_num_images} (total number of images)")
+        if image_idx < len(self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]):
+            image = np.array(self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE])[image_idx].reshape(28, 28)
+            image = np.clip(image, -self._clip_val, self._clip_val)
+            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(np.uint8)
+            label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][image_idx]
+        else:
+            image_idx -= len(self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE])
+            image = np.array(self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE])[image_idx].reshape(28, 28)
+            image = np.clip(image, -self._clip_val, self._clip_val)
+            image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(np.uint8)
+            label = self._train_data_dict[self._EXAMPLE][client_id][self._LABEL][image_idx]
+        plt.imshow(image, cmap="gray")
+        plt.title(f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})")
         plt.show()
 
-    def random_grid_view(
-        self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None
-    ) -> None:
+    def random_grid_view(self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
 
@@ -367,34 +315,22 @@ class FedMNIST(FedVisionDataset):
                 while True:
                     client_idx = rng.integers(len(self._train_data_dict["users"]))
                     client_id = self._train_data_dict["users"][client_idx]
-                    total_num_images = len(
-                        self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-                    ) + len(self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE])
+                    total_num_images = len(self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]) + len(
+                        self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE]
+                    )
                     image_idx = rng.integers(total_num_images)
                     if (client_idx, image_idx) not in selected:
                         selected.append((client_idx, image_idx))
                         break
-                if image_idx < len(
-                    self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-                ):
-                    image = np.array(
-                        self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-                    )[image_idx].reshape(28, 28)
+                if image_idx < len(self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]):
+                    image = np.array(self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE])[image_idx].reshape(28, 28)
                     image = np.clip(image, -self._clip_val, self._clip_val)
-                    image = (
-                        (image - image.min()) / (image.max() - image.min()) * 255
-                    ).astype(np.uint8)
+                    image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(np.uint8)
                 else:
-                    image_idx -= len(
-                        self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-                    )
-                    image = np.array(
-                        self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-                    )[image_idx].reshape(28, 28)
+                    image_idx -= len(self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE])
+                    image = np.array(self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE])[image_idx].reshape(28, 28)
                     image = np.clip(image, -self._clip_val, self._clip_val)
-                    image = (
-                        (image - image.min()) / (image.max() - image.min()) * 255
-                    ).astype(np.uint8)
+                    image = ((image - image.min()) / (image.max() - image.min()) * 255).astype(np.uint8)
                 axes[i, j].imshow(image, cmap="gray")
                 axes[i, j].axis("off")
         if save_path is not None:

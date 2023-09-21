@@ -18,7 +18,7 @@ from typing import List, Tuple, Union
 import yaml
 from torch_ecg.cfg import CFG
 
-from fl_sim.algorithms import list_algorithms, get_algorithm, builtin_algorithms
+from fl_sim.algorithms import builtin_algorithms, get_algorithm, list_algorithms
 from fl_sim.data_processing import FedDataArgs
 from fl_sim.utils.const import NAME
 from fl_sim.utils.imports import load_module_from_file
@@ -48,8 +48,7 @@ def parse_args() -> List[CFG]:
 
     assert config_file_path.exists(), f"Config file {config_file_path} not found"
     assert config_file_path.suffix in [".yml", ".yaml"], (
-        f"Config file {config_file_path} must be a .yml or .yaml file, "
-        f"but got {config_file_path.suffix}."
+        f"Config file {config_file_path} must be a .yml or .yaml file, " f"but got {config_file_path.suffix}."
     )
 
     return parse_config_file(config_file_path)
@@ -87,9 +86,7 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
         # replace pattern of the form ${{ xx.xx... }} with corresponding value
         new_file_content = deepcopy(file_content)
         new_config = CFG(yaml.safe_load(new_file_content))
-        pattern = re.compile(
-            "\\$\\{\\{ (?:\\s+)?(?P<repkey>\\w[\\.\\w]+\\w)(?:\\s+)?\\}\\}"
-        )
+        pattern = re.compile("\\$\\{\\{ (?:\\s+)?(?P<repkey>\\w[\\.\\w]+\\w)(?:\\s+)?\\}\\}")
         matches = re.finditer(pattern, new_file_content)
         for match in matches:
             repkey = match.group("repkey")
@@ -107,10 +104,7 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
         new_config = CFG(yaml.safe_load(new_file_content))
         new_config.pop("strategy", None)
         if "strategy" in configs and configs["strategy"].get("n_parallel", 1) != 1:
-            warnings.warn(
-                "`n_parallel` is not supported for single experiment, "
-                "ignoring `n_parallel`"
-            )
+            warnings.warn("`n_parallel` is not supported for single experiment, " "ignoring `n_parallel`")
         configs = [new_config]
         n_parallel = 1
         return configs, n_parallel
@@ -141,9 +135,7 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
         new_config = CFG(yaml.safe_load(new_file_content))
         new_config.pop("strategy")
         # replace pattern of the form ${{ xx.xx... }} with corresponding value
-        pattern = re.compile(
-            "\\$\\{\\{ (?:\\s+)?(?P<repkey>\\w[\\.\\w]+\\w)(?:\\s+)?\\}\\}"
-        )
+        pattern = re.compile("\\$\\{\\{ (?:\\s+)?(?P<repkey>\\w[\\.\\w]+\\w)(?:\\s+)?\\}\\}")
         matches = re.finditer(pattern, new_file_content)
         for match in matches:
             repkey = match.group("repkey")
@@ -194,15 +186,9 @@ def single_run(config: CFG) -> None:
     model = ds.candidate_models[config.model.pop("name")]
 
     # fill default values
-    if (
-        "batch_size" not in config.algorithm.client
-        or config.algorithm.client.batch_size is None
-    ):
+    if "batch_size" not in config.algorithm.client or config.algorithm.client.batch_size is None:
         config.algorithm.client.batch_size = ds.DEFAULT_BATCH_SIZE
-    if (
-        "num_clients" not in config.algorithm.server
-        or config.algorithm.server.num_clients is None
-    ):
+    if "num_clients" not in config.algorithm.server or config.algorithm.server.num_clients is None:
         config.algorithm.server.num_clients = ds.DEFAULT_TRAIN_CLIENTS_NUM
 
     # server and client configs
@@ -226,9 +212,7 @@ def single_run(config: CFG) -> None:
         algorithm_module = load_module_from_file(algorithm_file)
         # the custom algorithm should be added to the algorithm pool
         # using the decorator @register_algorithm
-        new_algorithms = [
-            item for item in list_algorithms() if item not in builtin_algorithms
-        ]
+        new_algorithms = [item for item in list_algorithms() if item not in builtin_algorithms]
         if algorithm_name is None:
             # only one algorithm in `new_algorithms` after `load_module_from_file`
             if len(new_algorithms) == 0:

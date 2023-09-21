@@ -1,7 +1,7 @@
 """
 """
 
-from typing import Union, Optional, Dict, List
+from typing import Dict, List, Optional, Union
 
 import einops
 import numpy as np
@@ -9,7 +9,6 @@ import torch
 from torch import Tensor
 
 from ..utils.torch_compat import torch_norm
-
 
 __all__ = [
     "CLFMixin",
@@ -105,9 +104,7 @@ class CLFMixin(object):
             proba = proba[np.newaxis, ...]
         indices = np.where(proba > thr)
         if len(indices) > 2:
-            raise ValueError(
-                "multi-label classification is not supported for output of 3 dimensions or more"
-            )
+            raise ValueError("multi-label classification is not supported for output of 3 dimensions or more")
         for i, j in zip(*indices):
             output[i].append(j)
         for idx in range(len(output)):
@@ -161,9 +158,7 @@ class DiffMixin(object):
 
     """
 
-    def diff(
-        self, other: object, norm: Optional[Union[str, int, float]] = None
-    ) -> Union[float, List[Tensor]]:
+    def diff(self, other: object, norm: Optional[Union[str, int, float]] = None) -> Union[float, List[Tensor]]:
         """Compute the difference between two models.
 
         Parameters
@@ -181,9 +176,7 @@ class DiffMixin(object):
             The difference.
 
         """
-        assert isinstance(
-            other, type(self)
-        ), "the two models should have the same structure"
+        assert isinstance(other, type(self)), "the two models should have the same structure"
         if norm is not None:
             # string type infinities to float
             if norm == "inf":
@@ -191,8 +184,7 @@ class DiffMixin(object):
             elif norm == "-inf":
                 norm = -float("inf")
             assert isinstance(norm, (int, float)) or norm in ["nuc", "fro"], (
-                "norm should be an int or float or one of "
-                "'nuc' (nuclear norm) or 'fro' (Frobenius norm)"
+                "norm should be an int or float or one of " "'nuc' (nuclear norm) or 'fro' (Frobenius norm)"
             )
         try:
             if norm is not None:
@@ -201,15 +193,10 @@ class DiffMixin(object):
                     for p1, p2 in zip(self.parameters(), other.parameters())
                 ]
             else:
-                diff = [
-                    p1.data.cpu() - p2.data.cpu()
-                    for p1, p2 in zip(self.parameters(), other.parameters())
-                ]
+                diff = [p1.data.cpu() - p2.data.cpu() for p1, p2 in zip(self.parameters(), other.parameters())]
         except RuntimeError as e:
             if norm == "nuc" and "Expected a tensor with 2 dimensions" in str(e):
-                raise ValueError(
-                    "nuclear norm is not supported for the current model structure"
-                ) from e
+                raise ValueError("nuclear norm is not supported for the current model structure") from e
             elif "must match the size" in str(e):
                 raise ValueError("the two models should have the same structure") from e
             else:
@@ -260,9 +247,7 @@ def top_n_accuracy(preds: Tensor, labels: Tensor, n: int = 1) -> float:
     """
     assert preds.shape[0] == labels.shape[0]
     batch_size, n_classes, *extra_dims = preds.shape
-    _, indices = torch.topk(
-        preds, n, dim=1
-    )  # of shape (batch_size, n) or (batch_size, n, d_1, ..., d_n)
+    _, indices = torch.topk(preds, n, dim=1)  # of shape (batch_size, n) or (batch_size, n, d_1, ..., d_n)
     pattern = " ".join([f"d_{i+1}" for i in range(len(extra_dims))])
     pattern = f"batch_size {pattern} -> batch_size n {pattern}"
     correct = torch.sum(indices == einops.repeat(labels, pattern, n=n))

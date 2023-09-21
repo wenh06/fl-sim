@@ -9,21 +9,18 @@ Codebase URL: https://github.com/jichan3751/ifca
 
 import warnings
 from copy import deepcopy
-from typing import List, Dict, Any, Sequence
+from typing import Any, Dict, List, Sequence
 
 import torch
 from torch_ecg.utils.misc import add_docstring, list_sum
 
 from ...nodes import ClientMessage
-from ..fedopt import (
-    FedAvgClient as BaseClient,
-    FedAvgServer as BaseServer,
-    FedAvgClientConfig as BaseClientConfig,
-    FedAvgServerConfig as BaseServerConfig,
-)
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
+from ..fedopt import FedAvgClient as BaseClient
+from ..fedopt import FedAvgClientConfig as BaseClientConfig
+from ..fedopt import FedAvgServer as BaseServer
+from ..fedopt import FedAvgServerConfig as BaseServerConfig
 
 __all__ = [
     "IFCAClient",
@@ -138,9 +135,7 @@ class IFCAServer(BaseServer):
         assert self.config.num_clusters > 0
         self._cluster_centers = {
             cluster_id: {
-                "center_model_params": [
-                    p.detach().clone() for p in self.model.parameters()
-                ],
+                "center_model_params": [p.detach().clone() for p in self.model.parameters()],
                 "client_ids": [],
             }
             for cluster_id in range(self.config.num_clusters)
@@ -165,8 +160,7 @@ class IFCAServer(BaseServer):
         """Send cluster centers to client"""
         target._received_messages = {
             "cluster_centers": {
-                cluster_id: deepcopy(cluster["center_model_params"])
-                for cluster_id, cluster in self._cluster_centers.items()
+                cluster_id: deepcopy(cluster["center_model_params"]) for cluster_id, cluster in self._cluster_centers.items()
             }
         }
 
@@ -174,25 +168,18 @@ class IFCAServer(BaseServer):
     def update(self) -> None:
         """Update cluster centers"""
         # cache the client ids of each cluster of the previous iteration
-        prev_client_ids = {
-            cluster_id: deepcopy(cluster["client_ids"])
-            for cluster_id, cluster in self._cluster_centers.items()
-        }
+        prev_client_ids = {cluster_id: deepcopy(cluster["client_ids"]) for cluster_id, cluster in self._cluster_centers.items()}
         # reset the list of client ids of each cluster
         for cluster_id, cluster in self._cluster_centers.items():
             cluster["client_ids"] = []
         # check the size of each cluster from the received messages
-        cluster_sizes = {
-            cluster_id: 0 for cluster_id in range(self.config.num_clusters)
-        }
+        cluster_sizes = {cluster_id: 0 for cluster_id in range(self.config.num_clusters)}
         for m in self._received_messages:
             cluster_sizes[m["cluster_id"]] += 1
             self._cluster_centers[m["cluster_id"]]["client_ids"].append(m["client_id"])
         # if a client in some cluster does not participate in this round,
         # add it back to the cluster
-        collected_client_ids = list_sum(
-            (cluster["client_ids"] for cluster in self._cluster_centers.values())
-        )
+        collected_client_ids = list_sum((cluster["client_ids"] for cluster in self._cluster_centers.values()))
         for cluster_id, cluster in self._cluster_centers.items():
             for client_id in prev_client_ids[cluster_id]:
                 if client_id not in collected_client_ids:
@@ -201,9 +188,7 @@ class IFCAServer(BaseServer):
         for m in self._received_messages:
             cluster_id = m["cluster_id"]
             cluster = self._cluster_centers[cluster_id]
-            for p, p_delta in zip(
-                cluster["center_model_params"], m["delta_parameters"]
-            ):
+            for p, p_delta in zip(cluster["center_model_params"], m["delta_parameters"]):
                 p.data.add_(
                     p_delta.data.detach().clone().to(self.device),
                     alpha=1 / cluster_sizes[cluster_id],
@@ -264,9 +249,7 @@ class IFCAClient(BaseClient):
         local_model_weights = self.model.state_dict()
         prev_metrics = self._metrics.copy()
         with torch.no_grad():
-            for cluster_id, cluster in self._received_messages[
-                "cluster_centers"
-            ].items():
+            for cluster_id, cluster in self._received_messages["cluster_centers"].items():
                 # load cluster center into self.model
                 for p, p_center in zip(self.model.parameters(), cluster):
                     p.data.copy_(p_center.data)
@@ -281,8 +264,7 @@ class IFCAClient(BaseClient):
 
         # set the cluster center as the local model parameters
         self._cached_parameters = [
-            p.detach().clone().to(self.device)
-            for p in self._received_messages["cluster_centers"][self.cluster_id]
+            p.detach().clone().to(self.device) for p in self._received_messages["cluster_centers"][self.cluster_id]
         ]
         self.set_parameters(self._cached_parameters)
         self.solve_inner()  # alias of self.train()

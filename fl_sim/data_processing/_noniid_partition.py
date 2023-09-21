@@ -1,7 +1,6 @@
-from typing import Dict, Tuple, List, Any
+from typing import Any, Dict, List, Tuple
 
 import numpy as np
-
 
 __all__ = [
     "non_iid_partition_with_dirichlet_distribution",
@@ -68,22 +67,16 @@ def non_iid_partition_with_dirichlet_distribution(
                 if c > 0:
                     idx_k = np.asarray(
                         [
-                            np.any(label_list[i] == cat)
-                            and not np.any(np.in1d(label_list[i], classes[:c]))
+                            np.any(label_list[i] == cat) and not np.any(np.in1d(label_list[i], classes[:c]))
                             for i in range(len(label_list))
                         ]
                     )
                 else:
-                    idx_k = np.asarray(
-                        [np.any(label_list[i] == cat) for i in range(len(label_list))]
-                    )
+                    idx_k = np.asarray([np.any(label_list[i] == cat) for i in range(len(label_list))])
 
                 # Get the indices of images that have category = c
                 idx_k = np.where(idx_k)[0]
-                (
-                    idx_batch,
-                    min_size,
-                ) = _partition_class_samples_with_dirichlet_distribution(
+                (idx_batch, min_size,) = _partition_class_samples_with_dirichlet_distribution(
                     N,
                     alpha,
                     client_num,
@@ -95,10 +88,7 @@ def non_iid_partition_with_dirichlet_distribution(
             for k in range(K):
                 # get a list of batch indexes which are belong to label k
                 idx_k = np.where(label_list == k)[0]
-                (
-                    idx_batch,
-                    min_size,
-                ) = _partition_class_samples_with_dirichlet_distribution(
+                (idx_batch, min_size,) = _partition_class_samples_with_dirichlet_distribution(
                     N,
                     alpha,
                     client_num,
@@ -125,17 +115,12 @@ def _partition_class_samples_with_dirichlet_distribution(
     proportions = np.random.dirichlet(np.repeat(alpha, client_num))
 
     # get the index in idx_k according to the dirichlet distribution
-    proportions = np.array(
-        [p * (len(idx_j) < N / client_num) for p, idx_j in zip(proportions, idx_batch)]
-    )
+    proportions = np.array([p * (len(idx_j) < N / client_num) for p, idx_j in zip(proportions, idx_batch)])
     proportions = proportions / proportions.sum()
     proportions = (np.cumsum(proportions) * len(idx_k)).astype(int)[:-1]
 
     # generate the batch list for each client
-    idx_batch = [
-        idx_j + idx.tolist()
-        for idx_j, idx in zip(idx_batch, np.split(idx_k, proportions))
-    ]
+    idx_batch = [idx_j + idx.tolist() for idx_j, idx in zip(idx_batch, np.split(idx_k, proportions))]
     min_size = min([len(idx_j) for idx_j in idx_batch])
 
     return idx_batch, min_size

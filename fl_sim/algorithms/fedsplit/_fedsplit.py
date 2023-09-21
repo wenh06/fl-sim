@@ -3,16 +3,15 @@
 
 import warnings
 from copy import deepcopy
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
 
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
 from ...data_processing.fed_dataset import FedDataset
+from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
 
 __all__ = [
     "FedSplitServer",
@@ -100,9 +99,7 @@ class FedSplitClientConfig(ClientConfig):
                 RuntimeWarning,
             )
         if kwargs.pop("optimizer", None) is not None:
-            warnings.warn(
-                "The `optimizer` argument is fixed to `ProxSGD`.", RuntimeWarning
-            )
+            warnings.warn("The `optimizer` argument is fixed to `ProxSGD`.", RuntimeWarning)
         super().__init__(
             name,
             "ProxSGD",
@@ -157,9 +154,7 @@ class FedSplitServer(Server):
         super()._setup_clients(dataset, client_config, force)
         for c in self._clients:
             # line 2 of Algorithm 1 in the paper
-            c._z_parameters = [
-                p.to(c.device) for p in self.get_detached_model_parameters()
-            ]
+            c._z_parameters = [p.to(c.device) for p in self.get_detached_model_parameters()]
 
     @property
     def required_config_fields(self) -> List[str]:
@@ -225,8 +220,7 @@ class FedSplitClient(Client):
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
             warnings.warn(
-                "No parameters received from server. "
-                "Using current model parameters as initial parameters.",
+                "No parameters received from server. " "Using current model parameters as initial parameters.",
                 RuntimeWarning,
             )
             self._cached_parameters = self.get_detached_model_parameters()
@@ -236,9 +230,7 @@ class FedSplitClient(Client):
         # Local prox step: line 5 of Algorithm 1 in the paper
         self.solve_inner()  # alias of self.train()
         # Local centering step: line 6 of Algorithm 1 in the paper
-        for (zp, mp, cp) in zip(
-            self._z_parameters, self.model.parameters(), self._cached_parameters
-        ):
+        for (zp, mp, cp) in zip(self._z_parameters, self.model.parameters(), self._cached_parameters):
             zp.add_(mp.detach().clone().sub(cp.detach().clone()), alpha=2.0)
 
     def train(self) -> None:
@@ -261,9 +253,7 @@ class FedSplitClient(Client):
                     self.optimizer.step(
                         local_weights=[
                             (2.0 * cp.detach().clone()).sub(zp.detach().clone())
-                            for (cp, zp) in zip(
-                                self._cached_parameters, self._z_parameters
-                            )
+                            for (cp, zp) in zip(self._cached_parameters, self._z_parameters)
                         ]
                     )
                     # free memory

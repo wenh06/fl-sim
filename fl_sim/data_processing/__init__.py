@@ -73,13 +73,10 @@ Dataset registry utilities
 
 """
 
-from .fed_data_args import FedDataArgs
-from .fed_dataset import (
-    FedDataset,
-    FedVisionDataset,
-    FedNLPDataset,
-)
+from ._register import get_fed_dataset, list_fed_dataset, register_fed_dataset
 from .fed_cifar import FedCIFAR, FedCIFAR100
+from .fed_data_args import FedDataArgs
+from .fed_dataset import FedDataset, FedNLPDataset, FedVisionDataset
 from .fed_emnist import FedEMNIST
 from .fed_mnist import FedMNIST
 from .fed_rotated_cifar10 import FedRotatedCIFAR10
@@ -92,7 +89,6 @@ from .fedprox_sent140 import FedProxSent140
 
 # from .leaf_sent140 import LeafSent140
 from .libsvm_datasets import FedLibSVMDataset, libsvmread
-from ._register import list_fed_dataset, get_fed_dataset, register_fed_dataset
 
 builtin_datasets = list_fed_dataset()
 

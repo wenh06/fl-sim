@@ -1,7 +1,7 @@
 """
 """
 
-from typing import Iterable, Union, Optional, Any
+from typing import Any, Iterable, Optional, Union
 
 import torch  # noqa: F401
 from torch import Tensor
@@ -10,7 +10,6 @@ from torch.optim.optimizer import Optimizer
 
 from . import functional as F
 from ._register import register_optimizer
-
 
 __all__ = [
     "pFedMacOptimizer",

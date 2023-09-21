@@ -3,10 +3,9 @@
 
 import re
 import warnings
-from typing import Any, List, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 import torch.optim as optim
-
 
 _built_in_optimizers = {}
 

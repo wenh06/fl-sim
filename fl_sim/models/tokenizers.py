@@ -8,14 +8,13 @@ import re
 import tempfile
 from pathlib import Path
 from string import punctuation
-from typing import Optional, Sequence, List, Union, Dict
+from typing import Dict, List, Optional, Sequence, Union
 
-import torch
 import tokenizers as hf_tokenizers
-from nltk.tokenize import word_tokenize as nltk_word_tokenize
+import torch
 from nltk import download as nltk_download
 from nltk.data import find as nltk_find
-
+from nltk.tokenize import word_tokenize as nltk_word_tokenize
 
 __all__ = [
     "WordLevelTokenizer",
@@ -90,19 +89,13 @@ class WordLevelTokenizer(hf_tokenizers.implementations.BaseTokenizer):
                 # we write the vocab to a temporary file before initialization.
                 vocab_file = tempfile.NamedTemporaryFile()
                 vocab_file.write(json.dumps(word_id_map).encode())
-                word_level = hf_tokenizers.models.WordLevel.from_file(
-                    vocab_file.name, unk_token=str(unk_token)
-                )
+                word_level = hf_tokenizers.models.WordLevel.from_file(vocab_file.name, unk_token=str(unk_token))
             else:  # vocab_file does not exist but word_id_map has been given
                 vocab_file = Path(vocab_file).resolve()
                 vocab_file.write_bytes(json.dumps(word_id_map).encode())
-                word_level = hf_tokenizers.models.WordLevel.from_file(
-                    str(vocab_file), unk_token=str(unk_token)
-                )
+                word_level = hf_tokenizers.models.WordLevel.from_file(str(vocab_file), unk_token=str(unk_token))
         else:
-            word_level = hf_tokenizers.models.WordLevel.from_file(
-                str(vocab_file), unk_token=str(unk_token)
-            )
+            word_level = hf_tokenizers.models.WordLevel.from_file(str(vocab_file), unk_token=str(unk_token))
 
         tokenizer = hf_tokenizers.Tokenizer(word_level)
 
@@ -120,11 +113,7 @@ class WordLevelTokenizer(hf_tokenizers.implementations.BaseTokenizer):
         normalizers = []
 
         if unicode_normalizer:
-            normalizers += [
-                hf_tokenizers.normalizers.unicode_normalizer_from_str(
-                    unicode_normalizer
-                )
-            ]
+            normalizers += [hf_tokenizers.normalizers.unicode_normalizer_from_str(unicode_normalizer)]
 
         if lowercase:
             normalizers += [hf_tokenizers.normalizers.Lowercase()]
@@ -242,9 +231,7 @@ class GloveTokenizer(WordLevelTokenizer):
         """
         if isinstance(text_input, (list, tuple)):
             if len(text_input) > 1:
-                raise ValueError(
-                    "Cannot use `GloveTokenizer` to encode multiple inputs"
-                )
+                raise ValueError("Cannot use `GloveTokenizer` to encode multiple inputs")
             text_input = text_input[0]
         text_input = tokenize(
             text_input,
@@ -345,9 +332,7 @@ class GloveTokenizer(WordLevelTokenizer):
         return [self.convert_id_to_word(_id) for _id in ids]
 
 
-def words_from_text(
-    s: str, words_to_ignore: list = [], ignore_punctuations: bool = False
-) -> List[str]:
+def words_from_text(s: str, words_to_ignore: list = [], ignore_punctuations: bool = False) -> List[str]:
     """Split a string into a list of words.
 
     Works as a naive tokenizer.
@@ -418,9 +403,7 @@ def tokenize(
     else:
         raise ValueError(f"Unknown backend: {backend}")
     if ignore_punctuations:
-        words = list(
-            filter(lambda w: len(re.sub(f"[{punctuation}]+", "", w)) > 0, words)
-        )
+        words = list(filter(lambda w: len(re.sub(f"[{punctuation}]+", "", w)) > 0, words))
     words = list(filter(lambda w: w not in words_to_ignore + [""], words))
     return words
 

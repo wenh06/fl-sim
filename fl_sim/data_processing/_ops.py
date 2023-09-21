@@ -100,9 +100,7 @@ class CategoricalLabelToTensor(torch.nn.Module):
         return torch.from_numpy(y).long()
 
 
-def distribute_images(
-    total: Union[int, np.ndarray], num_clients: int, random: bool = True
-) -> List[np.ndarray]:
+def distribute_images(total: Union[int, np.ndarray], num_clients: int, random: bool = True) -> List[np.ndarray]:
     """Distribute images to clients.
 
     Parameters

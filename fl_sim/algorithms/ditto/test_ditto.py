@@ -1,16 +1,10 @@
 """
 """
 
-from ...utils.misc import experiment_indicator
 from ...data_processing.fed_synthetic import FedSynthetic
 from ...data_processing.fedprox_femnist import FedProxFEMNIST
-
-from ._ditto import (
-    DittoServer,
-    DittoClientConfig,
-    DittoServerConfig,
-)
-
+from ...utils.misc import experiment_indicator
+from ._ditto import DittoClientConfig, DittoServer, DittoServerConfig
 
 __all__ = [
     "test_ditto",

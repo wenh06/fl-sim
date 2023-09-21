@@ -3,18 +3,17 @@ simple neural network models
 """
 
 import re
-from typing import Optional, Union, Sequence, Callable, Dict
+from typing import Callable, Dict, Optional, Sequence, Union
 
-from einops.layers.torch import Rearrange
 import torch
-from torch import nn, Tensor
 import torch.nn.functional as F  # noqa: F401
-from torchvision.models.resnet import ResNet, BasicBlock, resnet18
-from torch_ecg.utils import SizeMixin, get_kwargs
+from einops.layers.torch import Rearrange
+from torch import Tensor, nn
 from torch_ecg.models._nets import get_activation
+from torch_ecg.utils import SizeMixin, get_kwargs
+from torchvision.models.resnet import BasicBlock, ResNet, resnet18
 
-from .utils import CLFMixin, REGMixin, DiffMixin
-
+from .utils import CLFMixin, DiffMixin, REGMixin
 
 __all__ = [
     "MLP",
@@ -103,9 +102,7 @@ class MLP(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
         for i, dim in enumerate(dims):
             self.add_module(f"linear_{i+1}", nn.Linear(dim_in, dim))
             if activation[i] is not None:
-                self.add_module(
-                    f"activation_{i+1}", get_activation(activation[i], kw_act={})
-                )
+                self.add_module(f"activation_{i+1}", get_activation(activation[i], kw_act={}))
             if dropout[i] > 0:
                 self.add_module(f"dropout_{i+1}", nn.Dropout(dropout[i]))
             dim_in = dim
@@ -133,9 +130,7 @@ class FedPDMLP(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
 
     __name__ = "FedPDMLP"
 
-    def __init__(
-        self, dim_in: int, dim_hidden: int, dim_out: int, ndim: int = 2
-    ) -> None:
+    def __init__(self, dim_in: int, dim_hidden: int, dim_out: int, ndim: int = 2) -> None:
         """ """
         super().__init__()
         if ndim == 2:
@@ -421,13 +416,9 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
 
     __name__ = "RNN_OriginalFedAvg"
 
-    def __init__(
-        self, embedding_dim: int = 8, vocab_size: int = 90, hidden_size: int = 256
-    ) -> None:
+    def __init__(self, embedding_dim: int = 8, vocab_size: int = 90, hidden_size: int = 256) -> None:
         super().__init__()
-        self.embeddings = nn.Embedding(
-            num_embeddings=vocab_size, embedding_dim=embedding_dim, padding_idx=0
-        )
+        self.embeddings = nn.Embedding(num_embeddings=vocab_size, embedding_dim=embedding_dim, padding_idx=0)
         self.lstm = nn.LSTM(
             input_size=embedding_dim,
             hidden_size=hidden_size,
@@ -489,20 +480,14 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         """
         prev = self.training
         self.eval()
-        assert (
-            char_to_id is not None or id_to_char is not None
-        ), "Either `char_to_id` or `id_to_char` must be provided."
+        assert char_to_id is not None or id_to_char is not None, "Either `char_to_id` or `id_to_char` must be provided."
         if char_to_id is None:
-            assert isinstance(
-                id_to_char, dict
-            ), "`id_to_char` must be a dict if `char_to_id` is not provided."
+            assert isinstance(id_to_char, dict), "`id_to_char` must be a dict if `char_to_id` is not provided."
             char_to_id = {v: k for k, v in id_to_char.items()}
             id_to_char = id_to_char.get
             char_to_id = char_to_id.get
         elif id_to_char is None:
-            assert isinstance(
-                char_to_id, dict
-            ), "`char_to_id` must be a dict if `id_to_char` is not provided."
+            assert isinstance(char_to_id, dict), "`char_to_id` must be a dict if `id_to_char` is not provided."
             id_to_char = {v: k for k, v in char_to_id.items()}
             char_to_id = char_to_id.get
             id_to_char = id_to_char.get
@@ -512,9 +497,7 @@ class RNN_OriginalFedAvg(nn.Module, CLFMixin, SizeMixin, DiffMixin):
             if isinstance(id_to_char, dict):
                 id_to_char = id_to_char.get
         with torch.no_grad():
-            input_seq = torch.tensor(
-                [[char_to_id(c) for c in truncated_sentence]], dtype=torch.long
-            )
+            input_seq = torch.tensor([[char_to_id(c) for c in truncated_sentence]], dtype=torch.long)
             output = self(input_seq)
             predicted_ids = torch.argmax(output, dim=-1)
         self.train(prev)
@@ -574,9 +557,7 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         self.fc2 = nn.Linear(embedding_size, extended_vocab_size)
         self.rearrange = Rearrange("batch length vocab -> batch vocab length")
 
-    def forward(
-        self, input_seq: Tensor, hidden_state: Optional[Tensor] = None
-    ) -> Tensor:
+    def forward(self, input_seq: Tensor, hidden_state: Optional[Tensor] = None) -> Tensor:
         """Forward pass.
 
         Parameters
@@ -624,20 +605,14 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         """
         prev = self.training
         self.eval()
-        assert (
-            word_to_id is not None or id_to_word is not None
-        ), "Either `word_to_id` or `id_to_word` must be provided."
+        assert word_to_id is not None or id_to_word is not None, "Either `word_to_id` or `id_to_word` must be provided."
         if word_to_id is None:
-            assert isinstance(
-                id_to_word, dict
-            ), "`id_to_word` must be a dict if `word_to_id` is not provided."
+            assert isinstance(id_to_word, dict), "`id_to_word` must be a dict if `word_to_id` is not provided."
             word_to_id = {v: k for k, v in id_to_word.items()}
             id_to_word = id_to_word.get
             word_to_id = word_to_id.get
         elif id_to_word is None:
-            assert isinstance(
-                word_to_id, dict
-            ), "`word_to_id` must be a dict if `id_to_word` is not provided."
+            assert isinstance(word_to_id, dict), "`word_to_id` must be a dict if `id_to_word` is not provided."
             id_to_word = {v: k for k, v in word_to_id.items()}
             word_to_id = word_to_id.get
             id_to_word = id_to_word.get
@@ -647,9 +622,7 @@ class RNN_StackOverFlow(nn.Module, CLFMixin, SizeMixin, DiffMixin):
             if isinstance(id_to_word, dict):
                 id_to_word = id_to_word.get
         with torch.no_grad():
-            input_seq = torch.tensor(
-                [[word_to_id(w) for w in truncated_sentence.split()]], dtype=torch.long
-            )
+            input_seq = torch.tensor([[word_to_id(w) for w in truncated_sentence.split()]], dtype=torch.long)
             output = self(input_seq)
             predicted_ids = torch.argmax(output, dim=-1)
         self.train(prev)
@@ -704,12 +677,8 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
             self.word_embeddings = embedding.get_embedding_layer(freeze=True)
             self.tokenizer = embedding.get_tokenizer()
         else:
-            raise TypeError(
-                f"embedding must be a `str` or `GloveEmbedding`, got {type(embedding)}"
-            )
-        self.lite_model = RNN_Sent140_LITE(
-            latent_size, num_classes, num_layers, self.word_embeddings.dim
-        )
+            raise TypeError(f"embedding must be a `str` or `GloveEmbedding`, got {type(embedding)}")
+        self.lite_model = RNN_Sent140_LITE(latent_size, num_classes, num_layers, self.word_embeddings.dim)
 
     def forward(self, input_seq: Tensor) -> Tensor:
         """Forward pass.
@@ -725,9 +694,7 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
             Shape ``(batch_size, num_classes)``, dtype :class:`torch.float32`.
 
         """
-        embeds = self.word_embeddings(
-            input_seq
-        )  # shape: (batch_size, seq_len, embedding_dim)
+        embeds = self.word_embeddings(input_seq)  # shape: (batch_size, seq_len, embedding_dim)
         return self.lite_model(embeds)
 
     def pipeline(self, sentence: str) -> int:
@@ -747,9 +714,7 @@ class RNN_Sent140(nn.Module, CLFMixin, SizeMixin, DiffMixin):
         prev = self.training
         self.eval()
         with torch.no_grad():
-            input_seq = torch.tensor(
-                [self.tokenizer.encode(sentence)], dtype=torch.long
-            )
+            input_seq = torch.tensor([self.tokenizer.encode(sentence)], dtype=torch.long)
             output = self(input_seq)
             predicted_class = torch.argmax(output, dim=-1)
         self.train(prev)
@@ -847,11 +812,7 @@ class ResNet18(ResNet, CLFMixin, SizeMixin, DiffMixin):
             else:  # older versions of torchvision
                 _model = resnet18(pretrained=True)
             self.load_state_dict(
-                {
-                    k: v
-                    for k, v in _model.state_dict().items()
-                    if not re.findall("^fc\\.", k)
-                },
+                {k: v for k, v in _model.state_dict().items() if not re.findall("^fc\\.", k)},
                 strict=False,
             )
             del _model

@@ -28,7 +28,7 @@ provide some custom optimizers for federated learning for solving for example
 import inspect
 import re
 from pathlib import Path
-from typing import Iterable, Union, Any
+from typing import Any, Iterable, Union
 
 import torch.optim as opt
 import torch_optimizer as topt
@@ -37,23 +37,12 @@ from torch.optim import Optimizer
 from torch_ecg.cfg import CFG
 from torch_ecg.utils import add_docstring
 
-from ..utils.misc import add_kwargs
 from ..utils.imports import load_module_from_file
-from ._register import (  # noqa: F401
-    list_optimizers as list_builtin_optimizers,
-    get_optimizer as get_builtin_optimizer,
-    register_optimizer,
-)  # noqa: F401
-from . import (  # noqa: F401
-    base,
-    feddr,
-    fedpd,
-    fedprox,
-    pfedmac,
-    pfedme,
-    scaffold,
-)  # noqa: F401
-
+from ..utils.misc import add_kwargs
+from . import base, feddr, fedpd, fedprox, pfedmac, pfedme, scaffold  # noqa: F401
+from ._register import get_optimizer as get_builtin_optimizer
+from ._register import list_optimizers as list_builtin_optimizers  # noqa: F401
+from ._register import register_optimizer
 
 __all__ = [
     "get_optimizer",
@@ -72,18 +61,13 @@ _extra_kwargs = dict(
 )
 
 
-_available_optimizers = {
-    item: get_builtin_optimizer(item) for item in list_builtin_optimizers()
-}
+_available_optimizers = {item: get_builtin_optimizer(item) for item in list_builtin_optimizers()}
 
 available_optimizers = list(_available_optimizers)
 _extra_opt_optimizers = {
     obj_name: getattr(opt, obj_name)
     for obj_name in dir(opt)
-    if eval(
-        f"inspect.isclass(opt.{obj_name}) and issubclass(opt.{obj_name}, Optimizer) "
-        f"and opt.{obj_name} != Optimizer"
-    )
+    if eval(f"inspect.isclass(opt.{obj_name}) and issubclass(opt.{obj_name}, Optimizer) " f"and opt.{obj_name} != Optimizer")
 }
 _extra_topt_optimizers = {
     obj_name: getattr(topt, obj_name)
@@ -179,9 +163,7 @@ def get_optimizer(
                 optimizer_cls = topt.get(optimizer_name)
             except ValueError:
                 optimizer_cls = eval(f"topt.{optimizer_name}")
-            optimizer = optimizer_cls(
-                params, **_get_cls_init_args(optimizer_cls, config)
-            )
+            optimizer = optimizer_cls(params, **_get_cls_init_args(optimizer_cls, config))
             # print(f"Optimizer `{optimizer_name}` from torch_optimizer is used.")
             step_args = inspect.getfullargspec(optimizer.step).args
             optimizer.step = add_kwargs(
@@ -226,11 +208,7 @@ def get_optimizer(
             optimizer_module = load_module_from_file(optimizer_file)
             # the custom algorithm should be added to the optimizer pool
             # using the decorator @register_optimizer
-            new_optimizers = [
-                item
-                for item in list_builtin_optimizers()
-                if item not in builtin_optimizers
-            ]
+            new_optimizers = [item for item in list_builtin_optimizers() if item not in builtin_optimizers]
             if optimizer_name is None:
                 if len(new_optimizers) == 0:
                     raise ValueError(
@@ -309,9 +287,7 @@ def get_inner_solver(
 
 
 @add_docstring(
-    get_optimizer.__doc__.replace("get optimizer", "get oracle").replace(
-        "optimizer = get_optimizer", "oracle = get_oracle"
-    )
+    get_optimizer.__doc__.replace("get optimizer", "get oracle").replace("optimizer = get_optimizer", "oracle = get_oracle")
 )
 def get_oracle(
     optimizer_name: Union[str, type],

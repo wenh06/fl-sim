@@ -1,6 +1,6 @@
 import itertools
 from pathlib import Path
-from typing import List, Dict
+from typing import Dict, List
 
 import numpy as np
 import torch
@@ -8,16 +8,13 @@ from scipy.io import loadmat, savemat
 
 from ..utils.const import CACHED_DATA_DIR
 
-
 __all__ = [
     "generate_synthetic",
 ]
 
 
 (CACHED_DATA_DIR / "synthetic").mkdir(parents=True, exist_ok=True)
-_NAME_PATTERN = (
-    "synthetic_{alpha}_{beta}_{iid}_{num_clients}_{num_classes}_{dimension}_{seed}.mat"
-)
+_NAME_PATTERN = "synthetic_{alpha}_{beta}_{iid}_{num_clients}_{num_classes}_{dimension}_{seed}.mat"
 
 
 def generate_synthetic(
@@ -85,18 +82,10 @@ def generate_synthetic(
         shuffled_inds = [np.arange(n) for n in samples_per_client]
     clients = [
         {
-            "train_X": data_dict["X"][spl_i[0] : spl_i[1]][shf_i][
-                : int(train_ratio * n)
-            ],
-            "train_y": data_dict["y"].flatten()[spl_i[0] : spl_i[1]][shf_i][
-                : int(train_ratio * n)
-            ],
-            "test_X": data_dict["X"][spl_i[0] : spl_i[1]][shf_i][
-                int(train_ratio * n) :
-            ],
-            "test_y": data_dict["y"].flatten()[spl_i[0] : spl_i[1]][shf_i][
-                int(train_ratio * n) :
-            ],
+            "train_X": data_dict["X"][spl_i[0] : spl_i[1]][shf_i][: int(train_ratio * n)],
+            "train_y": data_dict["y"].flatten()[spl_i[0] : spl_i[1]][shf_i][: int(train_ratio * n)],
+            "test_X": data_dict["X"][spl_i[0] : spl_i[1]][shf_i][int(train_ratio * n) :],
+            "test_y": data_dict["y"].flatten()[spl_i[0] : spl_i[1]][shf_i][int(train_ratio * n) :],
         }
         for n, spl_i, shf_i in zip(samples_per_client, split_inds, shuffled_inds)
     ]
@@ -147,9 +136,7 @@ def _generate_synthetic(
             W = rng.normal(mean_W[i], 1, (dimension, num_classes))
             b = rng.normal(mean_b[i], 1, num_classes)
 
-        xx = rng.multivariate_normal(mean_x[i], cov_x, samples_per_client[i]).astype(
-            np.float32
-        )
+        xx = rng.multivariate_normal(mean_x[i], cov_x, samples_per_client[i]).astype(np.float32)
         yy = np.zeros(samples_per_client[i], dtype=int)
 
         for j in range(samples_per_client[i]):

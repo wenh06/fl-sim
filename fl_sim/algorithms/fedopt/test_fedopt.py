@@ -1,25 +1,23 @@
 """
 """
 
-from ...utils.misc import experiment_indicator
 from ...data_processing.fed_synthetic import FedSynthetic
 from ...data_processing.fedprox_femnist import FedProxFEMNIST
-
+from ...utils.misc import experiment_indicator
 from ._fedopt import (
-    FedAvgServer,
-    FedAvgServerConfig,
-    FedAvgClientConfig,
+    FedAdagradClientConfig,
     FedAdagradServer,
     FedAdagradServerConfig,
-    FedAdagradClientConfig,
-    FedYogiServer,
-    FedYogiServerConfig,
-    FedYogiClientConfig,
+    FedAdamClientConfig,
     FedAdamServer,
     FedAdamServerConfig,
-    FedAdamClientConfig,
+    FedAvgClientConfig,
+    FedAvgServer,
+    FedAvgServerConfig,
+    FedYogiClientConfig,
+    FedYogiServer,
+    FedYogiServerConfig,
 )
-
 
 __all__ = [
     "test_fedopt",

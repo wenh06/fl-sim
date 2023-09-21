@@ -1,23 +1,16 @@
 import json
 from pathlib import Path
-from typing import Optional, Union, List, Callable, Tuple, Dict
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import torch
 import torch.utils.data as torchdata
 import torchvision.transforms as transforms
-from torchvision.datasets import CIFAR10, CIFAR100
 from torch_ecg.utils import ReprMixin
+from torchvision.datasets import CIFAR10, CIFAR100
 
-from ..utils.const import (
-    CACHED_DATA_DIR,
-    CIFAR10_MEAN,
-    CIFAR10_STD,
-    CIFAR100_MEAN,
-    CIFAR100_STD,
-)
+from ..utils.const import CACHED_DATA_DIR, CIFAR10_MEAN, CIFAR10_STD, CIFAR100_MEAN, CIFAR100_STD
 from ..utils.misc import set_seed
-
 
 __all__ = [
     "CIFAR_truncated",
@@ -106,9 +99,7 @@ class CIFAR_truncated(ReprMixin, torchdata.Dataset):
         """Build the truncated dataset via
         filtering the data with the given `dataidxs`."""
         DS = {10: CIFAR10, 100: CIFAR100}[self.n_class]
-        cifar_dataobj = DS(
-            self.root, self.train, self.transform, self.target_transform, self.download
-        )
+        cifar_dataobj = DS(self.root, self.train, self.transform, self.target_transform, self.download)
 
         data = cifar_dataobj.data
         target = np.array(cifar_dataobj.targets)
@@ -206,9 +197,7 @@ class CIFAR10_truncated(CIFAR_truncated):
         target_transform: Optional[Callable] = None,
         download: bool = False,
     ) -> None:
-        super().__init__(
-            10, root, dataidxs, train, transform, target_transform, download
-        )
+        super().__init__(10, root, dataidxs, train, transform, target_transform, download)
 
 
 class CIFAR100_truncated(CIFAR_truncated):
@@ -243,9 +232,7 @@ class CIFAR100_truncated(CIFAR_truncated):
         target_transform: Optional[Callable] = None,
         download: bool = False,
     ) -> None:
-        super().__init__(
-            100, root, dataidxs, train, transform, target_transform, download
-        )
+        super().__init__(100, root, dataidxs, train, transform, target_transform, download)
 
 
 class Cutout(object):
@@ -347,12 +334,8 @@ def load_cifar_data(
     """
     train_transform, test_transform = _data_transforms_cifar(n_class)
 
-    cifar_train_ds = CIFAR_truncated(
-        datadir, n_class, train=True, download=True, transform=train_transform
-    )
-    cifar_test_ds = CIFAR_truncated(
-        datadir, n_class, train=False, download=True, transform=test_transform
-    )
+    cifar_train_ds = CIFAR_truncated(datadir, n_class, train=True, download=True, transform=train_transform)
+    cifar_test_ds = CIFAR_truncated(datadir, n_class, train=False, download=True, transform=test_transform)
 
     X_train, y_train = cifar_train_ds.data, cifar_train_ds.target
     X_test, y_test = cifar_test_ds.data, cifar_test_ds.target
@@ -368,9 +351,7 @@ def load_cifar_data(
         return (X_train, y_train, X_test, y_test)
 
 
-def record_net_data_stats(
-    y_train: torch.Tensor, net_dataidx_map: Dict[int, List[int]]
-) -> Dict[int, Dict[int, int]]:
+def record_net_data_stats(y_train: torch.Tensor, net_dataidx_map: Dict[int, List[int]]) -> Dict[int, Dict[int, int]]:
     """Record the number of training samples for each class on each client.
 
     Parameters
@@ -456,18 +437,10 @@ def partition_cifar_data(
                 np.random.shuffle(idx_k)
                 proportions = np.random.dirichlet(np.repeat(alpha, n_net))
                 # Balance
-                proportions = np.array(
-                    [
-                        p * (len(idx_j) < N / n_net)
-                        for p, idx_j in zip(proportions, idx_batch)
-                    ]
-                )
+                proportions = np.array([p * (len(idx_j) < N / n_net) for p, idx_j in zip(proportions, idx_batch)])
                 proportions = proportions / proportions.sum()
                 proportions = (np.cumsum(proportions) * len(idx_k)).astype(int)[:-1]
-                idx_batch = [
-                    idx_j + idx.tolist()
-                    for idx_j, idx in zip(idx_batch, np.split(idx_k, proportions))
-                ]
+                idx_batch = [idx_j + idx.tolist() for idx_j, idx in zip(idx_batch, np.split(idx_k, proportions))]
                 min_size = min([len(idx_j) for idx_j in idx_batch])
 
         for j in range(n_net):
@@ -475,9 +448,7 @@ def partition_cifar_data(
             net_dataidx_map[j] = idx_batch[j]
 
     elif partition == "hetero-fix":
-        dataidx_map_file_path = (
-            CIFAR_NONIID_CACHE_DIRS[n_class] / "net_dataidx_map.json"
-        )
+        dataidx_map_file_path = CIFAR_NONIID_CACHE_DIRS[n_class] / "net_dataidx_map.json"
         with open(dataidx_map_file_path, "r") as f:
             net_dataidx_map = json.load(dataidx_map_file_path)
 
@@ -488,8 +459,6 @@ def partition_cifar_data(
     else:
         distribution_file_path = CIFAR_NONIID_CACHE_DIRS[n_class] / "distribution.json"
         with open(distribution_file_path, "w") as f:
-            traindata_cls_counts = json.dump(
-                traindata_cls_counts, distribution_file_path, ensure_ascii=False
-            )
+            traindata_cls_counts = json.dump(traindata_cls_counts, distribution_file_path, ensure_ascii=False)
 
     return X_train, y_train, X_test, y_test, net_dataidx_map, traindata_cls_counts

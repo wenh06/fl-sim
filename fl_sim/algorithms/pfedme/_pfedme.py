@@ -4,21 +4,14 @@ pFedMe re-implemented in the new framework
 
 import warnings
 from copy import deepcopy
-from typing import List, Any, Dict
+from typing import Any, Dict, List
 
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import (
-    Server,
-    Client,
-    ServerConfig,
-    ClientConfig,
-    ClientMessage,
-)
+from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
 
 __all__ = [
     "pFedMeServer",
@@ -63,9 +56,7 @@ class pFedMeServerConfig(ServerConfig):
                 f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
                 RuntimeWarning,
             )
-        super().__init__(
-            name, num_iters, num_clients, clients_sample_ratio, beta=beta, **kwargs
-        )
+        super().__init__(name, num_iters, num_clients, clients_sample_ratio, beta=beta, **kwargs)
 
 
 @register_algorithm()
@@ -175,18 +166,14 @@ class pFedMeServer(Server):
     def update(self) -> None:
 
         # store previous parameters
-        previous_params = [
-            p.to(self.device) for p in self.get_detached_model_parameters()
-        ]
+        previous_params = [p.to(self.device) for p in self.get_detached_model_parameters()]
 
         # sum of received parameters, with self.model.parameters() as its container
         self.avg_parameters()
 
         # aaggregate avergage model with previous model using parameter beta
         for pre_param, param in zip(previous_params, self.model.parameters()):
-            param.data.mul_(self.config.beta).add_(
-                pre_param.data.detach().clone(), alpha=1 - self.config.beta
-            )
+            param.data.mul_(self.config.beta).add_(pre_param.data.detach().clone(), alpha=1 - self.config.beta)
 
         # clear received messages
         del pre_param, previous_params
@@ -239,8 +226,7 @@ class pFedMeClient(Client):
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
             warnings.warn(
-                "No parameters received from server. "
-                "Using current model parameters as initial parameters.",
+                "No parameters received from server. " "Using current model parameters as initial parameters.",
                 RuntimeWarning,
             )
             self._cached_parameters = self.get_detached_model_parameters()

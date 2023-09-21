@@ -4,19 +4,18 @@
 import os
 import re
 import shutil
-import tempfile
 import tarfile
-import zipfile
+import tempfile
 import urllib
 import warnings
+import zipfile
 from pathlib import Path
-from typing import Union, Optional, Iterable
+from typing import Iterable, Optional, Union
 
 import requests
 from tqdm.auto import tqdm
 
 from .const import CACHED_DATA_DIR
-
 
 __all__ = [
     "download_if_needed",
@@ -33,9 +32,7 @@ DECOMPRESS_CMD = {
 }
 
 
-def download_if_needed(
-    url: str, dst_dir: Union[str, Path] = CACHED_DATA_DIR, extract: bool = True
-) -> None:
+def download_if_needed(url: str, dst_dir: Union[str, Path] = CACHED_DATA_DIR, extract: bool = True) -> None:
     dst_dir = Path(dst_dir)
     dst_dir.mkdir(parents=True, exist_ok=True)
     if dst_dir.exists() and len(list(dst_dir.iterdir())) > 0:
@@ -66,9 +63,7 @@ def http_get(
     # produces pure_url = "https://www.dropbox.com/s/xxx/test?.zip"
     pure_url = urllib.parse.unquote(url.split("?")[0])
     parent_dir = Path(dst_dir).parent
-    downloaded_file = tempfile.NamedTemporaryFile(
-        dir=parent_dir, suffix=_suffix(pure_url), delete=False
-    )
+    downloaded_file = tempfile.NamedTemporaryFile(dir=parent_dir, suffix=_suffix(pure_url), delete=False)
     req = requests.get(url, stream=True, proxies=proxies)
     content_length = req.headers.get("Content-Length")
     total = int(content_length) if content_length is not None else None

@@ -7,7 +7,6 @@ import setuptools
 
 from fl_sim import __version__
 
-
 cwd = Path(__file__).absolute().parent
 
 long_description = (cwd / "README.md").read_text(encoding="utf-8")
@@ -24,9 +23,7 @@ extras["test"] = [
     "pre-commit",
 ]
 extras["viz"] = (cwd / "requirements-viz.txt").read_text(encoding="utf-8").splitlines()
-extras["docs"] = (
-    (cwd / "docs/requirements.txt").read_text(encoding="utf-8").splitlines()
-)
+extras["docs"] = (cwd / "docs/requirements.txt").read_text(encoding="utf-8").splitlines()
 extras["dev"] = extras["test"] + extras["viz"] + extras["docs"]
 
 

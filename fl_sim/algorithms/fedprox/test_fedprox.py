@@ -1,16 +1,10 @@
 """
 """
 
-from ...utils.misc import experiment_indicator
 from ...data_processing.fed_synthetic import FedSynthetic
 from ...data_processing.fedprox_femnist import FedProxFEMNIST
-
-from ._fedprox import (
-    FedProxServer,
-    FedProxClientConfig,
-    FedProxServerConfig,
-)
-
+from ...utils.misc import experiment_indicator
+from ._fedprox import FedProxClientConfig, FedProxServer, FedProxServerConfig
 
 __all__ = [
     "test_fedprox",

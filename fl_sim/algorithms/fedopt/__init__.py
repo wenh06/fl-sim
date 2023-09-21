@@ -2,36 +2,28 @@
 """
 
 from ._fedopt import (
-    FedOptServer,
-    FedOptClient,
-    FedOptServerConfig,
-    FedOptClientConfig,
-    FedAvgServer,
-    FedAvgClient,
-    FedAvgServerConfig,
-    FedAvgClientConfig,
-    FedAdagradServer,
     FedAdagradClient,
-    FedAdagradServerConfig,
     FedAdagradClientConfig,
-    FedYogiServer,
-    FedYogiClient,
-    FedYogiServerConfig,
-    FedYogiClientConfig,
-    FedAdamServer,
+    FedAdagradServer,
+    FedAdagradServerConfig,
     FedAdamClient,
-    FedAdamServerConfig,
     FedAdamClientConfig,
+    FedAdamServer,
+    FedAdamServerConfig,
+    FedAvgClient,
+    FedAvgClientConfig,
+    FedAvgServer,
+    FedAvgServerConfig,
+    FedOptClient,
+    FedOptClientConfig,
+    FedOptServer,
+    FedOptServerConfig,
+    FedYogiClient,
+    FedYogiClientConfig,
+    FedYogiServer,
+    FedYogiServerConfig,
 )
-
-from .test_fedopt import (
-    test_fedopt,
-    test_fedavg,
-    test_fedadagrad,
-    test_fedyogi,
-    test_fedadam,
-)
-
+from .test_fedopt import test_fedadagrad, test_fedadam, test_fedavg, test_fedopt, test_fedyogi
 
 __all__ = [
     "FedOptServer",

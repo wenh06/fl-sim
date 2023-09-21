@@ -1,7 +1,7 @@
 """
 """
 
-from typing import Optional, List, Tuple, Dict, Any
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import torch
@@ -10,10 +10,9 @@ import torch.utils.data as torchdata
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from ..utils.misc import set_seed
-from .fed_dataset import FedDataset
 from ._generate_synthetic import generate_synthetic
 from ._register import register_fed_dataset
-
+from .fed_dataset import FedDataset
 
 __all__ = [
     "FedSynthetic",
@@ -166,9 +165,7 @@ class FedSynthetic(FedDataset):
         if train_bs == -1:
             train_bs = len(train_X)
         train_dl = torchdata.DataLoader(
-            dataset=torchdata.TensorDataset(
-                torch.from_numpy(train_X), torch.from_numpy(train_y)
-            ),
+            dataset=torchdata.TensorDataset(torch.from_numpy(train_X), torch.from_numpy(train_y)),
             batch_size=train_bs,
             shuffle=True,
             drop_last=False,
@@ -177,18 +174,14 @@ class FedSynthetic(FedDataset):
         if test_bs == -1:
             test_bs = len(test_X)
         test_dl = torchdata.DataLoader(
-            dataset=torchdata.TensorDataset(
-                torch.from_numpy(test_X), torch.from_numpy(test_y)
-            ),
+            dataset=torchdata.TensorDataset(torch.from_numpy(test_X), torch.from_numpy(test_y)),
             batch_size=test_bs,
             shuffle=True,
             drop_last=False,
         )
         return train_dl, test_dl
 
-    def load_partition_data_distributed(
-        self, process_id: int, batch_size: Optional[int] = None
-    ) -> tuple:
+    def load_partition_data_distributed(self, process_id: int, batch_size: Optional[int] = None) -> tuple:
         """Get local dataloader at client `process_id` or get global dataloader.
 
         Parameters
@@ -225,9 +218,7 @@ class FedSynthetic(FedDataset):
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         if process_id == 0:
             # get global dataset
-            train_data_global, test_data_global = self.get_dataloader(
-                _batch_size, _batch_size
-            )
+            train_data_global, test_data_global = self.get_dataloader(_batch_size, _batch_size)
             train_data_num = len(train_data_global.dataset)
             test_data_num = len(test_data_global.dataset)
             train_data_local = None
@@ -235,9 +226,7 @@ class FedSynthetic(FedDataset):
             local_data_num = 0
         else:
             # get local dataset
-            train_data_local, test_data_local = self.get_dataloader(
-                _batch_size, _batch_size, process_id - 1
-            )
+            train_data_local, test_data_local = self.get_dataloader(_batch_size, _batch_size, process_id - 1)
             train_data_num = local_data_num = len(train_data_local.dataset)
             train_data_global = None
             test_data_global = None
@@ -292,9 +281,7 @@ class FedSynthetic(FedDataset):
         test_data_local_dict = dict()
 
         for client_idx in range(self.num_clients):
-            train_data_local, test_data_local = self.get_dataloader(
-                _batch_size, _batch_size, client_idx
-            )
+            train_data_local, test_data_local = self.get_dataloader(_batch_size, _batch_size, client_idx)
             local_data_num = len(train_data_local.dataset)
             data_local_num_dict[client_idx] = local_data_num
             train_data_local_dict[client_idx] = train_data_local
@@ -302,22 +289,14 @@ class FedSynthetic(FedDataset):
 
         # global dataset
         train_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(
-                list(dl.dataset for dl in list(train_data_local_dict.values()))
-            ),
+            torchdata.ConcatDataset(list(dl.dataset for dl in list(train_data_local_dict.values()))),
             batch_size=_batch_size,
             shuffle=True,
         )
         train_data_num = len(train_data_global.dataset)
 
         test_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(
-                list(
-                    dl.dataset
-                    for dl in list(test_data_local_dict.values())
-                    if dl is not None
-                )
-            ),
+            torchdata.ConcatDataset(list(dl.dataset for dl in list(test_data_local_dict.values()) if dl is not None)),
             batch_size=_batch_size,
             shuffle=True,
         )

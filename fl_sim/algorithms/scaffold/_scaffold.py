@@ -6,16 +6,15 @@ Warning: possible memory leak in the current version?
 
 import warnings
 from copy import deepcopy
-from typing import List, Any, Dict
+from typing import Any, Dict, List
 
 import torch
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
+from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
 
 __all__ = [
     "SCAFFOLDServer",
@@ -201,9 +200,7 @@ class SCAFFOLDClient(Client):
         super()._post_init()
         assert self.config.control_variate_update_rule in [1, 2]
         self._control_variates = [torch.zeros_like(p) for p in self.model.parameters()]
-        self._server_control_variates = [
-            torch.zeros_like(p) for p in self.model.parameters()
-        ]
+        self._server_control_variates = [torch.zeros_like(p) for p in self.model.parameters()]
         self._updated_control_variates = None  # c_i^+ in the paper
 
     @property
@@ -213,18 +210,8 @@ class SCAFFOLDClient(Client):
     def communicate(self, target: "SCAFFOLDServer") -> None:
         message = {
             "client_id": self.client_id,
-            "parameters_delta": [
-                mp.sub(cp)
-                for mp, cp in zip(
-                    self.get_detached_model_parameters(), self._cached_parameters
-                )
-            ],
-            "control_variates_delta": [
-                ucv.sub(cv)
-                for ucv, cv in zip(
-                    self._updated_control_variates, self._control_variates
-                )
-            ],
+            "parameters_delta": [mp.sub(cp) for mp, cp in zip(self.get_detached_model_parameters(), self._cached_parameters)],
+            "control_variates_delta": [ucv.sub(cv) for ucv, cv in zip(self._updated_control_variates, self._control_variates)],
             "train_samples": len(self.train_loader.dataset),
             "metrics": self._metrics,
         }
@@ -240,17 +227,14 @@ class SCAFFOLDClient(Client):
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
             warnings.warn(
-                "No parameters received from server. "
-                "Using current model parameters as initial parameters.",
+                "No parameters received from server. " "Using current model parameters as initial parameters.",
                 RuntimeWarning,
             )
             self._cached_parameters = self.get_detached_model_parameters()
         except Exception as err:
             raise err
         try:
-            self._server_control_variates = deepcopy(
-                self._received_messages["control_variates"]
-            )
+            self._server_control_variates = deepcopy(self._received_messages["control_variates"])
         except KeyError:
             warnings.warn(
                 "No control variates received from server. "
@@ -260,9 +244,7 @@ class SCAFFOLDClient(Client):
         except Exception as err:
             raise err
         self._cached_parameters = [p.to(self.device) for p in self._cached_parameters]
-        self._server_control_variates = [
-            scv.to(self.device) for scv in self._server_control_variates
-        ]
+        self._server_control_variates = [scv.to(self.device) for scv in self._server_control_variates]
         self.solve_inner()  # alias of self.train()
 
     def train(self) -> None:
@@ -294,9 +276,7 @@ class SCAFFOLDClient(Client):
                         # variance_buffer=variance_buffer,
                     )
                     for p, g in zip(self.model.parameters(), mini_batch_grads):
-                        g.add_(
-                            p.grad.detach().clone(), alpha=1.0 / self.config.num_epochs
-                        )
+                        g.add_(p.grad.detach().clone(), alpha=1.0 / self.config.num_epochs)
                     # free memory
                     del loss, output, X, y
         for p, g, v in zip(self.model.parameters(), mini_batch_grads, variance_buffer):
@@ -308,9 +288,7 @@ class SCAFFOLDClient(Client):
         # SCAFFOLD paper Algorithm 1 line 12
         if self.config.control_variate_update_rule == 1:
             # an additional pass over the local data to compute the gradient at the server model
-            self._updated_control_variates = self.compute_gradients(
-                at=self._cached_parameters
-            )
+            self._updated_control_variates = self.compute_gradients(at=self._cached_parameters)
         elif self.config.control_variate_update_rule == 2:
             self._updated_control_variates = deepcopy(self._control_variates)
             for ucv, scv, cp, mp in zip(

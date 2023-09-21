@@ -70,7 +70,7 @@ Moreau envelope of a function :math:`f_k` has the following relationship [:footc
 
 .. math::
    :label: prox-moreau-relation
-   
+
    \prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.
 
 Namely, :math:`\prox_{sf_k}` can be regarded as the gradient descent operator for minimizing :math:`\mathcal{M}_{sf_k}` with step size :math:`s`.

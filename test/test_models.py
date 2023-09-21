@@ -10,28 +10,28 @@ import numpy as np
 import pytest
 import torch
 
+from fl_sim.data_processing import FedShakespeare
 from fl_sim.models import (
     MLP,
-    FedPDMLP,
-    CNNMnist,
-    CNNFEMnist,
-    CNNFEMnist_Tiny,
+    SVC,
+    SVR,
     CNNCifar,
     CNNCifar_Small,
     CNNCifar_Tiny,
-    RNN_OriginalFedAvg,
-    RNN_StackOverFlow,
-    RNN_Sent140,
-    ResNet18,
-    ResNet10,
+    CNNFEMnist,
+    CNNFEMnist_Tiny,
+    CNNMnist,
+    FedPDMLP,
     LogisticRegression,
-    SVC,
-    SVR,
+    ResNet10,
+    ResNet18,
+    RNN_OriginalFedAvg,
+    RNN_Sent140,
+    RNN_StackOverFlow,
     reset_parameters,
 )
-from fl_sim.models.tokenizers import words_from_text, tokenize
+from fl_sim.models.tokenizers import tokenize, words_from_text
 from fl_sim.models.word_embeddings import GloveEmbedding
-from fl_sim.data_processing import FedShakespeare
 
 
 @torch.no_grad()
@@ -56,9 +56,7 @@ def test_models():
     for norm in ["inf", "fro", float("inf"), -np.inf, 1, 2]:
         assert isinstance(model.diff(another_model, norm=norm), float)
     model_raw_diff = model.diff(another_model, norm=None)
-    assert isinstance(model_raw_diff, list) and all(
-        isinstance(p, torch.Tensor) for p in model_raw_diff
-    )
+    assert isinstance(model_raw_diff, list) and all(isinstance(p, torch.Tensor) for p in model_raw_diff)
 
     model = CNNFEMnist_Tiny(num_classes=10).eval()
     inp = torch.rand(2, 1, 28, 28)
@@ -208,9 +206,7 @@ def test_models():
     assert len(pred) == 2 and all([len(p) == 90 for p in pred])
     prob = model.predict_proba(inp, batched=True)
     assert prob.shape == (2, 90, 50)
-    pred = model.pipeline(
-        "Yonder comes my master, your brother.", char_to_id=FedShakespeare.word_dict
-    )
+    pred = model.pipeline("Yonder comes my master, your brother.", char_to_id=FedShakespeare.word_dict)
 
     model = RNN_StackOverFlow().eval()
     inp = torch.randint(0, 1000, (2, 50))
@@ -276,9 +272,7 @@ def test_GloveEmbedding():
     assert isinstance(embedding.word2index("correct"), int)
     assert isinstance(embedding.index2word(0), str)
     assert isinstance(embedding.get_embedding_layer(), torch.nn.Module)
-    assert isinstance(
-        embedding._get_tokenizer(), hf_tokenizers.implementations.BaseTokenizer
-    )
+    assert isinstance(embedding._get_tokenizer(), hf_tokenizers.implementations.BaseTokenizer)
     input_tensor = embedding.get_input_tensor("It is correct")
     assert isinstance(input_tensor, torch.Tensor) and input_tensor.shape == (1, 256)
 

@@ -74,7 +74,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel ipython
         python -m pip install -r requirements.txt
         python -m pip install -r docs/requirements.txt
-        python -m pip uninstall fl-sim --yes # Remove if already installed 
+        python -m pip uninstall fl-sim --yes # Remove if already installed
         python setup.py install_egg_info
         pip install -e .[dev]
         pip install jupyter 'ipykernel<5.0.0' 'ipython<7.0.0'
@@ -122,4 +122,3 @@ jobs:
         publish_branch: gh-pages
         user_name: 'WEN Hao'
         user_email: 'wenh06@gmail.com'
-  

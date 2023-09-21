@@ -1,7 +1,7 @@
+from typing import List, Optional, Tuple, Union
+
 import torch
 from torch import _VF
-
-from typing import Optional, Union, Tuple, List
 
 
 def torch_norm(
@@ -135,13 +135,9 @@ def torch_norm(
         if isinstance(p, str):
             if p == "fro" and (dim is None or isinstance(dim, int) or len(dim) <= 2):
                 if out is None:
-                    return torch.linalg.vector_norm(
-                        input, 2, _dim, keepdim, dtype=dtype
-                    )
+                    return torch.linalg.vector_norm(input, 2, _dim, keepdim, dtype=dtype)
                 else:
-                    return torch.linalg.vector_norm(
-                        input, 2, _dim, keepdim, dtype=dtype, out=out
-                    )
+                    return torch.linalg.vector_norm(input, 2, _dim, keepdim, dtype=dtype, out=out)
 
             # Here we either call the nuclear norm, or we call matrix_norm with some arguments
             # that will throw an error
@@ -150,18 +146,14 @@ def torch_norm(
             if out is None:
                 return torch.linalg.matrix_norm(input, p, _dim, keepdim, dtype=dtype)
             else:
-                return torch.linalg.matrix_norm(
-                    input, p, _dim, keepdim, dtype=dtype, out=out
-                )
+                return torch.linalg.matrix_norm(input, p, _dim, keepdim, dtype=dtype, out=out)
         else:
             # NB. p should be Union[str, number], not Optional!
             _p = 2.0 if p is None else p
             if out is None:
                 return torch.linalg.vector_norm(input, _p, _dim, keepdim, dtype=dtype)
             else:
-                return torch.linalg.vector_norm(
-                    input, _p, _dim, keepdim, dtype=dtype, out=out
-                )
+                return torch.linalg.vector_norm(input, _p, _dim, keepdim, dtype=dtype, out=out)
 
     ndim = input.dim()
 
@@ -171,9 +163,7 @@ def torch_norm(
             if p == "fro":
                 return _VF.frobenius_norm(input, dim=(), keepdim=keepdim)
         if not isinstance(p, str):
-            _dim = [
-                i for i in range(ndim)
-            ]  # noqa: C416 TODO: rewrite as list(range(m))
+            _dim = [i for i in range(ndim)]  # noqa: C416 TODO: rewrite as list(range(m))
             return _VF.norm(input, p, dim=_dim, keepdim=keepdim)  # type: ignore[attr-defined]
 
     # TODO: when https://github.com/pytorch/pytorch/issues/33782 is fixed

@@ -72,25 +72,24 @@ Utilities
 
 from .nn import (
     MLP,
-    FedPDMLP,
-    CNNMnist,
-    CNNFEMnist,
-    CNNFEMnist_Tiny,
+    SVC,
+    SVR,
     CNNCifar,
     CNNCifar_Small,
     CNNCifar_Tiny,
+    CNNFEMnist,
+    CNNFEMnist_Tiny,
+    CNNMnist,
+    FedPDMLP,
+    LogisticRegression,
+    ResNet10,
+    ResNet18,
     RNN_OriginalFedAvg,
-    RNN_StackOverFlow,
     RNN_Sent140,
     RNN_Sent140_LITE,
-    ResNet18,
-    ResNet10,
-    LogisticRegression,
-    SVC,
-    SVR,
+    RNN_StackOverFlow,
 )
-from .utils import reset_parameters, top_n_accuracy, CLFMixin, REGMixin, DiffMixin
-
+from .utils import CLFMixin, DiffMixin, REGMixin, reset_parameters, top_n_accuracy
 
 __all__ = [
     "MLP",

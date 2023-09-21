@@ -1,13 +1,12 @@
 """
 """
 
-from typing import Union, Iterable
+from typing import Iterable, Union
 
 from torch.nn.parameter import Parameter
 
-from .base import SGD_VR
 from ._register import register_optimizer
-
+from .base import SGD_VR
 
 __all__ = [
     "SCAFFOLD",

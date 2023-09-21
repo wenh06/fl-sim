@@ -1,12 +1,10 @@
 """
 """
 
-from ...utils.misc import experiment_indicator
 from ...data_processing.fed_synthetic import FedSynthetic
 from ...data_processing.fedprox_femnist import FedProxFEMNIST
-
-from ._scaffold import SCAFFOLDServerConfig, SCAFFOLDClientConfig, SCAFFOLDServer
-
+from ...utils.misc import experiment_indicator
+from ._scaffold import SCAFFOLDClientConfig, SCAFFOLDServer, SCAFFOLDServerConfig
 
 __all__ = [
     "test_scaffold",

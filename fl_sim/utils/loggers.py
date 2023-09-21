@@ -17,22 +17,16 @@ from collections import defaultdict
 from datetime import datetime
 from numbers import Real
 from pathlib import Path
-from typing import Optional, Union, List, Any, Dict
+from typing import Any, Dict, List, Optional, Union
 
 import pandas as pd
 import torch
 import yaml
-from torch_ecg.utils import (
-    ReprMixin,
-    add_docstring,
-    init_logger,
-    get_date_str,
-    get_kwargs,
-)
+from torch_ecg.utils import ReprMixin, add_docstring, get_date_str, get_kwargs, init_logger
 
-from .const import LOG_DIR as DEFAULT_LOG_DIR, NAME as LOG_NAME
-from .misc import make_serializable, default_dict_to_dict
-
+from .const import LOG_DIR as DEFAULT_LOG_DIR
+from .const import NAME as LOG_NAME
+from .misc import default_dict_to_dict, make_serializable
 
 __all__ = [
     "BaseLogger",
@@ -221,9 +215,7 @@ class TxtLogger(BaseLogger):
         log_suffix: Optional[str] = None,
         verbose: int = 1,
     ) -> None:
-        assert all(
-            [isinstance(x, str) for x in [algorithm, dataset, model]]
-        ), "algorithm, dataset, model must be str"
+        assert all([isinstance(x, str) for x in [algorithm, dataset, model]]), "algorithm, dataset, model must be str"
         self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
         self._log_dir = self.set_log_dir(log_dir)
         if log_suffix is None:
@@ -255,20 +247,12 @@ class TxtLogger(BaseLogger):
         prefix = f"Step {step}: "
         if epoch is not None:
             prefix = f"Epoch {epoch} / {prefix}"
-        _metrics = {
-            k: v.item() if isinstance(v, torch.Tensor) else v
-            for k, v in metrics.items()
-        }
+        _metrics = {k: v.item() if isinstance(v, torch.Tensor) else v for k, v in metrics.items()}
         spaces = len(max(_metrics.keys(), key=len))
         node = "Server" if client_id is None else f"Client {client_id}"
         msg = (
             f"{node} {part.capitalize()} Metrics:\n{self.short_sep}\n"
-            + "\n".join(
-                [
-                    f"{prefix}{part}/{k} : {' '*(spaces-len(k))}{v:.4f}"
-                    for k, v in _metrics.items()
-                ]
-            )
+            + "\n".join([f"{prefix}{part}/{k} : {' '*(spaces-len(k))}{v:.4f}" for k, v in _metrics.items()])
             + f"\n{self.short_sep}"
         )
         self.log_message(msg)
@@ -382,9 +366,7 @@ class CSVLogger(BaseLogger):
         log_suffix: Optional[str] = None,
         verbose: int = 1,
     ) -> None:
-        assert all(
-            [isinstance(x, str) for x in [algorithm, dataset, model]]
-        ), "algorithm, dataset, model must be str"
+        assert all([isinstance(x, str) for x in [algorithm, dataset, model]]), "algorithm, dataset, model must be str"
         self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
         self._log_dir = self.set_log_dir(log_dir)
         if log_suffix is None:
@@ -412,12 +394,7 @@ class CSVLogger(BaseLogger):
         if epoch is not None:
             row.update({"epoch": epoch})
         node = "Server" if client_id is None else f"Client{client_id}"
-        row.update(
-            {
-                f"{node}-{k}": v.item() if isinstance(v, torch.Tensor) else v
-                for k, v in metrics.items()
-            }
-        )
+        row.update({f"{node}-{k}": v.item() if isinstance(v, torch.Tensor) else v for k, v in metrics.items()})
         # self.logger = self.logger.append(row, ignore_index=True)
         self.logger = pd.concat([self.logger, pd.DataFrame([row])], ignore_index=True)
         self._flushed = False
@@ -556,9 +533,7 @@ class JsonLogger(BaseLogger):
         log_suffix: Optional[str] = None,
         verbose: int = 1,
     ) -> None:
-        assert all(
-            [isinstance(x, str) for x in [algorithm, dataset, model]]
-        ), "algorithm, dataset, model must be str"
+        assert all([isinstance(x, str) for x in [algorithm, dataset, model]]), "algorithm, dataset, model must be str"
         self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
         self._log_dir = self.set_log_dir(log_dir)
         if log_suffix is None:
@@ -591,12 +566,7 @@ class JsonLogger(BaseLogger):
         }
         if epoch is not None:
             append_item.update({"epoch": epoch})
-        append_item.update(
-            {
-                k: v.item() if isinstance(v, torch.Tensor) else v
-                for k, v in metrics.items()
-            }
-        )
+        append_item.update({k: v.item() if isinstance(v, torch.Tensor) else v for k, v in metrics.items()})
         self.logger[part][node].append(append_item)
         self._flushed = False
 
@@ -608,13 +578,9 @@ class JsonLogger(BaseLogger):
             # convert to list to make it json serializable
             flush_buffer = make_serializable(default_dict_to_dict(self.logger))
             if self.fmt == "json":
-                Path(self.filename).write_text(
-                    json.dumps(flush_buffer, indent=4, ensure_ascii=False)
-                )
+                Path(self.filename).write_text(json.dumps(flush_buffer, indent=4, ensure_ascii=False))
             else:  # yaml
-                Path(self.filename).write_text(
-                    yaml.dump(flush_buffer, allow_unicode=True)
-                )
+                Path(self.filename).write_text(yaml.dump(flush_buffer, allow_unicode=True))
             print(f"{self.fmt} log file saved to {self.filename}")
             # clear the buffer
             self.logger = defaultdict(lambda: defaultdict(list))
@@ -630,9 +596,7 @@ class JsonLogger(BaseLogger):
         with new log file name.
         """
         self.close()
-        self.log_file = (
-            f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.{self.fmt}"
-        )
+        self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.{self.fmt}"
         self.logger = defaultdict(lambda: defaultdict(list))
         self.step = -1
         self._flushed = True

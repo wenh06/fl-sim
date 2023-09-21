@@ -1,12 +1,11 @@
 """
 """
 
-from typing import List, Iterable, Optional
+from typing import Iterable, List, Optional
 
 import torch
 from torch import Tensor
 from torch_ecg.utils import add_docstring, remove_parameters_returns_from_docstring
-
 
 __all__ = [
     "prox_vr_sgd",
@@ -91,9 +90,7 @@ def prox_vr_sgd(
             d_p = d_p.add(param, alpha=weight_decay)  # L2 regularization
 
         if prox != 0 and lw is not None:
-            d_p = d_p.add(
-                param - lw.detach().clone(), alpha=prox
-            )  # proximal regularization
+            d_p = d_p.add(param - lw.detach().clone(), alpha=prox)  # proximal regularization
 
         if momentum != 0:
             buf = momentum_buffer_list[idx]
@@ -116,9 +113,7 @@ def prox_vr_sgd(
 
 
 @add_docstring(
-    remove_parameters_returns_from_docstring(
-        prox_vr_sgd.__doc__, parameters="variance_buffer"
-    ).replace(
+    remove_parameters_returns_from_docstring(prox_vr_sgd.__doc__, parameters="variance_buffer").replace(
         "The function that executes the proximal SGD with variance reduction.",
         "The function that executes the proximal SGD.",
     )
@@ -216,9 +211,7 @@ def al_vr_sgd(
     """
     if variance_buffer is None:
         variance_buffer = [None] * len(params)
-    for idx, (param, lw, dw, vb) in enumerate(
-        zip(params, local_weights, dual_weights, variance_buffer)
-    ):
+    for idx, (param, lw, dw, vb) in enumerate(zip(params, local_weights, dual_weights, variance_buffer)):
 
         d_p = d_p_list[idx]
 
@@ -250,9 +243,7 @@ def al_vr_sgd(
 
 
 @add_docstring(
-    remove_parameters_returns_from_docstring(
-        al_vr_sgd.__doc__, parameters="variance_buffer"
-    ).replace(
+    remove_parameters_returns_from_docstring(al_vr_sgd.__doc__, parameters="variance_buffer").replace(
         "The function that executes the augmented Lagrangian SGD with variance reduction:",
         "The function that executes the augmented Lagrangian SGD:",
     )

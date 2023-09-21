@@ -8,7 +8,6 @@ sys.path.append(str(Path(__file__).parents[1].resolve()))
 
 from fl_sim.utils.viz import Panel
 
-
 logdir = Path(__file__).parents[1].resolve() / "test-files"
 
 

@@ -1,14 +1,8 @@
 """
 """
 
-from ._pfedme import (
-    pFedMeServer,
-    pFedMeServerConfig,
-    pFedMeClient,
-    pFedMeClientConfig,
-)
+from ._pfedme import pFedMeClient, pFedMeClientConfig, pFedMeServer, pFedMeServerConfig
 from .test_pfedme import test_pfedme
-
 
 __all__ = [
     "pFedMeServer",

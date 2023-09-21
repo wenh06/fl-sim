@@ -45,34 +45,33 @@ import os
 import types
 import warnings
 from abc import ABC, abstractmethod
-from itertools import repeat
-from copy import deepcopy
 from collections import defaultdict
+from copy import deepcopy
+from itertools import repeat
 from numbers import Number
 from pathlib import Path
-from typing import Any, Optional, Iterable, List, Tuple, Dict, Union, Sequence
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple, Union
 
 import numpy as np
 import torch
 import torch.nn as nn
 import yaml
 from bib_lookup import CitationMixin
-from tqdm.auto import tqdm
 from torch import Tensor
-from torch.utils.data import DataLoader
 from torch.nn.parameter import Parameter
 from torch.optim import SGD
 from torch.optim.lr_scheduler import LambdaLR
+from torch.utils.data import DataLoader
 from torch_ecg.cfg import CFG
 from torch_ecg.utils import ReprMixin, add_docstring, get_kwargs
+from tqdm.auto import tqdm
 
 from .data_processing.fed_dataset import FedDataset
 from .models import reset_parameters
 from .optimizers import get_optimizer
 from .utils.loggers import LoggerManager
-from .utils.misc import default_dict_to_dict, set_seed, get_scheduler
+from .utils.misc import default_dict_to_dict, get_scheduler, set_seed
 from .utils.torch_compat import torch_norm
-
 
 __all__ = [
     "Server",
@@ -160,13 +159,8 @@ class ServerConfig(ReprMixin):
         if self.visiable_gpus is None:
             self.visiable_gpus = default_gpus
         if not set(self.visiable_gpus).issubset(set(default_gpus)):
-            warnings.warn(
-                f"GPU(s) {set(self.visiable_gpus) - set(default_gpus)} "
-                "are not available."
-            )
-            self.visiable_gpus = [
-                item for item in self.visiable_gpus if item in default_gpus
-            ]
+            warnings.warn(f"GPU(s) {set(self.visiable_gpus) - set(default_gpus)} " "are not available.")
+            self.visiable_gpus = [item for item in self.visiable_gpus if item in default_gpus]
         self.extra_observes = extra_observes or []
         self.seed = seed
         self.tag = tag
@@ -332,9 +326,7 @@ class Node(ReprMixin, ABC):
         if at is not None:
             self.set_parameters(at)
         if dataloader is None:
-            assert (
-                hasattr(self, "train_loader") and self.train_loader is not None
-            ), "train_loader is not set"
+            assert hasattr(self, "train_loader") and self.train_loader is not None, "train_loader is not set"
             dataloader = self.train_loader
         assert len(dataloader) > 0, "empty dataloader"
 
@@ -396,13 +388,9 @@ class Node(ReprMixin, ABC):
         if norm is not None:
             if len(grads) == 0:
                 grads = 0.0
-                warnings.warn(
-                    "No gradients available. Set to 0.0 by default.", RuntimeWarning
-                )
+                warnings.warn("No gradients available. Set to 0.0 by default.", RuntimeWarning)
             else:
-                grads = torch_norm(
-                    torch.cat([grad.view(-1) for grad in grads]), norm
-                ).item()
+                grads = torch_norm(torch.cat([grad.view(-1) for grad in grads]), norm).item()
         return grads
 
     @staticmethod
@@ -444,19 +432,14 @@ class Node(ReprMixin, ABC):
         elif isinstance(tensor, Parameter):
             tensor = [tensor.data]
         elif isinstance(tensor, (list, tuple)):
-            tensor = [
-                torch.from_numpy(t) if isinstance(t, np.ndarray) else t.detach().clone()
-                for t in tensor
-            ]
+            tensor = [torch.from_numpy(t) if isinstance(t, np.ndarray) else t.detach().clone() for t in tensor]
         elif isinstance(tensor, types.GeneratorType):
             return Node.get_norm(list(tensor), norm)
         else:
             raise TypeError(f"Unsupported type: {type(tensor)}")
         return torch_norm(torch.cat([t.view(-1) for t in tensor]), norm).item()
 
-    def set_parameters(
-        self, params: Iterable[Parameter], model: Optional[torch.nn.Module] = None
-    ) -> None:
+    def set_parameters(self, params: Iterable[Parameter], model: Optional[torch.nn.Module] = None) -> None:
         """Set the parameters of the model on the node.
 
         Parameters
@@ -478,9 +461,7 @@ class Node(ReprMixin, ABC):
             node_param.data = param.data.detach().clone().to(self.device)
 
     @staticmethod
-    def aggregate_results_from_json_log(
-        d: Union[dict, str, Path], part: str = "val", metric: str = "acc"
-    ) -> np.ndarray:
+    def aggregate_results_from_json_log(d: Union[dict, str, Path], part: str = "val", metric: str = "acc") -> np.ndarray:
         """Aggregate the federated results from csv log.
 
         Parameters
@@ -547,9 +528,7 @@ class Node(ReprMixin, ABC):
                 d = yaml.safe_load(d.read_text())
             else:
                 raise ValueError(f"unsupported file type: {d.suffix}")
-        epochs = list(
-            sorted(np.unique([item["epoch"] for _, v in d[part].items() for item in v]))
-        )
+        epochs = list(sorted(np.unique([item["epoch"] for _, v in d[part].items() for item in v])))
         metric_curve = [[] for _ in range(len(epochs))]
         num_samples = [0 for _ in range(len(epochs))]
         for _, v in tqdm(
@@ -613,23 +592,20 @@ class Server(Node, CitationMixin):
         self.dataset = dataset
         self.criterion = deepcopy(dataset.criterion)
         assert isinstance(config, self.config_cls["server"]), (
-            f"(server) config should be an instance of "
-            f"{self.config_cls['server']}, but got {type(config)}."
+            f"(server) config should be an instance of " f"{self.config_cls['server']}, but got {type(config)}."
         )
         self.config = config
         if not hasattr(self.config, "verbose"):
             self.config.verbose = get_kwargs(ServerConfig)["verbose"]
             warnings.warn(
-                "The `verbose` attribute is not found in the config, "
-                f"set it to the default value {self.config.verbose}.",
+                "The `verbose` attribute is not found in the config, " f"set it to the default value {self.config.verbose}.",
                 RuntimeWarning,
             )
         if self.config.num_clients is None:
             self.config.num_clients = self.dataset.DEFAULT_TRAIN_CLIENTS_NUM
         self.device = torch.device("cpu")
         assert isinstance(client_config, self.config_cls["client"]), (
-            f"client_config should be an instance of "
-            f"{self.config_cls['client']}, but got {type(client_config)}."
+            f"client_config should be an instance of " f"{self.config_cls['client']}, but got {type(client_config)}."
         )
         self._client_config = client_config
         if not hasattr(self._client_config, "verbose"):
@@ -679,9 +655,7 @@ class Server(Node, CitationMixin):
 
         # checks that the client has all the required attributes in config.extra_observes
         for attr in self.config.extra_observes:
-            assert hasattr(
-                self, attr
-            ), f"{self.__name__} should have attribute {attr} for extra observes."
+            assert hasattr(self, attr), f"{self.__name__} should have attribute {attr} for extra observes."
 
     def _setup_clients(
         self,
@@ -718,9 +692,7 @@ class Server(Node, CitationMixin):
         dataset = dataset or self.dataset
         client_config = client_config or self._client_config
         self._clients = [
-            self.client_cls(
-                client_id, device, deepcopy(self.model), dataset, client_config
-            )
+            self.client_cls(client_id, device, deepcopy(self.model), dataset, client_config)
             for client_id, device in tqdm(
                 zip(range(self.config.num_clients), self._allocate_devices()),
                 desc="Allocating devices",
@@ -738,10 +710,7 @@ class Server(Node, CitationMixin):
         num_gpus = len(self.config.visiable_gpus)
         if num_gpus == 0:
             return list(repeat(torch.device("cpu"), self.config.num_clients))
-        return [
-            torch.device(f"cuda:{self.config.visiable_gpus[i%num_gpus]}")
-            for i in range(self.config.num_clients)
-        ]
+        return [torch.device(f"cuda:{self.config.visiable_gpus[i%num_gpus]}") for i in range(self.config.num_clients)]
 
     def _sample_clients(
         self,
@@ -795,14 +764,10 @@ class Server(Node, CitationMixin):
         self.update()
         # free the memory of the received messages
         del self._received_messages
-        self._received_messages = (
-            []
-        )  # clear messages received in the previous iteration
+        self._received_messages = []  # clear messages received in the previous iteration
         self._logger_manager.log_message("Server update finished...")
 
-    def train(
-        self, mode: str = "federated", extra_configs: Optional[dict] = None
-    ) -> None:
+    def train(self, mode: str = "federated", extra_configs: Optional[dict] = None) -> None:
         """The main training loop.
 
         Parameters
@@ -855,9 +820,7 @@ class Server(Node, CitationMixin):
         extra_configs = CFG(extra_configs or {})
 
         batch_size = extra_configs.get("batch_size", self.config.batch_size)
-        train_loader, val_loader = self.dataset.get_dataloader(
-            batch_size, batch_size, None
-        )
+        train_loader, val_loader = self.dataset.get_dataloader(batch_size, batch_size, None)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.train()
         self.model.to(device)
@@ -865,9 +828,7 @@ class Server(Node, CitationMixin):
         criterion = deepcopy(self.dataset.criterion)
         lr = extra_configs.get("lr", 1e-2)
         optimizer = extra_configs.get("optimizer", SGD(self.model.parameters(), lr))
-        scheduler = extra_configs.get(
-            "scheduler", LambdaLR(optimizer, lambda epoch: 1 / (0.01 * epoch + 1))
-        )
+        scheduler = extra_configs.get("scheduler", LambdaLR(optimizer, lambda epoch: 1 / (0.01 * epoch + 1)))
 
         self._complete_experiment = False
         epoch_losses = []
@@ -978,10 +939,7 @@ class Server(Node, CitationMixin):
                         # server communicates with client
                         # typically broadcasting the global model to the client
                         self._communicate(client)
-                        if (
-                            self.n_iter > 0
-                            and (self.n_iter + 1) % self.config.eval_every == 0
-                        ):
+                        if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
                             for part in self.dataset.data_parts:
                                 # NOTE: one should execute `client.evaluate`
                                 # before `client._update`,
@@ -1004,10 +962,7 @@ class Server(Node, CitationMixin):
                         # and perhaps other local variables (e.g. gradients, etc.)
                         client._communicate(self)
                         pbar.update(1)
-                    if (
-                        self.n_iter > 0
-                        and (self.n_iter + 1) % self.config.eval_every == 0
-                    ):
+                    if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
                         # server aggregates the metrics from clients
                         self.aggregate_client_metrics()
                     # server updates the global model
@@ -1061,10 +1016,7 @@ class Server(Node, CitationMixin):
                     for client_id in range(len(self._clients)):
                         client = self._clients[client_id]
                         client.train()
-                        if (
-                            self.n_iter > 0
-                            and (self.n_iter + 1) % self.config.eval_every == 0
-                        ):
+                        if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
                             for part in self.dataset.data_parts:
                                 metrics = client.evaluate(part)
                                 self._logger_manager.log_metrics(
@@ -1100,10 +1052,7 @@ class Server(Node, CitationMixin):
             metrics.append(self.dataset.evaluate(probs, y))
         num_samples = sum([m["num_samples"] for m in metrics])
         metrics_names = [k for k in metrics[0] if k != "num_samples"]
-        metrics = {
-            k: sum([m[k] * m["num_samples"] for m in metrics]) / num_samples
-            for k in metrics_names
-        }
+        metrics = {k: sum([m[k] * m["num_samples"] for m in metrics]) / num_samples for k in metrics_names}
         metrics["num_samples"] = num_samples
         # free memory
         del X, y, probs
@@ -1135,9 +1084,7 @@ class Server(Node, CitationMixin):
                     continue
                 for k, v in m["metrics"][part].items():
                     if k != "num_samples":
-                        new_metrics[part][k] += (
-                            m["metrics"][part][k] * m["metrics"][part]["num_samples"]
-                        )
+                        new_metrics[part][k] += m["metrics"][part][k] * m["metrics"][part]["num_samples"]
                     elif k in ignore:
                         continue
                     else:  # num_samples
@@ -1175,9 +1122,7 @@ class Server(Node, CitationMixin):
 
         """
         for server_param, param in zip(self.model.parameters(), params):
-            server_param.data.add_(
-                param.data.detach().clone().to(self.device), alpha=ratio
-            )
+            server_param.data.add_(param.data.detach().clone().to(self.device), alpha=ratio)
 
     def avg_parameters(self, size_aware: bool = False, inertia: float = 0.0) -> None:
         """Update the server's parameters via
@@ -1207,24 +1152,16 @@ class Server(Node, CitationMixin):
             param.data.mul_(inertia)
         total_samples = sum([m["train_samples"] for m in self._received_messages])
         for m in self._received_messages:
-            ratio = (
-                m["train_samples"] / total_samples
-                if size_aware
-                else 1 / len(self._received_messages)
-            ) * (1 - inertia)
+            ratio = (m["train_samples"] / total_samples if size_aware else 1 / len(self._received_messages)) * (1 - inertia)
             self.add_parameters(m["parameters"], ratio)
 
     def update_gradients(self) -> None:
         """Update the server's gradients."""
         if len(self._received_messages) == 0:
             return
-        assert all(
-            ["gradients" in m for m in self._received_messages]
-        ), "some clients have not sent gradients yet"
+        assert all(["gradients" in m for m in self._received_messages]), "some clients have not sent gradients yet"
         # self.model.zero_grad()
-        for mp, gd in zip(
-            self.model.parameters(), self._received_messages[0]["gradients"]
-        ):
+        for mp, gd in zip(self.model.parameters(), self._received_messages[0]["gradients"]):
             mp.grad = torch.zeros_like(gd).to(self.device)
         total_samples = sum([m["train_samples"] for m in self._received_messages])
         for rm in self._received_messages:
@@ -1279,9 +1216,7 @@ class Server(Node, CitationMixin):
 
         return self._clients[client_idx].model
 
-    def get_cached_metrics(
-        self, client_idx: Optional[int] = None
-    ) -> List[Dict[str, float]]:
+    def get_cached_metrics(self, client_idx: Optional[int] = None) -> List[Dict[str, float]]:
         """Get the cached metrics of the given client,
         or the cached aggregated metrics stored on the server.
 
@@ -1334,9 +1269,7 @@ class Server(Node, CitationMixin):
         reset_parameters(self.model)
         # reset the clients
         if reset_clients:
-            for c in tqdm(
-                self._clients, desc="Resetting clients", mininterval=1, leave=False
-            ):
+            for c in tqdm(self._clients, desc="Resetting clients", mininterval=1, leave=False):
                 c._reset()
 
     def extra_repr_keys(self) -> List[str]:
@@ -1419,9 +1352,7 @@ class Client(Node):
             params=self.model.parameters(),
             config=self.config,
         )
-        scheduler_config = {
-            k: v for k, v in self.config.scheduler.items() if k != "name"
-        }
+        scheduler_config = {k: v for k, v in self.config.scheduler.items() if k != "name"}
         self.lr_scheduler = get_scheduler(
             scheduler_name=self.config.scheduler["name"],
             optimizer=self.optimizer,
@@ -1438,9 +1369,7 @@ class Client(Node):
 
         # checks that the client has all the required attributes in config.extra_observes
         for attr in self.config.extra_observes:
-            assert hasattr(
-                self, attr
-            ), f"{self.__name__} should have attribute {attr} for extra observes."
+            assert hasattr(self, attr), f"{self.__name__} should have attribute {attr} for extra observes."
 
     def _communicate(self, target: "Server") -> None:
         """Check validity and send messages to the server,
@@ -1458,10 +1387,7 @@ class Client(Node):
         """
         # check validity of self._metrics
         for part, metrics in self._metrics.items():
-            assert isinstance(metrics, dict), (
-                f"metrics for {part} should be a dict, "
-                f"but got {type(metrics).__name__}"
-            )
+            assert isinstance(metrics, dict), f"metrics for {part} should be a dict, " f"but got {type(metrics).__name__}"
             assert "num_samples" in metrics, (
                 "In order to let the server aggregate the metrics, "
                 f"metrics for {part} should have key `num_samples`, "
@@ -1533,9 +1459,7 @@ class Client(Node):
             The metrics of the evaluation.
 
         """
-        assert (
-            part in self.dataset.data_parts
-        ), f"Invalid part name, should be one of {self.dataset.data_parts}."
+        assert part in self.dataset.data_parts, f"Invalid part name, should be one of {self.dataset.data_parts}."
         self.model.eval()
         # _metrics = []
         data_loader = self.val_loader if part == "val" else self.train_loader
@@ -1622,9 +1546,5 @@ class ClientMessage(dict):
 
     __name__ = "ClientMessage"
 
-    def __init__(
-        self, client_id: int, train_samples: int, metrics: dict, **kwargs
-    ) -> None:
-        super().__init__(
-            client_id=client_id, train_samples=train_samples, metrics=metrics, **kwargs
-        )
+    def __init__(self, client_id: int, train_samples: int, metrics: dict, **kwargs) -> None:
+        super().__init__(client_id=client_id, train_samples=train_samples, metrics=metrics, **kwargs)

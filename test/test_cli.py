@@ -5,7 +5,6 @@ from pathlib import Path
 
 from fl_sim.utils.misc import clear_logs, execute_cmd
 
-
 action_test_config_files = [
     Path(__file__).parents[1].resolve() / "example-configs" / filename
     for filename in [

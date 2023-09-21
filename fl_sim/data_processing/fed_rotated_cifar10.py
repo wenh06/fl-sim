@@ -1,30 +1,18 @@
 import pickle
 from pathlib import Path
-from typing import Optional, Union, List, Tuple, Dict, Callable
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import torch
 import torch.utils.data as torchdata
 import torchvision.transforms as transforms
 
-from ..utils.const import (
-    CACHED_DATA_DIR,
-    CIFAR10_LABEL_MAP,
-    CIFAR10_MEAN,
-    CIFAR10_STD,
-)
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
-from .fed_dataset import FedVisionDataset, VisionDataset
+from ..utils.const import CACHED_DATA_DIR, CIFAR10_LABEL_MAP, CIFAR10_MEAN, CIFAR10_STD
+from ._ops import CategoricalLabelToTensor, FixedDegreeRotation, ImageArrayToTensor, ImageTensorScale, distribute_images
 from ._register import register_fed_dataset
-from ._ops import (
-    ImageArrayToTensor,
-    CategoricalLabelToTensor,
-    FixedDegreeRotation,
-    ImageTensorScale,
-    distribute_images,
-)
-
+from .fed_dataset import FedVisionDataset, VisionDataset
 
 __all__ = [
     "FedRotatedCIFAR10",
@@ -103,9 +91,7 @@ class FedRotatedCIFAR10(FedVisionDataset):
         self.DEFAULT_TRAIN_CLIENTS_NUM = self.num_clients
         self.DEFAULT_TEST_CLIENTS_NUM = self.num_clients
 
-        self.DEFAULT_TRAIN_FILE = [
-            f"cifar-10-batches-py/data_batch_{i}" for i in range(1, 6)
-        ]
+        self.DEFAULT_TRAIN_FILE = [f"cifar-10-batches-py/data_batch_{i}" for i in range(1, 6)]
         self.DEFAULT_TEST_FILE = ["cifar-10-batches-py/test_batch"]
         self._IMGAE = "image"
         self._LABEL = "label"
@@ -155,9 +141,7 @@ class FedRotatedCIFAR10(FedVisionDataset):
             (self.datadir / self.DEFAULT_TEST_FILE[0]).read_bytes(),
             encoding="bytes",
         )
-        self._test_data_dict[self._IMGAE] = (
-            data[b"data"].reshape(-1, 3, 32, 32).astype(np.uint8)
-        )
+        self._test_data_dict[self._IMGAE] = data[b"data"].reshape(-1, 3, 32, 32).astype(np.uint8)
         self._test_data_dict[self._LABEL] = np.array(data[b"labels"]).astype(np.int64)
 
         original_num_images = {
@@ -229,16 +213,14 @@ class FedRotatedCIFAR10(FedVisionDataset):
             )
             self.indices["train"].extend(
                 distribute_images(
-                    np.arange(original_num_images["train"])
-                    + (idx + 1) * original_num_images["train"],
+                    np.arange(original_num_images["train"]) + (idx + 1) * original_num_images["train"],
                     self.num_clients // self.num_rotations,
                     random=True,
                 )
             )
             self.indices["test"].extend(
                 distribute_images(
-                    np.arange(original_num_images["test"])
-                    + (idx + 1) * original_num_images["test"],
+                    np.arange(original_num_images["test"]) + (idx + 1) * original_num_images["test"],
                     self.num_clients // self.num_rotations,
                     random=False,
                 )
@@ -292,22 +274,14 @@ class FedRotatedCIFAR10(FedVisionDataset):
         if self.transform == "none":
             # apply only static transform
             train_ds = torchdata.TensorDataset(
-                static_transform(
-                    self._train_data_dict[self._IMGAE][train_slice].copy()
-                ),
-                self.target_transform(
-                    self._train_data_dict[self._LABEL][train_slice].copy()
-                ),
+                static_transform(self._train_data_dict[self._IMGAE][train_slice].copy()),
+                self.target_transform(self._train_data_dict[self._LABEL][train_slice].copy()),
             )
         else:
             # use non-trivial dynamic transform
             train_ds = VisionDataset(
-                images=torch.from_numpy(
-                    self._train_data_dict[self._IMGAE][train_slice].copy()
-                ).to(torch.uint8),
-                targets=self.target_transform(
-                    self._train_data_dict[self._LABEL][train_slice].copy()
-                ),
+                images=torch.from_numpy(self._train_data_dict[self._IMGAE][train_slice].copy()).to(torch.uint8),
+                targets=self.target_transform(self._train_data_dict[self._LABEL][train_slice].copy()),
                 transform=self.transform,
             )
         train_dl = torchdata.DataLoader(
@@ -405,56 +379,29 @@ class FedRotatedCIFAR10(FedVisionDataset):
         import matplotlib.pyplot as plt
 
         if client_idx >= self.num_clients:
-            raise ValueError(
-                f"client_idx must be less than {self.num_clients}, got {client_idx}"
-            )
+            raise ValueError(f"client_idx must be less than {self.num_clients}, got {client_idx}")
 
-        total_num_images = len(self.indices["train"][client_idx]) + len(
-            self.indices["test"][client_idx]
-        )
+        total_num_images = len(self.indices["train"][client_idx]) + len(self.indices["test"][client_idx])
         if image_idx >= total_num_images:
-            raise ValueError(
-                f"image_idx must be less than {total_num_images}, got {image_idx}"
-            )
+            raise ValueError(f"image_idx must be less than {total_num_images}, got {image_idx}")
         if image_idx < len(self.indices["train"][client_idx]):
-            image = self._train_data_dict[self._IMGAE][
-                self.indices["train"][client_idx][image_idx]
-            ]
-            label = self._train_data_dict[self._LABEL][
-                self.indices["train"][client_idx][image_idx]
-            ]
+            image = self._train_data_dict[self._IMGAE][self.indices["train"][client_idx][image_idx]]
+            label = self._train_data_dict[self._LABEL][self.indices["train"][client_idx][image_idx]]
             image_idx = self.indices["train"][client_idx][image_idx]
-            angle = (
-                image_idx
-                // (len(self._train_data_dict[self._IMGAE]) // self.num_rotations)
-                * (360 // self.num_rotations)
-            )
+            angle = image_idx // (len(self._train_data_dict[self._IMGAE]) // self.num_rotations) * (360 // self.num_rotations)
         else:
             image_idx -= len(self.indices["train"][client_idx])
-            image = self._test_data_dict[self._IMGAE][
-                self.indices["test"][client_idx][image_idx]
-            ]
-            label = self._test_data_dict[self._LABEL][
-                self.indices["test"][client_idx][image_idx]
-            ]
+            image = self._test_data_dict[self._IMGAE][self.indices["test"][client_idx][image_idx]]
+            label = self._test_data_dict[self._LABEL][self.indices["test"][client_idx][image_idx]]
             image_idx = self.indices["test"][client_idx][image_idx]
-            angle = (
-                image_idx
-                // (len(self._test_data_dict[self._IMGAE]) // self.num_rotations)
-                * (360 // self.num_rotations)
-            )
+            angle = image_idx // (len(self._test_data_dict[self._IMGAE]) // self.num_rotations) * (360 // self.num_rotations)
         # image: channel first to channel last
         image = image.transpose(1, 2, 0)
         plt.imshow(image)
-        plt.title(
-            f"image_idx: {image_idx}, label: {label} ({self.label_map[int(label)]}), "
-            f"angle: {angle}"
-        )
+        plt.title(f"image_idx: {image_idx}, label: {label} ({self.label_map[int(label)]}), " f"angle: {angle}")
         plt.show()
 
-    def random_grid_view(
-        self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None
-    ) -> None:
+    def random_grid_view(self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
 
@@ -486,9 +433,7 @@ class FedRotatedCIFAR10(FedVisionDataset):
                     if (client_idx, image_idx) not in selected:
                         selected.append((client_idx, image_idx))
                         break
-                image = self._train_data_dict[self._IMGAE][
-                    self.indices["train"][client_idx][image_idx]
-                ]
+                image = self._train_data_dict[self._IMGAE][self.indices["train"][client_idx][image_idx]]
                 axes[i, j].imshow(image.transpose(1, 2, 0))
                 axes[i, j].axis("off")
         if save_path is not None:

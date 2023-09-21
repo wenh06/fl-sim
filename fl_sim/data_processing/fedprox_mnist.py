@@ -1,19 +1,18 @@
 import warnings
 from pathlib import Path
-from typing import Optional, Union, List, Tuple, Dict
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from scipy.io import loadmat
 import torch
 import torch.utils.data as torchdata
+from scipy.io import loadmat
 
-from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP
-from ..utils._download_data import url_is_reachable
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
-from .fed_dataset import FedVisionDataset
+from ..utils._download_data import url_is_reachable
+from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP
 from ._register import register_fed_dataset
-
+from .fed_dataset import FedVisionDataset
 
 __all__ = [
     "FedProxMNIST",
@@ -86,8 +85,7 @@ class FedProxMNIST(FedVisionDataset):
 
         if self.transform != "none":
             warnings.warn(
-                "The images are not raw pixels, but processed. "
-                "The transform argument will be ignored.",
+                "The images are not raw pixels, but processed. " "The transform argument will be ignored.",
                 RuntimeWarning,
             )
             self.transform = "none"
@@ -96,22 +94,13 @@ class FedProxMNIST(FedVisionDataset):
 
         self.download_if_needed()
         self.__raw_data = loadmat(self.datadir / self.DEFAULT_TRAIN_FILE)
-        self._client_data = generate_niid(
-            self.__raw_data, num_clients=self.DEFAULT_TRAIN_CLIENTS_NUM, seed=self.seed
-        )
+        self._client_data = generate_niid(self.__raw_data, num_clients=self.DEFAULT_TRAIN_CLIENTS_NUM, seed=self.seed)
 
         self._client_ids_train = list(range(self.DEFAULT_TRAIN_CLIENTS_NUM))
         self._client_ids_test = list(range(self.DEFAULT_TEST_CLIENTS_NUM))
 
         self._n_class = len(
-            np.unique(
-                np.concatenate(
-                    [
-                        item["train_y"].tolist() + item["test_y"].tolist()
-                        for item in self._client_data
-                    ]
-                )
-            )
+            np.unique(np.concatenate([item["train_y"].tolist() + item["test_y"].tolist() for item in self._client_data]))
         )
 
     def get_dataloader(
@@ -153,18 +142,10 @@ class FedProxMNIST(FedVisionDataset):
             test_ids = [self._client_ids_test[client_idx]]
 
         # load data
-        train_x = np.vstack(
-            [self._client_data[client_id]["train_x"] for client_id in train_ids]
-        )
-        train_y = np.concatenate(
-            [self._client_data[client_id]["train_y"] for client_id in train_ids]
-        )
-        test_x = np.vstack(
-            [self._client_data[client_id]["test_x"] for client_id in test_ids]
-        )
-        test_y = np.concatenate(
-            [self._client_data[client_id]["test_y"] for client_id in test_ids]
-        )
+        train_x = np.vstack([self._client_data[client_id]["train_x"] for client_id in train_ids])
+        train_y = np.concatenate([self._client_data[client_id]["train_y"] for client_id in train_ids])
+        test_x = np.vstack([self._client_data[client_id]["test_x"] for client_id in test_ids])
+        test_y = np.concatenate([self._client_data[client_id]["test_y"] for client_id in test_ids])
 
         # dataloader
         train_ds = torchdata.TensorDataset(
@@ -278,25 +259,16 @@ class FedProxMNIST(FedVisionDataset):
         import matplotlib.pyplot as plt
 
         if client_idx >= self.DEFAULT_TRAIN_CLIENTS_NUM:
-            raise ValueError(
-                f"client_idx should be less than {self.DEFAULT_TRAIN_CLIENTS_NUM}"
-            )
-        tot_images = (
-            self._client_data[client_idx]["train_x"].shape[0]
-            + self._client_data[client_idx]["test_x"].shape[0]
-        )
+            raise ValueError(f"client_idx should be less than {self.DEFAULT_TRAIN_CLIENTS_NUM}")
+        tot_images = self._client_data[client_idx]["train_x"].shape[0] + self._client_data[client_idx]["test_x"].shape[0]
         if image_idx >= tot_images:
             raise ValueError(f"image_idx should be less than {tot_images}")
         if image_idx < self._client_data[client_idx]["train_x"].shape[0]:
             img = self._client_data[client_idx]["train_x"][image_idx]
             label = self._client_data[client_idx]["train_y"][image_idx]
         else:
-            img = self._client_data[client_idx]["test_x"][
-                image_idx - self._client_data[client_idx]["train_x"].shape[0]
-            ]
-            label = self._client_data[client_idx]["test_y"][
-                image_idx - self._client_data[client_idx]["train_x"].shape[0]
-            ]
+            img = self._client_data[client_idx]["test_x"][image_idx - self._client_data[client_idx]["train_x"].shape[0]]
+            label = self._client_data[client_idx]["test_y"][image_idx - self._client_data[client_idx]["train_x"].shape[0]]
 
         img = img + img.min()
         # to 0-255
@@ -305,9 +277,7 @@ class FedProxMNIST(FedVisionDataset):
         plt.title(f"client {client_idx}, label {label} ({self.label_map[int(label)]})")
         plt.show()
 
-    def random_grid_view(
-        self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None
-    ) -> None:
+    def random_grid_view(self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
 
@@ -336,8 +306,7 @@ class FedProxMNIST(FedVisionDataset):
                 while True:
                     client_idx = rng.integers(self.DEFAULT_TRAIN_CLIENTS_NUM)
                     tot_images = (
-                        self._client_data[client_idx]["train_x"].shape[0]
-                        + self._client_data[client_idx]["test_x"].shape[0]
+                        self._client_data[client_idx]["train_x"].shape[0] + self._client_data[client_idx]["test_x"].shape[0]
                     )
                     image_idx = rng.integers(tot_images)
                     if (client_idx, image_idx) not in selected:
@@ -347,9 +316,7 @@ class FedProxMNIST(FedVisionDataset):
                     img = self._client_data[client_idx]["train_x"][image_idx]
                     label = self._client_data[client_idx]["train_y"][image_idx]
                 else:
-                    img = self._client_data[client_idx]["test_x"][
-                        image_idx - self._client_data[client_idx]["train_x"].shape[0]
-                    ]
+                    img = self._client_data[client_idx]["test_x"][image_idx - self._client_data[client_idx]["train_x"].shape[0]]
 
                 img = img + img.min()
                 # to 0-255
@@ -412,9 +379,7 @@ def generate_niid(
 
     clients_data = [
         {
-            k: np.empty((0, *IMG_SHAPE), dtype=np.float32)
-            if k.startswith("train")
-            else np.array([], dtype=np.int64)
+            k: np.empty((0, *IMG_SHAPE), dtype=np.float32) if k.startswith("train") else np.array([], dtype=np.int64)
             for k in [
                 "train_x",
                 "train_y",
@@ -430,24 +395,16 @@ def generate_niid(
         for j, n in enumerate(class_nums):
             label = (c + j) % NUM_CLASSES
             inds = class_inds[label][idx[label] : idx[label] + n]
-            clients_data[c]["train_x"] = np.append(
-                clients_data[c]["train_x"], mnist_data["data"][inds, ...], axis=0
-            )
-            clients_data[c]["train_y"] = np.append(
-                clients_data[c]["train_y"], np.full_like(inds, label, dtype=np.int64)
-            )
+            clients_data[c]["train_x"] = np.append(clients_data[c]["train_x"], mnist_data["data"][inds, ...], axis=0)
+            clients_data[c]["train_y"] = np.append(clients_data[c]["train_y"], np.full_like(inds, label, dtype=np.int64))
             idx[label] += n
     # print(f"idx = {idx}")
     # print(f"class_inds = {[(l, len(class_inds[l])) for l in range(NUM_CLASSES)]}")
 
     rng = np.random.default_rng(seed)
-    probs = rng.lognormal(
-        0, 2.0, (NUM_CLASSES, num_clients // NUM_CLASSES, class_per_client)
-    )
+    probs = rng.lognormal(0, 2.0, (NUM_CLASSES, num_clients // NUM_CLASSES, class_per_client))
     probs = (
-        np.array([[[len(class_inds[i]) - idx[i]]] for i in range(NUM_CLASSES)])
-        * probs
-        / probs.sum(axis=(1, 2), keepdims=True)
+        np.array([[[len(class_inds[i]) - idx[i]]] for i in range(NUM_CLASSES)]) * probs / probs.sum(axis=(1, 2), keepdims=True)
     )
     for c in range(num_clients):
         for j, n in enumerate(class_nums):
@@ -455,9 +412,7 @@ def generate_niid(
             num_samples = round(probs[label, c // NUM_CLASSES, j])
             if idx[label] + num_samples < len(class_inds[label]):
                 inds = class_inds[label][idx[label] : idx[label] + num_samples]
-                clients_data[c]["train_x"] = np.append(
-                    clients_data[c]["train_x"], mnist_data["data"][inds, ...], axis=0
-                )
+                clients_data[c]["train_x"] = np.append(clients_data[c]["train_x"], mnist_data["data"][inds, ...], axis=0)
                 clients_data[c]["train_y"] = np.append(
                     clients_data[c]["train_y"],
                     np.full_like(inds, label, dtype=np.int64),

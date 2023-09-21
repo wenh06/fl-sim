@@ -1,14 +1,8 @@
 """
 """
 
-from ._feddr import (
-    FedDRClient,
-    FedDRServer,
-    FedDRClientConfig,
-    FedDRServerConfig,
-)
+from ._feddr import FedDRClient, FedDRClientConfig, FedDRServer, FedDRServerConfig
 from .test_feddr import test_feddr
-
 
 __all__ = [
     "FedDRClient",

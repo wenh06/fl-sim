@@ -1,14 +1,8 @@
 """
 """
 
-from ._ditto import (
-    DittoClient,
-    DittoServer,
-    DittoClientConfig,
-    DittoServerConfig,
-)
+from ._ditto import DittoClient, DittoClientConfig, DittoServer, DittoServerConfig
 from .test_ditto import test_ditto
-
 
 __all__ = [
     "DittoClient",

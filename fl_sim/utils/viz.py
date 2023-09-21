@@ -6,13 +6,13 @@ import itertools
 import os
 import re
 from pathlib import Path
-from typing import Union, Sequence, Optional, Tuple, List, Dict, Any
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 
-import numpy as np
-import yaml
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
+import yaml
 from termcolor import colored
 from torch_ecg.utils import MovingAverage
 
@@ -24,8 +24,7 @@ except (ImportError, ModuleNotFoundError):
 
 from ..nodes import Node
 from .const import LOG_DIR
-from .misc import is_notebook, find_longest_common_substring
-
+from .misc import find_longest_common_substring, is_notebook
 
 __all__ = [
     "find_log_files",
@@ -120,9 +119,7 @@ else:
     _font_names, _fonts_priority = None, None
 
 
-def find_log_files(
-    directory: Union[str, Path] = LOG_DIR, filters: str = "", show: bool = False
-) -> Union[List[Path], None]:
+def find_log_files(directory: Union[str, Path] = LOG_DIR, filters: str = "", show: bool = False) -> Union[List[Path], None]:
     """Find log files in the given directory, recursively.
 
     Parameters
@@ -142,11 +139,7 @@ def find_log_files(
         The list of log files.
 
     """
-    log_files = [
-        item
-        for item in Path(directory).rglob("*.json")
-        if item.is_file() and re.search(filters, item.name)
-    ]
+    log_files = [item for item in Path(directory).rglob("*.json") if item.is_file() and re.search(filters, item.name)]
     if show:
         for idx, fn in enumerate(log_files):
             print(idx, "---", fn.stem)
@@ -356,9 +349,7 @@ def plot_mean_curve_with_error_bounds(
     # allow curves to have different lengths
     max_len = max([len(curve) for curve in curves])
     for idx, curve in enumerate(curves):
-        curves[idx] = np.pad(
-            curve, (0, max_len - len(curve)), "constant", constant_values=np.nan
-        )
+        curves[idx] = np.pad(curve, (0, max_len - len(curve)), "constant", constant_values=np.nan)
     curves = np.array(curves)
     mean_curve = np.nanmean(curves, axis=0)
     ax.plot(mean_curve, label=label or "mean", **(plot_config or {}))
@@ -391,9 +382,7 @@ def plot_mean_curve_with_error_bounds(
                 "quartile": "Quartile",
                 "iqr": "IQR",
             }[error_type]
-            fill_between_config["label"] = (
-                error_type if label is None else f"{label}±{_error_type}"
-            )
+            fill_between_config["label"] = error_type if label is None else f"{label}±{_error_type}"
         ax.fill_between(
             np.arange(len(mean_curve)),
             lower_curve,
@@ -437,16 +426,11 @@ class Panel:
         debug: bool = False,
     ) -> None:
         if widgets is None:
-            print(
-                "One or more of the required packages is not installed: "
-                "ipywidgets, matplotlib."
-            )
+            print("One or more of the required packages is not installed: " "ipywidgets, matplotlib.")
             return
         self._is_notebook = is_notebook()
         if not self._is_notebook:
-            print(
-                "Panel is only supported in Jupyter Notebook (JupyterLab, Colab, SageMaker, etc.)."
-            )
+            print("Panel is only supported in Jupyter Notebook (JupyterLab, Colab, SageMaker, etc.).")
             return
         self._logdir = Path(logdir or LOG_DIR).expanduser().resolve()
         assert self._logdir.exists(), f"Log directory {self._logdir} does not exist."
@@ -465,20 +449,13 @@ class Panel:
 
         self._log_files = find_log_files(directory=self._logdir)
         self._subdir_dropdown_selector = widgets.Dropdown(
-            options=["./"]
-            + [
-                d.name
-                for d in self._logdir.iterdir()
-                if d.is_dir() and len(list(d.glob("*.json"))) > 0
-            ],
+            options=["./"] + [d.name for d in self._logdir.iterdir() if d.is_dir() and len(list(d.glob("*.json"))) > 0],
             value="./",
             description="Sub-directory:",
             disabled=False,
             style={"description_width": "initial"},
         )
-        self._subdir_dropdown_selector.observe(
-            self._on_subdir_dropdown_change, names="value"
-        )
+        self._subdir_dropdown_selector.observe(self._on_subdir_dropdown_change, names="value")
         self._subdir_refresh_button = widgets.Button(
             description="Refresh",
             disabled=False,
@@ -510,9 +487,7 @@ class Panel:
             style={"description_width": "initial"},
         )
         unit = "files" if len(self._log_files) > 1 else "file"
-        unit_selected = (
-            "files" if len(self._log_files_mult_selector.value) > 1 else "file"
-        )
+        unit_selected = "files" if len(self._log_files_mult_selector.value) > 1 else "file"
         self._num_log_files_label = widgets.Label(
             value=(
                 f"Found {len(self.log_files)} log {unit}. "
@@ -520,9 +495,7 @@ class Panel:
             )
         )
         # clear self._fig_curves, self._fig_stems if selected log files change
-        self._log_files_mult_selector.observe(
-            self._log_files_mult_selector_changed, names="value"
-        )
+        self._log_files_mult_selector.observe(self._log_files_mult_selector_changed, names="value")
         self._files_refresh_button.on_click(self._on_files_refresh_button_clicked)
 
         self._fig_curves, self._fig_stems = None, None
@@ -548,9 +521,7 @@ class Panel:
             description="Fig. width:",
             **fig_setup_slider_config,
         )
-        self._fig_width_slider.observe(
-            self._on_fig_width_slider_value_changed, names="value"
-        )
+        self._fig_width_slider.observe(self._on_fig_width_slider_value_changed, names="value")
         self._fig_height_slider = widgets.IntSlider(
             value=int(init_fig_height),
             min=3,
@@ -558,9 +529,7 @@ class Panel:
             description="Fig. height:",
             **fig_setup_slider_config,
         )
-        self._fig_height_slider.observe(
-            self._on_fig_height_slider_value_changed, names="value"
-        )
+        self._fig_height_slider.observe(self._on_fig_height_slider_value_changed, names="value")
         self._x_ticks_font_size_slider = widgets.IntSlider(
             value=int(init_x_ticks_font_size),
             min=6,
@@ -568,9 +537,7 @@ class Panel:
             description="X tick font size:",
             **fig_setup_slider_config,
         )
-        self._x_ticks_font_size_slider.observe(
-            self._on_x_ticks_font_size_slider_value_changed, names="value"
-        )
+        self._x_ticks_font_size_slider.observe(self._on_x_ticks_font_size_slider_value_changed, names="value")
         self._y_ticks_font_size_slider = widgets.IntSlider(
             value=int(init_y_ticks_font_size),
             min=6,
@@ -578,9 +545,7 @@ class Panel:
             description="Y tick font size:",
             **fig_setup_slider_config,
         )
-        self._y_ticks_font_size_slider.observe(
-            self._on_y_ticks_font_size_slider_value_changed, names="value"
-        )
+        self._y_ticks_font_size_slider.observe(self._on_y_ticks_font_size_slider_value_changed, names="value")
         self._axes_label_font_size_slider = widgets.IntSlider(
             value=int(init_axes_label_font_size),
             min=6,
@@ -588,9 +553,7 @@ class Panel:
             description="Axes label font size:",
             **fig_setup_slider_config,
         )
-        self._axes_label_font_size_slider.observe(
-            self._on_axes_label_font_size_slider_value_changed, names="value"
-        )
+        self._axes_label_font_size_slider.observe(self._on_axes_label_font_size_slider_value_changed, names="value")
         self._legend_font_size_slider = widgets.IntSlider(
             value=int(init_legend_font_size),
             min=6,
@@ -598,9 +561,7 @@ class Panel:
             description="Legend font size:",
             **fig_setup_slider_config,
         )
-        self._legend_font_size_slider.observe(
-            self._on_legend_font_size_slider_value_changed, names="value"
-        )
+        self._legend_font_size_slider.observe(self._on_legend_font_size_slider_value_changed, names="value")
         self._linewidth_slider = widgets.FloatSlider(
             value=init_linewidth,
             min=0.6,
@@ -608,9 +569,7 @@ class Panel:
             description="Line width:",
             **{**fig_setup_slider_config, **{"step": 0.1, "readout_format": ".1f"}},
         )
-        self._linewidth_slider.observe(
-            self._on_linewidth_slider_value_changed, names="value"
-        )
+        self._linewidth_slider.observe(self._on_linewidth_slider_value_changed, names="value")
         self._fill_between_alpha_slider = widgets.FloatSlider(
             value=0.3,
             min=0.1,
@@ -618,9 +577,7 @@ class Panel:
             description="Fill between alpha:",
             **{**fig_setup_slider_config, **{"step": 0.01, "readout_format": ".2f"}},
         )
-        self._fill_between_alpha_slider.observe(
-            self._on_fill_between_alpha_slider_value_changed, names="value"
-        )
+        self._fill_between_alpha_slider.observe(self._on_fill_between_alpha_slider_value_changed, names="value")
         self._moving_averager = MovingAverage()
         self._moving_average_slider = widgets.FloatSlider(
             value=0.0,
@@ -629,9 +586,7 @@ class Panel:
             description="Curve smoothing:",
             **{**fig_setup_slider_config, **{"step": 0.01, "readout_format": ".2f"}},
         )
-        self._moving_average_slider.observe(
-            self._on_moving_average_slider_value_changed, names="value"
-        )
+        self._moving_average_slider.observe(self._on_moving_average_slider_value_changed, names="value")
 
         slider_box = widgets.GridBox(
             [
@@ -680,9 +635,7 @@ class Panel:
             description="Y label:",
             style={"description_width": "initial"},
         )
-        self._refresh_part_metric_button.on_click(
-            self._on_refresh_part_metric_button_clicked
-        )
+        self._refresh_part_metric_button.on_click(self._on_refresh_part_metric_button_clicked)
 
         self._merge_curve_method_dropdown_selector = widgets.Dropdown(
             options=[
@@ -712,9 +665,7 @@ class Panel:
             description="Show error bounds",
             style={"description_width": "initial"},
         )
-        self._show_error_bounds_checkbox.observe(
-            self._on_show_error_bounds_checkbox_value_changed, names="value"
-        )
+        self._show_error_bounds_checkbox.observe(self._on_show_error_bounds_checkbox_value_changed, names="value")
         if widgets.__version__ >= "8":
             self._merge_curve_tags_input = widgets.TagsInput(
                 value=[],
@@ -723,9 +674,7 @@ class Panel:
                 # description="Merge tags:",
                 # style={"description_width": "initial"},
             )
-            self._merge_curve_tags_input.observe(
-                self._on_merge_curve_tags_input_value_changed, names="value"
-            )
+            self._merge_curve_tags_input.observe(self._on_merge_curve_tags_input_value_changed, names="value")
             merge_curve_tags_box = widgets.VBox(
                 [
                     widgets.HBox(
@@ -781,9 +730,7 @@ class Panel:
             style={"description_width": "initial"},
             layout={"width": "150px"},
         )
-        self._style_dropdown_selector.observe(
-            self._on_style_dropdown_selector_value_changed, names="value"
-        )
+        self._style_dropdown_selector.observe(self._on_style_dropdown_selector_value_changed, names="value")
 
         self._font_dropdown_selector = widgets.Dropdown(
             options=_fonts_priority,
@@ -792,9 +739,7 @@ class Panel:
             style={"description_width": "initial"},
             layout={"width": "200px"},
         )
-        self._font_dropdown_selector.observe(
-            self._on_font_dropdown_selector_value_changed, names="value"
-        )
+        self._font_dropdown_selector.observe(self._on_font_dropdown_selector_value_changed, names="value")
 
         self._palette_dropdown_selector = widgets.Dropdown(
             options=_color_palettes,
@@ -803,9 +748,7 @@ class Panel:
             style={"description_width": "initial"},
             layout={"width": "150px"},
         )
-        self._palette_dropdown_selector.observe(
-            self._on_palette_dropdown_selector_value_changed, names="value"
-        )
+        self._palette_dropdown_selector.observe(self._on_palette_dropdown_selector_value_changed, names="value")
 
         self._markers_checkbox = widgets.Checkbox(
             value=True,
@@ -813,9 +756,7 @@ class Panel:
             style={"description_width": "initial"},
             layout={"width": "150px"},
         )
-        self._markers_checkbox.observe(
-            self._on_markers_checkbox_value_changed, names="value"
-        )
+        self._markers_checkbox.observe(self._on_markers_checkbox_value_changed, names="value")
 
         self._despine_checkbox = widgets.Checkbox(
             value=False,
@@ -823,9 +764,7 @@ class Panel:
             style={"description_width": "initial"},
             layout={"width": "100px"},
         )
-        self._despine_checkbox.observe(
-            self._on_despine_checkbox_value_changed, names="value"
-        )
+        self._despine_checkbox.observe(self._on_despine_checkbox_value_changed, names="value")
 
         self._savefig_dir_input = widgets.Text(
             value="./images",
@@ -865,9 +804,7 @@ class Panel:
             tooltip="Save",
             icon="save",  # (FontAwesome names without the `fa-` prefix)
         )
-        self._savefig_message_area = widgets.Output(
-            layout={"border": "2px solid black"}
-        )
+        self._savefig_message_area = widgets.Output(layout={"border": "2px solid black"})
         self._savefig_button.on_click(self._on_savefig_button_clicked)
 
         self._log_file_dropdown_selector = widgets.Dropdown(
@@ -879,14 +816,10 @@ class Panel:
             style={"description_width": "initial"},
         )
         self._show_config_area = widgets.Output(layout={"border": "2px solid black"})
-        self._log_file_dropdown_selector.observe(
-            self._on_log_file_dropdown_selector_change, names="value"
-        )
+        self._log_file_dropdown_selector.observe(self._on_log_file_dropdown_selector_change, names="value")
 
         # layout, from top to bottom
-        subdir_selection_hbox = widgets.HBox(
-            [self._subdir_dropdown_selector, self._subdir_refresh_button]
-        )
+        subdir_selection_hbox = widgets.HBox([self._subdir_dropdown_selector, self._subdir_refresh_button])
         file_filters_hbox = widgets.HBox(
             [
                 self._filters_input,
@@ -972,20 +905,14 @@ class Panel:
             directory=self._logdir / self._subdir_dropdown_selector.value,
             filters=self._filters_input.value,
         )
-        self._log_files_mult_selector.options = list(
-            zip(self.log_files, self._log_files)
-        )
+        self._log_files_mult_selector.options = list(zip(self.log_files, self._log_files))
         unit = "files" if len(self._log_files) > 1 else "file"
-        unit_selected = (
-            "files" if len(self._log_files_mult_selector.value) > 1 else "file"
-        )
+        unit_selected = "files" if len(self._log_files_mult_selector.value) > 1 else "file"
         self._num_log_files_label.value = (
             f"Found {len(self.log_files)} log {unit}. "
             f"Slected {len(self._log_files_mult_selector.value)} log {unit_selected}."
         )
-        self._log_file_dropdown_selector.options = list(
-            zip(self.log_files, self._log_files)
-        )
+        self._log_file_dropdown_selector.options = list(zip(self.log_files, self._log_files))
         self._log_file_dropdown_selector.value = None
         self._show_config_area.clear_output(wait=False)
         with self._show_config_area:
@@ -995,9 +922,7 @@ class Panel:
         if widgets is None or not self._is_notebook:
             return
         self._subdir_dropdown_selector.options = ["./"] + [
-            d.name
-            for d in self._logdir.iterdir()
-            if d.is_dir() and len(list(d.glob("*.json"))) > 0
+            d.name for d in self._logdir.iterdir() if d.is_dir() and len(list(d.glob("*.json"))) > 0
         ]
 
     def _on_files_refresh_button_clicked(self, button: widgets.Button) -> None:
@@ -1009,22 +934,16 @@ class Panel:
             filters=self._filters_input.value,
         )
         # update the options of the selector
-        self._log_files_mult_selector.options = list(
-            zip(self.log_files, self._log_files)
-        )
+        self._log_files_mult_selector.options = list(zip(self.log_files, self._log_files))
         # update the label
         unit = "files" if len(self._log_files) > 1 else "file"
-        unit_selected = (
-            "files" if len(self._log_files_mult_selector.value) > 1 else "file"
-        )
+        unit_selected = "files" if len(self._log_files_mult_selector.value) > 1 else "file"
         self._num_log_files_label.value = (
             f"Found {len(self.log_files)} log {unit}. "
             f"Slected {len(self._log_files_mult_selector.value)} log {unit_selected}."
         )
         # update the dropdown selector
-        self._log_file_dropdown_selector.options = list(
-            zip(self.log_files, self._log_files)
-        )
+        self._log_file_dropdown_selector.options = list(zip(self.log_files, self._log_files))
         # clear loaded curves and stems
         self._fig_curves, self._fig_stems = None, None
 
@@ -1035,9 +954,7 @@ class Panel:
         self._fig_curves, self._fig_stems = None, None
         # update the label
         unit = "files" if len(self._log_files) > 1 else "file"
-        unit_selected = (
-            "files" if len(self._log_files_mult_selector.value) > 1 else "file"
-        )
+        unit_selected = "files" if len(self._log_files_mult_selector.value) > 1 else "file"
         self._num_log_files_label.value = (
             f"Found {len(self.log_files)} log {unit}. "
             f"Slected {len(self._log_files_mult_selector.value)} log {unit_selected}."
@@ -1147,17 +1064,13 @@ class Panel:
         if self._show_fig_flag:
             self._show_fig()
 
-    def _on_merge_curve_method_dropdown_selector_value_changed(
-        self, change: dict
-    ) -> None:
+    def _on_merge_curve_method_dropdown_selector_value_changed(self, change: dict) -> None:
         if widgets is None or not self._is_notebook:
             return
         if self._show_fig_flag:
             self._show_fig()
 
-    def _on_merge_curve_with_err_bound_label_checkbox_value_changed(
-        self, change: dict
-    ) -> None:
+    def _on_merge_curve_with_err_bound_label_checkbox_value_changed(self, change: dict) -> None:
         if widgets is None or not self._is_notebook:
             return
         if self._show_fig_flag:
@@ -1172,10 +1085,7 @@ class Panel:
     def _on_style_dropdown_selector_value_changed(self, change: dict) -> None:
         if widgets is None or not self._is_notebook:
             return
-        if (
-            isinstance(change["new"], str)
-            and change["new"] in self._style_dropdown_selector.options
-        ):
+        if isinstance(change["new"], str) and change["new"] in self._style_dropdown_selector.options:
             sns.set_style(change["new"])
         if self._show_fig_flag:
             self._show_fig()
@@ -1237,9 +1147,7 @@ class Panel:
                     indices = []
                     self._fig_curves, self._fig_stems = [], []
                     for idx, item in enumerate(self._log_files_mult_selector.value):
-                        key = self.cache_key(
-                            self._part_input.value, self._metric_input.value, item
-                        )
+                        key = self.cache_key(self._part_input.value, self._metric_input.value, item)
                         if key in self._curve_cache:
                             self._fig_curves.append(self._curve_cache[key])
                             self._fig_stems.append(Path(item).stem)
@@ -1250,25 +1158,14 @@ class Panel:
                             if idx in indices:
                                 # skip if already loaded
                                 continue
-                            (
-                                new_fig_curves,
-                                new_fig_stems,
-                            ) = get_curves_and_labels_from_log(
-                                [
-                                    item
-                                    for idx, item in enumerate(
-                                        self._log_files_mult_selector.value
-                                    )
-                                    if idx not in indices
-                                ],
+                            (new_fig_curves, new_fig_stems,) = get_curves_and_labels_from_log(
+                                [item for idx, item in enumerate(self._log_files_mult_selector.value) if idx not in indices],
                                 part=self._part_input.value,
                                 metric=self._metric_input.value,
                             )
                         # put the new curves and stems into self._curve_cache
                         for curve, stem in zip(new_fig_curves, new_fig_stems):
-                            key = self.cache_key(
-                                self._part_input.value, self._metric_input.value, stem
-                            )
+                            key = self.cache_key(self._part_input.value, self._metric_input.value, stem)
                             self._curve_cache[key] = curve
                         # update self._fig_curves and self._fig_stems
                         self._fig_curves.extend(new_fig_curves)
@@ -1282,32 +1179,25 @@ class Panel:
                     with self._debug_message_area:
                         print(f"self._fig_stems: {self._fig_stems}")
                         print(self._debug_log_sep)
-                self.fig, self.ax = plt.subplots(
-                    figsize=self._rc_params["figure.figsize"]
-                )
+                self.fig, self.ax = plt.subplots(figsize=self._rc_params["figure.figsize"])
                 raw_indices = set(range(len(self._fig_curves)))
                 linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
                 if self._merge_curve_tags_input is not None:
                     common_substring = find_longest_common_substring(
                         self._fig_stems,
                         min_len=5,
-                        ignore=self._merge_curve_tags_input.value[0]
-                        if len(self._merge_curve_tags_input.value) == 1
-                        else None,
+                        ignore=self._merge_curve_tags_input.value[0] if len(self._merge_curve_tags_input.value) == 1 else None,
                     )
                     if self._debug:
                         with self._debug_message_area:
                             print(f"common_substring: {common_substring}")
                             print(self._debug_log_sep)
-                    _fig_stems = [
-                        item.replace(common_substring, "-") for item in self._fig_stems
-                    ]
+                    _fig_stems = [item.replace(common_substring, "-") for item in self._fig_stems]
                     for idx, tag in enumerate(self._merge_curve_tags_input.value):
                         indices = [
                             idx
                             for idx, stem in enumerate(_fig_stems)
-                            if re.search(tag + "\\-", stem)
-                            or re.search("\\-" + tag, stem)
+                            if re.search(tag + "\\-", stem) or re.search("\\-" + tag, stem)
                         ]
                         if len(indices) == 0:
                             continue
@@ -1325,9 +1215,7 @@ class Panel:
                             show_error_bounds=self._show_error_bounds_checkbox.value,
                             error_bound_label=self._merge_curve_with_err_bound_label_checkbox.value,
                             plot_config={"linestyle": next(linestyle_cycle)},
-                            fill_between_config={
-                                "alpha": self._fill_between_alpha_slider.value
-                            },
+                            fill_between_config={"alpha": self._fill_between_alpha_slider.value},
                         )
                         self.ax.get_legend().remove()
                         raw_indices = raw_indices - set(indices)
@@ -1350,9 +1238,7 @@ class Panel:
                 if self._ylabel_input.value:  # not None or empty string
                     self.ax.set_ylabel(self._ylabel_input.value)
                 else:
-                    self.ax.set_ylabel(
-                        f"{self._part_input.value} {self._metric_input.value}"
-                    )
+                    self.ax.set_ylabel(f"{self._part_input.value} {self._metric_input.value}")
                 self.ax.set_xlabel("Global Iter.")
                 if self._despine_checkbox.value:
                     if self._style_dropdown_selector.value in ["white", "ticks"]:
@@ -1390,9 +1276,7 @@ class Panel:
             save_fig_dir = Path(self._savefig_dir_input.value).expanduser().resolve()
             save_fig_dir.mkdir(parents=True, exist_ok=True)
             save_fig_filename = save_fig_dir / self._savefig_filename_input.value
-            save_fig_filename = save_fig_filename.with_suffix(
-                f".{self._savefig_format_dropdown_selector.value}"
-            )
+            save_fig_filename = save_fig_filename.with_suffix(f".{self._savefig_format_dropdown_selector.value}")
             if save_fig_filename.exists():
                 print(colored(f"File {save_fig_filename} already exists.", "red"))
                 return

@@ -10,7 +10,6 @@ from typing import Iterable, List, Optional
 from torch.nn.parameter import Parameter
 from torch_ecg.utils import ReprMixin, add_docstring
 
-
 __all__ = [
     "get_regularizer",
     "Regularizer",
@@ -53,9 +52,7 @@ class Regularizer(ReprMixin, ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def prox_eval(
-        self, params: Iterable[Parameter], coeff: Optional[float] = None
-    ) -> Iterable[Parameter]:
+    def prox_eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> Iterable[Parameter]:
         """Evaluate the proximity operator of the regularizer
         on the given parameters.
 
@@ -155,9 +152,7 @@ class NullRegularizer(Regularizer):
     def eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> float:
         return 0.0
 
-    def prox_eval(
-        self, params: Iterable[Parameter], coeff: Optional[float] = None
-    ) -> Iterable[Parameter]:
+    def prox_eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> Iterable[Parameter]:
         return list(params)
 
 
@@ -176,14 +171,10 @@ class L1Norm(Regularizer):
             coeff = self.coeff
         return coeff * sum([p.data.abs().sum().item() for p in params])
 
-    def prox_eval(
-        self, params: Iterable[Parameter], coeff: Optional[float] = None
-    ) -> Iterable[Parameter]:
+    def prox_eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> Iterable[Parameter]:
         if coeff is None:
             coeff = self.coeff
-        ret_params = [
-            p.data.sign() * (p.data.abs() - coeff).clamp(min=0) for p in params
-        ]
+        ret_params = [p.data.sign() * (p.data.abs() - coeff).clamp(min=0) for p in params]
         return ret_params
 
 
@@ -202,9 +193,7 @@ class L2Norm(Regularizer):
             coeff = self.coeff
         return coeff * sqrt(sum([p.data.pow(2).sum().item() for p in params]))
 
-    def prox_eval(
-        self, params: Iterable[Parameter], coeff: Optional[float] = None
-    ) -> Iterable[Parameter]:
+    def prox_eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> Iterable[Parameter]:
         if coeff is None:
             coeff = self.coeff
         _params = list(params)  # to avoid the case that params is a generator
@@ -230,9 +219,7 @@ class L2NormSquared(Regularizer):
             coeff = self.coeff
         return coeff * sum([p.data.pow(2).sum().item() for p in params])
 
-    def prox_eval(
-        self, params: Iterable[Parameter], coeff: Optional[float] = None
-    ) -> Iterable[Parameter]:
+    def prox_eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> Iterable[Parameter]:
         if coeff is None:
             coeff = self.coeff
         coeff = 1 / (1 + 2 * coeff)
@@ -257,9 +244,7 @@ class LInfNorm(Regularizer):
             coeff = self.coeff
         return coeff * max([p.data.abs().max().item() for p in params])
 
-    def prox_eval(
-        self, params: Iterable[Parameter], coeff: Optional[float] = None
-    ) -> Iterable[Parameter]:
+    def prox_eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> Iterable[Parameter]:
         if coeff is None:
             coeff = self.coeff
         _params = list(params)  # to avoid the case that params is a generator

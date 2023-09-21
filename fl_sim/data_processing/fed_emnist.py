@@ -1,18 +1,17 @@
 import warnings
 from pathlib import Path
-from typing import Optional, Union, List, Tuple, Dict
+from typing import Dict, List, Optional, Tuple, Union
 
 import h5py
 import numpy as np
 import torch
 import torch.utils.data as torchdata
 
-from ..utils.const import CACHED_DATA_DIR, EMNIST_LABEL_MAP
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
-from .fed_dataset import FedVisionDataset
+from ..utils.const import CACHED_DATA_DIR, EMNIST_LABEL_MAP
 from ._register import register_fed_dataset
-
+from .fed_dataset import FedVisionDataset
 
 __all__ = [
     "FedEMNIST",
@@ -92,8 +91,7 @@ class FedEMNIST(FedVisionDataset):
 
         if self.transform != "none":
             warnings.warn(
-                "The images are not raw pixels, but processed. "
-                "The transform argument will be ignored.",
+                "The images are not raw pixels, but processed. " "The transform argument will be ignored.",
                 RuntimeWarning,
             )
             self.transform = "none"
@@ -103,17 +101,13 @@ class FedEMNIST(FedVisionDataset):
         # client id list
         train_file_path = self.datadir / self.DEFAULT_TRAIN_FILE
         test_file_path = self.datadir / self.DEFAULT_TEST_FILE
-        with h5py.File(str(train_file_path), "r") as train_h5, h5py.File(
-            str(test_file_path), "r"
-        ) as test_h5:
+        with h5py.File(str(train_file_path), "r") as train_h5, h5py.File(str(test_file_path), "r") as test_h5:
             self._client_ids_train = list(train_h5[self._EXAMPLE].keys())
             self._client_ids_test = list(test_h5[self._EXAMPLE].keys())
             self._n_class = len(
                 np.unique(
                     [
-                        train_h5[self._EXAMPLE][self._client_ids_train[idx]][
-                            self._LABEL
-                        ][0]
+                        train_h5[self._EXAMPLE][self._client_ids_train[idx]][self._LABEL][0]
                         for idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM)
                     ]
                 )
@@ -163,30 +157,10 @@ class FedEMNIST(FedVisionDataset):
             test_ids = [self._client_ids_test[client_idx]]
 
         # load data in numpy format from h5 file
-        train_x = np.vstack(
-            [
-                train_h5[self._EXAMPLE][client_id][self._IMGAE][()]
-                for client_id in train_ids
-            ]
-        )
-        train_y = np.concatenate(
-            [
-                train_h5[self._EXAMPLE][client_id][self._LABEL][()]
-                for client_id in train_ids
-            ]
-        )
-        test_x = np.vstack(
-            [
-                test_h5[self._EXAMPLE][client_id][self._IMGAE][()]
-                for client_id in test_ids
-            ]
-        )
-        test_y = np.concatenate(
-            [
-                test_h5[self._EXAMPLE][client_id][self._LABEL][()]
-                for client_id in test_ids
-            ]
-        )
+        train_x = np.vstack([train_h5[self._EXAMPLE][client_id][self._IMGAE][()] for client_id in train_ids])
+        train_y = np.concatenate([train_h5[self._EXAMPLE][client_id][self._LABEL][()] for client_id in train_ids])
+        test_x = np.vstack([test_h5[self._EXAMPLE][client_id][self._IMGAE][()] for client_id in test_ids])
+        test_y = np.concatenate([test_h5[self._EXAMPLE][client_id][self._LABEL][()] for client_id in test_ids])
 
         # dataloader
         train_ds = torchdata.TensorDataset(
@@ -291,9 +265,7 @@ class FedEMNIST(FedVisionDataset):
         import matplotlib.pyplot as plt
 
         if client_idx >= len(self._client_ids_train):
-            raise ValueError(
-                f"client_idx must be less than {len(self._client_ids_train)}"
-            )
+            raise ValueError(f"client_idx must be less than {len(self._client_ids_train)}")
         client_id = self._client_ids_train[client_idx]
 
         train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
@@ -320,14 +292,10 @@ class FedEMNIST(FedVisionDataset):
         img = (tot_img[image_idx] * 255).astype(np.uint8)
         label = tot_label[image_idx]
         plt.imshow(img, cmap="gray")
-        plt.title(
-            f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})"
-        )
+        plt.title(f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})")
         plt.show()
 
-    def random_grid_view(
-        self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None
-    ) -> None:
+    def random_grid_view(self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
 

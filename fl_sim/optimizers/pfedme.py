@@ -6,9 +6,8 @@ from typing import Iterable, Union
 
 from torch.nn import Parameter
 
-from .base import ProxSGD
 from ._register import register_optimizer
-
+from .base import ProxSGD
 
 __all__ = [
     "pFedMeOptimizer",

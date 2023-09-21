@@ -12,14 +12,8 @@ import numpy as np
 import pytest
 import torch
 
-from fl_sim.nodes import (
-    Server,
-    Client,
-    ServerConfig,
-    ClientConfig,
-    ClientMessage,
-)
 from fl_sim.data_processing.fed_synthetic import FedSynthetic
+from fl_sim.nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
 
 
 class DummySeverConfig(ServerConfig):
@@ -111,13 +105,9 @@ class DummyClient(Client):
 
 
 def test_aggregate_results_from_json_log():
-    json_log_file = list(
-        (Path(__file__).parents[1].resolve() / "test-files").glob("*.json")
-    )[0]
+    json_log_file = list((Path(__file__).parents[1].resolve() / "test-files").glob("*.json"))[0]
     for part, metric in product(["train", "val"], ["acc", "loss"]):
-        curve = Server.aggregate_results_from_json_log(
-            json_log_file, part=part, metric=metric
-        )
+        curve = Server.aggregate_results_from_json_log(json_log_file, part=part, metric=metric)
         assert len(curve) > 0
 
 

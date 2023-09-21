@@ -10,13 +10,7 @@ import torch
 from torch_ecg.utils.misc import get_required_args
 
 from fl_sim.models import ResNet10
-from fl_sim.optimizers import (
-    get_optimizer,
-    get_oracle,
-    get_inner_solver,
-    available_optimizers,
-    available_optimizers_plus,
-)
+from fl_sim.optimizers import available_optimizers, available_optimizers_plus, get_inner_solver, get_optimizer, get_oracle
 from fl_sim.optimizers._register import _built_in_optimizers
 
 
@@ -99,9 +93,7 @@ def test_optimizers():
 
     model = ResNet10(10).train()
     local_model = ResNet10(10).train()
-    inner_solver = get_inner_solver(
-        "test-files/custom_optimizer.py", model.parameters(), config
-    )
+    inner_solver = get_inner_solver("test-files/custom_optimizer.py", model.parameters(), config)
     assert isinstance(inner_solver, torch.optim.Optimizer)
     inner_solver.zero_grad()
     loss = criterion(model(x), y)
@@ -113,9 +105,7 @@ def test_optimizers():
 
     model = ResNet10(10).train()
     local_model = ResNet10(10).train()
-    inner_solver = get_inner_solver(
-        "test-files/custom_optimizer.CustomOptimizer", model.parameters(), config
-    )
+    inner_solver = get_inner_solver("test-files/custom_optimizer.CustomOptimizer", model.parameters(), config)
     assert isinstance(inner_solver, torch.optim.Optimizer)
     inner_solver.zero_grad()
     loss = criterion(model(x), y)

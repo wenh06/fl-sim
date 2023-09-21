@@ -3,10 +3,9 @@
 
 import re
 import warnings
-from typing import Any, List, Dict, Optional
+from typing import Any, Dict, List, Optional
 
-from ..nodes import ServerConfig, ClientConfig, Server, Client
-
+from ..nodes import Client, ClientConfig, Server, ServerConfig
 
 _built_in_algorithms = {}
 
@@ -51,9 +50,7 @@ def register_algorithm(name: Optional[str] = None, override: bool = True) -> Any
         if _name in _built_in_algorithms and field in _built_in_algorithms[_name]:
             # raise ValueError(f"{_name}.{field} has already been registered")
             if not override:
-                warnings.warn(
-                    f"{_name}.{field} has already been registered", RuntimeWarning
-                )
+                warnings.warn(f"{_name}.{field} has already been registered", RuntimeWarning)
         elif _name not in _built_in_algorithms:
             _built_in_algorithms[_name] = {}
         if override or field not in _built_in_algorithms[_name]:

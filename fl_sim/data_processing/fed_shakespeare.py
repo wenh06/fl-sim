@@ -1,19 +1,18 @@
-from pathlib import Path
 from collections import OrderedDict
 from itertools import repeat
-from typing import Optional, Union, List, Tuple, Dict, Sequence
+from pathlib import Path
+from typing import Dict, List, Optional, Sequence, Tuple, Union
 
 import h5py
 import numpy as np
 import torch  # noqa: F401
 import torch.utils.data as torchdata
 
-from ..utils.const import CACHED_DATA_DIR
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
-from .fed_dataset import FedNLPDataset
+from ..utils.const import CACHED_DATA_DIR
 from ._register import register_fed_dataset
-
+from .fed_dataset import FedNLPDataset
 
 __all__ = [
     "FedShakespeare",
@@ -63,9 +62,7 @@ class FedShakespeare(FedNLPDataset):
     SEQUENCE_LENGTH = 80  # from McMahan et al AISTATS 2017
     # Vocabulary re-used from the Federated Learning for Text Generation tutorial.
     # https://www.tensorflow.org/federated/tutorials/federated_learning_for_text_generation
-    CHAR_VOCAB = list(
-        "dhlptx@DHLPTX $(,048cgkoswCGKOSW[_#'/37;?bfjnrvzBFJNRVZ\"&*.26:\naeimquyAEIMQUY]!%)-159\r"
-    )
+    CHAR_VOCAB = list("dhlptx@DHLPTX $(,048cgkoswCGKOSW[_#'/37;?bfjnrvzBFJNRVZ\"&*.26:\naeimquyAEIMQUY]!%)-159\r")
     _pad = "<pad>"
     _bos = "<bos>"
     _eos = "<eos>"
@@ -107,9 +104,7 @@ class FedShakespeare(FedNLPDataset):
 
         train_file_path = self.datadir / self.DEFAULT_TRAIN_FILE
         test_file_path = self.datadir / self.DEFAULT_TEST_FILE
-        with h5py.File(str(train_file_path), "r") as train_h5, h5py.File(
-            str(test_file_path), "r"
-        ) as test_h5:
+        with h5py.File(str(train_file_path), "r") as train_h5, h5py.File(str(test_file_path), "r") as test_h5:
             self._client_ids_train = list(train_h5[self._EXAMPLE].keys())
             self._client_ids_test = list(test_h5[self._EXAMPLE].keys())
 
@@ -196,9 +191,7 @@ class FedShakespeare(FedNLPDataset):
         target_text = sequence_batch[..., 1:]
         return (input_text, target_text)
 
-    def preprocess(
-        self, sentences: Sequence[str], max_seq_len: Optional[int] = None
-    ) -> List[List[int]]:
+    def preprocess(self, sentences: Sequence[str], max_seq_len: Optional[int] = None) -> List[List[int]]:
         """Preprocess a list of sentences.
 
         Parameters
@@ -237,16 +230,11 @@ class FedShakespeare(FedNLPDataset):
 
             """
             tokens = [self.char_to_id(c) for c in sentence]
-            tokens = (
-                [self.char_to_id(self._bos)] + tokens + [self.char_to_id(self._eos)]
-            )
+            tokens = [self.char_to_id(self._bos)] + tokens + [self.char_to_id(self._eos)]
             if len(tokens) % (max_seq_len + 1) != 0:
                 pad_length = (-len(tokens)) % (max_seq_len + 1)
                 tokens += list(repeat(self.char_to_id(self._pad), pad_length))
-            return (
-                tokens[i : i + max_seq_len + 1]
-                for i in range(0, len(tokens), max_seq_len + 1)
-            )
+            return (tokens[i : i + max_seq_len + 1] for i in range(0, len(tokens), max_seq_len + 1))
 
         for sen in sentences:
             sequences.extend(to_ids(sen))
@@ -329,9 +317,7 @@ class FedShakespeare(FedNLPDataset):
 
         """
         if client_idx >= len(self._client_ids_train):
-            raise ValueError(
-                f"client_idx must be less than {len(self._client_ids_train)}"
-            )
+            raise ValueError(f"client_idx must be less than {len(self._client_ids_train)}")
         client_id = self._client_ids_train[client_idx]  # also test ids
 
         train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")

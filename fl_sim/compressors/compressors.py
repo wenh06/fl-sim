@@ -11,7 +11,6 @@ from enum import Enum, unique
 
 import numpy as np
 
-
 __all__ = [
     "CompressorType",
     "Compressor",
@@ -202,9 +201,7 @@ class Compressor:
         self.p = p
 
         r = min(p, 2)
-        self.__w = 1.0 / 8.0 + (dInput ** (1.0 / r)) / (2 ** (self.s - 1)) * min(
-            1, (dInput ** (1.0 / r)) / (2 ** (self.s - 1))
-        )
+        self.__w = 1.0 / 8.0 + (dInput ** (1.0 / r)) / (2 ** (self.s - 1)) * min(1, (dInput ** (1.0 / r)) / (2 ** (self.s - 1)))
         self.resetStats()
 
     def makeNaturalDitheringFP32(self, levels, dInput, p=np.inf):
@@ -220,9 +217,7 @@ class Compressor:
         self.p = p
 
         r = min(p, 2)
-        self.__w = 1.0 / 8.0 + (dInput ** (1.0 / r)) / (2 ** (self.s - 1)) * min(
-            1, (dInput ** (1.0 / r)) / (2 ** (self.s - 1))
-        )
+        self.__w = 1.0 / 8.0 + (dInput ** (1.0 / r)) / (2 ** (self.s - 1)) * min(1, (dInput ** (1.0 / r)) / (2 ** (self.s - 1)))
         self.resetStats()
 
     # K - how much component we leave from input vector
@@ -300,9 +295,7 @@ class Compressor:
             out[np.argsort(out)[: -self.K]] = 0
             self.last_need_to_send_advance = self.K
         elif self.compressorType == CompressorType.ADAPTIVE_RANDOM_COMPRESSOR:
-            ind = np.random.choice(
-                np.arange(self.D), size=1, p=np.abs(x) / np.abs(x).sum()
-            )
+            ind = np.random.choice(np.arange(self.D), size=1, p=np.abs(x) / np.abs(x).sum())
             out = np.zeros_like(x)
             out[ind] = x[ind]
             self.last_need_to_send_advance = 1
@@ -327,13 +320,9 @@ class Compressor:
                         out[i] = sign * (2**alpha_up)
 
             if self.compressorType == CompressorType.NATURAL_COMPRESSOR_FP64:
-                self.last_need_to_send_advance = (
-                    12.0 / 64.0 * d
-                )  # 11 bits for the exponent and 1 bit for the sign
+                self.last_need_to_send_advance = 12.0 / 64.0 * d  # 11 bits for the exponent and 1 bit for the sign
             elif self.compressorType == CompressorType.NATURAL_COMPRESSOR_FP32:
-                self.last_need_to_send_advance = (
-                    9.0 / 32.0 * d
-                )  # 8-bit in exponent and extra bit of sign
+                self.last_need_to_send_advance = 9.0 / 32.0 * d  # 8-bit in exponent and extra bit of sign
 
         elif (
             self.compressorType == CompressorType.STANDARD_DITHERING_FP64
@@ -342,14 +331,10 @@ class Compressor:
             out = np.zeros_like(x)
             pnorm = np.linalg.norm(x, self.p)
 
-            pnorm_to_send = self.vectorNormCompressor.compressVector(np.array([pnorm]))[
-                0
-            ]
+            pnorm_to_send = self.vectorNormCompressor.compressVector(np.array([pnorm]))[0]
             self.last_need_to_send_advance = 0
             # Sending pnorm
-            self.last_need_to_send_advance = (
-                self.vectorNormCompressor.last_need_to_send_advance
-            )
+            self.last_need_to_send_advance = self.vectorNormCompressor.last_need_to_send_advance
 
             for i in range(0, d):
                 if x[i] == 0.0:
@@ -359,13 +344,8 @@ class Compressor:
                     yi = abs(x[i]) / pnorm
 
                     for s in range(len(self.levelsValues)):
-                        if (
-                            yi >= self.levelsValues[s]
-                            and yi <= self.levelsValues[s + 1]
-                        ):
-                            p = (yi - self.levelsValues[s + 1]) / (
-                                self.levelsValues[s] - self.levelsValues[s + 1]
-                            )
+                        if yi >= self.levelsValues[s] and yi <= self.levelsValues[s + 1]:
+                            p = (yi - self.levelsValues[s + 1]) / (self.levelsValues[s] - self.levelsValues[s + 1])
                             testp = random.random()
                             if testp < p:
                                 out[i] = self.levelsValues[s]
@@ -379,14 +359,10 @@ class Compressor:
                     # Calculate need send items
                     if self.compressorType == CompressorType.STANDARD_DITHERING_FP64:
                         # items to send compressed norm + 1 bit for sign log2(levels) bits to send level
-                        self.last_need_to_send_advance += (
-                            1.0 + np.ceil(math.log2(self.s))
-                        ) / 64.0
+                        self.last_need_to_send_advance += (1.0 + np.ceil(math.log2(self.s))) / 64.0
                     elif self.compressorType == CompressorType.STANDARD_DITHERING_FP32:
                         # items to send compressed norm + 1 bit for sign log2(levels) bits to send level
-                        self.last_need_to_send_advance += (
-                            1.0 + np.ceil(math.log2(self.s))
-                        ) / 32.0
+                        self.last_need_to_send_advance += (1.0 + np.ceil(math.log2(self.s))) / 32.0
 
         elif (
             self.compressorType == CompressorType.NATURAL_DITHERING_FP64
@@ -405,13 +381,8 @@ class Compressor:
                     yi = abs(x[i]) / pnorm
 
                     for s in range(len(self.levelsValues)):
-                        if (
-                            yi >= self.levelsValues[s]
-                            and yi <= self.levelsValues[s + 1]
-                        ):
-                            p = (yi - self.levelsValues[s + 1]) / (
-                                self.levelsValues[s] - self.levelsValues[s + 1]
-                            )
+                        if yi >= self.levelsValues[s] and yi <= self.levelsValues[s + 1]:
+                            p = (yi - self.levelsValues[s + 1]) / (self.levelsValues[s] - self.levelsValues[s + 1])
                             testp = random.random()
                             if testp < p:
                                 out[i] = self.levelsValues[s]

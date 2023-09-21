@@ -3,17 +3,16 @@
 
 import warnings
 from copy import deepcopy
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 import torch
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
+from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
 from ...regularizers import get_regularizer
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
 
 __all__ = [
     "FedDRServer",
@@ -133,9 +132,7 @@ class FedDRClientConfig(ClientConfig):
 
 @register_algorithm()
 @add_docstring(
-    Server.__doc__.replace(
-        "The class to simulate the server node.", "Server node for the FedDR algorithm."
-    )
+    Server.__doc__.replace("The class to simulate the server node.", "Server node for the FedDR algorithm.")
     .replace("ServerConfig", "FedDRServerConfig")
     .replace("ClientConfig", "FedDRClientConfig")
 )
@@ -184,12 +181,8 @@ class FedDRServer(Server):
 
         # update server (global) model
         # FedDR paper Algorithm 1 line 8
-        for mp, yp, xtp in zip(
-            self.model.parameters(), self._y_parameters, self._x_til_parameters
-        ):
-            mp.data = (self._regularizer.coeff / self.config.eta) * xtp.data + (
-                1 / (self.config.num_clients + 1)
-            ) * yp.data
+        for mp, yp, xtp in zip(self.model.parameters(), self._y_parameters, self._x_til_parameters):
+            mp.data = (self._regularizer.coeff / self.config.eta) * xtp.data + (1 / (self.config.num_clients + 1)) * yp.data
         for mp, p in zip(
             self.model.parameters(),
             self._regularizer.prox_eval(params=self.model.parameters()),
@@ -210,9 +203,9 @@ class FedDRServer(Server):
 
 @register_algorithm()
 @add_docstring(
-    Client.__doc__.replace(
-        "The class to simulate the client node.", "Client node for the FedDR algorithm."
-    ).replace("ClientConfig", "FedDRClientConfig")
+    Client.__doc__.replace("The class to simulate the client node.", "Client node for the FedDR algorithm.").replace(
+        "ClientConfig", "FedDRClientConfig"
+    )
 )
 class FedDRClient(Client):
     """Client node for the FedDR algorithm."""
@@ -234,10 +227,7 @@ class FedDRClient(Client):
             # outter iteration step -1, no need to communicate
             x_hat_delta = [torch.zeros_like(p) for p in self._x_hat_parameters]
         else:
-            x_hat_delta = [
-                p.data - hp.data
-                for p, hp in zip(self._x_hat_parameters, self._x_hat_buffer)
-            ]
+            x_hat_delta = [p.data - hp.data for p, hp in zip(self._x_hat_parameters, self._x_hat_buffer)]
         self._x_hat_buffer = [p.clone() for p in self._x_hat_parameters]
         target._received_messages.append(
             ClientMessage(
@@ -258,8 +248,7 @@ class FedDRClient(Client):
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
             warnings.warn(
-                "No parameters received from server. "
-                "Using current model parameters as initial parameters.",
+                "No parameters received from server. " "Using current model parameters as initial parameters.",
                 RuntimeWarning,
             )
             self._cached_parameters = self.get_detached_model_parameters()
@@ -268,24 +257,16 @@ class FedDRClient(Client):
         self._cached_parameters = [p.to(self.device) for p in self._cached_parameters]
         # update y
         if self._y_parameters is None:
-            self._y_parameters = [
-                p.clone().to(self.device) for p in self._cached_parameters
-            ]
+            self._y_parameters = [p.clone().to(self.device) for p in self._cached_parameters]
         else:
-            for yp, cp, mp in zip(
-                self._y_parameters, self._cached_parameters, self.model.parameters()
-            ):
+            for yp, cp, mp in zip(self._y_parameters, self._cached_parameters, self.model.parameters()):
                 yp.data.add_(cp.data - mp.data, alpha=self.config.alpha)
         # update x, via prox_sgd of y
         self.solve_inner()  # alias of self.train()
         # update x_hat
         if self._x_hat_parameters is None:
-            self._x_hat_parameters = [
-                p.clone().to(self.device) for p in self._cached_parameters
-            ]
-        for hp, yp, mp in zip(
-            self._x_hat_parameters, self._y_parameters, self.model.parameters()
-        ):
+            self._x_hat_parameters = [p.clone().to(self.device) for p in self._cached_parameters]
+        for hp, yp, mp in zip(self._x_hat_parameters, self._y_parameters, self.model.parameters()):
             hp.data = 2 * mp.data - yp.data
 
     def train(self) -> None:

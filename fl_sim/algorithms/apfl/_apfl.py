@@ -3,23 +3,16 @@
 
 import warnings
 from copy import deepcopy
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 import torch
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import (
-    Server,
-    Client,
-    ServerConfig,
-    ClientConfig,
-    ClientMessage,
-)
 from ...data_processing.fed_dataset import FedDataset
+from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
 
 __all__ = [
     "APFLServerConfig",
@@ -64,9 +57,7 @@ class APFLServerConfig(ServerConfig):
                 f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
                 RuntimeWarning,
             )
-        assert (
-            isinstance(tau, int) and tau >= 1
-        ), "`tau` (synchronization gap) must be a positive integer."
+        assert isinstance(tau, int) and tau >= 1, "`tau` (synchronization gap) must be a positive integer."
         super().__init__(
             name,
             num_iters,
@@ -128,9 +119,7 @@ class APFLClientConfig(ClientConfig):
 
 @register_algorithm()
 @add_docstring(
-    Server.__doc__.replace(
-        "The class to simulate the server node.", "Server node for the APFL algorithm."
-    )
+    Server.__doc__.replace("The class to simulate the server node.", "Server node for the APFL algorithm.")
     .replace("ServerConfig", "APFLServerConfig")
     .replace("ClientConfig", "APFLClientConfig")
 )
@@ -182,9 +171,7 @@ class APFLServer(Server):
             # if the current iteration divides the synchronization gap,
             # transmit the global model parameters to the client
             # otherwise, do nothing
-            target._received_messages = {
-                "parameters": self.get_detached_model_parameters()
-            }
+            target._received_messages = {"parameters": self.get_detached_model_parameters()}
 
     @add_docstring(Server.update)
     def update(self) -> None:
@@ -210,9 +197,9 @@ class APFLServer(Server):
 
 @register_algorithm()
 @add_docstring(
-    Client.__doc__.replace(
-        "The class to simulate the client node.", "Client node for the APFL algorithm."
-    ).replace("ClientConfig", "APFLClientConfig")
+    Client.__doc__.replace("The class to simulate the client node.", "Client node for the APFL algorithm.").replace(
+        "ClientConfig", "APFLClientConfig"
+    )
 )
 class APFLClient(Client):
     """Client node for the APFL algorithm."""
@@ -252,9 +239,7 @@ class APFLClient(Client):
     def update(self) -> None:
         if self._sync_counter == 0:
             # just received the global model parameters
-            assert (
-                "parameters" in self._received_messages
-            ), "No global model parameters received."
+            assert "parameters" in self._received_messages, "No global model parameters received."
             # update the local model parameters
             self.set_parameters(self._received_messages["parameters"])
         # update the mixture parameters
@@ -265,10 +250,7 @@ class APFLClient(Client):
             self.model_per.parameters(),
             self.mixture_parameters,
         ):
-            p_mixture.data = (
-                self.config.mixture_weight * p.data
-                + (1 - self.config.mixture_weight) * p_per.data
-            )
+            p_mixture.data = self.config.mixture_weight * p.data + (1 - self.config.mixture_weight) * p_per.data
         # NOTE: we use the optimizer to update the local model parameters automatically in `self.train`,
         # but we need to update the personalized model parameters manually in `self.train_per`,
         # since the gradients are **NOT** computed at the personalized model parameters
@@ -353,8 +335,7 @@ class APFLClient(Client):
             for k in _metrics[0]:
                 if k != "num_samples":  # average over all metrics
                     self._metrics[part][f"{k}{suffix}"] = (
-                        sum([m[k] * m["num_samples"] for m in _metrics])
-                        / self._metrics[part]["num_samples"]
+                        sum([m[k] * m["num_samples"] for m in _metrics]) / self._metrics[part]["num_samples"]
                     )
             # compute gradient norm of the models
             self._metrics[part][f"grad_norm{suffix}"] = self.get_gradients(norm="fro")

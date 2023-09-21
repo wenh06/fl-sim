@@ -13,11 +13,10 @@
 import sys
 from pathlib import Path
 
+import pydata_sphinx_theme
+import sphinx_book_theme
 import sphinx_rtd_theme
 import sphinx_theme
-import sphinx_book_theme
-import pydata_sphinx_theme
-
 
 project_root = Path(__file__).resolve().parents[2]
 src_root = project_root / "fl_sim"
@@ -165,8 +164,8 @@ elif _theme_name == "pydata_sphinx_theme":
         "collapse_navigation": False,
         "display_version": True,
     }
-else:
-    raise ValueError(f"Unknown theme name: {_theme_name}")
+else:  # builtin themes: alabaster, etc.
+    html_theme = _theme_name
 
 
 # Add any paths that contain custom static files (such as style sheets) here,

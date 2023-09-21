@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Union, List, Callable, Tuple, Dict, Sequence, Any
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
 
 import h5py
 import numpy as np
@@ -7,20 +7,19 @@ import torch
 import torch.utils.data as torchdata
 import torchvision.transforms as transforms
 
+from ..models import nn as mnn
+from ..models.utils import top_n_accuracy
 from ..utils.const import (
     CACHED_DATA_DIR,
-    CIFAR100_FINE_LABEL_MAP,
     CIFAR10_LABEL_MAP,
     CIFAR10_MEAN,
     CIFAR10_STD,
+    CIFAR100_FINE_LABEL_MAP,
     CIFAR100_MEAN,
     CIFAR100_STD,
 )
-from ..models import nn as mnn
-from ..models.utils import top_n_accuracy
-from .fed_dataset import VisionDataset, FedVisionDataset
 from ._register import register_fed_dataset
-
+from .fed_dataset import FedVisionDataset, VisionDataset
 
 __all__ = [
     "FedCIFAR",
@@ -106,9 +105,7 @@ class FedCIFAR(FedVisionDataset):
         ]
         datadir = Path(datadir or FED_CIFAR_DATA_DIRS[n_class]).expanduser().resolve()
         datadir.mkdir(parents=True, exist_ok=True)
-        super().__init__(
-            datadir=datadir, transform=transform, seed=seed, **extra_config
-        )
+        super().__init__(datadir=datadir, transform=transform, seed=seed, **extra_config)
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         """Preload the dataset.
@@ -164,9 +161,7 @@ class FedCIFAR(FedVisionDataset):
         # client id list
         train_file_path = self.datadir / self.DEFAULT_TRAIN_FILE
         test_file_path = self.datadir / self.DEFAULT_TEST_FILE
-        with h5py.File(str(train_file_path), "r") as train_h5, h5py.File(
-            str(test_file_path), "r"
-        ) as test_h5:
+        with h5py.File(str(train_file_path), "r") as train_h5, h5py.File(str(test_file_path), "r") as test_h5:
             self._client_ids_train = list(train_h5[self._EXAMPLE].keys())
             self._client_ids_test = list(test_h5[self._EXAMPLE].keys())
 
@@ -205,47 +200,21 @@ class FedCIFAR(FedVisionDataset):
 
         # load data in numpy format from h5 file
         if client_idx is None:
-            train_x = np.vstack(
-                [
-                    train_h5[self._EXAMPLE][client_id][self._IMGAE][()]
-                    for client_id in self._client_ids_train
-                ]
-            )
+            train_x = np.vstack([train_h5[self._EXAMPLE][client_id][self._IMGAE][()] for client_id in self._client_ids_train])
             train_y = np.concatenate(
-                [
-                    train_h5[self._EXAMPLE][client_id][self._LABEL][()]
-                    for client_id in self._client_ids_train
-                ]
+                [train_h5[self._EXAMPLE][client_id][self._LABEL][()] for client_id in self._client_ids_train]
             )
-            test_x = np.vstack(
-                [
-                    test_h5[self._EXAMPLE][client_id][self._IMGAE][()]
-                    for client_id in self._client_ids_test
-                ]
-            )
-            test_y = np.concatenate(
-                [
-                    test_h5[self._EXAMPLE][client_id][self._LABEL][()]
-                    for client_id in self._client_ids_test
-                ]
-            )
+            test_x = np.vstack([test_h5[self._EXAMPLE][client_id][self._IMGAE][()] for client_id in self._client_ids_test])
+            test_y = np.concatenate([test_h5[self._EXAMPLE][client_id][self._LABEL][()] for client_id in self._client_ids_test])
             print(train_x.shape, train_y.shape, test_x.shape, test_y.shape)
         else:
             client_id_train = self._client_ids_train[client_idx]
-            train_x = np.vstack(
-                [train_h5[self._EXAMPLE][client_id_train][self._IMGAE][()]]
-            )
-            train_y = np.concatenate(
-                [train_h5[self._EXAMPLE][client_id_train][self._LABEL][()]]
-            )
+            train_x = np.vstack([train_h5[self._EXAMPLE][client_id_train][self._IMGAE][()]])
+            train_y = np.concatenate([train_h5[self._EXAMPLE][client_id_train][self._LABEL][()]])
             if client_idx <= len(self._client_ids_test) - 1:
                 client_id_test = self._client_ids_test[client_idx]
-                test_x = np.vstack(
-                    [train_h5[self._EXAMPLE][client_id_test][self._IMGAE][()]]
-                )
-                test_y = np.concatenate(
-                    [train_h5[self._EXAMPLE][client_id_test][self._LABEL][()]]
-                )
+                test_x = np.vstack([train_h5[self._EXAMPLE][client_id_test][self._IMGAE][()]])
+                test_y = np.concatenate([train_h5[self._EXAMPLE][client_id_test][self._LABEL][()]])
 
         # preprocess
         if self.transform == "none":
@@ -372,9 +341,7 @@ class FedCIFAR(FedVisionDataset):
         import matplotlib.pyplot as plt
 
         if client_idx >= len(self._client_ids_train):
-            raise ValueError(
-                f"client_idx should be less than {len(self._client_ids_train)}"
-            )
+            raise ValueError(f"client_idx should be less than {len(self._client_ids_train)}")
         client_id = self._client_ids_train[client_idx]
 
         train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
@@ -405,14 +372,10 @@ class FedCIFAR(FedVisionDataset):
         label = tot_label[image_idx]
         plt.figure(figsize=(3, 3))
         plt.imshow(img)
-        plt.title(
-            f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})"
-        )
+        plt.title(f"client_id: {client_id}, label: {label} ({self.label_map[int(label)]})")
         plt.show()
 
-    def random_grid_view(
-        self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None
-    ) -> None:
+    def random_grid_view(self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None) -> None:
         """Select randomly `nrow` x `ncol` images from the dataset
         and plot them in a grid.
 

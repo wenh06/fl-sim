@@ -1,10 +1,9 @@
-from typing import Union, Iterable
+from typing import Iterable, Union
 
 from torch.nn.parameter import Parameter
 
-from fl_sim.optimizers.base import ProxSGD
 from fl_sim.optimizers._register import register_optimizer
-
+from fl_sim.optimizers.base import ProxSGD
 
 __all__ = [
     "CustomOptimizer",

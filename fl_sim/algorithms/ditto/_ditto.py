@@ -3,18 +3,17 @@
 
 import warnings
 from copy import deepcopy
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
 
 import torch
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import Server, Client, ServerConfig, ClientConfig, ClientMessage
+from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
 from ...optimizers import get_optimizer
 from ...utils.misc import get_scheduler
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
 
 __all__ = [
     "DittoServerConfig",
@@ -125,9 +124,7 @@ class DittoClientConfig(ClientConfig):
 
 @register_algorithm()
 @add_docstring(
-    Server.__doc__.replace(
-        "The class to simulate the server node.", "Server node for the Ditto algorithm."
-    )
+    Server.__doc__.replace("The class to simulate the server node.", "Server node for the Ditto algorithm.")
     .replace("ServerConfig", "DittoServerConfig")
     .replace("ClientConfig", "DittoClientConfig")
 )
@@ -166,9 +163,9 @@ class DittoServer(Server):
 
 @register_algorithm()
 @add_docstring(
-    Client.__doc__.replace(
-        "The class to simulate the client node.", "Client node for the Ditto algorithm."
-    ).replace("ClientConfig", "DittoClientConfig")
+    Client.__doc__.replace("The class to simulate the client node.", "Client node for the Ditto algorithm.").replace(
+        "ClientConfig", "DittoClientConfig"
+    )
 )
 class DittoClient(Client):
     """Client node for the Ditto algorithm."""
@@ -192,9 +189,7 @@ class DittoClient(Client):
             params=self.model_per.parameters(),
             config=config_per,
         )
-        scheduler_config = {
-            k: v for k, v in self.config.scheduler.items() if k != "name"
-        }
+        scheduler_config = {k: v for k, v in self.config.scheduler.items() if k != "name"}
         self.scheduler_per = get_scheduler(
             scheduler_name=self.config.scheduler["name"],
             optimizer=self.optimizer_per,
@@ -219,8 +214,7 @@ class DittoClient(Client):
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
             warnings.warn(
-                "No parameters received from server. "
-                "Using current model parameters as initial parameters.",
+                "No parameters received from server. " "Using current model parameters as initial parameters.",
                 RuntimeWarning,
             )
             self._cached_parameters = self.get_detached_model_parameters()
@@ -312,8 +306,7 @@ class DittoClient(Client):
             for k in _metrics[0]:
                 if k != "num_samples":  # average over all metrics
                     self._metrics[part][f"{k}{suffix}"] = (
-                        sum([m[k] * m["num_samples"] for m in _metrics])
-                        / self._metrics[part]["num_samples"]
+                        sum([m[k] * m["num_samples"] for m in _metrics]) / self._metrics[part]["num_samples"]
                     )
             # compute gradient norm of the models
             self._metrics[part][f"grad_norm{suffix}"] = self.get_gradients(norm="fro")

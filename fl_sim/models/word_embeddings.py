@@ -6,17 +6,16 @@ Adjusted from `TextAttack <https://github.com/QData/TextAttack>`_, and
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from pathlib import Path
-from typing import Union, List, Optional, MutableMapping, Tuple, Dict, Sequence
+from typing import Dict, List, MutableMapping, Optional, Sequence, Tuple, Union
 
 import numpy as np
 import torch
-from tqdm.auto import tqdm
 from torch_ecg.utils import ReprMixin
+from tqdm.auto import tqdm
 
-from ..utils.const import CACHED_DATA_DIR
 from ..utils._download_data import download_if_needed
-from .tokenizers import WordLevelTokenizer, GloveTokenizer
-
+from ..utils.const import CACHED_DATA_DIR
+from .tokenizers import GloveTokenizer, WordLevelTokenizer
 
 __all__ = [
     "GloveEmbedding",
@@ -171,9 +170,7 @@ class AbstractWordEmbedding(ReprMixin, ABC):
         del embedding_layer
         return tokenizer
 
-    def get_input_tensor(
-        self, input_sentences: Union[str, Sequence[str]]
-    ) -> torch.Tensor:
+    def get_input_tensor(self, input_sentences: Union[str, Sequence[str]]) -> torch.Tensor:
         """Returns a :class:`~torch.Tensor`
         that can be used as input to the embedding layer.
 
@@ -193,12 +190,7 @@ class AbstractWordEmbedding(ReprMixin, ABC):
         if not hasattr(self, "_tokenizer") or self._tokenizer is None:
             self._tokenizer = self._get_tokenizer()
         return torch.tensor(
-            [
-                encoding.ids
-                for encoding in self._tokenizer.encode_batch(
-                    input_sentences, add_special_tokens=False
-                )
-            ]
+            [encoding.ids for encoding in self._tokenizer.encode_batch(input_sentences, add_special_tokens=False)]
         )
 
     @property
@@ -350,15 +342,11 @@ class GloveEmbedding(WordEmbedding):
     def get_vocab_file(name: str = "glove.6B.300d") -> Path:
         """Get the path to the vocab file for the GloVe embedding file."""
         url = Path(GloveEmbedding.get_url(name))
-        vocab_file = (
-            _CACHE_DIR / url.stem / GloveEmbedding.GLOVE_EMBEDDING_NAMES[name]
-        ).with_suffix(".vocab.json")
+        vocab_file = (_CACHE_DIR / url.stem / GloveEmbedding.GLOVE_EMBEDDING_NAMES[name]).with_suffix(".vocab.json")
         return vocab_file
 
     @staticmethod
-    def get_tokenizer(
-        name: str = "glove.6B.300d", max_length: int = 256
-    ) -> "GloveTokenizer":
+    def get_tokenizer(name: str = "glove.6B.300d", max_length: int = 256) -> "GloveTokenizer":
         """Get the tokenizer for the GloVe embedding file.
 
         Parameters
@@ -517,9 +505,7 @@ class EmbeddingLayer(torch.nn.Module):
 
         self.embedding = torch.nn.Embedding(self.vocab_size, self.dim)
         self.embedding.weight.data.uniform_(-0.25, 0.25)
-        self.embedding.weight.data[:vocab_size].copy_(
-            torch.from_numpy(embedding_matrix)
-        )
+        self.embedding.weight.data[:vocab_size].copy_(torch.from_numpy(embedding_matrix))
         self.embedding.weight.requires_grad = not freeze
 
     def forward(self, input: torch.Tensor) -> torch.Tensor:

@@ -2,7 +2,7 @@
 """
 
 import sys
-from collections import defaultdict, OrderedDict
+from collections import OrderedDict, defaultdict
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parents[1].resolve()))
@@ -13,17 +13,17 @@ from torch_ecg.utils import get_kwargs
 
 from fl_sim.models import CNNFEMnist
 from fl_sim.optimizers import get_optimizer
+from fl_sim.utils._download_data import url_is_reachable
 from fl_sim.utils.misc import (
+    add_kwargs,
+    default_dict_to_dict,
+    experiment_indicator,
+    find_longest_common_substring,
     get_scheduler,
     get_scheduler_info,
-    add_kwargs,
     make_serializable,
     ordered_dict_to_dict,
-    default_dict_to_dict,
-    find_longest_common_substring,
-    experiment_indicator,
 )
-from fl_sim.utils._download_data import url_is_reachable
 
 
 def test_get_scheduler():
@@ -116,9 +116,7 @@ def test_get_scheduler():
 
     model = CNNFEMnist(num_classes).train()
     optimizer = get_optimizer("SGD", model.parameters(), dict(lr=init_lr))
-    scheduler = get_scheduler(
-        "one_cycle", optimizer, dict(max_lr=0.1, epochs=10, steps_per_epoch=1)
-    )
+    scheduler = get_scheduler("one_cycle", optimizer, dict(max_lr=0.1, epochs=10, steps_per_epoch=1))
     X = torch.randn(12, 1, 28, 28)
     y = torch.randint(0, num_classes, (12,))
     criterion = torch.nn.CrossEntropyLoss()
@@ -133,9 +131,7 @@ def test_get_scheduler():
     patience = 1
     model = CNNFEMnist(num_classes).train()
     optimizer = get_optimizer("SGD", model.parameters(), dict(lr=init_lr))
-    scheduler = get_scheduler(
-        "reduce_on_plateau", optimizer, dict(mode="min", patience=patience)
-    )
+    scheduler = get_scheduler("reduce_on_plateau", optimizer, dict(mode="min", patience=patience))
     X = torch.randn(12, 1, 28, 28)
     y = torch.randint(0, num_classes, (12,))
     criterion = torch.nn.CrossEntropyLoss()
@@ -201,9 +197,7 @@ def test_make_serializable():
 
 
 def test_ordered_dict_to_dict():
-    obj = OrderedDict(
-        [("a", 1), ("b", [2, 3, OrderedDict([("xx", 1)])]), ("c", {"d": 4})]
-    )
+    obj = OrderedDict([("a", 1), ("b", [2, 3, OrderedDict([("xx", 1)])]), ("c", {"d": 4})])
     assert ordered_dict_to_dict(obj) == {"a": 1, "b": [2, 3, {"xx": 1}], "c": {"d": 4}}
 
 
@@ -223,10 +217,7 @@ def test_default_dict_to_dict():
 def test_find_longest_common_substring():
     assert find_longest_common_substring(["abc", "ab", "abcd"]) == "ab"
     assert find_longest_common_substring(["abc", "ab", "abcd"], min_len=3) == ""
-    assert (
-        find_longest_common_substring(["abxxxc", "abxxx", "abxxxcd"], ignore="xxx")
-        == "ab"
-    )
+    assert find_longest_common_substring(["abxxxc", "abxxx", "abxxxcd"], ignore="xxx") == "ab"
 
 
 @experiment_indicator("Dummy")

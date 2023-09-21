@@ -35,7 +35,7 @@ For further simplicity, we often take :math:`w_k = \frac{1}{K}`. The functions :
 are usually assumed to satisfy the following conditions:
 
    * (A1) :math:`f_k` and :math:`f` are :math:`L`-smooth (:math:`L > 0`), i.e. they have :math:`L`-Lipschitz continuous gradients:
-   
+
       .. math::
          :label: l-smooth
 
@@ -49,7 +49,7 @@ are usually assumed to satisfy the following conditions:
       .. math::
 
          \DeclareMathOperator*{\dom}{dom}
-         
+
          \dom(f) := \{ \theta \in \R^d ~|~ f(\theta) < + \infty \}
 
       is nonempty and lower bounded, i.e. there exists a constant :math:`c \in \R` such that
@@ -60,7 +60,7 @@ are usually assumed to satisfy the following conditions:
          f(\theta) \geqslant c > -\infty, ~ \forall \theta \in \R^d,
 
       or equivalently,
-      
+
          .. math::
             :label: lower-bounded-2
 
@@ -79,7 +79,7 @@ the gradient of the objective function:
 And the following assumptions on data distributions:
 
    * (A4-1) Data distribution is I.I.D. (identically and independently distributed) across clients, i.e.
-   
+
       .. math::
          :label: iid-1
 
@@ -245,7 +245,7 @@ accelerate the convergence. In [:footcite:ct:`reddi2020fed_opt`], the authors li
 
    .. math::
       :label: fedopt-serveropt-fedadagrad
-   
+
       \begin{aligned}
       v^{(t)} & \gets v^{(t-1)} + ( \Delta^{(t)} )^2 \\
       \theta^{(t+1)} & \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)

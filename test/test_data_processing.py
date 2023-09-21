@@ -10,28 +10,23 @@ import numpy as np
 import pytest
 import torch
 
-from fl_sim.data_processing import (  # noqa: F401
-    # abstract base classes
-    FedDataset,
-    FedVisionDataset,
-    FedNLPDataset,
-    # datasets from FedML
-    # FedCIFAR,  # the same as FedCIFAR currently
+from fl_sim.data_processing import (  # noqa: F401; abstract base classes; datasets from FedML; FedCIFAR,  # the same as FedCIFAR currently; datasets from FedProx; libsvm datasets
     FedCIFAR100,
+    FedDataset,
     FedEMNIST,
+    FedLibSVMDataset,
     FedMNIST,
+    FedNLPDataset,
+    FedProxFEMNIST,
+    FedProxMNIST,
+    FedProxSent140,
     FedRotatedCIFAR10,
     FedRotatedMNIST,
     FedShakespeare,
     FedSynthetic,
-    # datasets from FedProx
-    FedProxFEMNIST,
-    FedProxMNIST,
-    FedProxSent140,
-    # libsvm datasets
-    FedLibSVMDataset,
+    FedVisionDataset,
     libsvmread,
-)  # noqa: F401
+)
 from fl_sim.data_processing.fed_dataset import NLPDataset
 
 
@@ -525,10 +520,7 @@ def test_NLPDataset():
     ds.filter_by_labels_(labels_to_keep=[0, 1])
     assert len(ds) == 2
 
-    assert (
-        NLPDataset._gen_input({"sentence": "It is funny."}, ["sentence"])
-        == "It is funny."
-    )
+    assert NLPDataset._gen_input({"sentence": "It is funny."}, ["sentence"]) == "It is funny."
 
     for schema in [
         ("premise", "hypothesis", "label"),

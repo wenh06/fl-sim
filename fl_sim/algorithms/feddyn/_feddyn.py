@@ -4,23 +4,16 @@ FedDyn re-implemented in the new framework
 
 import warnings
 from copy import deepcopy
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 import torch
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import (
-    Server,
-    Client,
-    ServerConfig,
-    ClientConfig,
-    ClientMessage,
-)
 from ...data_processing.fed_dataset import FedDataset
+from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
 
 __all__ = [
     "FedDynServerConfig",
@@ -181,9 +174,7 @@ class FedDynServer(Server):
         """Update the server model and intermidiate variables."""
         # update h_params
         for m in self._received_messages:
-            for hp, p, mp in zip(
-                self.h_params, self.model.parameters(), m["parameters"]
-            ):
+            for hp, p, mp in zip(self.h_params, self.model.parameters(), m["parameters"]):
                 hp.add_(
                     mp.to(self.device) - p.to(self.device),
                     alpha=-self.config.mu / self.config.num_clients,
@@ -243,22 +234,17 @@ class FedDynClient(Client):
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
             warnings.warn(
-                "No parameters received from server. "
-                "Using current model parameters as initial parameters.",
+                "No parameters received from server. " "Using current model parameters as initial parameters.",
                 RuntimeWarning,
             )
             if self._cached_parameters is None:
-                self._cached_parameters = [
-                    p.detach().clone() for p in self.model.parameters()
-                ]
+                self._cached_parameters = [p.detach().clone() for p in self.model.parameters()]
         except Exception as err:
             raise err
         self._cached_parameters = [p.to(self.device) for p in self._cached_parameters]
         self.solve_inner()  # alias of self.train()
         # update local gradients
-        for g, p, cp in zip(
-            self.gradients, self.model.parameters(), self._cached_parameters
-        ):
+        for g, p, cp in zip(self.gradients, self.model.parameters(), self._cached_parameters):
             g.add_(p.to(self.device) - cp.to(self.device), alpha=-self.config.mu)
 
     def train(self) -> None:

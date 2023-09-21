@@ -3,22 +3,15 @@
 
 import warnings
 from copy import deepcopy
-from typing import List, Sequence, Dict, Any
+from typing import Any, Dict, List, Sequence
 
 import torch
 from torch_ecg.utils.misc import add_docstring, remove_parameters_returns_from_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import (
-    Server,
-    Client,
-    ServerConfig,
-    ClientConfig,
-    ClientMessage,
-)
+from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
-from .._misc import server_config_kw_doc, client_config_kw_doc
-
 
 __all__ = [
     "FedOptServer",
@@ -170,9 +163,7 @@ class FedOptServer(Server):
 
     def _post_init(self) -> None:
         super()._post_init()
-        self.delta_parameters = [
-            torch.zeros_like(p) for p in self.get_detached_model_parameters()
-        ]
+        self.delta_parameters = [torch.zeros_like(p) for p in self.get_detached_model_parameters()]
         if self.config.optimizer.lower() != "avg":
             self.v_parameters = [p.clone() for p in self.delta_parameters]
             for p in self.v_parameters:
@@ -238,9 +229,7 @@ class FedOptServer(Server):
             for sp, dp in zip(self.model.parameters(), self.delta_parameters):
                 sp.data.add_(dp.data, alpha=self.config.lr)
         else:
-            for sp, dp, vp in zip(
-                self.model.parameters(), self.delta_parameters, self.v_parameters
-            ):
+            for sp, dp, vp in zip(self.model.parameters(), self.delta_parameters, self.v_parameters):
                 sp.data.addcdiv_(
                     dp.data,
                     vp.sqrt() + self.config.tau,
@@ -273,9 +262,7 @@ class FedOptServer(Server):
     def update_adam(self) -> None:
         """Additional operation for FedAdam."""
         for vp, dp in zip(self.v_parameters, self.delta_parameters):
-            vp.data.mul_(self.config.betas[1]).add_(
-                dp.data.pow(2), alpha=1 - self.config.betas[1]
-            )
+            vp.data.mul_(self.config.betas[1]).add_(dp.data.pow(2), alpha=1 - self.config.betas[1])
 
     @property
     def config_cls(self) -> Dict[str, type]:
@@ -326,8 +313,7 @@ class FedOptClient(Client):
             self._cached_parameters = deepcopy(self._received_messages["parameters"])
         except KeyError:
             warnings.warn(
-                "No parameters received from server. "
-                "Using current model parameters as initial parameters.",
+                "No parameters received from server. " "Using current model parameters as initial parameters.",
                 RuntimeWarning,
             )
             self._cached_parameters = self.get_detached_model_parameters()
@@ -361,9 +347,7 @@ class FedOptClient(Client):
 
 @register_algorithm()
 @add_docstring(
-    remove_parameters_returns_from_docstring(
-        FedOptServerConfig.__doc__, parameters=["optimizer", "lr", "betas", "tau"]
-    )
+    remove_parameters_returns_from_docstring(FedOptServerConfig.__doc__, parameters=["optimizer", "lr", "betas", "tau"])
 )
 class FedAvgServerConfig(FedOptServerConfig):
     """ """
@@ -462,11 +446,7 @@ class FedAvgClient(FedOptClient):
 
 
 @register_algorithm()
-@add_docstring(
-    remove_parameters_returns_from_docstring(
-        FedOptServerConfig.__doc__, parameters=["optimizer"]
-    )
-)
+@add_docstring(remove_parameters_returns_from_docstring(FedOptServerConfig.__doc__, parameters=["optimizer"]))
 class FedAdagradServerConfig(FedOptServerConfig):
     """ """
 
@@ -552,11 +532,7 @@ class FedAdagradClient(FedOptClient):
 
 
 @register_algorithm()
-@add_docstring(
-    remove_parameters_returns_from_docstring(
-        FedOptServerConfig.__doc__, parameters=["optimizer"]
-    )
-)
+@add_docstring(remove_parameters_returns_from_docstring(FedOptServerConfig.__doc__, parameters=["optimizer"]))
 class FedYogiServerConfig(FedOptServerConfig):
     """ """
 
@@ -642,11 +618,7 @@ class FedYogiClient(FedOptClient):
 
 
 @register_algorithm()
-@add_docstring(
-    remove_parameters_returns_from_docstring(
-        FedOptServerConfig.__doc__, parameters=["optimizer"]
-    )
-)
+@add_docstring(remove_parameters_returns_from_docstring(FedOptServerConfig.__doc__, parameters=["optimizer"]))
 class FedAdamServerConfig(FedOptServerConfig):
     """ """
 

@@ -5,19 +5,18 @@ The same as FedProxEMNIST, for testing custom dataset.
 import json
 import warnings
 from pathlib import Path
-from typing import Optional, Union, List, Tuple, Dict
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import torch
 import torch.utils.data as torchdata
 
-from fl_sim.utils.const import CACHED_DATA_DIR
-from fl_sim.utils._download_data import url_is_reachable
+from fl_sim.data_processing._register import register_fed_dataset
+from fl_sim.data_processing.fed_dataset import FedVisionDataset
 from fl_sim.models import nn as mnn
 from fl_sim.models.utils import top_n_accuracy
-from fl_sim.data_processing.fed_dataset import FedVisionDataset
-from fl_sim.data_processing._register import register_fed_dataset
-
+from fl_sim.utils._download_data import url_is_reachable
+from fl_sim.utils.const import CACHED_DATA_DIR
 
 __all__ = [
     "CustomFEMNIST",
@@ -79,8 +78,7 @@ class CustomFEMNIST(FedVisionDataset):
 
         if self.transform != "none":
             warnings.warn(
-                "The images are not raw pixels, but processed. "
-                "The transform argument will be ignored.",
+                "The images are not raw pixels, but processed. " "The transform argument will be ignored.",
                 RuntimeWarning,
             )
             self.transform = "none"
@@ -101,9 +99,7 @@ class CustomFEMNIST(FedVisionDataset):
             np.unique(
                 np.concatenate(
                     [
-                        self._train_data_dict[self._EXAMPLE][
-                            self._client_ids_train[idx]
-                        ][self._LABEL]
+                        self._train_data_dict[self._EXAMPLE][self._client_ids_train[idx]][self._LABEL]
                         for idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM)
                     ]
                 )
@@ -127,36 +123,14 @@ class CustomFEMNIST(FedVisionDataset):
             test_ids = [self._client_ids_test[client_idx]]
 
         # load data
-        train_x = np.vstack(
-            [
-                self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-                for client_id in train_ids
-            ]
-        )
-        train_y = np.concatenate(
-            [
-                self._train_data_dict[self._EXAMPLE][client_id][self._LABEL]
-                for client_id in train_ids
-            ]
-        )
-        test_x = np.vstack(
-            [
-                self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE]
-                for client_id in test_ids
-            ]
-        )
-        test_y = np.concatenate(
-            [
-                self._test_data_dict[self._EXAMPLE][client_id][self._LABEL]
-                for client_id in test_ids
-            ]
-        )
+        train_x = np.vstack([self._train_data_dict[self._EXAMPLE][client_id][self._IMGAE] for client_id in train_ids])
+        train_y = np.concatenate([self._train_data_dict[self._EXAMPLE][client_id][self._LABEL] for client_id in train_ids])
+        test_x = np.vstack([self._test_data_dict[self._EXAMPLE][client_id][self._IMGAE] for client_id in test_ids])
+        test_y = np.concatenate([self._test_data_dict[self._EXAMPLE][client_id][self._LABEL] for client_id in test_ids])
 
         # dataloader
         train_ds = torchdata.TensorDataset(
-            torch.from_numpy(
-                train_x.reshape((-1, 28, 28)).astype(np.float32)
-            ).unsqueeze(1),
+            torch.from_numpy(train_x.reshape((-1, 28, 28)).astype(np.float32)).unsqueeze(1),
             torch.from_numpy(train_y.astype(np.int64)),
         )
         train_dl = torchdata.DataLoader(
@@ -167,9 +141,7 @@ class CustomFEMNIST(FedVisionDataset):
         )
 
         test_ds = torchdata.TensorDataset(
-            torch.from_numpy(test_x.reshape((-1, 28, 28)).astype(np.float32)).unsqueeze(
-                1
-            ),
+            torch.from_numpy(test_x.reshape((-1, 28, 28)).astype(np.float32)).unsqueeze(1),
             torch.from_numpy(test_y.astype(np.int64)),
         )
         test_dl = torchdata.DataLoader(

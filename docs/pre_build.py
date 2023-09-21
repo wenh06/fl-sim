@@ -16,7 +16,6 @@ from tqdm.auto import tqdm
 
 from fl_sim.utils.misc import execute_cmd
 
-
 DOC_BODY = r"""
 \documentclass{standalone}
 \usepackage{amsmath,amsfonts,amssymb}
@@ -45,25 +44,18 @@ DOC_BODY = r"""
 
 
 def main():
-    pre_build_dir = (
-        Path(__file__).resolve().parent / "source/generated/algorithms/pre-build"
-    )
+    pre_build_dir = Path(__file__).resolve().parent / "source/generated/algorithms/pre-build"
     pre_build_dir.mkdir(parents=True, exist_ok=True)
     # find algorithm folders in ../fl_sim/algorithms
     algorithm_tex_blocks = [
         folder / f"{folder.name}.tex"
-        for folder in (
-            Path(__file__).resolve().parents[1] / "fl_sim/algorithms"
-        ).iterdir()
-        if folder.is_dir()
-        and f"{folder.name}.tex" in [file.name for file in folder.iterdir()]
+        for folder in (Path(__file__).resolve().parents[1] / "fl_sim/algorithms").iterdir()
+        if folder.is_dir() and f"{folder.name}.tex" in [file.name for file in folder.iterdir()]
     ]
     # and also tex files in ./source/_extra_algorithms
     algorithm_tex_blocks += [
         file
-        for file in (
-            Path(__file__).resolve().parent / "source/_extra_algorithms"
-        ).iterdir()
+        for file in (Path(__file__).resolve().parent / "source/_extra_algorithms").iterdir()
         if file.is_file() and file.suffix == ".tex"
     ]
 
@@ -84,15 +76,11 @@ def main():
             generated_pdf_file = pre_build_dir / f"{tex_file.stem}.pdf"
             assert generated_pdf_file.exists()
             # move the generated pdf file to ../fl_sim/docs/source/generated/algorithms
-            generated_pdf_file.rename(
-                generated_pdf_file.parents[1] / f"{tex_file.stem}.pdf"
-            )
+            generated_pdf_file.rename(generated_pdf_file.parents[1] / f"{tex_file.stem}.pdf")
             generated_pdf_file = generated_pdf_file.parents[1] / f"{tex_file.stem}.pdf"
             # convert the pdf file to svg file using pdf2svg
             generated_svg_file = generated_pdf_file.with_suffix(".svg")
-            cmd = (
-                f"""pdf2svg "{str(generated_pdf_file)}" "{str(generated_svg_file)}" """
-            )
+            cmd = f"""pdf2svg "{str(generated_pdf_file)}" "{str(generated_svg_file)}" """
             exitcode, _ = execute_cmd(cmd)
             assert generated_svg_file.exists()
     # remove the temp directory pre_build_dir
