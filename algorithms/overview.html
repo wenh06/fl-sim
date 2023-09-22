@@ -1,0 +1,871 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Overview of Optimization Algorithms in Federated Learning &#8212; fl-sim 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/proof.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms/overview';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Proximal Algorithms in Federated Learning" href="proximal.html" />
+    <link rel="prev" title="Federated learning algorithms" href="../algorithms.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">fl-sim 0.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Usage examples</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/nodes.html">fl_sim.nodes</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.Node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.Server.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.Client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/datasets.html">fl_sim.data_processing</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/models.html">fl_sim.models</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.ResNet18.html">ResNet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.ResNet10.html">ResNet10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.MLP.html">MLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.SVC.html">SVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.SVR.html">SVR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.REGMixin.html">REGMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/optimizers.html">fl_sim.optimizers</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/regularizers.html">fl_sim.regularizers</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/utils.html">fl_sim.utils</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../algorithms.html">Federated learning algorithms</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proximal.html">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primal_dual.html">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operator_splitting.html">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skipping.html">Skipping Algorithms in Federated Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../viz.html">Visualization subsystem</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/edit/master/docs/source/algorithms/overview.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/issues/new?title=Issue%20on%20page%20%2Falgorithms/overview.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/algorithms/overview.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Overview of Optimization Algorithms in Federated Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedavg-from-the-perspective-of-optimization"><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-direct-improvement-of-fedavg">A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="overview-of-optimization-algorithms-in-federated-learning">
+<span id="fl-alg-overview"></span><h1>Overview of Optimization Algorithms in Federated Learning<a class="headerlink" href="#overview-of-optimization-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h1>
+<p>The most important contribution of the initial work on federated learning [McMahan <em>et al.</em><a class="footnote-reference brackets" href="#footcite-mcmahan2017fed-avg" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>]
+was the introduction of the Federated Averaging algorithm (<code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>). Mathematically, federated learning
+solves the following problem of minimization of empirical risk function</p>
+<div class="math notranslate nohighlight" id="equation-fl-basic-dist">
+<span class="eqno">(1)<a class="headerlink" href="#equation-fl-basic-dist" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\expectation}{\mathbb{E}}
+\DeclareMathOperator*{\minimize}{minimize}
+\newcommand{\R}{\mathbb{R}}\\\begin{split}\begin{array}{cl}
+\minimize\limits_{\theta \in \R^d} &amp; f(\theta) = \expectation\limits_{k \sim {\mathcal{P}}} [f_k(\theta)], \\
+\text{where} &amp; f_k(\theta) = \expectation\limits_{(x, y) \sim \mathcal{D}_k} [\ell_k(\theta; x, y)],
+\end{array}\end{split}\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(\ell_k\)</span> is the loss function of client <span class="math notranslate nohighlight">\(k\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{D}_k\)</span> is the data distribution of client <span class="math notranslate nohighlight">\(k\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{P}\)</span> is the distribution of clients, and <span class="math notranslate nohighlight">\(\mathbb{E}\)</span> is the expectation operator.
+If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1, 2, \ldots, K\}\)</span>, then the optimization problem can be simplified as</p>
+<div class="math notranslate nohighlight" id="equation-fl-basic">
+<span class="eqno">(2)<a class="headerlink" href="#equation-fl-basic" title="Permalink to this equation">#</a></span>\[\begin{array}{cl}
+\minimize\limits_{\theta \in \R^d} &amp; f(\theta) = \sum\limits_{k=1}^K w_k f_k(\theta).
+\end{array}\]</div>
+<p>For further simplicity, we often take <span class="math notranslate nohighlight">\(w_k = \frac{1}{K}\)</span>. The functions <span class="math notranslate nohighlight">\(f_k\)</span> and <span class="math notranslate nohighlight">\(f\)</span>
+are usually assumed to satisfy the following conditions:</p>
+<blockquote>
+<div><ul>
+<li><p>(A1) <span class="math notranslate nohighlight">\(f_k\)</span> and <span class="math notranslate nohighlight">\(f\)</span> are <span class="math notranslate nohighlight">\(L\)</span>-smooth (<span class="math notranslate nohighlight">\(L &gt; 0\)</span>), i.e. they have <span class="math notranslate nohighlight">\(L\)</span>-Lipschitz continuous gradients:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-l-smooth">
+<span class="eqno">(3)<a class="headerlink" href="#equation-l-smooth" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{array}{c}
+\lVert \nabla f (\theta) - f (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert, \\
+\lVert \nabla f_k (\theta) - f_k (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert,
+\end{array}
+\quad \forall \theta, \theta' \in \R^d, k = 1, \ldots, K.\end{split}\]</div>
+</div></blockquote>
+</li>
+<li><p>(A2) The range of <span class="math notranslate nohighlight">\(f\)</span></p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\dom}{dom}\\\dom(f) := \{ \theta \in \R^d ~|~ f(\theta) &lt; + \infty \}\end{aligned}\end{align} \]</div>
+<p>is nonempty and lower bounded, i.e. there exists a constant <span class="math notranslate nohighlight">\(c \in \R\)</span> such that</p>
+<div class="math notranslate nohighlight" id="equation-lower-bounded">
+<span class="eqno">(4)<a class="headerlink" href="#equation-lower-bounded" title="Permalink to this equation">#</a></span>\[f(\theta) \geqslant c &gt; -\infty, ~ \forall \theta \in \R^d,\]</div>
+<p>or equivalently,</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-lower-bounded-2">
+<span class="eqno">(5)<a class="headerlink" href="#equation-lower-bounded-2" title="Permalink to this equation">#</a></span>\[f^* := \inf\limits_{\theta \in \R^d} f(\theta) &gt; - \infty.\]</div>
+</div></blockquote>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>In many cases, in order to facilitate the analysis of convergence, we will also make some assumptions about
+the gradient of the objective function:</p>
+<blockquote>
+<div><ul>
+<li><p>(A3) Bounded gradient: there exists a constant <span class="math notranslate nohighlight">\(G &gt; 0\)</span> such that</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-bdd-grad">
+<span class="eqno">(6)<a class="headerlink" href="#equation-bdd-grad" title="Permalink to this equation">#</a></span>\[\lVert \nabla f_k (\theta) \rVert^2 \leqslant G^2, ~ \forall \theta \in \R^d, ~ k = 1, \ldots K.\]</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>And the following assumptions on data distributions:</p>
+<blockquote>
+<div><ul>
+<li><p>(A4-1) Data distribution is I.I.D. (identically and independently distributed) across clients, i.e.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-iid-1">
+<span class="eqno">(7)<a class="headerlink" href="#equation-iid-1" title="Permalink to this equation">#</a></span>\[\nabla f(\theta) = \expectation [f_k(\theta)] = \expectation\limits_{(x, y) \sim \mathcal{D}_k}[\nabla \ell_k(\theta; x, y)], ~ \forall \theta \in \R^d, ~ k = 1, \ldots K,\]</div>
+<p>or equivalently, for any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, there exists a constant <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
+<div class="math notranslate nohighlight" id="equation-iid-2">
+<span class="eqno">(8)<a class="headerlink" href="#equation-iid-2" title="Permalink to this equation">#</a></span>\[\sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2,
+~ \forall \theta \in \left\{ \theta \in \R^d ~ \middle| ~ \lVert f(\theta) \rVert^2 &gt; \varepsilon \right\}.\]</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<blockquote id="bdd-grad-dissim">
+<div><ul>
+<li><dl>
+<dt>(A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure</dt><dd><p>the degree of this statistical heterogeneity. This quantity can be defined in a number of ways
+[Karimireddy <em>et al.</em><a class="footnote-reference brackets" href="#footcite-karimireddy2020scaffold" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li2019convergence" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-sahu2018fedprox" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>].
+For example, in [Karimireddy <em>et al.</em><a class="footnote-reference brackets" href="#footcite-karimireddy2020scaffold" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>] and [Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>],
+the so-called bounded gradient dissimilarity (BGD), denoted as <span class="math notranslate nohighlight">\((G; B)\)</span>-BGD, is used as this quantity.
+More specifically, there exists constants <span class="math notranslate nohighlight">\(G &gt; 0\)</span> and <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
+<div class="math notranslate nohighlight" id="equation-bdd-grad-dissim">
+<span class="eqno">(9)<a class="headerlink" href="#equation-bdd-grad-dissim" title="Permalink to this equation">#</a></span>\[\dfrac{1}{K} \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 \leqslant G^2 + B^2 \lVert \nabla f(\theta) \rVert^2, ~ \forall \theta \in \R^d.\]</div>
+<p>It should be noted that letting <span class="math notranslate nohighlight">\(B = 0\)</span>, the bounded gradient dissimilarity condition (A4-2) degenrates
+to the bounded gradient condition (A3).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Sometimes, in the proof of algorithm convergence, one needs to make assumptions on the convexity of the
+objective function <span class="math notranslate nohighlight">\(f\)</span>, which can be defined as follows:</p>
+<blockquote>
+<div><ul>
+<li><p>(A5-1) convexity:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-def-convex-function">
+<span class="eqno">(10)<a class="headerlink" href="#equation-def-convex-function" title="Permalink to this equation">#</a></span>\[f(a \theta + (1 - a) \theta') \leqslant a f(\theta) + (1 - a) f(\theta'),
+~ \forall \theta, \theta' \in \mathcal{C}, ~ \alpha \in [0, 1].\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> is a convex set on which <span class="math notranslate nohighlight">\(f\)</span> is defined.</p>
+</div></blockquote>
+</li>
+<li><dl class="simple">
+<dt>(A5-2) Strong convexity: there exists a constant <span class="math notranslate nohighlight">\(\mu &gt; 0\)</span> such that <span class="math notranslate nohighlight">\(f - \frac{\mu}{2} \lVert \theta \rVert^2\)</span></dt><dd><p>is convex. In this case, we say that <span class="math notranslate nohighlight">\(f\)</span> is <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Due to the natural layered and decoupled structure of the federal learning problem, it is more natural to consider
+the following constrained optimization problem:</p>
+<div class="math notranslate nohighlight" id="equation-fl-basic-constraint">
+<span class="eqno">(11)<a class="headerlink" href="#equation-fl-basic-constraint" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize &amp; \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
+\text{subject to} &amp; \theta_k = \theta, ~ k = 1, \ldots, K.
+\end{array}\end{split}\]</div>
+<p>It is easy to find the equivalence between the constrained optimization problem <a class="reference internal" href="#equation-fl-basic-constraint">(11)</a>
+and the unconstrained optimization problem <a class="reference internal" href="#equation-fl-basic">(2)</a>. The constrained formulation
+<a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is called the <strong>consensus problem</strong> in the literature of distributed optimization [Boyd <em>et al.</em><a class="footnote-reference brackets" href="#footcite-boyd2011distributed" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>]. The superiority of the constrained formulation <a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is that
+the objective function becomes block-separable, which is more suitable for the design of parallel and distributed algorithms.</p>
+<section id="federated-averaging-algorithm">
+<h2>Federated Averaging Algorithm<a class="headerlink" href="#federated-averaging-algorithm" title="Permalink to this heading">#</a></h2>
+<p>The core idea of the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> algorithm is to make full use of the local computation resources of each client
+so that each client can perform multiple local iterations before uploading the local model to the server.
+It alleviates the problem of straggler clients and reduces the communication overhead,
+hence accelerating the convergence of the algorithm. This may well be thought of as a simple form of
+<strong>skipping</strong> algorithm, which were further developed in [Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Mishchenko <em>et al.</em><a class="footnote-reference brackets" href="#footcite-proxskip" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>, Zhang and Loizou<a class="footnote-reference brackets" href="#footcite-proxskip-vr" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>].
+Pseudocode for <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> is shown as follows:</p>
+<img alt="Psuedocode for ``FedAvg``" class="no-scaled-link align-center" id="pseduocode-fedavg" src="../_images/fedavg.svg" width="80%" /><p><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> achieved some good numerical results (see Section 3 of [McMahan <em>et al.</em><a class="footnote-reference brackets" href="#footcite-mcmahan2017fed-avg" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>]),
+but its convergence, espcially under non-I.I.D. data distributions, is not properly analyzed
+(see [Khaled <em>et al.</em><a class="footnote-reference brackets" href="#footcite-khaled2019-first" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a>, Khaled <em>et al.</em><a class="footnote-reference brackets" href="#footcite-khaled2020-tighter" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></a>]). There are several works that deal with this issue
+(such as [Zhou and Cong<a class="footnote-reference brackets" href="#footcite-zhou-2018-convergence" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li2019convergence" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>]) with extra assumptions such as
+the convexity of the objective function <span class="math notranslate nohighlight">\(f\)</span>, etc.</p>
+</section>
+<section id="fedavg-from-the-perspective-of-optimization">
+<h2><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization<a class="headerlink" href="#fedavg-from-the-perspective-of-optimization" title="Permalink to this heading">#</a></h2>
+<p>In this section, we will analyze the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> algorithm from the perspective of optimization theory.
+In fact, the optimization problem <a class="reference internal" href="#equation-fl-basic">(2)</a> that <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> solves can be equivalently reformulated
+as the following constrained optimization problem:</p>
+<div class="math notranslate nohighlight" id="equation-fedavg-constraint">
+<span class="eqno">(12)<a class="headerlink" href="#equation-fedavg-constraint" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\newcommand{\col}{\operatorname{col}}\\\begin{split}\begin{array}{cl}
+\minimize &amp; F(\Theta) := \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
+\text{subject to} &amp; \Theta \in \mathcal{E},
+\end{array}\end{split}\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(\Theta = \col(\theta_1, \cdots, \theta_K) := \begin{pmatrix} \theta_1 \\ \vdots \\ \theta_K \end{pmatrix}, \theta_1, \ldots, \theta_K \in \R^d\)</span>
+and <span class="math notranslate nohighlight">\(\mathcal{E} = \left\{ \Theta ~ \middle| ~ \theta_1 = \cdots = \theta_K \right\}\)</span> is a convex set in <span class="math notranslate nohighlight">\(\R^{Kd}\)</span>.
+Projected gradient descent (PGD) is an effective method for solving the constrained optimization problem <a class="reference internal" href="#equation-fedavg-constraint">(12)</a>,
+which has the following update rule:</p>
+<div class="math notranslate nohighlight" id="equation-fedavg-pgd">
+<span class="eqno">(13)<a class="headerlink" href="#equation-fedavg-pgd" title="Permalink to this equation">#</a></span>\[\Theta^{(t+1)} = \Pi_{\mathcal{E}} \left( \Theta^{(t)} - \eta \nabla F(\Theta^{(t)}) \right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Pi_{\mathcal{E}}\)</span> is the projection operator onto the set <span class="math notranslate nohighlight">\(\mathcal{E}\)</span>. It is easy to show that
+the projection operator onto the set <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> is indeed the average operator, i.e.,</p>
+<div class="math notranslate nohighlight" id="equation-fedavg-projection">
+<span class="eqno">(14)<a class="headerlink" href="#equation-fedavg-projection" title="Permalink to this equation">#</a></span>\[\Pi_{\mathcal{E}}: \R^{Kd} \to \mathcal{E}: ( \theta_1, \ldots, \theta_K) \mapsto \left(\frac{1}{K}\sum\limits_{k=1}^K \theta_K, \ldots, \frac{1}{K}\sum\limits_{k=1}^K \theta_K \right).\]</div>
+<p>We have shown that mathematically the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> algorithm is indeed a kind of stochastic projected gradient descent (SPGD)
+algorithm, where the clients perform local stochastic gradient descent (SGD) updates and the server performs
+the projection step <a class="reference internal" href="#equation-fedavg-projection">(14)</a>.</p>
+</section>
+<section id="a-direct-improvement-of-fedavg">
+<h2>A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code><a class="headerlink" href="#a-direct-improvement-of-fedavg" title="Permalink to this heading">#</a></h2>
+<p>Since <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> is based on stochastic gradient descent (SGD), it is natural to consider applying
+acceleration techniques [Duchi <em>et al.</em><a class="footnote-reference brackets" href="#footcite-adagrad" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></a>, Kingma and Ba<a class="footnote-reference brackets" href="#footcite-adam" id="id18" role="doc-noteref"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></a>, Zaheer <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zaheer-2018-yogi" id="id19" role="doc-noteref"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></a>, Reddi <em>et al.</em><a class="footnote-reference brackets" href="#footcite-adamw-amsgrad" id="id20" role="doc-noteref"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></a>] to improve the algorithm performance.
+Computation on clients and on the server are relatively decoupled, so it does not require large modifications
+to the whole algorithm framework. Indeed, the authors of the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> paper put this idea into practice and proposed
+a federated learning framework called <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> [Reddi <em>et al.</em><a class="footnote-reference brackets" href="#footcite-reddi2020fed-opt" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></a>] which has stronger adaptability.
+The pseudocode for <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> is shown as follows:</p>
+<img alt="Psuedocode for ``FedOpt``" class="no-scaled-link align-center" id="pseduocode-fedopt" src="../_images/fedopt.svg" width="80%" /><p>In the above pseudocode, <span class="math notranslate nohighlight">\(\operatorname{aggregate} \left( \left\{ \Delta_{k}^{(t)} \right\}_{k \in \mathcal{S}^{(t)}} \right)\)</span>
+refers to some method that aggregates the local inertia updates <span class="math notranslate nohighlight">\(\Delta_{k}^{(t)}\)</span> from the selected clients
+<span class="math notranslate nohighlight">\(\mathcal{S}^{(t)}\)</span> into a global inertia update <span class="math notranslate nohighlight">\(\Delta^{(t)}\)</span>. This method, for example, can be simply averaging</p>
+<div class="math notranslate nohighlight" id="equation-fedopt-agg-inertia-average">
+<span class="eqno">(15)<a class="headerlink" href="#equation-fedopt-agg-inertia-average" title="Permalink to this equation">#</a></span>\[\Delta^{(t)} \gets \frac{1}{\lvert \mathcal{S}^{(t)} \rvert} \sum\limits_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)},\]</div>
+<p>or linear combination with inertia of the previous iteration</p>
+<div class="math notranslate nohighlight" id="equation-fedopt-agg-inertia-lin-comb">
+<span class="eqno">(16)<a class="headerlink" href="#equation-fedopt-agg-inertia-lin-comb" title="Permalink to this equation">#</a></span>\[\Delta^{(t)} \gets \beta_1 \Delta^{(t-1)} + \left( (1 - \beta_1) / \lvert \mathcal{S}^{(t)} \rvert \right) \sum_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)}.\]</div>
+<p>As one has already noticed, compared to <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>, <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> introduces some momentum terms on the server node (in <strong>ServerOpt</strong>) to
+accelerate the convergence. In [Reddi <em>et al.</em><a class="footnote-reference brackets" href="#footcite-reddi2020fed-opt" id="id22" role="doc-noteref"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></a>], the authors listed several options for <strong>ServerOpt</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">FedAdagrad</span></code>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-fedopt-serveropt-fedadagrad">
+<span class="eqno">(17)<a class="headerlink" href="#equation-fedopt-serveropt-fedadagrad" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
+v^{(t)} &amp; \gets v^{(t-1)} + ( \Delta^{(t)} )^2 \\
+\theta^{(t+1)} &amp; \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
+\end{aligned}\end{split}\]</div>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FedYogi</span></code>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-fedopt-serveropt-fedyogi">
+<span class="eqno">(18)<a class="headerlink" href="#equation-fedopt-serveropt-fedyogi" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
+v^{(t)} &amp; \gets v^{(t-1)} - (1 - \beta_2) ( \Delta^{(t)} )^2 \operatorname{sign}(v^{(t-1)} - ( \Delta^{(t)} )^2) \\
+\theta^{(t+1)} &amp; \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
+\end{aligned}\end{split}\]</div>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FedAdam</span></code>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-fedopt-serveropt-fedadam">
+<span class="eqno">(19)<a class="headerlink" href="#equation-fedopt-serveropt-fedadam" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
+v^{(t)} &amp; \gets \beta_2 v^{(t-1)} + (1 - \beta_2) ( \Delta^{(t)} )^2 \\
+\theta^{(t+1)} &amp; \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
+\end{aligned}\end{split}\]</div>
+</div></blockquote>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> applys acceleration techniques which are frequently used in general machine learning tasks to the field of
+federated learning. It is a direct improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> which is simple but important. Moreover, it demonstrates
+the decoupling of the computation on clients and on the server, which is a key feature of federated learning.</p>
+<p>To better handle non-I.I.D. data, one needs to introduce some other techniques. In non-I.I.D. scenarios,
+the gradients have different distributions across clients. A natural idea is to bring in some extra parameters
+which update along with the model parameters to make corrections (modifications) to the gradients on clients,
+reducing their variance and further accelerating the convergence. This technique is the so-called <strong>variance reduction</strong>
+technique [Johnson and Zhang<a class="footnote-reference brackets" href="#footcite-johnson2013accelerating" id="id23" role="doc-noteref"><span class="fn-bracket">[</span>17<span class="fn-bracket">]</span></a>], which was first introduced to federated learning in
+[Karimireddy <em>et al.</em><a class="footnote-reference brackets" href="#footcite-karimireddy2020scaffold" id="id24" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>] in the form of a new federated learning algorithm called <strong>SCAFFOLD</strong>
+(Stochastic Controlled Averaging algorithm). The pseudocode for <strong>SCAFFOLD</strong> is shown as follows:</p>
+<img alt="Psuedocode for ``Scaffold``" class="no-scaled-link align-center" id="pseduocode-scaffold" src="../_images/scaffold.svg" width="80%" /><p>Variance reduction is a technique that can be flexibly combined with most algorithms and has been widely used
+in federated learning for dealing with statistical heterogeneity. However, it should be noted in the
+<a class="reference internal" href="#pseduocode-scaffold">SCAFFOLD algorithm</a> that on both the server and the clients, there are extra parameters
+<span class="math notranslate nohighlight">\(c\)</span> and <span class="math notranslate nohighlight">\(c_k\)</span> to maintain, which may increase the communication cost. In scenarios which are sensitive
+to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of
+the variance reduction technique and some <strong>skipping</strong> techniques (e.g. [Zhang and Loizou<a class="footnote-reference brackets" href="#footcite-proxskip-vr" id="id25" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>]),
+which will be introduced in next sections.</p>
+<div class="docutils container" id="id26">
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-mcmahan2017fed-avg" role="note">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id12">2</a>)</span>
+<p>Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In <em>Artificial Intelligence and Statistics</em>, 1273–1282. PMLR, 2017.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-karimireddy2020scaffold" role="note">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id6">2</a>,<a role="doc-backlink" href="#id24">3</a>)</span>
+<p>Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In <em>International Conference on Machine Learning</em>, 5132–5143. PMLR, 2020.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-zhang2020fedpd" role="note">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id7">2</a>,<a role="doc-backlink" href="#id9">3</a>)</span>
+<p>Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. <em>IEEE Transactions on Signal Processing</em>, 69:6055–6070, 2021. <a class="reference external" href="https://doi.org/10.1109/tsp.2021.3115952">doi:10.1109/tsp.2021.3115952</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-li2019convergence" role="note">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id16">2</a>)</span>
+<p>Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In <em>International Conference on Learning Representations</em>. OpenReview.net, 2020.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-sahu2018fedprox" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, <em>Proceedings of Machine Learning and Systems</em>, volume 2, 429–450. 2020.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-boyd2011distributed" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">6</a><span class="fn-bracket">]</span></span>
+<p>Stephen Boyd, Neal Parikh, and Eric Chu. <em>Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers</em>. Now Publishers Inc., 2011.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-proxskip" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">7</a><span class="fn-bracket">]</span></span>
+<p>Konstantin Mishchenko, Grigory Malinovsky, Sebastian Stich, and Peter Richtarik. ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally! In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, <em>Proceedings of the 39th International Conference on Machine Learning</em>, volume 162 of Proceedings of Machine Learning Research, 15750–15769. PMLR, 7 2022.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-proxskip-vr" role="note">
+<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id11">1</a>,<a role="doc-backlink" href="#id25">2</a>)</span>
+<p>Siqi Zhang and Nicolas Loizou. ProxSkip for Stochastic Variational Inequalities: A Federated Learning Algorithm for Provable Communication Acceleration. In <em>OPT 2022: Optimization for Machine Learning (NeurIPS 2022 Workshop)</em>. 2022.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-khaled2019-first" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">9</a><span class="fn-bracket">]</span></span>
+<p>Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. First Analysis of Local GD on Heterogeneous Data. <em>arXiv preprint arXiv:1909.04715v2</em>, 9 2019. <a class="reference external" href="https://doi.org/10.48550/ARXIV.1909.04715">doi:10.48550/ARXIV.1909.04715</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-khaled2020-tighter" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">10</a><span class="fn-bracket">]</span></span>
+<p>Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. Tighter Theory for Local SGD on Identical and Heterogeneous Data. In Silvia Chiappa and Roberto Calandra, editors, <em>Proceedings of the Twenty Third International Conference on Artificial Intelligence and Statistics</em>, volume 108 of Proceedings of Machine Learning Research, 4519–4529. PMLR, 8 2020.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-zhou-2018-convergence" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">11</a><span class="fn-bracket">]</span></span>
+<p>Fan Zhou and Guojing Cong. On the Convergence Properties of a K-Step Averaging Stochastic Gradient Descent Algorithm for Nonconvex Optimization. In <em>Proceedings of the 27th International Joint Conference on Artificial Intelligence</em>, IJCAI’18, 3219–3227. AAAI Press, 2018.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-adagrad" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">12</a><span class="fn-bracket">]</span></span>
+<p>John Duchi, Elad Hazan, and Yoram Singer. Adaptive Subgradient Methods for Online Learning and Stochastic Optimization. <em>Journal of Machine Learning Research</em>, 12(61):2121–2159, 7 2011.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-adam" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">13</a><span class="fn-bracket">]</span></span>
+<p>Diederik P. Kingma and Jimmy Ba. Adam: A Method for Stochastic Optimization. In <em>3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings</em>. 2015.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-zaheer-2018-yogi" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">14</a><span class="fn-bracket">]</span></span>
+<p>Manzil Zaheer, Sashank J. Reddi, Devendra Sachan, Satyen Kale, and Sanjiv Kumar. Adaptive Methods for Nonconvex Optimization. In <em>Proceedings of the 32nd International Conference on Neural Information Processing Systems</em>, NIPS’18, 9815–9825. Red Hook, NY, USA, 2018. Curran Associates Inc.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-adamw-amsgrad" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id20">15</a><span class="fn-bracket">]</span></span>
+<p>Sashank J. Reddi, Satyen Kale, and Sanjiv Kumar. On the Convergence of Adam and Beyond. In <em>6th International Conference on Learning Representations (ICLR)</em>. OpenReview.net, 5 2018. URL: <a class="reference external" href="https://openreview.net/forum?id=ryQu7f-RZ">https://openreview.net/forum?id=ryQu7f-RZ</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-reddi2020fed-opt" role="note">
+<span class="label"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id21">1</a>,<a role="doc-backlink" href="#id22">2</a>)</span>
+<p>Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In <em>International Conference on Learning Representations</em>. 2021.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-johnson2013accelerating" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id23">17</a><span class="fn-bracket">]</span></span>
+<p>Rie Johnson and Tong Zhang. Accelerating Stochastic Gradient Descent using Predictive Variance Reduction. In C.J. Burges, L. Bottou, M. Welling, Z. Ghahramani, and K.Q. Weinberger, editors, <em>Advances in Neural Information Processing Systems</em>, volume 26. Curran Associates, Inc., 2013.</p>
+</aside>
+</aside>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../algorithms.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Federated learning algorithms</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="proximal.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Proximal Algorithms in Federated Learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedavg-from-the-perspective-of-optimization"><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-direct-improvement-of-fedavg">A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By WEN Hao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, WEN Hao.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

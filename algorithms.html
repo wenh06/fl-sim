@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -35,11 +35,13 @@
     <link rel="stylesheet" type="text/css" href="_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
@@ -48,15 +50,14 @@
     <script src="_static/copybutton.js"></script>
     <script src="_static/proof.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/design-tabs.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Command line interface" href="cli.html" />
+    <link rel="next" title="Overview of Optimization Algorithms in Federated Learning" href="algorithms/overview.html" />
     <link rel="prev" title="fl_sim.utils" href="api/utils.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -68,6 +69,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -214,7 +224,14 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Federated learning algorithms</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Federated learning algorithms</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/overview.html">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/proximal.html">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/primal_dual.html">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/operator_splitting.html">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/skipping.html">Skipping Algorithms in Federated Learning</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viz.html">Visualization subsystem</a></li>
 </ul>
@@ -389,10 +406,10 @@
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -400,13 +417,11 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
+
 </div></div>
       
     </div>
@@ -422,23 +437,6 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fedavg-from-the-perspective-of-optimization"><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-direct-improvement-of-fedavg">A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skipping-algorithms-in-federated-learning">Skipping Algorithms in Federated Learning</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -450,440 +448,19 @@ document.write(`
                   
   <section id="federated-learning-algorithms">
 <h1>Federated learning algorithms<a class="headerlink" href="#federated-learning-algorithms" title="Permalink to this heading">#</a></h1>
-<section id="overview-of-optimization-algorithms-in-federated-learning">
-<span id="fl-alg-overview"></span><h2>Overview of Optimization Algorithms in Federated Learning<a class="headerlink" href="#overview-of-optimization-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
-<p>Federated Optimization algorithms have been the central problem in the field of federated learning since its inception.
-The most important contribution of the initial work on federated learning <span id="id1">[<a class="reference internal" href="#id44" title="Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In Artificial Intelligence and Statistics, 1273–1282. PMLR, 2017.">MMR+17</a>]</span> was the introduction of the Federated Averaging algorithm (<code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>).</p>
-<p>Mathematically, federated learning solves the following problem of minimization of empirical risk function</p>
-<div class="math notranslate nohighlight" id="equation-fl-basic-dist">
-<span class="eqno">(1)<a class="headerlink" href="#equation-fl-basic-dist" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\expectation}{\mathbb{E}}
-\DeclareMathOperator*{\minimize}{minimize}
-\newcommand{\R}{\mathbb{R}}\\\begin{split}\begin{array}{cl}
-\minimize\limits_{\theta \in \R^d} &amp; f(\theta) = \expectation\limits_{k \sim {\mathcal{P}}} [f_k(\theta)], \\
-\text{where} &amp; f_k(\theta) = \expectation\limits_{(x, y) \sim \mathcal{D}_k} [\ell_k(\theta; x, y)],
-\end{array}\end{split}\end{aligned}\end{align} \]</div>
-<p>where <span class="math notranslate nohighlight">\(\ell_k\)</span> is the loss function of client <span class="math notranslate nohighlight">\(k\)</span>,
-<span class="math notranslate nohighlight">\(\mathcal{D}_k\)</span> is the data distribution of client <span class="math notranslate nohighlight">\(k\)</span>,
-<span class="math notranslate nohighlight">\(\mathcal{P}\)</span> is the distribution of clients, and <span class="math notranslate nohighlight">\(\mathbb{E}\)</span> is the expectation operator.
-If we simply let <span class="math notranslate nohighlight">\(\mathcal{P} = \{1, 2, \ldots, K\}\)</span>, then the optimization problem can be simplified as</p>
-<div class="math notranslate nohighlight" id="equation-fl-basic">
-<span class="eqno">(2)<a class="headerlink" href="#equation-fl-basic" title="Permalink to this equation">#</a></span>\[\begin{array}{cl}
-\minimize\limits_{\theta \in \R^d} &amp; f(\theta) = \sum\limits_{k=1}^K w_k f_k(\theta).
-\end{array}\]</div>
-<p>For further simplicity, we often take <span class="math notranslate nohighlight">\(w_k = \frac{1}{K}\)</span>. The functions <span class="math notranslate nohighlight">\(f_k\)</span> and <span class="math notranslate nohighlight">\(f\)</span> are usually assumed to satisfy the following conditions:</p>
-<blockquote>
-<div><ul>
-<li><p>(A1) <span class="math notranslate nohighlight">\(f_k\)</span> and <span class="math notranslate nohighlight">\(f\)</span> are <span class="math notranslate nohighlight">\(L\)</span>-smooth (<span class="math notranslate nohighlight">\(L &gt; 0\)</span>), i.e. they have <span class="math notranslate nohighlight">\(L\)</span>-Lipschitz continuous gradients:</p>
-<blockquote>
-<div><div class="math notranslate nohighlight" id="equation-l-smooth">
-<span class="eqno">(3)<a class="headerlink" href="#equation-l-smooth" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{array}{c}
-\lVert \nabla f (\theta) - f (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert, \\
-\lVert \nabla f_k (\theta) - f_k (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert,
-\end{array}
-\quad \forall \theta, \theta' \in \R^d, k = 1, \ldots, K.\end{split}\]</div>
-</div></blockquote>
-</li>
-<li><p>(A2) The range of <span class="math notranslate nohighlight">\(f\)</span></p>
-<blockquote>
-<div><div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\dom}{dom}\\\dom(f) := \{ \theta \in \R^d ~|~ f(\theta) &lt; + \infty \}\end{aligned}\end{align} \]</div>
-<p>is nonempty and lower bounded, i.e. there exists a constant <span class="math notranslate nohighlight">\(c \in \R\)</span> such that</p>
-<div class="math notranslate nohighlight" id="equation-lower-bounded">
-<span class="eqno">(4)<a class="headerlink" href="#equation-lower-bounded" title="Permalink to this equation">#</a></span>\[f(\theta) \geqslant c &gt; -\infty, ~ \forall \theta \in \R^d,\]</div>
-<p>or equivalently,</p>
-<blockquote>
-<div><div class="math notranslate nohighlight" id="equation-lower-bounded-2">
-<span class="eqno">(5)<a class="headerlink" href="#equation-lower-bounded-2" title="Permalink to this equation">#</a></span>\[f^* := \inf\limits_{\theta \in \R^d} f(\theta) &gt; - \infty.\]</div>
-</div></blockquote>
-</div></blockquote>
-</li>
-</ul>
-</div></blockquote>
-<p>In many cases, in order to facilitate the analysis of convergence, we will also make some assumptions about the gradient of the objective function:</p>
-<blockquote>
-<div><ul>
-<li><p>(A3) Bounded gradient: there exists a constant <span class="math notranslate nohighlight">\(G &gt; 0\)</span> such that</p>
-<blockquote>
-<div><div class="math notranslate nohighlight" id="equation-bdd-grad">
-<span class="eqno">(6)<a class="headerlink" href="#equation-bdd-grad" title="Permalink to this equation">#</a></span>\[\lVert \nabla f_k (\theta) \rVert^2 \leqslant G^2, ~ \forall \theta \in \R^d, ~ k = 1, \ldots K.\]</div>
-</div></blockquote>
-</li>
-</ul>
-</div></blockquote>
-<p>And the following assumptions on data distributions:</p>
-<blockquote>
-<div><ul>
-<li><p>(A4-1) Data distribution is I.I.D. (identically and independently distributed) across clients, i.e.</p>
-<blockquote>
-<div><div class="math notranslate nohighlight" id="equation-iid-1">
-<span class="eqno">(7)<a class="headerlink" href="#equation-iid-1" title="Permalink to this equation">#</a></span>\[\nabla f(\theta) = \expectation [f_k(\theta)] = \expectation\limits_{(x, y) \sim \mathcal{D}_k}[\nabla \ell_k(\theta; x, y)], ~ \forall \theta \in \R^d, ~ k = 1, \ldots K,\]</div>
-<p>or equivalently, for any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, there exists a constant <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
-<div class="math notranslate nohighlight" id="equation-iid-2">
-<span class="eqno">(8)<a class="headerlink" href="#equation-iid-2" title="Permalink to this equation">#</a></span>\[\sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2, ~ \forall \theta \in \left\{ \theta \in \R^d ~ \middle| ~ \lVert f(\theta) \rVert^2 &gt; \varepsilon \right\}.\]</div>
-</div></blockquote>
-</li>
-</ul>
-</div></blockquote>
-<blockquote id="bdd-grad-dissim">
-<div><ul>
-<li><p>(A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways <span id="id2">[<a class="reference internal" href="#id54" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>, <a class="reference internal" href="#id53" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>, <a class="reference internal" href="#id49" title="Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In International Conference on Learning Representations. OpenReview.net, 2020.">LHY+20</a>, <a class="reference internal" href="#id61" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>. For example, in <span id="id3">[<a class="reference internal" href="#id54" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>]</span> and <span id="id4">[<a class="reference internal" href="#id61" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>, the so-called bounded gradient dissimilarity (BGD), denoted as <span class="math notranslate nohighlight">\((G; B)\)</span>-BGD, is used as this quantity. More specifically, there exists constants <span class="math notranslate nohighlight">\(G &gt; 0\)</span> and <span class="math notranslate nohighlight">\(B \geqslant 0\)</span> such that</p>
-<blockquote>
-<div><div class="math notranslate nohighlight" id="equation-bdd-grad-dissim">
-<span class="eqno">(9)<a class="headerlink" href="#equation-bdd-grad-dissim" title="Permalink to this equation">#</a></span>\[\dfrac{1}{K} \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 \leqslant G^2 + B^2 \lVert \nabla f(\theta) \rVert^2, ~ \forall \theta \in \R^d.\]</div>
-<p>It should be noted that letting <span class="math notranslate nohighlight">\(B = 0\)</span>, the bounded gradient dissimilarity condition (A4-2) degenrates to the bounded gradient condition (A3).</p>
-</div></blockquote>
-</li>
-</ul>
-</div></blockquote>
-<p>Sometimes, in the proof of algorithm convergence, one needs to make assumptions on the convexity of the objective function <span class="math notranslate nohighlight">\(f\)</span>, which can be defined as follows:</p>
-<blockquote>
-<div><ul>
-<li><p>(A5-1) convexity:</p>
-<blockquote>
-<div><div class="math notranslate nohighlight" id="equation-def-convex-function">
-<span class="eqno">(10)<a class="headerlink" href="#equation-def-convex-function" title="Permalink to this equation">#</a></span>\[f(a \theta + (1 - a) \theta') \leqslant a f(\theta) + (1 - a) f(\theta'), ~ \forall \theta, \theta' \in \mathcal{C}, ~ \alpha \in [0, 1].\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> is a convex set on which <span class="math notranslate nohighlight">\(f\)</span> is defined.</p>
-</div></blockquote>
-</li>
-<li><p>(A5-2) Strong convexity: there exists a constant <span class="math notranslate nohighlight">\(\mu &gt; 0\)</span> such that <span class="math notranslate nohighlight">\(f - \frac{\mu}{2} \lVert \theta \rVert^2\)</span> is convex. In this case, we say that <span class="math notranslate nohighlight">\(f\)</span> is <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex.</p></li>
-</ul>
-</div></blockquote>
-<p>Due to the natural layered and decoupled structure of the federal learning problem, it is more natural to consider the following constrained optimization problem:</p>
-<div class="math notranslate nohighlight" id="equation-fl-basic-constraint">
-<span class="eqno">(11)<a class="headerlink" href="#equation-fl-basic-constraint" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
-\minimize &amp; \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
-\text{subject to} &amp; \theta_k = \theta, ~ k = 1, \ldots, K.
-\end{array}\end{split}\]</div>
-<p>It is easy to find the equivalence between the constrained optimization problem <a class="reference internal" href="#equation-fl-basic-constraint">(11)</a>
-and the unconstrained optimization problem <a class="reference internal" href="#equation-fl-basic">(2)</a>. The constrained formulation
-<a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is called the <strong>consensus problem</strong> in the literature of distributed optimization <span id="id5">[<a class="reference internal" href="#id32" title="Stephen Boyd, Neal Parikh, and Eric Chu. Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers. Now Publishers Inc., 2011.">BPC11</a>]</span>. The superiority of the constrained formulation <a class="reference internal" href="#equation-fl-basic-constraint">(11)</a> is that
-the objective function becomes block-separable, which is more suitable for the design of parallel and distributed algorithms.</p>
-<section id="federated-averaging-algorithm">
-<h3>Federated Averaging Algorithm<a class="headerlink" href="#federated-averaging-algorithm" title="Permalink to this heading">#</a></h3>
-<p>The core idea of the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> algorithm is to make full use of the local computation resources of each client
-so that each client can perform multiple local iterations before uploading the local model to the server.
-It alleviates the problem of straggler clients and reduces the communication overhead,
-hence accelerating the convergence of the algorithm. This may well be thought of as a simple form of
-<strong>skipping</strong> algorithm, which were further developed in <span id="id6">[<a class="reference internal" href="#id89" title="Konstantin Mishchenko, Grigory Malinovsky, Sebastian Stich, and Peter Richtarik. ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally! In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, Proceedings of the 39th International Conference on Machine Learning, volume 162 of Proceedings of Machine Learning Research, 15750–15769. PMLR, 7 2022.">MMSR22</a>, <a class="reference internal" href="#id90" title="Siqi Zhang and Nicolas Loizou. ProxSkip for Stochastic Variational Inequalities: A Federated Learning Algorithm for Provable Communication Acceleration. In OPT 2022: Optimization for Machine Learning (NeurIPS 2022 Workshop). 2022.">ZL22</a>, <a class="reference internal" href="#id61" title="Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. IEEE Transactions on Signal Processing, 69:6055–6070, 2021. doi:10.1109/tsp.2021.3115952.">ZHD+21</a>]</span>.
-Pseudocode for <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> is shown as follows:</p>
-<img alt="Psuedocode for ``FedAvg``" class="no-scaled-link align-center" id="pseduocode-fedavg" src="_images/fedavg.svg" width="80%" /><p><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> achieved some good numerical results (see Section 3 of <span id="id7">[<a class="reference internal" href="#id44" title="Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In Artificial Intelligence and Statistics, 1273–1282. PMLR, 2017.">MMR+17</a>]</span>),
-but its convergence, espcially under non-I.I.D. data distributions, is not properly analyzed
-(see <span id="id8">[<a class="reference internal" href="#id47" title="Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. First Analysis of Local GD on Heterogeneous Data. arXiv preprint arXiv:1909.04715v2, 9 2019. doi:10.48550/ARXIV.1909.04715.">KMR19</a>, <a class="reference internal" href="#id48" title="Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. Tighter Theory for Local SGD on Identical and Heterogeneous Data. In Silvia Chiappa and Roberto Calandra, editors, Proceedings of the Twenty Third International Conference on Artificial Intelligence and Statistics, volume 108 of Proceedings of Machine Learning Research, 4519–4529. PMLR, 8 2020.">KMR20</a>]</span>). There are several works that deal with this issue
-(such as <span id="id9">[<a class="reference internal" href="#id49" title="Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In International Conference on Learning Representations. OpenReview.net, 2020.">LHY+20</a>, <a class="reference internal" href="#id111" title="Fan Zhou and Guojing Cong. On the Convergence Properties of a K-Step Averaging Stochastic Gradient Descent Algorithm for Nonconvex Optimization. In Proceedings of the 27th International Joint Conference on Artificial Intelligence, IJCAI'18, 3219–3227. AAAI Press, 2018.">ZC18</a>]</span>) with extra assumptions such as
-the convexity of the objective function <span class="math notranslate nohighlight">\(f\)</span>, etc.</p>
-</section>
-<section id="fedavg-from-the-perspective-of-optimization">
-<h3><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization<a class="headerlink" href="#fedavg-from-the-perspective-of-optimization" title="Permalink to this heading">#</a></h3>
-<p>In this section, we will analyze the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> algorithm from the perspective of optimization theory.
-In fact, the optimization problem <a class="reference internal" href="#equation-fl-basic">(2)</a> that <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> solves can be equivalently reformulated
-as the following constrained optimization problem:</p>
-<div class="math notranslate nohighlight" id="equation-fedavg-constraint">
-<span class="eqno">(12)<a class="headerlink" href="#equation-fedavg-constraint" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\newcommand{\col}{\operatorname{col}}\\\begin{split}\begin{array}{cl}
-\minimize &amp; F(\Theta) := \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
-\text{subject to} &amp; \Theta \in \mathcal{E},
-\end{array}\end{split}\end{aligned}\end{align} \]</div>
-<p>where <span class="math notranslate nohighlight">\(\Theta = \col(\theta_1, \cdots, \theta_K) := \begin{pmatrix} \theta_1 \\ \vdots \\ \theta_K \end{pmatrix}, \theta_1, \ldots, \theta_K \in \R^d\)</span>
-and <span class="math notranslate nohighlight">\(\mathcal{E} = \left\{ \Theta ~ \middle| ~ \theta_1 = \cdots = \theta_K \right\}\)</span> is a convex set in <span class="math notranslate nohighlight">\(\R^{Kd}\)</span>.
-Projected gradient descent (PGD) is an effective method for solving the constrained optimization problem <a class="reference internal" href="#equation-fedavg-constraint">(12)</a>, which has the following update rule:</p>
-<div class="math notranslate nohighlight" id="equation-fedavg-pgd">
-<span class="eqno">(13)<a class="headerlink" href="#equation-fedavg-pgd" title="Permalink to this equation">#</a></span>\[\Theta^{(t+1)} = \Pi_{\mathcal{E}} \left( \Theta^{(t)} - \eta \nabla F(\Theta^{(t)}) \right),\]</div>
-<p>where <span class="math notranslate nohighlight">\(\Pi_{\mathcal{E}}\)</span> is the projection operator onto the set <span class="math notranslate nohighlight">\(\mathcal{E}\)</span>. It is easy to show that
-the projection operator onto the set <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> is indeed the average operator, i.e.,</p>
-<div class="math notranslate nohighlight" id="equation-fedavg-projection">
-<span class="eqno">(14)<a class="headerlink" href="#equation-fedavg-projection" title="Permalink to this equation">#</a></span>\[\Pi_{\mathcal{E}}: \R^{Kd} \to \mathcal{E}: ( \theta_1, \ldots, \theta_K) \mapsto \left(\frac{1}{K}\sum\limits_{k=1}^K \theta_K, \ldots, \frac{1}{K}\sum\limits_{k=1}^K \theta_K \right).\]</div>
-<p>We have shown that mathematically the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> algorithm is indeed a kind of stochastic projected gradient descent (SPGD)
-algorithm, where the clients perform local stochastic gradient descent (SGD) updates and the server performs
-the projection step <a class="reference internal" href="#equation-fedavg-projection">(14)</a>.</p>
-</section>
-<section id="a-direct-improvement-of-fedavg">
-<h3>A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code><a class="headerlink" href="#a-direct-improvement-of-fedavg" title="Permalink to this heading">#</a></h3>
-<p>Since <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> is based on stochastic gradient descent (SGD), it is natural to consider applying
-acceleration techniques <span id="id10">[<a class="reference internal" href="#id42" title="John Duchi, Elad Hazan, and Yoram Singer. Adaptive Subgradient Methods for Online Learning and Stochastic Optimization. Journal of Machine Learning Research, 12(61):2121–2159, 7 2011.">DHS11</a>, <a class="reference internal" href="#id30" title="Diederik P. Kingma and Jimmy Ba. Adam: A Method for Stochastic Optimization. In 3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings. 2015.">KB15</a>, <a class="reference internal" href="#id68" title="Sashank J. Reddi, Satyen Kale, and Sanjiv Kumar. On the Convergence of Adam and Beyond. In 6th International Conference on Learning Representations (ICLR). OpenReview.net, 5 2018. URL: https://openreview.net/forum?id=ryQu7f-RZ.">RKK18</a>, <a class="reference internal" href="#id43" title="Manzil Zaheer, Sashank J. Reddi, Devendra Sachan, Satyen Kale, and Sanjiv Kumar. Adaptive Methods for Nonconvex Optimization. In Proceedings of the 32nd International Conference on Neural Information Processing Systems, NIPS'18, 9815–9825. Red Hook, NY, USA, 2018. Curran Associates Inc.">ZRS+18</a>]</span> to improve the algorithm performance.
-Computation on clients and on the server are relatively decoupled, so it does not require large modifications
-to the whole algorithm framework. Indeed, the authors of the <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> paper put this idea into practice and proposed
-a federated learning framework called <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> <span id="id11">[<a class="reference internal" href="#id50" title="Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In International Conference on Learning Representations. 2021.">RCZ+21</a>]</span> which has stronger adaptability.
-The pseudocode for <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> is shown as follows:</p>
-<img alt="Psuedocode for ``FedOpt``" class="no-scaled-link align-center" id="pseduocode-fedopt" src="_images/fedopt.svg" width="80%" /><p>In the above pseudocode, <span class="math notranslate nohighlight">\(\operatorname{aggregate} \left( \left\{ \Delta_{k}^{(t)} \right\}_{k \in \mathcal{S}^{(t)}} \right)\)</span>
-refers to some method that aggregates the local inertia updates <span class="math notranslate nohighlight">\(\Delta_{k}^{(t)}\)</span> from the selected clients
-<span class="math notranslate nohighlight">\(\mathcal{S}^{(t)}\)</span> into a global inertia update <span class="math notranslate nohighlight">\(\Delta^{(t)}\)</span>. This method, for example, can be simply averaging</p>
-<div class="math notranslate nohighlight" id="equation-fedopt-agg-inertia-average">
-<span class="eqno">(15)<a class="headerlink" href="#equation-fedopt-agg-inertia-average" title="Permalink to this equation">#</a></span>\[\Delta^{(t)} \gets \frac{1}{\lvert \mathcal{S}^{(t)} \rvert} \sum\limits_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)},\]</div>
-<p>or linear combination with inertia of the previous iteration</p>
-<div class="math notranslate nohighlight" id="equation-fedopt-agg-inertia-lin-comb">
-<span class="eqno">(16)<a class="headerlink" href="#equation-fedopt-agg-inertia-lin-comb" title="Permalink to this equation">#</a></span>\[\Delta^{(t)} \gets \beta_1 \Delta^{(t-1)} + \left( (1 - \beta_1) / \lvert \mathcal{S}^{(t)} \rvert \right) \sum_{k \in \mathcal{S}^{(t)}} \Delta_{k}^{(t)}.\]</div>
-<p>As one has already noticed, compared to <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>, <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> introduces some momentum terms on the server node (in <strong>ServerOpt</strong>) to
-accelerate the convergence. In <span id="id12">[<a class="reference internal" href="#id50" title="Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In International Conference on Learning Representations. 2021.">RCZ+21</a>]</span>, the authors listed several options for <strong>ServerOpt</strong>:</p>
+<p>Federated optimization algorithms have been the central problem in the field of federated learning since its inception.
+This chapter contains a collection of algorithms that have been proposed in the literature, which will be analyzed
+from the viewpoint of optimization theory, espcially the theory of operator splitting.</p>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sections:</span></p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">FedAdagrad</span></code>:</p>
-<blockquote>
-<div><div class="math notranslate nohighlight" id="equation-fedopt-serveropt-fedadagrad">
-<span class="eqno">(17)<a class="headerlink" href="#equation-fedopt-serveropt-fedadagrad" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
-v^{(t)} &amp; \gets v^{(t-1)} + ( \Delta^{(t)} )^2 \\
-\theta^{(t+1)} &amp; \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
-\end{aligned}\end{split}\]</div>
-</div></blockquote>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">FedYogi</span></code>:</p>
-<blockquote>
-<div><div class="math notranslate nohighlight" id="equation-fedopt-serveropt-fedyogi">
-<span class="eqno">(18)<a class="headerlink" href="#equation-fedopt-serveropt-fedyogi" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
-v^{(t)} &amp; \gets v^{(t-1)} - (1 - \beta_2) ( \Delta^{(t)} )^2 \operatorname{sign}(v^{(t-1)} - ( \Delta^{(t)} )^2) \\
-\theta^{(t+1)} &amp; \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
-\end{aligned}\end{split}\]</div>
-</div></blockquote>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">FedAdam</span></code>:</p>
-<blockquote>
-<div><div class="math notranslate nohighlight" id="equation-fedopt-serveropt-fedadam">
-<span class="eqno">(19)<a class="headerlink" href="#equation-fedopt-serveropt-fedadam" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{aligned}
-v^{(t)} &amp; \gets \beta_2 v^{(t-1)} + (1 - \beta_2) ( \Delta^{(t)} )^2 \\
-\theta^{(t+1)} &amp; \gets \theta^{(t)} + \eta_g \Delta^{(t)} / (\sqrt{v^{(t)}}+\tau)
-\end{aligned}\end{split}\]</div>
-</div></blockquote>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/overview.html">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/proximal.html">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/primal_dual.html">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/operator_splitting.html">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms/skipping.html">Skipping Algorithms in Federated Learning</a></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> applys acceleration techniques which are frequently used in general machine learning tasks to the field of
-federated learning. It is a direct improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> which is simple but important. Moreover, it demonstrates
-the decoupling of the computation on clients and on the server, which is a key feature of federated learning.</p>
-<p>To better handle non-I.I.D. data, one needs to introduce some other techniques. In non-I.I.D. scenarios,
-the gradients have different distributions across clients. A natural idea is to bring in some extra parameters
-which update along with the model parameters to make corrections (modifications) to the gradients on clients,
-reducing their variance and further accelerating the convergence. This technique is the so-called <strong>variance reduction</strong>
-technique <span id="id13">[<a class="reference internal" href="#id72" title="Rie Johnson and Tong Zhang. Accelerating Stochastic Gradient Descent using Predictive Variance Reduction. In C.J. Burges, L. Bottou, M. Welling, Z. Ghahramani, and K.Q. Weinberger, editors, Advances in Neural Information Processing Systems, volume 26. Curran Associates, Inc., 2013.">JZ13</a>]</span>, which was first introduced to federated learning in
-<span id="id14">[<a class="reference internal" href="#id54" title="Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In International Conference on Machine Learning, 5132–5143. PMLR, 2020.">KKM+20</a>]</span> in the form of a new federated learning algorithm called <strong>SCAFFOLD</strong>
-(Stochastic Controlled Averaging algorithm). The pseudocode for <strong>SCAFFOLD</strong> is shown as follows:</p>
-<img alt="Psuedocode for ``Scaffold``" class="no-scaled-link align-center" id="pseduocode-scaffold" src="_images/scaffold.svg" width="80%" /><p>Variance reduction is a technique that can be flexibly combined with most algorithms and has been widely used
-in federated learning for dealing with statistical heterogeneity. However, it should be noted in the
-<a class="reference internal" href="#pseduocode-scaffold">SCAFFOLD algorithm</a> that on both the server and the clients, there are extra parameters
-<span class="math notranslate nohighlight">\(c\)</span> and <span class="math notranslate nohighlight">\(c_k\)</span> to maintain, which may increase the communication cost. In scenarios which are sensitive
-to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of
-the variance reduction technique and some <strong>skipping</strong> techniques (e.g. <span id="id15">[<a class="reference internal" href="#id90" title="Siqi Zhang and Nicolas Loizou. ProxSkip for Stochastic Variational Inequalities: A Federated Learning Algorithm for Provable Communication Acceleration. In OPT 2022: Optimization for Machine Learning (NeurIPS 2022 Workshop). 2022.">ZL22</a>]</span>),
-which will be introduced in next sections.</p>
-</section>
-</section>
-<section id="proximal-algorithms-in-federated-learning">
-<h2>Proximal Algorithms in Federated Learning<a class="headerlink" href="#proximal-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
-<p>In non-I.I.D. scenarios, based on the idea of reducing the impact of local updates of clients on the global model,
-<span id="id16">[<a class="reference internal" href="#id53" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>]</span> first introduced a proximal term to the local objective functions, aiming at making the
-algorithm more stable and converging faster. Compared to <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code>, methods using proximal terms do not need to
-maintain extra parameters (mainly related to the gradients), hence having no communication overhead and no
-additional cost to security (refer to <span id="id17">[<a class="reference internal" href="#id66" title="Ligeng Zhu, Zhijian Liu, and Song Han. Deep Leakage from Gradients. Advances in Neural Information Processing Systems, 32:14774–14784, 2019.">ZLH19</a>]</span> for more details).</p>
-<p>To be more specific, in the <span class="math notranslate nohighlight">\((t+1)\)</span>-th iteration, the local objective function of client <span class="math notranslate nohighlight">\(k\)</span> changes from
-<span class="math notranslate nohighlight">\(f_k(\theta_k)\)</span> to the following form with a proximal term:</p>
-<div class="math notranslate nohighlight" id="equation-fedprox-local-obj">
-<span class="eqno">(20)<a class="headerlink" href="#equation-fedprox-local-obj" title="Permalink to this equation">#</a></span>\[h_k(\theta_k, \theta^{(t)}) := f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mu\)</span> is a penalty constant. It should be noticed that the proximal center <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> is
-the model parameter on the server node obtained in the previous iteration (the <span class="math notranslate nohighlight">\(t\)</span>-th iteration). Indeed,
-the overall optimization problem can be modeled as the following constrained optimization problem</p>
-<div class="math notranslate nohighlight" id="equation-fedprox-whole">
-<span class="eqno">(21)<a class="headerlink" href="#equation-fedprox-whole" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
-\minimize &amp; \frac{1}{K} \sum\limits_{k=1}^K \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta \rVert^2 \right\} \\
-\text{subject to} &amp; \theta = \frac{1}{K} \sum\limits_{k=1}^K \theta_k.
-\end{array}\end{split}\]</div>
-<p>For alternatives for the proximal center, studies were conducted in <span id="id18">[<a class="reference internal" href="#id51" title="Filip Hanzely and Peter Richtárik. Federated Learning of a Mixture of Global and Local Models. arXiv preprint arXiv:2002.05516, 2020.">HRichtarik20</a>, <a class="reference internal" href="#id52" title="Tian Li, Shengyuan Hu, Ahmad Beirami, and Virginia Smith. Ditto: Fair and Robust Federated Learning Through Personalization. In Marina Meila and Tong Zhang, editors, Proceedings of the 38th International Conference on Machine Learning, volume 139 of Proceedings of Machine Learning Research, 6357–6368. PMLR, 7 2021.">LHBS21</a>]</span> which would be
-introduced later. Now, we summarize the pseudocode for <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> as follows:</p>
-<img alt="Psuedocode for ``FedProx``" class="no-scaled-link align-center" id="pseduocode-fedprox" src="_images/fedprox.svg" width="80%" /><p>We denote the <span class="math notranslate nohighlight">\(\gamma\)</span>-inexact solution <span class="math notranslate nohighlight">\(\theta_k^{(t)}\)</span> as</p>
-<div class="math notranslate nohighlight" id="equation-prox-op">
-<span class="eqno">(22)<a class="headerlink" href="#equation-prox-op" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator*{\argmin}{arg\,min}
-% \DeclareMathOperator*{\prox}{prox}
-\newcommand{\prox}{\mathbf{prox}}\\\theta_k^{(t)} \approx \prox_{f_k, \mu} (\theta^{(t)}) := \argmin\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\},\end{aligned}\end{align} \]</div>
-<p>where <span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span> is the proximal operator <span id="id19">[<a class="reference internal" href="#id39" title="J.J. Moreau. Proximité et Dualité dans un Espace Hilbertien. Bulletin de la Société Mathématique de France, 79:273–299, 1965. doi:10.24033/bsmf.1625.">Mor65</a>]</span> of <span class="math notranslate nohighlight">\(f_k\)</span> with respect to <span class="math notranslate nohighlight">\(\mu\)</span>.
-Let <span class="math notranslate nohighlight">\(s = \frac{1}{\mu}\)</span>, since one has <span class="math notranslate nohighlight">\(\prox_{f_k, \mu} = \prox_{sf_k, 1}\)</span>, we also denote <span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span>
-as <span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span>. Corresponding function</p>
-<div class="math notranslate nohighlight" id="equation-moreau-env">
-<span class="eqno">(23)<a class="headerlink" href="#equation-moreau-env" title="Permalink to this equation">#</a></span>\[\mathcal{M}_{sf_k} (\theta^{(t)}) = \mathcal{M}_{f_k, \mu} (\theta^{(t)}) := \inf\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}\]</div>
-<p>is called <strong>Moreau envelope</strong> or <strong>Moreau-Yosida regularization</strong> of <span class="math notranslate nohighlight">\(f_k\)</span> with respect to <span class="math notranslate nohighlight">\(\mu\)</span>.
-Moreau envelope of a function <span class="math notranslate nohighlight">\(f_k\)</span> has the following relationship <span id="id20">[<a class="reference internal" href="#id33" title="Neal Parikh and Stephen Boyd. Proximal Algorithms. Foundations and Trends® in Optimization, 1(3):127–239, 2014. doi:10.1561/2400000003.">PB14</a>]</span> with its proximal operator:</p>
-<div class="math notranslate nohighlight" id="equation-prox-moreau-relation">
-<span class="eqno">(24)<a class="headerlink" href="#equation-prox-moreau-relation" title="Permalink to this equation">#</a></span>\[\prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.\]</div>
-<p>Namely, <span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span> can be regarded as the gradient descent operator for minimizing <span class="math notranslate nohighlight">\(\mathcal{M}_{sf_k}\)</span> with step size <span class="math notranslate nohighlight">\(s\)</span>.</p>
-<p>For the convergence of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> in non-I.I.D. scenarios, <span id="id21">[<a class="reference internal" href="#id53" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>]</span> has the following theorem:</p>
-<div class="proof proof-type-theorem" id="id159">
-<span id="fedprox-thm4"></span>
-    <div class="proof-title">
-        <span class="proof-type">Theorem </span>
-        
-            <span class="proof-title-name">(<span id="id22">[<a class="reference internal" href="#id53" title="Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, Proceedings of Machine Learning and Systems, volume 2, 429–450. 2020.">LSZ+20</a>]</span> Theorem 4)</span>
-        
-    </div><div class="proof-content">
-<p>Assume that the objective functions on clients <span class="math notranslate nohighlight">\(\{f_k\}_{k=1}^K\)</span> are non-convex, <span class="math notranslate nohighlight">\(L\)</span>-smooth (definition see <a class="reference internal" href="#equation-l-smooth">(3)</a>), and there exists a constant <span class="math notranslate nohighlight">\(L_- &gt; 0\)</span> such that <span class="math notranslate nohighlight">\(\nabla^2 f_k \succcurlyeq -L_- I_d\)</span>.
-Assume further that the functions <span class="math notranslate nohighlight">\(\{f_k\}_{k=1}^K\)</span> satisfy the so-called bounded dissimilarity condition, i.e.
-for any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, there exists a constant <span class="math notranslate nohighlight">\(B_{\varepsilon} &gt; 0\)</span> such that for any point <span class="math notranslate nohighlight">\(\theta\)</span>
-in the set <span class="math notranslate nohighlight">\(\mathcal{S}_{\varepsilon}^c := \{ \theta ~|~ \lVert \nabla f(\theta) \rVert^2 &gt; \varepsilon\}\)</span>,
-the following inequality holds</p>
-<div class="math notranslate nohighlight" id="equation-fedprox-bdd-dissim">
-<span class="eqno">(25)<a class="headerlink" href="#equation-fedprox-bdd-dissim" title="Permalink to this equation">#</a></span>\[B(\theta) := \frac{\expectation_k [\lVert \nabla f_k(\theta) \rVert^2]}{\lVert \nabla f(\theta) \rVert^2} \leqslant B_{\varepsilon}.\]</div>
-<p>Fix constants <span class="math notranslate nohighlight">\(\mu, \gamma\)</span> satisfying</p>
-<div class="math notranslate nohighlight" id="equation-fedprox-mu-gamma">
-<span class="eqno">(26)<a class="headerlink" href="#equation-fedprox-mu-gamma" title="Permalink to this equation">#</a></span>\[\rho := \left( \frac{1}{\mu} - \frac{\gamma B}{\mu} - \frac{B(1+\gamma)\sqrt{2}}{\bar{\mu}\sqrt{K}} - \frac{LB(1+\gamma)}{\bar{\mu}\mu} - \frac{LB^2(1+\gamma)^2}{2\bar{\mu}^2} - \frac{LB^2(1+\gamma)^2}{\bar{\mu}^2 K} \left( 2\sqrt{2K} + 2 \right) \right) &gt; 0,\]</div>
-<p>where <span class="math notranslate nohighlight">\(\bar{\mu} = \mu - L_- &gt; 0\)</span>. Then, in the <span class="math notranslate nohighlight">\((t+1)\)</span>-th iteration of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code>, assuming that the global model
-<span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> of the previous iteration is not the first-order stationary point of the global objective function <span class="math notranslate nohighlight">\(f(\theta)\)</span>,
-(i.e. <span class="math notranslate nohighlight">\(\theta^{(t)} \in \mathcal{S}_{\varepsilon}^c\)</span>), the following decrease in the global objective function holds</p>
-<div class="math notranslate nohighlight" id="equation-fedprox-obj-decrease">
-<span class="eqno">(27)<a class="headerlink" href="#equation-fedprox-obj-decrease" title="Permalink to this equation">#</a></span>\[\expectation\nolimits_{\mathcal{S}^{(t)}}[f(\theta^{(t+1)})] \leqslant f(\theta^{(t)}) - \rho \lVert \nabla f (\theta^{(t)}) \rVert^2.\]</div>
-</div></div><div class="proof proof-type-remark" id="id160">
-<span id="fedprox-rem1"></span>
-    <div class="proof-title">
-        <span class="proof-type">Remark </span>
-        
-    </div><div class="proof-content">
-<p>For the <a class="reference internal" href="#fedprox-thm4">convergence theorem</a> of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code>, we have the following observations: in a neighbourhood of
-some zero of <span class="math notranslate nohighlight">\(\lVert \nabla f \rVert\)</span>, if this zero is not cancelled by <span class="math notranslate nohighlight">\(\mathbb{E}_k[\lVert \nabla f_k \rVert]\)</span>,
-i.e. this point is also a zero of <span class="math notranslate nohighlight">\(\mathbb{E}_k[\lVert \nabla f_k \rVert]\)</span> with the same or higher multiplicity,
-then in the neighbourhood, <span class="math notranslate nohighlight">\(B_{\varepsilon}\)</span> goes rapidly to infinity as <span class="math notranslate nohighlight">\(\varepsilon \to 0\)</span>, thus violating
-the condition <span class="math notranslate nohighlight">\(\rho &gt; 0\)</span>. In this case, the inequality <a class="reference internal" href="#equation-fedprox-obj-decrease">(27)</a> becomes meaningless.</p>
-<p>When the data distribution across clients is identical (ideal case), then <span class="math notranslate nohighlight">\(B_{\varepsilon}\)</span> is constantly equal to 1,
-which would not have the problem mentioned above. This problem is the start point of a series of follow-up works <span id="id23">[<a class="reference internal" href="#id69" title="Reese Pathak and Martin J Wainwright. FedSplit: An Algorithmic Framework for Fast Federated Optimization. In H. Larochelle, M. Ranzato, R. Hadsell, M.F. Balcan, and H. Lin, editors, Advances in Neural Information Processing Systems, volume 33, 7057–7066. Curran Associates, Inc., 2020.">PW20</a>, <a class="reference internal" href="#id70" title="Quoc Tran-Dinh, Nhan Pham, Dzung T. Phan, and Lam M. Nguyen. FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization. In A. Beygelzimer, Y. Dauphin, P. Liang, and J. Wortman Vaughan, editors, Advances in Neural Information Processing Systems. 2021.">TDPPN21</a>]</span>.</p>
-</div></div><p>The positive significance of the <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> algorithm is that it first introduced the proximal point algorithms (PPA) in the field of
-federated learning, although which were only used for solving local optimization problems (or equivalently the inner loop problem) and the
-whole of the <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> algorithm is not a PPA in strict sense. The <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> algorithm provides not only a good framework for theoretical
-analysis, but also a good starting point for the design of new algorithms. A large proportion of the algorithms proposed later for personalized
-fedrated learning <span id="id24">[<a class="reference internal" href="#id116" title="Durmus Alp Emre Acar, Yue Zhao, Ramon Matas, Matthew Mattina, Paul Whatmough, and Venkatesh Saligrama. Federated Learning Based on Dynamic Regularization. In International Conference on Learning Representations. 2021.">AZM+21</a>, <a class="reference internal" href="#id55" title="Canh T. Dinh, Nguyen H. Tran, and Tuan Dung Nguyen. Personalized Federated Learning with Moreau Envelopes. In Proceedings of the 34th International Conference on Neural Information Processing Systems. Red Hook, NY, USA, 2020. Curran Associates Inc.">DTN20</a>, <a class="reference internal" href="#id51" title="Filip Hanzely and Peter Richtárik. Federated Learning of a Mixture of Global and Local Models. arXiv preprint arXiv:2002.05516, 2020.">HRichtarik20</a>, <a class="reference internal" href="#id52" title="Tian Li, Shengyuan Hu, Ahmad Beirami, and Virginia Smith. Ditto: Fair and Robust Federated Learning Through Personalization. In Marina Meila and Tong Zhang, editors, Proceedings of the 38th International Conference on Machine Learning, volume 139 of Proceedings of Machine Learning Research, 6357–6368. PMLR, 7 2021.">LHBS21</a>, <a class="reference internal" href="#id67" title="Yinchuan Li, Xiaofeng Liu, Xu Zhang, Yunfeng Shao, Qing Wang, and Yanhui Geng. Personalized Federated Learning via Maximizing Correlation with Sparse and Hierarchical Extensions. arXiv preprint arXiv:2107.05330, 2021.">LLZ+21</a>]</span> rely on the proximal terms (or similar terms)
-as the main technical tool for personalization.</p>
-<div class="figure" id="id161" style="text-align: center">
-<span id="fig-apfl"></span><p><img width="80%" src="_images/tikz-a4a11a93d19f47c1e3a684dd5159c5d79f350276.svg" alt="Figure made with TikZ" /></p>
-<p><span class="caption-text">Schematic diagram for <span class="math notranslate nohighlight">\(f_k(\alpha_k \omega_k + (1 - \alpha_k) \theta^*)\)</span> in the APFL algorithm.</span></p>
-</div><div class="figure" id="id162" style="text-align: center">
-<span id="fig-feddyn"></span><p><img width="80%" src="_images/tikz-ea5939230cbfad9f08b2efbb2087d0f52426b2e4.svg" alt="Figure made with TikZ" /></p>
-<p><span class="caption-text">Client model parameter update schematic diagram of the FedDyn algorithm.</span></p>
-</div><p>to write….</p>
-</section>
-<section id="primal-dual-algorithms-in-federated-learning">
-<span id="fl-alg-primal-dual"></span><h2>Primal-Dual Algorithms in Federated Learning<a class="headerlink" href="#primal-dual-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
-<p>In traditional optimization methods, the primal-dual algorithm is a kind of frequently used algorithm that solves the primal and dual problems.</p>
-<p>to write….</p>
-</section>
-<section id="operator-splitting-algorithms-in-federated-learning">
-<span id="fl-alg-operator-splitting"></span><h2>Operator Splitting Algorithms in Federated Learning<a class="headerlink" href="#operator-splitting-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
-<p>to write….</p>
-</section>
-<section id="skipping-algorithms-in-federated-learning">
-<span id="fl-alg-skipping"></span><h2>Skipping Algorithms in Federated Learning<a class="headerlink" href="#skipping-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h2>
-<p>to write….</p>
-<div class="docutils container" id="id25">
-<p class="rubric">References</p>
-<div role="list" class="citation-list">
-<div class="citation" id="id116" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id24">AZM+21</a><span class="fn-bracket">]</span></span>
-<p>Durmus Alp Emre Acar, Yue Zhao, Ramon Matas, Matthew Mattina, Paul Whatmough, and Venkatesh Saligrama. Federated Learning Based on Dynamic Regularization. In <em>International Conference on Learning Representations</em>. 2021.</p>
 </div>
-<div class="citation" id="id32" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">BPC11</a><span class="fn-bracket">]</span></span>
-<p>Stephen Boyd, Neal Parikh, and Eric Chu. <em>Distributed Optimization and Statistical Learning via the Alternating Direction Method of Multipliers</em>. Now Publishers Inc., 2011.</p>
-</div>
-<div class="citation" id="id55" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id24">DTN20</a><span class="fn-bracket">]</span></span>
-<p>Canh T. Dinh, Nguyen H. Tran, and Tuan Dung Nguyen. Personalized Federated Learning with Moreau Envelopes. In <em>Proceedings of the 34th International Conference on Neural Information Processing Systems</em>. Red Hook, NY, USA, 2020. Curran Associates Inc.</p>
-</div>
-<div class="citation" id="id42" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">DHS11</a><span class="fn-bracket">]</span></span>
-<p>John Duchi, Elad Hazan, and Yoram Singer. Adaptive Subgradient Methods for Online Learning and Stochastic Optimization. <em>Journal of Machine Learning Research</em>, 12(61):2121–2159, 7 2011.</p>
-</div>
-<div class="citation" id="id51" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>HRichtarik20<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id18">1</a>,<a role="doc-backlink" href="#id24">2</a>)</span>
-<p>Filip Hanzely and Peter Richtárik. Federated Learning of a Mixture of Global and Local Models. <em>arXiv preprint arXiv:2002.05516</em>, 2020.</p>
-</div>
-<div class="citation" id="id72" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id13">JZ13</a><span class="fn-bracket">]</span></span>
-<p>Rie Johnson and Tong Zhang. Accelerating Stochastic Gradient Descent using Predictive Variance Reduction. In C.J. Burges, L. Bottou, M. Welling, Z. Ghahramani, and K.Q. Weinberger, editors, <em>Advances in Neural Information Processing Systems</em>, volume 26. Curran Associates, Inc., 2013.</p>
-</div>
-<div class="citation" id="id54" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>KKM+20<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>,<a role="doc-backlink" href="#id14">3</a>)</span>
-<p>Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In <em>International Conference on Machine Learning</em>, 5132–5143. PMLR, 2020.</p>
-</div>
-<div class="citation" id="id47" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">KMR19</a><span class="fn-bracket">]</span></span>
-<p>Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. First Analysis of Local GD on Heterogeneous Data. <em>arXiv preprint arXiv:1909.04715v2</em>, 9 2019. <a class="reference external" href="https://doi.org/10.48550/ARXIV.1909.04715">doi:10.48550/ARXIV.1909.04715</a>.</p>
-</div>
-<div class="citation" id="id48" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">KMR20</a><span class="fn-bracket">]</span></span>
-<p>Ahmed Khaled, Konstantin Mishchenko, and Peter Richtárik. Tighter Theory for Local SGD on Identical and Heterogeneous Data. In Silvia Chiappa and Roberto Calandra, editors, <em>Proceedings of the Twenty Third International Conference on Artificial Intelligence and Statistics</em>, volume 108 of Proceedings of Machine Learning Research, 4519–4529. PMLR, 8 2020.</p>
-</div>
-<div class="citation" id="id30" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">KB15</a><span class="fn-bracket">]</span></span>
-<p>Diederik P. Kingma and Jimmy Ba. Adam: A Method for Stochastic Optimization. In <em>3rd International Conference on Learning Representations, ICLR 2015, San Diego, CA, USA, May 7-9, 2015, Conference Track Proceedings</em>. 2015.</p>
-</div>
-<div class="citation" id="id52" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>LHBS21<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id18">1</a>,<a role="doc-backlink" href="#id24">2</a>)</span>
-<p>Tian Li, Shengyuan Hu, Ahmad Beirami, and Virginia Smith. Ditto: Fair and Robust Federated Learning Through Personalization. In Marina Meila and Tong Zhang, editors, <em>Proceedings of the 38th International Conference on Machine Learning</em>, volume 139 of Proceedings of Machine Learning Research, 6357–6368. PMLR, 7 2021.</p>
-</div>
-<div class="citation" id="id53" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>LSZ+20<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id16">2</a>,<a role="doc-backlink" href="#id21">3</a>,<a role="doc-backlink" href="#id22">4</a>)</span>
-<p>Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, <em>Proceedings of Machine Learning and Systems</em>, volume 2, 429–450. 2020.</p>
-</div>
-<div class="citation" id="id49" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>LHY+20<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
-<p>Xiang Li, Kaixuan Huang, Wenhao Yang, Shusen Wang, and Zhihua Zhang. On the Convergence of FedAvg on Non-IID Data. In <em>International Conference on Learning Representations</em>. OpenReview.net, 2020.</p>
-</div>
-<div class="citation" id="id67" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id24">LLZ+21</a><span class="fn-bracket">]</span></span>
-<p>Yinchuan Li, Xiaofeng Liu, Xu Zhang, Yunfeng Shao, Qing Wang, and Yanhui Geng. Personalized Federated Learning via Maximizing Correlation with Sparse and Hierarchical Extensions. <em>arXiv preprint arXiv:2107.05330</em>, 2021.</p>
-</div>
-<div class="citation" id="id44" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>MMR+17<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id7">2</a>)</span>
-<p>Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In <em>Artificial Intelligence and Statistics</em>, 1273–1282. PMLR, 2017.</p>
-</div>
-<div class="citation" id="id89" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">MMSR22</a><span class="fn-bracket">]</span></span>
-<p>Konstantin Mishchenko, Grigory Malinovsky, Sebastian Stich, and Peter Richtarik. ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally! In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, <em>Proceedings of the 39th International Conference on Machine Learning</em>, volume 162 of Proceedings of Machine Learning Research, 15750–15769. PMLR, 7 2022.</p>
-</div>
-<div class="citation" id="id39" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">Mor65</a><span class="fn-bracket">]</span></span>
-<p>J.J. Moreau. Proximité et Dualité dans un Espace Hilbertien. <em>Bulletin de la Société Mathématique de France</em>, 79:273–299, 1965. <a class="reference external" href="https://doi.org/10.24033/bsmf.1625">doi:10.24033/bsmf.1625</a>.</p>
-</div>
-<div class="citation" id="id33" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id20">PB14</a><span class="fn-bracket">]</span></span>
-<p>Neal Parikh and Stephen Boyd. Proximal Algorithms. <em>Foundations and Trends® in Optimization</em>, 1(3):127–239, 2014. <a class="reference external" href="https://doi.org/10.1561/2400000003">doi:10.1561/2400000003</a>.</p>
-</div>
-<div class="citation" id="id69" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id23">PW20</a><span class="fn-bracket">]</span></span>
-<p>Reese Pathak and Martin J Wainwright. FedSplit: An Algorithmic Framework for Fast Federated Optimization. In H. Larochelle, M. Ranzato, R. Hadsell, M.F. Balcan, and H. Lin, editors, <em>Advances in Neural Information Processing Systems</em>, volume 33, 7057–7066. Curran Associates, Inc., 2020.</p>
-</div>
-<div class="citation" id="id50" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>RCZ+21<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id11">1</a>,<a role="doc-backlink" href="#id12">2</a>)</span>
-<p>Sashank J. Reddi, Zachary Charles, Manzil Zaheer, Zachary Garrett, Keith Rush, Jakub Konečný, Sanjiv Kumar, and Hugh Brendan McMahan. Adaptive Federated Optimization. In <em>International Conference on Learning Representations</em>. 2021.</p>
-</div>
-<div class="citation" id="id68" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">RKK18</a><span class="fn-bracket">]</span></span>
-<p>Sashank J. Reddi, Satyen Kale, and Sanjiv Kumar. On the Convergence of Adam and Beyond. In <em>6th International Conference on Learning Representations (ICLR)</em>. OpenReview.net, 5 2018. URL: <a class="reference external" href="https://openreview.net/forum?id=ryQu7f-RZ">https://openreview.net/forum?id=ryQu7f-RZ</a>.</p>
-</div>
-<div class="citation" id="id70" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id23">TDPPN21</a><span class="fn-bracket">]</span></span>
-<p>Quoc Tran-Dinh, Nhan Pham, Dzung T. Phan, and Lam M. Nguyen. FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization. In A. Beygelzimer, Y. Dauphin, P. Liang, and J. Wortman Vaughan, editors, <em>Advances in Neural Information Processing Systems</em>. 2021.</p>
-</div>
-<div class="citation" id="id43" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">ZRS+18</a><span class="fn-bracket">]</span></span>
-<p>Manzil Zaheer, Sashank J. Reddi, Devendra Sachan, Satyen Kale, and Sanjiv Kumar. Adaptive Methods for Nonconvex Optimization. In <em>Proceedings of the 32nd International Conference on Neural Information Processing Systems</em>, NIPS'18, 9815–9825. Red Hook, NY, USA, 2018. Curran Associates Inc.</p>
-</div>
-<div class="citation" id="id90" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>ZL22<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id15">2</a>)</span>
-<p>Siqi Zhang and Nicolas Loizou. ProxSkip for Stochastic Variational Inequalities: A Federated Learning Algorithm for Provable Communication Acceleration. In <em>OPT 2022: Optimization for Machine Learning (NeurIPS 2022 Workshop)</em>. 2022.</p>
-</div>
-<div class="citation" id="id61" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>ZHD+21<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id4">2</a>,<a role="doc-backlink" href="#id6">3</a>)</span>
-<p>Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. <em>IEEE Transactions on Signal Processing</em>, 69:6055–6070, 2021. <a class="reference external" href="https://doi.org/10.1109/tsp.2021.3115952">doi:10.1109/tsp.2021.3115952</a>.</p>
-</div>
-<div class="citation" id="id111" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">ZC18</a><span class="fn-bracket">]</span></span>
-<p>Fan Zhou and Guojing Cong. On the Convergence Properties of a K-Step Averaging Stochastic Gradient Descent Algorithm for Nonconvex Optimization. In <em>Proceedings of the 27th International Joint Conference on Artificial Intelligence</em>, IJCAI'18, 3219–3227. AAAI Press, 2018.</p>
-</div>
-<div class="citation" id="id66" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">ZLH19</a><span class="fn-bracket">]</span></span>
-<p>Ligeng Zhu, Zhijian Liu, and Song Han. Deep Leakage from Gradients. <em>Advances in Neural Information Processing Systems</em>, 32:14774–14784, 2019.</p>
-</div>
-</div>
-</div>
-</section>
 </section>
 
 
@@ -892,11 +469,10 @@ as the main technical tool for personalization.</p>
 
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="api/utils.html"
@@ -908,46 +484,20 @@ as the main technical tool for personalization.</p>
       </div>
     </a>
     <a class="right-next"
-       href="cli.html"
+       href="algorithms/overview.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Command line interface</p>
+        <p class="prev-next-title">Overview of Optimization Algorithms in Federated Learning</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-optimization-algorithms-in-federated-learning">Overview of Optimization Algorithms in Federated Learning</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#federated-averaging-algorithm">Federated Averaging Algorithm</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fedavg-from-the-perspective-of-optimization"><code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> from the Perspective of Optimization</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-direct-improvement-of-fedavg">A Direct Improvement of <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proximal-algorithms-in-federated-learning">Proximal Algorithms in Federated Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#primal-dual-algorithms-in-federated-learning">Primal-Dual Algorithms in Federated Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operator-splitting-algorithms-in-federated-learning">Operator Splitting Algorithms in Federated Learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skipping-algorithms-in-federated-learning">Skipping Algorithms in Federated Learning</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
@@ -991,8 +541,8 @@ By WEN Hao
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
   </footer>

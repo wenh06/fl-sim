@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -34,11 +34,13 @@
     <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/doctools.js"></script>
@@ -47,6 +49,7 @@
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/proof.js"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -63,6 +66,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -209,7 +221,14 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../algorithms.html">Federated learning algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../algorithms.html">Federated learning algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/overview.html">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/proximal.html">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/primal_dual.html">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/operator_splitting.html">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/skipping.html">Skipping Algorithms in Federated Learning</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../viz.html">Visualization subsystem</a></li>
 </ul>
@@ -319,10 +338,10 @@
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -330,7 +349,7 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -407,34 +426,33 @@ document.write(`
 <span class="kn">import</span> <span class="nn">types</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
 <span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 <span class="kn">from</span> <span class="nn">bib_lookup</span> <span class="kn">import</span> <span class="n">CitationMixin</span>
-<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 <span class="kn">from</span> <span class="nn">torch.nn.parameter</span> <span class="kn">import</span> <span class="n">Parameter</span>
 <span class="kn">from</span> <span class="nn">torch.optim</span> <span class="kn">import</span> <span class="n">SGD</span>
 <span class="kn">from</span> <span class="nn">torch.optim.lr_scheduler</span> <span class="kn">import</span> <span class="n">LambdaLR</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 <span class="kn">from</span> <span class="nn">torch_ecg.cfg</span> <span class="kn">import</span> <span class="n">CFG</span>
 <span class="kn">from</span> <span class="nn">torch_ecg.utils</span> <span class="kn">import</span> <span class="n">ReprMixin</span><span class="p">,</span> <span class="n">add_docstring</span><span class="p">,</span> <span class="n">get_kwargs</span>
+<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="kn">from</span> <span class="nn">.data_processing.fed_dataset</span> <span class="kn">import</span> <span class="n">FedDataset</span>
 <span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">reset_parameters</span>
 <span class="kn">from</span> <span class="nn">.optimizers</span> <span class="kn">import</span> <span class="n">get_optimizer</span>
 <span class="kn">from</span> <span class="nn">.utils.loggers</span> <span class="kn">import</span> <span class="n">LoggerManager</span>
-<span class="kn">from</span> <span class="nn">.utils.misc</span> <span class="kn">import</span> <span class="n">default_dict_to_dict</span><span class="p">,</span> <span class="n">set_seed</span><span class="p">,</span> <span class="n">get_scheduler</span>
+<span class="kn">from</span> <span class="nn">.utils.misc</span> <span class="kn">import</span> <span class="n">default_dict_to_dict</span><span class="p">,</span> <span class="n">get_scheduler</span><span class="p">,</span> <span class="n">set_seed</span>
 <span class="kn">from</span> <span class="nn">.utils.torch_compat</span> <span class="kn">import</span> <span class="n">torch_norm</span>
-
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;Server&quot;</span><span class="p">,</span>
@@ -522,13 +540,8 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="o">=</span> <span class="n">default_gpus</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">default_gpus</span><span class="p">)):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;GPU(s) </span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">set</span><span class="p">(</span><span class="n">default_gpus</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="s2">&quot;are not available.&quot;</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">default_gpus</span>
-            <span class="p">]</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU(s) </span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">set</span><span class="p">(</span><span class="n">default_gpus</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="s2">&quot;are not available.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">default_gpus</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extra_observes</span> <span class="o">=</span> <span class="n">extra_observes</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span>
@@ -694,9 +707,7 @@ document.write(`
         <span class="k">if</span> <span class="n">at</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">at</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dataloader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;train_loader&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="p">),</span> <span class="s2">&quot;train_loader is not set&quot;</span>
+            <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;train_loader&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;train_loader is not set&quot;</span>
             <span class="n">dataloader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;empty dataloader&quot;</span>
 
@@ -758,13 +769,9 @@ document.write(`
         <span class="k">if</span> <span class="n">norm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">grads</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">grads</span> <span class="o">=</span> <span class="mf">0.0</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="s2">&quot;No gradients available. Set to 0.0 by default.&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span>
-                <span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No gradients available. Set to 0.0 by default.&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">grads</span> <span class="o">=</span> <span class="n">torch_norm</span><span class="p">(</span>
-                    <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">grad</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">grad</span> <span class="ow">in</span> <span class="n">grads</span><span class="p">]),</span> <span class="n">norm</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">grads</span> <span class="o">=</span> <span class="n">torch_norm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">grad</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">grad</span> <span class="ow">in</span> <span class="n">grads</span><span class="p">]),</span> <span class="n">norm</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">grads</span></div>
 
 <div class="viewcode-block" id="Node.get_norm"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.get_norm">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -806,19 +813,14 @@ document.write(`
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">):</span>
             <span class="n">tensor</span> <span class="o">=</span> <span class="p">[</span><span class="n">tensor</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-            <span class="n">tensor</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="n">t</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tensor</span>
-            <span class="p">]</span>
+            <span class="n">tensor</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="n">t</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tensor</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">GeneratorType</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Node</span><span class="o">.</span><span class="n">get_norm</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tensor</span><span class="p">),</span> <span class="n">norm</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">torch_norm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tensor</span><span class="p">]),</span> <span class="n">norm</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Node.set_parameters"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.set_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Node.set_parameters"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.set_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the parameters of the model on the node.</span>
 
 <span class="sd">        Parameters</span>
@@ -840,9 +842,7 @@ document.write(`
             <span class="n">node_param</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Node.aggregate_results_from_json_log"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.aggregate_results_from_json_log">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">aggregate_results_from_json_log</span><span class="p">(</span>
-        <span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;val&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;acc&quot;</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">aggregate_results_from_json_log</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;val&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;acc&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggregate the federated results from csv log.</span>
 
 <span class="sd">        Parameters</span>
@@ -864,38 +864,41 @@ document.write(`
 <span class="sd">        ----</span>
 <span class="sd">        The parameter `d` should be a dict similar to the following structure:</span>
 
-<span class="sd">        .. code-block:: json</span>
+<span class="sd">        .. dropdown::</span>
+<span class="sd">            :animate: fade-in-slide-down</span>
 
-<span class="sd">            {</span>
-<span class="sd">                &quot;train&quot;: {</span>
-<span class="sd">                    &quot;client0&quot;: [</span>
-<span class="sd">                        {</span>
-<span class="sd">                            &quot;epoch&quot;: 1,</span>
-<span class="sd">                            &quot;step&quot;: 1,</span>
-<span class="sd">                            &quot;time&quot;: &quot;2020-01-01 00:00:00&quot;,</span>
-<span class="sd">                            &quot;loss&quot;: 0.1,</span>
-<span class="sd">                            &quot;acc&quot;: 0.2,</span>
-<span class="sd">                            &quot;top3_acc&quot;: 0.3,</span>
-<span class="sd">                            &quot;top5_acc&quot;: 0.4,</span>
-<span class="sd">                            &quot;num_samples&quot;: 100</span>
-<span class="sd">                        }</span>
-<span class="sd">                    ]</span>
-<span class="sd">                },</span>
-<span class="sd">                &quot;val&quot;: {</span>
-<span class="sd">                    &quot;client0&quot;: [</span>
-<span class="sd">                        {</span>
-<span class="sd">                            &quot;epoch&quot;: 1,</span>
-<span class="sd">                            &quot;step&quot;: 1,</span>
-<span class="sd">                            &quot;time&quot;: &quot;2020-01-01 00:00:00&quot;,</span>
-<span class="sd">                            &quot;loss&quot;: 0.1,</span>
-<span class="sd">                            &quot;acc&quot;: 0.2,</span>
-<span class="sd">                            &quot;top3_acc&quot;: 0.3,</span>
-<span class="sd">                            &quot;top5_acc&quot;: 0.4,</span>
-<span class="sd">                            &quot;num_samples&quot;: 100</span>
-<span class="sd">                        }</span>
-<span class="sd">                    ]</span>
+<span class="sd">            .. code-block:: json</span>
+
+<span class="sd">                {</span>
+<span class="sd">                    &quot;train&quot;: {</span>
+<span class="sd">                        &quot;client0&quot;: [</span>
+<span class="sd">                            {</span>
+<span class="sd">                                &quot;epoch&quot;: 1,</span>
+<span class="sd">                                &quot;step&quot;: 1,</span>
+<span class="sd">                                &quot;time&quot;: &quot;2020-01-01 00:00:00&quot;,</span>
+<span class="sd">                                &quot;loss&quot;: 0.1,</span>
+<span class="sd">                                &quot;acc&quot;: 0.2,</span>
+<span class="sd">                                &quot;top3_acc&quot;: 0.3,</span>
+<span class="sd">                                &quot;top5_acc&quot;: 0.4,</span>
+<span class="sd">                                &quot;num_samples&quot;: 100</span>
+<span class="sd">                            }</span>
+<span class="sd">                        ]</span>
+<span class="sd">                    },</span>
+<span class="sd">                    &quot;val&quot;: {</span>
+<span class="sd">                        &quot;client0&quot;: [</span>
+<span class="sd">                            {</span>
+<span class="sd">                                &quot;epoch&quot;: 1,</span>
+<span class="sd">                                &quot;step&quot;: 1,</span>
+<span class="sd">                                &quot;time&quot;: &quot;2020-01-01 00:00:00&quot;,</span>
+<span class="sd">                                &quot;loss&quot;: 0.1,</span>
+<span class="sd">                                &quot;acc&quot;: 0.2,</span>
+<span class="sd">                                &quot;top3_acc&quot;: 0.3,</span>
+<span class="sd">                                &quot;top5_acc&quot;: 0.4,</span>
+<span class="sd">                                &quot;num_samples&quot;: 100</span>
+<span class="sd">                            }</span>
+<span class="sd">                        ]</span>
+<span class="sd">                    }</span>
 <span class="sd">                }</span>
-<span class="sd">            }</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
@@ -906,9 +909,7 @@ document.write(`
                 <span class="n">d</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unsupported file type: </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">epochs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-            <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;epoch&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]))</span>
-        <span class="p">)</span>
+        <span class="n">epochs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;epoch&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">v</span><span class="p">])))</span>
         <span class="n">metric_curve</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">epochs</span><span class="p">))]</span>
         <span class="n">num_samples</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">epochs</span><span class="p">))]</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
@@ -972,23 +973,20 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">criterion</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_cls</span><span class="p">[</span><span class="s2">&quot;server&quot;</span><span class="p">]),</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;(server) config should be an instance of &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_cls</span><span class="p">[</span><span class="s1">&#39;server&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;(server) config should be an instance of &quot;</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_cls</span><span class="p">[</span><span class="s1">&#39;server&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;verbose&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">ServerConfig</span><span class="p">)[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;The `verbose` attribute is not found in the config, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;set it to the default value </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verbose</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;The `verbose` attribute is not found in the config, &quot;</span> <span class="sa">f</span><span class="s2">&quot;set it to the default value </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verbose</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
                 <span class="ne">RuntimeWarning</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_clients</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_clients</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">DEFAULT_TRAIN_CLIENTS_NUM</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">client_config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_cls</span><span class="p">[</span><span class="s2">&quot;client&quot;</span><span class="p">]),</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;client_config should be an instance of &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_cls</span><span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;client_config should be an instance of &quot;</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config_cls</span><span class="p">[</span><span class="s1">&#39;client&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client_config</span> <span class="o">=</span> <span class="n">client_config</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_client_config</span><span class="p">,</span> <span class="s2">&quot;verbose&quot;</span><span class="p">):</span>
@@ -1038,9 +1036,7 @@ document.write(`
 
         <span class="c1"># checks that the client has all the required attributes in config.extra_observes</span>
         <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extra_observes</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span>
-                <span class="bp">self</span><span class="p">,</span> <span class="n">attr</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> should have attribute </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2"> for extra observes.&quot;</span>
+            <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> should have attribute </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2"> for extra observes.&quot;</span>
 
     <span class="k">def</span> <span class="nf">_setup_clients</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1077,9 +1073,7 @@ document.write(`
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span>
         <span class="n">client_config</span> <span class="o">=</span> <span class="n">client_config</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client_cls</span><span class="p">(</span>
-                <span class="n">client_id</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">),</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">client_config</span>
-            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client_cls</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">),</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">client_config</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
                 <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_clients</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allocate_devices</span><span class="p">()),</span>
                 <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Allocating devices&quot;</span><span class="p">,</span>
@@ -1097,10 +1091,7 @@ document.write(`
         <span class="n">num_gpus</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">visiable_gpus</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">num_gpus</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">repeat</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_clients</span><span class="p">))</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cuda:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">visiable_gpus</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="n">num_gpus</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_clients</span><span class="p">)</span>
-        <span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cuda:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">visiable_gpus</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="n">num_gpus</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_clients</span><span class="p">)]</span>
 
     <span class="k">def</span> <span class="nf">_sample_clients</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1154,14 +1145,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="c1"># free the memory of the received messages</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">[]</span>
-        <span class="p">)</span>  <span class="c1"># clear messages received in the previous iteration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># clear messages received in the previous iteration</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">&quot;Server update finished...&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Server.train"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;federated&quot;</span><span class="p">,</span> <span class="n">extra_configs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Server.train"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;federated&quot;</span><span class="p">,</span> <span class="n">extra_configs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The main training loop.</span>
 
 <span class="sd">        Parameters</span>
@@ -1214,9 +1201,7 @@ document.write(`
         <span class="n">extra_configs</span> <span class="o">=</span> <span class="n">CFG</span><span class="p">(</span><span class="n">extra_configs</span> <span class="ow">or</span> <span class="p">{})</span>
 
         <span class="n">batch_size</span> <span class="o">=</span> <span class="n">extra_configs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;batch_size&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">batch_size</span><span class="p">)</span>
-        <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">get_dataloader</span><span class="p">(</span>
-            <span class="n">batch_size</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="kc">None</span>
-        <span class="p">)</span>
+        <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">get_dataloader</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
@@ -1224,9 +1209,7 @@ document.write(`
         <span class="n">criterion</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">criterion</span><span class="p">)</span>
         <span class="n">lr</span> <span class="o">=</span> <span class="n">extra_configs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)</span>
         <span class="n">optimizer</span> <span class="o">=</span> <span class="n">extra_configs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;optimizer&quot;</span><span class="p">,</span> <span class="n">SGD</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="p">))</span>
-        <span class="n">scheduler</span> <span class="o">=</span> <span class="n">extra_configs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;scheduler&quot;</span><span class="p">,</span> <span class="n">LambdaLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">epoch</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="p">)</span>
+        <span class="n">scheduler</span> <span class="o">=</span> <span class="n">extra_configs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scheduler&quot;</span><span class="p">,</span> <span class="n">LambdaLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">epoch</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_complete_experiment</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">epoch_losses</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1337,10 +1320,7 @@ document.write(`
                         <span class="c1"># server communicates with client</span>
                         <span class="c1"># typically broadcasting the global model to the client</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_communicate</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="p">(</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">&gt;</span> <span class="mi">0</span>
-                            <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">eval_every</span> <span class="o">==</span> <span class="mi">0</span>
-                        <span class="p">):</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">eval_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">data_parts</span><span class="p">:</span>
                                 <span class="c1"># NOTE: one should execute `client.evaluate`</span>
                                 <span class="c1"># before `client._update`,</span>
@@ -1363,10 +1343,7 @@ document.write(`
                         <span class="c1"># and perhaps other local variables (e.g. gradients, etc.)</span>
                         <span class="n">client</span><span class="o">.</span><span class="n">_communicate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
                         <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">&gt;</span> <span class="mi">0</span>
-                        <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">eval_every</span> <span class="o">==</span> <span class="mi">0</span>
-                    <span class="p">):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">eval_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="c1"># server aggregates the metrics from clients</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">aggregate_client_metrics</span><span class="p">()</span>
                     <span class="c1"># server updates the global model</span>
@@ -1420,10 +1397,7 @@ document.write(`
                     <span class="k">for</span> <span class="n">client_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clients</span><span class="p">)):</span>
                         <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span><span class="p">[</span><span class="n">client_id</span><span class="p">]</span>
                         <span class="n">client</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-                        <span class="k">if</span> <span class="p">(</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">&gt;</span> <span class="mi">0</span>
-                            <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">eval_every</span> <span class="o">==</span> <span class="mi">0</span>
-                        <span class="p">):</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">eval_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">data_parts</span><span class="p">:</span>
                                 <span class="n">metrics</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span>
@@ -1459,10 +1433,7 @@ document.write(`
             <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
         <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">])</span>
         <span class="n">metrics_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;num_samples&quot;</span><span class="p">]</span>
-        <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">k</span><span class="p">:</span> <span class="nb">sum</span><span class="p">([</span><span class="n">m</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">])</span> <span class="o">/</span> <span class="n">num_samples</span>
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">metrics_names</span>
-        <span class="p">}</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">sum</span><span class="p">([</span><span class="n">m</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">])</span> <span class="o">/</span> <span class="n">num_samples</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">metrics_names</span><span class="p">}</span>
         <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_samples</span>
         <span class="c1"># free memory</span>
         <span class="k">del</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">probs</span>
@@ -1494,9 +1465,7 @@ document.write(`
                     <span class="k">continue</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">][</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;num_samples&quot;</span><span class="p">:</span>
-                        <span class="n">new_metrics</span><span class="p">[</span><span class="n">part</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
-                            <span class="n">m</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">][</span><span class="n">part</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">][</span><span class="n">part</span><span class="p">][</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span>
-                        <span class="p">)</span>
+                        <span class="n">new_metrics</span><span class="p">[</span><span class="n">part</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">][</span><span class="n">part</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">][</span><span class="n">part</span><span class="p">][</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span>
                     <span class="k">elif</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
                         <span class="k">continue</span>
                     <span class="k">else</span><span class="p">:</span>  <span class="c1"># num_samples</span>
@@ -1534,9 +1503,7 @@ document.write(`
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">server_param</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">params</span><span class="p">):</span>
-            <span class="n">server_param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span>
-                <span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="n">ratio</span>
-            <span class="p">)</span></div>
+            <span class="n">server_param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="n">ratio</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Server.avg_parameters"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.avg_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">avg_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size_aware</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">inertia</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the server&#39;s parameters via</span>
@@ -1566,24 +1533,16 @@ document.write(`
             <span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">inertia</span><span class="p">)</span>
         <span class="n">total_samples</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;train_samples&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">:</span>
-            <span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">m</span><span class="p">[</span><span class="s2">&quot;train_samples&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total_samples</span>
-                <span class="k">if</span> <span class="n">size_aware</span>
-                <span class="k">else</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">)</span>
-            <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">inertia</span><span class="p">)</span>
+            <span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;train_samples&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total_samples</span> <span class="k">if</span> <span class="n">size_aware</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">inertia</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_parameters</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">],</span> <span class="n">ratio</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Server.update_gradients"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.update_gradients">[docs]</a>    <span class="k">def</span> <span class="nf">update_gradients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the server&#39;s gradients.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;gradients&quot;</span> <span class="ow">in</span> <span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">]</span>
-        <span class="p">),</span> <span class="s2">&quot;some clients have not sent gradients yet&quot;</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="s2">&quot;gradients&quot;</span> <span class="ow">in</span> <span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">]),</span> <span class="s2">&quot;some clients have not sent gradients yet&quot;</span>
         <span class="c1"># self.model.zero_grad()</span>
-        <span class="k">for</span> <span class="n">mp</span><span class="p">,</span> <span class="n">gd</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;gradients&quot;</span><span class="p">]</span>
-        <span class="p">):</span>
+        <span class="k">for</span> <span class="n">mp</span><span class="p">,</span> <span class="n">gd</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;gradients&quot;</span><span class="p">]):</span>
             <span class="n">mp</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">gd</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">total_samples</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;train_samples&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">rm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">:</span>
@@ -1638,9 +1597,7 @@ document.write(`
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span><span class="p">[</span><span class="n">client_idx</span><span class="p">]</span><span class="o">.</span><span class="n">model</span></div>
 
-<div class="viewcode-block" id="Server.get_cached_metrics"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_cached_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">get_cached_metrics</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<div class="viewcode-block" id="Server.get_cached_metrics"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_cached_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">get_cached_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the cached metrics of the given client,</span>
 <span class="sd">        or the cached aggregated metrics stored on the server.</span>
 
@@ -1693,9 +1650,7 @@ document.write(`
         <span class="n">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
         <span class="c1"># reset the clients</span>
         <span class="k">if</span> <span class="n">reset_clients</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Resetting clients&quot;</span><span class="p">,</span> <span class="n">mininterval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span>
-            <span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clients</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Resetting clients&quot;</span><span class="p">,</span> <span class="n">mininterval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
                 <span class="n">c</span><span class="o">.</span><span class="n">_reset</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Server.extra_repr_keys"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.extra_repr_keys">[docs]</a>    <span class="k">def</span> <span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -1778,9 +1733,7 @@ document.write(`
             <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
             <span class="n">config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">scheduler_config</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;name&quot;</span>
-        <span class="p">}</span>
+        <span class="n">scheduler_config</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;name&quot;</span><span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lr_scheduler</span> <span class="o">=</span> <span class="n">get_scheduler</span><span class="p">(</span>
             <span class="n">scheduler_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">scheduler</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
             <span class="n">optimizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span>
@@ -1797,9 +1750,7 @@ document.write(`
 
         <span class="c1"># checks that the client has all the required attributes in config.extra_observes</span>
         <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extra_observes</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span>
-                <span class="bp">self</span><span class="p">,</span> <span class="n">attr</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> should have attribute </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2"> for extra observes.&quot;</span>
+            <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> should have attribute </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2"> for extra observes.&quot;</span>
 
     <span class="k">def</span> <span class="nf">_communicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">&quot;Server&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check validity and send messages to the server,</span>
@@ -1817,10 +1768,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># check validity of self._metrics</span>
         <span class="k">for</span> <span class="n">part</span><span class="p">,</span> <span class="n">metrics</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;metrics for </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> should be a dict, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;metrics for </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> should be a dict, &quot;</span> <span class="sa">f</span><span class="s2">&quot;but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="k">assert</span> <span class="s2">&quot;num_samples&quot;</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">,</span> <span class="p">(</span>
                 <span class="s2">&quot;In order to let the server aggregate the metrics, &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;metrics for </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> should have key `num_samples`, &quot;</span>
@@ -1892,9 +1840,7 @@ document.write(`
 <span class="sd">            The metrics of the evaluation.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">data_parts</span>
-        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Invalid part name, should be one of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">data_parts</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="k">assert</span> <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">data_parts</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Invalid part name, should be one of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">data_parts</span><span class="si">}</span><span class="s2">.&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
         <span class="c1"># _metrics = []</span>
         <span class="n">data_loader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_loader</span> <span class="k">if</span> <span class="n">part</span> <span class="o">==</span> <span class="s2">&quot;val&quot;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span>
@@ -1981,12 +1927,8 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;ClientMessage&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">train_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span> <span class="n">train_samples</span><span class="o">=</span><span class="n">train_samples</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">train_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span> <span class="n">train_samples</span><span class="o">=</span><span class="n">train_samples</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 
                 </article>
@@ -1994,16 +1936,12 @@ document.write(`
 
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -2052,8 +1990,8 @@ By WEN Hao
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
   </footer>

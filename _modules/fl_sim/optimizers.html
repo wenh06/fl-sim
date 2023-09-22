@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -34,11 +34,13 @@
     <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/doctools.js"></script>
@@ -47,6 +49,7 @@
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/proof.js"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -63,6 +66,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -209,7 +221,14 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../algorithms.html">Federated learning algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../algorithms.html">Federated learning algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/overview.html">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/proximal.html">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/primal_dual.html">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/operator_splitting.html">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../algorithms/skipping.html">Skipping Algorithms in Federated Learning</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../viz.html">Visualization subsystem</a></li>
 </ul>
@@ -319,10 +338,10 @@
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -330,7 +349,7 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -390,7 +409,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">opt</span>
 <span class="kn">import</span> <span class="nn">torch_optimizer</span> <span class="k">as</span> <span class="nn">topt</span>
@@ -399,23 +418,12 @@ document.write(`
 <span class="kn">from</span> <span class="nn">torch_ecg.cfg</span> <span class="kn">import</span> <span class="n">CFG</span>
 <span class="kn">from</span> <span class="nn">torch_ecg.utils</span> <span class="kn">import</span> <span class="n">add_docstring</span>
 
-<span class="kn">from</span> <span class="nn">..utils.misc</span> <span class="kn">import</span> <span class="n">add_kwargs</span>
 <span class="kn">from</span> <span class="nn">..utils.imports</span> <span class="kn">import</span> <span class="n">load_module_from_file</span>
-<span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401</span>
-    <span class="n">list_optimizers</span> <span class="k">as</span> <span class="n">list_builtin_optimizers</span><span class="p">,</span>
-    <span class="n">get_optimizer</span> <span class="k">as</span> <span class="n">get_builtin_optimizer</span><span class="p">,</span>
-    <span class="n">register_optimizer</span><span class="p">,</span>
-<span class="p">)</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401</span>
-    <span class="n">base</span><span class="p">,</span>
-    <span class="n">feddr</span><span class="p">,</span>
-    <span class="n">fedpd</span><span class="p">,</span>
-    <span class="n">fedprox</span><span class="p">,</span>
-    <span class="n">pfedmac</span><span class="p">,</span>
-    <span class="n">pfedme</span><span class="p">,</span>
-    <span class="n">scaffold</span><span class="p">,</span>
-<span class="p">)</span>  <span class="c1"># noqa: F401</span>
-
+<span class="kn">from</span> <span class="nn">..utils.misc</span> <span class="kn">import</span> <span class="n">add_kwargs</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">base</span><span class="p">,</span> <span class="n">feddr</span><span class="p">,</span> <span class="n">fedpd</span><span class="p">,</span> <span class="n">fedprox</span><span class="p">,</span> <span class="n">pfedmac</span><span class="p">,</span> <span class="n">pfedme</span><span class="p">,</span> <span class="n">scaffold</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="n">get_optimizer</span> <span class="k">as</span> <span class="n">get_builtin_optimizer</span>
+<span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="n">list_optimizers</span> <span class="k">as</span> <span class="n">list_builtin_optimizers</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="n">register_optimizer</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;get_optimizer&quot;</span><span class="p">,</span>
@@ -434,18 +442,13 @@ document.write(`
 <span class="p">)</span>
 
 
-<span class="n">_available_optimizers</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">item</span><span class="p">:</span> <span class="n">get_builtin_optimizer</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">list_builtin_optimizers</span><span class="p">()</span>
-<span class="p">}</span>
+<span class="n">_available_optimizers</span> <span class="o">=</span> <span class="p">{</span><span class="n">item</span><span class="p">:</span> <span class="n">get_builtin_optimizer</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">list_builtin_optimizers</span><span class="p">()}</span>
 
 <span class="n">available_optimizers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_available_optimizers</span><span class="p">)</span>
 <span class="n">_extra_opt_optimizers</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">obj_name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">obj_name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">eval</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;inspect.isclass(opt.</span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s2">) and issubclass(opt.</span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s2">, Optimizer) &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;and opt.</span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s2"> != Optimizer&quot;</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;inspect.isclass(opt.</span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s2">) and issubclass(opt.</span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s2">, Optimizer) &quot;</span> <span class="sa">f</span><span class="s2">&quot;and opt.</span><span class="si">{</span><span class="n">obj_name</span><span class="si">}</span><span class="s2"> != Optimizer&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="n">_extra_topt_optimizers</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">obj_name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">topt</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">)</span>
@@ -541,9 +544,7 @@ document.write(`
                 <span class="n">optimizer_cls</span> <span class="o">=</span> <span class="n">topt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">optimizer_name</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="n">optimizer_cls</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;topt.</span><span class="si">{</span><span class="n">optimizer_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer_cls</span><span class="p">(</span>
-                <span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">_get_cls_init_args</span><span class="p">(</span><span class="n">optimizer_cls</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer_cls</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">_get_cls_init_args</span><span class="p">(</span><span class="n">optimizer_cls</span><span class="p">,</span> <span class="n">config</span><span class="p">))</span>
             <span class="c1"># print(f&quot;Optimizer `{optimizer_name}` from torch_optimizer is used.&quot;)</span>
             <span class="n">step_args</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
             <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="n">add_kwargs</span><span class="p">(</span>
@@ -588,11 +589,7 @@ document.write(`
             <span class="n">optimizer_module</span> <span class="o">=</span> <span class="n">load_module_from_file</span><span class="p">(</span><span class="n">optimizer_file</span><span class="p">)</span>
             <span class="c1"># the custom algorithm should be added to the optimizer pool</span>
             <span class="c1"># using the decorator @register_optimizer</span>
-            <span class="n">new_optimizers</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">item</span>
-                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">list_builtin_optimizers</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">builtin_optimizers</span>
-            <span class="p">]</span>
+            <span class="n">new_optimizers</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">list_builtin_optimizers</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">builtin_optimizers</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">optimizer_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_optimizers</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -671,9 +668,7 @@ document.write(`
 
 
 <span class="nd">@add_docstring</span><span class="p">(</span>
-    <span class="n">get_optimizer</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;get optimizer&quot;</span><span class="p">,</span> <span class="s2">&quot;get oracle&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-        <span class="s2">&quot;optimizer = get_optimizer&quot;</span><span class="p">,</span> <span class="s2">&quot;oracle = get_oracle&quot;</span>
-    <span class="p">)</span>
+    <span class="n">get_optimizer</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;get optimizer&quot;</span><span class="p">,</span> <span class="s2">&quot;get oracle&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;optimizer = get_optimizer&quot;</span><span class="p">,</span> <span class="s2">&quot;oracle = get_oracle&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">get_oracle</span><span class="p">(</span>
     <span class="n">optimizer_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span>
@@ -688,16 +683,12 @@ document.write(`
 
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -746,8 +737,8 @@ By WEN Hao
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
   </footer>
