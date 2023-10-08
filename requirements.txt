@@ -6,7 +6,7 @@ Pillow
 h5py
 scikit_learn
 scipy
-torch>=1.10.0,<2.0.0
+torch>=1.10.0
 torchvision>=0.11.0
 torch-optimizer
 datasets
