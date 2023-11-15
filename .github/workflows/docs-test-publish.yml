@@ -4,7 +4,7 @@ name: Test Docs with Sphinx and Publish
 
 on:
   push:
-    branches: [ doc, dev, master ]
+    branches: [ doc, master ]
   pull_request:
     branches: [ master ]
 

@@ -459,7 +459,7 @@ class Panel:
         self._subdir_refresh_button = widgets.Button(
             description="Refresh",
             disabled=False,
-            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            button_style="",  # 'primary', 'success', 'info', 'warning', 'danger' or ''
             tooltip="Refresh",
             icon="refresh",  # (FontAwesome names without the `fa-` prefix)
         )
@@ -468,7 +468,7 @@ class Panel:
         self._files_refresh_button = widgets.Button(
             description="Refresh",
             disabled=False,
-            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            button_style="",  # primary', 'success', 'info', 'warning', 'danger' or ''
             tooltip="Refresh",
             icon="refresh",  # (FontAwesome names without the `fa-` prefix)
         )
@@ -624,7 +624,7 @@ class Panel:
         self._refresh_part_metric_button = widgets.Button(
             description="Refresh part/metric/ylabel",
             disabled=False,
-            button_style="warning",  # 'success', 'info', 'warning', 'danger' or ''
+            button_style="warning",  # primary', 'success', 'info', 'warning', 'danger' or ''
             tooltip="Refresh part/metric",
             icon="refresh",  # (FontAwesome names without the `fa-` prefix)
             layout={"width": "200px"},
@@ -707,7 +707,7 @@ class Panel:
         self._show_button = widgets.Button(
             description="Plot the curves",
             disabled=False,
-            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            button_style="primary",  # 'primary', 'success', 'info', 'warning', 'danger' or ''
             tooltip="Plot the curves",
             icon="line-chart",  # (FontAwesome names without the `fa-` prefix)
         )
@@ -716,7 +716,7 @@ class Panel:
         self._clear_button = widgets.Button(
             description="Clear",
             disabled=False,
-            button_style="danger",  # 'success', 'info', 'warning', 'danger' or ''
+            button_style="danger",  # 'primary', 'success', 'info', 'warning', 'danger' or ''
             tooltip="Clear",
             icon="eraser",  # (FontAwesome names without the `fa-` prefix)
             # layout={"width": "100px",},
@@ -800,7 +800,7 @@ class Panel:
         self._savefig_button = widgets.Button(
             description="Save",
             disabled=False,
-            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            button_style="success",  # 'primary', 'success', 'info', 'warning', 'danger' or ''
             tooltip="Save",
             icon="save",  # (FontAwesome names without the `fa-` prefix)
         )
