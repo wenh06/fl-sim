@@ -52,6 +52,7 @@ extensions = [
     "nbsphinx",
     # 'sphinx.ext.autosectionlabel',
     "sphinx_multiversion",
+    "sphinx_emoji_favicon",
     # "sphinx_toolbox.collapse",  # replaced by dropdown of sphinx_design
     # "numpydoc",
     "sphinxcontrib.tikz",
@@ -176,6 +177,8 @@ html_static_path = ["_static"]
 master_doc = "index"
 
 numfig = False
+
+emoji_favicon = ":abaque:"
 
 linkcheck_ignore = [
     r"https://doi.org/*",  # 418 Client Error
