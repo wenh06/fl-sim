@@ -10,10 +10,12 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 # import os
+import re
 import sys
 from pathlib import Path
 
 import pydata_sphinx_theme
+import requests
 import sphinx_book_theme
 import sphinx_rtd_theme
 import sphinx_theme
@@ -177,6 +179,38 @@ html_static_path = ["_static"]
 master_doc = "index"
 
 numfig = False
+
+
+_mathjax_file = "tex-chtml-full.js"
+
+
+def _get_mathjax_latest_version() -> str:
+    """Get the latest mathjax version.
+
+    Returns
+    -------
+    str
+        The latest mathjax version.
+
+    """
+    defalut_mathjax_latest_version = "3.2.2"
+    url = f"https://unpkg.com/mathjax@latest/es5/{_mathjax_file}"
+    try:
+        r = requests.get(url, timeout=3)
+        if r.status_code == 200:
+            # search for the version number in r.url
+            # which will be redirected to the latest version with version number
+            # e.g. https://unpkg.com/mathjax@3.2.2/es5/tex-chtml-full.js
+            return re.search("mathjax@([\\w\\.\\-]+)", r.url).group(1)
+        else:
+            return defalut_mathjax_latest_version
+    except Exception:
+        return defalut_mathjax_latest_version
+
+
+mathjax_path = f"https://cdnjs.cloudflare.com/ajax/libs/mathjax/{_get_mathjax_latest_version()}/es5/{_mathjax_file}"
+# mathjax_path = f"https://cdn.bootcdn.net/ajax/libs/mathjax/{_get_mathjax_latest_version()}/es5/{_mathjax_file}"
+
 
 emoji_favicon = ":abaque:"
 
