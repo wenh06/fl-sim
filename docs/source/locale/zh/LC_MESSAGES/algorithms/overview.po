@@ -1,0 +1,500 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: ../../source/algorithms/overview.rst:4
+msgid "Overview of Optimization Algorithms in Federated Learning"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:6
+msgid ""
+"The most important contribution of the initial work on federated learning"
+" [:footcite:ct:`mcmahan2017fed_avg`] was the introduction of the "
+"Federated Averaging algorithm (``FedAvg``). Mathematically, federated "
+"learning solves the following problem of minimization of empirical risk "
+"function"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:10
+msgid ""
+"\\DeclareMathOperator*{\\expectation}{\\mathbb{E}}\n"
+"\\DeclareMathOperator*{\\minimize}{minimize}\n"
+"\\newcommand{\\R}{\\mathbb{R}}\n"
+"\n"
+"\\begin{array}{cl}\n"
+"\\minimize\\limits_{\\theta \\in \\R^d} & f(\\theta) = "
+"\\expectation\\limits_{k \\sim {\\mathcal{P}}} [f_k(\\theta)], \\\\\n"
+"\\text{where} & f_k(\\theta) = \\expectation\\limits_{(x, y) \\sim "
+"\\mathcal{D}_k} [\\ell_k(\\theta; x, y)],\n"
+"\\end{array}"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:22
+msgid ""
+"where :math:`\\ell_k` is the loss function of client :math:`k`, "
+":math:`\\mathcal{D}_k` is the data distribution of client :math:`k`, "
+":math:`\\mathcal{P}` is the distribution of clients, and "
+":math:`\\mathbb{E}` is the expectation operator. If we simply let "
+":math:`\\mathcal{P} = \\{1, 2, \\ldots, K\\}`, then the optimization "
+"problem can be simplified as"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:27
+msgid ""
+"\\begin{array}{cl}\n"
+"\\minimize\\limits_{\\theta \\in \\R^d} & f(\\theta) = "
+"\\sum\\limits_{k=1}^K w_k f_k(\\theta).\n"
+"\\end{array}"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:34
+msgid ""
+"For further simplicity, we often take :math:`w_k = \\frac{1}{K}`. The "
+"functions :math:`f_k` and :math:`f` are usually assumed to satisfy the "
+"following conditions:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:37
+msgid ""
+"(A1) :math:`f_k` and :math:`f` are :math:`L`-smooth (:math:`L > 0`), i.e."
+" they have :math:`L`-Lipschitz continuous gradients:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:39
+msgid ""
+"\\begin{array}{c}\n"
+"\\lVert \\nabla f (\\theta) - f (\\theta') \\rVert \\leqslant L \\lVert "
+"\\theta - \\theta' \\rVert, \\\\\n"
+"\\lVert \\nabla f_k (\\theta) - f_k (\\theta') \\rVert \\leqslant L "
+"\\lVert \\theta - \\theta' \\rVert,\n"
+"\\end{array}\n"
+"\\quad \\forall \\theta, \\theta' \\in \\R^d, k = 1, \\ldots, K."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:47
+msgid "(A2) The range of :math:`f`"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:49
+msgid ""
+"\\DeclareMathOperator*{\\dom}{dom}\n"
+"\n"
+"\\dom(f) := \\{ \\theta \\in \\R^d ~|~ f(\\theta) < + \\infty \\}"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:55
+msgid ""
+"is nonempty and lower bounded, i.e. there exists a constant :math:`c \\in"
+" \\R` such that"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:57
+msgid "f(\\theta) \\geqslant c > -\\infty, ~ \\forall \\theta \\in \\R^d,"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:62
+msgid "or equivalently,"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:64
+msgid "f^* := \\inf\\limits_{\\theta \\in \\R^d} f(\\theta) > - \\infty."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:69
+msgid ""
+"In many cases, in order to facilitate the analysis of convergence, we "
+"will also make some assumptions about the gradient of the objective "
+"function:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:72
+msgid "(A3) Bounded gradient: there exists a constant :math:`G > 0` such that"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:74
+msgid ""
+"\\lVert \\nabla f_k (\\theta) \\rVert^2 \\leqslant G^2, ~ \\forall "
+"\\theta \\in \\R^d, ~ k = 1, \\ldots K."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:79
+msgid "And the following assumptions on data distributions:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:81
+msgid ""
+"(A4-1) Data distribution is I.I.D. (identically and independently "
+"distributed) across clients, i.e."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:83
+msgid ""
+"\\nabla f(\\theta) = \\expectation [f_k(\\theta)] = "
+"\\expectation\\limits_{(x, y) \\sim \\mathcal{D}_k}[\\nabla "
+"\\ell_k(\\theta; x, y)], ~ \\forall \\theta \\in \\R^d, ~ k = 1, \\ldots "
+"K,"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:88
+msgid ""
+"or equivalently, for any :math:`\\varepsilon > 0`, there exists a "
+"constant :math:`B \\geqslant 0` such that"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:90
+msgid ""
+"\\sum\\limits_{k=1}^K \\lVert \\nabla f_k(\\theta) \\rVert^2 = \\lVert "
+"f(\\theta) \\rVert^2,\n"
+"~ \\forall \\theta \\in \\left\\{ \\theta \\in \\R^d ~ \\middle| ~ "
+"\\lVert f(\\theta) \\rVert^2 > \\varepsilon \\right\\}."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:111
+msgid ""
+"(A4-2) Data distribution is non-I.I.D across clients, in which case we "
+"need a quantity to measure"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:99
+msgid ""
+"the degree of this statistical heterogeneity. This quantity can be "
+"defined in a number of ways [:footcite:ct:`karimireddy2020scaffold, "
+"zhang2020fedpd, li2019convergence, sahu2018fedprox`]. For example, in "
+"[:footcite:ct:`karimireddy2020scaffold`] and "
+"[:footcite:ct:`zhang2020fedpd`], the so-called bounded gradient "
+"dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this "
+"quantity. More specifically, there exists constants :math:`G > 0` and "
+":math:`B \\geqslant 0` such that"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:105
+msgid ""
+"\\dfrac{1}{K} \\sum\\limits_{k=1}^K \\lVert \\nabla f_k(\\theta) "
+"\\rVert^2 \\leqslant G^2 + B^2 \\lVert \\nabla f(\\theta) \\rVert^2, ~ "
+"\\forall \\theta \\in \\R^d."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:110
+msgid ""
+"It should be noted that letting :math:`B = 0`, the bounded gradient "
+"dissimilarity condition (A4-2) degenrates to the bounded gradient "
+"condition (A3)."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:113
+msgid ""
+"Sometimes, in the proof of algorithm convergence, one needs to make "
+"assumptions on the convexity of the objective function :math:`f`, which "
+"can be defined as follows:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:116
+msgid "(A5-1) convexity:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:118
+msgid ""
+"f(a \\theta + (1 - a) \\theta') \\leqslant a f(\\theta) + (1 - a) "
+"f(\\theta'),\n"
+"~ \\forall \\theta, \\theta' \\in \\mathcal{C}, ~ \\alpha \\in [0, 1]."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:124
+msgid "where :math:`\\mathcal{C}` is a convex set on which :math:`f` is defined."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:126
+msgid ""
+"(A5-2) Strong convexity: there exists a constant :math:`\\mu > 0` such "
+"that :math:`f - \\frac{\\mu}{2} \\lVert \\theta \\rVert^2`"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:126
+msgid ""
+"is convex. In this case, we say that :math:`f` is :math:`\\mu`-strongly "
+"convex."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:128
+msgid ""
+"Due to the natural layered and decoupled structure of the federal "
+"learning problem, it is more natural to consider the following "
+"constrained optimization problem:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:131
+msgid ""
+"\\begin{array}{cl}\n"
+"\\minimize & \\frac{1}{K} \\sum\\limits_{k=1}^K f_k(\\theta_k), \\\\\n"
+"\\text{subject to} & \\theta_k = \\theta, ~ k = 1, \\ldots, K.\n"
+"\\end{array}"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:139
+msgid ""
+"It is easy to find the equivalence between the constrained optimization "
+"problem :eq:`fl-basic-constraint` and the unconstrained optimization "
+"problem :eq:`fl-basic`. The constrained formulation :eq:`fl-basic-"
+"constraint` is called the **consensus problem** in the literature of "
+"distributed optimization [:footcite:ct:`boyd2011distributed`]. The "
+"superiority of the constrained formulation :eq:`fl-basic-constraint` is "
+"that the objective function becomes block-separable, which is more "
+"suitable for the design of parallel and distributed algorithms."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:145
+msgid "Federated Averaging Algorithm"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:147
+msgid ""
+"The core idea of the ``FedAvg`` algorithm is to make full use of the "
+"local computation resources of each client so that each client can "
+"perform multiple local iterations before uploading the local model to the"
+" server. It alleviates the problem of straggler clients and reduces the "
+"communication overhead, hence accelerating the convergence of the "
+"algorithm. This may well be thought of as a simple form of **skipping** "
+"algorithm, which were further developed in [:footcite:ct:`zhang2020fedpd,"
+" proxskip, proxskip-vr`]. Pseudocode for ``FedAvg`` is shown as follows:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:-1
+msgid "Psuedocode for ``FedAvg``"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:162
+msgid ""
+"``FedAvg`` achieved some good numerical results (see Section 3 of "
+"[:footcite:ct:`mcmahan2017fed_avg`]), but its convergence, espcially "
+"under non-I.I.D. data distributions, is not properly analyzed (see "
+"[:footcite:ct:`khaled2019_first, Khaled2020_tighter`]). There are several"
+" works that deal with this issue (such as "
+"[:footcite:ct:`zhou_2018_convergence, li2019convergence`]) with extra "
+"assumptions such as the convexity of the objective function :math:`f`, "
+"etc."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:169
+msgid "``FedAvg`` from the Perspective of Optimization"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:171
+msgid ""
+"In this section, we will analyze the ``FedAvg`` algorithm from the "
+"perspective of optimization theory. In fact, the optimization problem :eq"
+":`fl-basic` that ``FedAvg`` solves can be equivalently reformulated as "
+"the following constrained optimization problem:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:175
+msgid ""
+"\\newcommand{\\col}{\\operatorname{col}}\n"
+"\n"
+"\\begin{array}{cl}\n"
+"\\minimize & F(\\Theta) := \\frac{1}{K} \\sum\\limits_{k=1}^K "
+"f_k(\\theta_k), \\\\\n"
+"\\text{subject to} & \\Theta \\in \\mathcal{E},\n"
+"\\end{array}"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:185
+msgid ""
+"where :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K) := "
+"\\begin{pmatrix} \\theta_1 \\\\ \\vdots \\\\ \\theta_K \\end{pmatrix}, "
+"\\theta_1, \\ldots, \\theta_K \\in \\R^d` and :math:`\\mathcal{E} = "
+"\\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K "
+"\\right\\}` is a convex set in :math:`\\R^{Kd}`. Projected gradient "
+"descent (PGD) is an effective method for solving the constrained "
+"optimization problem :eq:`fedavg-constraint`, which has the following "
+"update rule:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:190
+msgid ""
+"\\Theta^{(t+1)} = \\Pi_{\\mathcal{E}} \\left( \\Theta^{(t)} - \\eta "
+"\\nabla F(\\Theta^{(t)}) \\right),"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:195
+msgid ""
+"where :math:`\\Pi_{\\mathcal{E}}` is the projection operator onto the set"
+" :math:`\\mathcal{E}`. It is easy to show that the projection operator "
+"onto the set :math:`\\mathcal{E}` is indeed the average operator, i.e.,"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:198
+msgid ""
+"\\Pi_{\\mathcal{E}}: \\R^{Kd} \\to \\mathcal{E}: ( \\theta_1, \\ldots, "
+"\\theta_K) \\mapsto \\left(\\frac{1}{K}\\sum\\limits_{k=1}^K \\theta_K, "
+"\\ldots, \\frac{1}{K}\\sum\\limits_{k=1}^K \\theta_K \\right)."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:203
+msgid ""
+"We have shown that mathematically the ``FedAvg`` algorithm is indeed a "
+"kind of stochastic projected gradient descent (SPGD) algorithm, where the"
+" clients perform local stochastic gradient descent (SGD) updates and the "
+"server performs the projection step :eq:`fedavg-projection`."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:208
+msgid "A Direct Improvement of ``FedAvg``"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:210
+msgid ""
+"Since ``FedAvg`` is based on stochastic gradient descent (SGD), it is "
+"natural to consider applying acceleration techniques "
+"[:footcite:ct:`adagrad, adam, Zaheer_2018_yogi, adamw_amsgrad`] to "
+"improve the algorithm performance. Computation on clients and on the "
+"server are relatively decoupled, so it does not require large "
+"modifications to the whole algorithm framework. Indeed, the authors of "
+"the ``FedAvg`` paper put this idea into practice and proposed a federated"
+" learning framework called ``FedOpt`` [:footcite:ct:`reddi2020fed_opt`] "
+"which has stronger adaptability. The pseudocode for ``FedOpt`` is shown "
+"as follows:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:-1
+msgid "Psuedocode for ``FedOpt``"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:225
+msgid ""
+"In the above pseudocode, :math:`\\operatorname{aggregate} \\left( "
+"\\left\\{ \\Delta_{k}^{(t)} \\right\\}_{k \\in \\mathcal{S}^{(t)}} "
+"\\right)` refers to some method that aggregates the local inertia updates"
+" :math:`\\Delta_{k}^{(t)}` from the selected clients "
+":math:`\\mathcal{S}^{(t)}` into a global inertia update "
+":math:`\\Delta^{(t)}`. This method, for example, can be simply averaging"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:229
+msgid ""
+"\\Delta^{(t)} \\gets \\frac{1}{\\lvert \\mathcal{S}^{(t)} \\rvert} "
+"\\sum\\limits_{k \\in \\mathcal{S}^{(t)}} \\Delta_{k}^{(t)},"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:234
+msgid "or linear combination with inertia of the previous iteration"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:236
+msgid ""
+"\\Delta^{(t)} \\gets \\beta_1 \\Delta^{(t-1)} + \\left( (1 - \\beta_1) / "
+"\\lvert \\mathcal{S}^{(t)} \\rvert \\right) \\sum_{k \\in "
+"\\mathcal{S}^{(t)}} \\Delta_{k}^{(t)}."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:241
+msgid ""
+"As one has already noticed, compared to ``FedAvg``, ``FedOpt`` introduces"
+" some momentum terms on the server node (in **ServerOpt**) to accelerate "
+"the convergence. In [:footcite:ct:`reddi2020fed_opt`], the authors listed"
+" several options for **ServerOpt**:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:244
+msgid "``FedAdagrad``:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:246
+msgid ""
+"\\begin{aligned}\n"
+"v^{(t)} & \\gets v^{(t-1)} + ( \\Delta^{(t)} )^2 \\\\\n"
+"\\theta^{(t+1)} & \\gets \\theta^{(t)} + \\eta_g \\Delta^{(t)} / "
+"(\\sqrt{v^{(t)}}+\\tau)\n"
+"\\end{aligned}"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:254
+msgid "``FedYogi``:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:256
+msgid ""
+"\\begin{aligned}\n"
+"v^{(t)} & \\gets v^{(t-1)} - (1 - \\beta_2) ( \\Delta^{(t)} )^2 "
+"\\operatorname{sign}(v^{(t-1)} - ( \\Delta^{(t)} )^2) \\\\\n"
+"\\theta^{(t+1)} & \\gets \\theta^{(t)} + \\eta_g \\Delta^{(t)} / "
+"(\\sqrt{v^{(t)}}+\\tau)\n"
+"\\end{aligned}"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:264
+msgid "``FedAdam``:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:266
+msgid ""
+"\\begin{aligned}\n"
+"v^{(t)} & \\gets \\beta_2 v^{(t-1)} + (1 - \\beta_2) ( \\Delta^{(t)} )^2 "
+"\\\\\n"
+"\\theta^{(t+1)} & \\gets \\theta^{(t)} + \\eta_g \\Delta^{(t)} / "
+"(\\sqrt{v^{(t)}}+\\tau)\n"
+"\\end{aligned}"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:274
+msgid ""
+"``FedOpt`` applys acceleration techniques which are frequently used in "
+"general machine learning tasks to the field of federated learning. It is "
+"a direct improvement of ``FedAvg`` which is simple but important. "
+"Moreover, it demonstrates the decoupling of the computation on clients "
+"and on the server, which is a key feature of federated learning."
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:278
+msgid ""
+"To better handle non-I.I.D. data, one needs to introduce some other "
+"techniques. In non-I.I.D. scenarios, the gradients have different "
+"distributions across clients. A natural idea is to bring in some extra "
+"parameters which update along with the model parameters to make "
+"corrections (modifications) to the gradients on clients, reducing their "
+"variance and further accelerating the convergence. This technique is the "
+"so-called **variance reduction** technique "
+"[:footcite:ct:`johnson2013accelerating`], which was first introduced to "
+"federated learning in [:footcite:ct:`karimireddy2020scaffold`] in the "
+"form of a new federated learning algorithm called **SCAFFOLD** "
+"(Stochastic Controlled Averaging algorithm). The pseudocode for "
+"**SCAFFOLD** is shown as follows:"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:-1
+msgid "Psuedocode for ``Scaffold``"
+msgstr ""
+
+#: ../../source/algorithms/overview.rst:294
+msgid ""
+"Variance reduction is a technique that can be flexibly combined with most"
+" algorithms and has been widely used in federated learning for dealing "
+"with statistical heterogeneity. However, it should be noted in the "
+"`SCAFFOLD algorithm <pseduocode-scaffold_>`_ that on both the server and "
+"the clients, there are extra parameters :math:`c` and :math:`c_k` to "
+"maintain, which may increase the communication cost. In scenarios which "
+"are sensitive to communication cost, this would potentially be a problem."
+" Therefore, a better solution could be a combination of the variance "
+"reduction technique and some **skipping** techniques (e.g. [:footcite:ct"
+":`proxskip-vr`]), which will be introduced in next sections."
+msgstr ""
+
+#: ../../foot_bibliography_header:1
+msgid "References"
+msgstr ""

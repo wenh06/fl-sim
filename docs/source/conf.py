@@ -58,10 +58,12 @@ extensions = [
     # "sphinx_toolbox.collapse",  # replaced by dropdown of sphinx_design
     # "numpydoc",
     "sphinxcontrib.tikz",
-    "sphinxcontrib.pseudocode",
     "sphinxcontrib.bibtex",
     "sphinxcontrib.proof",
 ]
+
+locale_dirs = ["locale/"]  # path is example but recommended.
+gettext_compact = False  # optional.
 
 bibtex_bibfiles = ["references.bib"]
 # bibtex_bibliography_header = ".. rubric:: 参考文献"
@@ -91,6 +93,10 @@ html_context = {
     "github_repo": "fl-sim",  # Repo name
     "github_version": "master",  # Version
     "conf_py_path": "/docs/source/",  # Path in the checkout to the docs root
+    "current_version": release,  # Version label
+    "versions": [[release, f"link to {release}"]],  # Version labels
+    "current_language": "en",  # Language label
+    "languages": [["en", "link to en"], ["zh", "link to zh"]],  # Language labels
 }
 
 templates_path = ["_templates"]

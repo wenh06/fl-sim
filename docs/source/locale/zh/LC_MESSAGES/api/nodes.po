@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: fl_sim.nodes:2 of
+msgid "fl_sim.nodes"
+msgstr ""
+
+#: fl_sim.nodes:4 of
+msgid ""
+":class:`Node` s are the core of the simulation framework. :class:`Node` "
+"has two subclasses: :class:`Server` and :class:`Client`. The "
+":class:`Server` class is the base class for all servers, which acts as "
+"the coordinator of the training process, as well as maintainer of status "
+"variables. The :class:`Client` class is the base class for all clients."
+msgstr ""
+
+#: fl_sim.nodes:18 of
+msgid "Base Node class"
+msgstr ""
+
+#: fl_sim.nodes:23:<autosummary>:1 of
+msgid ":py:obj:`Node <fl_sim.nodes.Node>`\\ \\(\\)"
+msgstr ""
+
+#: fl_sim.nodes:23:<autosummary>:1 of
+msgid "An abstract base class for the server and client nodes."
+msgstr ""
+
+#: fl_sim.nodes:25 of
+msgid "Server classes"
+msgstr ""
+
+#: fl_sim.nodes:31:<autosummary>:1 of
+msgid ""
+":py:obj:`Server <fl_sim.nodes.Server>`\\ \\(model\\, dataset\\, config\\,"
+" client\\_config\\)"
+msgstr ""
+
+#: fl_sim.nodes:31:<autosummary>:1 of
+msgid "The class to simulate the server node."
+msgstr ""
+
+#: fl_sim.nodes:31:<autosummary>:1 of
+msgid ""
+":py:obj:`ServerConfig <fl_sim.nodes.ServerConfig>`\\ \\(algorithm\\, "
+"num\\_iters\\, ...\\[\\, ...\\]\\)"
+msgstr ""
+
+#: fl_sim.nodes:31:<autosummary>:1 of
+msgid "Configs for the Server."
+msgstr ""
+
+#: fl_sim.nodes:33 of
+msgid "Client classes"
+msgstr ""
+
+#: fl_sim.nodes:38:<autosummary>:1 of
+msgid ""
+":py:obj:`Client <fl_sim.nodes.Client>`\\ \\(client\\_id\\, device\\, "
+"model\\, dataset\\, config\\)"
+msgstr ""
+
+#: fl_sim.nodes:38:<autosummary>:1 of
+msgid "The class to simulate the client node."
+msgstr ""
+
+#: fl_sim.nodes:38:<autosummary>:1 of
+msgid ""
+":py:obj:`ClientConfig <fl_sim.nodes.ClientConfig>`\\ \\(algorithm\\, "
+"optimizer\\, ...\\[\\, ...\\]\\)"
+msgstr ""
+
+#: fl_sim.nodes:38:<autosummary>:1 of
+msgid "Configs for the Client."
+msgstr ""

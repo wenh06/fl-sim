@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: ../../source/index.rst:13
+msgid "Getting started"
+msgstr ""
+
+#: ../../source/index.rst:20
+msgid "API Reference"
+msgstr ""
+
+#: ../../source/index.rst:31
+msgid "Advanced Topics"
+msgstr ""
+
+#: ../../source/index.rst:7
+msgid "Welcome to fl-sim's documentation!"
+msgstr ""
+
+#: ../../source/index.rst:9
+msgid "A Simple Simulation Framework for Federated Learning Based on PyTorch."
+msgstr ""
+
+#: ../../source/index.rst:11
+msgid ""
+"Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee "
+"<https://gitee.com/wenh06/fl-sim/>`_"
+msgstr ""
+
+#: ../../source/index.rst:40
+msgid "Indices and tables"
+msgstr ""
+
+#: ../../source/index.rst:42
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../../source/index.rst:43
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../../source/index.rst:44
+msgid ":ref:`search`"
+msgstr ""

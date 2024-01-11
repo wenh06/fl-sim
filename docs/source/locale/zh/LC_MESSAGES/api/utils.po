@@ -1,0 +1,724 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: fl_sim.utils:2 of
+msgid "fl_sim.utils"
+msgstr ""
+
+#: fl_sim.utils:4 of
+msgid "This module contains various utilities for the ``fl-sim`` package."
+msgstr ""
+
+#: fl_sim.utils.loggers:4 of
+msgid "fl_sim.utils.loggers"
+msgstr ""
+
+#: fl_sim.utils.loggers:6 of
+msgid "This module contains various loggers."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger:1 of
+msgid "Bases: :py:class:`~torch_ecg.utils.misc.ReprMixin`, :py:class:`~abc.ABC`"
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger:1 of
+msgid "Abstract base class of all loggers."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.close:1
+#: fl_sim.utils.loggers.CSVLogger.close:1
+#: fl_sim.utils.loggers.JsonLogger.close:1
+#: fl_sim.utils.loggers.LoggerManager.close:1
+#: fl_sim.utils.loggers.TxtLogger.close:1 of
+msgid "Close the logger."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.epoch_end:1
+#: fl_sim.utils.loggers.LoggerManager.epoch_end:1
+#: fl_sim.utils.loggers.TxtLogger.epoch_end:1 of
+msgid "Actions to be performed at the end of each epoch."
+msgstr ""
+
+#: fl_sim.utils.imports.load_module_from_file
+#: fl_sim.utils.loggers.BaseLogger.epoch_end
+#: fl_sim.utils.loggers.BaseLogger.epoch_start
+#: fl_sim.utils.loggers.BaseLogger.log_message
+#: fl_sim.utils.loggers.BaseLogger.log_metrics
+#: fl_sim.utils.loggers.BaseLogger.set_log_dir fl_sim.utils.loggers.CSVLogger
+#: fl_sim.utils.loggers.CSVLogger.from_config
+#: fl_sim.utils.loggers.CSVLogger.log_message
+#: fl_sim.utils.loggers.CSVLogger.log_metrics fl_sim.utils.loggers.JsonLogger
+#: fl_sim.utils.loggers.JsonLogger.from_config
+#: fl_sim.utils.loggers.JsonLogger.log_message
+#: fl_sim.utils.loggers.JsonLogger.log_metrics
+#: fl_sim.utils.loggers.LoggerManager
+#: fl_sim.utils.loggers.LoggerManager.epoch_end
+#: fl_sim.utils.loggers.LoggerManager.epoch_start
+#: fl_sim.utils.loggers.LoggerManager.from_config
+#: fl_sim.utils.loggers.LoggerManager.log_message
+#: fl_sim.utils.loggers.LoggerManager.log_metrics
+#: fl_sim.utils.loggers.TxtLogger fl_sim.utils.loggers.TxtLogger.epoch_end
+#: fl_sim.utils.loggers.TxtLogger.epoch_start
+#: fl_sim.utils.loggers.TxtLogger.from_config
+#: fl_sim.utils.loggers.TxtLogger.log_message
+#: fl_sim.utils.loggers.TxtLogger.log_metrics fl_sim.utils.misc.add_kwargs
+#: fl_sim.utils.misc.clear_logs fl_sim.utils.misc.default_dict_to_dict
+#: fl_sim.utils.misc.find_longest_common_substring
+#: fl_sim.utils.misc.get_scheduler fl_sim.utils.misc.is_notebook
+#: fl_sim.utils.misc.make_serializable fl_sim.utils.misc.ordered_dict_to_dict
+#: fl_sim.utils.misc.set_seed of
+msgid "Parameters"
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.epoch_end:3
+#: fl_sim.utils.loggers.BaseLogger.epoch_start:3
+#: fl_sim.utils.loggers.LoggerManager.epoch_end:3
+#: fl_sim.utils.loggers.LoggerManager.epoch_start:3
+#: fl_sim.utils.loggers.TxtLogger.epoch_end:3
+#: fl_sim.utils.loggers.TxtLogger.epoch_start:3 of
+msgid "The number of the current epoch."
+msgstr ""
+
+#: fl_sim.utils.imports.load_module_from_file
+#: fl_sim.utils.loggers.BaseLogger.epoch_end
+#: fl_sim.utils.loggers.BaseLogger.epoch_start
+#: fl_sim.utils.loggers.BaseLogger.log_message
+#: fl_sim.utils.loggers.BaseLogger.log_metrics
+#: fl_sim.utils.loggers.BaseLogger.set_log_dir
+#: fl_sim.utils.loggers.CSVLogger.from_config
+#: fl_sim.utils.loggers.CSVLogger.log_message
+#: fl_sim.utils.loggers.CSVLogger.log_metrics
+#: fl_sim.utils.loggers.JsonLogger.from_config
+#: fl_sim.utils.loggers.JsonLogger.log_message
+#: fl_sim.utils.loggers.JsonLogger.log_metrics
+#: fl_sim.utils.loggers.LoggerManager.epoch_end
+#: fl_sim.utils.loggers.LoggerManager.epoch_start
+#: fl_sim.utils.loggers.LoggerManager.from_config
+#: fl_sim.utils.loggers.LoggerManager.log_message
+#: fl_sim.utils.loggers.LoggerManager.log_metrics
+#: fl_sim.utils.loggers.TxtLogger.epoch_end
+#: fl_sim.utils.loggers.TxtLogger.epoch_start
+#: fl_sim.utils.loggers.TxtLogger.from_config
+#: fl_sim.utils.loggers.TxtLogger.log_message
+#: fl_sim.utils.loggers.TxtLogger.log_metrics fl_sim.utils.misc.add_kwargs
+#: fl_sim.utils.misc.default_dict_to_dict
+#: fl_sim.utils.misc.find_longest_common_substring
+#: fl_sim.utils.misc.get_scheduler fl_sim.utils.misc.is_notebook
+#: fl_sim.utils.misc.make_serializable fl_sim.utils.misc.ordered_dict_to_dict
+#: fl_sim.utils.misc.set_seed of
+msgid "Return type"
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.epoch_start:1
+#: fl_sim.utils.loggers.LoggerManager.epoch_start:1
+#: fl_sim.utils.loggers.TxtLogger.epoch_start:1 of
+msgid "Actions to be performed at the start of each epoch."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.extra_repr_keys:1
+#: fl_sim.utils.loggers.LoggerManager.extra_repr_keys:1 of
+msgid "Extra keys for :meth:`__repr__` and :meth:`__str__`."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.filename:1
+#: fl_sim.utils.loggers.CSVLogger.filename:1
+#: fl_sim.utils.loggers.JsonLogger.filename:1
+#: fl_sim.utils.loggers.TxtLogger.filename:1 of
+msgid "Name of the log file."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.flush:1
+#: fl_sim.utils.loggers.CSVLogger.flush:1
+#: fl_sim.utils.loggers.JsonLogger.flush:1
+#: fl_sim.utils.loggers.LoggerManager.flush:1
+#: fl_sim.utils.loggers.TxtLogger.flush:1 of
+msgid "Flush the message buffer."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.from_config:1 of
+msgid "Create a logger instance from a configuration."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_dir:1 of
+msgid "Directory to save the log file."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_message:1
+#: fl_sim.utils.loggers.CSVLogger.log_message:1
+#: fl_sim.utils.loggers.JsonLogger.log_message:1
+#: fl_sim.utils.loggers.LoggerManager.log_message:1
+#: fl_sim.utils.loggers.LoggerManager.log_metrics:1
+#: fl_sim.utils.loggers.TxtLogger.log_message:1 of
+msgid "Log a message."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_message:3
+#: fl_sim.utils.loggers.CSVLogger.log_message:3
+#: fl_sim.utils.loggers.JsonLogger.log_message:3
+#: fl_sim.utils.loggers.LoggerManager.log_message:3
+#: fl_sim.utils.loggers.LoggerManager.log_metrics:3
+#: fl_sim.utils.loggers.TxtLogger.log_message:3 of
+msgid "The message to be logged."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_message:5
+#: fl_sim.utils.loggers.CSVLogger.log_message:5
+#: fl_sim.utils.loggers.JsonLogger.log_message:5
+#: fl_sim.utils.loggers.LoggerManager.log_message:5
+#: fl_sim.utils.loggers.LoggerManager.log_metrics:5
+#: fl_sim.utils.loggers.TxtLogger.log_message:5 of
+msgid ""
+"The level of the message, can be one of ``logging.DEBUG``, "
+"``logging.INFO``, ``logging.WARNING``, ``logging.ERROR``, "
+"``logging.CRITICAL``"
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:1
+#: fl_sim.utils.loggers.CSVLogger.log_metrics:1
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:1
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:1 of
+msgid "Log metrics."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:3
+#: fl_sim.utils.loggers.CSVLogger.log_metrics:3
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:3
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:3 of
+msgid "Index of the client, ``None`` for the server."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:5
+#: fl_sim.utils.loggers.CSVLogger.log_metrics:5
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:5
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:5 of
+msgid "The metrics to be logged."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:7
+#: fl_sim.utils.loggers.CSVLogger.log_metrics:7
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:7
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:7 of
+msgid "The current number of (global) steps of training."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:9
+#: fl_sim.utils.loggers.CSVLogger.log_metrics:9
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:9
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:9 of
+msgid "The current epoch number of training."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:11
+#: fl_sim.utils.loggers.CSVLogger.log_metrics:11
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:11
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:11 of
+msgid ""
+"The part of the training data the metrics computed from, can be "
+"``\"train\"`` or ``\"val\"`` or ``\"test\"``, etc."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.reset:1
+#: fl_sim.utils.loggers.CSVLogger.reset:1
+#: fl_sim.utils.loggers.JsonLogger.reset:1
+#: fl_sim.utils.loggers.LoggerManager.reset:1
+#: fl_sim.utils.loggers.TxtLogger.reset:1 of
+msgid "Reset the logger."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.set_log_dir:1 of
+msgid "Set the log directory."
+msgstr ""
+
+#: fl_sim.utils.loggers.BaseLogger.set_log_dir:3 of
+msgid "The log directory."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger:1 fl_sim.utils.loggers.JsonLogger:1
+#: fl_sim.utils.loggers.TxtLogger:1 of
+msgid "Bases: :py:class:`~fl_sim.utils.loggers.BaseLogger`"
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger:1 of
+msgid "Logger that logs to a CSV file."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger:3 fl_sim.utils.loggers.CSVLogger:5
+#: fl_sim.utils.loggers.CSVLogger:7 fl_sim.utils.loggers.JsonLogger:42
+#: fl_sim.utils.loggers.JsonLogger:44 fl_sim.utils.loggers.JsonLogger:46
+#: fl_sim.utils.loggers.LoggerManager:3 fl_sim.utils.loggers.LoggerManager:5
+#: fl_sim.utils.loggers.LoggerManager:7 fl_sim.utils.loggers.TxtLogger:3
+#: fl_sim.utils.loggers.TxtLogger:5 fl_sim.utils.loggers.TxtLogger:7 of
+msgid "Used to form the prefix of the log file."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger:9 fl_sim.utils.loggers.JsonLogger:50
+#: fl_sim.utils.loggers.LoggerManager:9 of
+msgid "Directory to save the log file"
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger:11 fl_sim.utils.loggers.JsonLogger:52
+#: fl_sim.utils.loggers.LoggerManager:11 fl_sim.utils.loggers.TxtLogger:13 of
+msgid "Suffix of the log file."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger:13 fl_sim.utils.loggers.JsonLogger:54 of
+msgid ""
+"The verbosity level. Not used in this logger, but is kept for "
+"compatibility with other loggers."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.from_config:1 of
+msgid "Create a :class:`CSVLogger` instance from a configuration."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.from_config:3
+#: fl_sim.utils.loggers.TxtLogger.from_config:3 of
+msgid ""
+"Configuration for the logger. The following keys are used:      - "
+"``\"algorithm\"``: :obj:`str`,       name of the algorithm.     - "
+"``\"dataset\"``: :obj:`str`,       name of the dataset.     - "
+"``\"model\"``: :obj:`str`,       name of the model.     - "
+"``\"log_dir\"``: :obj:`str` or :class:`pathlib.Path`, optional,       "
+"directory to save the log file.     - ``\"log_suffix\"``: :obj:`str`, "
+"optional,       suffix of the log file."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.from_config:4
+#: fl_sim.utils.loggers.JsonLogger.from_config:4
+#: fl_sim.utils.loggers.TxtLogger.from_config:4 of
+msgid "Configuration for the logger. The following keys are used:"
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.from_config:6
+#: fl_sim.utils.loggers.JsonLogger.from_config:6
+#: fl_sim.utils.loggers.TxtLogger.from_config:6 of
+msgid "``\"algorithm\"``: :obj:`str`, name of the algorithm."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.from_config:8
+#: fl_sim.utils.loggers.JsonLogger.from_config:8
+#: fl_sim.utils.loggers.TxtLogger.from_config:8 of
+msgid "``\"dataset\"``: :obj:`str`, name of the dataset."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.from_config:10
+#: fl_sim.utils.loggers.JsonLogger.from_config:10
+#: fl_sim.utils.loggers.TxtLogger.from_config:10 of
+msgid "``\"model\"``: :obj:`str`, name of the model."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.from_config:12
+#: fl_sim.utils.loggers.JsonLogger.from_config:14
+#: fl_sim.utils.loggers.TxtLogger.from_config:12 of
+msgid ""
+"``\"log_dir\"``: :obj:`str` or :class:`pathlib.Path`, optional, directory"
+" to save the log file."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.from_config:14
+#: fl_sim.utils.loggers.JsonLogger.from_config:16
+#: fl_sim.utils.loggers.TxtLogger.from_config:14 of
+msgid "``\"log_suffix\"``: :obj:`str`, optional, suffix of the log file."
+msgstr ""
+
+#: fl_sim.utils.imports.load_module_from_file
+#: fl_sim.utils.loggers.CSVLogger.from_config
+#: fl_sim.utils.loggers.JsonLogger.from_config
+#: fl_sim.utils.loggers.LoggerManager.from_config
+#: fl_sim.utils.loggers.TxtLogger.from_config fl_sim.utils.misc.add_kwargs
+#: fl_sim.utils.misc.default_dict_to_dict
+#: fl_sim.utils.misc.find_longest_common_substring
+#: fl_sim.utils.misc.get_scheduler fl_sim.utils.misc.is_notebook
+#: fl_sim.utils.misc.make_serializable fl_sim.utils.misc.ordered_dict_to_dict
+#: of
+msgid "Returns"
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.from_config:18 of
+msgid "A :class:`CSVLogger` instance."
+msgstr ""
+
+#: fl_sim.utils.loggers.CSVLogger.reset:3
+#: fl_sim.utils.loggers.JsonLogger.reset:3
+#: fl_sim.utils.loggers.TxtLogger.reset:3 of
+msgid "Close the current logger and create a new one, with new log file name."
+msgstr ""
+
+#: fl_sim.utils.loggers.JsonLogger:1 of
+msgid "Logger that logs to a JSON file, or a yaml file."
+msgstr ""
+
+#: fl_sim.utils.loggers.JsonLogger:4 of
+msgid "The structure is as follows for example:"
+msgstr ""
+
+#: fl_sim.utils.loggers.JsonLogger:48 of
+msgid "Format of the log file."
+msgstr ""
+
+#: fl_sim.utils.loggers.JsonLogger.from_config:1 of
+msgid "Create a :class:`JsonLogger` instance from a configuration."
+msgstr ""
+
+#: fl_sim.utils.loggers.JsonLogger.from_config:3 of
+msgid ""
+"Configuration for the logger. The following keys are used:      - "
+"``\"algorithm\"``: :obj:`str`,       name of the algorithm.     - "
+"``\"dataset\"``: :obj:`str`,       name of the dataset.     - "
+"``\"model\"``: :obj:`str`,       name of the model.     - ``\"fmt\"``: "
+"{\"json\", \"yaml\"}, optional,       format of the log file, default: "
+"``\"json\"``.     - ``\"log_dir\"``: :obj:`str` or :class:`pathlib.Path`,"
+" optional,       directory to save the log file.     - "
+"``\"log_suffix\"``: :obj:`str`, optional,       suffix of the log file."
+msgstr ""
+
+#: fl_sim.utils.loggers.JsonLogger.from_config:12 of
+msgid ""
+"``\"fmt\"``: {\"json\", \"yaml\"}, optional, format of the log file, "
+"default: ``\"json\"``."
+msgstr ""
+
+#: fl_sim.utils.loggers.JsonLogger.from_config:20 of
+msgid "A :class:`JsonLogger` instance."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager:1 of
+msgid "Bases: :py:class:`~torch_ecg.utils.misc.ReprMixin`"
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager:1 of
+msgid "Manager for loggers."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager:13 fl_sim.utils.loggers.TxtLogger:15 of
+msgid "The verbosity level."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:1 of
+msgid "Create a :class:`LoggerManager` instance from a configuration."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:3 of
+msgid ""
+"Configuration of the logger manager. The following keys are used:      - "
+"``\"algorithm\"``: :obj:`str`,       algorithm name.     - "
+"``\"dataset\"``: :obj:`str`,       dataset name.     - ``\"model\"``: "
+":obj:`str`,       model name.     - ``\"log_dir\"``: :obj:`str` or "
+":class:`pathlib.Path`, optional,       directory to save the log files."
+"     - ``\"log_suffix\"``: :obj:`str`, optional,       suffix of the log "
+"files.     - ``\"txt_logger\"``: :obj:`bool`, optional,       whether to "
+"add a :class:`TxtLogger` instance.     - ``\"csv_logger\"``: :obj:`bool`,"
+" optional,       whether to add a :class:`CSVLogger` instance.     - "
+"``\"json_logger\"``: :obj:`bool`, optional,       whether to add a "
+":class:`JsonLogger` instance.     - ``\"fmt\"``: {\"json\", \"yaml\"}, "
+"optional,       format of the json log file, default: ``\"json\"``,"
+"       valid when ``\"json_logger\"`` is ``True``.     - ``\"verbose\"``:"
+" :obj:`int`, optional,       verbosity level of the logger manager."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:4 of
+msgid "Configuration of the logger manager. The following keys are used:"
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:6 of
+msgid "``\"algorithm\"``: :obj:`str`, algorithm name."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:8 of
+msgid "``\"dataset\"``: :obj:`str`, dataset name."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:10 of
+msgid "``\"model\"``: :obj:`str`, model name."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:12 of
+msgid ""
+"``\"log_dir\"``: :obj:`str` or :class:`pathlib.Path`, optional, directory"
+" to save the log files."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:14 of
+msgid "``\"log_suffix\"``: :obj:`str`, optional, suffix of the log files."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:16 of
+msgid ""
+"``\"txt_logger\"``: :obj:`bool`, optional, whether to add a "
+":class:`TxtLogger` instance."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:18 of
+msgid ""
+"``\"csv_logger\"``: :obj:`bool`, optional, whether to add a "
+":class:`CSVLogger` instance."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:20 of
+msgid ""
+"``\"json_logger\"``: :obj:`bool`, optional, whether to add a "
+":class:`JsonLogger` instance."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:22 of
+msgid ""
+"``\"fmt\"``: {\"json\", \"yaml\"}, optional, format of the json log file,"
+" default: ``\"json\"``, valid when ``\"json_logger\"`` is ``True``."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:25 of
+msgid ""
+"``\"verbose\"``: :obj:`int`, optional, verbosity level of the logger "
+"manager."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.from_config:29 of
+msgid "A :class:`LoggerManager` instance."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.log_dir:1 of
+msgid "Directory to save the log files."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.log_suffix:1 of
+msgid "Suffix of the log files."
+msgstr ""
+
+#: fl_sim.utils.loggers.LoggerManager.loggers:1 of
+msgid "The list of loggers."
+msgstr ""
+
+#: fl_sim.utils.loggers.TxtLogger:1 of
+msgid "Logger that logs to a text file."
+msgstr ""
+
+#: fl_sim.utils.loggers.TxtLogger:9 of
+msgid ""
+"Directory to save the log file. If ``None``, use the default log "
+"directory. If not absolute, use ``DEFAULT_LOG_DIR/log_dir``."
+msgstr ""
+
+#: fl_sim.utils.loggers.TxtLogger.from_config:1 of
+msgid "Create a :class:`TxtLogger` instance from a configuration."
+msgstr ""
+
+#: fl_sim.utils.loggers.TxtLogger.from_config:18 of
+msgid "A :class:`TxtLogger` instance."
+msgstr ""
+
+#: fl_sim.utils.loggers.TxtLogger.long_sep:1 of
+msgid "Long separator for logging messages."
+msgstr ""
+
+#: fl_sim.utils.loggers.TxtLogger.short_sep:1 of
+msgid "Short separator for logging messages."
+msgstr ""
+
+#: fl_sim.utils.imports:4 of
+msgid "fl_sim.utils.imports"
+msgstr ""
+
+#: fl_sim.utils.imports:6 of
+msgid "This module contains utilities for dynamic imports."
+msgstr ""
+
+#: fl_sim.utils.imports.load_module_from_file:1 of
+msgid "Load a module from a file."
+msgstr ""
+
+#: fl_sim.utils.imports.load_module_from_file:3 of
+msgid "The path of the file."
+msgstr ""
+
+#: fl_sim.utils.imports.load_module_from_file:6 of
+msgid "The loaded module."
+msgstr ""
+
+#: fl_sim.utils.misc:4 of
+msgid "fl_sim.utils.misc"
+msgstr ""
+
+#: fl_sim.utils.misc:6 of
+msgid "This module provides miscellaneous utilities."
+msgstr ""
+
+#: fl_sim.utils.misc.add_kwargs:1 of
+msgid "Add keyword arguments to a function."
+msgstr ""
+
+#: fl_sim.utils.misc.add_kwargs:3 of
+msgid ""
+"This function is used to add keyword arguments to a function in order to "
+"make it compatible with other functions。"
+msgstr ""
+
+#: fl_sim.utils.misc.add_kwargs:6 of
+msgid "The function to be decorated."
+msgstr ""
+
+#: fl_sim.utils.misc.add_kwargs:8 of
+msgid "The keyword arguments to be added."
+msgstr ""
+
+#: fl_sim.utils.misc.add_kwargs:11 of
+msgid "The decorated function, with the keyword arguments added."
+msgstr ""
+
+#: fl_sim.utils.misc.clear_logs:1 of
+msgid "Clear given log files in given directory."
+msgstr ""
+
+#: fl_sim.utils.misc.clear_logs:3 of
+msgid ""
+"Pattern of log files to be cleared, by default \"*\" The searching will "
+"be executed by :meth:`pathlib.Path.rglob`."
+msgstr ""
+
+#: fl_sim.utils.misc.clear_logs:6 of
+msgid ""
+"Directory to be searched, by default the default log directory "
+":data:`LOG_DIR` will be used. If the given directory is not absolute, it "
+"will be joined with :data:`LOG_DIR`."
+msgstr ""
+
+#: fl_sim.utils.misc.default_dict_to_dict:1 of
+msgid "Convert default dict to dict."
+msgstr ""
+
+#: fl_sim.utils.misc.default_dict_to_dict:3 of
+msgid "Input default dict, or dict, list, tuple containing default dicts."
+msgstr ""
+
+#: fl_sim.utils.misc.default_dict_to_dict:7
+#: fl_sim.utils.misc.ordered_dict_to_dict:7 of
+msgid "Converted dict."
+msgstr ""
+
+#: fl_sim.utils.misc.find_longest_common_substring:1 of
+msgid "Find the longest common substring of a list of strings."
+msgstr ""
+
+#: fl_sim.utils.misc.find_longest_common_substring:3 of
+msgid "The list of strings."
+msgstr ""
+
+#: fl_sim.utils.misc.find_longest_common_substring:5 of
+msgid "The minimum length of the common substring."
+msgstr ""
+
+#: fl_sim.utils.misc.find_longest_common_substring:7 of
+msgid "The substring to be ignored."
+msgstr ""
+
+#: fl_sim.utils.misc.find_longest_common_substring:10 of
+msgid "The longest common substring."
+msgstr ""
+
+#: fl_sim.utils.misc.get_scheduler:1 of
+msgid "Get learning rate scheduler."
+msgstr ""
+
+#: fl_sim.utils.misc.get_scheduler:3 of
+msgid "Name of the scheduler."
+msgstr ""
+
+#: fl_sim.utils.misc.get_scheduler:5 of
+msgid "Optimizer."
+msgstr ""
+
+#: fl_sim.utils.misc.get_scheduler:7 of
+msgid "Configuration of the scheduler."
+msgstr ""
+
+#: fl_sim.utils.misc.get_scheduler:10 of
+msgid "Learning rate scheduler."
+msgstr ""
+
+#: fl_sim.utils.misc.get_scheduler_info:1 of
+msgid ""
+"Get information of the scheduler, including the required and optional "
+"configs."
+msgstr ""
+
+#: fl_sim.utils.misc.is_notebook:1 of
+msgid "Check if the current environment is a notebook (Jupyter or Colab)."
+msgstr ""
+
+#: fl_sim.utils.misc.is_notebook:3 of
+msgid "Implementation adapted from [#sa]_."
+msgstr ""
+
+#: fl_sim.utils.misc.is_notebook:7 of
+msgid "Whether the code is running in a notebook"
+msgstr ""
+
+#: fl_sim.utils.misc.is_notebook:11 of
+msgid "References"
+msgstr ""
+
+#: fl_sim.utils.misc.is_notebook:12 of
+msgid ""
+"https://stackoverflow.com/questions/15411967/how-can-i-check-if-code-is-"
+"executed-in-the-ipython-notebook"
+msgstr ""
+
+#: fl_sim.utils.misc.make_serializable:1 of
+msgid "Make an object serializable."
+msgstr ""
+
+#: fl_sim.utils.misc.make_serializable:3 of
+msgid ""
+"This function is used to convert all numpy arrays to list in an object, "
+"and also convert numpy data types to python data types in the object, so "
+"that it can be serialized by :mod:`json`."
+msgstr ""
+
+#: fl_sim.utils.misc.make_serializable:7 of
+msgid ""
+"Input data, which can be numpy array (or numpy data type), or dict, list,"
+" tuple containing numpy arrays (or numpy data type)."
+msgstr ""
+
+#: fl_sim.utils.misc.make_serializable:11 of
+msgid "Converted data."
+msgstr ""
+
+#: fl_sim.utils.misc.make_serializable:15 of
+msgid "Examples"
+msgstr ""
+
+#: fl_sim.utils.misc.ordered_dict_to_dict:1 of
+msgid "Convert ordered dict to dict."
+msgstr ""
+
+#: fl_sim.utils.misc.ordered_dict_to_dict:3 of
+msgid "Input ordered dict, or dict, list, tuple containing ordered dicts."
+msgstr ""
+
+#: fl_sim.utils.misc.set_seed:1 of
+msgid ""
+"Set random seed for numpy and pytorch, as well as disable cudnn to ensure"
+" reproducibility."
+msgstr ""
+
+#: fl_sim.utils.misc.set_seed:4 of
+msgid "Random seed."
+msgstr ""

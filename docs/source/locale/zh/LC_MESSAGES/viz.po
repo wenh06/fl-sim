@@ -1,0 +1,99 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: ../../source/viz.rst:2
+msgid "Visualization subsystem"
+msgstr ""
+
+#: ../../source/viz.rst:4
+msgid ""
+"``fl-sim`` implements a simple visualization subsystem named ``Panel`` "
+"along with a logging system. ``Panel`` is based on Jupyter Widgets "
+"(`ipywidgets <https://ipywidgets.readthedocs.io/en/latest/>`_), "
+"`matplotlib <https://matplotlib.org/>`_ and `seaborn "
+"<https://seaborn.pydata.org/>`_. It runs in a Jupyter Notebook or similar"
+" environment (Jupyter Lab, Google Colab, Amazon SageMaker, etc.). "
+"``Panel`` has the following features:"
+msgstr ""
+
+#: ../../source/viz.rst:9
+msgid ""
+"It automatically searches, lists the log files of completed simulations "
+"(numerical experiments) in the specified directory, and displays them in "
+"a multi-select list box."
+msgstr ""
+
+#: ../../source/viz.rst:10
+msgid ""
+"It automatically decodes the log files and plots the curves of the "
+"specified metrics."
+msgstr ""
+
+#: ../../source/viz.rst:11
+msgid ""
+"It supports interactive operations on the plotted curves, such as "
+"zooming, smoothing, font family and size adjustment, etc."
+msgstr ""
+
+#: ../../source/viz.rst:12
+msgid ""
+"It supports saving the plotted curves to a file in PDF/SVG/PNG/JPEG/PS "
+"formats."
+msgstr ""
+
+#: ../../source/viz.rst:13
+msgid ""
+"It supports curve merging via tags into mean-value curves with error bars"
+" (optional). The error bounds have 4 options:"
+msgstr ""
+
+#: ../../source/viz.rst:15
+msgid "standard deviation (STD)"
+msgstr ""
+
+#: ../../source/viz.rst:16
+msgid "standard error of the mean (SEM)"
+msgstr ""
+
+#: ../../source/viz.rst:17
+msgid "quantile (QTL)"
+msgstr ""
+
+#: ../../source/viz.rst:18
+msgid "interquartile range (IQR)"
+msgstr ""
+
+#: ../../source/viz.rst:20
+msgid ""
+"The following GIF (created using `ScreenToGif "
+"<https://github.com/NickeManarin/ScreenToGif>`_) shows a demo of the "
+"visualization ``Panel``:"
+msgstr ""
+
+#: ../../source/viz.rst:-1
+msgid "FL-SIM Panel Demo GIF"
+msgstr ""
+
+#: ../../source/viz.rst:27
+msgid ""
+"**NOTE:** to use Windows fonts on a Linux machine (e.g. Ubuntu), one can "
+"execute the following commands:"
+msgstr ""

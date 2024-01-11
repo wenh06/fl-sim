@@ -3,8 +3,7 @@ h5py
 numpy
 pandas
 Pillow
-h5py
-scikit_learn
+scikit-learn
 scipy
 torch>=1.10.0
 torchvision>=0.11.0

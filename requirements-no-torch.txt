@@ -3,8 +3,7 @@ h5py
 numpy
 pandas
 Pillow
-h5py
-scikit_learn
+scikit-learn
 scipy
 tqdm
 beautifulsoup4

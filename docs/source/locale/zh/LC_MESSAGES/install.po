@@ -1,0 +1,52 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: ../../source/install.rst:2
+msgid "Installation instructions"
+msgstr ""
+
+#: ../../source/install.rst:4
+msgid ":code:`fl-sim` requires **Python 3.6+** and is available through pip:"
+msgstr ""
+
+#: ../../source/install.rst:10
+msgid "or clone the repository and run"
+msgstr ""
+
+#: ../../source/install.rst:16
+msgid ""
+"Alternatively, one can use the Docker image `wenh06/fl-sim "
+"<https://hub.docker.com/r/wenh06/fl-sim>`_ to run the code. The image is "
+"built with the `Docker Image CI action <https://github.com/wenh06/fl-"
+"sim/actions/workflows/docker-image.yml>`_. To pull the image, run the "
+"following command:"
+msgstr ""
+
+#: ../../source/install.rst:24
+msgid "For the usage (interactive mode), run the following command:"
+msgstr ""
+
+#: ../../source/install.rst:30
+msgid ""
+"For more advanced usages (e.g., run a script), refer to the `Docker "
+"official documentation "
+"<https://docs.docker.com/engine/reference/commandline/run/>`_."
+msgstr ""

@@ -1,0 +1,92 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: fl_sim.regularizers:2 of
+msgid "fl_sim.regularizers"
+msgstr ""
+
+#: fl_sim.regularizers:4 of
+msgid "This module contains the regularizers for the optimization problems."
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid ""
+":py:obj:`get_regularizer <fl_sim.regularizers.get_regularizer>`\\ "
+"\\(reg\\_type\\[\\, reg\\_coeff\\]\\)"
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid "Get the regularizer by name."
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid ""
+":py:obj:`Regularizer <fl_sim.regularizers.Regularizer>`\\ "
+"\\(\\[coeff\\]\\)"
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid "Regularizer base class."
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid ":py:obj:`L1Norm <fl_sim.regularizers.L1Norm>`\\ \\(\\[coeff\\]\\)"
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid "L1 norm regularizer."
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid ":py:obj:`L2Norm <fl_sim.regularizers.L2Norm>`\\ \\(\\[coeff\\]\\)"
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid "L2 norm regularizer."
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid ""
+":py:obj:`L2NormSquared <fl_sim.regularizers.L2NormSquared>`\\ "
+"\\(\\[coeff\\]\\)"
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid "L2 norm squared regularizer."
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid ":py:obj:`LInfNorm <fl_sim.regularizers.LInfNorm>`\\ \\(\\[coeff\\]\\)"
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid "L-infinity norm regularizer."
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid ""
+":py:obj:`NullRegularizer <fl_sim.regularizers.NullRegularizer>`\\ "
+"\\(\\[coeff\\]\\)"
+msgstr ""
+
+#: fl_sim.regularizers:23:<autosummary>:1 of
+msgid "Null regularizer, or equivalently the zero function."
+msgstr ""

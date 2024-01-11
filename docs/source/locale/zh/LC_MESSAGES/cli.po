@@ -1,0 +1,50 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: ../../source/cli.rst:2
+msgid "Command line interface"
+msgstr ""
+
+#: ../../source/cli.rst:4
+msgid ""
+"A command line interface (CLI) is provided for running multiple federated"
+" learning experiments. The only argument is the path to the configuration"
+" file (in YAML format) for the experiments. Examples of configuration "
+"files can be found in the `example-configs <https://github.com/wenh06/fl-"
+"sim/tree/master/example-configs>`_ directory. For example, in the `all-"
+"alg-fedprox-femnist.yml <https://github.com/wenh06/fl-sim/tree/master"
+"/example-configs/all-alg-fedprox-femnist.yml>`_ file, we have"
+msgstr ""
+
+#: ../../source/cli.rst
+msgid "[example-configs/all-alg-fedprox-femnist.yml]"
+msgstr ""
+
+#: ../../source/cli.rst:65
+msgid ""
+"The ``strategy`` (optional) section specifies the grid search strategy; "
+"the ``algorithm`` section specifies the hyperparameters of the federated "
+"learning algorithm: ``name`` is the name of the algorithm, ``server`` "
+"specifies the hyperparameters of the server, and ``client`` specifies the"
+" hyperparameters of the client; the ``dataset`` section specifies the "
+"dataset, and the ``model`` section specifies the named model (ref. the "
+"``candidate_models`` property of the dataset classes) to be used."
+msgstr ""

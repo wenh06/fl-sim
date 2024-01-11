@@ -1,0 +1,248 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: fl_sim.models:2 of
+msgid "fl_sim.models"
+msgstr ""
+
+#: fl_sim.models:4 of
+msgid "This module contains built-in simple models."
+msgstr ""
+
+#: fl_sim.models:14 of
+msgid "Convolutional neural networks (CNN)"
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid ":py:obj:`CNNMnist <fl_sim.models.CNNMnist>`\\ \\(num\\_classes\\)"
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid "Convolutional neural network using MNIST type input."
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid ""
+":py:obj:`CNNFEMnist <fl_sim.models.CNNFEMnist>`\\ "
+"\\(\\[num\\_classes\\]\\)"
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid "Convolutional neural network using FEMnist type input."
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid ""
+":py:obj:`CNNFEMnist_Tiny <fl_sim.models.CNNFEMnist_Tiny>`\\ "
+"\\(\\[num\\_classes\\]\\)"
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid "Tiny version of :class:`CNNFEMnist`."
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid ":py:obj:`CNNCifar <fl_sim.models.CNNCifar>`\\ \\(num\\_classes\\)"
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid "Convolutional neural network using CIFAR type input."
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid ""
+":py:obj:`CNNCifar_Small <fl_sim.models.CNNCifar_Small>`\\ "
+"\\(num\\_classes\\)"
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid ""
+":py:obj:`CNNCifar_Tiny <fl_sim.models.CNNCifar_Tiny>`\\ "
+"\\(num\\_classes\\)"
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid ""
+":py:obj:`ResNet18 <fl_sim.models.ResNet18>`\\ \\(num\\_classes\\[\\, "
+"pretrained\\]\\)"
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid "ResNet18 model for image classification."
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid ""
+":py:obj:`ResNet10 <fl_sim.models.ResNet10>`\\ \\(num\\_classes\\[\\, "
+"pretrained\\]\\)"
+msgstr ""
+
+#: fl_sim.models:27:<autosummary>:1 of
+msgid "ResNet10 model for image classification."
+msgstr ""
+
+#: fl_sim.models:29 of
+msgid "Recurrent neural networks (RNN)"
+msgstr ""
+
+#: fl_sim.models:38:<autosummary>:1 of
+msgid ""
+":py:obj:`RNN_OriginalFedAvg <fl_sim.models.RNN_OriginalFedAvg>`\\ "
+"\\(\\[embedding\\_dim\\, ...\\]\\)"
+msgstr ""
+
+#: fl_sim.models:38:<autosummary>:1 of
+msgid ""
+"Creates a RNN model using LSTM layers for Shakespeare language models "
+"(next character prediction task)."
+msgstr ""
+
+#: fl_sim.models:38:<autosummary>:1 of
+msgid ""
+":py:obj:`RNN_StackOverFlow <fl_sim.models.RNN_StackOverFlow>`\\ "
+"\\(\\[vocab\\_size\\, ...\\]\\)"
+msgstr ""
+
+#: fl_sim.models:38:<autosummary>:1 of
+msgid ""
+"Creates a RNN model using LSTM layers for StackOverFlow (next word "
+"prediction task)."
+msgstr ""
+
+#: fl_sim.models:38:<autosummary>:1 of
+msgid ""
+":py:obj:`RNN_Sent140 <fl_sim.models.RNN_Sent140>`\\ "
+"\\(\\[latent\\_size\\, num\\_classes\\, ...\\]\\)"
+msgstr ""
+
+#: fl_sim.models:38:<autosummary>:1 of
+msgid ""
+"Stacked :class:`~torch.nn.LSTM` model for sentiment analysis on the "
+"``Sent140`` dataset."
+msgstr ""
+
+#: fl_sim.models:38:<autosummary>:1 of
+msgid ""
+":py:obj:`RNN_Sent140_LITE <fl_sim.models.RNN_Sent140_LITE>`\\ "
+"\\(\\[latent\\_size\\, num\\_classes\\, ...\\]\\)"
+msgstr ""
+
+#: fl_sim.models:40 of
+msgid "Multilayer perceptron (MLP)"
+msgstr ""
+
+#: fl_sim.models:47:<autosummary>:1 of
+msgid ""
+":py:obj:`MLP <fl_sim.models.MLP>`\\ \\(dim\\_in\\, dim\\_out\\[\\, "
+"dim\\_hidden\\, ...\\]\\)"
+msgstr ""
+
+#: fl_sim.models:47:<autosummary>:1 of
+msgid "Multi-layer perceptron."
+msgstr ""
+
+#: fl_sim.models:47:<autosummary>:1 of
+msgid ""
+":py:obj:`FedPDMLP <fl_sim.models.FedPDMLP>`\\ \\(dim\\_in\\, "
+"dim\\_hidden\\, dim\\_out\\[\\, ndim\\]\\)"
+msgstr ""
+
+#: fl_sim.models:47:<autosummary>:1 of
+msgid ""
+"Multi-layer perceptron modified from `FedPD/models.py "
+"<https://github.com/564612540/FedPD>`_."
+msgstr ""
+
+#: fl_sim.models:49 of
+msgid "Linear models"
+msgstr ""
+
+#: fl_sim.models:57:<autosummary>:1 of
+msgid ""
+":py:obj:`LogisticRegression <fl_sim.models.LogisticRegression>`\\ "
+"\\(num\\_features\\, num\\_classes\\)"
+msgstr ""
+
+#: fl_sim.models:57:<autosummary>:1 of
+msgid "Logistic regression model for classification task."
+msgstr ""
+
+#: fl_sim.models:57:<autosummary>:1 of
+msgid ":py:obj:`SVC <fl_sim.models.SVC>`\\ \\(num\\_features\\, num\\_classes\\)"
+msgstr ""
+
+#: fl_sim.models:57:<autosummary>:1 of
+msgid "Support vector machine classifier."
+msgstr ""
+
+#: fl_sim.models:57:<autosummary>:1 of
+msgid ":py:obj:`SVR <fl_sim.models.SVR>`\\ \\(num\\_features\\)"
+msgstr ""
+
+#: fl_sim.models:57:<autosummary>:1 of
+msgid "Support vector machine regressor."
+msgstr ""
+
+#: fl_sim.models:59 of
+msgid "Utilities"
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid ":py:obj:`reset_parameters <fl_sim.models.reset_parameters>`\\ \\(module\\)"
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid "Reset the parameters of a module and its children."
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid ""
+":py:obj:`top_n_accuracy <fl_sim.models.top_n_accuracy>`\\ \\(preds\\, "
+"labels\\[\\, n\\]\\)"
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid "Top-n accuracy."
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid ":py:obj:`CLFMixin <fl_sim.models.CLFMixin>`\\ \\(\\)"
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid "Mixin class for classifiers."
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid ":py:obj:`REGMixin <fl_sim.models.REGMixin>`\\ \\(\\)"
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid "Mixin for regressors."
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid ":py:obj:`DiffMixin <fl_sim.models.DiffMixin>`\\ \\(\\)"
+msgstr ""
+
+#: fl_sim.models:68:<autosummary>:1 of
+msgid "Mixin for differences of two models."
+msgstr ""

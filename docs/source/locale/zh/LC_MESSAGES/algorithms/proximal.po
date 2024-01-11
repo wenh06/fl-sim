@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: ../../source/algorithms/proximal.rst:4
+msgid "Proximal Algorithms in Federated Learning"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:6
+msgid ""
+"In non-I.I.D. scenarios, based on the idea of reducing the impact of "
+"local updates of clients on the global model, "
+"[:footcite:ct:`sahu2018fedprox`] first introduced a proximal term to the "
+"local objective functions, aiming at making the algorithm more stable and"
+" converging faster. Compared to ``SCAFFOLD``, methods using proximal "
+"terms do not need to maintain extra parameters (mainly related to the "
+"gradients), hence having no communication overhead and no additional cost"
+" to security (refer to [:footcite:ct:`zhu2019deep_leakage`] for more "
+"details)."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:12
+msgid ""
+"To be more specific, in the :math:`(t+1)`-th iteration, the local "
+"objective function of client :math:`k` changes from "
+":math:`f_k(\\theta_k)` to the following form with a proximal term:"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:15
+msgid ""
+"\\DeclareMathOperator*{\\expectation}{\\mathbb{E}}\n"
+"\\DeclareMathOperator*{\\minimize}{minimize}\n"
+"\\newcommand{\\R}{\\mathbb{R}}\n"
+"\n"
+"h_k(\\theta_k, \\theta^{(t)}) := f_k(\\theta_k) + \\frac{\\mu}{2} \\lVert"
+" \\theta_k - \\theta^{(t)} \\rVert^2,"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:24
+msgid ""
+"where :math:`\\mu` is a penalty constant. It should be noticed that the "
+"proximal center :math:`\\theta^{(t)}` is the model parameter on the "
+"server node obtained in the previous iteration (the :math:`t`-th "
+"iteration). Indeed, the overall optimization problem can be modeled as "
+"the following constrained optimization problem"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:28
+msgid ""
+"\\begin{array}{cl}\n"
+"\\minimize & \\frac{1}{K} \\sum\\limits_{k=1}^K \\left\\{ f_k(\\theta_k) "
+"+ \\frac{\\mu}{2} \\lVert \\theta_k - \\theta \\rVert^2 \\right\\} \\\\\n"
+"\\text{subject to} & \\theta = \\frac{1}{K} \\sum\\limits_{k=1}^K "
+"\\theta_k.\n"
+"\\end{array}"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:36
+msgid ""
+"For alternatives for the proximal center, studies were conducted in "
+"[:footcite:ct:`hanzely2020federated, li_2021_ditto`] which would be "
+"introduced later. Now, we summarize the pseudocode for ``FedProx`` as "
+"follows:"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:-1
+msgid "Psuedocode for ``FedProx``"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:47
+msgid "We denote the :math:`\\gamma`-inexact solution :math:`\\theta_k^{(t)}` as"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:49
+msgid ""
+"\\DeclareMathOperator*{\\argmax}{arg\\,max}\n"
+"\\DeclareMathOperator*{\\argmin}{arg\\,min}\n"
+"% \\DeclareMathOperator*{\\prox}{prox}\n"
+"\\newcommand{\\prox}{\\mathbf{prox}}\n"
+"\n"
+"\\theta_k^{(t)} \\approx \\prox_{f_k, \\mu} (\\theta^{(t)}) := "
+"\\argmin\\limits_{\\theta_k} \\left\\{ f_k(\\theta_k) + \\frac{\\mu}{2} "
+"\\lVert \\theta_k - \\theta^{(t)} \\rVert^2 \\right\\},"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:59
+msgid ""
+"where :math:`\\prox_{f_k, \\mu}` is the proximal operator "
+"[:footcite:ct:`Moreau_1965_prox`] of :math:`f_k` with respect to "
+":math:`\\mu`. Let :math:`s = \\frac{1}{\\mu}`, since one has "
+":math:`\\prox_{f_k, \\mu} = \\prox_{sf_k, 1}`, we also denote "
+":math:`\\prox_{f_k, \\mu}` as :math:`\\prox_{sf_k}`. Corresponding "
+"function"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:63
+msgid ""
+"\\mathcal{M}_{sf_k} (\\theta^{(t)}) = \\mathcal{M}_{f_k, \\mu} "
+"(\\theta^{(t)}) := \\inf\\limits_{\\theta_k} \\left\\{ f_k(\\theta_k) + "
+"\\frac{\\mu}{2} \\lVert \\theta_k - \\theta^{(t)} \\rVert^2 \\right\\}"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:68
+msgid ""
+"is called **Moreau envelope** or **Moreau-Yosida regularization** of "
+":math:`f_k` with respect to :math:`\\mu`. Moreau envelope of a function "
+":math:`f_k` has the following relationship "
+"[:footcite:ct:`Parikh_2014_pa`] with its proximal operator:"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:71
+msgid ""
+"\\prox_{sf_k} (\\theta) = \\theta - s \\nabla \\mathcal{M}_{sf_k} "
+"(\\theta), ~ \\forall \\theta \\in \\R^d."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:76
+msgid ""
+"Namely, :math:`\\prox_{sf_k}` can be regarded as the gradient descent "
+"operator for minimizing :math:`\\mathcal{M}_{sf_k}` with step size "
+":math:`s`."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:78
+msgid ""
+"For the convergence of ``FedProx`` in non-I.I.D. scenarios, "
+"[:footcite:ct:`sahu2018fedprox`] has the following theorem:"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:84
+msgid ""
+"Assume that the objective functions on clients :math:`\\{f_k\\}_{k=1}^K` "
+"are non-convex, :math:`L`-smooth (definition see :eq:`l-smooth`), and "
+"there exists a constant :math:`L_- > 0` such that :math:`\\nabla^2 f_k "
+"\\succcurlyeq -L_- I_d`. Assume further that the functions "
+":math:`\\{f_k\\}_{k=1}^K` satisfy the so-called bounded dissimilarity "
+"condition, i.e. for any :math:`\\varepsilon > 0`, there exists a constant"
+" :math:`B_{\\varepsilon} > 0` such that for any point :math:`\\theta` in "
+"the set :math:`\\mathcal{S}_{\\varepsilon}^c := \\{ \\theta ~|~ \\lVert "
+"\\nabla f(\\theta) \\rVert^2 > \\varepsilon\\}`, the following inequality"
+" holds"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:90
+msgid ""
+"B(\\theta) := \\frac{\\expectation_k [\\lVert \\nabla f_k(\\theta) "
+"\\rVert^2]}{\\lVert \\nabla f(\\theta) \\rVert^2} \\leqslant "
+"B_{\\varepsilon}."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:95
+msgid "Fix constants :math:`\\mu, \\gamma` satisfying"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:97
+msgid ""
+"\\rho := \\left( \\frac{1}{\\mu} - \\frac{\\gamma B}{\\mu} - "
+"\\frac{B(1+\\gamma)\\sqrt{2}}{\\bar{\\mu}\\sqrt{K}} - "
+"\\frac{LB(1+\\gamma)}{\\bar{\\mu}\\mu} - "
+"\\frac{LB^2(1+\\gamma)^2}{2\\bar{\\mu}^2} - "
+"\\frac{LB^2(1+\\gamma)^2}{\\bar{\\mu}^2 K} \\left( 2\\sqrt{2K} + 2 "
+"\\right) \\right) > 0,"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:102
+msgid ""
+"where :math:`\\bar{\\mu} = \\mu - L_- > 0`. Then, in the :math:`(t+1)`-th"
+" iteration of ``FedProx``, assuming that the global model "
+":math:`\\theta^{(t)}` of the previous iteration is not the first-order "
+"stationary point of the global objective function :math:`f(\\theta)`, "
+"(i.e. :math:`\\theta^{(t)} \\in \\mathcal{S}_{\\varepsilon}^c`), the "
+"following decrease in the global objective function holds"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:106
+msgid ""
+"\\expectation\\nolimits_{\\mathcal{S}^{(t)}}[f(\\theta^{(t+1)})] "
+"\\leqslant f(\\theta^{(t)}) - \\rho \\lVert \\nabla f (\\theta^{(t)}) "
+"\\rVert^2."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:115
+msgid ""
+"For the `convergence theorem <fedprox_thm4_>`_ of ``FedProx``, we have "
+"the following observations: in a neighbourhood of some zero of "
+":math:`\\lVert \\nabla f \\rVert`, if this zero is not cancelled by "
+":math:`\\mathbb{E}_k[\\lVert \\nabla f_k \\rVert]`, i.e. this point is "
+"also a zero of :math:`\\mathbb{E}_k[\\lVert \\nabla f_k \\rVert]` with "
+"the same or higher multiplicity, then in the neighbourhood, "
+":math:`B_{\\varepsilon}` goes rapidly to infinity as :math:`\\varepsilon "
+"\\to 0`, thus violating the condition :math:`\\rho > 0`. In this case, "
+"the inequality :eq:`fedprox_obj_decrease` becomes meaningless."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:121
+msgid ""
+"When the data distribution across clients is identical (ideal case), then"
+" :math:`B_{\\varepsilon}` is constantly equal to 1, which would not have "
+"the problem mentioned above. This problem is the start point of a series "
+"of follow-up works [:footcite:ct:`pathak2020fedsplit,tran2021feddr`]."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:124
+msgid ""
+"The positive significance of the ``FedProx`` algorithm is that it first "
+"introduced the proximal point algorithms (PPA) in the field of federated "
+"learning, although which were only used for solving local optimization "
+"problems (or equivalently the inner loop problem) and the whole of the "
+"``FedProx`` algorithm is not a PPA in strict sense. The ``FedProx`` "
+"algorithm provides not only a good framework for theoretical analysis, "
+"but also a good starting point for the design of new algorithms. A large "
+"proportion of the algorithms proposed later for personalized fedrated "
+"learning [:footcite:ct:`hanzely2020federated, acar2021feddyn, "
+"li_2021_ditto, t2020pfedme, li2021pfedmac`] rely on the proximal terms "
+"(or similar terms) as the main technical tool for personalization."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:206
+msgid "to write more...."
+msgstr ""
+
+#: ../../foot_bibliography_header:1
+msgid "References"
+msgstr ""
