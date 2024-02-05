@@ -1158,7 +1158,10 @@ class Panel:
                             if idx in indices:
                                 # skip if already loaded
                                 continue
-                            (new_fig_curves, new_fig_stems,) = get_curves_and_labels_from_log(
+                            (
+                                new_fig_curves,
+                                new_fig_stems,
+                            ) = get_curves_and_labels_from_log(
                                 [item for idx, item in enumerate(self._log_files_mult_selector.value) if idx not in indices],
                                 part=self._part_input.value,
                                 metric=self._metric_input.value,

@@ -422,7 +422,6 @@ class FedCIFAR(FedVisionDataset):
 
 @register_fed_dataset()
 class FedCIFAR100(FedCIFAR):
-
     __name__ = "FedCIFAR100"
 
     def __init__(

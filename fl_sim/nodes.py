@@ -1046,7 +1046,7 @@ class Server(Node, CitationMixin):
 
         """
         metrics = []
-        for (X, y) in dataloader:
+        for X, y in dataloader:
             X, y = X.to(self.model.device), y.to(self.model.device)
             probs = self.model(X)
             metrics.append(self.dataset.evaluate(probs, y))

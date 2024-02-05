@@ -159,7 +159,6 @@ class FedPDServer(Server):
         client_config: FedPDClientConfig,
         lazy: bool = False,
     ) -> None:
-
         # assign communication pattern to client config
         setattr(client_config, "p", config.p)
         setattr(client_config, "stochastic", config.stochastic)
@@ -251,7 +250,6 @@ class FedPDClient(Client):
         return ["p", "stochastic", "comm_freq"]
 
     def communicate(self, target: "FedPDServer") -> None:
-
         # determine if communication happens
         # the probability of communication is controlled by `config.p`
         # the pattern (stochastic or every n iters) is controlled by `config.stochastic`
@@ -277,7 +275,6 @@ class FedPDClient(Client):
         target._received_messages.append(ClientMessage(**message))
 
     def update(self) -> None:
-
         # x_i^r: self.model.parameters()
         # x_{0,i}^r, x_{0,i}^{r+}: self._cached_parameters
         # \lambda_i^r: self._dual_weights

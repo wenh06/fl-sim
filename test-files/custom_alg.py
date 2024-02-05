@@ -161,7 +161,6 @@ class CustomServer(Server):
             ]
 
     def update(self) -> None:
-
         # sum of received parameters, with self.model.parameters() as its container
         self.avg_parameters()
         if self.config.vr:

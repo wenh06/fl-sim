@@ -156,7 +156,6 @@ class pFedMacServer(Server):
             ]
 
     def update(self) -> None:
-
         # sum of received parameters, with self.model.parameters() as its container
         self.avg_parameters(inertia=1 - self.config.beta)
         if self.config.vr:

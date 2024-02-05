@@ -144,7 +144,6 @@ class FedDynServer(Server):
         client_config: FedDynClientConfig,
         lazy: bool = False,
     ) -> None:
-
         # assign communication pattern to client config
         setattr(client_config, "mu", config.mu)
         setattr(client_config, "prox", config.prox)

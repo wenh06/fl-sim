@@ -76,7 +76,10 @@ def non_iid_partition_with_dirichlet_distribution(
 
                 # Get the indices of images that have category = c
                 idx_k = np.where(idx_k)[0]
-                (idx_batch, min_size,) = _partition_class_samples_with_dirichlet_distribution(
+                (
+                    idx_batch,
+                    min_size,
+                ) = _partition_class_samples_with_dirichlet_distribution(
                     N,
                     alpha,
                     client_num,
@@ -88,7 +91,10 @@ def non_iid_partition_with_dirichlet_distribution(
             for k in range(K):
                 # get a list of batch indexes which are belong to label k
                 idx_k = np.where(label_list == k)[0]
-                (idx_batch, min_size,) = _partition_class_samples_with_dirichlet_distribution(
+                (
+                    idx_batch,
+                    min_size,
+                ) = _partition_class_samples_with_dirichlet_distribution(
                     N,
                     alpha,
                     client_num,

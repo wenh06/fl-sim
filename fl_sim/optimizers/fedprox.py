@@ -61,7 +61,6 @@ class FedProxOptimizer(ProxSGD):
     )
 )
 class FedProx_VR(ProxSGD_VR):
-
     __name__ = "FedProx_VR"
 
     def __init__(

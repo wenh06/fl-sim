@@ -122,7 +122,6 @@ class IFCAClientConfig(BaseClientConfig):
 @register_algorithm()
 @add_docstring(BaseServer.__doc__.replace(_base_algorithm, "IFCA"))
 class IFCAServer(BaseServer):
-
     __name__ = "IFCAServer"
 
     def _post_init(self) -> None:
@@ -214,7 +213,6 @@ class IFCAServer(BaseServer):
 @register_algorithm()
 @add_docstring(BaseClient.__doc__.replace(_base_algorithm, "IFCA"))
 class IFCAClient(BaseClient):
-
     __name__ = "IFCAClient"
 
     def _post_init(self) -> None:

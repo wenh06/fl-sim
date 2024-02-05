@@ -136,7 +136,6 @@ class APFLServer(Server):
         client_config: APFLClientConfig,
         lazy: bool = False,
     ) -> None:
-
         # assign communication pattern to client config
         setattr(client_config, "sync_gap", config.tau)
         super().__init__(model, dataset, config, client_config, lazy=lazy)

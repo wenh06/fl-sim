@@ -230,7 +230,7 @@ class FedSplitClient(Client):
         # Local prox step: line 5 of Algorithm 1 in the paper
         self.solve_inner()  # alias of self.train()
         # Local centering step: line 6 of Algorithm 1 in the paper
-        for (zp, mp, cp) in zip(self._z_parameters, self.model.parameters(), self._cached_parameters):
+        for zp, mp, cp in zip(self._z_parameters, self.model.parameters(), self._cached_parameters):
             zp.add_(mp.detach().clone().sub(cp.detach().clone()), alpha=2.0)
 
     def train(self) -> None:

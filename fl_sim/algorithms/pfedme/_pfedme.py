@@ -164,7 +164,6 @@ class pFedMeServer(Server):
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
 
     def update(self) -> None:
-
         # store previous parameters
         previous_params = [p.to(self.device) for p in self.get_detached_model_parameters()]
 
@@ -219,7 +218,6 @@ class pFedMeClient(Client):
         )
 
     def update(self) -> None:
-
         # copy the parameters from the server
         # pFedMe paper Algorithm 1 line 5
         try:

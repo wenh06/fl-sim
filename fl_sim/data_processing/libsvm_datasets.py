@@ -31,7 +31,6 @@ _libsvm_datasets = {k: [posixpath.join(_libsvm_domain, item) for item in v] for 
 
 
 class FedLibSVMDataset(FedDataset):
-
     __name__ = "FedLibSVMDataset"
 
     @deprecate_kwargs([["criterion_name", "criterion"]])

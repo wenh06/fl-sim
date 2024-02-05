@@ -146,7 +146,6 @@ def get_regularizer(reg_type: str, reg_coeff: float = 1.0) -> Regularizer:
     )
 )
 class NullRegularizer(Regularizer):
-
     __name__ = "NullRegularizer"
 
     def eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> float:
@@ -163,7 +162,6 @@ class NullRegularizer(Regularizer):
     )
 )
 class L1Norm(Regularizer):
-
     __name__ = "L1Norm"
 
     def eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> float:
@@ -185,7 +183,6 @@ class L1Norm(Regularizer):
     )
 )
 class L2Norm(Regularizer):
-
     __name__ = "L2Norm"
 
     def eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> float:
@@ -211,7 +208,6 @@ class L2Norm(Regularizer):
     )
 )
 class L2NormSquared(Regularizer):
-
     __name__ = "L2NormSquared"
 
     def eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> float:
@@ -236,7 +232,6 @@ class L2NormSquared(Regularizer):
     )
 )
 class LInfNorm(Regularizer):
-
     __name__ = "LInfNorm"
 
     def eval(self, params: Iterable[Parameter], coeff: Optional[float] = None) -> float:

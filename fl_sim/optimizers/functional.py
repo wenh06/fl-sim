@@ -84,7 +84,6 @@ def prox_vr_sgd(
     if variance_buffer is None:
         variance_buffer = [None] * len(params)
     for idx, (param, lw, vb) in enumerate(zip(params, local_weights, variance_buffer)):
-
         d_p = d_p_list[idx]
         if weight_decay != 0:
             d_p = d_p.add(param, alpha=weight_decay)  # L2 regularization
@@ -212,7 +211,6 @@ def al_vr_sgd(
     if variance_buffer is None:
         variance_buffer = [None] * len(params)
     for idx, (param, lw, dw, vb) in enumerate(zip(params, local_weights, dual_weights, variance_buffer)):
-
         d_p = d_p_list[idx]
 
         d_p = d_p.add(dw.detach().clone())
@@ -340,7 +338,6 @@ def mac_sgd(
     if variance_buffer is None:
         variance_buffer = [None] * len(params)
     for idx, (param, lw, vb) in enumerate(zip(params, local_weights, variance_buffer)):
-
         d_p = d_p_list[idx]
         if weight_decay != 0:
             d_p = d_p.add(param, alpha=weight_decay)  # L2 regularization

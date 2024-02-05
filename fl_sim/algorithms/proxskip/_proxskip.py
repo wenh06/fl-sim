@@ -147,7 +147,6 @@ class ProxSkipServer(Server):
         client_config: ProxSkipClientConfig,
         lazy: bool = False,
     ) -> None:
-
         # assign communication pattern to client config
         setattr(client_config, "p", config.p)
         super().__init__(model, dataset, config, client_config, lazy=lazy)
@@ -211,7 +210,6 @@ class ProxSkipServer(Server):
             ]
 
     def update(self) -> None:
-
         # sum of received parameters, with self.model.parameters() as its container
         self.avg_parameters()
         if self.config.vr:
