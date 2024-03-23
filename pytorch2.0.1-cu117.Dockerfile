@@ -6,6 +6,10 @@ FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
 # pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime has python version 3.10.11, system version Ubuntu 20.04.6 LTS
 # FROM python/python:3.8-slim
 
+# set the environment variable to avoid interactive installation
+# which might stuck the docker build process
+ENV DEBIAN_FRONTEND=noninteractive
+
 ## The MAINTAINER instruction sets the author field of the generated images.
 LABEL maintainer="wenh06@gmail.com"
 

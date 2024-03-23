@@ -17,7 +17,7 @@ jobs:
     # Don't run on forked repos.
     if: contains(fromJson('["wenh06"]'), github.repository_owner)
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.8"]
