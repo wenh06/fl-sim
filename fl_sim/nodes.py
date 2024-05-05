@@ -716,6 +716,7 @@ class Server(Node, CitationMixin):
         self,
         subset: Optional[Sequence[int]] = None,
         clients_sample_ratio: Optional[float] = None,
+        clients_sample_num: Optional[int] = None,
     ) -> List[int]:
         """Sample clients for each iteration.
 
@@ -727,6 +728,9 @@ class Server(Node, CitationMixin):
         clients_sample_ratio : float, optional
             The ratio of clients to be sampled,
             defaults to `None`, which means `self.config.clients_sample_ratio`.
+        clients_sample_num : int, optional
+            The number of clients to be sampled.
+            If not `None`, will override `clients_sample_ratio`.
 
         Returns
         -------
@@ -738,7 +742,10 @@ class Server(Node, CitationMixin):
             subset = range(self.config.num_clients)
         if clients_sample_ratio is None:
             clients_sample_ratio = self.config.clients_sample_ratio
-        k = min(len(subset), max(1, round(clients_sample_ratio * len(subset))))
+        if clients_sample_num is not None:
+            k = min(len(subset), max(1, clients_sample_num))
+        else:
+            k = min(len(subset), max(1, round(clients_sample_ratio * len(subset))))
         # return random.sample(subset, k=k)
         # random.sample does not support numpy array input
         return np.random.choice(subset, k, replace=False).tolist()
