@@ -1,6 +1,7 @@
 """
 This file contains constants used in the project.
 """
+
 import pathlib
 
 __all__ = [

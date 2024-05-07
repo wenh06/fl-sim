@@ -1,6 +1,6 @@
 # FROM pytorch/pytorch:1.8.0-cuda11.1-cudnn8-devel
 # FROM pytorch/pytorch:1.10.0-cuda11.3-cudnn8-runtime
-FROM python:3.8-slim
+FROM python:3.10-slim
 
 ## The MAINTAINER instruction sets the author field of the generated images.
 LABEL maintainer="wenh06@gmail.com"

@@ -6,6 +6,7 @@ Adjusted from `TextAttack <https://github.com/QData/TextAttack>`_, and
 import json
 import re
 import tempfile
+import warnings
 from pathlib import Path
 from string import punctuation
 from typing import Dict, List, Optional, Sequence, Union
@@ -397,7 +398,14 @@ def tokenize(
     # TODO: deal with exceptions like `he 's`
     _s = s
     if backend.lower() == "nltk":
-        words = nltk_word_tokenize(_s)
+        try:
+            words = nltk_word_tokenize(_s)
+        except LookupError:
+            words = words_from_text(_s)
+            warnings.warn(
+                "Required NLTK data not found. Using naive tokenization instead. "
+                "If you want to use NLTK tokenization, please run `fl_sim.models.tokenizers.init_nltk()`."
+            )
     elif backend.lower() == "naive":
         words = words_from_text(_s)
     else:
@@ -408,7 +416,7 @@ def tokenize(
     return words
 
 
-def init_nltk():
+def init_nltk(quiet: bool = True) -> None:
     """Initialize the NLTK library.
 
     Download necessary nltk data if not downloaded.
@@ -439,4 +447,4 @@ def init_nltk():
         nltk_download("omw", quiet=True)
 
 
-init_nltk()
+# init_nltk()  # automatic initialization of NLTK is disabled
