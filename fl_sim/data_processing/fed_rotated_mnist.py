@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
-import requests
 import torch
 import torch.utils.data as torchdata
 import torchvision.transforms as transforms
@@ -330,12 +329,18 @@ class FedRotatedMNIST(FedVisionDataset):
         """Download data if needed."""
         # default_mirror = "lecun"  # not reachable (403 Forbidden)
         default_mirror = "aws"
-        alt_mirror = [k for k in self.mirror if k != default_mirror][0]
+        alt_mirrors = [k for k in self.mirror if k != default_mirror]
+        base_url = None
         # check if default_mirror is available
-        if requests.get(self.mirror[default_mirror]).status_code == 200:
+        if url_is_reachable(posixpath.join(self.mirror[default_mirror], "test-labels")):
             base_url = self.mirror[default_mirror]
         else:
-            base_url = self.mirror[alt_mirror]
+            for alt_mirror in alt_mirrors:
+                if url_is_reachable(posixpath.join(self.mirror[alt_mirror], "test-labels")):
+                    base_url = self.mirror[alt_mirror]
+                    break
+        if base_url is None:
+            raise ValueError("No mirror is reachable.")
         for key, fn in self.url.items():
             url = posixpath.join(base_url, fn)
             local_fn = self.datadir / fn
