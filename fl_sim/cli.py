@@ -8,6 +8,7 @@ import argparse
 import inspect
 import os
 import re
+import sys
 import warnings
 from collections import OrderedDict
 from copy import deepcopy
@@ -199,11 +200,17 @@ def single_run(config: CFG) -> None:
             # is a .py file
             # in this case, there should be only one algorithm in the file
             algorithm_name = None
+            # append the parent directory to sys.path
+            # to avoid import errors in this .py file
+            if str(algorithm_file.parent) not in sys.path:
+                sys.path.append(str(algorithm_file.parent))
         else:
             # of the form /path/to/algorithm_file_stem.algorithm_name
             # in this case, there could be multiple algorithms in the file
             algorithm_file, algorithm_name = str(algorithm_file).rsplit(".", 1)
             algorithm_file = Path(algorithm_file + ".py").expanduser().resolve()
+            if str(algorithm_file.parent) not in sys.path:
+                sys.path.append(str(algorithm_file.parent))
         assert algorithm_file.exists(), (
             f"Algorithm {config.algorithm.name} not found. "
             "Please check if the algorithm file exists and is a .py file, "
@@ -271,10 +278,15 @@ def single_run(config: CFG) -> None:
 
 
 def main():
-    configs, n_parallel = parse_args()
-    # TODO: run multiple experiments in parallel using Ray, etc.
-    for config in configs:
-        single_run(config)
+    try:
+        configs, n_parallel = parse_args()
+        # TODO: run multiple experiments in parallel using Ray, etc.
+        for config in configs:
+            single_run(config)
+    except KeyboardInterrupt:
+        print("Cancelled by user.")
+    except Exception as e:
+        raise e
 
 
 if __name__ == "__main__":
