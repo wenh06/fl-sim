@@ -30,8 +30,10 @@ from fl_sim.models import (
     RNN_StackOverFlow,
     reset_parameters,
 )
-from fl_sim.models.tokenizers import tokenize, words_from_text
+from fl_sim.models.tokenizers import init_nltk, tokenize, words_from_text
 from fl_sim.models.word_embeddings import GloveEmbedding
+
+init_nltk()
 
 
 @torch.no_grad()
