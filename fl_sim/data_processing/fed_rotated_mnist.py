@@ -11,7 +11,7 @@ import torchvision.transforms as transforms
 
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
-from ..utils._download_data import http_get
+from ..utils._download_data import http_get, url_is_reachable
 from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP, MNIST_MEAN, MNIST_STD
 from ._ops import CategoricalLabelToTensor, FixedDegreeRotation, ImageArrayToTensor, distribute_images
 from ._register import register_fed_dataset
@@ -311,8 +311,9 @@ class FedRotatedMNIST(FedVisionDataset):
     def mirror(self) -> Dict[str, str]:
         """Mirror sites for downloading the dataset."""
         return {
-            "lecun": "http://yann.lecun.com/exdb/mnist/",
             "aws": "https://ossci-datasets.s3.amazonaws.com/mnist/",
+            # "lecun": "http://yann.lecun.com/exdb/mnist/",
+            "ucsd": "https://cseweb.ucsd.edu/~weijian/static/datasets/mnist/",
         }
 
     @property

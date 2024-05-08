@@ -197,6 +197,13 @@ def url_is_reachable(url: str) -> bool:
     """
     try:
         r = requests.head(url, timeout=3)
-        return r.status_code == 200
+        # successful responses and redirection messages
+        # https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#information_responses
+        # Informational responses (100 – 199)
+        # Successful responses (200 – 299)
+        # Redirection messages (300 – 399)
+        # Client error responses (400 – 499)
+        # Server error responses (500 – 599)
+        return 100 <= r.status_code < 400
     except Exception:
         return False
