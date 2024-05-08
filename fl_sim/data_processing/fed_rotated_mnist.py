@@ -327,7 +327,8 @@ class FedRotatedMNIST(FedVisionDataset):
 
     def download_if_needed(self) -> None:
         """Download data if needed."""
-        default_mirror = "lecun"
+        # default_mirror = "lecun"  # not reachable (403 Forbidden)
+        default_mirror = "aws"
         alt_mirror = [k for k in self.mirror if k != default_mirror][0]
         # check if default_mirror is available
         if requests.get(self.mirror[default_mirror]).status_code == 200:
