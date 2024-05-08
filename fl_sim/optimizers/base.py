@@ -57,7 +57,7 @@ class ProxSGD_VR(Optimizer):
 
         .. math::
             \\DeclareMathOperator*{\\argmin}{arg\\,min}
-            \\operatorname{prox}_{\\rho f}(v) =
+            \\operatorname{prox}_{f / \\rho}(v) =
             \\argmin_x \\{f(x) + \\dfrac{\\rho}{2} \\lVert x-v \\rVert_2^2\\}
 
     when it does not have a closed form solution.
@@ -88,7 +88,7 @@ class ProxSGD_VR(Optimizer):
             raise ValueError(f"Invalid prox value: {prox}")
         if prox * lr >= 1:
             warnings.warn(
-                f"prox * lr = {prox * lr:.3f} >= 1 with prox = {prox}, lr = {lr}, " f"you may encounter gradient exploding.",
+                f"prox * lr = {prox * lr:.3f} >= 1 with prox = {prox}, lr = {lr}, you may encounter gradient exploding.",
                 RuntimeWarning,
             )
         defaults = dict(
@@ -197,7 +197,7 @@ class ProxSGD(ProxSGD_VR):
     .. math::
 
         \\DeclareMathOperator*{\\argmin}{arg\\,min}
-        \\operatorname{prox}_{\\rho f}(v) =
+        \\operatorname{prox}_{f / \\rho}(v) =
         \\argmin_x \\{ f(x) + \\dfrac{\\rho}{2} \\lVert x-v \\rVert_2^2 \\}
 
     when it does not have a closed form solution.
@@ -214,7 +214,7 @@ class ProxSGD(ProxSGD_VR):
         closure: Optional[callable] = None,
         **kwargs: Any,
     ) -> Optional[Tensor]:
-        return super().step(local_weights, None, closure)
+        return super().step(local_weights, None, closure, **kwargs)
 
 
 @register_optimizer()
@@ -414,10 +414,11 @@ class AL_SGD_VR(Optimizer):
                     else:
                         momentum_buffer_list.append(state["momentum_buffer"])
 
-            F.al_sgd(
+            F.al_vr_sgd(
                 params_with_grad,
                 local_weights,
                 dual_weights,
+                variance_buffer,
                 d_p_list,
                 momentum_buffer_list,
                 weight_decay,
@@ -428,7 +429,7 @@ class AL_SGD_VR(Optimizer):
                 mu,
             )
 
-            # update momentum_buffers, gradient_variance_buffers in state
+            # update momentum_buffers in state
             for p, momentum_buffer in zip(params_with_grad, momentum_buffer_list):
                 state = self.state[p]
                 state["momentum_buffer"] = momentum_buffer

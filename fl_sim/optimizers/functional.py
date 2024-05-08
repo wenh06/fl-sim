@@ -36,7 +36,7 @@ def prox_vr_sgd(
     .. math::
 
         \\DeclareMathOperator*{\\argmin}{arg\\,min}
-        \\operatorname{prox}_{\\rho f}(v) =
+        \\operatorname{prox}_{f / \\rho}(v) =
         \\argmin_x \\{ f(x) + \\dfrac{\\rho}{2} \\lVert x-v \\rVert_2^2 \\}
 
     Parameters
@@ -159,12 +159,13 @@ def al_vr_sgd(
     nesterov: bool,
     mu: float,
 ) -> None:
-    r"""
-    The function that executes the augmented Lagrangian SGD with variance reduction:
-        .. math::
-            \DeclareMathOperator*{\argmin}{arg\,min}
-            \argmin_x \mathcal{L}_{\mu}(x, x_0, \lambda) =
-            \argmin_x \{f(x) + \langle \lambda, x-x_0 \rangle + \dfrac{1}{2\mu} \lVert x-x_0 \rVert_2^2\}
+    r"""The function that executes the augmented Lagrangian SGD with variance reduction
+
+    .. math::
+
+        \DeclareMathOperator*{\argmin}{arg\,min}
+        \argmin_x \mathcal{L}_{\mu}(x, x_0, \lambda) =
+        \argmin_x \{f(x) + \langle \lambda, x-x_0 \rangle + \dfrac{1}{2\mu} \lVert x-x_0 \rVert_2^2\}
 
     Parameters
     ----------
@@ -173,13 +174,19 @@ def al_vr_sgd(
     local_weights: iterable of Parameter,
         the (init) local weights,
         i.e. the term `x_0` in
-            .. math::
-                \mathcal{L}_{\mu}(x, x_0, \lambda)
+
+        .. math::
+
+            \mathcal{L}_{\mu}(x, x_0, \lambda)
+
     dual_weights: iterable of Parameter,
         the weights of dual variables,
         i.e. the term `\lambda` in
-            .. math::
-                \mathcal{L}_{\mu}(x, x_0, \lambda)
+
+        .. math::
+
+            \mathcal{L}_{\mu}(x, x_0, \lambda)
+
     variance_buffer: list of Parameter, optional,
         the variance buffers of the parameters,
         used for variance reduction
@@ -204,8 +211,10 @@ def al_vr_sgd(
     mu: float,
         the (penalty) coeff. of the augmented Lagrangian term,
         i.e. the term `\mu` in
-            .. math::
-                \mathcal{L}_{\mu}(x, x_0, \lambda)
+
+        .. math::
+
+            \mathcal{L}_{\mu}(x, x_0, \lambda)
 
     """
     if variance_buffer is None:
@@ -259,7 +268,6 @@ def al_sgd(
     nesterov: bool,
     mu: float,
 ) -> None:
-    """ """
     return al_vr_sgd(
         params,
         local_weights,
@@ -290,11 +298,12 @@ def mac_sgd(
     nesterov: bool,
     lam: float,
 ) -> None:
-    r"""
-    The function that executes the maximizing correlation (Mac) SGD (with variance reduction):
-        .. math::
-            \DeclareMathOperator*{\argmin}{arg\,min}
-            \argmin_x \{f(x) - \lambda \langle x, x_0 \rangle\}
+    r"""The function that executes the maximizing correlation (Mac) SGD (with variance reduction)
+
+    .. math::
+
+        \DeclareMathOperator*{\argmin}{arg\,min}
+        \argmin_x \{f(x) - \lambda \langle x, x_0 \rangle\}
 
     Parameters
     ----------
@@ -303,8 +312,11 @@ def mac_sgd(
     local_weights: iterable of Parameter,
         the (init) local weights,
         i.e. the term `x_0` in
-            .. math::
-                \lambda \langle x, x_0 \rangle
+
+        .. math::
+
+            \lambda \langle x, x_0 \rangle
+
     variance_buffer: list of Parameter, optional,
         the variance buffers of the parameters,
         used for variance reduction
@@ -329,8 +341,10 @@ def mac_sgd(
     lam: float,
         the (penalty) coeff. of the maximizing correlation term,
         i.e. the term `\lambda` in
-            .. math::
-                \lambda \langle x, x_0 \rangle
+
+        .. math::
+
+            \lambda \langle x, x_0 \rangle
 
     """
     if local_weights is None:
