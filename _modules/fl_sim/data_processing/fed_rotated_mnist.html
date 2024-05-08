@@ -408,7 +408,7 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">..models</span> <span class="kn">import</span> <span class="n">nn</span> <span class="k">as</span> <span class="n">mnn</span>
 <span class="kn">from</span> <span class="nn">..models.utils</span> <span class="kn">import</span> <span class="n">top_n_accuracy</span>
-<span class="kn">from</span> <span class="nn">..utils._download_data</span> <span class="kn">import</span> <span class="n">http_get</span>
+<span class="kn">from</span> <span class="nn">..utils._download_data</span> <span class="kn">import</span> <span class="n">http_get</span><span class="p">,</span> <span class="n">url_is_reachable</span>
 <span class="kn">from</span> <span class="nn">..utils.const</span> <span class="kn">import</span> <span class="n">CACHED_DATA_DIR</span><span class="p">,</span> <span class="n">MNIST_LABEL_MAP</span><span class="p">,</span> <span class="n">MNIST_MEAN</span><span class="p">,</span> <span class="n">MNIST_STD</span>
 <span class="kn">from</span> <span class="nn">._ops</span> <span class="kn">import</span> <span class="n">CategoricalLabelToTensor</span><span class="p">,</span> <span class="n">FixedDegreeRotation</span><span class="p">,</span> <span class="n">ImageArrayToTensor</span><span class="p">,</span> <span class="n">distribute_images</span>
 <span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="n">register_fed_dataset</span>
@@ -708,8 +708,9 @@ document.write(`
     <span class="k">def</span> <span class="nf">mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Mirror sites for downloading the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;lecun&quot;</span><span class="p">:</span> <span class="s2">&quot;http://yann.lecun.com/exdb/mnist/&quot;</span><span class="p">,</span>
             <span class="s2">&quot;aws&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ossci-datasets.s3.amazonaws.com/mnist/&quot;</span><span class="p">,</span>
+            <span class="c1"># &quot;lecun&quot;: &quot;http://yann.lecun.com/exdb/mnist/&quot;,</span>
+            <span class="s2">&quot;ucsd&quot;</span><span class="p">:</span> <span class="s2">&quot;https://cseweb.ucsd.edu/~weijian/static/datasets/mnist/&quot;</span><span class="p">,</span>
         <span class="p">}</span>
 
     <span class="nd">@property</span>
