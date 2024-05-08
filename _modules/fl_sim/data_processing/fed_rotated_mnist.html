@@ -724,7 +724,8 @@ document.write(`
 
 <div class="viewcode-block" id="FedRotatedMNIST.download_if_needed"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.download_if_needed">[docs]</a>    <span class="k">def</span> <span class="nf">download_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download data if needed.&quot;&quot;&quot;</span>
-        <span class="n">default_mirror</span> <span class="o">=</span> <span class="s2">&quot;lecun&quot;</span>
+        <span class="c1"># default_mirror = &quot;lecun&quot;  # not reachable (403 Forbidden)</span>
+        <span class="n">default_mirror</span> <span class="o">=</span> <span class="s2">&quot;aws&quot;</span>
         <span class="n">alt_mirror</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mirror</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">default_mirror</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="c1"># check if default_mirror is available</span>
         <span class="k">if</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mirror</span><span class="p">[</span><span class="n">default_mirror</span><span class="p">])</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
