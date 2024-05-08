@@ -401,7 +401,6 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.utils.data</span> <span class="k">as</span> <span class="nn">torchdata</span>
 <span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
@@ -727,12 +726,18 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download data if needed.&quot;&quot;&quot;</span>
         <span class="c1"># default_mirror = &quot;lecun&quot;  # not reachable (403 Forbidden)</span>
         <span class="n">default_mirror</span> <span class="o">=</span> <span class="s2">&quot;aws&quot;</span>
-        <span class="n">alt_mirror</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mirror</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">default_mirror</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">alt_mirrors</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mirror</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">default_mirror</span><span class="p">]</span>
+        <span class="n">base_url</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># check if default_mirror is available</span>
-        <span class="k">if</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mirror</span><span class="p">[</span><span class="n">default_mirror</span><span class="p">])</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">url_is_reachable</span><span class="p">(</span><span class="n">posixpath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mirror</span><span class="p">[</span><span class="n">default_mirror</span><span class="p">],</span> <span class="s2">&quot;test-labels&quot;</span><span class="p">)):</span>
             <span class="n">base_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mirror</span><span class="p">[</span><span class="n">default_mirror</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">base_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mirror</span><span class="p">[</span><span class="n">alt_mirror</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">alt_mirror</span> <span class="ow">in</span> <span class="n">alt_mirrors</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">url_is_reachable</span><span class="p">(</span><span class="n">posixpath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mirror</span><span class="p">[</span><span class="n">alt_mirror</span><span class="p">],</span> <span class="s2">&quot;test-labels&quot;</span><span class="p">)):</span>
+                    <span class="n">base_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mirror</span><span class="p">[</span><span class="n">alt_mirror</span><span class="p">]</span>
+                    <span class="k">break</span>
+        <span class="k">if</span> <span class="n">base_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No mirror is reachable.&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">fn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">url</span> <span class="o">=</span> <span class="n">posixpath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
             <span class="n">local_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datadir</span> <span class="o">/</span> <span class="n">fn</span>
