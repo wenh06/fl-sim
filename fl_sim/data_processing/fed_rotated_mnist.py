@@ -332,11 +332,11 @@ class FedRotatedMNIST(FedVisionDataset):
         alt_mirrors = [k for k in self.mirror if k != default_mirror]
         base_url = None
         # check if default_mirror is available
-        if url_is_reachable(posixpath.join(self.mirror[default_mirror], "test-labels")):
+        if url_is_reachable(posixpath.join(self.mirror[default_mirror], self.url["test-labels"])):
             base_url = self.mirror[default_mirror]
         else:
             for alt_mirror in alt_mirrors:
-                if url_is_reachable(posixpath.join(self.mirror[alt_mirror], "test-labels")):
+                if url_is_reachable(posixpath.join(self.mirror[alt_mirror], self.url["test-labels"])):
                     base_url = self.mirror[alt_mirror]
                     break
         if base_url is None:
