@@ -270,5 +270,5 @@ class FedDynClient(Client):
                         local_weights=local_weights,
                     )
                     # free memory
-                    del X, y, output, loss
+                    # del X, y, output, loss
         self.lr_scheduler.step()

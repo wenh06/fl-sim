@@ -325,5 +325,5 @@ class FedPDClient(Client):
                         dual_weights=self._dual_weights,
                     )
                     # free memory
-                    del X, y, output, loss
+                    # del X, y, output, loss
         self.lr_scheduler.step()

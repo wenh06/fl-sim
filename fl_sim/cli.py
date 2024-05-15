@@ -174,8 +174,11 @@ def single_run(config: CFG) -> None:
     config = CFG(config)
     config_bak = deepcopy(config)
 
+    mode = config.pop("mode", "federated")
+
     # set random seed
-    seed = config.pop("seed", None)  # global seed
+    # seed = config.pop("seed", None)  # global seed
+    seed = config.pop("seed", 42)  # global seed
     if config.dataset.get("seed", None) is None:
         config.dataset.seed = seed
     if config.algorithm.server.get("seed", None) is None:
@@ -271,7 +274,8 @@ def single_run(config: CFG) -> None:
     # s._setup_clients()
 
     # execute the experiment
-    s.train_federated()
+    # s.train_federated()
+    s.train(mode=mode)
 
     # destroy the experiment
     del s, ds, model

@@ -254,5 +254,5 @@ class FedProxClient(Client):
                         variance_buffer=self._gradient_buffer,
                     )
                     # free memory
-                    del X, y, output, loss
+                    # del X, y, output, loss
         self.lr_scheduler.step()

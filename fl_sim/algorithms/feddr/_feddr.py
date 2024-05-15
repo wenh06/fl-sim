@@ -288,5 +288,5 @@ class FedDRClient(Client):
                     loss.backward()
                     self.optimizer.step(self._y_parameters)
                     # free memory
-                    del X, y, output, loss
+                    # del X, y, output, loss
         self.lr_scheduler.step()

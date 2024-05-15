@@ -246,7 +246,7 @@ class DittoClient(Client):
                     # self.optimizer.step(local_weights=self._cached_parameters)
                     self.optimizer.step()
                     # free memory
-                    del X, y, output, loss
+                    # del X, y, output, loss
         self.lr_scheduler.step()
 
     def train_per(self) -> None:
@@ -311,5 +311,5 @@ class DittoClient(Client):
             # compute gradient norm of the models
             self._metrics[part][f"grad_norm{suffix}"] = self.get_gradients(norm="fro")
             # free memory
-            del X, y, logits
+            # del X, y, logits
         return self._metrics[part]

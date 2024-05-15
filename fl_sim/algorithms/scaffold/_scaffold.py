@@ -278,7 +278,7 @@ class SCAFFOLDClient(Client):
                     for p, g in zip(self.model.parameters(), mini_batch_grads):
                         g.add_(p.grad.detach().clone(), alpha=1.0 / self.config.num_epochs)
                     # free memory
-                    del loss, output, X, y
+                    # del loss, output, X, y
         for p, g, v in zip(self.model.parameters(), mini_batch_grads, variance_buffer):
             p = p.add(g.detach().clone().add(v.detach().clone()), alpha=-self.config.lr)
 
