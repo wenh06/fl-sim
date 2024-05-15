@@ -1833,7 +1833,7 @@ document.write(`
 <span class="sd">                    self.optimizer.step()</span>
 <span class="sd">                    batch_losses.append(loss.item())</span>
 <span class="sd">                epoch_losses.append(sum(batch_losses) / len(batch_losses))</span>
-<span class="sd">                self.lr_scheduler.step()</span>
+<span class="sd">            self.lr_scheduler.step()</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
