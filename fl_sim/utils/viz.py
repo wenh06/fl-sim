@@ -670,7 +670,7 @@ class Panel:
             self._merge_curve_tags_input = widgets.TagsInput(
                 value=[],
                 allow_duplicates=False,
-                placeholder="FedAvg, FedProx, etc.",
+                placeholder="FedAvg, FedProx:custom-label, etc.",
                 # description="Merge tags:",
                 # style={"description_width": "initial"},
             )
@@ -1186,17 +1186,28 @@ class Panel:
                 raw_indices = set(range(len(self._fig_curves)))
                 linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
                 if self._merge_curve_tags_input is not None:
+                    # self._merge_curve_tags_input is a list of tags of the form `tag` or `tag:legend_name`
+                    _merge_curve_tags_input, _merge_curve_tags_legend = [], []
+                    for tag in self._merge_curve_tags_input.value:
+                        if ":" in tag:
+                            tag, legend = tag.split(":")
+                            _merge_curve_tags_input.append(tag)
+                            _merge_curve_tags_legend.append(legend)
+                        else:
+                            _merge_curve_tags_input.append(tag)
+                            _merge_curve_tags_legend.append(tag)
                     common_substring = find_longest_common_substring(
                         self._fig_stems,
                         min_len=5,
-                        ignore=self._merge_curve_tags_input.value[0] if len(self._merge_curve_tags_input.value) == 1 else None,
+                        ignore=_merge_curve_tags_input[0] if len(_merge_curve_tags_input) == 1 else None,
                     )
                     if self._debug:
                         with self._debug_message_area:
                             print(f"common_substring: {common_substring}")
                             print(self._debug_log_sep)
                     _fig_stems = [item.replace(common_substring, "-") for item in self._fig_stems]
-                    for idx, tag in enumerate(self._merge_curve_tags_input.value):
+                    for idx, tag in enumerate(_merge_curve_tags_input):
+                        legend = _merge_curve_tags_legend[idx]
                         indices = [
                             idx
                             for idx, stem in enumerate(_fig_stems)
@@ -1214,7 +1225,8 @@ class Panel:
                             ],
                             error_type=self._merge_curve_method_dropdown_selector.value,
                             fig_ax=(self.fig, self.ax),
-                            label=tag,
+                            # label=tag,
+                            label=legend,
                             show_error_bounds=self._show_error_bounds_checkbox.value,
                             error_bound_label=self._merge_curve_with_err_bound_label_checkbox.value,
                             plot_config={"linestyle": next(linestyle_cycle)},
