@@ -226,6 +226,8 @@ def _plot_curves(
     labels: Sequence[str],
     fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
     markers: bool = True,
+    x_range: Optional[Tuple[int, int]] = None,
+    y_range: Optional[Tuple[float, float]] = None,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """Plot the curves.
 
@@ -245,6 +247,23 @@ def _plot_curves(
         fig, ax = plt.subplots()
     else:
         fig, ax = fig_ax
+    if x_range is not None:
+        x_min, x_max = x_range
+        if x_min is None or x_min < 0:
+            x_min = 0
+        if x_max is None:
+            x_max = max([len(curve) for curve in curves])
+        # check if x_min, x_max are valid
+        if x_max != -1 and x_max <= x_min:
+            x_min, x_max = 0, max([len(curve) for curve in curves])
+        curves = [curve[x_min:x_max] for curve in curves]
+    if y_range is not None:
+        y_min, y_max = y_range
+        if y_min is None:
+            y_min = -np.inf
+        if y_max is None:
+            y_max = np.inf
+        curves = [np.where(curve < y_min, np.nan, np.where(curve > y_max, np.nan, curve)) for curve in curves]
     # plot_config = dict(marker="*")
     linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
     marker_cycle = itertools.cycle(_marker_cycle)
@@ -254,7 +273,11 @@ def _plot_curves(
             plot_config["marker"] = next(marker_cycle)
         plot_config["linestyle"] = next(linestyle_cycle)
         plot_config["label"] = labels[idx]
-        ax.plot(curve, **plot_config)
+        if x_range is not None:
+            plot_x = np.arange(x_min, min(x_max, len(curve) + x_min))
+        else:
+            plot_x = np.arange(len(curve))
+        ax.plot(plot_x, curve, **plot_config)
     ax.legend(loc="best")
     ax.set_xlabel("Global Iter.")
     return fig, ax
@@ -308,6 +331,8 @@ def plot_mean_curve_with_error_bounds(
     error_bound_label: bool = True,
     plot_config: Optional[Dict[str, Any]] = None,
     fill_between_config: Dict[str, Any] = {"alpha": 0.3},
+    x_range: Optional[Tuple[int, int]] = None,
+    y_range: Optional[Tuple[float, float]] = None,
 ) -> Tuple[plt.Figure, plt.Axes]:
     """Plot the mean curve with error bounds.
 
@@ -335,6 +360,10 @@ def plot_mean_curve_with_error_bounds(
         The plot config for the mean curve passed to ``ax.plot``.
     fill_between_config : Dict[str, Any], default {"alpha": 0.3}
         The config for ``ax.fill_between``.
+    x_range : Optional[Tuple[int, int]], optional
+        The range of x-axis. Values outside the range will be discarded.
+    y_range : Optional[Tuple[float, float]], optional
+        The range of y-axis. Values outside the range will be set to NaN.
 
     Returns
     -------
@@ -346,13 +375,34 @@ def plot_mean_curve_with_error_bounds(
         fig, ax = plt.subplots()
     else:
         fig, ax = fig_ax
+    if x_range is not None:
+        x_min, x_max = x_range
+        if x_min is None or x_min < 0:
+            x_min = 0
+        if x_max is None:
+            x_max = max([len(curve) for curve in curves])
+        # check if x_min, x_max are valid
+        if x_max != -1 and x_max <= x_min:
+            x_min, x_max = 0, max([len(curve) for curve in curves])
+        curves = [curve[x_min:x_max] for curve in curves]
+    if y_range is not None:
+        y_min, y_max = y_range
+        if y_min is None:
+            y_min = -np.inf
+        if y_max is None:
+            y_max = np.inf
+        curves = [np.where(curve < y_min, np.nan, np.where(curve > y_max, np.nan, curve)) for curve in curves]
     # allow curves to have different lengths
     max_len = max([len(curve) for curve in curves])
     for idx, curve in enumerate(curves):
         curves[idx] = np.pad(curve, (0, max_len - len(curve)), "constant", constant_values=np.nan)
     curves = np.array(curves)
     mean_curve = np.nanmean(curves, axis=0)
-    ax.plot(mean_curve, label=label or "mean", **(plot_config or {}))
+    if x_range is not None:
+        plot_x = np.arange(x_min, x_max)
+    else:
+        plot_x = np.arange(len(mean_curve))
+    ax.plot(plot_x, mean_curve, label=label or "mean", **(plot_config or {}))
     if show_error_bounds:
         if error_type == "std":
             std_curve = np.nanstd(curves, axis=0)
@@ -384,7 +434,8 @@ def plot_mean_curve_with_error_bounds(
             }[error_type]
             fill_between_config["label"] = error_type if label is None else f"{label}±{_error_type}"
         ax.fill_between(
-            np.arange(len(mean_curve)),
+            # np.arange(len(mean_curve)),
+            plot_x,
             lower_curve,
             upper_curve,
             **fill_between_config,
@@ -701,6 +752,54 @@ class Panel:
                 "</span>"
             )
 
+        self._xmin_input = widgets.Text(
+            value="",
+            # description="X range:",
+            # style={"description_width": "80px"},
+            layout={"width": "100px"},
+        )
+        self._xmax_input = widgets.Text(
+            value="",
+            # description="-",
+            # style={"description_width": "80px"},
+            layout={"width": "100px"},
+        )
+        self._ymin_input = widgets.Text(
+            value="",
+            # description="Y range:",
+            # style={"description_width": "80px"},
+            layout={"width": "100px"},
+        )
+        self._ymax_input = widgets.Text(
+            value="",
+            # description="-",
+            # style={"description_width": "80px"},
+            layout={"width": "100px"},
+        )
+        self._xy_range_refresh_button = widgets.Button(
+            description="Refresh XY range",
+            disabled=False,
+            button_style="warning",  # primary', 'success', 'info', 'warning', 'danger' or ''
+            tooltip="Refresh XY range",
+            icon="refresh",  # (FontAwesome names without the `fa-` prefix)
+            layout={"width": "200px"},
+        )
+        self._xy_range_refresh_button.on_click(self._on_xy_range_refresh_button_clicked)
+        value_range_hbox = widgets.HBox(
+            [
+                widgets.Label("X range:"),
+                self._xmin_input,
+                widgets.Label("-"),
+                self._xmax_input,
+                widgets.Label("Y range:"),
+                self._ymin_input,
+                widgets.Label("-"),
+                self._ymax_input,
+                self._xy_range_refresh_button,
+            ],
+            # layout=widgets.Layout(align_items="flex-start"),
+        )
+
         # canvas for displaying the curves
         self._canvas = widgets.Output(layout={"border": "2px solid black"})
 
@@ -877,6 +976,7 @@ class Panel:
                 data_selection_hbox,
                 slider_box,
                 merge_curve_tags_box,
+                value_range_hbox,
                 viz_layout_option_hbox,
                 widgets.Box([self._canvas]),
                 savefig_box,
@@ -1082,6 +1182,12 @@ class Panel:
         if self._show_fig_flag:
             self._show_fig()
 
+    def _on_xy_range_refresh_button_clicked(self, button: widgets.Button) -> None:
+        if widgets is None or not self._is_notebook:
+            return
+        if self._show_fig_flag:
+            self._show_fig()
+
     def _on_style_dropdown_selector_value_changed(self, change: dict) -> None:
         if widgets is None or not self._is_notebook:
             return
@@ -1178,10 +1284,24 @@ class Panel:
                     #     part=self._part_input.value,
                     #     metric=self._metric_input.value,
                     # )
+                xy_range = {}
+                for key in ["xmin", "xmax"]:
+                    value = getattr(self, f"_{key}_input").value
+                    try:
+                        xy_range[key] = int(value) if value else None
+                    except ValueError:
+                        xy_range[key] = None
+                for key in ["ymin", "ymax"]:
+                    value = getattr(self, f"_{key}_input").value
+                    try:
+                        xy_range[key] = float(value) if value else None
+                    except ValueError:
+                        xy_range[key] = None
                 if self._debug:
                     with self._debug_message_area:
                         print(f"self._fig_stems: {self._fig_stems}")
                         print(self._debug_log_sep)
+                        print(f"xy_range: {xy_range}")
                 self.fig, self.ax = plt.subplots(figsize=self._rc_params["figure.figsize"])
                 raw_indices = set(range(len(self._fig_curves)))
                 linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
@@ -1231,6 +1351,8 @@ class Panel:
                             error_bound_label=self._merge_curve_with_err_bound_label_checkbox.value,
                             plot_config={"linestyle": next(linestyle_cycle)},
                             fill_between_config={"alpha": self._fill_between_alpha_slider.value},
+                            x_range=(xy_range.get("xmin", None), xy_range.get("xmax", None)),
+                            y_range=(xy_range.get("ymin", None), xy_range.get("ymax", None)),
                         )
                         self.ax.get_legend().remove()
                         raw_indices = raw_indices - set(indices)
@@ -1247,6 +1369,8 @@ class Panel:
                         [self._fig_stems[idx] for idx in raw_indices],
                         fig_ax=(self.fig, self.ax),
                         markers=self._markers_checkbox.value,
+                        x_range=(xy_range.get("xmin", None), xy_range.get("xmax", None)),
+                        y_range=(xy_range.get("ymin", None), xy_range.get("ymax", None)),
                     )
                 else:
                     self.ax.legend(loc="best")
