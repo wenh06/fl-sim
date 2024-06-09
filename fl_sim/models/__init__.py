@@ -25,6 +25,7 @@ Convolutional neural networks (CNN)
     CNNCifar_Tiny
     ResNet18
     ResNet10
+    ShrinkedResNet
 
 Recurrent neural networks (RNN)
 ------------------------------------
@@ -88,6 +89,7 @@ from .nn import (
     RNN_Sent140,
     RNN_Sent140_LITE,
     RNN_StackOverFlow,
+    ShrinkedResNet,
 )
 from .utils import CLFMixin, DiffMixin, REGMixin, reset_parameters, top_n_accuracy
 
@@ -104,6 +106,7 @@ __all__ = [
     "RNN_StackOverFlow",
     "RNN_Sent140",
     "RNN_Sent140_LITE",
+    "ShrinkedResNet",
     "ResNet18",
     "ResNet10",
     "LogisticRegression",

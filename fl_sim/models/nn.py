@@ -3,7 +3,7 @@ simple neural network models
 """
 
 import re
-from typing import Callable, Dict, Optional, Sequence, Union
+from typing import Callable, Dict, List, Optional, Sequence, Union
 
 import torch
 import torch.nn.functional as F  # noqa: F401
@@ -11,7 +11,7 @@ from einops.layers.torch import Rearrange
 from torch import Tensor, nn
 from torch_ecg.models._nets import get_activation
 from torch_ecg.utils import SizeMixin, get_kwargs
-from torchvision.models.resnet import BasicBlock, ResNet, resnet18
+from torchvision.models.resnet import BasicBlock, ResNet, conv1x1, resnet18
 
 from .utils import CLFMixin, DiffMixin, REGMixin
 
@@ -33,6 +33,7 @@ __all__ = [
     "LogisticRegression",
     "SVC",
     "SVR",
+    "ShrinkedResNet",
 ]
 
 
@@ -909,3 +910,102 @@ class SVR(nn.Module, REGMixin, SizeMixin, DiffMixin):
 
     def forward(self, x: Tensor) -> Tensor:
         return self.mlp(x)
+
+
+class ShrinkedResNet(nn.Sequential, CLFMixin, SizeMixin, DiffMixin):
+    """Shrinked version of ResNet so that the number of macro blocks can be customized (shrinked).
+
+    Parameters
+    ----------
+    layers : List[int]
+        Number of blocks in each macro block.
+    num_classes : int, default 1000
+        The number of output classes.
+
+    """
+
+    def __init__(
+        self,
+        layers: List[int],
+        num_classes: int = 1000,
+    ) -> None:
+        super().__init__()
+        self._norm_layer = nn.BatchNorm2d
+
+        self.inplanes = 64
+        self.dilation = 1
+        self.groups = 1
+        self.base_width = 64
+
+        self.add_module("conv1", nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3, bias=False))
+        self.add_module("bn1", self._norm_layer(self.inplanes))
+        self.add_module("relu", nn.ReLU(inplace=True))
+        self.add_module("maxpool", nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
+        inplanes = self.inplanes
+        for idx, num_blocks in enumerate(layers):
+            stride = 1 if idx == 0 else 2
+            self.add_module(
+                f"layer{idx + 1}",
+                self._make_layer(
+                    inplanes,
+                    num_blocks,
+                    stride=stride,
+                ),
+            )
+            inplanes *= 2
+        self.add_module("avgpool", nn.AdaptiveAvgPool2d((1, 1)))
+        self.add_module("flatten", Rearrange("b c h w -> b (c h w)"))
+        self.add_module("fc", nn.Linear(self.inplanes, num_classes))
+
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode="fan_out", nonlinearity="relu")
+            elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+
+        # Zero-initialize the last BN in each residual branch,
+        # so that the residual branch starts with zeros, and each residual block behaves like an identity.
+        # This improves the model by 0.2~0.3% according to https://arxiv.org/abs/1706.02677
+        for m in self.modules():
+            if isinstance(m, BasicBlock) and m.bn2.weight is not None:
+                nn.init.constant_(m.bn2.weight, 0)  # type: ignore[arg-type]
+
+    def _make_layer(
+        self,
+        planes: int,
+        blocks: int,
+        stride: int = 1,
+        dilate: bool = False,
+    ) -> nn.Sequential:
+        block = BasicBlock
+        norm_layer = self._norm_layer
+        downsample = None
+        previous_dilation = self.dilation
+        if dilate:
+            self.dilation *= stride
+            stride = 1
+        if stride != 1 or self.inplanes != planes * block.expansion:
+            downsample = nn.Sequential(
+                conv1x1(self.inplanes, planes * block.expansion, stride),
+                norm_layer(planes * block.expansion),
+            )
+
+        layers = []
+        layers.append(
+            block(self.inplanes, planes, stride, downsample, self.groups, self.base_width, previous_dilation, norm_layer)
+        )
+        self.inplanes = planes * block.expansion
+        for _ in range(1, blocks):
+            layers.append(
+                block(
+                    self.inplanes,
+                    planes,
+                    groups=self.groups,
+                    base_width=self.base_width,
+                    dilation=self.dilation,
+                    norm_layer=norm_layer,
+                )
+            )
+
+        return nn.Sequential(*layers)
