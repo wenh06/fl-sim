@@ -41,6 +41,7 @@ __all__ = [
     "is_notebook",
     "find_longest_common_substring",
     "add_kwargs",
+    "compute_sparsity",
 ]
 
 
@@ -517,3 +518,27 @@ def execute_cmd(cmd: Union[str, List[str]], raise_error: bool = True) -> Tuple[i
     exitcode = 0
 
     return exitcode, output_msg
+
+
+def compute_sparsity(model_or_tensor: Union[torch.nn.Module, torch.Tensor]) -> float:
+    """
+    Compute the sparsity of a model or tensor.
+
+    Parameters
+    ----------
+    model_or_tensor : torch.nn.Module or torch.Tensor
+        A model or tensor.
+
+    Returns
+    -------
+    float
+        The sparsity of the model or tensor.
+
+    """
+    nonzeros, n_params = 0, 0
+    if isinstance(model_or_tensor, torch.Tensor):
+        return model_or_tensor.abs().sign().sum().item() / model_or_tensor.numel()
+    for param in model_or_tensor.parameters():
+        n_params += param.data.numel()
+        nonzeros += param.abs().sign().sum().int().item()
+    return nonzeros / n_params
