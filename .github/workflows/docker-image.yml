@@ -71,13 +71,22 @@ jobs:
     - name: Test the Docker image
       run: |
         docker images  # list local images
-        docker run --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:python3.8-slim bash -c "fl-sim example-configs/action-test.yml"
+        docker run \
+          -e PYTHONUNBUFFERED=1 \
+          --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:python3.8-slim \
+          bash -c "fl-sim example-configs/action-test.yml"
         docker images  # list local images
         docker rmi ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:python3.8-slim  # remove tested image to save space
         docker images  # list local images
-        docker run --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116 bash -c "fl-sim example-configs/action-test.yml"
+        docker run \
+          -e PYTHONUNBUFFERED=1 \
+          --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116 \
+          bash -c "fl-sim example-configs/action-test.yml"
         docker images  # list local images
         docker rmi ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116  # remove tested image to save space
         docker images  # list local images
-        docker run --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch2.0.1-cu117 bash -c "fl-sim example-configs/action-test.yml"
+        docker run \
+          -e PYTHONUNBUFFERED=1 \
+          --rm ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch2.0.1-cu117 \
+          bash -c "fl-sim example-configs/action-test.yml"
         docker images  # list local images
