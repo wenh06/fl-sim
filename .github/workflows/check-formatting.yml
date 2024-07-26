@@ -14,7 +14,7 @@ jobs:
     # Don't run on forked repos.
     if: contains(fromJson('["wenh06"]'), github.repository_owner)
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
@@ -38,4 +38,4 @@ jobs:
       run: |
         python -m pip list
     - name: Check code format with pre-commit
-      uses: pre-commit/action@v3.0.0
+      uses: pre-commit/action@v3.0.1
