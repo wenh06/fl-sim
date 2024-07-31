@@ -109,3 +109,10 @@ MNIST_LABEL_MAP = {i: str(i) for i in range(10)}
 
 MNIST_MEAN = (0.1307,)
 MNIST_STD = (0.3081,)
+
+IMAGENET_MEAN = [0.485, 0.456, 0.406]
+IMAGENET_STD = [0.229, 0.224, 0.225]
+
+# obtained from the training set of Tiny ImageNet
+TINY_IMAGENET_MEAN = [0.4802, 0.4481, 0.3975]
+TINY_IMAGENET_STD = [0.2764, 0.2689, 0.2816]

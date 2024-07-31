@@ -35,6 +35,7 @@ Vision datasets
     FedRotatedMNIST
     FedProxFEMNIST
     FedProxMNIST
+    TinyImageNet
 
 NLP datasets
 --------------------------
@@ -89,6 +90,7 @@ from .fedprox_sent140 import FedProxSent140
 
 # from .leaf_sent140 import LeafSent140
 from .libsvm_datasets import FedLibSVMDataset, libsvmread
+from .tiny_imagenet import TinyImageNet
 
 builtin_datasets = list_fed_dataset()
 
@@ -108,6 +110,8 @@ __all__ = [
     "FedRotatedMNIST",
     "FedShakespeare",
     "FedSynthetic",
+    # additional datasets
+    "TinyImageNet",
     # datasets from FedProx
     "FedProxFEMNIST",
     "FedProxMNIST",

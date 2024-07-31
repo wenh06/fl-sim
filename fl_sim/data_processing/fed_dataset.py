@@ -96,7 +96,7 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
         """Download data if needed."""
         if self.url:
             if self.datadir is None:
-                dst_dir = CACHED_DATA_DIR
+                dst_dir = CACHED_DATA_DIR / self.__class__.__name__
             elif self.datadir.exists() and len(list(self.datadir.iterdir())) > 0:
                 print("data dir exists, skip downloading")
                 return

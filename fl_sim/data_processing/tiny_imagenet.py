@@ -1,69 +1,82 @@
-import pickle
+import io
+import json
+import os
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
+import pandas as pd
+import requests
 import torch
 import torch.utils.data as torchdata
 import torchvision.transforms as transforms
+from datasets import load_dataset
 
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
-from ..utils.const import CACHED_DATA_DIR, CIFAR10_LABEL_MAP, CIFAR10_MEAN, CIFAR10_STD
-from ._ops import CategoricalLabelToTensor, FixedDegreeRotation, ImageArrayToTensor, ImageTensorScale, distribute_images
+from ..utils._download_data import url_is_reachable
+from ..utils.const import TINY_IMAGENET_MEAN, TINY_IMAGENET_STD
+from ._noniid_partition import non_iid_partition_with_dirichlet_distribution
+from ._ops import CategoricalLabelToTensor, ImageArrayToTensor, ImageTensorScale
 from ._register import register_fed_dataset
 from .fed_dataset import FedVisionDataset, VisionDataset
 
-__all__ = [
-    "FedRotatedCIFAR10",
-]
+if os.environ.get("HF_ENDPOINT", None) is not None and (not url_is_reachable(os.environ["HF_ENDPOINT"])):
+    os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+elif os.environ.get("HF_ENDPOINT", None) is None and (not url_is_reachable("https://huggingface.co")):
+    os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+
+
+__all__ = ["TinyImageNet"]
 
 
 @register_fed_dataset()
-class FedRotatedCIFAR10(FedVisionDataset):
-    """CIFAR10 dataset with rotation augmentation.
+class TinyImageNet(FedVisionDataset):
+    """Tiny ImageNet dataset.
 
-    The rotations are fixed and are multiples of 360 / num_rotations
-    [:footcite:ct:`Ghosh_2022_cfl`].
+    The Tiny ImageNet dataset is a subset of the ImageNet dataset. It consists of 200 classes, each with 500 training
+    images and 50 validation images and 50 test images. The images are downsampled to 64x64 pixels.
 
-    The original CIFAR10 dataset
-    `<https://pytorch.org/vision/stable/_modules/torchvision/datasets/cifar.html#CIFAR10>`_
-    contains 50k training images and 10k test images.
-    Images are 32x32 RGB images in 10 classes.
+    The original dataset [1]_ contains the test images while the hugingface dataset [3]_ does not contain the test images.
+    We use the hugingface dataset [3]_ for simplicity, and treat the validation set as the test set.
 
     Parameters
     ----------
-    datadir : str or pathlib.Path, optional
-        Path to store the dataset. If not specified, the default path is used.
-    num_rotations : int, default 2
-        Number of rotations to apply to the images in the dataset.
-    num_clients : int, default 200
-        Number of clients to simulate.
-    transform : str or callable, default "none"
-        Transform (augmentation) to apply to the dataset.
-        If "none", no augmentation is applied,
-        only the normalization transform is applied.
+    datadir : Union[pathlib.Path, str], optional
+        Directory to store data.
+        If ``None``, use default directory.
+    num_clients : int, default 100
+        Number of clients.
+    alpha : float, default 0.5
+        Concentration parameter for the Dirichlet distribution.
+    transform : Union[str, Callable], default "none"
+        Transform to apply to data. Conventions:
+        ``"none"`` means no transform, using TensorDataset.
     seed : int, default 0
-        Random seed for reproducibility.
+        Random seed for data partitioning.
+    **extra_config : dict, optional
+        Extra configurations.
 
-
-    .. footbibliography::
+    References
+    ----------
+    .. [1] http://cs231n.stanford.edu
+    .. [2] https://kaggle.com/competitions/tiny-imagenet
+    .. [3] https://huggingface.co/datasets/zh-plus/tiny-imagenet
 
     """
 
-    __name__ = "FedRotatedCIFAR10"
+    __name__ = "TinyImageNet"
 
     def __init__(
         self,
         datadir: Optional[Union[Path, str]] = None,
-        num_rotations: int = 2,
-        num_clients: int = 200,
+        num_clients: int = 100,
+        alpha: float = 0.5,
         transform: Optional[Union[str, Callable]] = "none",
         seed: int = 0,
     ) -> None:
-        self.num_rotations = num_rotations
         self.num_clients = num_clients
-        assert self.num_clients % self.num_rotations == 0
+        self.alpha = alpha
         super().__init__(datadir=datadir, transform=transform, seed=seed)
 
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
@@ -80,21 +93,33 @@ class FedRotatedCIFAR10(FedVisionDataset):
         None
 
         """
-        default_datadir = CACHED_DATA_DIR / "fed-rotated-cifar10"
-        self.datadir = Path(datadir or default_datadir).expanduser().resolve()
+        if datadir is None:
+            ds = load_dataset("zh-plus/tiny-imagenet")
+        else:
+            ds = load_dataset("zh-plus/tiny-imagenet", data_dir=str(datadir))
+        self.datadir = Path(datadir or "~/.cache/huggingface/datasets/zh-plus___tiny-imagenet").expanduser().resolve()
         self.datadir.mkdir(parents=True, exist_ok=True)
+        self._dataset_info = json.loads(list(self.datadir.rglob("dataset_info.json"))[0].read_text())
 
-        # download data
-        self.download_if_needed()
-
-        self.DEFAULT_BATCH_SIZE = 20
         self.DEFAULT_TRAIN_CLIENTS_NUM = self.num_clients
         self.DEFAULT_TEST_CLIENTS_NUM = self.num_clients
-
-        self.DEFAULT_TRAIN_FILE = [f"cifar-10-batches-py/data_batch_{i}" for i in range(1, 6)]
-        self.DEFAULT_TEST_FILE = ["cifar-10-batches-py/test_batch"]
+        self.DEFAULT_BATCH_SIZE = 20
+        self.DEFAULT_TRAIN_FILE = [item["filename"] for item in ds.cache_files["train"]]
+        self.DEFAULT_TEST_FILE = [item["filename"] for item in ds.cache_files["valid"]]
         self._IMGAE = "image"
         self._LABEL = "label"
+
+        # load wnid to label mapping from imagenet website
+        timeout = 3
+        try:
+            self._wnid2label = pd.read_csv(
+                io.StringIO(requests.get("https://image-net.org/data/words.txt", timeout=timeout).text), sep="\t", header=None
+            )
+        except requests.exceptions.RequestException:
+            self._wnid2label = pd.DataFrame(columns=["wnid", "label"])
+        self._wnid2label.columns = ["wnid", "label"]
+        self._wnid2label["label"] = self._wnid2label["label"].apply(lambda x: str(x).split(",")[0])
+        self._wnid2label = self._wnid2label.set_index("wnid")["label"].to_dict()
 
         # set criterion
         self.criterion = torch.nn.CrossEntropyLoss()
@@ -105,127 +130,46 @@ class FedRotatedCIFAR10(FedVisionDataset):
             self.transform = transforms.Compose(
                 [
                     transforms.AutoAugment(
-                        policy=transforms.AutoAugmentPolicy.CIFAR10,
+                        policy=transforms.AutoAugmentPolicy.IMAGENET,
                     ),
                     ImageTensorScale(),
-                    transforms.Normalize(CIFAR10_MEAN, CIFAR10_STD),
+                    transforms.Normalize(TINY_IMAGENET_MEAN, TINY_IMAGENET_STD),
                 ]
             )
         self.target_transform = transforms.Compose([CategoricalLabelToTensor()])
 
         # load data
+        print("Loading data...")
         self._train_data_dict = {
-            self._IMGAE: np.empty((0, 3, 32, 32), dtype=np.uint8),
-            self._LABEL: np.empty((0,), dtype=np.int64),
+            self._IMGAE: np.array(
+                [np.moveaxis(np.asarray(item[self._IMGAE].convert("RGB")), [0, 1], [1, 2]) for item in ds["train"]]
+            ),
+            self._LABEL: np.array([item[self._LABEL] for item in ds["train"]]),
         }
         self._test_data_dict = {
-            self._IMGAE: np.empty((0, 3, 32, 32), dtype=np.uint8),
-            self._LABEL: np.empty((0,), dtype=np.int64),
+            self._IMGAE: np.array(
+                [np.moveaxis(np.asarray(item[self._IMGAE].convert("RGB")), [0, 1], [1, 2]) for item in ds["valid"]]
+            ),
+            self._LABEL: np.array([item[self._LABEL] for item in ds["valid"]]),
         }
 
-        for file in self.DEFAULT_TRAIN_FILE:
-            data = pickle.loads((self.datadir / file).read_bytes(), encoding="bytes")
-            self._train_data_dict[self._IMGAE] = np.concatenate(
-                [
-                    self._train_data_dict[self._IMGAE],
-                    data[b"data"].reshape(-1, 3, 32, 32).astype(np.uint8),
-                ]
-            )
-            self._train_data_dict[self._LABEL] = np.concatenate(
-                [
-                    self._train_data_dict[self._LABEL],
-                    np.array(data[b"labels"]).astype(np.int64),
-                ]
-            )
-        data = pickle.loads(
-            (self.datadir / self.DEFAULT_TEST_FILE[0]).read_bytes(),
-            encoding="bytes",
-        )
-        self._test_data_dict[self._IMGAE] = data[b"data"].reshape(-1, 3, 32, 32).astype(np.uint8)
-        self._test_data_dict[self._LABEL] = np.array(data[b"labels"]).astype(np.int64)
+        self._n_class = 200
 
-        original_num_images = {
-            "train": len(self._train_data_dict[self._LABEL]),
-            "test": len(self._test_data_dict[self._LABEL]),
-        }
-
-        # set n_class
-        self._n_class = len(
-            np.unique(
-                np.concatenate(
-                    [
-                        self._train_data_dict[self._LABEL],
-                        self._test_data_dict[self._LABEL],
-                    ]
-                )
-            )
-        )
-
-        # distribute data to clients
+        # distribute data into clients
+        print("Distributing data...")
         self.indices = {}
-        self.indices["train"] = distribute_images(
-            original_num_images["train"],
-            self.num_clients // self.num_rotations,
-            random=True,
+        self.indices["train"] = non_iid_partition_with_dirichlet_distribution(
+            label_list=self._train_data_dict[self._LABEL],
+            client_num=self.num_clients,
+            classes=self.n_class,
+            alpha=self.alpha,
         )
-        self.indices["test"] = distribute_images(
-            original_num_images["test"],
-            self.num_clients // self.num_rotations,
-            random=False,
+        self.indices["test"] = non_iid_partition_with_dirichlet_distribution(
+            label_list=self._test_data_dict[self._LABEL],
+            client_num=self.num_clients,
+            classes=self.n_class,
+            alpha=self.alpha,
         )
-
-        # perform rotation, and distribute data to clients
-        print("Performing rotation...")
-        angles = np.arange(0, 360, 360 / self.num_rotations)[1:]
-        raw_images = {
-            "train": torch.from_numpy(self._train_data_dict[self._IMGAE].copy()),
-            "test": torch.from_numpy(self._test_data_dict[self._IMGAE].copy()),
-        }
-        raw_labels = {
-            "train": self._train_data_dict[self._LABEL].copy(),
-            "test": self._test_data_dict[self._LABEL].copy(),
-        }
-        for idx, angle in enumerate(angles):
-            transform = FixedDegreeRotation(angle)
-            self._train_data_dict[self._IMGAE] = np.concatenate(
-                [
-                    self._train_data_dict[self._IMGAE],
-                    transform(raw_images["train"]).numpy(),
-                ]
-            )
-            self._train_data_dict[self._LABEL] = np.concatenate(
-                [
-                    self._train_data_dict[self._LABEL],
-                    raw_labels["train"].copy(),
-                ]
-            )
-            self._test_data_dict[self._IMGAE] = np.concatenate(
-                [
-                    self._test_data_dict[self._IMGAE],
-                    transform(raw_images["test"]).numpy(),
-                ]
-            )
-            self._test_data_dict[self._LABEL] = np.concatenate(
-                [
-                    self._test_data_dict[self._LABEL],
-                    raw_labels["test"].copy(),
-                ]
-            )
-            self.indices["train"].extend(
-                distribute_images(
-                    np.arange(original_num_images["train"]) + (idx + 1) * original_num_images["train"],
-                    self.num_clients // self.num_rotations,
-                    random=True,
-                )
-            )
-            self.indices["test"].extend(
-                distribute_images(
-                    np.arange(original_num_images["test"]) + (idx + 1) * original_num_images["test"],
-                    self.num_clients // self.num_rotations,
-                    random=False,
-                )
-            )
-        del raw_images, raw_labels
 
     def get_dataloader(
         self,
@@ -268,7 +212,7 @@ class FedRotatedCIFAR10(FedVisionDataset):
             [
                 ImageArrayToTensor(),
                 ImageTensorScale(),
-                transforms.Normalize(CIFAR10_MEAN, CIFAR10_STD),
+                transforms.Normalize(TINY_IMAGENET_MEAN, TINY_IMAGENET_STD),
             ]
         )
 
@@ -309,7 +253,7 @@ class FedRotatedCIFAR10(FedVisionDataset):
         return [
             "n_class",
             "num_clients",
-            "num_rotations",
+            "alpha",
         ] + super().extra_repr_keys()
 
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
@@ -337,32 +281,30 @@ class FedRotatedCIFAR10(FedVisionDataset):
         }
 
     @property
-    def url(self) -> str:
-        """URL for downloading the dataset."""
-        return "https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz"
-
-    @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
         """A set of candidate models."""
         return {
-            "cnn_cifar": mnn.CNNCifar(num_classes=self.n_class),
-            "cnn_cifar_small": mnn.CNNCifar_Small(num_classes=self.n_class),
-            "cnn_cifar_tiny": mnn.CNNCifar_Tiny(num_classes=self.n_class),
             "resnet10": mnn.ResNet10(num_classes=self.n_class),
+            "resnet18": mnn.ResNet18(num_classes=self.n_class),
         }
 
     @property
     def doi(self) -> List[str]:
         """DOI(s) related to the dataset."""
-        return [
-            "10.1109/5.726791",  # MNIST
-            "10.1109/tit.2022.3192506",  # IFCA
-        ]
+        return ["10.1109/cvpr.2009.5206848"]
+
+    @property
+    def url(self) -> str:
+        """URL for downloading the original dataset."""
+        return "http://cs231n.stanford.edu/tiny-imagenet-200.zip"
 
     @property
     def label_map(self) -> dict:
         """Label map for the dataset."""
-        return CIFAR10_LABEL_MAP
+        return {
+            idx: self._wnid2label.get(label, label)
+            for idx, label in enumerate(self._dataset_info["features"]["label"]["names"])
+        }
 
     def view_image(self, client_idx: int, image_idx: int) -> None:
         """View a single image.
@@ -391,17 +333,15 @@ class FedRotatedCIFAR10(FedVisionDataset):
             image = self._train_data_dict[self._IMGAE][self.indices["train"][client_idx][image_idx]]
             label = self._train_data_dict[self._LABEL][self.indices["train"][client_idx][image_idx]]
             image_idx = self.indices["train"][client_idx][image_idx]
-            angle = image_idx // (len(self._train_data_dict[self._IMGAE]) // self.num_rotations) * (360 // self.num_rotations)
         else:
             image_idx -= len(self.indices["train"][client_idx])
             image = self._test_data_dict[self._IMGAE][self.indices["test"][client_idx][image_idx]]
             label = self._test_data_dict[self._LABEL][self.indices["test"][client_idx][image_idx]]
             image_idx = self.indices["test"][client_idx][image_idx]
-            angle = image_idx // (len(self._test_data_dict[self._IMGAE]) // self.num_rotations) * (360 // self.num_rotations)
         # image: channel first to channel last
         image = image.transpose(1, 2, 0)
         plt.imshow(image)
-        plt.title(f"image_idx: {image_idx}, label: {label} ({self.label_map[int(label)]}), " f"angle: {angle}")
+        plt.title(f"image_idx: {image_idx}, label: {label} ({self.label_map[int(label)]}")
         plt.show()
 
     def random_grid_view(self, nrow: int, ncol: int, save_path: Optional[Union[str, Path]] = None) -> None:
