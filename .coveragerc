@@ -1,7 +1,7 @@
 # .coveragerc to control coverage.py
 [run]
 omit =
-    # omit all tests
+    # omit all test files
     tests/*
     # omit algorithms, which will be tested separately
     fl_sim/algorithms/*
@@ -12,6 +12,7 @@ omit =
     fl_sim/data_processing/libsvm_datasets.py
     # visualization panel requires notebook environment
     fl_sim/utils/viz.py
+    # fl_sim/utils/torch_compat.py
     # compressors not used currently
     fl_sim/compressors/*
 
