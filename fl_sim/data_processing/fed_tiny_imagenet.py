@@ -27,11 +27,11 @@ elif os.environ.get("HF_ENDPOINT", None) is None and (not url_is_reachable("http
     os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 
 
-__all__ = ["TinyImageNet"]
+__all__ = ["FedTinyImageNet"]
 
 
 @register_fed_dataset()
-class TinyImageNet(FedVisionDataset):
+class FedTinyImageNet(FedVisionDataset):
     """Tiny ImageNet dataset.
 
     The Tiny ImageNet dataset is a subset of the ImageNet dataset. It consists of 200 classes, each with 500 training
@@ -65,7 +65,7 @@ class TinyImageNet(FedVisionDataset):
 
     """
 
-    __name__ = "TinyImageNet"
+    __name__ = "FedTinyImageNet"
 
     def __init__(
         self,

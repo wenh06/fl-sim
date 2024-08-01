@@ -24,8 +24,8 @@ from fl_sim.data_processing import (  # noqa: F401
     FedRotatedMNIST,
     FedShakespeare,
     FedSynthetic,
+    FedTinyImageNet,
     FedVisionDataset,
-    TinyImageNet,
     libsvmread,
 )
 from fl_sim.data_processing.fed_dataset import NLPDataset
@@ -540,8 +540,8 @@ def test_NLPDataset():
 
 
 @torch.no_grad()
-def test_TinyImageNet():
-    ds = TinyImageNet()
+def test_FedTinyImageNet():
+    ds = FedTinyImageNet()
 
     assert str(ds) == repr(ds)
     assert isinstance(ds.doi, list) and all(isinstance(d, str) for d in ds.doi)
@@ -549,7 +549,7 @@ def test_TinyImageNet():
     assert ds.n_class == 200
 
     ds.view_image(0, 0)
-    ds.random_grid_view(3, 3, save_path="test_TinyImageNet.pdf")
+    ds.random_grid_view(3, 3, save_path="test_FedTinyImageNet.pdf")
 
     train_dl, test_dl = ds.get_dataloader(client_idx=0)
     assert len(train_dl) > 0 and len(test_dl) > 0
