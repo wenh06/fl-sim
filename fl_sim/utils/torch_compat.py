@@ -126,34 +126,25 @@ def torch_norm(
     if input.layout == torch.strided and input.device.type in ("cpu", "cuda", "meta"):
         if dim is not None:
             if isinstance(dim, int):
-                _dim = [dim]
+                _dim = (dim,)
             else:
-                _dim = dim
+                _dim = tuple(dim)
         else:
             _dim = None  # type: ignore[assignment]
 
         if isinstance(p, str):
             if p == "fro" and (dim is None or isinstance(dim, int) or len(dim) <= 2):
-                if out is None:
-                    return torch.linalg.vector_norm(input, 2, _dim, keepdim, dtype=dtype)
-                else:
-                    return torch.linalg.vector_norm(input, 2, _dim, keepdim, dtype=dtype, out=out)
+                return torch.linalg.vector_norm(input, 2, _dim, keepdim, dtype=dtype, out=out)
 
             # Here we either call the nuclear norm, or we call matrix_norm with some arguments
             # that will throw an error
             if _dim is None:
-                _dim = list(range(input.ndim))
-            if out is None:
-                return torch.linalg.matrix_norm(input, p, _dim, keepdim, dtype=dtype)
-            else:
-                return torch.linalg.matrix_norm(input, p, _dim, keepdim, dtype=dtype, out=out)
+                _dim = tuple(range(input.ndim))
+            return torch.linalg.matrix_norm(input, p, _dim, keepdim, dtype=dtype, out=out)
         else:
             # NB. p should be Union[str, number], not Optional!
             _p = 2.0 if p is None else p
-            if out is None:
-                return torch.linalg.vector_norm(input, _p, _dim, keepdim, dtype=dtype)
-            else:
-                return torch.linalg.vector_norm(input, _p, _dim, keepdim, dtype=dtype, out=out)
+            return torch.linalg.vector_norm(input, _p, _dim, keepdim, dtype=dtype, out=out)
 
     ndim = input.dim()
 

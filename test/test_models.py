@@ -28,6 +28,7 @@ from fl_sim.models import (
     RNN_OriginalFedAvg,
     RNN_Sent140,
     RNN_StackOverFlow,
+    ShrinkedResNet,
     reset_parameters,
 )
 from fl_sim.models.tokenizers import init_nltk, tokenize, words_from_text
@@ -38,7 +39,6 @@ init_nltk()
 
 @torch.no_grad()
 def test_models():
-    """ """
     model = CNNFEMnist_Tiny().eval()
     inp = torch.rand(2, 1, 28, 28)
     out = model(inp)
@@ -261,6 +261,15 @@ def test_models():
     assert prob.shape == (2,)
     pred = model.pipeline("ew. getting ready for work")
     assert isinstance(pred, int) and pred in [0, 1]
+
+    model = ShrinkedResNet(layers=[1, 1, 1], num_classes=10).eval()
+    inp = torch.rand(2, 3, 32, 32)
+    out = model(inp)
+    assert out.shape == (2, 10)
+    pred = model.predict(inp, batched=True)
+    assert len(pred) == 2
+    prob = model.predict_proba(inp, batched=True)
+    assert prob.shape == (2, 10)
 
 
 def test_GloveEmbedding():

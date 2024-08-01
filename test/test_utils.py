@@ -8,6 +8,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parents[1].resolve()))
 
 import numpy as np
+import pytest
 import torch
 from torch_ecg.utils import get_kwargs
 
@@ -234,11 +235,22 @@ def test_url_is_reachable():
 def test_torch_norm():
     a = torch.arange(9, dtype=torch.float) - 4
     b = a.reshape((3, 3))
+    b_sp = b.clone().to_sparse()
     assert torch.allclose(torch_norm(a, dtype=torch.float64), torch.tensor(7.7460, dtype=torch.float64), atol=1e-4)
     assert torch.allclose(torch_norm(b, dtype=torch.float64), torch.tensor(7.7460, dtype=torch.float64), atol=1e-4)
     assert torch.allclose(torch_norm(a, float("inf"), dtype=torch.float64), torch.tensor(4.0, dtype=torch.float64), atol=1e-4)
     assert torch.allclose(torch_norm(b, float("inf"), dtype=torch.float64), torch.tensor(4.0, dtype=torch.float64), atol=1e-4)
     assert torch.allclose(torch_norm(b, p="nuc", dtype=torch.float64), torch.tensor(9.7980, dtype=torch.float64), atol=1e-4)
+    b_sp = b.clone().to_sparse()
+    assert torch.allclose(torch_norm(b_sp, float("inf")), torch.tensor(4.0), atol=1e-4)
+    with pytest.raises(ValueError):
+        torch_norm(b_sp, dtype=torch.float64)
+    with pytest.raises(ValueError):
+        torch_norm(b_sp, p="nuc", dtype=torch.float64)
+    with pytest.raises(RuntimeError):
+        torch_norm(b_sp, p="xxx")
+    with pytest.raises(RuntimeError):
+        torch_norm(a, p="xxx")
 
     c = torch.tensor([[1, 2, 3], [-1, 1, 4]], dtype=torch.float)
     assert torch.allclose(
@@ -250,6 +262,14 @@ def test_torch_norm():
     assert torch.allclose(
         torch_norm(c, p=1, dim=1, dtype=torch.float64), torch.tensor([6.0, 6.0], dtype=torch.float64), atol=1e-4
     )
+    c_sp = c.clone().to_sparse()
+    assert torch.allclose(torch_norm(c_sp, p=1), torch.tensor(12.0), atol=1e-4)
+    with pytest.raises(RuntimeError):
+        torch_norm(c_sp, p=1, dim=1)
+    with pytest.raises(ValueError):
+        torch_norm(c_sp, p="fro", dtype=torch.float64)
+    with pytest.raises(ValueError):
+        torch_norm(c_sp, p="nuc", dtype=torch.float64)
 
     d = torch.arange(8, dtype=torch.float).reshape(2, 2, 2)
     assert torch.allclose(
@@ -260,3 +280,7 @@ def test_torch_norm():
     assert torch.allclose(
         torch_norm(d, p="nuc", dim=[1, 2], dtype=torch.float64), torch.tensor([4.2426, 11.4018], dtype=torch.float64), atol=1e-4
     )
+    d_sp = d.clone().to_sparse()
+    assert torch.allclose(torch_norm(d_sp), torch.tensor(11.8322), atol=1e-4)
+    with pytest.raises(RuntimeError):
+        torch_norm(d_sp, p="xxx")
