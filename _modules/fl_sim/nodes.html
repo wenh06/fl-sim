@@ -185,6 +185,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -863,7 +864,7 @@ document.write(`
 
 <div class="viewcode-block" id="Node.aggregate_results_from_json_log"><a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.aggregate_results_from_json_log">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">aggregate_results_from_json_log</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;val&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;acc&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggregate the federated results from csv log.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggregate the federated results from json log.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

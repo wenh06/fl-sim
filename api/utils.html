@@ -186,6 +186,7 @@
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -478,16 +479,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.BaseLogger.set_log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.set_log_dir()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger"><code class="docutils literal notranslate"><span class="pre">CSVLogger</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.close"><code class="docutils literal notranslate"><span class="pre">CSVLogger.close()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.filename"><code class="docutils literal notranslate"><span class="pre">CSVLogger.filename</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.flush"><code class="docutils literal notranslate"><span class="pre">CSVLogger.flush()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.from_config"><code class="docutils literal notranslate"><span class="pre">CSVLogger.from_config()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.log_message"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_message()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_metrics()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.reset"><code class="docutils literal notranslate"><span class="pre">CSVLogger.reset()</span></code></a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.JsonLogger"><code class="docutils literal notranslate"><span class="pre">JsonLogger</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.JsonLogger.close"><code class="docutils literal notranslate"><span class="pre">JsonLogger.close()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.JsonLogger.filename"><code class="docutils literal notranslate"><span class="pre">JsonLogger.filename</span></code></a></li>
@@ -696,125 +687,6 @@ can be <code class="docutils literal notranslate"><span class="pre">&quot;train&
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="fl_sim.utils.loggers.CSVLogger">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fl_sim.utils.loggers.</span></span><span class="sig-name descname"><span class="pre">CSVLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fl_sim/utils/loggers.html#CSVLogger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.utils.loggers.CSVLogger" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fl_sim.utils.loggers.BaseLogger" title="fl_sim.utils.loggers.BaseLogger"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLogger</span></code></a></p>
-<p>Logger that logs to a CSV file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>algorithm</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Used to form the prefix of the log file.</p></li>
-<li><p><strong>dataset</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Used to form the prefix of the log file.</p></li>
-<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Used to form the prefix of the log file.</p></li>
-<li><p><strong>log_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a><em>, </em><em>optional</em>) – Directory to save the log file</p></li>
-<li><p><strong>log_suffix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – Suffix of the log file.</p></li>
-<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>default 1</em>) – The verbosity level.
-Not used in this logger,
-but is kept for compatibility with other loggers.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="fl_sim.utils.loggers.CSVLogger.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/fl_sim/utils/loggers.html#CSVLogger.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.utils.loggers.CSVLogger.close" title="Permalink to this definition">#</a></dt>
-<dd><p>Close the logger.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="fl_sim.utils.loggers.CSVLogger.filename">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></em><a class="headerlink" href="#fl_sim.utils.loggers.CSVLogger.filename" title="Permalink to this definition">#</a></dt>
-<dd><p>Name of the log file.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fl_sim.utils.loggers.CSVLogger.flush">
-<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/fl_sim/utils/loggers.html#CSVLogger.flush"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.utils.loggers.CSVLogger.flush" title="Permalink to this definition">#</a></dt>
-<dd><p>Flush the message buffer.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fl_sim.utils.loggers.CSVLogger.from_config">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#fl_sim.utils.loggers.CSVLogger" title="fl_sim.utils.loggers.CSVLogger"><span class="pre">CSVLogger</span></a></span></span><a class="reference internal" href="../_modules/fl_sim/utils/loggers.html#CSVLogger.from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.utils.loggers.CSVLogger.from_config" title="Permalink to this definition">#</a></dt>
-<dd><p>Create a <a class="reference internal" href="#fl_sim.utils.loggers.CSVLogger" title="fl_sim.utils.loggers.CSVLogger"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSVLogger</span></code></a> instance from a configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – <p>Configuration for the logger. The following keys are used:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;algorithm&quot;</span></code>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>,
-name of the algorithm.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;dataset&quot;</span></code>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>,
-name of the dataset.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;model&quot;</span></code>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>,
-name of the model.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;log_dir&quot;</span></code>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a>, optional,
-directory to save the log file.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;log_suffix&quot;</span></code>: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>, optional,
-suffix of the log file.</p></li>
-</ul>
-</div></blockquote>
-</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference internal" href="#fl_sim.utils.loggers.CSVLogger" title="fl_sim.utils.loggers.CSVLogger"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSVLogger</span></code></a> instance.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#fl_sim.utils.loggers.CSVLogger" title="fl_sim.utils.loggers.CSVLogger">CSVLogger</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fl_sim.utils.loggers.CSVLogger.log_message">
-<span class="sig-name descname"><span class="pre">log_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/fl_sim/utils/loggers.html#CSVLogger.log_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.utils.loggers.CSVLogger.log_message" title="Permalink to this definition">#</a></dt>
-<dd><p>Log a message.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The message to be logged.</p></li>
-<li><p><strong>level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The level of the message, can be one of
-<code class="docutils literal notranslate"><span class="pre">logging.DEBUG</span></code>, <code class="docutils literal notranslate"><span class="pre">logging.INFO</span></code>, <code class="docutils literal notranslate"><span class="pre">logging.WARNING</span></code>,
-<code class="docutils literal notranslate"><span class="pre">logging.ERROR</span></code>, <code class="docutils literal notranslate"><span class="pre">logging.CRITICAL</span></code></p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fl_sim.utils.loggers.CSVLogger.log_metrics">
-<span class="sig-name descname"><span class="pre">log_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/numbers.html#numbers.Real" title="(in Python v3.12)"><span class="pre">Real</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.4)"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">part</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'val'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/fl_sim/utils/loggers.html#CSVLogger.log_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.utils.loggers.CSVLogger.log_metrics" title="Permalink to this definition">#</a></dt>
-<dd><p>Log metrics.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>client_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Index of the client, <code class="docutils literal notranslate"><span class="pre">None</span></code> for the server.</p></li>
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – The metrics to be logged.</p></li>
-<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The current number of (global) steps of training.</p></li>
-<li><p><strong>epoch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The current epoch number of training.</p></li>
-<li><p><strong>part</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>default &quot;val&quot;</em>) – The part of the training data the metrics computed from,
-can be <code class="docutils literal notranslate"><span class="pre">&quot;train&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;val&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;test&quot;</span></code>, etc.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fl_sim.utils.loggers.CSVLogger.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/fl_sim/utils/loggers.html#CSVLogger.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.utils.loggers.CSVLogger.reset" title="Permalink to this definition">#</a></dt>
-<dd><p>Reset the logger.</p>
-<p>Close the current logger and create a new one,
-with new log file name.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1073,8 +945,6 @@ directory to save the log files.</p></li>
 suffix of the log files.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;txt_logger&quot;</span></code>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, optional,
 whether to add a <a class="reference internal" href="#fl_sim.utils.loggers.TxtLogger" title="fl_sim.utils.loggers.TxtLogger"><code class="xref py py-class docutils literal notranslate"><span class="pre">TxtLogger</span></code></a> instance.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;csv_logger&quot;</span></code>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, optional,
-whether to add a <a class="reference internal" href="#fl_sim.utils.loggers.CSVLogger" title="fl_sim.utils.loggers.CSVLogger"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSVLogger</span></code></a> instance.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;json_logger&quot;</span></code>: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>, optional,
 whether to add a <a class="reference internal" href="#fl_sim.utils.loggers.JsonLogger" title="fl_sim.utils.loggers.JsonLogger"><code class="xref py py-class docutils literal notranslate"><span class="pre">JsonLogger</span></code></a> instance.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;fmt&quot;</span></code>: {“json”, “yaml”}, optional,
@@ -1632,16 +1502,6 @@ as well as disable cudnn to ensure reproducibility.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.BaseLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">BaseLogger.log_metrics()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.BaseLogger.reset"><code class="docutils literal notranslate"><span class="pre">BaseLogger.reset()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.BaseLogger.set_log_dir"><code class="docutils literal notranslate"><span class="pre">BaseLogger.set_log_dir()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger"><code class="docutils literal notranslate"><span class="pre">CSVLogger</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.close"><code class="docutils literal notranslate"><span class="pre">CSVLogger.close()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.filename"><code class="docutils literal notranslate"><span class="pre">CSVLogger.filename</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.flush"><code class="docutils literal notranslate"><span class="pre">CSVLogger.flush()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.from_config"><code class="docutils literal notranslate"><span class="pre">CSVLogger.from_config()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.log_message"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_message()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.log_metrics"><code class="docutils literal notranslate"><span class="pre">CSVLogger.log_metrics()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.CSVLogger.reset"><code class="docutils literal notranslate"><span class="pre">CSVLogger.reset()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.utils.loggers.JsonLogger"><code class="docutils literal notranslate"><span class="pre">JsonLogger</span></code></a><ul class="nav section-nav flex-column">
