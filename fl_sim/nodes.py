@@ -462,7 +462,7 @@ class Node(ReprMixin, ABC):
 
     @staticmethod
     def aggregate_results_from_json_log(d: Union[dict, str, Path], part: str = "val", metric: str = "acc") -> np.ndarray:
-        """Aggregate the federated results from csv log.
+        """Aggregate the federated results from json log.
 
         Parameters
         ----------

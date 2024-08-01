@@ -229,7 +229,6 @@ ServerConfig(
     num_clients: int,
     clients_sample_ratio: float,
     txt_logger: bool = True,
-    csv_logger: bool = False,
     json_logger: bool = True,
     eval_every: int = 1,
     verbose: int = 1,

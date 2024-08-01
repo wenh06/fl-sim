@@ -8,7 +8,6 @@ This module contains various loggers.
 
 """
 
-import csv
 import json
 import logging
 import re
@@ -19,7 +18,6 @@ from numbers import Real
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
-import pandas as pd
 import torch
 import yaml
 from torch_ecg.utils import ReprMixin, add_docstring, get_date_str, get_kwargs, init_logger
@@ -31,7 +29,6 @@ from .misc import default_dict_to_dict, make_serializable
 __all__ = [
     "BaseLogger",
     "TxtLogger",
-    "CSVLogger",
     "JsonLogger",
     "LoggerManager",
 ]
@@ -337,131 +334,6 @@ class TxtLogger(BaseLogger):
         return str(self.log_dir / self.log_file)
 
 
-class CSVLogger(BaseLogger):
-    """Logger that logs to a CSV file.
-
-    Parameters
-    ----------
-    algorithm, dataset, model : str
-        Used to form the prefix of the log file.
-    log_dir : str or pathlib.Path, optional
-        Directory to save the log file
-    log_suffix : str, optional
-        Suffix of the log file.
-    verbose : int, default 1
-        The verbosity level.
-        Not used in this logger,
-        but is kept for compatibility with other loggers.
-
-    """
-
-    __name__ = "CSVLogger"
-
-    def __init__(
-        self,
-        algorithm: str,
-        dataset: str,
-        model: str,
-        log_dir: Optional[Union[str, Path]] = None,
-        log_suffix: Optional[str] = None,
-        verbose: int = 1,
-    ) -> None:
-        assert all([isinstance(x, str) for x in [algorithm, dataset, model]]), "algorithm, dataset, model must be str"
-        self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
-        self._log_dir = self.set_log_dir(log_dir)
-        if log_suffix is None:
-            self.log_suffix = ""
-        else:
-            self.log_suffix = f"_{log_suffix}"
-        self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.csv"
-        self.logger = pd.DataFrame()
-        self.step = -1
-        self._flushed = True
-
-    def log_metrics(
-        self,
-        client_id: Union[int, type(None)],
-        metrics: Dict[str, Union[Real, torch.Tensor]],
-        step: Optional[int] = None,
-        epoch: Optional[int] = None,
-        part: str = "val",
-    ) -> None:
-        if step is not None:
-            self.step = step
-        else:
-            self.step += 1
-        row = {"step": self.step, "time": datetime.now(), "part": part}
-        if epoch is not None:
-            row.update({"epoch": epoch})
-        node = "Server" if client_id is None else f"Client{client_id}"
-        row.update({f"{node}-{k}": v.item() if isinstance(v, torch.Tensor) else v for k, v in metrics.items()})
-        # self.logger = self.logger.append(row, ignore_index=True)
-        self.logger = pd.concat([self.logger, pd.DataFrame([row])], ignore_index=True)
-        self._flushed = False
-
-    def log_message(self, msg: str, level: int = logging.INFO) -> None:
-        pass
-
-    def flush(self) -> None:
-        if not self._flushed:
-            self.logger.to_csv(self.filename, quoting=csv.QUOTE_NONNUMERIC, index=False)
-            print(f"CSV log file saved to {self.filename}")
-            # clear the logger buffer
-            self.logger = pd.DataFrame()
-            self._flushed = True
-
-    def close(self) -> None:
-        self.flush()
-
-    def reset(self) -> None:
-        """Reset the logger.
-
-        Close the current logger and create a new one,
-        with new log file name.
-        """
-        self.close()
-        self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.csv"
-        self.logger = pd.DataFrame()
-        self.step = -1
-        self._flushed = True
-
-    def __del__(self):
-        self.flush()
-        del self
-
-    @classmethod
-    def from_config(cls, config: Dict[str, Any]) -> "CSVLogger":
-        """Create a :class:`CSVLogger` instance from a configuration.
-
-        Parameters
-        ----------
-        config : dict
-            Configuration for the logger. The following keys are used:
-
-                - ``"algorithm"``: :obj:`str`,
-                  name of the algorithm.
-                - ``"dataset"``: :obj:`str`,
-                  name of the dataset.
-                - ``"model"``: :obj:`str`,
-                  name of the model.
-                - ``"log_dir"``: :obj:`str` or :class:`pathlib.Path`, optional,
-                  directory to save the log file.
-                - ``"log_suffix"``: :obj:`str`, optional,
-                  suffix of the log file.
-
-        Returns
-        -------
-        CSVLogger
-            A :class:`CSVLogger` instance.
-
-        """
-        return cls(**config)
-
-    @property
-    def filename(self) -> str:
-        return str(self.log_dir / self.log_file)
-
-
 class JsonLogger(BaseLogger):
     """Logger that logs to a JSON file,
     or a yaml file.
@@ -696,19 +568,6 @@ class LoggerManager(ReprMixin):
             )
         )
 
-    def _add_csv_logger(self) -> None:
-        """Add a :class:`CSVLogger` instance to the manager."""
-        self.loggers.append(
-            CSVLogger(
-                self._algorith,
-                self._dataset,
-                self._model,
-                self._log_dir,
-                self._log_suffix,
-                self._verbose,
-            )
-        )
-
     def _add_json_logger(self, fmt: str = "json") -> None:
         """Add a :class:`JsonLogger` instance to the manager."""
         self.loggers.append(
@@ -801,8 +660,6 @@ class LoggerManager(ReprMixin):
                   suffix of the log files.
                 - ``"txt_logger"``: :obj:`bool`, optional,
                   whether to add a :class:`TxtLogger` instance.
-                - ``"csv_logger"``: :obj:`bool`, optional,
-                  whether to add a :class:`CSVLogger` instance.
                 - ``"json_logger"``: :obj:`bool`, optional,
                   whether to add a :class:`JsonLogger` instance.
                 - ``"fmt"``: {"json", "yaml"}, optional,
@@ -827,11 +684,6 @@ class LoggerManager(ReprMixin):
         )
         if config.get("txt_logger", True):
             lm._add_txt_logger()
-        if config.get("csv_logger", False):
-            # for federated learning, csv logger has too many empty values,
-            # resulting in a very large csv file,
-            # hence it is not recommended to use csv logger.
-            lm._add_csv_logger()
         if config.get("json_logger", True):
             lm._add_json_logger(fmt=config.get("fmt", get_kwargs(JsonLogger)["fmt"]))
         return lm

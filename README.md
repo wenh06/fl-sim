@@ -689,7 +689,7 @@ The module (folder) [utils](fl_sim/utils) contains utility functions for [data d
 [training metrics logging](fl_sim/utils/loggers.py), [experiment visualization](fl_sim/utils/viz.py), etc.
 
 - `TxTLogger`: A logger for logging training metrics to a text file, as well as printing them to the console, in a human-readable format.
-- `CSVLogger`: A logger for logging training metrics to a CSV file. **NOT** recommended since not memory-efficient.
+- ~~`CSVLogger`: A logger for logging training metrics to a CSV file. **NOT** recommended since not memory-efficient.~~
 - `JsonLogger`: A logger for logging training metrics to a JSON file. Also can be saved as a YAML file.
 
 :point_right: [Back to TOC](#a-simple-simulation-framework-for-federated-learning-based-on-pytorch)
