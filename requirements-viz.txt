@@ -3,3 +3,4 @@ seaborn
 ipywidgets
 ipython
 termcolor
+packaging

@@ -30,10 +30,12 @@ import re
 from pathlib import Path
 from typing import Any, Iterable, Union
 
+import packaging.version
 import torch.optim as opt
 import torch_optimizer as topt
 from torch.nn.parameter import Parameter
 from torch.optim import Optimizer
+from torch.torch_version import __version__ as torch_version
 from torch_ecg.cfg import CFG
 from torch_ecg.utils import add_docstring
 
@@ -140,7 +142,13 @@ def get_optimizer(
         # ``Detected call of `lr_scheduler.step()` before `optimizer.step()`.``.
         # The risk is one has to check that scheduler.step() is called after
         # optimizer.step() in the training loop by himself.
-        optimizer.step._with_counter = True
+        if packaging.version.parse(torch_version) < packaging.version.parse("2.4.0"):
+            optimizer.step._with_counter = True
+        else:
+            # NOTE: new in torch 2.4.0,
+            # the check by `optimizer.step._with_counter` is replaced by
+            # `optimizer.step._wrapped_by_lr_sched`
+            optimizer.step._wrapped_by_lr_sched = True
         return optimizer
 
     try:
@@ -153,7 +161,10 @@ def get_optimizer(
             optimizer.step,
             **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
         )
-        optimizer.step._with_counter = True
+        if packaging.version.parse(torch_version) < packaging.version.parse("2.4.0"):
+            optimizer.step._with_counter = True
+        else:
+            optimizer.step._wrapped_by_lr_sched = True
         # print(f"optimizer_name: {optimizer_name}")
         return optimizer
     except Exception:
@@ -170,7 +181,10 @@ def get_optimizer(
                 optimizer.step,
                 **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
             )
-            optimizer.step._with_counter = True
+            if packaging.version.parse(torch_version) < packaging.version.parse("2.4.0"):
+                optimizer.step._with_counter = True
+            else:
+                optimizer.step._wrapped_by_lr_sched = True
             return optimizer
         except Exception:
             pass
