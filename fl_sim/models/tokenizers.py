@@ -421,50 +421,31 @@ def init_nltk(quiet: bool = True) -> None:
 
     Download necessary nltk data if not downloaded.
     """
-    try:
-        nltk_find("tokenizers/punkt")
-    except LookupError:
-        nltk_download("punkt", quiet=True)
+    error = False
+    nltk_data = [
+        "tokenizers/punkt",
+        "taggers/averaged_perceptron_tagger",
+        "taggers/universal_tagset",
+        "corpora/wordnet",
+        "corpora/stopwords",
+        "corpora/omw",
+    ]
+    for data in nltk_data:
+        try:
+            nltk_find(data)
+        except LookupError:
+            nltk_download(data.split("/")[-1], quiet=quiet)
+        except Exception as e:
+            error = True
+            if not quiet:
+                print(f"Error downloading {data}: {e}")
+        else:
+            if not quiet:
+                print(f"{data} found, skipping download.")
+    if error:
+        warnings.warn("Some NLTK data may not have been downloaded successfully.")
     else:
-        if not quiet:
-            print("tokenizers/punkt found, skipping download.")
-    try:
-        nltk_find("taggers/averaged_perceptron_tagger")
-    except LookupError:
-        nltk_download("averaged_perceptron_tagger", quiet=True)
-    else:
-        if not quiet:
-            print("taggers/averaged_perceptron_tagger found, skipping download.")
-    try:
-        nltk_find("taggers/universal_tagset")
-    except LookupError:
-        nltk_download("universal_tagset", quiet=True)
-    else:
-        if not quiet:
-            print("taggers/universal_tagset found, skipping download.")
-    try:
-        nltk_find("corpora/wordnet")
-    except LookupError:
-        nltk_download("wordnet", quiet=True)
-    else:
-        if not quiet:
-            print("corpora/wordnet found, skipping download.")
-    try:
-        nltk_find("corpora/stopwords")
-    except LookupError:
-        nltk_download("stopwords", quiet=True)
-    else:
-        if not quiet:
-            print("corpora/stopwords found, skipping download.")
-    try:
-        nltk_find("corpora/omw")
-    except LookupError:
-        nltk_download("omw", quiet=True)
-    else:
-        if not quiet:
-            print("corpora/omw found, skipping download.")
-
-    print("NLTK initialized successfully.")
+        print("NLTK initialized successfully.")
 
 
 # init_nltk()  # automatic initialization of NLTK is disabled
