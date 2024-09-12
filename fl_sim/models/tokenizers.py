@@ -425,26 +425,46 @@ def init_nltk(quiet: bool = True) -> None:
         nltk_find("tokenizers/punkt")
     except LookupError:
         nltk_download("punkt", quiet=True)
+    else:
+        if not quiet:
+            print("tokenizers/punkt found, skipping download.")
     try:
         nltk_find("taggers/averaged_perceptron_tagger")
     except LookupError:
         nltk_download("averaged_perceptron_tagger", quiet=True)
+    else:
+        if not quiet:
+            print("taggers/averaged_perceptron_tagger found, skipping download.")
     try:
         nltk_find("taggers/universal_tagset")
     except LookupError:
         nltk_download("universal_tagset", quiet=True)
+    else:
+        if not quiet:
+            print("taggers/universal_tagset found, skipping download.")
     try:
         nltk_find("corpora/wordnet")
     except LookupError:
         nltk_download("wordnet", quiet=True)
+    else:
+        if not quiet:
+            print("corpora/wordnet found, skipping download.")
     try:
         nltk_find("corpora/stopwords")
     except LookupError:
         nltk_download("stopwords", quiet=True)
+    else:
+        if not quiet:
+            print("corpora/stopwords found, skipping download.")
     try:
         nltk_find("corpora/omw")
     except LookupError:
         nltk_download("omw", quiet=True)
+    else:
+        if not quiet:
+            print("corpora/omw found, skipping download.")
+
+    print("NLTK initialized successfully.")
 
 
 # init_nltk()  # automatic initialization of NLTK is disabled

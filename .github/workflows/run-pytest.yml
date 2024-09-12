@@ -55,6 +55,9 @@ jobs:
     - name: List installed Python packages
       run: |
         python -m pip list
+    - name: Initialize NLTK
+      run: |
+        python -c "from fl_sim.models.tokenizers import init_nltk; init_nltk(quiet=False)"
     - name: Run test with pytest and collect coverage
       run: |
         pytest -vv -s \
