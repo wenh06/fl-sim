@@ -19,3 +19,4 @@ deprecate-kwargs
 torch-ecg>=0.0.26
 PyYAML
 packaging
+PeakUtils
