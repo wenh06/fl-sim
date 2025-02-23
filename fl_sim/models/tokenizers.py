@@ -429,6 +429,7 @@ def init_nltk(quiet: bool = True) -> None:
         "corpora/wordnet",
         "corpora/stopwords",
         "corpora/omw",
+        "punkt_tab",
     ]
     for data in nltk_data:
         try:
