@@ -1,4 +1,4 @@
-sphinx<7.0
+sphinx
 nbsphinx
 sphinx-theme
 pydata-sphinx-theme
@@ -12,7 +12,6 @@ sphinx-design
 sphinx-emoji-favicon
 sphinxcontrib-napoleon
 sphinxcontrib-tikz
-# sphinxcontrib-pseudocode
 sphinxcontrib-bibtex
 sphinxcontrib-proof
 numpydoc
