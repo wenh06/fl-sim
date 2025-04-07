@@ -1,14 +1,13 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9ee.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
     <title>fl_sim.data_processing &#8212; fl-sim 0.0.1 documentation</title>
   
   
@@ -29,27 +28,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/proof.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/datasets';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -186,7 +185,7 @@
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -480,8 +479,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <span class="target" id="module-fl_sim.data_processing"><span id="datasets"></span></span><section id="fl-sim-data-processing">
-<h1>fl_sim.data_processing<a class="headerlink" href="#fl-sim-data-processing" title="Permalink to this heading">#</a></h1>
+  <section id="fl-sim-data-processing">
+<span id="module-fl_sim.data_processing"></span><span id="datasets"></span><h1>fl_sim.data_processing<a class="headerlink" href="#fl-sim-data-processing" title="Link to this heading">#</a></h1>
 <p>This module contains federated datasets and data processing utilities.</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
@@ -494,7 +493,7 @@ document.write(`
 </ul>
 </nav>
 <section id="base-classes">
-<h2><a class="toc-backref" href="#contents" role="doc-backlink">Base classes</a><a class="headerlink" href="#base-classes" title="Permalink to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#contents" role="doc-backlink">Base classes</a><a class="headerlink" href="#base-classes" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset" title="fl_sim.data_processing.FedDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FedDataset</span></code></a>()</p></td>
@@ -511,7 +510,7 @@ document.write(`
 </div>
 </section>
 <section id="vision-datasets">
-<h2><a class="toc-backref" href="#contents" role="doc-backlink">Vision datasets</a><a class="headerlink" href="#vision-datasets" title="Permalink to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#contents" role="doc-backlink">Vision datasets</a><a class="headerlink" href="#vision-datasets" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR" title="fl_sim.data_processing.FedCIFAR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FedCIFAR</span></code></a>([n_class, datadir, transform, seed])</p></td>
@@ -538,7 +537,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST" title="fl_sim.data_processing.FedProxMNIST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FedProxMNIST</span></code></a>([datadir, transform, seed])</p></td>
 <td><p>Federeated MNIST proposed in FedProx.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/fl_sim.data_processing.TinyImageNet.html#fl_sim.data_processing.TinyImageNet" title="fl_sim.data_processing.TinyImageNet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TinyImageNet</span></code></a>([datadir, num_clients, alpha, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet" title="fl_sim.data_processing.FedTinyImageNet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FedTinyImageNet</span></code></a>([datadir, num_clients, ...])</p></td>
 <td><p>Tiny ImageNet dataset.</p></td>
 </tr>
 </tbody>
@@ -546,7 +545,7 @@ document.write(`
 </div>
 </section>
 <section id="nlp-datasets">
-<h2><a class="toc-backref" href="#contents" role="doc-backlink">NLP datasets</a><a class="headerlink" href="#nlp-datasets" title="Permalink to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#contents" role="doc-backlink">NLP datasets</a><a class="headerlink" href="#nlp-datasets" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare" title="fl_sim.data_processing.FedShakespeare"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FedShakespeare</span></code></a>([datadir, seed])</p></td>
@@ -560,7 +559,7 @@ document.write(`
 </div>
 </section>
 <section id="synthetic-datasets">
-<h2><a class="toc-backref" href="#contents" role="doc-backlink">Synthetic datasets</a><a class="headerlink" href="#synthetic-datasets" title="Permalink to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#contents" role="doc-backlink">Synthetic datasets</a><a class="headerlink" href="#synthetic-datasets" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic" title="fl_sim.data_processing.FedSynthetic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FedSynthetic</span></code></a>(alpha, beta, iid, num_clients)</p></td>
@@ -571,7 +570,7 @@ document.write(`
 </div>
 </section>
 <section id="libsvm-datasets">
-<h2><a class="toc-backref" href="#contents" role="doc-backlink">LibSVM datasets</a><a class="headerlink" href="#libsvm-datasets" title="Permalink to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#contents" role="doc-backlink">LibSVM datasets</a><a class="headerlink" href="#libsvm-datasets" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset" title="fl_sim.data_processing.FedLibSVMDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FedLibSVMDataset</span></code></a>(dataset_name, num_clients)</p></td>
@@ -582,7 +581,7 @@ document.write(`
 </div>
 </section>
 <section id="dataset-registry-utilities">
-<h2><a class="toc-backref" href="#contents" role="doc-backlink">Dataset registry utilities</a><a class="headerlink" href="#dataset-registry-utilities" title="Permalink to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#contents" role="doc-backlink">Dataset registry utilities</a><a class="headerlink" href="#dataset-registry-utilities" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/fl_sim.data_processing.register_fed_dataset.html#fl_sim.data_processing.register_fed_dataset" title="fl_sim.data_processing.register_fed_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_fed_dataset</span></code></a>([name, override])</p></td>

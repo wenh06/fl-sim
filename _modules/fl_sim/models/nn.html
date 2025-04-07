@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,27 +27,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/proof.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/models/nn';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -185,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -404,18 +403,18 @@ document.write(`
 <span class="sd">simple neural network models</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">from</span> <span class="nn">einops.layers.torch</span> <span class="kn">import</span> <span class="n">Rearrange</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">nn</span>
-<span class="kn">from</span> <span class="nn">torch_ecg.models._nets</span> <span class="kn">import</span> <span class="n">get_activation</span>
-<span class="kn">from</span> <span class="nn">torch_ecg.utils</span> <span class="kn">import</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">get_kwargs</span>
-<span class="kn">from</span> <span class="nn">torchvision.models.resnet</span> <span class="kn">import</span> <span class="n">BasicBlock</span><span class="p">,</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">conv1x1</span><span class="p">,</span> <span class="n">resnet18</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">einops.layers.torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rearrange</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">nn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.models._nets</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_activation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">get_kwargs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.models.resnet</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasicBlock</span><span class="p">,</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">conv1x1</span><span class="p">,</span> <span class="n">resnet18</span>
 
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">,</span> <span class="n">REGMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">,</span> <span class="n">REGMixin</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;MLP&quot;</span><span class="p">,</span>
@@ -439,7 +438,9 @@ document.write(`
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="MLP"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.MLP.html#fl_sim.models.MLP">[docs]</a><span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="MLP">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.MLP.html#fl_sim.models.MLP">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Multi-layer perceptron.</span>
 
 <span class="sd">    can be used for</span>
@@ -471,7 +472,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;MLP&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">dim_in</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">dim_out</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -512,7 +513,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;linear_</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim_in</span><span class="p">,</span> <span class="n">dim_out</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="FedPDMLP"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.FedPDMLP.html#fl_sim.models.FedPDMLP">[docs]</a><span class="k">class</span> <span class="nc">FedPDMLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="FedPDMLP">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.FedPDMLP.html#fl_sim.models.FedPDMLP">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FedPDMLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Multi-layer perceptron modified from</span>
 <span class="sd">    `FedPD/models.py &lt;https://github.com/564612540/FedPD&gt;`_.</span>
 
@@ -533,7 +537,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;FedPDMLP&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim_in</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim_hidden</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim_out</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ndim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim_in</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim_hidden</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim_out</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ndim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -550,7 +554,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s2">&quot;layer_hidden&quot;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim_hidden</span><span class="p">,</span> <span class="n">dim_out</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="CNNMnist"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNMnist.html#fl_sim.models.CNNMnist">[docs]</a><span class="k">class</span> <span class="nc">CNNMnist</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CNNMnist">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNMnist.html#fl_sim.models.CNNMnist">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CNNMnist</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convolutional neural network using MNIST type input.</span>
 
 <span class="sd">    Modified from `FedPD/models.py &lt;https://github.com/564612540/FedPD&gt;`_.</span>
@@ -566,7 +573,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;CNNMnist&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s2">&quot;conv1&quot;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s2">&quot;mp1&quot;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
@@ -582,7 +589,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s2">&quot;fc2&quot;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="CNNFEMnist"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNFEMnist.html#fl_sim.models.CNNFEMnist">[docs]</a><span class="k">class</span> <span class="nc">CNNFEMnist</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CNNFEMnist">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNFEMnist.html#fl_sim.models.CNNFEMnist">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CNNFEMnist</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convolutional neural network using FEMnist type input.</span>
 
 <span class="sd">    Modified from `FedPD/models.py &lt;https://github.com/564612540/FedPD&gt;`_.</span>
@@ -598,7 +608,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;CNNFEMnist&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">62</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">62</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="n">in_channels</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">out_channels</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">]):</span>
@@ -623,7 +633,10 @@ document.write(`
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="CNNFEMnist_Tiny"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNFEMnist_Tiny.html#fl_sim.models.CNNFEMnist_Tiny">[docs]</a><span class="k">class</span> <span class="nc">CNNFEMnist_Tiny</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CNNFEMnist_Tiny">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNFEMnist_Tiny.html#fl_sim.models.CNNFEMnist_Tiny">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CNNFEMnist_Tiny</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tiny version of :class:`CNNFEMnist`.</span>
 
 <span class="sd">    Modified from `FedPD/models.py &lt;https://github.com/564612540/FedPD&gt;`_.</span>
@@ -639,7 +652,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;CNNFEMnist_Tiny&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">62</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">62</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="n">in_channels</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">out_channels</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">]):</span>
@@ -664,7 +677,10 @@ document.write(`
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="CNNCifar"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNCifar.html#fl_sim.models.CNNCifar">[docs]</a><span class="k">class</span> <span class="nc">CNNCifar</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CNNCifar">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNCifar.html#fl_sim.models.CNNCifar">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CNNCifar</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convolutional neural network using CIFAR type input.</span>
 
 <span class="sd">    Input shape: ``(batch_size, 3, 32, 32)``.</span>
@@ -678,7 +694,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;CNNCifar&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="n">in_channels</span> <span class="o">=</span> <span class="mi">3</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">out_channels</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]):</span>
@@ -703,7 +719,10 @@ document.write(`
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="CNNCifar_Small"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNCifar_Small.html#fl_sim.models.CNNCifar_Small">[docs]</a><span class="k">class</span> <span class="nc">CNNCifar_Small</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CNNCifar_Small">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNCifar_Small.html#fl_sim.models.CNNCifar_Small">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CNNCifar_Small</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convolutional neural network using CIFAR type input.</span>
 
 <span class="sd">    Input shape: ``(batch_size, 3, 32, 32)``, smaller</span>
@@ -718,7 +737,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;CNNCifar_Small&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="n">in_channels</span> <span class="o">=</span> <span class="mi">3</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">out_channels</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">32</span><span class="p">,</span> <span class="mi">84</span><span class="p">]):</span>
@@ -743,7 +762,10 @@ document.write(`
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="CNNCifar_Tiny"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNCifar_Tiny.html#fl_sim.models.CNNCifar_Tiny">[docs]</a><span class="k">class</span> <span class="nc">CNNCifar_Tiny</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CNNCifar_Tiny">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.CNNCifar_Tiny.html#fl_sim.models.CNNCifar_Tiny">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CNNCifar_Tiny</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convolutional neural network using CIFAR type input.</span>
 
 <span class="sd">    Modified from `FedPD/models.py &lt;https://github.com/564612540/FedPD&gt;`_.</span>
@@ -763,7 +785,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;CNNCifar_Tiny&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span>
             <span class="s2">&quot;conv_block1&quot;</span><span class="p">,</span>
@@ -794,7 +816,10 @@ document.write(`
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RNN_OriginalFedAvg"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg">[docs]</a><span class="k">class</span> <span class="nc">RNN_OriginalFedAvg</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RNN_OriginalFedAvg">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RNN_OriginalFedAvg</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a RNN model using LSTM layers for</span>
 <span class="sd">    Shakespeare language models (next character prediction task).</span>
 
@@ -819,7 +844,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;RNN_OriginalFedAvg&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">256</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">256</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">num_embeddings</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="o">=</span><span class="n">embedding_dim</span><span class="p">,</span> <span class="n">padding_idx</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span>
@@ -831,7 +856,9 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rearrange</span> <span class="o">=</span> <span class="n">Rearrange</span><span class="p">(</span><span class="s2">&quot;batch length vocab -&gt; batch vocab length&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RNN_OriginalFedAvg.forward"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_seq</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="RNN_OriginalFedAvg.forward">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_seq</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward pass.</span>
 
 <span class="sd">        Parameters</span>
@@ -858,7 +885,10 @@ document.write(`
         <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rearrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">lstm_out</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="RNN_OriginalFedAvg.pipeline"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg.pipeline">[docs]</a>    <span class="k">def</span> <span class="nf">pipeline</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RNN_OriginalFedAvg.pipeline">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg.pipeline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pipeline</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">truncated_sentence</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">char_to_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -905,10 +935,14 @@ document.write(`
             <span class="n">predicted_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
         <span class="c1"># return id_to_char(predicted_id.item())</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">id_to_char</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">item</span><span class="p">())</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">predicted_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span></div></div>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">id_to_char</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">item</span><span class="p">())</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">predicted_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span></div>
+</div>
 
 
-<div class="viewcode-block" id="RNN_StackOverFlow"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow">[docs]</a><span class="k">class</span> <span class="nc">RNN_StackOverFlow</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RNN_StackOverFlow">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RNN_StackOverFlow</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a RNN model using LSTM layers for StackOverFlow (next word prediction task).</span>
 
 <span class="sd">    This replicates the model structure in the paper [:footcite:ct:`reddi2020fed_opt`].</span>
@@ -935,7 +969,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;RNN_StackOverFlow&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">vocab_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
         <span class="n">num_oov_buckets</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
@@ -960,7 +994,9 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">embedding_size</span><span class="p">,</span> <span class="n">extended_vocab_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rearrange</span> <span class="o">=</span> <span class="n">Rearrange</span><span class="p">(</span><span class="s2">&quot;batch length vocab -&gt; batch vocab length&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RNN_StackOverFlow.forward"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_seq</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">hidden_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="RNN_StackOverFlow.forward">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_seq</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">hidden_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward pass.</span>
 
 <span class="sd">        Parameters</span>
@@ -983,7 +1019,10 @@ document.write(`
         <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rearrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">fc1_output</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="RNN_StackOverFlow.pipeline"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow.pipeline">[docs]</a>    <span class="k">def</span> <span class="nf">pipeline</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RNN_StackOverFlow.pipeline">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow.pipeline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pipeline</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">truncated_sentence</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">word_to_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1030,10 +1069,14 @@ document.write(`
             <span class="n">predicted_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
         <span class="c1"># return id_to_word(predicted_id.item())</span>
-        <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">id_to_word</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">item</span><span class="p">())</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">predicted_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span></div></div>
+        <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">id_to_word</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">item</span><span class="p">())</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">predicted_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span></div>
+</div>
 
 
-<div class="viewcode-block" id="RNN_Sent140"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140">[docs]</a><span class="k">class</span> <span class="nc">RNN_Sent140</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RNN_Sent140">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RNN_Sent140</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Stacked :class:`~torch.nn.LSTM` model for sentiment analysis</span>
 <span class="sd">    on the ``Sent140`` dataset.</span>
 
@@ -1059,14 +1102,14 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;RNN_Sent140&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">latent_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
         <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
         <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
         <span class="n">embedding</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;glove.6B.50d&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">.word_embeddings</span> <span class="kn">import</span> <span class="n">GloveEmbedding</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.word_embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">GloveEmbedding</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">embedding</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -1083,7 +1126,9 @@ document.write(`
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;embedding must be a `str` or `GloveEmbedding`, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lite_model</span> <span class="o">=</span> <span class="n">RNN_Sent140_LITE</span><span class="p">(</span><span class="n">latent_size</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_embeddings</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RNN_Sent140.forward"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_seq</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="RNN_Sent140.forward">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_seq</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward pass.</span>
 
 <span class="sd">        Parameters</span>
@@ -1100,7 +1145,10 @@ document.write(`
         <span class="n">embeds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_embeddings</span><span class="p">(</span><span class="n">input_seq</span><span class="p">)</span>  <span class="c1"># shape: (batch_size, seq_len, embedding_dim)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lite_model</span><span class="p">(</span><span class="n">embeds</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RNN_Sent140.pipeline"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140.pipeline">[docs]</a>    <span class="k">def</span> <span class="nf">pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentence</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RNN_Sent140.pipeline">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140.pipeline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentence</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Predict the sentiment of a sentence.</span>
 
 <span class="sd">        Parameters</span>
@@ -1121,10 +1169,14 @@ document.write(`
             <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">input_seq</span><span class="p">)</span>
             <span class="n">predicted_class</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">predicted_class</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="n">predicted_class</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+</div>
 
 
-<div class="viewcode-block" id="RNN_Sent140_LITE"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140_LITE.html#fl_sim.models.RNN_Sent140_LITE">[docs]</a><span class="k">class</span> <span class="nc">RNN_Sent140_LITE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RNN_Sent140_LITE">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140_LITE.html#fl_sim.models.RNN_Sent140_LITE">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RNN_Sent140_LITE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Stacked :class:`~torch.nn.LSTM` model for sentiment analysis</span>
 <span class="sd">    on the ``Sent140`` dataset.</span>
 
@@ -1146,7 +1198,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;RNN_Sent140_LITE&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">latent_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
         <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
@@ -1164,7 +1216,9 @@ document.write(`
         <span class="c1"># final binary classification layer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RNN_Sent140_LITE.forward"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140_LITE.html#fl_sim.models.RNN_Sent140_LITE.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embeds</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="RNN_Sent140_LITE.forward">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.RNN_Sent140_LITE.html#fl_sim.models.RNN_Sent140_LITE.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embeds</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward pass.</span>
 
 <span class="sd">        Parameters</span>
@@ -1183,10 +1237,14 @@ document.write(`
         <span class="n">final_hidden_state</span> <span class="o">=</span> <span class="n">lstm_out</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># shape: (batch_size, hidden_size)</span>
         <span class="n">fc1_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">final_hidden_state</span><span class="p">)</span>  <span class="c1"># shape: (batch_size, 30)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">fc1_output</span><span class="p">)</span>  <span class="c1"># shape: (batch_size, 1)</span>
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">return</span> <span class="n">output</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ResNet18"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.ResNet18.html#fl_sim.models.ResNet18">[docs]</a><span class="k">class</span> <span class="nc">ResNet18</span><span class="p">(</span><span class="n">ResNet</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ResNet18">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.ResNet18.html#fl_sim.models.ResNet18">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ResNet18</span><span class="p">(</span><span class="n">ResNet</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ResNet18 model for image classification.</span>
 
 <span class="sd">    Parameters</span>
@@ -1200,7 +1258,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;ResNet18&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">BasicBlock</span><span class="p">,</span>
@@ -1209,7 +1267,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">pretrained</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;weights&quot;</span> <span class="ow">in</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">resnet18</span><span class="p">):</span>
-                <span class="kn">from</span> <span class="nn">torchvision.models.resnet</span> <span class="kn">import</span> <span class="n">ResNet18_Weights</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.models.resnet</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResNet18_Weights</span>
 
                 <span class="n">_model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">ResNet18_Weights</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># older versions of torchvision</span>
@@ -1221,7 +1279,10 @@ document.write(`
             <span class="k">del</span> <span class="n">_model</span></div>
 
 
-<div class="viewcode-block" id="ResNet10"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.ResNet10.html#fl_sim.models.ResNet10">[docs]</a><span class="k">class</span> <span class="nc">ResNet10</span><span class="p">(</span><span class="n">ResNet</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ResNet10">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.ResNet10.html#fl_sim.models.ResNet10">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ResNet10</span><span class="p">(</span><span class="n">ResNet</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;ResNet10 model for image classification.</span>
 
 <span class="sd">    Parameters</span>
@@ -1236,7 +1297,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;ResNet10&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">BasicBlock</span><span class="p">,</span>
@@ -1247,7 +1308,10 @@ document.write(`
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;ResNet10 has no pretrained model.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="LogisticRegression"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.LogisticRegression.html#fl_sim.models.LogisticRegression">[docs]</a><span class="k">class</span> <span class="nc">LogisticRegression</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="LogisticRegression">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.LogisticRegression.html#fl_sim.models.LogisticRegression">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LogisticRegression</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Logistic regression model for classification task.</span>
 
 <span class="sd">    Parameters</span>
@@ -1261,16 +1325,22 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;LogisticRegression&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">dim_in</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">dim_out</span><span class="o">=</span><span class="n">num_classes</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
 
-<div class="viewcode-block" id="LogisticRegression.forward"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.LogisticRegression.html#fl_sim.models.LogisticRegression.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="LogisticRegression.forward">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.LogisticRegression.html#fl_sim.models.LogisticRegression.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="SVC"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.SVC.html#fl_sim.models.SVC">[docs]</a><span class="k">class</span> <span class="nc">SVC</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SVC">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.SVC.html#fl_sim.models.SVC">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SVC</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Support vector machine classifier.</span>
 
 <span class="sd">    Parameters</span>
@@ -1284,16 +1354,22 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;SVC&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">dim_in</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">dim_out</span><span class="o">=</span><span class="n">num_classes</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MultiMarginLoss</span><span class="p">()</span>
 
-<div class="viewcode-block" id="SVC.forward"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.SVC.html#fl_sim.models.SVC.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="SVC.forward">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.SVC.html#fl_sim.models.SVC.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="SVR"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.SVR.html#fl_sim.models.SVR">[docs]</a><span class="k">class</span> <span class="nc">SVR</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">REGMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SVR">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.SVR.html#fl_sim.models.SVR">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SVR</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">REGMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Support vector machine regressor.</span>
 
 <span class="sd">    Parameters</span>
@@ -1305,16 +1381,22 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;SVR&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">dim_in</span><span class="o">=</span><span class="n">num_features</span><span class="p">,</span> <span class="n">dim_out</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
 
-<div class="viewcode-block" id="SVR.forward"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.SVR.html#fl_sim.models.SVR.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="SVR.forward">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.SVR.html#fl_sim.models.SVR.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ShrinkedResNet"><a class="viewcode-back" href="../../../api/generated/fl_sim.models.ShrinkedResNet.html#fl_sim.models.ShrinkedResNet">[docs]</a><span class="k">class</span> <span class="nc">ShrinkedResNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ShrinkedResNet">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.models.ShrinkedResNet.html#fl_sim.models.ShrinkedResNet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ShrinkedResNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">CLFMixin</span><span class="p">,</span> <span class="n">SizeMixin</span><span class="p">,</span> <span class="n">DiffMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Shrinked version of ResNet so that the number of macro blocks can be customized (shrinked).</span>
 
 <span class="sd">    Parameters</span>
@@ -1326,7 +1408,7 @@ document.write(`
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">layers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
         <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
@@ -1373,7 +1455,7 @@ document.write(`
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">BasicBlock</span><span class="p">)</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">bn2</span><span class="o">.</span><span class="n">weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bn2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
 
-    <span class="k">def</span> <span class="nf">_make_layer</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_layer</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">blocks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -1411,6 +1493,7 @@ document.write(`
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span></div>
+
 </pre></div>
 
                 </article>

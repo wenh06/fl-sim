@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,27 +27,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/proof.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/optimizers';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -185,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -427,26 +426,26 @@ document.write(`
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">packaging.version</span>
-<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">opt</span>
-<span class="kn">import</span> <span class="nn">torch_optimizer</span> <span class="k">as</span> <span class="nn">topt</span>
-<span class="kn">from</span> <span class="nn">torch.nn.parameter</span> <span class="kn">import</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">torch.optim</span> <span class="kn">import</span> <span class="n">Optimizer</span>
-<span class="kn">from</span> <span class="nn">torch.torch_version</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">torch_version</span>
-<span class="kn">from</span> <span class="nn">torch_ecg.cfg</span> <span class="kn">import</span> <span class="n">CFG</span>
-<span class="kn">from</span> <span class="nn">torch_ecg.utils</span> <span class="kn">import</span> <span class="n">add_docstring</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">packaging.version</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">opt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch_optimizer</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">topt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.parameter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optimizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.torch_version</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">torch_version</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.cfg</span><span class="w"> </span><span class="kn">import</span> <span class="n">CFG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_docstring</span>
 
-<span class="kn">from</span> <span class="nn">..utils.imports</span> <span class="kn">import</span> <span class="n">load_module_from_file</span>
-<span class="kn">from</span> <span class="nn">..utils.misc</span> <span class="kn">import</span> <span class="n">add_kwargs</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">base</span><span class="p">,</span> <span class="n">feddr</span><span class="p">,</span> <span class="n">fedpd</span><span class="p">,</span> <span class="n">fedprox</span><span class="p">,</span> <span class="n">pfedmac</span><span class="p">,</span> <span class="n">pfedme</span><span class="p">,</span> <span class="n">scaffold</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="n">get_optimizer</span> <span class="k">as</span> <span class="n">get_builtin_optimizer</span>
-<span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="n">list_optimizers</span> <span class="k">as</span> <span class="n">list_builtin_optimizers</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="n">register_optimizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_module_from_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_kwargs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">base</span><span class="p">,</span> <span class="n">feddr</span><span class="p">,</span> <span class="n">fedpd</span><span class="p">,</span> <span class="n">fedprox</span><span class="p">,</span> <span class="n">pfedmac</span><span class="p">,</span> <span class="n">pfedme</span><span class="p">,</span> <span class="n">scaffold</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._register</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_optimizer</span> <span class="k">as</span> <span class="n">get_builtin_optimizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._register</span><span class="w"> </span><span class="kn">import</span> <span class="n">list_optimizers</span> <span class="k">as</span> <span class="n">list_builtin_optimizers</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._register</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_optimizer</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;get_optimizer&quot;</span><span class="p">,</span>
@@ -490,7 +489,9 @@ document.write(`
 <span class="n">available_optimizers_plus</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_available_optimizers_plus</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="get_optimizer"><a class="viewcode-back" href="../../api/generated/fl_sim.optimizers.get_optimizer.html#fl_sim.optimizers.get_optimizer">[docs]</a><span class="k">def</span> <span class="nf">get_optimizer</span><span class="p">(</span>
+<div class="viewcode-block" id="get_optimizer">
+<a class="viewcode-back" href="../../api/generated/fl_sim.optimizers.get_optimizer.html#fl_sim.optimizers.get_optimizer">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_optimizer</span><span class="p">(</span>
     <span class="n">optimizer_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span>
     <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">]],</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -662,7 +663,8 @@ document.write(`
     <span class="k">return</span> <span class="n">optimizer</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_cls_init_args</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CFG</span><span class="p">:</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_cls_init_args</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CFG</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    used to filter out the items in config that are not arguments of the class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -694,7 +696,7 @@ document.write(`
         <span class="s2">&quot;optimizer = get_optimizer&quot;</span><span class="p">,</span> <span class="s2">&quot;inner_solver = get_inner_solver&quot;</span>
     <span class="p">)</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_inner_solver</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_inner_solver</span><span class="p">(</span>
     <span class="n">optimizer_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span>
     <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">]],</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -705,7 +707,7 @@ document.write(`
 <span class="nd">@add_docstring</span><span class="p">(</span>
     <span class="n">get_optimizer</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;get optimizer&quot;</span><span class="p">,</span> <span class="s2">&quot;get oracle&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;optimizer = get_optimizer&quot;</span><span class="p">,</span> <span class="s2">&quot;oracle = get_oracle&quot;</span><span class="p">)</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">get_oracle</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_oracle</span><span class="p">(</span>
     <span class="n">optimizer_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">],</span>
     <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">]],</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>

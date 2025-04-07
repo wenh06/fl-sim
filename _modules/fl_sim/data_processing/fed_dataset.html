@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,27 +27,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/proof.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/data_processing/fed_dataset';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -185,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -400,28 +399,28 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for fl_sim.data_processing.fed_dataset</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">punctuation</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">string</span><span class="w"> </span><span class="kn">import</span> <span class="n">punctuation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.utils.data</span> <span class="k">as</span> <span class="nn">torchdata</span>
-<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
-<span class="kn">from</span> <span class="nn">bib_lookup</span> <span class="kn">import</span> <span class="n">CitationMixin</span>
-<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">Dataset</span> <span class="k">as</span> <span class="n">HFD</span>
-<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">NamedSplit</span> <span class="k">as</span> <span class="n">HFNS</span>
-<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span> <span class="k">as</span> <span class="n">HFD_load_dataset</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">torch_ecg.utils</span> <span class="kn">import</span> <span class="n">ReprMixin</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">torchdata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">transforms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bib_lookup</span><span class="w"> </span><span class="kn">import</span> <span class="n">CitationMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span> <span class="k">as</span> <span class="n">HFD</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedSplit</span> <span class="k">as</span> <span class="n">HFNS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span> <span class="k">as</span> <span class="n">HFD_load_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReprMixin</span>
 
-<span class="kn">from</span> <span class="nn">..utils._download_data</span> <span class="kn">import</span> <span class="n">download_if_needed</span>
-<span class="kn">from</span> <span class="nn">..utils.const</span> <span class="kn">import</span> <span class="n">CACHED_DATA_DIR</span>
-<span class="kn">from</span> <span class="nn">..utils.misc</span> <span class="kn">import</span> <span class="n">set_seed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils._download_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_if_needed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.const</span><span class="w"> </span><span class="kn">import</span> <span class="n">CACHED_DATA_DIR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_seed</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;FedDataset&quot;</span><span class="p">,</span>
@@ -432,7 +431,9 @@ document.write(`
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="FedDataset"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset">[docs]</a><span class="k">class</span> <span class="nc">FedDataset</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">,</span> <span class="n">CitationMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="FedDataset">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FedDataset</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">,</span> <span class="n">CitationMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all federated datasets.</span>
 
 <span class="sd">    Methods that have to be implemented by subclasses:</span>
@@ -453,8 +454,10 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;FedDataset&quot;</span>
 
-<div class="viewcode-block" id="FedDataset.get_dataloader"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.get_dataloader">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
+<div class="viewcode-block" id="FedDataset.get_dataloader">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.get_dataloader">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">train_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">test_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -463,38 +466,53 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dataloader for client `client_idx` or get global dataloader.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
+
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Preload data.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="FedDataset.load_partition_data_distributed"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.load_partition_data_distributed">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">load_partition_data_distributed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<div class="viewcode-block" id="FedDataset.load_partition_data_distributed">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.load_partition_data_distributed">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_partition_data_distributed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local dataloader at client `process_id` or get global dataloader&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="FedDataset.load_partition_data"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.load_partition_data">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FedDataset.load_partition_data">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.load_partition_data">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Partition data into all local clients.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="FedDataset.evaluate"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.evaluate">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="FedDataset.evaluate">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.evaluate">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluation using predictions and ground truth.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="FedDataset.extra_repr_keys"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.extra_repr_keys">[docs]</a>    <span class="k">def</span> <span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="FedDataset.extra_repr_keys">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.extra_repr_keys">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span>
             <span class="s2">&quot;datadir&quot;</span><span class="p">,</span>
         <span class="p">]</span></div>
 
+
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;URL for downloading the dataset.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="FedDataset.download_if_needed"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.download_if_needed">[docs]</a>    <span class="k">def</span> <span class="nf">download_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FedDataset.download_if_needed">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.download_if_needed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">download_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download data if needed.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datadir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -509,25 +527,29 @@ document.write(`
             <span class="k">return</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No url for downloading data&quot;</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A set of candidate models.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">data_parts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_parts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Data part names.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;val&quot;</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">doi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">doi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;DOI(s) related to the dataset.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
-<div class="viewcode-block" id="FedVisionDataset"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset">[docs]</a><span class="k">class</span> <span class="nc">FedVisionDataset</span><span class="p">(</span><span class="n">FedDataset</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+
+<div class="viewcode-block" id="FedVisionDataset">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FedVisionDataset</span><span class="p">(</span><span class="n">FedDataset</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all federated vision datasets.</span>
 
 <span class="sd">    Methods that have to be implemented by subclasses:</span>
@@ -561,7 +583,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;FedVisionDataset&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
@@ -603,8 +625,10 @@ document.write(`
             <span class="p">]</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="FedVisionDataset.get_dataloader"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_dataloader">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
+<div class="viewcode-block" id="FedVisionDataset.get_dataloader">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_dataloader">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">train_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">test_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -613,12 +637,15 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dataloader for client `client_idx` or get global dataloader.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
+
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Preload data.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="FedVisionDataset.load_partition_data_distributed"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.load_partition_data_distributed">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data_distributed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<div class="viewcode-block" id="FedVisionDataset.load_partition_data_distributed">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.load_partition_data_distributed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_partition_data_distributed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local dataloader at client `process_id` or get global dataloader.</span>
 
 <span class="sd">        Parameters</span>
@@ -679,7 +706,10 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">retval</span></div>
 
-<div class="viewcode-block" id="FedVisionDataset.load_partition_data"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.load_partition_data">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FedVisionDataset.load_partition_data">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.load_partition_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Partition data into all local clients.</span>
 
 <span class="sd">        Parameters</span>
@@ -753,13 +783,16 @@ document.write(`
 
         <span class="k">return</span> <span class="n">retval</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">n_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">n_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of classes.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_class</span>
 
-<div class="viewcode-block" id="FedVisionDataset.show_image"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.show_image">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">show_image</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
+<div class="viewcode-block" id="FedVisionDataset.show_image">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.show_image">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show_image</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Show image from tensor.</span>
 
 <span class="sd">        Parameters</span>
@@ -785,13 +818,16 @@ document.write(`
                 <span class="n">tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">transforms</span><span class="o">.</span><span class="n">ToPILImage</span><span class="p">()(</span><span class="n">tensor</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">label_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">label_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Label map for the dataset.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="FedVisionDataset.get_class"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_class">[docs]</a>    <span class="k">def</span> <span class="nf">get_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="FedVisionDataset.get_class">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_class">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get class name from label.</span>
 
 <span class="sd">        Parameters</span>
@@ -807,7 +843,10 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">label</span><span class="o">.</span><span class="n">item</span><span class="p">()]</span></div>
 
-<div class="viewcode-block" id="FedVisionDataset.get_classes"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_classes">[docs]</a>    <span class="k">def</span> <span class="nf">get_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="FedVisionDataset.get_classes">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_classes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get class names from labels.</span>
 
 <span class="sd">        Parameters</span>
@@ -821,10 +860,14 @@ document.write(`
 <span class="sd">            Class names.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">lb</span><span class="p">]</span> <span class="k">for</span> <span class="n">lb</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()]</span></div></div>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">lb</span><span class="p">]</span> <span class="k">for</span> <span class="n">lb</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()]</span></div>
+</div>
 
 
-<div class="viewcode-block" id="FedNLPDataset"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset">[docs]</a><span class="k">class</span> <span class="nc">FedNLPDataset</span><span class="p">(</span><span class="n">FedDataset</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+
+<div class="viewcode-block" id="FedNLPDataset">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FedNLPDataset</span><span class="p">(</span><span class="n">FedDataset</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all federated NLP datasets.</span>
 
 <span class="sd">    Methods that have to be implemented by subclasses:</span>
@@ -854,7 +897,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;FedNLPDataset&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -886,8 +929,10 @@ document.write(`
             <span class="p">]</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="FedNLPDataset.get_dataloader"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.get_dataloader">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
+<div class="viewcode-block" id="FedNLPDataset.get_dataloader">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.get_dataloader">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">train_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">test_bs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -896,7 +941,10 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dataloader for client `client_idx` or get global dataloader.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="FedNLPDataset.load_partition_data_distributed"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.load_partition_data_distributed">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data_distributed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FedNLPDataset.load_partition_data_distributed">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.load_partition_data_distributed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_partition_data_distributed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">process_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get local dataloader at client `process_id` or get global dataloader.</span>
 
 <span class="sd">        Parameters</span>
@@ -961,7 +1009,10 @@ document.write(`
 
         <span class="k">return</span> <span class="n">retval</span></div>
 
-<div class="viewcode-block" id="FedNLPDataset.load_partition_data"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.load_partition_data">[docs]</a>    <span class="k">def</span> <span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FedNLPDataset.load_partition_data">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.load_partition_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Partition data into all local clients.</span>
 
 <span class="sd">        Parameters</span>
@@ -1038,12 +1089,14 @@ document.write(`
 
         <span class="k">return</span> <span class="n">retval</span></div>
 
+
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_word_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_word_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
-<span class="k">class</span> <span class="nc">NLPDataset</span><span class="p">(</span><span class="n">torchdata</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">ReprMixin</span><span class="p">):</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NLPDataset</span><span class="p">(</span><span class="n">torchdata</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">ReprMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dataset for loading text data.</span>
 
 <span class="sd">    Parameters</span>
@@ -1068,7 +1121,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;NLPDataset&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">dataset</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">tuple</span><span class="p">],</span>
         <span class="n">input_columns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span>
@@ -1094,7 +1147,7 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">max_len</span> <span class="o">=</span> <span class="n">max_len</span>
 
-    <span class="k">def</span> <span class="nf">_format_as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_format_as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Format the example as a dictionary.</span>
 
 <span class="sd">        Parameters</span>
@@ -1130,12 +1183,12 @@ document.write(`
             <span class="n">input_dict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_text</span><span class="p">(</span><span class="n">example</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_columns</span><span class="p">)])</span>
         <span class="k">return</span> <span class="n">input_dict</span><span class="p">,</span> <span class="n">output</span>
 
-    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Shuffle the dataset.&quot;&quot;&quot;</span>
         <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shuffled</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">filter_by_labels_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels_to_keep</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filter_by_labels_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels_to_keep</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Filter items by their labels for classification datasets. Performs</span>
 <span class="sd">        in-place filtering.</span>
 
@@ -1153,7 +1206,7 @@ document.write(`
             <span class="n">labels_to_keep</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">labels_to_keep</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">labels_to_keep</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return i-th sample.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_as_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -1162,12 +1215,12 @@ document.write(`
             <span class="c1"># return the formatted version of the proper slice of the list</span>
             <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_format_as_dict</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span> <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
 
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the size of dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dataset</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_huggingface_dataset</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_huggingface_dataset</span><span class="p">(</span>
         <span class="n">ds</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">HFD</span><span class="p">],</span> <span class="n">split</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HFNS</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">512</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;NLPDataset&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a NLPDataset from a HuggingFace dataset.</span>
@@ -1215,7 +1268,7 @@ document.write(`
             <span class="n">ret_ds</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">_ds</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">builder_name</span>
         <span class="k">return</span> <span class="n">ret_ds</span>
 
-    <span class="k">def</span> <span class="nf">clip_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clip_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_len</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">text</span>
         <span class="n">inds</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">punctuation</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_len</span><span class="p">]</span>
@@ -1224,17 +1277,17 @@ document.write(`
         <span class="k">return</span> <span class="n">text</span><span class="p">[:</span> <span class="n">inds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">dataset_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dataset_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
 
-    <span class="k">def</span> <span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_gen_input</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">input_columns</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gen_input</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">input_columns</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate input from a row of an NLP dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -1255,7 +1308,7 @@ document.write(`
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">input_columns</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_split_dataset_columns</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_split_dataset_columns</span><span class="p">(</span>
         <span class="n">column_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Common schemas for datasets found in huggingface datasets hub.</span>
@@ -1311,7 +1364,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">input_columns</span><span class="p">,</span> <span class="n">output_column</span>
 
-    <span class="k">def</span> <span class="nf">to_tensor_dataset</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_tensor_dataset</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tokenizer</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]],</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span>
         <span class="n">labels_to_keep</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1348,7 +1401,7 @@ document.write(`
         <span class="k">return</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">TensorDataset</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_columns</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">VisionDataset</span><span class="p">(</span><span class="n">torchdata</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">VisionDataset</span><span class="p">(</span><span class="n">torchdata</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dataset for vision tasks.</span>
 
 <span class="sd">    This class is introduced so that one</span>
@@ -1372,7 +1425,7 @@ document.write(`
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">images</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span>
         <span class="n">targets</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span>
@@ -1386,7 +1439,7 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span> <span class="o">=</span> <span class="n">target_transform</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an image and its label.&quot;&quot;&quot;</span>
         <span class="n">img</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
@@ -1397,7 +1450,7 @@ document.write(`
             <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">target</span>
 
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the size of dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">)</span>
 </pre></div>

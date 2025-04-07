@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,27 +27,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/proof.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/utils/loggers';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -185,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -410,23 +409,25 @@ document.write(`
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Real</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Real</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">yaml</span>
-<span class="kn">from</span> <span class="nn">torch_ecg.utils</span> <span class="kn">import</span> <span class="n">ReprMixin</span><span class="p">,</span> <span class="n">add_docstring</span><span class="p">,</span> <span class="n">get_date_str</span><span class="p">,</span> <span class="n">get_kwargs</span><span class="p">,</span> <span class="n">init_logger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReprMixin</span><span class="p">,</span> <span class="n">add_docstring</span><span class="p">,</span> <span class="n">get_date_str</span><span class="p">,</span> <span class="n">get_kwargs</span><span class="p">,</span> <span class="n">init_logger</span>
 
-<span class="kn">from</span> <span class="nn">.const</span> <span class="kn">import</span> <span class="n">LOG_DIR</span> <span class="k">as</span> <span class="n">DEFAULT_LOG_DIR</span>
-<span class="kn">from</span> <span class="nn">.const</span> <span class="kn">import</span> <span class="n">NAME</span> <span class="k">as</span> <span class="n">LOG_NAME</span>
-<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">default_dict_to_dict</span><span class="p">,</span> <span class="n">make_serializable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.const</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG_DIR</span> <span class="k">as</span> <span class="n">DEFAULT_LOG_DIR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.const</span><span class="w"> </span><span class="kn">import</span> <span class="n">NAME</span> <span class="k">as</span> <span class="n">LOG_NAME</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_dict_to_dict</span><span class="p">,</span> <span class="n">make_serializable</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;BaseLogger&quot;</span><span class="p">,</span>
@@ -436,14 +437,18 @@ document.write(`
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="BaseLogger"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger">[docs]</a><span class="k">class</span> <span class="nc">BaseLogger</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseLogger">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseLogger</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class of all loggers.&quot;&quot;&quot;</span>
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;BaseLogger&quot;</span>
     <span class="n">__time_fmt__</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span>
 
-<div class="viewcode-block" id="BaseLogger.set_log_dir"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.set_log_dir">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">set_log_dir</span><span class="p">(</span><span class="n">log_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<div class="viewcode-block" id="BaseLogger.set_log_dir">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.set_log_dir">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_log_dir</span><span class="p">(</span><span class="n">log_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the log directory.</span>
 
 <span class="sd">        Parameters</span>
@@ -465,8 +470,11 @@ document.write(`
         <span class="n">log_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">log_dir</span></div>
 
-<div class="viewcode-block" id="BaseLogger.log_metrics"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_metrics">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span>
+
+<div class="viewcode-block" id="BaseLogger.log_metrics">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_metrics">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_metrics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">client_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)],</span>
         <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Real</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]],</span>
@@ -497,8 +505,11 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BaseLogger.log_message"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_message">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseLogger.log_message">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.log_message">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Log a message.</span>
 
 <span class="sd">        Parameters</span>
@@ -517,28 +528,43 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BaseLogger.flush"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.flush">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseLogger.flush">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.flush">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Flush the message buffer.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BaseLogger.close"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.close">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseLogger.close">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.close">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the logger.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BaseLogger.reset"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.reset">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseLogger.reset">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.reset">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the logger.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BaseLogger.from_config"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.from_config">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="BaseLogger.from_config">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.from_config">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a logger instance from a configuration.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BaseLogger.epoch_start"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_start">[docs]</a>    <span class="k">def</span> <span class="nf">epoch_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseLogger.epoch_start">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_start">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">epoch_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Actions to be performed at the start of each epoch.</span>
 
 <span class="sd">        Parameters</span>
@@ -553,7 +579,10 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="BaseLogger.epoch_end"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_end">[docs]</a>    <span class="k">def</span> <span class="nf">epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseLogger.epoch_end">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_end">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Actions to be performed at the end of each epoch.</span>
 
 <span class="sd">        Parameters</span>
@@ -568,24 +597,51 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">log_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Directory to save the log file.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of the log file.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="BaseLogger.extra_repr_keys"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.extra_repr_keys">[docs]</a>    <span class="k">def</span> <span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="BaseLogger.extra_repr_keys">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.BaseLogger.extra_repr_keys">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span>
             <span class="s2">&quot;filename&quot;</span><span class="p">,</span>
-        <span class="p">]</span></div></div>
+        <span class="p">]</span></div>
+</div>
 
 
-<div class="viewcode-block" id="TxtLogger"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger">[docs]</a><span class="k">class</span> <span class="nc">TxtLogger</span><span class="p">(</span><span class="n">BaseLogger</span><span class="p">):</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TqdmStreamWrapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     A file-like wrapper class that redirects writes to tqdm.write.</span>
+<span class="sd">    Useful for diverting logging StreamHandler output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># Remove potential leading/trailing whitespace and newlines</span>
+        <span class="c1"># logging handlers might add extra newlines</span>
+        <span class="n">cleaned_msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cleaned_msg</span><span class="p">:</span>  <span class="c1"># Avoid writing empty lines</span>
+            <span class="c1"># Use file=sys.__stdout__ to ensure it prints to the actual console</span>
+            <span class="c1"># even if sys.stdout is temporarily redirected elsewhere.</span>
+            <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cleaned_msg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">__stdout__</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># tqdm.write usually flushes automatically, but provide flush for interface compatibility</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">__stdout__</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="TxtLogger">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TxtLogger</span><span class="p">(</span><span class="n">BaseLogger</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Logger that logs to a text file.</span>
 
 <span class="sd">    Parameters</span>
@@ -605,7 +661,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;TxtLogger&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -630,8 +686,34 @@ document.write(`
             <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c1"># redirect the console output to tqdm.write</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_redirection</span><span class="p">()</span>
 
-<div class="viewcode-block" id="TxtLogger.log_metrics"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.log_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_init_redirection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Find the StreamHandler intended for stdout and redirect its stream</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tqdm_stream_wrapper</span> <span class="o">=</span> <span class="n">TqdmStreamWrapper</span><span class="p">()</span>
+        <span class="n">found_stream_handler</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+            <span class="c1"># Check if it&#39;s a StreamHandler AND it writes to the original sys.stdout</span>
+            <span class="c1"># init_logger specifically uses sys.stdout for the console handler</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">)</span> <span class="ow">and</span> <span class="n">handler</span><span class="o">.</span><span class="n">stream</span> <span class="o">==</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+                <span class="c1"># Redirect this handler&#39;s output to our TqdmStreamWrapper</span>
+                <span class="n">handler</span><span class="o">.</span><span class="n">stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tqdm_stream_wrapper</span>
+                <span class="n">found_stream_handler</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Optional: Inform user if verbose</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="s2">&quot;TxtLogger: Redirected console output via tqdm.write.&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">__stderr__</span>
+                    <span class="p">)</span>  <span class="c1"># Use stderr for setup messages</span>
+                <span class="k">break</span>  <span class="c1"># Assume only one stdout StreamHandler from init_logger</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">found_stream_handler</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># It&#39;s possible init_logger didn&#39;t add a StreamHandler if verbose was very low</span>
+            <span class="c1"># or if its logic changes in the future. Inform the user.</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TxtLogger: Warning - Could not find StreamHandler for console output redirection.&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">__stderr__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TxtLogger.log_metrics">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.log_metrics">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_metrics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">client_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)],</span>
         <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Real</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]],</span>
@@ -656,38 +738,56 @@ document.write(`
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TxtLogger.log_message"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.log_message">[docs]</a>    <span class="k">def</span> <span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TxtLogger.log_message">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.log_message">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">long_sep</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">long_sep</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Long separator for logging messages.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">110</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">short_sep</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">short_sep</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Short separator for logging messages.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span>
 
-<div class="viewcode-block" id="TxtLogger.epoch_start"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_start">[docs]</a>    <span class="k">def</span> <span class="nf">epoch_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="TxtLogger.epoch_start">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_start">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">epoch_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train epoch_</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">long_sep</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TxtLogger.epoch_end"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_end">[docs]</a>    <span class="k">def</span> <span class="nf">epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TxtLogger.epoch_end">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_end">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">long_sep</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TxtLogger.flush"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TxtLogger.flush">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.flush">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="s2">&quot;flush&quot;</span><span class="p">):</span>
                 <span class="n">h</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="TxtLogger.close"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TxtLogger.close">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.close">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">handlers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">handlers</span>
         <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">handlers</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
             <span class="n">h</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
         <span class="c1"># logging.shutdown()</span>
 
-<div class="viewcode-block" id="TxtLogger.reset"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="TxtLogger.reset">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.reset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the logger.</span>
 
 <span class="sd">        Close the current logger and create a new one,</span>
@@ -701,10 +801,15 @@ document.write(`
             <span class="n">log_name</span><span class="o">=</span><span class="s2">&quot;FLSim&quot;</span><span class="p">,</span>
             <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c1"># re-apply the redirection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_redirection</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="TxtLogger.from_config"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.from_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;TxtLogger&quot;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TxtLogger.from_config">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.TxtLogger.from_config">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;TxtLogger&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a :class:`TxtLogger` instance from a configuration.</span>
 
 <span class="sd">        Parameters</span>
@@ -731,12 +836,16 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="JsonLogger"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger">[docs]</a><span class="k">class</span> <span class="nc">JsonLogger</span><span class="p">(</span><span class="n">BaseLogger</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JsonLogger">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">JsonLogger</span><span class="p">(</span><span class="n">BaseLogger</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Logger that logs to a JSON file,</span>
 <span class="sd">    or a yaml file.</span>
 
@@ -797,7 +906,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;JsonLogger&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -821,7 +930,9 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_flushed</span> <span class="o">=</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="JsonLogger.log_metrics"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.log_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span>
+<div class="viewcode-block" id="JsonLogger.log_metrics">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.log_metrics">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_metrics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">client_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)],</span>
         <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Real</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]],</span>
@@ -844,10 +955,16 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">[</span><span class="n">part</span><span class="p">][</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">append_item</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_flushed</span> <span class="o">=</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="JsonLogger.log_message"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.log_message">[docs]</a>    <span class="k">def</span> <span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="JsonLogger.log_message">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.log_message">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="JsonLogger.flush"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="JsonLogger.flush">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.flush">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flushed</span><span class="p">:</span>
             <span class="c1"># convert to list to make it json serializable</span>
             <span class="n">flush_buffer</span> <span class="o">=</span> <span class="n">make_serializable</span><span class="p">(</span><span class="n">default_dict_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">))</span>
@@ -860,10 +977,16 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_flushed</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="JsonLogger.close"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="JsonLogger.close">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.close">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="JsonLogger.reset"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="JsonLogger.reset">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.reset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the logger.</span>
 
 <span class="sd">        Close the current logger and create a new one,</span>
@@ -875,12 +998,15 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_flushed</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="k">del</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="JsonLogger.from_config"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.from_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;JsonLogger&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="JsonLogger.from_config">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.from_config">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;JsonLogger&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a :class:`JsonLogger` instance from a configuration.</span>
 
 <span class="sd">        Parameters</span>
@@ -909,20 +1035,30 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span>
 
-<div class="viewcode-block" id="JsonLogger.strftime"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.strftime">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">strftime</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="JsonLogger.strftime">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.strftime">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">strftime</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">JsonLogger</span><span class="o">.</span><span class="n">__time_fmt__</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="JsonLogger.strptime"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.strptime">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">strptime</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">JsonLogger</span><span class="o">.</span><span class="n">__time_fmt__</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="JsonLogger.strptime">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.JsonLogger.strptime">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">strptime</span><span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">JsonLogger</span><span class="o">.</span><span class="n">__time_fmt__</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="LoggerManager"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager">[docs]</a><span class="k">class</span> <span class="nc">LoggerManager</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">):</span>
+
+<div class="viewcode-block" id="LoggerManager">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoggerManager</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Manager for loggers.</span>
 
 <span class="sd">    Parameters</span>
@@ -940,7 +1076,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;LoggerManager&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">algorithm</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">dataset</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -957,7 +1093,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span> <span class="o">=</span> <span class="n">verbose</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loggers</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">_add_txt_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_txt_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a :class:`TxtLogger` instance to the manager.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">TxtLogger</span><span class="p">(</span>
@@ -970,7 +1106,7 @@ document.write(`
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_add_json_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_json_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a :class:`JsonLogger` instance to the manager.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">JsonLogger</span><span class="p">(</span>
@@ -984,8 +1120,10 @@ document.write(`
             <span class="p">)</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="LoggerManager.log_metrics"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_metrics">[docs]</a>    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">log_message</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span>
+<div class="viewcode-block" id="LoggerManager.log_metrics">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_metrics">[docs]</a>
+    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">log_message</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_metrics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">client_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)],</span>
         <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Real</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]],</span>
@@ -996,53 +1134,74 @@ document.write(`
         <span class="k">for</span> <span class="n">lgs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
             <span class="n">lgs</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">part</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LoggerManager.log_message"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_message">[docs]</a>    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">log_message</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LoggerManager.log_message">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.log_message">[docs]</a>
+    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">log_message</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">lgs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
             <span class="n">lgs</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LoggerManager.epoch_start"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_start">[docs]</a>    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">epoch_start</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">epoch_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LoggerManager.epoch_start">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_start">[docs]</a>
+    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">epoch_start</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">epoch_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">lgs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
             <span class="n">lgs</span><span class="o">.</span><span class="n">epoch_start</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LoggerManager.epoch_end"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_end">[docs]</a>    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">epoch_end</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LoggerManager.epoch_end">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_end">[docs]</a>
+    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">epoch_end</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">lgs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
             <span class="n">lgs</span><span class="o">.</span><span class="n">epoch_end</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LoggerManager.flush"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.flush">[docs]</a>    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">flush</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LoggerManager.flush">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.flush">[docs]</a>
+    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">flush</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">lgs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
             <span class="n">lgs</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LoggerManager.close"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.close">[docs]</a>    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">close</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LoggerManager.close">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.close">[docs]</a>
+    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">close</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">lgs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
             <span class="n">lgs</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LoggerManager.reset"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.reset">[docs]</a>    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">reset</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LoggerManager.reset">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.reset">[docs]</a>
+    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">BaseLogger</span><span class="o">.</span><span class="n">reset</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">lgs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
             <span class="n">lgs</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">loggers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseLogger</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loggers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseLogger</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The list of loggers.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loggers</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">log_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Directory to save the log files.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">log_suffix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_suffix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Suffix of the log files.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_suffix</span>
 
-<div class="viewcode-block" id="LoggerManager.from_config"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.from_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;LoggerManager&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="LoggerManager.from_config">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.from_config">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;LoggerManager&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a :class:`LoggerManager` instance from a configuration.</span>
 
 <span class="sd">        Parameters</span>
@@ -1090,10 +1249,15 @@ document.write(`
             <span class="n">lm</span><span class="o">.</span><span class="n">_add_json_logger</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="n">get_kwargs</span><span class="p">(</span><span class="n">JsonLogger</span><span class="p">)[</span><span class="s2">&quot;fmt&quot;</span><span class="p">]))</span>
         <span class="k">return</span> <span class="n">lm</span></div>
 
-<div class="viewcode-block" id="LoggerManager.extra_repr_keys"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.extra_repr_keys">[docs]</a>    <span class="k">def</span> <span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="LoggerManager.extra_repr_keys">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.loggers.LoggerManager.extra_repr_keys">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span>
             <span class="s2">&quot;loggers&quot;</span><span class="p">,</span>
-        <span class="p">]</span></div></div>
+        <span class="p">]</span></div>
+</div>
+
 </pre></div>
 
                 </article>

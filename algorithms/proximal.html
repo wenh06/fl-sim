@@ -1,14 +1,13 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-<link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9ee.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
     <title>Proximal Algorithms in Federated Learning &#8212; fl-sim 0.0.1 documentation</title>
   
   
@@ -29,27 +28,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/proof.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml-full.js"></script>
@@ -188,7 +187,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -468,7 +467,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="proximal-algorithms-in-federated-learning">
-<span id="fl-alg-proximal"></span><h1>Proximal Algorithms in Federated Learning<a class="headerlink" href="#proximal-algorithms-in-federated-learning" title="Permalink to this heading">#</a></h1>
+<span id="fl-alg-proximal"></span><h1>Proximal Algorithms in Federated Learning<a class="headerlink" href="#proximal-algorithms-in-federated-learning" title="Link to this heading">#</a></h1>
 <p>In non-I.I.D. scenarios, based on the idea of reducing the impact of local updates of clients on the global model,
 [Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-sahu2018fedprox" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] first introduced a proximal term to the local objective functions, aiming at making the
 algorithm more stable and converging faster. Compared to <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code>, methods using proximal terms do not need to
@@ -477,22 +476,23 @@ additional cost to security (refer to [Zhu <em>et al.</em><a class="footnote-ref
 <p>To be more specific, in the <span class="math notranslate nohighlight">\((t+1)\)</span>-th iteration, the local objective function of client <span class="math notranslate nohighlight">\(k\)</span> changes from
 <span class="math notranslate nohighlight">\(f_k(\theta_k)\)</span> to the following form with a proximal term:</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-local-obj">
-<span class="eqno">(1)<a class="headerlink" href="#equation-fedprox-local-obj" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\expectation}{\mathbb{E}}
+<span class="eqno">(1)<a class="headerlink" href="#equation-fedprox-local-obj" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\expectation}{\mathbb{E}}
 \DeclareMathOperator*{\minimize}{minimize}
 \newcommand{\R}{\mathbb{R}}\\h_k(\theta_k, \theta^{(t)}) := f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,\end{aligned}\end{align} \]</div>
 <p>where <span class="math notranslate nohighlight">\(\mu\)</span> is a penalty constant. It should be noticed that the proximal center <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> is
 the model parameter on the server node obtained in the previous iteration (the <span class="math notranslate nohighlight">\(t\)</span>-th iteration). Indeed,
 the overall optimization problem can be modeled as the following constrained optimization problem</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-whole">
-<span class="eqno">(2)<a class="headerlink" href="#equation-fedprox-whole" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+<span class="eqno">(2)<a class="headerlink" href="#equation-fedprox-whole" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize &amp; \frac{1}{K} \sum\limits_{k=1}^K \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta \rVert^2 \right\} \\
 \text{subject to} &amp; \theta = \frac{1}{K} \sum\limits_{k=1}^K \theta_k.
 \end{array}\end{split}\]</div>
 <p>For alternatives for the proximal center, studies were conducted in [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>] which would be
 introduced later. Now, we summarize the pseudocode for <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> as follows:</p>
-<img alt="Psuedocode for ``FedProx``" class="no-scaled-link align-center" id="pseduocode-fedprox" src="../_images/fedprox.svg" width="80%" /><p>We denote the <span class="math notranslate nohighlight">\(\gamma\)</span>-inexact solution <span class="math notranslate nohighlight">\(\theta_k^{(t)}\)</span> as</p>
+<img alt="Psuedocode for ``FedProx``" class="no-scaled-link align-center" id="pseduocode-fedprox" src="../_images/fedprox.svg" style="width: 80%;" />
+<p>We denote the <span class="math notranslate nohighlight">\(\gamma\)</span>-inexact solution <span class="math notranslate nohighlight">\(\theta_k^{(t)}\)</span> as</p>
 <div class="math notranslate nohighlight" id="equation-prox-op">
-<span class="eqno">(3)<a class="headerlink" href="#equation-prox-op" title="Permalink to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\argmax}{arg\,max}
+<span class="eqno">(3)<a class="headerlink" href="#equation-prox-op" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 % \DeclareMathOperator*{\prox}{prox}
 \newcommand{\prox}{\mathbf{prox}}\\\theta_k^{(t)} \approx \prox_{f_k, \mu} (\theta^{(t)}) := \argmin\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\},\end{aligned}\end{align} \]</div>
@@ -500,11 +500,11 @@ introduced later. Now, we summarize the pseudocode for <code class="docutils lit
 Let <span class="math notranslate nohighlight">\(s = \frac{1}{\mu}\)</span>, since one has <span class="math notranslate nohighlight">\(\prox_{f_k, \mu} = \prox_{sf_k, 1}\)</span>, we also denote <span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span>
 as <span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span>. Corresponding function</p>
 <div class="math notranslate nohighlight" id="equation-moreau-env">
-<span class="eqno">(4)<a class="headerlink" href="#equation-moreau-env" title="Permalink to this equation">#</a></span>\[\mathcal{M}_{sf_k} (\theta^{(t)}) = \mathcal{M}_{f_k, \mu} (\theta^{(t)}) := \inf\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}\]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-moreau-env" title="Link to this equation">#</a></span>\[\mathcal{M}_{sf_k} (\theta^{(t)}) = \mathcal{M}_{f_k, \mu} (\theta^{(t)}) := \inf\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}\]</div>
 <p>is called <strong>Moreau envelope</strong> or <strong>Moreau-Yosida regularization</strong> of <span class="math notranslate nohighlight">\(f_k\)</span> with respect to <span class="math notranslate nohighlight">\(\mu\)</span>.
 Moreau envelope of a function <span class="math notranslate nohighlight">\(f_k\)</span> has the following relationship [Parikh and Boyd<a class="footnote-reference brackets" href="#footcite-parikh-2014-pa" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>] with its proximal operator:</p>
 <div class="math notranslate nohighlight" id="equation-prox-moreau-relation">
-<span class="eqno">(5)<a class="headerlink" href="#equation-prox-moreau-relation" title="Permalink to this equation">#</a></span>\[\prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.\]</div>
+<span class="eqno">(5)<a class="headerlink" href="#equation-prox-moreau-relation" title="Link to this equation">#</a></span>\[\prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.\]</div>
 <p>Namely, <span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span> can be regarded as the gradient descent operator for minimizing <span class="math notranslate nohighlight">\(\mathcal{M}_{sf_k}\)</span> with step size <span class="math notranslate nohighlight">\(s\)</span>.</p>
 <p>For the convergence of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> in non-I.I.D. scenarios, [Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-sahu2018fedprox" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] has the following theorem:</p>
 <div class="proof proof-type-theorem" id="id17">
@@ -521,15 +521,15 @@ for any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>
 in the set <span class="math notranslate nohighlight">\(\mathcal{S}_{\varepsilon}^c := \{ \theta ~|~ \lVert \nabla f(\theta) \rVert^2 &gt; \varepsilon\}\)</span>,
 the following inequality holds</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-bdd-dissim">
-<span class="eqno">(6)<a class="headerlink" href="#equation-fedprox-bdd-dissim" title="Permalink to this equation">#</a></span>\[B(\theta) := \frac{\expectation_k [\lVert \nabla f_k(\theta) \rVert^2]}{\lVert \nabla f(\theta) \rVert^2} \leqslant B_{\varepsilon}.\]</div>
+<span class="eqno">(6)<a class="headerlink" href="#equation-fedprox-bdd-dissim" title="Link to this equation">#</a></span>\[B(\theta) := \frac{\expectation_k [\lVert \nabla f_k(\theta) \rVert^2]}{\lVert \nabla f(\theta) \rVert^2} \leqslant B_{\varepsilon}.\]</div>
 <p>Fix constants <span class="math notranslate nohighlight">\(\mu, \gamma\)</span> satisfying</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-mu-gamma">
-<span class="eqno">(7)<a class="headerlink" href="#equation-fedprox-mu-gamma" title="Permalink to this equation">#</a></span>\[\rho := \left( \frac{1}{\mu} - \frac{\gamma B}{\mu} - \frac{B(1+\gamma)\sqrt{2}}{\bar{\mu}\sqrt{K}} - \frac{LB(1+\gamma)}{\bar{\mu}\mu} - \frac{LB^2(1+\gamma)^2}{2\bar{\mu}^2} - \frac{LB^2(1+\gamma)^2}{\bar{\mu}^2 K} \left( 2\sqrt{2K} + 2 \right) \right) &gt; 0,\]</div>
+<span class="eqno">(7)<a class="headerlink" href="#equation-fedprox-mu-gamma" title="Link to this equation">#</a></span>\[\rho := \left( \frac{1}{\mu} - \frac{\gamma B}{\mu} - \frac{B(1+\gamma)\sqrt{2}}{\bar{\mu}\sqrt{K}} - \frac{LB(1+\gamma)}{\bar{\mu}\mu} - \frac{LB^2(1+\gamma)^2}{2\bar{\mu}^2} - \frac{LB^2(1+\gamma)^2}{\bar{\mu}^2 K} \left( 2\sqrt{2K} + 2 \right) \right) &gt; 0,\]</div>
 <p>where <span class="math notranslate nohighlight">\(\bar{\mu} = \mu - L_- &gt; 0\)</span>. Then, in the <span class="math notranslate nohighlight">\((t+1)\)</span>-th iteration of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code>, assuming that the global model
 <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> of the previous iteration is not the first-order stationary point of the global objective function <span class="math notranslate nohighlight">\(f(\theta)\)</span>,
 (i.e. <span class="math notranslate nohighlight">\(\theta^{(t)} \in \mathcal{S}_{\varepsilon}^c\)</span>), the following decrease in the global objective function holds</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-obj-decrease">
-<span class="eqno">(8)<a class="headerlink" href="#equation-fedprox-obj-decrease" title="Permalink to this equation">#</a></span>\[\expectation\nolimits_{\mathcal{S}^{(t)}}[f(\theta^{(t+1)})] \leqslant f(\theta^{(t)}) - \rho \lVert \nabla f (\theta^{(t)}) \rVert^2.\]</div>
+<span class="eqno">(8)<a class="headerlink" href="#equation-fedprox-obj-decrease" title="Link to this equation">#</a></span>\[\expectation\nolimits_{\mathcal{S}^{(t)}}[f(\theta^{(t+1)})] \leqslant f(\theta^{(t)}) - \rho \lVert \nabla f (\theta^{(t)}) \rVert^2.\]</div>
 </div></div><div class="proof proof-type-remark" id="id18">
 <span id="fedprox-rem1"></span>
     <div class="proof-title">
@@ -559,50 +559,50 @@ as the main technical tool for personalization.</p>
 <div class="docutils container" id="id16">
 <p class="rubric">References</p>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="footcite-sahu2018fedprox" role="note">
+<aside class="footnote brackets" id="footcite-sahu2018fedprox" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id7">2</a>,<a role="doc-backlink" href="#id8">3</a>)</span>
 <p>Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and Virginia Smith. Federated Optimization in Heterogeneous Networks. In I. Dhillon, D. Papailiopoulos, and V. Sze, editors, <em>Proceedings of Machine Learning and Systems</em>, volume 2, 429–450. 2020.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-zhu2019deep-leakage" role="note">
+<aside class="footnote brackets" id="footcite-zhu2019deep-leakage" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
 <p>Ligeng Zhu, Zhijian Liu, and Song Han. Deep Leakage from Gradients. <em>Advances in Neural Information Processing Systems</em>, 32:14774–14784, 2019.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-hanzely2020federated" role="note">
+<aside class="footnote brackets" id="footcite-hanzely2020federated" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id11">2</a>)</span>
 <p>Filip Hanzely and Peter Richtárik. Federated Learning of a Mixture of Global and Local Models. <em>arXiv preprint arXiv:2002.05516</em>, 2020.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-li-2021-ditto" role="note">
+<aside class="footnote brackets" id="footcite-li-2021-ditto" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id13">2</a>)</span>
 <p>Tian Li, Shengyuan Hu, Ahmad Beirami, and Virginia Smith. Ditto: Fair and Robust Federated Learning Through Personalization. In Marina Meila and Tong Zhang, editors, <em>Proceedings of the 38th International Conference on Machine Learning</em>, volume 139 of Proceedings of Machine Learning Research, 6357–6368. PMLR, 7 2021.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-moreau-1965-prox" role="note">
+<aside class="footnote brackets" id="footcite-moreau-1965-prox" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
 <p>J.J. Moreau. Proximité et Dualité dans un Espace Hilbertien. <em>Bulletin de la Société Mathématique de France</em>, 79:273–299, 1965. <a class="reference external" href="https://doi.org/10.24033/bsmf.1625">doi:10.24033/bsmf.1625</a>.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-parikh-2014-pa" role="note">
+<aside class="footnote brackets" id="footcite-parikh-2014-pa" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
 <p>Neal Parikh and Stephen Boyd. Proximal Algorithms. <em>Foundations and Trends® in Optimization</em>, 1(3):127–239, 2014. <a class="reference external" href="https://doi.org/10.1561/2400000003">doi:10.1561/2400000003</a>.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-pathak2020fedsplit" role="note">
+<aside class="footnote brackets" id="footcite-pathak2020fedsplit" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">7</a><span class="fn-bracket">]</span></span>
 <p>Reese Pathak and Martin J Wainwright. FedSplit: An Algorithmic Framework for Fast Federated Optimization. In H. Larochelle, M. Ranzato, R. Hadsell, M.F. Balcan, and H. Lin, editors, <em>Advances in Neural Information Processing Systems</em>, volume 33, 7057–7066. Curran Associates, Inc., 2020.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-tran2021feddr" role="note">
+<aside class="footnote brackets" id="footcite-tran2021feddr" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">8</a><span class="fn-bracket">]</span></span>
 <p>Quoc Tran-Dinh, Nhan Pham, Dzung T. Phan, and Lam M. Nguyen. FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization. In A. Beygelzimer, Y. Dauphin, P. Liang, and J. Wortman Vaughan, editors, <em>Advances in Neural Information Processing Systems</em>. 2021.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-acar2021feddyn" role="note">
+<aside class="footnote brackets" id="footcite-acar2021feddyn" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id12">9</a><span class="fn-bracket">]</span></span>
 <p>Durmus Alp Emre Acar, Yue Zhao, Ramon Matas, Matthew Mattina, Paul Whatmough, and Venkatesh Saligrama. Federated Learning Based on Dynamic Regularization. In <em>International Conference on Learning Representations</em>. 2021.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-t2020pfedme" role="note">
+<aside class="footnote brackets" id="footcite-t2020pfedme" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id14">10</a><span class="fn-bracket">]</span></span>
 <p>Canh T. Dinh, Nguyen H. Tran, and Tuan Dung Nguyen. Personalized Federated Learning with Moreau Envelopes. In <em>Proceedings of the 34th International Conference on Neural Information Processing Systems</em>. Red Hook, NY, USA, 2020. Curran Associates Inc.</p>
 </aside>
-<aside class="footnote brackets" id="footcite-li2021pfedmac" role="note">
+<aside class="footnote brackets" id="footcite-li2021pfedmac" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">11</a><span class="fn-bracket">]</span></span>
 <p>Yinchuan Li, Xiaofeng Liu, Xu Zhang, Yunfeng Shao, Qing Wang, and Yanhui Geng. Personalized Federated Learning via Maximizing Correlation with Sparse and Hierarchical Extensions. <em>arXiv preprint arXiv:2107.05330</em>, 2021.</p>
 </aside>

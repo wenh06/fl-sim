@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,27 +27,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/proof.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/utils/misc';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -185,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -410,26 +409,26 @@ document.write(`
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">platform</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">types</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">types</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch_ecg.utils</span> <span class="kn">import</span> <span class="n">get_kwargs</span><span class="p">,</span> <span class="n">get_required_args</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_kwargs</span><span class="p">,</span> <span class="n">get_required_args</span>
 
-<span class="kn">from</span> <span class="nn">.const</span> <span class="kn">import</span> <span class="n">LOG_DIR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.const</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG_DIR</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;experiment_indicator&quot;</span><span class="p">,</span>
@@ -447,10 +446,12 @@ document.write(`
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="experiment_indicator"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.experiment_indicator">[docs]</a><span class="k">def</span> <span class="nf">experiment_indicator</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="viewcode-block" id="experiment_indicator">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.experiment_indicator">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">experiment_indicator</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Start experiment </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">  &quot;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">))</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -464,7 +465,10 @@ document.write(`
     <span class="k">return</span> <span class="n">decorator</span></div>
 
 
-<div class="viewcode-block" id="clear_logs"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.clear_logs">[docs]</a><span class="k">def</span> <span class="nf">clear_logs</span><span class="p">(</span><span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="clear_logs">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.clear_logs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">clear_logs</span><span class="p">(</span><span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Clear given log files in given directory.</span>
 
 <span class="sd">    Parameters</span>
@@ -490,7 +494,10 @@ document.write(`
         <span class="n">log_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="make_serializable"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.make_serializable">[docs]</a><span class="k">def</span> <span class="nf">make_serializable</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Number</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="make_serializable">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.make_serializable">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_serializable</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Number</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make an object serializable.</span>
 
 <span class="sd">    This function is used to convert all numpy arrays to list in an object,</span>
@@ -543,7 +550,10 @@ document.write(`
     <span class="k">return</span> <span class="n">x</span></div>
 
 
-<div class="viewcode-block" id="ordered_dict_to_dict"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.ordered_dict_to_dict">[docs]</a><span class="k">def</span> <span class="nf">ordered_dict_to_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ordered_dict_to_dict">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.ordered_dict_to_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ordered_dict_to_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert ordered dict to dict.</span>
 
 <span class="sd">    Parameters</span>
@@ -569,7 +579,10 @@ document.write(`
     <span class="k">return</span> <span class="n">new_d</span></div>
 
 
-<div class="viewcode-block" id="default_dict_to_dict"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.default_dict_to_dict">[docs]</a><span class="k">def</span> <span class="nf">default_dict_to_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">defaultdict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="default_dict_to_dict">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.default_dict_to_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">default_dict_to_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">defaultdict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert default dict to dict.</span>
 
 <span class="sd">    Parameters</span>
@@ -595,7 +608,10 @@ document.write(`
     <span class="k">return</span> <span class="n">new_d</span></div>
 
 
-<div class="viewcode-block" id="set_seed"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.set_seed">[docs]</a><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="set_seed">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.set_seed">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set random seed for numpy and pytorch,</span>
 <span class="sd">    as well as disable cudnn to ensure reproducibility.</span>
 
@@ -619,7 +635,10 @@ document.write(`
     <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="get_scheduler"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler">[docs]</a><span class="k">def</span> <span class="nf">get_scheduler</span><span class="p">(</span>
+
+<div class="viewcode-block" id="get_scheduler">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_scheduler</span><span class="p">(</span>
     <span class="n">scheduler_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">_LRScheduler</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get learning rate scheduler.</span>
@@ -691,7 +710,10 @@ document.write(`
     <span class="k">return</span> <span class="n">scheduler</span></div>
 
 
-<div class="viewcode-block" id="get_scheduler_info"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler_info">[docs]</a><span class="k">def</span> <span class="nf">get_scheduler_info</span><span class="p">(</span><span class="n">scheduler_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+
+<div class="viewcode-block" id="get_scheduler_info">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.get_scheduler_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_scheduler_info</span><span class="p">(</span><span class="n">scheduler_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get information of the scheduler,</span>
 <span class="sd">    including the required and optional configs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -727,7 +749,10 @@ document.write(`
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="is_notebook"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.is_notebook">[docs]</a><span class="k">def</span> <span class="nf">is_notebook</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+<div class="viewcode-block" id="is_notebook">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.is_notebook">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_notebook</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the current environment is a notebook (Jupyter or Colab).</span>
 
 <span class="sd">    Implementation adapted from [#sa]_.</span>
@@ -762,7 +787,10 @@ document.write(`
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="find_longest_common_substring"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.find_longest_common_substring">[docs]</a><span class="k">def</span> <span class="nf">find_longest_common_substring</span><span class="p">(</span><span class="n">strings</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">min_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="find_longest_common_substring">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.find_longest_common_substring">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_longest_common_substring</span><span class="p">(</span><span class="n">strings</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">min_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the longest common substring of a list of strings.</span>
 
 <span class="sd">    Parameters</span>
@@ -793,7 +821,10 @@ document.write(`
     <span class="k">return</span> <span class="n">substr</span></div>
 
 
-<div class="viewcode-block" id="add_kwargs"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.add_kwargs">[docs]</a><span class="k">def</span> <span class="nf">add_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="nb">callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
+
+<div class="viewcode-block" id="add_kwargs">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.add_kwargs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_kwargs</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="nb">callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add keyword arguments to a function.</span>
 
 <span class="sd">    This function is used to add keyword arguments to a function</span>
@@ -848,7 +879,7 @@ document.write(`
     <span class="c1"># docstring is automatically copied by `functools.wraps`</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">kwargs_</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">full_kwargs</span><span class="p">),</span> <span class="p">(</span>
             <span class="s2">&quot;got unexpected keyword arguments: &quot;</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">kwargs_</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">full_kwargs</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
@@ -858,7 +889,8 @@ document.write(`
     <span class="k">return</span> <span class="n">wrapper</span></div>
 
 
-<span class="k">def</span> <span class="nf">execute_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">raise_error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">execute_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">raise_error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute shell command using `Popen`.</span>
 
 <span class="sd">    Parameters</span>
@@ -922,7 +954,9 @@ document.write(`
     <span class="k">return</span> <span class="n">exitcode</span><span class="p">,</span> <span class="n">output_msg</span>
 
 
-<div class="viewcode-block" id="compute_sparsity"><a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.compute_sparsity">[docs]</a><span class="k">def</span> <span class="nf">compute_sparsity</span><span class="p">(</span><span class="n">model_or_tensor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="compute_sparsity">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.compute_sparsity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_sparsity</span><span class="p">(</span><span class="n">model_or_tensor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the sparsity of a model or tensor.</span>
 
@@ -944,6 +978,7 @@ document.write(`
         <span class="n">n_params</span> <span class="o">+=</span> <span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span>
         <span class="n">nonzeros</span> <span class="o">+=</span> <span class="n">param</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sign</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">int</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">nonzeros</span> <span class="o">/</span> <span class="n">n_params</span></div>
+
 </pre></div>
 
                 </article>

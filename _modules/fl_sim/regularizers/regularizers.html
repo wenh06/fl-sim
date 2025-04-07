@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,27 +27,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/proof.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/regularizers/regularizers';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -185,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -404,13 +403,13 @@ document.write(`
 <span class="sd">this file is forked from `FedDR &lt;https://github.com/unc-optimization/FedDR/tree/main/FedDR/flearn/regularizers&gt;`_.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">torch.nn.parameter</span> <span class="kn">import</span> <span class="n">Parameter</span>
-<span class="kn">from</span> <span class="nn">torch_ecg.utils</span> <span class="kn">import</span> <span class="n">ReprMixin</span><span class="p">,</span> <span class="n">add_docstring</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.parameter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReprMixin</span><span class="p">,</span> <span class="n">add_docstring</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;get_regularizer&quot;</span><span class="p">,</span>
@@ -423,7 +422,9 @@ document.write(`
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="Regularizer"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer">[docs]</a><span class="k">class</span> <span class="nc">Regularizer</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="Regularizer">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Regularizer</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Regularizer base class.</span>
 
 <span class="sd">    Parameters</span>
@@ -435,11 +436,13 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;Regularizer&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coeff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coeff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span> <span class="o">=</span> <span class="n">coeff</span>
 
-<div class="viewcode-block" id="Regularizer.eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.eval">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="Regularizer.eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.eval">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate the regularizer on the given parameters.</span>
 
 <span class="sd">        Parameters</span>
@@ -453,8 +456,11 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="Regularizer.prox_eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.prox_eval">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="Regularizer.prox_eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.prox_eval">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate the proximity operator of the regularizer</span>
 <span class="sd">        on the given parameters.</span>
 
@@ -485,13 +491,20 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="Regularizer.extra_repr_keys"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.extra_repr_keys">[docs]</a>    <span class="k">def</span> <span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="Regularizer.extra_repr_keys">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.extra_repr_keys">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span>
             <span class="s2">&quot;coeff&quot;</span><span class="p">,</span>
-        <span class="p">]</span></div></div>
+        <span class="p">]</span></div>
+</div>
 
 
-<div class="viewcode-block" id="get_regularizer"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.get_regularizer.html#fl_sim.regularizers.get_regularizer">[docs]</a><span class="k">def</span> <span class="nf">get_regularizer</span><span class="p">(</span><span class="n">reg_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reg_coeff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Regularizer</span><span class="p">:</span>
+
+<div class="viewcode-block" id="get_regularizer">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.get_regularizer.html#fl_sim.regularizers.get_regularizer">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_regularizer</span><span class="p">(</span><span class="n">reg_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reg_coeff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Regularizer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the regularizer by name.</span>
 
 <span class="sd">    Parameters</span>
@@ -541,58 +554,84 @@ document.write(`
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown regularizer type: </span><span class="si">{</span><span class="n">reg_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="NullRegularizer"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer">[docs]</a><span class="nd">@add_docstring</span><span class="p">(</span>
+
+<div class="viewcode-block" id="NullRegularizer">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer">[docs]</a>
+<span class="nd">@add_docstring</span><span class="p">(</span>
     <span class="n">Regularizer</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
         <span class="s2">&quot;Regularizer base class.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Null regularizer, or equivalently the zero function.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
-<span class="k">class</span> <span class="nc">NullRegularizer</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NullRegularizer</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;NullRegularizer&quot;</span>
 
-<div class="viewcode-block" id="NullRegularizer.eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="NullRegularizer.eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span></div>
 
-<div class="viewcode-block" id="NullRegularizer.prox_eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.prox_eval">[docs]</a>    <span class="k">def</span> <span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="NullRegularizer.prox_eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.prox_eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="L1Norm"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm">[docs]</a><span class="nd">@add_docstring</span><span class="p">(</span>
+
+<div class="viewcode-block" id="L1Norm">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm">[docs]</a>
+<span class="nd">@add_docstring</span><span class="p">(</span>
     <span class="n">Regularizer</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
         <span class="s2">&quot;Regularizer base class.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;L1 norm regularizer.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
-<span class="k">class</span> <span class="nc">L1Norm</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">L1Norm</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;L1Norm&quot;</span>
 
-<div class="viewcode-block" id="L1Norm.eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="L1Norm.eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">coeff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="k">return</span> <span class="n">coeff</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="L1Norm.prox_eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.prox_eval">[docs]</a>    <span class="k">def</span> <span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="L1Norm.prox_eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.prox_eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">coeff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="n">ret_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">-</span> <span class="n">coeff</span><span class="p">)</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">ret_params</span></div></div>
+        <span class="k">return</span> <span class="n">ret_params</span></div>
+</div>
 
 
-<div class="viewcode-block" id="L2Norm"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm">[docs]</a><span class="nd">@add_docstring</span><span class="p">(</span>
+
+<div class="viewcode-block" id="L2Norm">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm">[docs]</a>
+<span class="nd">@add_docstring</span><span class="p">(</span>
     <span class="n">Regularizer</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
         <span class="s2">&quot;Regularizer base class.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;L2 norm regularizer.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
-<span class="k">class</span> <span class="nc">L2Norm</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">L2Norm</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;L2Norm&quot;</span>
 
-<div class="viewcode-block" id="L2Norm.eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="L2Norm.eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">coeff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="k">return</span> <span class="n">coeff</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]))</span></div>
 
-<div class="viewcode-block" id="L2Norm.prox_eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.prox_eval">[docs]</a>    <span class="k">def</span> <span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="L2Norm.prox_eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.prox_eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">coeff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="n">_params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>  <span class="c1"># to avoid the case that params is a generator</span>
@@ -600,52 +639,72 @@ document.write(`
         <span class="n">coeff</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">coeff</span> <span class="o">/</span> <span class="n">norm</span><span class="p">)</span>
         <span class="n">ret_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">_params</span><span class="p">]</span>
         <span class="k">del</span> <span class="n">_params</span>
-        <span class="k">return</span> <span class="n">ret_params</span></div></div>
+        <span class="k">return</span> <span class="n">ret_params</span></div>
+</div>
 
 
-<div class="viewcode-block" id="L2NormSquared"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared">[docs]</a><span class="nd">@add_docstring</span><span class="p">(</span>
+
+<div class="viewcode-block" id="L2NormSquared">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared">[docs]</a>
+<span class="nd">@add_docstring</span><span class="p">(</span>
     <span class="n">Regularizer</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
         <span class="s2">&quot;Regularizer base class.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;L2 norm squared regularizer.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
-<span class="k">class</span> <span class="nc">L2NormSquared</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">L2NormSquared</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;L2NormSquared&quot;</span>
 
-<div class="viewcode-block" id="L2NormSquared.eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="L2NormSquared.eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">coeff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="k">return</span> <span class="n">coeff</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="L2NormSquared.prox_eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.prox_eval">[docs]</a>    <span class="k">def</span> <span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="L2NormSquared.prox_eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.prox_eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">coeff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="n">coeff</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">coeff</span><span class="p">)</span>
         <span class="n">_params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>  <span class="c1"># to avoid the case that params is a generator</span>
         <span class="n">ret_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">_params</span><span class="p">]</span>
         <span class="k">del</span> <span class="n">_params</span>
-        <span class="k">return</span> <span class="n">ret_params</span></div></div>
+        <span class="k">return</span> <span class="n">ret_params</span></div>
+</div>
 
 
-<div class="viewcode-block" id="LInfNorm"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm">[docs]</a><span class="nd">@add_docstring</span><span class="p">(</span>
+
+<div class="viewcode-block" id="LInfNorm">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm">[docs]</a>
+<span class="nd">@add_docstring</span><span class="p">(</span>
     <span class="n">Regularizer</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
         <span class="s2">&quot;Regularizer base class.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;L-infinity norm regularizer.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
-<span class="k">class</span> <span class="nc">LInfNorm</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LInfNorm</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;LInfNorm&quot;</span>
 
-<div class="viewcode-block" id="LInfNorm.eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="LInfNorm.eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">coeff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="k">return</span> <span class="n">coeff</span> <span class="o">*</span> <span class="nb">max</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="LInfNorm.prox_eval"><a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.prox_eval">[docs]</a>    <span class="k">def</span> <span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="LInfNorm.prox_eval">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.prox_eval">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prox_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">coeff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">coeff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coeff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff</span>
         <span class="n">_params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>  <span class="c1"># to avoid the case that params is a generator</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;L-infinity norm is not implemented yet&quot;</span><span class="p">)</span></div></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;L-infinity norm is not implemented yet&quot;</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
                 </article>

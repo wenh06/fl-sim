@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,27 +27,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/proof.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/data_processing/fed_shakespeare';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -185,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -400,21 +399,21 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for fl_sim.data_processing.fed_shakespeare</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">repeat</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">h5py</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">import</span> <span class="nn">torch.utils.data</span> <span class="k">as</span> <span class="nn">torchdata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">torchdata</span>
 
-<span class="kn">from</span> <span class="nn">..models</span> <span class="kn">import</span> <span class="n">nn</span> <span class="k">as</span> <span class="n">mnn</span>
-<span class="kn">from</span> <span class="nn">..models.utils</span> <span class="kn">import</span> <span class="n">top_n_accuracy</span>
-<span class="kn">from</span> <span class="nn">..utils.const</span> <span class="kn">import</span> <span class="n">CACHED_DATA_DIR</span>
-<span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="n">register_fed_dataset</span>
-<span class="kn">from</span> <span class="nn">.fed_dataset</span> <span class="kn">import</span> <span class="n">FedNLPDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..models</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span> <span class="k">as</span> <span class="n">mnn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..models.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">top_n_accuracy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.const</span><span class="w"> </span><span class="kn">import</span> <span class="n">CACHED_DATA_DIR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._register</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_fed_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.fed_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">FedNLPDataset</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;FedShakespeare&quot;</span><span class="p">,</span>
@@ -425,8 +424,10 @@ document.write(`
 <span class="n">FED_SHAKESPEARE_DATA_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="FedShakespeare"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare">[docs]</a><span class="nd">@register_fed_dataset</span><span class="p">()</span>
-<span class="k">class</span> <span class="nc">FedShakespeare</span><span class="p">(</span><span class="n">FedNLPDataset</span><span class="p">):</span>
+<div class="viewcode-block" id="FedShakespeare">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare">[docs]</a>
+<span class="nd">@register_fed_dataset</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FedShakespeare</span><span class="p">(</span><span class="n">FedNLPDataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Federated Shakespeare dataset.</span>
 
 <span class="sd">    Shakespeare dataset is built from the collective works of William Shakespeare.</span>
@@ -474,7 +475,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;FedShakespeare&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Preload the dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -510,7 +511,9 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">_client_ids_train</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">train_h5</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_EXAMPLE</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_client_ids_test</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_h5</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_EXAMPLE</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-<div class="viewcode-block" id="FedShakespeare.get_dataloader"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.get_dataloader">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
+<div class="viewcode-block" id="FedShakespeare.get_dataloader">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.get_dataloader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">train_bs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">test_bs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -585,15 +588,18 @@ document.write(`
         <span class="n">test_h5</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">test_dl</span></div>
 
+
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_split_target</span><span class="p">(</span><span class="n">sequence_batch</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_split_target</span><span class="p">(</span><span class="n">sequence_batch</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Split a N + 1 sequence into shifted-by-1 sequences for input and output.&quot;&quot;&quot;</span>
         <span class="n">sequence_batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sequence_batch</span><span class="p">)</span>
         <span class="n">input_text</span> <span class="o">=</span> <span class="n">sequence_batch</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">target_text</span> <span class="o">=</span> <span class="n">sequence_batch</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">input_text</span><span class="p">,</span> <span class="n">target_text</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FedShakespeare.preprocess"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.preprocess">[docs]</a>    <span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentences</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">max_seq_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<div class="viewcode-block" id="FedShakespeare.preprocess">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.preprocess">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentences</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">max_seq_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Preprocess a list of sentences.</span>
 
 <span class="sd">        Parameters</span>
@@ -614,7 +620,7 @@ document.write(`
         <span class="k">if</span> <span class="n">max_seq_len</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">max_seq_len</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SEQUENCE_LENGTH</span>
 
-        <span class="k">def</span> <span class="nf">to_ids</span><span class="p">(</span><span class="n">sentence</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_oov_buckets</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">to_ids</span><span class="p">(</span><span class="n">sentence</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_oov_buckets</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Map list of sentence to list of ``[idx..]``</span>
 <span class="sd">            and pad to ``max_seq_len + 1``.</span>
 
@@ -642,24 +648,36 @@ document.write(`
             <span class="n">sequences</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_ids</span><span class="p">(</span><span class="n">sen</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">sequences</span></div>
 
-<div class="viewcode-block" id="FedShakespeare.id_to_word"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.id_to_word">[docs]</a>    <span class="k">def</span> <span class="nf">id_to_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FedShakespeare.id_to_word">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.id_to_word">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">id_to_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert an integer index to a character.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">words</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="FedShakespeare.char_to_id"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.char_to_id">[docs]</a>    <span class="k">def</span> <span class="nf">char_to_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">char</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FedShakespeare.char_to_id">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.char_to_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">char_to_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">char</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a character to an integer index.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">word_dict</span><span class="p">))</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">words</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">words</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the word list.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_words</span>
 
-<div class="viewcode-block" id="FedShakespeare.get_word_dict"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.get_word_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_word_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="FedShakespeare.get_word_dict">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.get_word_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_word_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the word dictionary.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_dict</span></div>
 
-<div class="viewcode-block" id="FedShakespeare.evaluate"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="FedShakespeare.evaluate">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.evaluate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluation using predictions and ground truth.</span>
 
 <span class="sd">        Parameters</span>
@@ -683,27 +701,30 @@ document.write(`
             <span class="s2">&quot;num_samples&quot;</span><span class="p">:</span> <span class="n">probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">}</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;URL for downloading the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;https://fedml.s3-us-west-1.amazonaws.com/shakespeare.tar.bz2&quot;</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A set of candidate models.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;rnn&quot;</span><span class="p">:</span> <span class="n">mnn</span><span class="o">.</span><span class="n">RNN_OriginalFedAvg</span><span class="p">(),</span>
         <span class="p">}</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">doi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">doi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;DOI(s) related to the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="s2">&quot;10.48550/ARXIV.1812.06127&quot;</span><span class="p">,</span>  <span class="c1"># FedProx</span>
             <span class="s2">&quot;10.48550/ARXIV.2007.13518&quot;</span><span class="p">,</span>  <span class="c1"># FedML</span>
         <span class="p">]</span>
 
-<div class="viewcode-block" id="FedShakespeare.view_sample"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.view_sample">[docs]</a>    <span class="k">def</span> <span class="nf">view_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sample_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FedShakespeare.view_sample">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.view_sample">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">view_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sample_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;View a sample from the dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -745,7 +766,9 @@ document.write(`
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Snippet </span><span class="si">{</span><span class="n">sample_idx</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">new_line</span><span class="si">}{</span><span class="nb">repr</span><span class="p">(</span><span class="n">snippets</span><span class="p">[</span><span class="n">sample_idx</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="n">train_h5</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">test_h5</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+        <span class="n">test_h5</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
 </pre></div>
 
                 </article>

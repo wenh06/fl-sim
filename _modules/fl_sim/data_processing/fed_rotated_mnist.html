@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -28,27 +27,27 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/clipboard.min.js"></script>
-    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../../_static/proof.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js"></script>
-    <script src="../../../_static/design-tabs.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/data_processing/fed_rotated_mnist';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -185,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.TinyImageNet.html">TinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
@@ -400,31 +399,33 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for fl_sim.data_processing.fed_rotated_mnist</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">gzip</span>
-<span class="kn">import</span> <span class="nn">posixpath</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">posixpath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.utils.data</span> <span class="k">as</span> <span class="nn">torchdata</span>
-<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">transforms</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">torchdata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">transforms</span>
 
-<span class="kn">from</span> <span class="nn">..models</span> <span class="kn">import</span> <span class="n">nn</span> <span class="k">as</span> <span class="n">mnn</span>
-<span class="kn">from</span> <span class="nn">..models.utils</span> <span class="kn">import</span> <span class="n">top_n_accuracy</span>
-<span class="kn">from</span> <span class="nn">..utils._download_data</span> <span class="kn">import</span> <span class="n">http_get</span><span class="p">,</span> <span class="n">url_is_reachable</span>
-<span class="kn">from</span> <span class="nn">..utils.const</span> <span class="kn">import</span> <span class="n">CACHED_DATA_DIR</span><span class="p">,</span> <span class="n">MNIST_LABEL_MAP</span><span class="p">,</span> <span class="n">MNIST_MEAN</span><span class="p">,</span> <span class="n">MNIST_STD</span>
-<span class="kn">from</span> <span class="nn">._ops</span> <span class="kn">import</span> <span class="n">CategoricalLabelToTensor</span><span class="p">,</span> <span class="n">FixedDegreeRotation</span><span class="p">,</span> <span class="n">ImageArrayToTensor</span><span class="p">,</span> <span class="n">distribute_images</span>
-<span class="kn">from</span> <span class="nn">._register</span> <span class="kn">import</span> <span class="n">register_fed_dataset</span>
-<span class="kn">from</span> <span class="nn">.fed_dataset</span> <span class="kn">import</span> <span class="n">FedVisionDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..models</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span> <span class="k">as</span> <span class="n">mnn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..models.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">top_n_accuracy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils._download_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">http_get</span><span class="p">,</span> <span class="n">url_is_reachable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.const</span><span class="w"> </span><span class="kn">import</span> <span class="n">CACHED_DATA_DIR</span><span class="p">,</span> <span class="n">MNIST_LABEL_MAP</span><span class="p">,</span> <span class="n">MNIST_MEAN</span><span class="p">,</span> <span class="n">MNIST_STD</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">CategoricalLabelToTensor</span><span class="p">,</span> <span class="n">FixedDegreeRotation</span><span class="p">,</span> <span class="n">ImageArrayToTensor</span><span class="p">,</span> <span class="n">distribute_images</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._register</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_fed_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.fed_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">FedVisionDataset</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;FedRotatedMNIST&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="FedRotatedMNIST"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST">[docs]</a><span class="nd">@register_fed_dataset</span><span class="p">()</span>
-<span class="k">class</span> <span class="nc">FedRotatedMNIST</span><span class="p">(</span><span class="n">FedVisionDataset</span><span class="p">):</span>
+<div class="viewcode-block" id="FedRotatedMNIST">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST">[docs]</a>
+<span class="nd">@register_fed_dataset</span><span class="p">()</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FedRotatedMNIST</span><span class="p">(</span><span class="n">FedVisionDataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;MNIST dataset with rotation augmentation.</span>
 
 <span class="sd">    The rotations are fixed and are multiples of 360 / num_rotations</span>
@@ -459,7 +460,7 @@ document.write(`
 
     <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;FedRotatedMNIST&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">num_rotations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
@@ -472,7 +473,7 @@ document.write(`
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_clients</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_rotations</span> <span class="o">==</span> <span class="mi">0</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">datadir</span><span class="o">=</span><span class="n">datadir</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_preload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datadir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Preload the dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -619,7 +620,9 @@ document.write(`
             <span class="p">)</span>
         <span class="k">del</span> <span class="n">raw_images</span><span class="p">,</span> <span class="n">raw_labels</span>
 
-<div class="viewcode-block" id="FedRotatedMNIST.get_dataloader"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.get_dataloader">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataloader</span><span class="p">(</span>
+<div class="viewcode-block" id="FedRotatedMNIST.get_dataloader">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.get_dataloader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataloader</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">train_bs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">test_bs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -679,12 +682,18 @@ document.write(`
 
         <span class="k">return</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">test_dl</span></div>
 
-<div class="viewcode-block" id="FedRotatedMNIST.extra_repr_keys"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.extra_repr_keys">[docs]</a>    <span class="k">def</span> <span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="FedRotatedMNIST.extra_repr_keys">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.extra_repr_keys">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="s2">&quot;n_class&quot;</span><span class="p">,</span>
         <span class="p">]</span> <span class="o">+</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="FedRotatedMNIST.evaluate"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="FedRotatedMNIST.evaluate">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.evaluate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">truths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluation using predictions and ground truth.</span>
 
 <span class="sd">        Parameters</span>
@@ -708,8 +717,9 @@ document.write(`
             <span class="s2">&quot;num_samples&quot;</span><span class="p">:</span> <span class="n">probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">}</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Mirror sites for downloading the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;aws&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ossci-datasets.s3.amazonaws.com/mnist/&quot;</span><span class="p">,</span>
@@ -718,7 +728,7 @@ document.write(`
         <span class="p">}</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;URLs for downloading the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;train-images&quot;</span><span class="p">:</span> <span class="s2">&quot;train-images-idx3-ubyte.gz&quot;</span><span class="p">,</span>
@@ -727,7 +737,9 @@ document.write(`
             <span class="s2">&quot;test-labels&quot;</span><span class="p">:</span> <span class="s2">&quot;t10k-labels-idx1-ubyte.gz&quot;</span><span class="p">,</span>
         <span class="p">}</span>
 
-<div class="viewcode-block" id="FedRotatedMNIST.download_if_needed"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.download_if_needed">[docs]</a>    <span class="k">def</span> <span class="nf">download_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FedRotatedMNIST.download_if_needed">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.download_if_needed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">download_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download data if needed.&quot;&quot;&quot;</span>
         <span class="c1"># default_mirror = &quot;lecun&quot;  # not reachable (403 Forbidden)</span>
         <span class="n">default_mirror</span> <span class="o">=</span> <span class="s2">&quot;aws&quot;</span>
@@ -751,8 +763,9 @@ document.write(`
                 <span class="k">continue</span>
             <span class="n">http_get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datadir</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">candidate_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A set of candidate models.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;cnn_mnist&quot;</span><span class="p">:</span> <span class="n">mnn</span><span class="o">.</span><span class="n">CNNMnist</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_class</span><span class="p">),</span>
@@ -763,7 +776,7 @@ document.write(`
         <span class="p">}</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">doi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">doi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;DOI(s) related to the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="s2">&quot;10.1109/5.726791&quot;</span><span class="p">,</span>  <span class="c1"># MNIST</span>
@@ -771,11 +784,13 @@ document.write(`
         <span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">label_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">label_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Label map for the dataset.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">MNIST_LABEL_MAP</span>
 
-<div class="viewcode-block" id="FedRotatedMNIST.view_image"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.view_image">[docs]</a>    <span class="k">def</span> <span class="nf">view_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">image_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FedRotatedMNIST.view_image">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.view_image">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">view_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">image_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;View a single image.</span>
 
 <span class="sd">        Parameters</span>
@@ -790,7 +805,7 @@ document.write(`
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
         <span class="k">if</span> <span class="n">client_idx</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_clients</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;client_idx must be less than </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_clients</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="n">client_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -813,7 +828,10 @@ document.write(`
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;image_idx: </span><span class="si">{</span><span class="n">image_idx</span><span class="si">}</span><span class="s2">, label: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">label</span><span class="p">)]</span><span class="si">}</span><span class="s2">), &quot;</span> <span class="sa">f</span><span class="s2">&quot;angle: </span><span class="si">{</span><span class="n">angle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="FedRotatedMNIST.random_grid_view"><a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.random_grid_view">[docs]</a>    <span class="k">def</span> <span class="nf">random_grid_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nrow</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ncol</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">save_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FedRotatedMNIST.random_grid_view">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.random_grid_view">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">random_grid_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nrow</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ncol</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">save_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Select randomly `nrow` x `ncol` images from the dataset</span>
 <span class="sd">        and plot them in a grid.</span>
 
@@ -831,7 +849,7 @@ document.write(`
 <span class="sd">        None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
         <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
 
@@ -851,7 +869,9 @@ document.write(`
         <span class="k">if</span> <span class="n">save_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div></div>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+</div>
+
 </pre></div>
 
                 </article>
