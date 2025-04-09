@@ -587,6 +587,7 @@ class Server(Node, CitationMixin):
         config: ServerConfig,
         client_config: ClientConfig,
         lazy: bool = False,
+        silent: bool = False,
     ) -> None:
         self.model = model
         self.dataset = dataset
@@ -626,6 +627,7 @@ class Server(Node, CitationMixin):
             model=self.model.__class__.__name__,
             dataset=self.dataset.__class__.__name__,
             verbose=self.config.verbose,
+            silent=silent,
         )
         self._logger_manager = LoggerManager.from_config(logger_config)
 

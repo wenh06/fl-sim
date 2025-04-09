@@ -181,13 +181,16 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
     return configs, parallel_config
 
 
-def single_run(config: CFG) -> None:
+def single_run(config: CFG, silent: bool = False) -> None:
     """run a single experiment.
 
     Parameters
     ----------
     config : CFG
         The config of the experiment.
+    silent : bool, default=False
+        Whether to suppress the output to the console.
+        If True, no logs will be printed to the console, but they will still be saved to log files.
 
     Returns
     -------
@@ -283,6 +286,8 @@ def single_run(config: CFG) -> None:
     server_init_kwargs = {}
     if "lazy" in inspect.getfullargspec(server_cls).args:
         server_init_kwargs["lazy"] = False
+    if silent:
+        server_init_kwargs["silent"] = True
 
     s = server_cls(
         model,
@@ -293,8 +298,6 @@ def single_run(config: CFG) -> None:
     )
 
     s._logger_manager.log_message(f"Experiment config:\n{config_bak}")
-
-    # s._setup_clients()
 
     # execute the experiment
     # s.train_federated()
