@@ -11,6 +11,7 @@ This module contains various loggers.
 import json
 import logging
 import re
+import sys
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from datetime import datetime
@@ -19,6 +20,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
 import torch
+import tqdm
 import yaml
 from torch_ecg.utils import ReprMixin, add_docstring, get_date_str, get_kwargs, init_logger
 
@@ -183,6 +185,26 @@ class BaseLogger(ReprMixin, ABC):
         ]
 
 
+class TqdmStreamWrapper:
+    """
+     A file-like wrapper class that redirects writes to tqdm.write.
+    Useful for diverting logging StreamHandler output.
+    """
+
+    def write(self, msg: str):
+        # Remove potential leading/trailing whitespace and newlines
+        # logging handlers might add extra newlines
+        cleaned_msg = msg.strip()
+        if cleaned_msg:  # Avoid writing empty lines
+            # Use file=sys.__stdout__ to ensure it prints to the actual console
+            # even if sys.stdout is temporarily redirected elsewhere.
+            tqdm.tqdm.write(cleaned_msg, file=sys.__stdout__)
+
+    def flush(self):
+        # tqdm.write usually flushes automatically, but provide flush for interface compatibility
+        sys.__stdout__.flush()
+
+
 class TxtLogger(BaseLogger):
     """Logger that logs to a text file.
 
@@ -228,6 +250,30 @@ class TxtLogger(BaseLogger):
             verbose=verbose,
         )
         self.step = -1
+        # redirect the console output to tqdm.write
+        self._init_redirection()
+
+    def _init_redirection(self):
+        # Find the StreamHandler intended for stdout and redirect its stream
+        self.tqdm_stream_wrapper = TqdmStreamWrapper()
+        found_stream_handler = False
+        for handler in self.logger.handlers:
+            # Check if it's a StreamHandler AND it writes to the original sys.stdout
+            # init_logger specifically uses sys.stdout for the console handler
+            if isinstance(handler, logging.StreamHandler) and handler.stream == sys.stdout:
+                # Redirect this handler's output to our TqdmStreamWrapper
+                handler.stream = self.tqdm_stream_wrapper
+                found_stream_handler = True
+                if self.verbose >= 1:  # Optional: Inform user if verbose
+                    print(
+                        "TxtLogger: Redirected console output via tqdm.write.", file=sys.__stderr__
+                    )  # Use stderr for setup messages
+                break  # Assume only one stdout StreamHandler from init_logger
+
+        if not found_stream_handler and self.verbose >= 1:
+            # It's possible init_logger didn't add a StreamHandler if verbose was very low
+            # or if its logic changes in the future. Inform the user.
+            print("TxtLogger: Warning - Could not find StreamHandler for console output redirection.", file=sys.__stderr__)
 
     def log_metrics(
         self,
@@ -300,6 +346,8 @@ class TxtLogger(BaseLogger):
             verbose=self.verbose,
         )
         self.step = -1
+        # re-apply the redirection
+        self._init_redirection()
 
     @classmethod
     def from_config(cls, config: Dict[str, Any]) -> "TxtLogger":

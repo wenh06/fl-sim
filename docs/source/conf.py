@@ -73,7 +73,6 @@ bibtex_footbibliography_header = bibtex_bibliography_header
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
-    "np": ("https://numpy.org/doc/stable/", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "pd": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     # "scipy": ("https://docs.scipy.org/doc/scipy/", None),
