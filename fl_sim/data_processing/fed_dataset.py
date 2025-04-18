@@ -461,6 +461,7 @@ class FedNLPDataset(FedDataset, ABC):
         self.datadir = Path(datadir) if datadir is not None else None
         self.seed = seed
         set_seed(self.seed)
+        self._is_iid = extra_config.pop("is_iid", None)
         for k, v in extra_config.items():
             setattr(self, k, v)
 
@@ -639,6 +640,10 @@ class FedNLPDataset(FedDataset, ABC):
     @abstractmethod
     def get_word_dict(self) -> Dict[str, int]:
         raise NotImplementedError
+
+    @property
+    def is_iid(self) -> bool:
+        return self._is_iid
 
 
 class NLPDataset(torchdata.Dataset, ReprMixin):

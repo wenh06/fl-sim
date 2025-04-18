@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Callable, Dict, List, Literal, Optional, Tuple, Union
 
 import numpy as np
 import torch
@@ -73,7 +73,7 @@ class CIFAR_truncated(ReprMixin, torchdata.Dataset):
 
     def __init__(
         self,
-        n_class: int = 10,
+        n_class: Literal[10, 100] = 10,
         root: Optional[Union[str, Path]] = None,
         dataidxs: Optional[List[int]] = None,
         train: bool = True,
@@ -269,7 +269,7 @@ class Cutout(object):
         return img
 
 
-def _data_transforms_cifar(n_class: int) -> Tuple[Callable, Callable]:
+def _data_transforms_cifar(n_class: Literal[10, 100]) -> Tuple[Callable, Callable]:
     """Get data transforms for CIFAR data.
 
     Parameters

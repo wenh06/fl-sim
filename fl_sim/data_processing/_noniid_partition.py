@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Literal, Tuple
 
 import numpy as np
 
@@ -13,7 +13,7 @@ def non_iid_partition_with_dirichlet_distribution(
     client_num: int,
     classes: int,
     alpha: float,
-    task: str = "classification",
+    task: Literal["classification", "segmentation"] = "classification",
 ) -> Dict[int, List[int]]:
     """
     Obtain sample index list for each client from the Dirichlet distribution.
