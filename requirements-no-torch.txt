@@ -1,6 +1,6 @@
 einops
 h5py
-numpy<2.0.0
+numpy
 pandas
 Pillow
 scikit-learn
@@ -11,9 +11,9 @@ nltk
 datasets
 tokenizers>=0.12.1
 requests
-bib-lookup>=0.0.19
+bib-lookup
 deprecate-kwargs
-torch-ecg>=0.0.26
+torch-ecg
 PyYAML
 packaging
 PeakUtils

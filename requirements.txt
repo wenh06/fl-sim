@@ -1,6 +1,6 @@
 einops
 h5py
-numpy<2.0.0
+numpy
 pandas
 Pillow
 scikit-learn
@@ -14,9 +14,9 @@ tqdm
 beautifulsoup4
 nltk
 requests
-bib-lookup>=0.0.19
+bib-lookup
 deprecate-kwargs
-torch-ecg>=0.0.26
+torch-ecg
 PyYAML
 packaging
 PeakUtils
