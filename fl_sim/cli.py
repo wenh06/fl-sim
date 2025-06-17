@@ -81,7 +81,7 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
     if configs.get("env", None) is not None:
         for k, v in configs["env"].items():
             os.environ[k] = str(v)
- 
+
     if "strategy" not in configs or "matrix" not in configs["strategy"]:
         # no matrix specified, run a single experiment
         # replace pattern of the form ${{ xx.xx... }} with corresponding value
@@ -115,14 +115,14 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
     # parallel config
     parallel_config = CFG({"mode": "serial"})
     n_parallel = int(configs["strategy"].get("n_parallel", 1))
-    
+
     if "parallel" in configs["strategy"]:
         parallel_config = CFG(configs["strategy"]["parallel"])
         if "mode" not in parallel_config:
             parallel_config["mode"] = "serial"
         elif parallel_config["mode"] not in ["serial", "parallel_task"]:
             raise ValueError(f"Invalid parallel mode: {parallel_config['mode']}")
-        
+
         if parallel_config["mode"] == "serial" and n_parallel > 1:
             warnings.warn("`n_parallel` is ignored when parallel mode is 'serial'")
         elif parallel_config["mode"] == "parallel_task":
@@ -181,16 +181,18 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
     return configs, parallel_config
 
 
-def single_run(config: CFG, silent: bool = False) -> None:
+def single_run(config: CFG, is_subprocess: bool = False) -> None:
     """run a single experiment.
 
     Parameters
     ----------
     config : CFG
         The config of the experiment.
-    silent : bool, default=False
-        Whether to suppress the output to the console.
-        If True, no logs will be printed to the console, but they will still be saved to log files.
+    is_subprocess : bool, default=False
+        Whether to run the experiment in a subprocess.
+        If True, most of the output will be muted, tqdm will be disabled,
+        and warnings and exceptions will be redirected to a queue and sent
+        to the parent process. Logs to files will not be affected.
 
     Returns
     -------
@@ -286,8 +288,8 @@ def single_run(config: CFG, silent: bool = False) -> None:
     server_init_kwargs = {}
     if "lazy" in inspect.getfullargspec(server_cls).args:
         server_init_kwargs["lazy"] = False
-    if silent:
-        server_init_kwargs["silent"] = True
+    if is_subprocess:
+        server_init_kwargs["is_subprocess"] = True
 
     s = server_cls(
         model,
@@ -308,7 +310,7 @@ def single_run(config: CFG, silent: bool = False) -> None:
 
 
 def run_parallel_task(configs: List[CFG], parallel_config: CFG) -> None:
-    """Run multiple experiments in parallel using Ray, etc.
+    """Run multiple experiments in parallel using our multiprocessing manager.
 
     Parameters
     ----------
@@ -324,24 +326,22 @@ def run_parallel_task(configs: List[CFG], parallel_config: CFG) -> None:
     assert parallel_config["mode"] == "parallel_task", "Parallel mode must be parallel_task"
     assert parallel_config["num_workers"] is not None, "Number of workers must be specified"
     num_workers = parallel_config["num_workers"]
-    
-    # initialize processes manager
-    
-    # run the experiments in parallel
-    
-    pass
+
+    # Import here to avoid circular imports
+    from .utils.multiprocessing import run_parallel_tasks
+
+    # Run the experiments in parallel with output management
+    run_parallel_tasks(configs, num_workers)
 
 
 def main():
     try:
         configs, parallel_config = parse_args()
-        # TODO: run multiple experiments in parallel using Ray, etc.
         if parallel_config["mode"] == "serial":
             for config in configs:
                 single_run(config)
         elif parallel_config["mode"] == "parallel_task":
-            # TODO: run multiple experiments in parallel using Ray, etc.
-            raise NotImplementedError("Parallel mode is not implemented yet.")
+            run_parallel_task(configs, parallel_config)
     except KeyboardInterrupt:
         print("Cancelled by user.")
     except Exception as e:

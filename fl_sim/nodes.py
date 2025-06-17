@@ -587,7 +587,7 @@ class Server(Node, CitationMixin):
         config: ServerConfig,
         client_config: ClientConfig,
         lazy: bool = False,
-        silent: bool = False,
+        is_subprocess: bool = False,
     ) -> None:
         self.model = model
         self.dataset = dataset
@@ -617,6 +617,12 @@ class Server(Node, CitationMixin):
                 f"set it to the default value {self._client_config.verbose}.",
                 RuntimeWarning,
             )
+        # multi-processing
+        self._subprocess = is_subprocess
+        if self._subprocess:
+            # import necessary modules for multi-processing
+            from .utils.multiprocessing import report_progress
+            self._report_progress = report_progress
 
         logger_config = dict(
             log_dir=self.config.log_dir,
@@ -627,7 +633,7 @@ class Server(Node, CitationMixin):
             model=self.model.__class__.__name__,
             dataset=self.dataset.__class__.__name__,
             verbose=self.config.verbose,
-            silent=silent,
+            silent=self._subprocess,
         )
         self._logger_manager = LoggerManager.from_config(logger_config)
 
@@ -842,6 +848,15 @@ class Server(Node, CitationMixin):
         self._complete_experiment = False
         epoch_losses = []
         self.n_iter, global_step = 0, 0
+        # report progress for multi-processing
+        if self._subprocess:
+            self._report_progress(
+                n_iter=self.n_iter,
+                num_iters=self.config.num_iters,
+                current_client_progress=None,
+                selected_clients_count=None,
+                training_phase="training",
+            )
         for self.n_iter in range(self.config.num_iters):
             with tqdm(
                 total=len(train_loader.dataset),
@@ -868,6 +883,15 @@ class Server(Node, CitationMixin):
                             }
                         )
                     pbar.update(data.shape[0])
+                    # report progress for multi-processing
+                    if self._subprocess:
+                        self._report_progress(
+                            n_iter=self.n_iter + 1,
+                            num_iters=self.config.num_iters,
+                            current_client_progress=None,
+                            selected_clients_count=None,
+                            training_phase="training",
+                        )
                     # free memory
                     del data, target, output, loss
                 epoch_loss.append(sum(batch_losses) / len(batch_losses))
@@ -926,6 +950,17 @@ class Server(Node, CitationMixin):
         self._complete_experiment = False
         self._logger_manager.log_message("Training federated...")
         self.n_iter = 0
+        # report progress for multi-processing
+        if self._subprocess:
+            self._report_progress(
+                n_iter=self.n_iter,
+                num_iters=self.config.num_iters,
+                current_client_progress=None,
+                selected_clients_count=None,
+                training_phase="training",
+            )
+            # DEBUG message
+            # print(f"DEBUG: report progress for multi-processing using {self._report_progress.__name__}")
         with tqdm(
             range(self.config.num_iters),
             total=self.config.num_iters,
@@ -943,6 +978,9 @@ class Server(Node, CitationMixin):
                     disable=self.config.verbose < 1,
                     leave=False,
                 ) as pbar:
+                    # count for client training progress for multi-processing
+                    if self._subprocess:
+                        count_client = 0
                     for client_id in selected_clients:
                         client = self._clients[client_id]
                         # server communicates with client
@@ -971,6 +1009,18 @@ class Server(Node, CitationMixin):
                         # and perhaps other local variables (e.g. gradients, etc.)
                         client._communicate(self)
                         pbar.update(1)
+                        # report progress for multi-processing
+                        if self._subprocess:
+                            count_client += 1
+                            self._report_progress(
+                                n_iter=self.n_iter + 1,
+                                num_iters=self.config.num_iters,
+                                current_client_progress=count_client,
+                                selected_clients_count=len(selected_clients),
+                                training_phase="training",
+                            )
+                            # DEBUG message
+                            # print("DEBUG: report progress for multi-processing")
                     if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
                         # server aggregates the metrics from clients
                         self.aggregate_client_metrics()
@@ -1006,6 +1056,15 @@ class Server(Node, CitationMixin):
         self._complete_experiment = False
         self._logger_manager.log_message("Training local...")
         self.n_iter = 0
+        # report progress for multi-processing
+        if self._subprocess:
+            self._report_progress(
+                n_iter=self.n_iter,
+                num_iters=self.config.num_iters,
+                current_client_progress=0,  # local training
+                selected_clients_count=len(self._clients),
+                training_phase="training",
+            )
         with tqdm(
             range(self.config.num_iters),
             total=self.config.num_iters,
@@ -1036,6 +1095,15 @@ class Server(Node, CitationMixin):
                                     part=part,
                                 )
                         pbar.update(1)
+                        # report progress for multi-processing
+                        if self._subprocess:
+                            self._report_progress(
+                                n_iter=self.n_iter + 1,
+                                num_iters=self.config.num_iters,
+                                current_client_progress=client_id + 1,  # counts the number of processed clients
+                                selected_clients_count=len(self._clients),
+                                training_phase="training",
+                            )
         self._logger_manager.log_message("Local training finished...")
         self._logger_manager.flush()
         self._complete_experiment = True
