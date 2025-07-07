@@ -40,6 +40,8 @@ def register_fed_dataset(name: Optional[str] = None, override: bool = True) -> A
                 warnings.warn(f"{_name} has already been registered", RuntimeWarning)
         else:
             _built_in_fed_datasets[_name] = cls_
+
+        cls_.__module__ = "fl_sim.data_processing"
         return cls_
 
     return wrapper

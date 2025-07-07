@@ -4,7 +4,7 @@ fl_sim.regularizers
 
 This module contains the regularizers for the optimization problems.
 
-.. contents::
+.. contents:: fl_sim.regularizers
     :depth: 2
     :local:
     :backlinks: top

@@ -55,6 +55,8 @@ def register_algorithm(name: Optional[str] = None, override: bool = True) -> Any
             _built_in_algorithms[_name] = {}
         if override or field not in _built_in_algorithms[_name]:
             _built_in_algorithms[_name][field] = cls_
+
+        cls_.__module__ = "fl_sim.algorithms"
         return cls_
 
     return wrapper

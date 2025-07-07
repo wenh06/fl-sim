@@ -37,8 +37,9 @@ class FedTinyImageNet(FedVisionDataset):
     The Tiny ImageNet dataset is a subset of the ImageNet dataset. It consists of 200 classes, each with 500 training
     images and 50 validation images and 50 test images. The images are downsampled to 64x64 pixels.
 
-    The original dataset [1]_ contains the test images while the hugingface dataset [3]_ does not contain the test images.
-    We use the hugingface dataset [3]_ for simplicity, and treat the validation set as the test set.
+    The original dataset [1]_ contains the test images while the hugingface dataset [2]_ does not contain the test images.
+    We use the hugingface dataset [2]_ for simplicity, and treat the validation set as the test set.
+    See also the Kaggle competition [3]_ for more details.
 
     Parameters
     ----------
@@ -60,8 +61,8 @@ class FedTinyImageNet(FedVisionDataset):
     References
     ----------
     .. [1] http://cs231n.stanford.edu
-    .. [2] https://kaggle.com/competitions/tiny-imagenet
-    .. [3] https://huggingface.co/datasets/zh-plus/tiny-imagenet
+    .. [2] https://huggingface.co/datasets/zh-plus/tiny-imagenet
+    .. [3] https://kaggle.com/competitions/tiny-imagenet
 
     """
 

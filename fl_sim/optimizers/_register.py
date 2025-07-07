@@ -46,6 +46,8 @@ def register_optimizer(name: Optional[str] = None, override: bool = True) -> Any
                 warnings.warn(f"{_name} has already been registered", RuntimeWarning)
         else:
             _built_in_optimizers[_name] = cls_
+
+        cls_.__module__ = "fl_sim.optimizers"
         return cls_
 
     return wrapper

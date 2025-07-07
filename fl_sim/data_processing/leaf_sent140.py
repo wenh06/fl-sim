@@ -19,7 +19,7 @@ LEAF_SENT140_DATA_DIR = CACHED_DATA_DIR / "leaf_sent140"
 LEAF_SENT140_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
-# @register_fed_dataset()
+@register_fed_dataset()
 class LeafSent140(FedNLPDataset):
     """Federeated Sentiment140 dataset from Leaf.
 

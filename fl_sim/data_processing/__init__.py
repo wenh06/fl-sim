@@ -4,7 +4,7 @@ fl_sim.data_processing
 
 This module contains federated datasets and data processing utilities.
 
-.. contents::
+.. contents:: fl_sim.data_processing
     :depth: 2
     :local:
     :backlinks: top
