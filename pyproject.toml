@@ -1,0 +1,128 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fl-sim"
+dynamic = ["version"]
+description = "A Simple Simulation Framework for Federated Learning Based on PyTorch"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+authors = [
+    { name = "wenh06", email = "wenh06@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "beautifulsoup4",
+    "bib-lookup",
+    "datasets",
+    "deprecate-kwargs",
+    "einops",
+    "h5py",
+    "nltk",
+    "numpy",
+    "packaging",
+    "pandas",
+    "PeakUtils",
+    "Pillow",
+    "PyYAML",
+    "requests",
+    "scikit-learn",
+    "scipy",
+    "tokenizers>=0.12.1",
+    "torch-ecg",
+    "torch-optimizer",
+    "torch>=1.10.0",
+    "torchvision>=0.11.0",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ipython",
+    "ipywidgets",
+    "matplotlib",
+    "nbsphinx",
+    "numpydoc",
+    "packaging",
+    "pre-commit",
+    "pydata-sphinx-theme",
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+    "seaborn",
+    "sphinx",
+    "sphinx-autobuild",
+    "sphinx-book-theme",
+    "sphinx-copybutton",
+    "sphinx-design",
+    "sphinx-emoji-favicon",
+    "sphinx-markdown-tables",
+    "sphinx-multiversion",
+    "sphinx-rtd-theme",
+    "sphinx-theme",
+    "sphinxcontrib-bibtex",
+    "sphinxcontrib-napoleon",
+    "sphinxcontrib-proof",
+    "sphinxcontrib-tikz",
+    "termcolor",
+    "tqdm",
+]
+docs = [
+    "nbsphinx",
+    "numpydoc",
+    "pydata-sphinx-theme",
+    "sphinx",
+    "sphinx-autobuild",
+    "sphinx-book-theme",
+    "sphinx-copybutton",
+    "sphinx-design",
+    "sphinx-emoji-favicon",
+    "sphinx-markdown-tables",
+    "sphinx-multiversion",
+    "sphinx-rtd-theme",
+    "sphinx-theme",
+    "sphinxcontrib-bibtex",
+    "sphinxcontrib-napoleon",
+    "sphinxcontrib-proof",
+    "sphinxcontrib-tikz",
+    "tqdm",
+]
+test = [
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+]
+viz = [
+    "ipython",
+    "ipywidgets",
+    "matplotlib",
+    "packaging",
+    "seaborn",
+    "termcolor",
+]
+
+[project.scripts]
+fl-sim = "fl_sim.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/wenh06/fl_sim"
+
+[tool.hatch.version]
+path = "fl_sim/version.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/fl_sim",
+]

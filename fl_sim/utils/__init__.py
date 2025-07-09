@@ -4,7 +4,7 @@ fl_sim.utils
 
 This module contains various utilities for the ``fl-sim`` package.
 
-.. contents::
+.. contents:: fl_sim.utils
     :depth: 2
     :local:
     :backlinks: top
