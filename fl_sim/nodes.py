@@ -591,6 +591,10 @@ class Server(Node, CitationMixin):
     ) -> None:
         self.model = model
         self.dataset = dataset
+        # NOTE: get server val loader from dataset for centralized evaluation
+        # If the dataset does not provide a server val loader,
+        # we will ignore and there will be no centralized evaluation.
+        self.server_val_loader = dataset.get_server_val_loader() if dataset.get_server_val_loader else None
         self.criterion = deepcopy(dataset.criterion)
         assert isinstance(config, self.config_cls["server"]), (
             f"(server) config should be an instance of " f"{self.config_cls['server']}, but got {type(config)}."
@@ -981,6 +985,17 @@ class Server(Node, CitationMixin):
                     # count for client training progress for multi-processing
                     if self._subprocess:
                         count_client = 0
+                    # NOTE: evaluate centralized model on server val loader
+                    if self.server_val_loader:
+                        # TODO: reimplement evaluate logic
+                        metrics = self.evaluate_centralized(self.server_val_loader)
+                        self._logger_manager.log_metrics(
+                            None,
+                            metrics,
+                            step=self._num_communications,  # NOTE: use number of communications as step for now
+                            epoch=self.n_iter,
+                            part="c_val",
+                        )
                     for client_id in selected_clients:
                         client = self._clients[client_id]
                         # server communicates with client
