@@ -986,6 +986,9 @@ class Server(Node, CitationMixin):
                         # server communicates with client
                         # typically broadcasting the global model to the client
                         self._communicate(client)
+                        # NOTE: before evaluating, the client should accept parameters
+                        # if the key in received_messages is not "parameters", accept_parameters need to be reimplemented
+                        client.accept_parameters()
                         if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
                             for part in self.dataset.data_parts:
                                 # NOTE: one should execute `client.evaluate`
@@ -1475,6 +1478,14 @@ class Client(Node):
         # move self._metrics to self._cached_metrics
         self._cached_metrics.append(self._metrics.copy())
         self._metrics = {}  # clear the metrics
+        
+    def accept_parameters(self) -> None:
+        """
+        Accepts parameters from received_messages.
+        Need to be implemented in the child class to specify part in received_messages
+        if the key is not "parameters".
+        """
+        self.set_parameters(self._received_messages["parameters"])
 
     def _update(self) -> None:
         """Client update, and clear cached messages

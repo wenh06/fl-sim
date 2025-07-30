@@ -214,7 +214,10 @@ class ProxSGD(ProxSGD_VR):
         closure: Optional[callable] = None,
         **kwargs: Any,
     ) -> Optional[Tensor]:
-        return super().step(local_weights, None, closure, **kwargs)
+        # remove "variance_buffer" in kwargs
+        if "variance_buffer" in kwargs:
+            del kwargs["variance_buffer"]
+        return super().step(local_weights, variance_buffer=None, closure=closure, **kwargs)
 
 
 @register_optimizer()
