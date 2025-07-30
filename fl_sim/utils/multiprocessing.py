@@ -35,10 +35,10 @@ def report_progress(n_iter=None, num_iters=None,
     if hasattr(sys.stdout, '_send'):
         # format the progress data
         progress_data = {
-            'current_iter': n_iter if n_iter is not None else None,
-            'total_iters': num_iters if num_iters is not None else None,
-            'current_clients': current_client_progress,
-            'total_clients': selected_clients_count,
+            'current_iter': n_iter if n_iter is not None else 0,
+            'total_iters': num_iters if num_iters is not None else 0,
+            'current_clients': current_client_progress if current_client_progress is not None else 0,
+            'total_clients': selected_clients_count if selected_clients_count is not None else 0,
             'phase': training_phase,  # 'idle', 'training', 'evaluating', 'updating'
         }
         
@@ -122,6 +122,7 @@ class OutputManager:
         self.last_status_print = 0
         self.logs_since_status = 0  # Counter for logs since last status print
         self.show_status = True
+        self.total_tasks = 0
         
     def register_process(self, pid: int, task_id: int, task_tag: str) -> None:
         """Register a new process to be monitored."""
@@ -205,7 +206,7 @@ class OutputManager:
             total_messages = sum(s.message_count for s in self.process_statuses.values())
             
             print("-"*80)
-            print(f"Running: {running} | Completed: {completed} | Total Messages: {total_messages}")
+            print(f"Running: {running} | Task Progress: {completed}/{self.total_tasks} | Total Messages: {total_messages}")
             print("="*80 + "\n")
     
     def _display_loop(self):
@@ -422,6 +423,9 @@ class MultiprocessManager:
             return
         
         try:
+            # Pass the total number of tasks to the output manager.
+            self.output_manager.total_tasks = len(self.tasks)
+            
             # Start output manager
             self.output_manager.start()
             
