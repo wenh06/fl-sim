@@ -20,6 +20,7 @@ from ..utils.const import (
 )
 from ._register import register_fed_dataset
 from .fed_dataset import FedVisionDataset, VisionDataset
+from ._noniid_partition import non_iid_partition_with_dirichlet_distribution, record_data_stats
 
 __all__ = [
     "FedCIFAR",
@@ -490,3 +491,190 @@ def _data_transforms_fed_cifar(
                 transforms.Normalize(mean=mean, std=std),
             ]
         )
+
+
+@register_fed_dataset()
+class FedCIFAR100_LDA(FedCIFAR100):
+    """Federated CIFAR-100 dataset partitioned by Latent Dirichlet Allocation (LDA).
+
+    This class extends `FedCIFAR100` to create a non-IID data distribution
+    among clients. Instead of using the default TFF partition, it loads the
+    entire training dataset and repartitions it among a specified number of
+    clients using a Dirichlet distribution, controlled by the `lda_alpha` parameter.
+
+    A smaller `lda_alpha` value results in a more skewed, non-IID distribution,
+    where each client may only have data from a few classes. A larger `lda_alpha`
+    value leads to a more uniform, IID-like distribution.
+
+    The test dataset remains global and is shared among all clients for evaluation.
+
+    Parameters
+    ----------
+    num_clients : int
+        The total number of clients to partition the data for.
+    lda_alpha : float
+        The concentration parameter for the Dirichlet distribution. Controls the
+        degree of non-IID-ness.
+    datadir : str or pathlib.Path, optional
+        Path to the dataset directory. If ``None``, uses the default cache path.
+    transform : str or callable, optional
+        Transformation to apply to the images. Defaults to ``"none"``.
+    seed : int, optional
+        Random seed for data shuffling and partitioning. Defaults to 0.
+    **extra_config : dict, optional
+        Extra configurations for the dataset.
+
+    """
+
+    __name__ = "FedCIFAR100_LDA"
+
+    def __init__(
+        self,
+        num_clients: int,
+        lda_alpha: float,
+        datadir: Optional[Union[str, Path]] = None,
+        transform: Optional[Union[str, Callable]] = "none",
+        seed: int = 0,
+        **extra_config: Any,
+    ) -> None:
+        # Call the parent constructor to handle data downloading, default paths, etc.
+        super().__init__(datadir=datadir, transform=transform, seed=seed, **extra_config)
+
+        self.num_clients = num_clients
+        self.lda_alpha = lda_alpha
+
+        # Set the random seed for reproducible partitioning
+        np.random.seed(self.seed)
+
+        print("Partitioning data using LDA. This may take a moment...")
+        # Step 1: Load all training labels from the HDF5 file to perform the partition.
+        train_h5_path = self.datadir / self.DEFAULT_TRAIN_FILE
+        with h5py.File(str(train_h5_path), "r") as train_h5:
+            # The original data is partitioned into 500 clients. We merge them.
+            all_train_labels = np.concatenate(
+                [train_h5[self._EXAMPLE][client_id][self._LABEL][()] for client_id in self._client_ids_train]
+            )
+
+        # Step 2: Use the LDA utility function to get the partition map.
+        # The map is a dictionary {client_idx: [sample_indices]}
+        self.partition_map = non_iid_partition_with_dirichlet_distribution(
+            label_list=all_train_labels,
+            client_num=self.num_clients,
+            classes=self.n_class,
+            alpha=self.lda_alpha,
+            task="classification",
+        )
+
+        # Step 3 (Optional but recommended): Record the data statistics for analysis.
+        self.data_statistics = record_data_stats(all_train_labels, self.partition_map)
+        print("Data partitioning complete.")
+
+    def get_dataloader(
+        self,
+        train_bs: Optional[int] = None,
+        test_bs: Optional[int] = None,
+        client_idx: Optional[int] = None,
+    ) -> Tuple[torchdata.DataLoader, torchdata.DataLoader]:
+        """Get local dataloader for a client created by LDA partition.
+
+        This method overrides the parent implementation. It loads the entire
+        training dataset and then selects the subset of data for the specified
+        `client_idx` based on the pre-computed LDA partition map.
+
+        The test dataloader contains the complete, global test set, which is
+        standard practice for evaluation in federated learning.
+
+        Parameters
+        ----------
+        train_bs : int, optional
+            Batch size for training dataloader. If ``None``, use default batch size.
+        test_bs : int, optional
+            Batch size for testing dataloader. If ``None``, use default batch size.
+        client_idx : int, optional
+            Index of the client (from 0 to `num_clients` - 1).
+            If ``None``, returns a dataloader for the entire dataset for centralized training.
+
+        Returns
+        -------
+        train_dl : torch.utils.data.DataLoader
+            Training dataloader for the specified client.
+        test_dl : torch.utils.data.DataLoader
+            Global testing dataloader.
+
+        """
+        if client_idx is None:
+            # For centralized training, fall back to the parent's behavior.
+            return super().get_dataloader(train_bs, test_bs, None)
+
+        if not (0 <= client_idx < self.num_clients):
+            raise ValueError(f"`client_idx` must be between 0 and {self.num_clients - 1}, but got {client_idx}.")
+
+        train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
+        test_h5 = h5py.File(str(self.datadir / self.DEFAULT_TEST_FILE), "r")
+
+        # --- Load entire dataset into memory ---
+        # This is necessary because LDA partition gives indices over the whole dataset.
+        # For CIFAR-100, this is feasible (50000 images, ~150MB).
+        all_train_x = np.vstack([train_h5[self._EXAMPLE][cid][self._IMGAE][()] for cid in self._client_ids_train])
+        all_train_y = np.concatenate([train_h5[self._EXAMPLE][cid][self._LABEL][()] for cid in self._client_ids_train])
+
+        all_test_x = np.vstack([test_h5[self._EXAMPLE][cid][self._IMGAE][()] for cid in self._client_ids_test])
+        all_test_y = np.concatenate([test_h5[self._EXAMPLE][cid][self._LABEL][()] for cid in self._client_ids_test])
+
+        # --- Slice data for the specific client using the LDA partition map ---
+        client_sample_indices = self.partition_map[client_idx]
+        train_x = all_train_x[client_sample_indices]
+        train_y = all_train_y[client_sample_indices]
+
+        # --- Create Datasets and DataLoaders ---
+        # The logic below is adapted from the parent class to ensure consistency.
+
+        # Create training dataset
+        if self.transform == "none":
+            # Apply static normalization (old behavior).
+            transform = _data_transforms_fed_cifar(self.n_class, train=True)
+            train_x_tensor = transform(
+                # Permute from HWC (channel last) to CHW (channel first) and normalize.
+                torch.div(torch.from_numpy(train_x).permute(0, 3, 1, 2), 255.0)
+            )
+            train_y_tensor = torch.from_numpy(train_y).long()
+            train_ds = torchdata.TensorDataset(train_x_tensor, train_y_tensor)
+        else:
+            # Use dynamic transforms (e.g., augmentations).
+            train_ds = VisionDataset(
+                images=torch.from_numpy(train_x).permute(0, 3, 1, 2).to(torch.uint8),
+                targets=torch.from_numpy(train_y).long(),
+                transform=self.transform,
+            )
+
+        # Create test dataset (always static with normalization only).
+        test_transform = _data_transforms_fed_cifar(self.n_class, train=False)
+        test_x_tensor = test_transform(
+            torch.div(torch.from_numpy(all_test_x).permute(0, 3, 1, 2), 255.0)
+        )
+        test_y_tensor = torch.from_numpy(all_test_y).long()
+        test_ds = torchdata.TensorDataset(test_x_tensor, test_y_tensor)
+
+        # Create DataLoaders.
+        train_dl = torchdata.DataLoader(
+            dataset=train_ds,
+            batch_size=train_bs or self.DEFAULT_BATCH_SIZE,
+            shuffle=True,
+            drop_last=False,
+        )
+
+        test_dl = torchdata.DataLoader(
+            dataset=test_ds,
+            batch_size=test_bs or self.DEFAULT_BATCH_SIZE,
+            shuffle=False,  # Test set is typically not shuffled.
+            drop_last=False,
+        )
+
+        train_h5.close()
+        test_h5.close()
+
+        return train_dl, test_dl
+
+    def extra_repr_keys(self) -> List[str]:
+        """Add LDA-specific parameters to the class representation."""
+        return super().extra_repr_keys() + ["num_clients", "lda_alpha"]
