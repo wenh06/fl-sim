@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Optional, Sequence, Tuple, Union
 
 import h5py
 import numpy as np
@@ -93,7 +93,7 @@ class FedCIFAR(FedVisionDataset):
 
     def __init__(
         self,
-        n_class: int = 100,
+        n_class: Literal[10, 100] = 100,
         datadir: Optional[Union[str, Path]] = None,
         transform: Optional[Union[str, Callable]] = "none",
         seed: int = 0,
