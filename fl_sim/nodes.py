@@ -540,6 +540,9 @@ class Node(ReprMixin, ABC):
             leave=False,
             disable=int(os.environ.get("FLSIM_VERBOSE", "1")) < 1,
         ):
+            if v.key == "Server":
+                # skip server metrics
+                continue
             for item in v:
                 idx = epochs.index(item["epoch"])
                 metric_curve[idx].append(item[metric] * item["num_samples"])
@@ -592,9 +595,8 @@ class Server(Node, CitationMixin):
         self.model = model
         self.dataset = dataset
         # NOTE: get server val loader from dataset for centralized evaluation
-        # If the dataset does not provide a server val loader,
-        # we will ignore and there will be no centralized evaluation.
-        self.server_val_loader = dataset.get_server_val_loader() if dataset.get_server_val_loader else None
+        # TODO: reimplement dataset.get_dataloader, add parameter to get server val loader alone
+        _, self.server_val_loader = dataset.get_dataloader()
         self.criterion = deepcopy(dataset.criterion)
         assert isinstance(config, self.config_cls["server"]), (
             f"(server) config should be an instance of " f"{self.config_cls['server']}, but got {type(config)}."
@@ -974,6 +976,7 @@ class Server(Node, CitationMixin):
         ) as outer_pbar:
             for self.n_iter in outer_pbar:
                 selected_clients = self._sample_clients()
+                self.selected_clients = selected_clients
                 with tqdm(
                     total=len(selected_clients),
                     desc=f"Iter {self.n_iter+1}/{self.config.num_iters}",
@@ -994,8 +997,9 @@ class Server(Node, CitationMixin):
                             metrics,
                             step=self._num_communications,  # NOTE: use number of communications as step for now
                             epoch=self.n_iter,
-                            part="c_val",
+                            part="val",
                         )
+                    self.pre_iter()
                     for client_id in selected_clients:
                         client = self._clients[client_id]
                         # server communicates with client
@@ -1005,19 +1009,19 @@ class Server(Node, CitationMixin):
                         # if the key in received_messages is not "parameters", accept_parameters need to be reimplemented
                         client.accept_parameters()
                         if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
-                            for part in self.dataset.data_parts:
-                                # NOTE: one should execute `client.evaluate`
-                                # before `client._update`,
-                                # otherwise the evaluation would be done
-                                # on the ``personalized`` (locally fine-tuned) model.
-                                metrics = client.evaluate(part)
-                                self._logger_manager.log_metrics(
-                                    client_id,
-                                    metrics,
-                                    step=self.n_iter,
-                                    epoch=self.n_iter,
-                                    part=part,
-                                )
+                            part = "train" # only evaluate train metrics on clients
+                            # NOTE: one should execute `client.evaluate`
+                            # before `client._update`,
+                            # otherwise the evaluation would be done
+                            # on the ``personalized`` (locally fine-tuned) model.
+                            metrics = client.evaluate(part)
+                            self._logger_manager.log_metrics(
+                                client_id,
+                                metrics,
+                                step=self.n_iter,
+                                epoch=self.n_iter,
+                                part=part,
+                            )
                         # client trains the model
                         # and perhaps updates other local variables
                         client._update()
@@ -1103,15 +1107,15 @@ class Server(Node, CitationMixin):
                         client = self._clients[client_id]
                         client.train()
                         if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
-                            for part in self.dataset.data_parts:
-                                metrics = client.evaluate(part)
-                                self._logger_manager.log_metrics(
-                                    client_id,
-                                    metrics,
-                                    step=self.n_iter,
-                                    epoch=self.n_iter,
-                                    part=part,
-                                )
+                            part = "train" # only evaluate train metrics on clients
+                            metrics = client.evaluate(part)
+                            self._logger_manager.log_metrics(
+                                client_id,
+                                metrics,
+                                step=self.n_iter,
+                                epoch=self.n_iter,
+                                part=part,
+                            )
                         pbar.update(1)
                         # report progress for multi-processing
                         if self._subprocess:
@@ -1125,6 +1129,16 @@ class Server(Node, CitationMixin):
         self._logger_manager.log_message("Local training finished...")
         self._logger_manager.flush()
         self._complete_experiment = True
+        
+    def pre_iter(self) -> None:
+        """Preprocess before each iteration, after evaluation.
+        Can be used to update the model, e.g. update the local model.
+
+        Returns
+        -------
+        None
+        """
+        pass
 
     def evaluate_centralized(self, dataloader: DataLoader) -> Dict[str, float]:
         """Evaluate the model on the given dataloader on the server node.
@@ -1173,27 +1187,28 @@ class Server(Node, CitationMixin):
         if self._metrics:  # not empty
             self._cached_metrics.append(self._metrics.copy())
         new_metrics = defaultdict(lambda: defaultdict(float))
-        for part in self.dataset.data_parts:
-            for m in self._received_messages:
-                if "metrics" not in m:
-                    continue
-                for k, v in m["metrics"][part].items():
-                    if k != "num_samples":
-                        new_metrics[part][k] += m["metrics"][part][k] * m["metrics"][part]["num_samples"]
-                    elif k in ignore:
-                        continue
-                    else:  # num_samples
-                        new_metrics[part][k] += m["metrics"][part][k]
-            for k in new_metrics[part]:
+        part = "train" # only aggregate train metrics
+        assert part in self.dataset.data_parts, f"Invalid part name {part}, should be one of {self.dataset.data_parts}."
+        for m in self._received_messages:
+            if "metrics" not in m:
+                continue
+            for k, v in m["metrics"][part].items():
                 if k != "num_samples":
-                    new_metrics[part][k] /= new_metrics[part]["num_samples"]
-            self._logger_manager.log_metrics(
-                None,
-                default_dict_to_dict(new_metrics[part]),
-                step=self.n_iter + 1,
-                epoch=self.n_iter + 1,
-                part=part,
-            )
+                    new_metrics[part][k] += m["metrics"][part][k] * m["metrics"][part]["num_samples"]
+                elif k in ignore:
+                    continue
+                else:  # num_samples
+                    new_metrics[part][k] += m["metrics"][part][k]
+        for k in new_metrics[part]:
+            if k != "num_samples":
+                new_metrics[part][k] /= new_metrics[part]["num_samples"]
+        self._logger_manager.log_metrics(
+            None,
+            default_dict_to_dict(new_metrics[part]),
+            step=self.n_iter + 1,
+            epoch=self.n_iter + 1,
+            part=part,
+        )
         # move self._metrics to self._cached_metrics and refresh self._metrics
         self._cached_metrics.append(self._metrics.copy())
         self._metrics = default_dict_to_dict(new_metrics)
