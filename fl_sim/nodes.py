@@ -540,6 +540,9 @@ class Node(ReprMixin, ABC):
             leave=False,
             disable=int(os.environ.get("FLSIM_VERBOSE", "1")) < 1,
         ):
+            if v.key == "Server":
+                # skip server metrics
+                continue
             for item in v:
                 idx = epochs.index(item["epoch"])
                 metric_curve[idx].append(item[metric] * item["num_samples"])
@@ -587,9 +590,13 @@ class Server(Node, CitationMixin):
         config: ServerConfig,
         client_config: ClientConfig,
         lazy: bool = False,
+        is_subprocess: bool = False,
     ) -> None:
         self.model = model
         self.dataset = dataset
+        # NOTE: get server val loader from dataset for centralized evaluation
+        # TODO: reimplement dataset.get_dataloader, add parameter to get server val loader alone
+        _, self.server_val_loader = dataset.get_dataloader()
         self.criterion = deepcopy(dataset.criterion)
         assert isinstance(config, self.config_cls["server"]), (
             f"(server) config should be an instance of " f"{self.config_cls['server']}, but got {type(config)}."
@@ -616,6 +623,12 @@ class Server(Node, CitationMixin):
                 f"set it to the default value {self._client_config.verbose}.",
                 RuntimeWarning,
             )
+        # multi-processing
+        self._subprocess = is_subprocess
+        if self._subprocess:
+            # import necessary modules for multi-processing
+            from .utils.multiprocessing import report_progress
+            self._report_progress = report_progress
 
         logger_config = dict(
             log_dir=self.config.log_dir,
@@ -626,6 +639,7 @@ class Server(Node, CitationMixin):
             model=self.model.__class__.__name__,
             dataset=self.dataset.__class__.__name__,
             verbose=self.config.verbose,
+            silent=self._subprocess,
         )
         self._logger_manager = LoggerManager.from_config(logger_config)
 
@@ -840,6 +854,15 @@ class Server(Node, CitationMixin):
         self._complete_experiment = False
         epoch_losses = []
         self.n_iter, global_step = 0, 0
+        # report progress for multi-processing
+        if self._subprocess:
+            self._report_progress(
+                n_iter=self.n_iter,
+                num_iters=self.config.num_iters,
+                current_client_progress=None,
+                selected_clients_count=None,
+                training_phase="training",
+            )
         for self.n_iter in range(self.config.num_iters):
             with tqdm(
                 total=len(train_loader.dataset),
@@ -866,6 +889,15 @@ class Server(Node, CitationMixin):
                             }
                         )
                     pbar.update(data.shape[0])
+                    # report progress for multi-processing
+                    if self._subprocess:
+                        self._report_progress(
+                            n_iter=self.n_iter + 1,
+                            num_iters=self.config.num_iters,
+                            current_client_progress=None,
+                            selected_clients_count=None,
+                            training_phase="training",
+                        )
                     # free memory
                     del data, target, output, loss
                 epoch_loss.append(sum(batch_losses) / len(batch_losses))
@@ -924,6 +956,17 @@ class Server(Node, CitationMixin):
         self._complete_experiment = False
         self._logger_manager.log_message("Training federated...")
         self.n_iter = 0
+        # report progress for multi-processing
+        if self._subprocess:
+            self._report_progress(
+                n_iter=self.n_iter,
+                num_iters=self.config.num_iters,
+                current_client_progress=None,
+                selected_clients_count=None,
+                training_phase="training",
+            )
+            # DEBUG message
+            # print(f"DEBUG: report progress for multi-processing using {self._report_progress.__name__}")
         with tqdm(
             range(self.config.num_iters),
             total=self.config.num_iters,
@@ -933,6 +976,7 @@ class Server(Node, CitationMixin):
         ) as outer_pbar:
             for self.n_iter in outer_pbar:
                 selected_clients = self._sample_clients()
+                self.selected_clients = selected_clients
                 with tqdm(
                     total=len(selected_clients),
                     desc=f"Iter {self.n_iter+1}/{self.config.num_iters}",
@@ -941,25 +985,43 @@ class Server(Node, CitationMixin):
                     disable=self.config.verbose < 1,
                     leave=False,
                 ) as pbar:
+                    # count for client training progress for multi-processing
+                    if self._subprocess:
+                        count_client = 0
+                    # NOTE: evaluate centralized model on server val loader
+                    if self.server_val_loader:
+                        # TODO: reimplement evaluate logic
+                        metrics = self.evaluate_centralized(self.server_val_loader)
+                        self._logger_manager.log_metrics(
+                            None,
+                            metrics,
+                            step=self._num_communications,  # NOTE: use number of communications as step for now
+                            epoch=self.n_iter,
+                            part="val",
+                        )
+                    self.pre_iter()
                     for client_id in selected_clients:
                         client = self._clients[client_id]
                         # server communicates with client
                         # typically broadcasting the global model to the client
                         self._communicate(client)
+                        # NOTE: before evaluating, the client should accept parameters
+                        # if the key in received_messages is not "parameters", accept_parameters need to be reimplemented
+                        client.accept_parameters()
                         if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
-                            for part in self.dataset.data_parts:
-                                # NOTE: one should execute `client.evaluate`
-                                # before `client._update`,
-                                # otherwise the evaluation would be done
-                                # on the ``personalized`` (locally fine-tuned) model.
-                                metrics = client.evaluate(part)
-                                self._logger_manager.log_metrics(
-                                    client_id,
-                                    metrics,
-                                    step=self.n_iter,
-                                    epoch=self.n_iter,
-                                    part=part,
-                                )
+                            part = "train" # only evaluate train metrics on clients
+                            # NOTE: one should execute `client.evaluate`
+                            # before `client._update`,
+                            # otherwise the evaluation would be done
+                            # on the ``personalized`` (locally fine-tuned) model.
+                            metrics = client.evaluate(part)
+                            self._logger_manager.log_metrics(
+                                client_id,
+                                metrics,
+                                step=self.n_iter,
+                                epoch=self.n_iter,
+                                part=part,
+                            )
                         # client trains the model
                         # and perhaps updates other local variables
                         client._update()
@@ -969,6 +1031,18 @@ class Server(Node, CitationMixin):
                         # and perhaps other local variables (e.g. gradients, etc.)
                         client._communicate(self)
                         pbar.update(1)
+                        # report progress for multi-processing
+                        if self._subprocess:
+                            count_client += 1
+                            self._report_progress(
+                                n_iter=self.n_iter + 1,
+                                num_iters=self.config.num_iters,
+                                current_client_progress=count_client,
+                                selected_clients_count=len(selected_clients),
+                                training_phase="training",
+                            )
+                            # DEBUG message
+                            # print("DEBUG: report progress for multi-processing")
                     if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
                         # server aggregates the metrics from clients
                         self.aggregate_client_metrics()
@@ -1004,6 +1078,15 @@ class Server(Node, CitationMixin):
         self._complete_experiment = False
         self._logger_manager.log_message("Training local...")
         self.n_iter = 0
+        # report progress for multi-processing
+        if self._subprocess:
+            self._report_progress(
+                n_iter=self.n_iter,
+                num_iters=self.config.num_iters,
+                current_client_progress=0,  # local training
+                selected_clients_count=len(self._clients),
+                training_phase="training",
+            )
         with tqdm(
             range(self.config.num_iters),
             total=self.config.num_iters,
@@ -1024,19 +1107,38 @@ class Server(Node, CitationMixin):
                         client = self._clients[client_id]
                         client.train()
                         if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
-                            for part in self.dataset.data_parts:
-                                metrics = client.evaluate(part)
-                                self._logger_manager.log_metrics(
-                                    client_id,
-                                    metrics,
-                                    step=self.n_iter,
-                                    epoch=self.n_iter,
-                                    part=part,
-                                )
+                            part = "train" # only evaluate train metrics on clients
+                            metrics = client.evaluate(part)
+                            self._logger_manager.log_metrics(
+                                client_id,
+                                metrics,
+                                step=self.n_iter,
+                                epoch=self.n_iter,
+                                part=part,
+                            )
                         pbar.update(1)
+                        # report progress for multi-processing
+                        if self._subprocess:
+                            self._report_progress(
+                                n_iter=self.n_iter + 1,
+                                num_iters=self.config.num_iters,
+                                current_client_progress=client_id + 1,  # counts the number of processed clients
+                                selected_clients_count=len(self._clients),
+                                training_phase="training",
+                            )
         self._logger_manager.log_message("Local training finished...")
         self._logger_manager.flush()
         self._complete_experiment = True
+        
+    def pre_iter(self) -> None:
+        """Preprocess before each iteration, after evaluation.
+        Can be used to update the model, e.g. update the local model.
+
+        Returns
+        -------
+        None
+        """
+        pass
 
     def evaluate_centralized(self, dataloader: DataLoader) -> Dict[str, float]:
         """Evaluate the model on the given dataloader on the server node.
@@ -1085,27 +1187,28 @@ class Server(Node, CitationMixin):
         if self._metrics:  # not empty
             self._cached_metrics.append(self._metrics.copy())
         new_metrics = defaultdict(lambda: defaultdict(float))
-        for part in self.dataset.data_parts:
-            for m in self._received_messages:
-                if "metrics" not in m:
-                    continue
-                for k, v in m["metrics"][part].items():
-                    if k != "num_samples":
-                        new_metrics[part][k] += m["metrics"][part][k] * m["metrics"][part]["num_samples"]
-                    elif k in ignore:
-                        continue
-                    else:  # num_samples
-                        new_metrics[part][k] += m["metrics"][part][k]
-            for k in new_metrics[part]:
+        part = "train" # only aggregate train metrics
+        assert part in self.dataset.data_parts, f"Invalid part name {part}, should be one of {self.dataset.data_parts}."
+        for m in self._received_messages:
+            if "metrics" not in m:
+                continue
+            for k, v in m["metrics"][part].items():
                 if k != "num_samples":
-                    new_metrics[part][k] /= new_metrics[part]["num_samples"]
-            self._logger_manager.log_metrics(
-                None,
-                default_dict_to_dict(new_metrics[part]),
-                step=self.n_iter + 1,
-                epoch=self.n_iter + 1,
-                part=part,
-            )
+                    new_metrics[part][k] += m["metrics"][part][k] * m["metrics"][part]["num_samples"]
+                elif k in ignore:
+                    continue
+                else:  # num_samples
+                    new_metrics[part][k] += m["metrics"][part][k]
+        for k in new_metrics[part]:
+            if k != "num_samples":
+                new_metrics[part][k] /= new_metrics[part]["num_samples"]
+        self._logger_manager.log_metrics(
+            None,
+            default_dict_to_dict(new_metrics[part]),
+            step=self.n_iter + 1,
+            epoch=self.n_iter + 1,
+            part=part,
+        )
         # move self._metrics to self._cached_metrics and refresh self._metrics
         self._cached_metrics.append(self._metrics.copy())
         self._metrics = default_dict_to_dict(new_metrics)
@@ -1405,6 +1508,14 @@ class Client(Node):
         # move self._metrics to self._cached_metrics
         self._cached_metrics.append(self._metrics.copy())
         self._metrics = {}  # clear the metrics
+        
+    def accept_parameters(self) -> None:
+        """
+        Accepts parameters from received_messages.
+        Need to be implemented in the child class to specify part in received_messages
+        if the key is not "parameters".
+        """
+        self.set_parameters(self._received_messages["parameters"])
 
     def _update(self) -> None:
         """Client update, and clear cached messages

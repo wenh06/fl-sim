@@ -233,6 +233,7 @@ class TxtLogger(BaseLogger):
         log_dir: Optional[Union[str, Path]] = None,
         log_suffix: Optional[str] = None,
         verbose: int = 1,
+        silent: bool = False,
     ) -> None:
         assert all([isinstance(x, str) for x in [algorithm, dataset, model]]), "algorithm, dataset, model must be str"
         self.log_prefix = re.sub("[\\s]+", "_", f"{algorithm}-{dataset}-{model}")
@@ -243,6 +244,7 @@ class TxtLogger(BaseLogger):
             self.log_suffix = f"_{log_suffix}"
         self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.txt"
         self.verbose = verbose
+        self.silent = silent # whether the logger is silent
         self.logger = init_logger(
             self.log_dir,
             self.log_file,
@@ -251,9 +253,16 @@ class TxtLogger(BaseLogger):
         )
         self.step = -1
         # redirect the console output to tqdm.write
-        self._init_redirection()
+        self._redirect_stream_handler()
 
-    def _init_redirection(self):
+    def _redirect_stream_handler(self):
+        # if the logger is silent, then there remove the StreamHandler intended for stdout
+        if self.silent:
+            for handler in self.logger.handlers:
+                if isinstance(handler, logging.StreamHandler) and handler.stream == sys.stdout:
+                    self.logger.removeHandler(handler)
+                    break
+            return
         # Find the StreamHandler intended for stdout and redirect its stream
         self.tqdm_stream_wrapper = TqdmStreamWrapper()
         found_stream_handler = False
@@ -274,6 +283,7 @@ class TxtLogger(BaseLogger):
             # It's possible init_logger didn't add a StreamHandler if verbose was very low
             # or if its logic changes in the future. Inform the user.
             print("TxtLogger: Warning - Could not find StreamHandler for console output redirection.", file=sys.__stderr__)
+    
 
     def log_metrics(
         self,
@@ -330,7 +340,7 @@ class TxtLogger(BaseLogger):
             self.logger.removeHandler(h)
             h.close()
         # logging.shutdown()
-
+        
     def reset(self) -> None:
         """Reset the logger.
 
@@ -347,7 +357,7 @@ class TxtLogger(BaseLogger):
         )
         self.step = -1
         # re-apply the redirection
-        self._init_redirection()
+        self._redirect_stream_handler()
 
     @classmethod
     def from_config(cls, config: Dict[str, Any]) -> "TxtLogger":
@@ -594,6 +604,7 @@ class LoggerManager(ReprMixin):
         log_dir: Optional[Union[str, Path]] = None,
         log_suffix: Optional[str] = None,
         verbose: int = 1,
+        silent: bool = False,
     ) -> None:
         self._algorith = algorithm
         self._dataset = dataset
@@ -601,6 +612,7 @@ class LoggerManager(ReprMixin):
         self._log_dir = BaseLogger.set_log_dir(log_dir)
         self._log_suffix = log_suffix
         self._verbose = verbose
+        self._silent = silent
         self._loggers = []
 
     def _add_txt_logger(self) -> None:
@@ -613,6 +625,7 @@ class LoggerManager(ReprMixin):
                 self._log_dir,
                 self._log_suffix,
                 self._verbose,
+                self._silent,
             )
         )
 
@@ -671,7 +684,7 @@ class LoggerManager(ReprMixin):
     def reset(self) -> None:
         for lgs in self.loggers:
             lgs.reset()
-
+    
     @property
     def loggers(self) -> List[BaseLogger]:
         """The list of loggers."""
@@ -714,7 +727,9 @@ class LoggerManager(ReprMixin):
                   format of the json log file, default: ``"json"``,
                   valid when ``"json_logger"`` is ``True``.
                 - ``"verbose"``: :obj:`int`, optional,
-                  verbosity level of the logger manager.
+                  verbosity level of the logger manager,
+                - ``"silent"``: :obj:`bool`, optional,
+                  whether to suppress the output to the console.
 
         Returns
         -------
@@ -729,6 +744,7 @@ class LoggerManager(ReprMixin):
             config.get("log_dir", None),
             config.get("log_suffix", None),
             config.get("verbose", 1),
+            config.get("silent", False),
         )
         if config.get("txt_logger", True):
             lm._add_txt_logger()

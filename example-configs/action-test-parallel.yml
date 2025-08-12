@@ -1,8 +1,29 @@
-# This is a simple config file for testing fl-sim command line interface in GitHub Actions
-# without "strategy" to run multiple experiments.
+strategy:
+  matrix:
+    algorithm:
+    # - Ditto
+    # - FedDR
+    - FedAvg
+    - FedAdam
+    # - FedProx
+    # - FedPD
+    # - FedSplit
+    # - IFCA
+    # - pFedMac
+    # - pFedMe
+    # - ProxSkip
+    # - SCAFFOLD
+    seed:
+    - 0
+    - 1
+    - 2
+    - 3
+  parallel:
+    mode: parallel_task # parallel mode: serial | parallel_task (default: serial)
+    num_workers: 4 # Number of worker processes (default: CPU core count)
 
 algorithm:
-  name: FedProx
+  name: ${{ matrix.algorithm }}
   server:
     num_clients: null
     clients_sample_ratio: 0.1
@@ -11,22 +32,19 @@ algorithm:
     lr: 0.03  # for SCAFFOLD
     num_clusters: 10  # for IFCA
     log_dir: action-test
-    tag: sample_ratio_${{ algorithm.server.clients_sample_ratio }}-seed_${{ seed }}
+    tag: seed_${{ matrix.seed }}
   client:
     lr: 0.03
-    beta: 0.05
-    gamma: 1.2
-    prox: 20.0
-    num_epochs: 10
+    num_epochs: 5
     batch_size: null  # null for default batch size
     scheduler:
       name: step  # StepLR
       step_size: 1
       gamma: 0.99
 dataset:
-  name: FedProxFEMNIST
+  name: FedEMNIST
   datadir: null  # default dir
   transform: none  # none for static transform (only normalization, no augmentation)
 model:
   name: cnn_femmist_tiny
-seed: 0
+seed: ${{ matrix.seed }}

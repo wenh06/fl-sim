@@ -29,6 +29,7 @@ from .misc import find_longest_common_substring, is_notebook
 __all__ = [
     "find_log_files",
     "get_config_from_log",
+    "aggregate_results_from_json_log_with_custom_axis",
     "get_curves_and_labels_from_log",
     "plot_curves",
     "plot_mean_curve_with_error_bounds",
@@ -183,11 +184,112 @@ def get_config_from_log(file: Union[str, Path]) -> dict:
         return {}
 
 
+def aggregate_results_from_json_log_with_custom_axis(
+    d: Union[dict, str, Path],
+    part: str = "val",
+    x_metric: str = "step",
+    y_metric: str = "acc"
+) -> Dict[str, np.ndarray]:
+    """Aggregate the federated results from json log with custom x and y axis.
+
+    Parameters
+    ----------
+    d : dict or str or pathlib.Path
+        The dict of the json/yaml log, or the path to the json/yaml log file.
+    part : str, default "val"
+        The part of the log to aggregate.
+    x_metric : str, default "step"
+        The metric to use for x-axis.
+    y_metric : str, default "acc"
+        The metric to use for y-axis.
+
+    Returns
+    -------
+    Dict[str, numpy.ndarray]
+        Dictionary containing 'x' and 'y' arrays for plotting.
+
+    """
+    if isinstance(d, (str, Path)):
+        d = Path(d)
+        if d.suffix == ".json":
+            import json
+            d = json.loads(d.read_text())
+        elif d.suffix in [".yaml", ".yml"]:
+            import yaml
+            d = yaml.safe_load(d.read_text())
+        else:
+            raise ValueError(f"unsupported file type: {d.suffix}")
+
+    if part == "val":
+        # For validation data, use server data directly
+        if "Server" in d[part]:
+            server_data = d[part]["Server"]
+            x_values = [item[x_metric] for item in server_data]
+            y_values = [item[y_metric] for item in server_data]
+
+            # Sort by x_metric values
+            sorted_pairs = sorted(zip(x_values, y_values), key=lambda pair: pair[0])
+            x_sorted, y_sorted = zip(*sorted_pairs) if sorted_pairs else ([], [])
+
+            return {"x": np.array(x_sorted), "y": np.array(y_sorted)}
+        else:
+            return {"x": np.array([]), "y": np.array([])}
+
+    else:
+        # For training data, aggregate client data (excluding server)
+        from tqdm import tqdm
+        import os
+
+        # Get all unique x_metric values across all clients (excluding server)
+        all_x_values = []
+        for client_name, client_data in d[part].items():
+            if client_name == "Server":  # Exact match for "Server"
+                continue
+            for item in client_data:
+                all_x_values.append(item[x_metric])
+
+        if not all_x_values:
+            return {"x": np.array([]), "y": np.array([])}
+
+        unique_x_values = sorted(set(all_x_values))
+
+        # Aggregate y_metric values for each x_metric value
+        aggregated_y = []
+        for x_val in unique_x_values:
+            weighted_sum = 0
+            total_samples = 0
+
+            for client_name, client_data in tqdm(
+                d[part].items(),
+                mininterval=1,
+                desc="Aggregating results",
+                total=len(d[part]),
+                unit="client",
+                leave=False,
+                disable=int(os.environ.get("FLSIM_VERBOSE", "1")) < 1,
+            ):
+                if client_name == "Server":  # Exact match for "Server"
+                    continue
+
+                for item in client_data:
+                    if item[x_metric] == x_val:
+                        weighted_sum += item[y_metric] * item["num_samples"]
+                        total_samples += item["num_samples"]
+
+            if total_samples > 0:
+                aggregated_y.append(weighted_sum / total_samples)
+            else:
+                aggregated_y.append(0.0)
+
+        return {"x": np.array(unique_x_values), "y": np.array(aggregated_y)}
+
+
 def get_curves_and_labels_from_log(
     files: Union[str, Path, Sequence[Union[str, Path]]],
     part: str = "val",
-    metric: str = "acc",
-) -> Tuple[List[np.ndarray], List[str]]:
+    x_metric: str = "step",
+    y_metric: str = "acc",
+) -> Tuple[List[Dict[str, np.ndarray]], List[str]]:
     """Get the curves and labels (stems) from the given log file(s).
 
     Parameters
@@ -196,13 +298,15 @@ def get_curves_and_labels_from_log(
         The log file(s).
     part : str, default "val"
         The part of the data, e.g., "train", "val", "test", etc.
-    metric : str, default "acc"
-        The metric to plot, e.g., "acc", "top3_acc", "loss", etc.
+    x_metric : str, default "step"
+        The metric to use for x-axis, e.g., "step", "epoch", "comm", etc.
+    y_metric : str, default "acc"
+        The metric to use for y-axis, e.g., "acc", "top3_acc", "loss", etc.
 
     Returns
     -------
-    Tuple[List[numpy.ndarray], List[str]]
-        The curves and labels.
+    Tuple[List[Dict[str, numpy.ndarray]], List[str]]
+        The curves (containing x and y data) and labels.
 
     """
     curves = []
@@ -210,88 +314,114 @@ def get_curves_and_labels_from_log(
     if isinstance(files, (str, Path)):
         files = [files]
     for file in files:
-        curves.append(
-            Node.aggregate_results_from_json_log(
-                file,
-                part=part,
-                metric=metric,
-            )
+        curve_data = aggregate_results_from_json_log_with_custom_axis(
+            file,
+            part=part,
+            x_metric=x_metric,
+            y_metric=y_metric,
         )
+        curves.append(curve_data)
         stems.append(Path(file).stem)
     return curves, stems
 
 
 def _plot_curves(
-    curves: Sequence[np.ndarray],
+    curves: Sequence[Union[np.ndarray, Dict[str, np.ndarray]]],
     labels: Sequence[str],
     fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
     markers: bool = True,
-    x_range: Optional[Tuple[int, int]] = None,
+    x_range: Optional[Tuple[float, float]] = None,
     y_range: Optional[Tuple[float, float]] = None,
+    x_label: str = "Global Iter.",
 ) -> Tuple[plt.Figure, plt.Axes]:
-    """Plot the curves.
+    """Plot the curves with support for custom x-axis data.
 
     Parameters
     ----------
-    curves : Sequence[numpy.ndarray]
-        The curves.
+    curves : Sequence[Union[numpy.ndarray, Dict[str, numpy.ndarray]]]
+        The curves. Can be either numpy arrays (legacy format) or dictionaries
+        containing 'x' and 'y' arrays for custom axis plotting.
     labels : Sequence[str]
-        The labels.
-    fig_ax : Tuple[plt.Figure, plt.Axes]
-        The figure and axes to plot on.
+        The labels for each curve.
+    fig_ax : Optional[Tuple[plt.Figure, plt.Axes]], default None
+        The figure and axes to plot on. If None, creates new figure.
     markers : bool, default True
-        Whether to use markers.
+        Whether to use markers on the plot.
+    x_range : Optional[Tuple[float, float]], default None
+        The range of x-axis values to display.
+    y_range : Optional[Tuple[float, float]], default None
+        The range of y-axis values to display.
+    x_label : str, default "Global Iter."
+        The label for the x-axis.
+
+    Returns
+    -------
+    Tuple[plt.Figure, plt.Axes]
+        The figure and axes objects.
 
     """
     if fig_ax is None:
         fig, ax = plt.subplots()
     else:
         fig, ax = fig_ax
-    if x_range is not None:
-        x_min, x_max = x_range
-        if x_min is None or x_min < 0:
-            x_min = 0
-        if x_max is None:
-            x_max = max([len(curve) for curve in curves])
-        # check if x_min, x_max are valid
-        if x_max != -1 and x_max <= x_min:
-            x_min, x_max = 0, max([len(curve) for curve in curves])
-        curves = [curve[x_min:x_max] for curve in curves]
-    if y_range is not None:
-        y_min, y_max = y_range
-        if y_min is None:
-            y_min = -np.inf
-        if y_max is None:
-            y_max = np.inf
-        curves = [np.where(curve < y_min, np.nan, np.where(curve > y_max, np.nan, curve)) for curve in curves]
-    # plot_config = dict(marker="*")
+
     linestyle_cycle = itertools.cycle([ls for _, ls in _linestyle_tuple])
     marker_cycle = itertools.cycle(_marker_cycle)
-    plot_config = dict()
+
     for idx, curve in enumerate(curves):
+        plot_config = dict()
         if markers:
             plot_config["marker"] = next(marker_cycle)
         plot_config["linestyle"] = next(linestyle_cycle)
         plot_config["label"] = labels[idx]
-        if x_range is not None:
-            plot_x = np.arange(x_min, min(x_max, len(curve) + x_min))
+
+        # Handle both legacy format (numpy array) and new format (dict with x, y)
+        if isinstance(curve, dict) and "x" in curve and "y" in curve:
+            plot_x = curve["x"]
+            plot_y = curve["y"]
         else:
+            # Legacy format: assume curve is y-values with sequential x-values
+            plot_y = curve
             plot_x = np.arange(len(curve))
-        ax.plot(plot_x, curve, **plot_config)
+
+        # Apply x_range filtering if specified
+        if x_range is not None:
+            x_min, x_max = x_range
+            if x_min is None:
+                x_min = -np.inf
+            if x_max is None:
+                x_max = np.inf
+
+            # Filter data points within x_range
+            mask = (plot_x >= x_min) & (plot_x <= x_max)
+            plot_x = plot_x[mask]
+            plot_y = plot_y[mask]
+
+        # Apply y_range filtering if specified
+        if y_range is not None:
+            y_min, y_max = y_range
+            if y_min is None:
+                y_min = -np.inf
+            if y_max is None:
+                y_max = np.inf
+            plot_y = np.where((plot_y < y_min) | (plot_y > y_max), np.nan, plot_y)
+
+        ax.plot(plot_x, plot_y, **plot_config)
+
     ax.legend(loc="best")
-    ax.set_xlabel("Global Iter.")
+    ax.set_xlabel(x_label)
     return fig, ax
 
 
 def plot_curves(
     files: Union[str, Path, Sequence[Union[str, Path]]],
     part: str = "val",
-    metric: str = "acc",
+    x_metric: str = "step",
+    y_metric: str = "acc",
     fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
     labels: Union[str, Sequence[str]] = None,
 ) -> Tuple[plt.Figure, plt.Axes]:
-    """Plot the curve of the given part and metric
-    from the given log file(s).
+    """Plot the curve of the given part and metrics from the given log file(s).
 
     Parameters
     ----------
@@ -299,8 +429,10 @@ def plot_curves(
         The log file(s).
     part : str, default "val"
         The part of the data, e.g., "train", "val", "test", etc.
-    metric : str, default "acc"
-        The metric to plot, e.g., "acc", "top3_acc", "loss", etc.
+    x_metric : str, default "step"
+        The metric to use for x-axis, e.g., "step", "epoch", "comm", etc.
+    y_metric : str, default "acc"
+        The metric to use for y-axis, e.g., "acc", "top3_acc", "loss", etc.
     fig_ax : Optional[Tuple[plt.Figure, plt.Axes]], default None
         The figure and axes to plot on.
         If None, a new figure and axes will be created.
@@ -314,16 +446,16 @@ def plot_curves(
         The figure and axes.
 
     """
-    curves, stems = get_curves_and_labels_from_log(files, part=part, metric=metric)
+    curves, stems = get_curves_and_labels_from_log(files, part=part, x_metric=x_metric, y_metric=y_metric)
     if labels is None:
         labels = stems
-    fig, ax = _plot_curves(curves, labels, fig_ax)
-    ax.set_ylabel(f"{part} {metric}")
+    fig, ax = _plot_curves(curves, labels, fig_ax, x_label=x_metric)
+    ax.set_ylabel(f"{part} {y_metric}")
     return fig, ax
 
 
 def plot_mean_curve_with_error_bounds(
-    curves: Sequence[np.ndarray],
+    curves: Sequence[Union[np.ndarray, Dict[str, np.ndarray]]],
     error_type: str = "std",
     fig_ax: Optional[Tuple[plt.Figure, plt.Axes]] = None,
     label: Optional[str] = None,
@@ -331,15 +463,17 @@ def plot_mean_curve_with_error_bounds(
     error_bound_label: bool = True,
     plot_config: Optional[Dict[str, Any]] = None,
     fill_between_config: Dict[str, Any] = {"alpha": 0.3},
-    x_range: Optional[Tuple[int, int]] = None,
+    x_range: Optional[Tuple[float, float]] = None,
     y_range: Optional[Tuple[float, float]] = None,
+    x_label: str = "Global Iter.",
 ) -> Tuple[plt.Figure, plt.Axes]:
-    """Plot the mean curve with error bounds.
+    """Plot the mean curve with error bounds, supporting custom x-axis data.
 
     Parameters
     ----------
-    curves : Sequence[np.ndarray]
-        The curves.
+    curves : Sequence[Union[numpy.ndarray, Dict[str, numpy.ndarray]]]
+        The curves. Can be either numpy arrays (legacy format) or dictionaries
+        containing 'x' and 'y' arrays for custom axis plotting.
     error_type : {"std", "sem", "quartile", "iqr"}, default "std"
         The type of error bounds. Can be one of
             - "std": standard deviation
@@ -360,10 +494,12 @@ def plot_mean_curve_with_error_bounds(
         The plot config for the mean curve passed to ``ax.plot``.
     fill_between_config : Dict[str, Any], default {"alpha": 0.3}
         The config for ``ax.fill_between``.
-    x_range : Optional[Tuple[int, int]], optional
+    x_range : Optional[Tuple[float, float]], optional
         The range of x-axis. Values outside the range will be discarded.
     y_range : Optional[Tuple[float, float]], optional
         The range of y-axis. Values outside the range will be set to NaN.
+    x_label : str, default "Global Iter."
+        The label for the x-axis.
 
     Returns
     -------
@@ -375,56 +511,97 @@ def plot_mean_curve_with_error_bounds(
         fig, ax = plt.subplots()
     else:
         fig, ax = fig_ax
+
+    # Extract x and y data from curves, handling both legacy and new formats
+    x_data_list = []
+    y_data_list = []
+
+    for curve in curves:
+        if isinstance(curve, dict) and "x" in curve and "y" in curve:
+            x_vals = curve["x"]
+            y_vals = curve["y"]
+        else:
+            # Legacy format: assume curve is y-values with sequential x-values
+            y_vals = curve
+            x_vals = np.arange(len(curve))
+
+        x_data_list.append(x_vals)
+        y_data_list.append(y_vals)
+
+    # Find common x-axis values across all curves
+    all_x_values = set()
+    for x_vals in x_data_list:
+        all_x_values.update(x_vals)
+
+    common_x = np.array(sorted(all_x_values))
+
+    # Apply x_range filtering if specified
     if x_range is not None:
         x_min, x_max = x_range
-        if x_min is None or x_min < 0:
-            x_min = 0
+        if x_min is None:
+            x_min = -np.inf
         if x_max is None:
-            x_max = max([len(curve) for curve in curves])
-        # check if x_min, x_max are valid
-        if x_max != -1 and x_max <= x_min:
-            x_min, x_max = 0, max([len(curve) for curve in curves])
-        curves = [curve[x_min:x_max] for curve in curves]
+            x_max = np.inf
+        mask = (common_x >= x_min) & (common_x <= x_max)
+        common_x = common_x[mask]
+
+    # Interpolate all curves to common x-axis
+    interpolated_curves = []
+    for x_vals, y_vals in zip(x_data_list, y_data_list):
+        # Create interpolated y values for common x points
+        interpolated_y = np.full(len(common_x), np.nan)
+
+        for i, x_target in enumerate(common_x):
+            # Find exact matches first
+            exact_matches = np.where(x_vals == x_target)[0]
+            if len(exact_matches) > 0:
+                interpolated_y[i] = y_vals[exact_matches[0]]
+
+        interpolated_curves.append(interpolated_y)
+
+    # Convert to numpy array for easier computation
+    curves_array = np.array(interpolated_curves)
+
+    # Apply y_range filtering if specified
     if y_range is not None:
         y_min, y_max = y_range
         if y_min is None:
             y_min = -np.inf
         if y_max is None:
             y_max = np.inf
-        curves = [np.where(curve < y_min, np.nan, np.where(curve > y_max, np.nan, curve)) for curve in curves]
-    # allow curves to have different lengths
-    max_len = max([len(curve) for curve in curves])
-    for idx, curve in enumerate(curves):
-        curves[idx] = np.pad(curve, (0, max_len - len(curve)), "constant", constant_values=np.nan)
-    curves = np.array(curves)
-    mean_curve = np.nanmean(curves, axis=0)
-    if x_range is not None:
-        plot_x = np.arange(x_min, x_max)
-    else:
-        plot_x = np.arange(len(mean_curve))
-    ax.plot(plot_x, mean_curve, label=label or "mean", **(plot_config or {}))
+        curves_array = np.where((curves_array < y_min) | (curves_array > y_max), np.nan, curves_array)
+
+    # Calculate mean curve
+    mean_curve = np.nanmean(curves_array, axis=0)
+
+    # Plot mean curve
+    ax.plot(common_x, mean_curve, label=label or "mean", **(plot_config or {}))
+
+    # Plot error bounds if requested
     if show_error_bounds:
         if error_type == "std":
-            std_curve = np.nanstd(curves, axis=0)
+            std_curve = np.nanstd(curves_array, axis=0)
             upper_curve = mean_curve + std_curve
             lower_curve = mean_curve - std_curve
         elif error_type == "sem":
-            std_curve = np.nanstd(curves, axis=0)
-            upper_curve = mean_curve + std_curve / np.sqrt(len(curves))
-            lower_curve = mean_curve - std_curve / np.sqrt(len(curves))
+            std_curve = np.nanstd(curves_array, axis=0)
+            n_valid = np.sum(~np.isnan(curves_array), axis=0)
+            upper_curve = mean_curve + std_curve / np.sqrt(n_valid)
+            lower_curve = mean_curve - std_curve / np.sqrt(n_valid)
         elif error_type == "quartile":
-            q3 = np.nanquantile(curves, 0.75, axis=0)
-            q1 = np.nanquantile(curves, 0.25, axis=0)
+            q3 = np.nanquantile(curves_array, 0.75, axis=0)
+            q1 = np.nanquantile(curves_array, 0.25, axis=0)
             upper_curve = q3
             lower_curve = q1
         elif error_type == "iqr":
-            q3 = np.nanquantile(curves, 0.75, axis=0)
-            q1 = np.nanquantile(curves, 0.25, axis=0)
+            q3 = np.nanquantile(curves_array, 0.75, axis=0)
+            q1 = np.nanquantile(curves_array, 0.25, axis=0)
             iqr = q3 - q1
             upper_curve = q3 + 1.5 * iqr
             lower_curve = q1 - 1.5 * iqr
         else:
             raise ValueError(f"Unknown error type: {error_type}")
+
         if error_bound_label:
             _error_type = {
                 "std": "STD",
@@ -433,14 +610,16 @@ def plot_mean_curve_with_error_bounds(
                 "iqr": "IQR",
             }[error_type]
             fill_between_config["label"] = error_type if label is None else f"{label}±{_error_type}"
+
         ax.fill_between(
-            # np.arange(len(mean_curve)),
-            plot_x,
+            common_x,
             lower_curve,
             upper_curve,
             **fill_between_config,
         )
+
     ax.legend(loc="best")
+    ax.set_xlabel(x_label)
     return fig, ax
 
 
@@ -663,22 +842,37 @@ class Panel:
             placeholder="val/train/...",
             description="Part:",
             disabled=False,
-            layout={"width": "200px"},
+            layout={"width": "150px"},
         )
-        self._metric_input = widgets.Text(
+        self._x_metric_input = widgets.Text(
+            value="step",
+            placeholder="step/epoch/comm/...",
+            description="X-axis metric:",
+            disabled=False,
+            layout={"width": "150px"},
+            style={"description_width": "initial"},
+        )
+        self._y_metric_input = widgets.Text(
             value="acc",
             placeholder="acc/loss/...",
-            description="Metric:",
+            description="Y-axis metric:",
             disabled=False,
-            layout={"width": "200px"},
+            layout={"width": "150px"},
+            style={"description_width": "initial"},
         )
         self._refresh_part_metric_button = widgets.Button(
-            description="Refresh part/metric/ylabel",
+            description="Refresh metrics/ylabel",
             disabled=False,
             button_style="warning",  # primary', 'success', 'info', 'warning', 'danger' or ''
-            tooltip="Refresh part/metric",
+            tooltip="Refresh part and metrics",
             icon="refresh",  # (FontAwesome names without the `fa-` prefix)
-            layout={"width": "200px"},
+            layout={"width": "180px"},
+        )
+        self._xlabel_input = widgets.Text(
+            value="",
+            placeholder="Global Iterations/Epochs/Communications/...",
+            description="X label:",
+            style={"description_width": "initial"},
         )
         self._ylabel_input = widgets.Text(
             value="",
@@ -930,7 +1124,9 @@ class Panel:
         data_selection_hbox = widgets.HBox(
             [
                 self._part_input,
-                self._metric_input,
+                self._x_metric_input,
+                self._y_metric_input,
+                self._xlabel_input,
                 self._ylabel_input,
                 self._refresh_part_metric_button,
             ]
@@ -1239,10 +1435,10 @@ class Panel:
             with self._canvas:
                 print(colored("No log files selected.", "red"))
             return
-        # ensure that part and metric are specified
-        if not self._part_input.value or not self._metric_input.value:
+        # ensure that part and metrics are specified
+        if not self._part_input.value or not self._x_metric_input.value or not self._y_metric_input.value:
             with self._canvas:
-                print(colored("Please specify part and metric.", "red"))
+                print(colored("Please specify part, x-axis metric, and y-axis metric.", "red"))
             return
         # plot the curves
         with self._canvas:
@@ -1253,7 +1449,12 @@ class Panel:
                     indices = []
                     self._fig_curves, self._fig_stems = [], []
                     for idx, item in enumerate(self._log_files_mult_selector.value):
-                        key = self.cache_key(self._part_input.value, self._metric_input.value, item)
+                        key = self.cache_key(
+                            self._part_input.value,
+                            self._x_metric_input.value,
+                            self._y_metric_input.value,
+                            item
+                        )
                         if key in self._curve_cache:
                             self._fig_curves.append(self._curve_cache[key])
                             self._fig_stems.append(Path(item).stem)
@@ -1270,11 +1471,17 @@ class Panel:
                             ) = get_curves_and_labels_from_log(
                                 [item for idx, item in enumerate(self._log_files_mult_selector.value) if idx not in indices],
                                 part=self._part_input.value,
-                                metric=self._metric_input.value,
+                                x_metric=self._x_metric_input.value,
+                                y_metric=self._y_metric_input.value,
                             )
                         # put the new curves and stems into self._curve_cache
                         for curve, stem in zip(new_fig_curves, new_fig_stems):
-                            key = self.cache_key(self._part_input.value, self._metric_input.value, stem)
+                            key = self.cache_key(
+                                self._part_input.value,
+                                self._x_metric_input.value,
+                                self._y_metric_input.value,
+                                stem
+                            )
                             self._curve_cache[key] = curve
                         # update self._fig_curves and self._fig_stems
                         self._fig_curves.extend(new_fig_curves)
@@ -1338,7 +1545,7 @@ class Panel:
                         self.fig, self.ax = plot_mean_curve_with_error_bounds(
                             curves=[
                                 self._moving_averager(
-                                    self._fig_curves[idx],
+                                    self._fig_curves[idx]["y"] if isinstance(self._fig_curves[idx], dict) else self._fig_curves[idx],
                                     weight=self._moving_average_slider.value,
                                 )
                                 for idx in indices
@@ -1353,32 +1560,51 @@ class Panel:
                             fill_between_config={"alpha": self._fill_between_alpha_slider.value},
                             x_range=(xy_range.get("xmin", None), xy_range.get("xmax", None)),
                             y_range=(xy_range.get("ymin", None), xy_range.get("ymax", None)),
+                            x_label=self._x_metric_input.value,
                         )
                         self.ax.get_legend().remove()
                         raw_indices = raw_indices - set(indices)
                 raw_indices = sorted(raw_indices)
                 if len(raw_indices) > 0:
-                    self.fig, self.ax = _plot_curves(
-                        [
-                            self._moving_averager(
-                                self._fig_curves[idx],
+                    # Apply moving average to curves, handling both dict and array formats
+                    smoothed_curves = []
+                    for idx in raw_indices:
+                        curve = self._fig_curves[idx]
+                        if isinstance(curve, dict):
+                            # For dict format, apply smoothing to y values and keep x values
+                            smoothed_y = self._moving_averager(
+                                curve["y"],
                                 weight=self._moving_average_slider.value,
                             )
-                            for idx in raw_indices
-                        ],
+                            smoothed_curves.append({"x": curve["x"], "y": smoothed_y})
+                        else:
+                            # For legacy array format
+                            smoothed_curves.append(
+                                self._moving_averager(
+                                    curve,
+                                    weight=self._moving_average_slider.value,
+                                )
+                            )
+
+                    self.fig, self.ax = _plot_curves(
+                        smoothed_curves,
                         [self._fig_stems[idx] for idx in raw_indices],
                         fig_ax=(self.fig, self.ax),
                         markers=self._markers_checkbox.value,
                         x_range=(xy_range.get("xmin", None), xy_range.get("xmax", None)),
                         y_range=(xy_range.get("ymin", None), xy_range.get("ymax", None)),
+                        x_label=self._x_metric_input.value,
                     )
                 else:
                     self.ax.legend(loc="best")
+                if self._xlabel_input.value:  # not None or empty string
+                    self.ax.set_xlabel(self._xlabel_input.value)
+                else:
+                    self.ax.set_xlabel(self._x_metric_input.value)
                 if self._ylabel_input.value:  # not None or empty string
                     self.ax.set_ylabel(self._ylabel_input.value)
                 else:
-                    self.ax.set_ylabel(f"{self._part_input.value} {self._metric_input.value}")
-                self.ax.set_xlabel("Global Iter.")
+                    self.ax.set_ylabel(f"{self._part_input.value} {self._y_metric_input.value}")
                 if self._despine_checkbox.value:
                     if self._style_dropdown_selector.value in ["white", "ticks"]:
                         self.ax.spines.right.set_visible(False)
@@ -1426,9 +1652,9 @@ class Panel:
             )
             print(f"Figure saved to {save_fig_filename}")
 
-    def cache_key(self, part: str, metric: str, filename: Union[str, Path]) -> str:
-        """Get the cache key for a curve."""
-        return f"{part}-{metric}-{Path(filename).stem}"
+    def cache_key(self, part: str, x_metric: str, y_metric: str, filename: Union[str, Path]) -> str:
+        """Get the cache key for a curve with x and y metrics."""
+        return f"{part}-{x_metric}-{y_metric}-{Path(filename).stem}"
 
     @property
     def log_files(self) -> List[str]:
