@@ -83,7 +83,8 @@ jobs:
         python -m pip list
     - name: Setup TeX Live
       # This is used to render the tikz plots, algorithm2e, etc.
-      uses: teatimeguest/setup-texlive-action@v3
+      # uses: teatimeguest/setup-texlive-action@v3
+      uses: zauguin/install-texlive@v4
       with:
         # List of TeXLive-packages contained in the scheme-basic
         # https://trac.macports.org/wiki/TeXLivePackages
@@ -115,6 +116,12 @@ jobs:
         python pre_build.py
         make html
         make linkcheck
+        # mv build/html build/html_en
+        # make -e SPHINXOPTS="-D language='zh_CN'" html
+        # mv build/html build/html_zh_CN
+        # mkdir -p build/html
+        # mv build/html_en build/html/en
+        # mv build/html_zh_CN build/html/zh
     - name: Publish to GitHub Pages
       # publish only when pushed to 'doc' and 'master' branches or manually triggered
       if: (github.event_name == 'push' && (contains(fromJson('["refs/heads/doc", "refs/heads/master"]'), github.ref))) || (github.event_name == 'workflow_dispatch')

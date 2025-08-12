@@ -628,6 +628,7 @@ class Server(Node, CitationMixin):
         if self._subprocess:
             # import necessary modules for multi-processing
             from .utils.multiprocessing import report_progress
+
             self._report_progress = report_progress
 
         logger_config = dict(
@@ -1009,7 +1010,7 @@ class Server(Node, CitationMixin):
                         # if the key in received_messages is not "parameters", accept_parameters need to be reimplemented
                         client.accept_parameters()
                         if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
-                            part = "train" # only evaluate train metrics on clients
+                            part = "train"  # only evaluate train metrics on clients
                             # NOTE: one should execute `client.evaluate`
                             # before `client._update`,
                             # otherwise the evaluation would be done
@@ -1107,7 +1108,7 @@ class Server(Node, CitationMixin):
                         client = self._clients[client_id]
                         client.train()
                         if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
-                            part = "train" # only evaluate train metrics on clients
+                            part = "train"  # only evaluate train metrics on clients
                             metrics = client.evaluate(part)
                             self._logger_manager.log_metrics(
                                 client_id,
@@ -1129,7 +1130,7 @@ class Server(Node, CitationMixin):
         self._logger_manager.log_message("Local training finished...")
         self._logger_manager.flush()
         self._complete_experiment = True
-        
+
     def pre_iter(self) -> None:
         """Preprocess before each iteration, after evaluation.
         Can be used to update the model, e.g. update the local model.
@@ -1187,7 +1188,7 @@ class Server(Node, CitationMixin):
         if self._metrics:  # not empty
             self._cached_metrics.append(self._metrics.copy())
         new_metrics = defaultdict(lambda: defaultdict(float))
-        part = "train" # only aggregate train metrics
+        part = "train"  # only aggregate train metrics
         assert part in self.dataset.data_parts, f"Invalid part name {part}, should be one of {self.dataset.data_parts}."
         for m in self._received_messages:
             if "metrics" not in m:
@@ -1508,7 +1509,7 @@ class Client(Node):
         # move self._metrics to self._cached_metrics
         self._cached_metrics.append(self._metrics.copy())
         self._metrics = {}  # clear the metrics
-        
+
     def accept_parameters(self) -> None:
         """
         Accepts parameters from received_messages.

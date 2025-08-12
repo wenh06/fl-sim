@@ -13,12 +13,13 @@ import warnings
 from collections import OrderedDict
 from copy import deepcopy
 from itertools import product
+from multiprocessing import Pool  # noqa: F401
 from pathlib import Path
 from typing import List, Tuple, Union
 
 import yaml
 from torch_ecg.cfg import CFG
-from multiprocessing import Pool
+
 from fl_sim.algorithms import builtin_algorithms, get_algorithm, list_algorithms
 from fl_sim.data_processing import FedDataArgs
 from fl_sim.utils.const import NAME
@@ -128,7 +129,9 @@ def parse_config_file(config_file_path: Union[str, Path]) -> Tuple[List[CFG], in
         elif parallel_config["mode"] == "parallel_task":
             if "num_workers" in parallel_config:
                 if n_parallel > 1 and parallel_config["num_workers"] != n_parallel:
-                    warnings.warn(f"`n_parallel` ({n_parallel}) is different from `num_workers` ({parallel_config['num_workers']}), using `num_workers`")
+                    warnings.warn(
+                        f"`n_parallel` ({n_parallel}) is different from `num_workers` ({parallel_config['num_workers']}), using `num_workers`"
+                    )
             elif n_parallel > 1:
                 parallel_config["num_workers"] = n_parallel
             else:

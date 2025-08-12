@@ -62,8 +62,10 @@ extensions = [
     "sphinxcontrib.proof",
 ]
 
+language = "en"
 locale_dirs = ["locale/"]  # path is example but recommended.
-gettext_compact = False  # optional.
+gettext_compact = False
+gettext_auto_build = True
 
 bibtex_bibfiles = ["references.bib"]
 # bibtex_bibliography_header = ".. rubric:: 参考文献"
@@ -92,10 +94,13 @@ html_context = {
     "github_repo": "fl-sim",  # Repo name
     "github_version": "master",  # Version
     "conf_py_path": "/docs/source/",  # Path in the checkout to the docs root
-    "current_version": release,  # Version label
-    "versions": [[release, f"link to {release}"]],  # Version labels
     "current_language": "en",  # Language label
-    "languages": [["en", "link to en"], ["zh", "link to zh"]],  # Language labels
+    "current_version": release,  # Version label
+    "languages": [
+        ["English", "/en"],
+        ["简体中文", "/zh"],
+    ],
+    "versions": [[release, f"link to {release}"]],  # Version labels
 }
 
 templates_path = ["_templates"]
@@ -164,6 +169,7 @@ elif _theme_name == "sphinx_book_theme":
         "use_fullscreen_button": True,
         "path_to_docs": "docs/source",
         "repository_branch": "master",
+        "extra_navbar": "_templates/versions.html",
     }
 elif _theme_name == "pydata_sphinx_theme":
     html_theme = "pydata_sphinx_theme"

@@ -1,3 +1,4 @@
+import warnings
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Literal, Optional, Sequence, Tuple, Union
 
@@ -18,9 +19,9 @@ from ..utils.const import (
     CIFAR100_MEAN,
     CIFAR100_STD,
 )
+from ._noniid_partition import non_iid_partition_with_dirichlet_distribution, record_data_stats  # noqa: F401
 from ._register import register_fed_dataset
 from .fed_dataset import FedDataset, FedVisionDataset, VisionDataset
-from ._noniid_partition import non_iid_partition_with_dirichlet_distribution, record_data_stats
 
 __all__ = [
     "FedCIFAR",
@@ -544,7 +545,6 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
         # Call the parent constructor to handle data downloading, default paths, etc.
         super().__init__(datadir=datadir, transform=transform, seed=seed, **extra_config)
 
-        
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         """Preload the dataset.
 
@@ -604,7 +604,7 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
             self._client_ids_test = list(test_h5[self._EXAMPLE].keys())
 
         if self.num_clients > self.DEFAULT_TRAIN_CLIENTS_NUM:
-            warn(f"`num_clients`={self.num_clients} is recommended to use <= 500 for FedCIFAR100_LDA.")
+            warnings.warn(f"`num_clients`={self.num_clients} is recommended to use <= 500 for FedCIFAR100_LDA.")
 
         # Set the random seed for reproducible partitioning
         np.random.seed(self.seed)
@@ -689,10 +689,7 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
             client_train_y = all_train_y[client_sample_indices]
 
             # Store in memory cache
-            self._client_train_data[client_idx] = {
-                'x': client_train_x,
-                'y': client_train_y
-            }
+            self._client_train_data[client_idx] = {"x": client_train_x, "y": client_train_y}
             self._client_access_count[client_idx] = 0
 
         print(f"Training data partitioned and cached for {self.num_clients} clients.")
@@ -743,10 +740,10 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
 
         # --- Use cached training data for fast access ---
         train_h5_opened = False
-        if hasattr(self, '_client_train_data') and client_idx in self._client_train_data:
+        if hasattr(self, "_client_train_data") and client_idx in self._client_train_data:
             # Get training data from memory cache
-            train_x = self._client_train_data[client_idx]['x']
-            train_y = self._client_train_data[client_idx]['y']
+            train_x = self._client_train_data[client_idx]["x"]
+            train_y = self._client_train_data[client_idx]["y"]
 
             # Mark this client as accessed
             self._client_access_count[client_idx] += 1
@@ -758,13 +755,13 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
                 del self._client_access_count
         else:
             # Fallback to original method if cache not available
-            warn(
+            warnings.warn(
                 "Training data cache not available! Using slow disk-based loading. "
                 "This will significantly impact performance for multiple dataloader requests. "
                 "Consider calling 'create_data_cache()' to enable fast caching, "
                 "or 'clear_data_cache()' to free memory if needed.",
                 UserWarning,
-                stacklevel=2
+                stacklevel=2,
             )
 
             train_h5 = h5py.File(str(self.datadir / self.DEFAULT_TRAIN_FILE), "r")
@@ -815,9 +812,7 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
         # Create test dataset (always static with normalization only).
         # Use client-specific test data instead of all test data
         test_transform = _data_transforms_fed_cifar(self.n_class, train=False)
-        test_x_tensor = test_transform(
-            torch.div(torch.from_numpy(client_test_x).permute(0, 3, 1, 2), 255.0)
-        )
+        test_x_tensor = test_transform(torch.div(torch.from_numpy(client_test_x).permute(0, 3, 1, 2), 255.0))
         test_y_tensor = torch.from_numpy(client_test_y).long()
         test_ds = torchdata.TensorDataset(test_x_tensor, test_y_tensor)
 
@@ -863,7 +858,7 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
         None
 
         """
-        if hasattr(self, '_client_train_data'):
+        if hasattr(self, "_client_train_data"):
             print("Training data cache already exists. Recreating...")
             self.clear_data_cache()
 
@@ -888,16 +883,16 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
         None
 
         """
-        if hasattr(self, '_client_train_data'):
+        if hasattr(self, "_client_train_data"):
             memory_freed = len(self._client_train_data) * 50000 * 32 * 32 * 3 / 1024 / 1024  # Rough estimate
             del self._client_train_data
             print(f"✅ Training data cache cleared. Freed ~{memory_freed:.1f} MB of memory.")
 
-        if hasattr(self, '_client_access_count'):
+        if hasattr(self, "_client_access_count"):
             del self._client_access_count
             print("✅ Client access tracking cleared.")
 
-        if not hasattr(self, '_client_train_data'):
+        if not hasattr(self, "_client_train_data"):
             print("ℹ️  No training data cache to clear.")
 
     def is_cache_available(self) -> bool:
@@ -909,7 +904,7 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
             True if cache is available, False otherwise.
 
         """
-        return hasattr(self, '_client_train_data') and len(self._client_train_data) > 0
+        return hasattr(self, "_client_train_data") and len(self._client_train_data) > 0
 
     def get_cache_info(self) -> Dict[str, Any]:
         """Get information about the current cache status.
@@ -925,12 +920,7 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
 
         """
         if not self.is_cache_available():
-            return {
-                'cache_available': False,
-                'num_clients_cached': 0,
-                'clients_accessed': 0,
-                'memory_usage_mb': 0.0
-            }
+            return {"cache_available": False, "num_clients_cached": 0, "clients_accessed": 0, "memory_usage_mb": 0.0}
 
         clients_accessed = sum(1 for count in self._client_access_count.values() if count > 0)
         # Rough memory estimate: num_clients * avg_samples_per_client * 32 * 32 * 3 bytes
@@ -938,8 +928,8 @@ class FedCIFAR100_LDA(FedCIFAR100, FedCIFAR, FedDataset):
         memory_usage = self.num_clients * avg_samples * 32 * 32 * 3 / 1024 / 1024
 
         return {
-            'cache_available': True,
-            'num_clients_cached': len(self._client_train_data),
-            'clients_accessed': clients_accessed,
-            'memory_usage_mb': memory_usage
+            "cache_available": True,
+            "num_clients_cached": len(self._client_train_data),
+            "clients_accessed": clients_accessed,
+            "memory_usage_mb": memory_usage,
         }

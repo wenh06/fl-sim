@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from ._proxskip import ProxSkipClient, ProxSkipClientConfig, ProxSkipServer, ProxSkipServerConfig
 from .test_proxskip import test_proxskip

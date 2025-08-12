@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 import warnings
 from typing import Any, Iterable, Optional, Union

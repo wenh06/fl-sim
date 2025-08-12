@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from ._ifca import IFCAClient, IFCAClientConfig, IFCAServer, IFCAServerConfig
 from .test_ifca import test_ifca

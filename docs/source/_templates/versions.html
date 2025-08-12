@@ -1,26 +1,17 @@
-<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
-  <span class="rst-current-version" data-toggle="rst-current-version">
-    Version: {{ current_version }}
-    <span class="fa fa-caret-down"></span>
-  </span>
-  <div class="rst-other-versions">
-    {% if languages|length >= 1 %}
-    <dl>
-      <dt>{{ _('Languages') }}</dt>
-        {% for the_language, url in languages %}
-          <dd><a href="{{ url }}/index.html">{{ the_language }}</a></dd>
-        {% endfor %}
-    </dl>
-    {% endif %}
-    {% if versions|length >= 1 %}
-    <dl>
-      <dt>{{ _('Versions') }}</dt>
+<div class="rst-versions" style="font-size: 0.9em;">
+  <strong>Version:</strong> {{ current_version }}<br>
+  {% if versions %}
+    <div><strong>Switch Version:</strong>
       {% for the_version, url in versions %}
-        <dd><a href="{{ url }}/index.html">{{ the_version }}</a></dd>
+        <a href="{{ url }}/index.html">{{ the_version }}</a>{% if not loop.last %} | {% endif %}
       {% endfor %}
-    </dl>
-    {% endif %}
-    <br>
-    </dl>
-  </div>
+    </div>
+  {% endif %}
+  {% if languages %}
+    <div><strong>Language:</strong>
+      {% for the_language, url in languages %}
+        <a href="{{ url }}/index.html">{{ the_language }}</a>{% if not loop.last %} | {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>

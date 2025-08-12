@@ -244,7 +244,7 @@ class TxtLogger(BaseLogger):
             self.log_suffix = f"_{log_suffix}"
         self.log_file = f"{self.log_prefix}_{get_date_str()}{self.log_suffix}.txt"
         self.verbose = verbose
-        self.silent = silent # whether the logger is silent
+        self.silent = silent  # whether the logger is silent
         self.logger = init_logger(
             self.log_dir,
             self.log_file,
@@ -283,7 +283,6 @@ class TxtLogger(BaseLogger):
             # It's possible init_logger didn't add a StreamHandler if verbose was very low
             # or if its logic changes in the future. Inform the user.
             print("TxtLogger: Warning - Could not find StreamHandler for console output redirection.", file=sys.__stderr__)
-    
 
     def log_metrics(
         self,
@@ -340,7 +339,7 @@ class TxtLogger(BaseLogger):
             self.logger.removeHandler(h)
             h.close()
         # logging.shutdown()
-        
+
     def reset(self) -> None:
         """Reset the logger.
 
@@ -684,7 +683,7 @@ class LoggerManager(ReprMixin):
     def reset(self) -> None:
         for lgs in self.loggers:
             lgs.reset()
-    
+
     @property
     def loggers(self) -> List[BaseLogger]:
         """The list of loggers."""

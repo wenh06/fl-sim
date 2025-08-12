@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from .compressors import Compressor, CompressorType
 

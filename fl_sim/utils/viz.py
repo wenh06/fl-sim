@@ -22,7 +22,7 @@ try:
 except (ImportError, ModuleNotFoundError):
     widgets = display = None
 
-from ..nodes import Node
+from ..nodes import Node  # noqa: F401
 from .const import LOG_DIR
 from .misc import find_longest_common_substring, is_notebook
 
@@ -185,10 +185,7 @@ def get_config_from_log(file: Union[str, Path]) -> dict:
 
 
 def aggregate_results_from_json_log_with_custom_axis(
-    d: Union[dict, str, Path],
-    part: str = "val",
-    x_metric: str = "step",
-    y_metric: str = "acc"
+    d: Union[dict, str, Path], part: str = "val", x_metric: str = "step", y_metric: str = "acc"
 ) -> Dict[str, np.ndarray]:
     """Aggregate the federated results from json log with custom x and y axis.
 
@@ -213,9 +210,11 @@ def aggregate_results_from_json_log_with_custom_axis(
         d = Path(d)
         if d.suffix == ".json":
             import json
+
             d = json.loads(d.read_text())
         elif d.suffix in [".yaml", ".yml"]:
             import yaml
+
             d = yaml.safe_load(d.read_text())
         else:
             raise ValueError(f"unsupported file type: {d.suffix}")
@@ -237,8 +236,9 @@ def aggregate_results_from_json_log_with_custom_axis(
 
     else:
         # For training data, aggregate client data (excluding server)
-        from tqdm import tqdm
         import os
+
+        from tqdm import tqdm
 
         # Get all unique x_metric values across all clients (excluding server)
         all_x_values = []
@@ -1450,10 +1450,7 @@ class Panel:
                     self._fig_curves, self._fig_stems = [], []
                     for idx, item in enumerate(self._log_files_mult_selector.value):
                         key = self.cache_key(
-                            self._part_input.value,
-                            self._x_metric_input.value,
-                            self._y_metric_input.value,
-                            item
+                            self._part_input.value, self._x_metric_input.value, self._y_metric_input.value, item
                         )
                         if key in self._curve_cache:
                             self._fig_curves.append(self._curve_cache[key])
@@ -1477,10 +1474,7 @@ class Panel:
                         # put the new curves and stems into self._curve_cache
                         for curve, stem in zip(new_fig_curves, new_fig_stems):
                             key = self.cache_key(
-                                self._part_input.value,
-                                self._x_metric_input.value,
-                                self._y_metric_input.value,
-                                stem
+                                self._part_input.value, self._x_metric_input.value, self._y_metric_input.value, stem
                             )
                             self._curve_cache[key] = curve
                         # update self._fig_curves and self._fig_stems
@@ -1545,7 +1539,11 @@ class Panel:
                         self.fig, self.ax = plot_mean_curve_with_error_bounds(
                             curves=[
                                 self._moving_averager(
-                                    self._fig_curves[idx]["y"] if isinstance(self._fig_curves[idx], dict) else self._fig_curves[idx],
+                                    (
+                                        self._fig_curves[idx]["y"]
+                                        if isinstance(self._fig_curves[idx], dict)
+                                        else self._fig_curves[idx]
+                                    ),
                                     weight=self._moving_average_slider.value,
                                 )
                                 for idx in indices
