@@ -191,6 +191,15 @@ master_doc = "index"
 
 numfig = False
 
+# mathjax3_config = {
+#     'tex': {
+#         'inlineMath': [['$', '$'], ['\\(', '\\)']],
+#         'displayMath': [['$$', '$$'], ['\\[', '\\]']],
+#         'processEscapes': True,
+#         'processEnvironments': True,
+#     }
+# }
+
 
 _mathjax_file = "tex-chtml-full.js"
 
@@ -212,7 +221,7 @@ def _get_mathjax_latest_version() -> str:
             # search for the version number in r.url
             # which will be redirected to the latest version with version number
             # e.g. https://unpkg.com/mathjax@3.2.2/es5/tex-chtml-full.js
-            return re.search("mathjax@([\\w\\.\\-]+)", r.url).group(1)
+            return re.search("mathjax@([\\w\\.\\-]+)", r.url).group(1)  # type: ignore
         else:
             return defalut_mathjax_latest_version
     except Exception:
@@ -233,3 +242,19 @@ linkcheck_ignore = [
 def setup(app):
     app.add_css_file("css/custom.css")
     app.add_css_file("css/proof.css")
+
+    app.add_css_file(
+        "https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css",
+        priority=800,
+        crossorigin="anonymous",
+    )
+    app.add_js_file(
+        "https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.js",
+        priority=800,
+        defer="defer",
+    )
+    app.add_js_file(
+        "js/pseudocode-init.js",
+        priority=900,
+        defer="defer",
+    )
