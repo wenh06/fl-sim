@@ -60,12 +60,7 @@ jobs:
         python -c "from fl_sim.models.tokenizers import init_nltk; init_nltk(quiet=False)"
     - name: Run test with pytest and collect coverage
       run: |
-        pytest -vv -s \
-        --cov-config=.coveragerc \
-        --cov-report term-missing \
-        --cov=fl_sim \
-        --ignore=test/test-algorithms \
-        test
+        pytest
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4
       # only upload coverage reports when python version is 3.10
