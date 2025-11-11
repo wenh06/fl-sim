@@ -60,6 +60,7 @@ extensions = [
     "sphinxcontrib.tikz",
     "sphinxcontrib.bibtex",
     "sphinxcontrib.proof",
+    "sphinxcontrib.pseudocode2",
 ]
 
 language = "en"
@@ -191,15 +192,6 @@ master_doc = "index"
 
 numfig = False
 
-# mathjax3_config = {
-#     'tex': {
-#         'inlineMath': [['$', '$'], ['\\(', '\\)']],
-#         'displayMath': [['$$', '$$'], ['\\[', '\\]']],
-#         'processEscapes': True,
-#         'processEnvironments': True,
-#     }
-# }
-
 
 _mathjax_file = "tex-chtml-full.js"
 
@@ -242,19 +234,5 @@ linkcheck_ignore = [
 def setup(app):
     app.add_css_file("css/custom.css")
     app.add_css_file("css/proof.css")
-
-    app.add_css_file(
-        "https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css",
-        priority=800,
-        crossorigin="anonymous",
-    )
-    app.add_js_file(
-        "https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.js",
-        priority=800,
-        defer="defer",
-    )
-    app.add_js_file(
-        "js/pseudocode-init.js",
-        priority=900,
-        defer="defer",
-    )
+    app.add_css_file("css/codeblock.css")
+    app.add_js_file("js/codeblock.js")

@@ -75,6 +75,7 @@ dev = [
     "sphinxcontrib-napoleon",
     "sphinxcontrib-proof",
     "sphinxcontrib-tikz",
+    "sphinxcontrib-pseudocode2",
     "termcolor",
     "tqdm",
 ]
@@ -96,6 +97,7 @@ docs = [
     "sphinxcontrib-napoleon",
     "sphinxcontrib-proof",
     "sphinxcontrib-tikz",
+    "sphinxcontrib-pseudocode2",
     "tqdm",
 ]
 test = [

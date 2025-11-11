@@ -14,5 +14,6 @@ sphinxcontrib-napoleon
 sphinxcontrib-tikz
 sphinxcontrib-bibtex
 sphinxcontrib-proof
+sphinxcontrib-pseudocode2
 numpydoc
 tqdm
