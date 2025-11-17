@@ -113,7 +113,7 @@ jobs:
     - name: Build docs with Sphinx and check for errors
       run: |
         cd docs
-        python pre_build.py
+        # python pre_build.py
         make html
         make linkcheck
         # mv build/html build/html_en

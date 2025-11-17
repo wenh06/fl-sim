@@ -7,6 +7,6 @@ SCRIPT_DIR="$SCRIPT_DIR/docs"
 cd $SCRIPT_DIR
 
 make clean
-python pre_build.py
+# python pre_build.py
 # make html
 make -e SPHINXOPTS="-D language='zh'" html
