@@ -10,13 +10,9 @@ solves the following problem of minimization of empirical risk function
 .. math::
    :label: fl-basic-dist
 
-   \DeclareMathOperator*{\expectation}{\mathbb{E}}
-   \DeclareMathOperator*{\minimize}{minimize}
-   \newcommand{\R}{\mathbb{R}}
-
    \begin{array}{cl}
-   \minimize\limits_{\theta \in \R^d} & f(\theta) = \expectation\limits_{k \sim {\mathcal{P}}} [f_k(\theta)], \\
-   \text{where} & f_k(\theta) = \expectation\limits_{(x, y) \sim \mathcal{D}_k} [\ell_k(\theta; x, y)],
+   \underset{\theta \in \mathbb{R}^d}{\text{minimize}} & f(\theta) = \mathbb{E}_{k \sim {\mathcal{P}}} [f_k(\theta)], \\
+   \text{where} & f_k(\theta) = \mathbb{E}_{(x, y) \sim \mathcal{D}_k} [\ell_k(\theta; x, y)],
    \end{array}
 
 where :math:`\ell_k` is the loss function of client :math:`k`,
@@ -28,102 +24,101 @@ If we simply let :math:`\mathcal{P} = \{1, 2, \ldots, K\}`, then the optimizatio
    :label: fl-basic
 
    \begin{array}{cl}
-   \minimize\limits_{\theta \in \R^d} & f(\theta) = \sum\limits_{k=1}^K w_k f_k(\theta).
+   \underset{\theta \in \mathbb{R}^d}{\text{minimize}} & f(\theta) = \sum\limits_{k=1}^K w_k f_k(\theta).
    \end{array}
 
 For further simplicity, we often take :math:`w_k = \frac{1}{K}`. The functions :math:`f_k` and :math:`f`
 are usually assumed to satisfy the following conditions:
 
-   * (A1) :math:`f_k` and :math:`f` are :math:`L`-smooth (:math:`L > 0`), i.e. they have :math:`L`-Lipschitz continuous gradients:
+* (A1) :math:`f_k` and :math:`f` are :math:`L`-smooth (:math:`L > 0`), i.e. they have :math:`L`-Lipschitz continuous gradients:
 
-      .. math::
-         :label: l-smooth
+  .. math::
+      :label: l-smooth
 
-         \begin{array}{c}
-         \lVert \nabla f (\theta) - f (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert, \\
-         \lVert \nabla f_k (\theta) - f_k (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert,
-         \end{array}
-         \quad \forall \theta, \theta' \in \R^d, k = 1, \ldots, K.
-   * (A2) The range of :math:`f`
+      \begin{array}{c}
+      \lVert \nabla f (\theta) - f (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert, \\
+      \lVert \nabla f_k (\theta) - f_k (\theta') \rVert \leqslant L \lVert \theta - \theta' \rVert,
+      \end{array}
+      \quad \forall \theta, \theta' \in \mathbb{R}^d, k = 1, \ldots, K.
 
-      .. math::
+* (A2) The range of :math:`f`
 
-         \DeclareMathOperator*{\dom}{dom}
+  .. math::
+      \text{dom}(f) := \{ \theta \in \mathbb{R}^d ~|~ f(\theta) < + \infty \}
 
-         \dom(f) := \{ \theta \in \R^d ~|~ f(\theta) < + \infty \}
+  is nonempty and lower bounded, i.e. there exists a constant :math:`c \in \mathbb{R}` such that
 
-      is nonempty and lower bounded, i.e. there exists a constant :math:`c \in \R` such that
+  .. math::
+      :label: lower-bounded
 
-      .. math::
-         :label: lower-bounded
+      f(\theta) \geqslant c > -\infty, ~ \forall \theta \in \mathbb{R}^d,
 
-         f(\theta) \geqslant c > -\infty, ~ \forall \theta \in \R^d,
+  or equivalently,
 
-      or equivalently,
+  .. math::
+      :label: lower-bounded-2
 
-         .. math::
-            :label: lower-bounded-2
-
-            f^* := \inf\limits_{\theta \in \R^d} f(\theta) > - \infty.
+      f^* := \inf\limits_{\theta \in \mathbb{R}^d} f(\theta) > - \infty.
 
 In many cases, in order to facilitate the analysis of convergence, we will also make some assumptions about
 the gradient of the objective function:
 
-   * (A3) Bounded gradient: there exists a constant :math:`G > 0` such that
+* (A3) Bounded gradient: there exists a constant :math:`G > 0` such that
 
-      .. math::
-         :label: bdd_grad
+  .. math::
+      :label: bdd_grad
 
-         \lVert \nabla f_k (\theta) \rVert^2 \leqslant G^2, ~ \forall \theta \in \R^d, ~ k = 1, \ldots K.
+      \lVert \nabla f_k (\theta) \rVert^2 \leqslant G^2, ~ \forall \theta \in \mathbb{R}^d, ~ k = 1, \ldots K.
 
 And the following assumptions on data distributions:
 
-   * (A4-1) Data distribution is I.I.D. (identically and independently distributed) across clients, i.e.
+* (A4-1) Data distribution is I.I.D. (identically and independently distributed) across clients, i.e.
 
-      .. math::
-         :label: iid-1
+  .. math::
+      :label: iid-1
 
-         \nabla f(\theta) = \expectation [f_k(\theta)] = \expectation\limits_{(x, y) \sim \mathcal{D}_k}[\nabla \ell_k(\theta; x, y)], ~ \forall \theta \in \R^d, ~ k = 1, \ldots K,
+      \nabla f(\theta) = \mathbb{E} [f_k(\theta)] = \mathbb{E}_{(x, y) \sim \mathcal{D}_k}[\nabla \ell_k(\theta; x, y)], ~ \forall \theta \in \mathbb{R}^d, ~ k = 1, \ldots K,
 
-      or equivalently, for any :math:`\varepsilon > 0`, there exists a constant :math:`B \geqslant 0` such that
+  or equivalently, for any :math:`\varepsilon > 0`, there exists a constant :math:`B \geqslant 0` such that
 
-      .. math::
-         :label: iid-2
+  .. math::
+      :label: iid-2
 
-         \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2,
-         ~ \forall \theta \in \left\{ \theta \in \R^d ~ \middle| ~ \lVert f(\theta) \rVert^2 > \varepsilon \right\}.
+      \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 = \lVert f(\theta) \rVert^2,
+      ~ \forall \theta \in \left\{ \theta \in \mathbb{R}^d ~ \middle| ~ \lVert f(\theta) \rVert^2 > \varepsilon \right\}.
 
 .. _bdd_grad_dissim:
 
-   * (A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure
-      the degree of this statistical heterogeneity. This quantity can be defined in a number of ways
-      [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`].
-      For example, in [:footcite:ct:`karimireddy2020scaffold`] and [:footcite:ct:`zhang2020fedpd`],
-      the so-called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity.
-      More specifically, there exists constants :math:`G > 0` and :math:`B \geqslant 0` such that
+* (A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure
+  the degree of this statistical heterogeneity. This quantity can be defined in a number of ways
+  [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`].
+  For example, in [:footcite:ct:`karimireddy2020scaffold`] and [:footcite:ct:`zhang2020fedpd`],
+  the so-called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity.
+  More specifically, there exists constants :math:`G > 0` and :math:`B \geqslant 0` such that
 
-      .. math::
-         :label: bdd_grad_dissim
+  .. math::
+      :label: bdd_grad_dissim
 
-         \dfrac{1}{K} \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 \leqslant G^2 + B^2 \lVert \nabla f(\theta) \rVert^2, ~ \forall \theta \in \R^d.
+      \dfrac{1}{K} \sum\limits_{k=1}^K \lVert \nabla f_k(\theta) \rVert^2 \leqslant G^2 + B^2 \lVert \nabla f(\theta) \rVert^2, ~ \forall \theta \in \mathbb{R}^d.
 
-      It should be noted that letting :math:`B = 0`, the bounded gradient dissimilarity condition (A4-2) degenrates
-      to the bounded gradient condition (A3).
+  It should be noted that letting :math:`B = 0`, the bounded gradient dissimilarity condition (A4-2) degenrates
+  to the bounded gradient condition (A3).
 
 Sometimes, in the proof of algorithm convergence, one needs to make assumptions on the convexity of the
 objective function :math:`f`, which can be defined as follows:
 
-   * (A5-1) convexity:
+* (A5-1) convexity:
 
-      .. math::
-         :label: def-convex-function
+  .. math::
+      :label: def-convex-function
 
-         f(a \theta + (1 - a) \theta') \leqslant a f(\theta) + (1 - a) f(\theta'),
-         ~ \forall \theta, \theta' \in \mathcal{C}, ~ \alpha \in [0, 1].
+      f(a \theta + (1 - a) \theta') \leqslant a f(\theta) + (1 - a) f(\theta'),
+      ~ \forall \theta, \theta' \in \mathcal{C}, ~ \alpha \in [0, 1].
 
-      where :math:`\mathcal{C}` is a convex set on which :math:`f` is defined.
-   * (A5-2) Strong convexity: there exists a constant :math:`\mu > 0` such that :math:`f - \frac{\mu}{2} \lVert \theta \rVert^2`
-      is convex. In this case, we say that :math:`f` is :math:`\mu`-strongly convex.
+  where :math:`\mathcal{C}` is a convex set on which :math:`f` is defined.
+
+* (A5-2) Strong convexity: there exists a constant :math:`\mu > 0` such that :math:`f - \frac{\mu}{2} \lVert \theta \rVert^2`
+  is convex. In this case, we say that :math:`f` is :math:`\mu`-strongly convex.
 
 Due to the natural layered and decoupled structure of the federal learning problem, it is more natural to consider
 the following constrained optimization problem:
@@ -132,7 +127,7 @@ the following constrained optimization problem:
    :label: fl-basic-constraint
 
    \begin{array}{cl}
-   \minimize & \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
+   \text{minimize} & \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
    \text{subject to} & \theta_k = \theta, ~ k = 1, \ldots, K.
    \end{array}
 
@@ -151,13 +146,9 @@ hence accelerating the convergence of the algorithm. This may well be thought of
 **skipping** algorithm, which were further developed in [:footcite:ct:`zhang2020fedpd, proxskip, proxskip-vr`].
 Pseudocode for ``FedAvg`` is shown as follows:
 
-.. _pseduocode-fedavg:
+.. _pcode-fedavg:
 
-.. image:: ../generated/algorithms/fedavg.svg
-   :align: center
-   :width: 80%
-   :alt: Psuedocode for ``FedAvg``
-   :class: no-scaled-link
+.. include:: ../_algo_pcode/fedavg.rst
 
 ``FedAvg`` achieved some good numerical results (see Section 3 of [:footcite:ct:`mcmahan2017fed_avg`]),
 but its convergence, espcially under non-I.I.D. data distributions, is not properly analyzed
@@ -178,12 +169,12 @@ as the following constrained optimization problem:
    \newcommand{\col}{\operatorname{col}}
 
    \begin{array}{cl}
-   \minimize & F(\Theta) := \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
+   \text{minimize} & F(\Theta) := \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
    \text{subject to} & \Theta \in \mathcal{E},
    \end{array}
 
-where :math:`\Theta = \col(\theta_1, \cdots, \theta_K) := \begin{pmatrix} \theta_1 \\ \vdots \\ \theta_K \end{pmatrix}, \theta_1, \ldots, \theta_K \in \R^d`
-and :math:`\mathcal{E} = \left\{ \Theta ~ \middle| ~ \theta_1 = \cdots = \theta_K \right\}` is a convex set in :math:`\R^{Kd}`.
+where :math:`\Theta = \col(\theta_1, \cdots, \theta_K) := \begin{pmatrix} \theta_1 \\ \vdots \\ \theta_K \end{pmatrix}, \theta_1, \ldots, \theta_K \in \mathbb{R}^d`
+and :math:`\mathcal{E} = \left\{ \Theta ~ \middle| ~ \theta_1 = \cdots = \theta_K \right\}` is a convex set in :math:`\mathbb{R}^{Kd}`.
 Projected gradient descent (PGD) is an effective method for solving the constrained optimization problem :eq:`fedavg-constraint`,
 which has the following update rule:
 
@@ -198,7 +189,7 @@ the projection operator onto the set :math:`\mathcal{E}` is indeed the average o
 .. math::
    :label: fedavg-projection
 
-   \Pi_{\mathcal{E}}: \R^{Kd} \to \mathcal{E}: ( \theta_1, \ldots, \theta_K) \mapsto \left(\frac{1}{K}\sum\limits_{k=1}^K \theta_K, \ldots, \frac{1}{K}\sum\limits_{k=1}^K \theta_K \right).
+   \Pi_{\mathcal{E}}: \mathbb{R}^{Kd} \to \mathcal{E}: ( \theta_1, \ldots, \theta_K) \mapsto \left(\frac{1}{K}\sum\limits_{k=1}^K \theta_K, \ldots, \frac{1}{K}\sum\limits_{k=1}^K \theta_K \right).
 
 We have shown that mathematically the ``FedAvg`` algorithm is indeed a kind of stochastic projected gradient descent (SPGD)
 algorithm, where the clients perform local stochastic gradient descent (SGD) updates and the server performs
@@ -214,13 +205,9 @@ to the whole algorithm framework. Indeed, the authors of the ``FedAvg`` paper pu
 a federated learning framework called ``FedOpt`` [:footcite:ct:`reddi2020fed_opt`] which has stronger adaptability.
 The pseudocode for ``FedOpt`` is shown as follows:
 
-.. _pseduocode-fedopt:
+.. _pcode-fedopt:
 
-.. image:: ../generated/algorithms/fedopt.svg
-   :align: center
-   :width: 80%
-   :alt: Psuedocode for ``FedOpt``
-   :class: no-scaled-link
+.. include:: ../_algo_pcode/fedopt.rst
 
 In the above pseudocode, :math:`\operatorname{aggregate} \left( \left\{ \Delta_{k}^{(t)} \right\}_{k \in \mathcal{S}^{(t)}} \right)`
 refers to some method that aggregates the local inertia updates :math:`\Delta_{k}^{(t)}` from the selected clients
@@ -243,7 +230,7 @@ accelerate the convergence. In [:footcite:ct:`reddi2020fed_opt`], the authors li
 
 - ``FedAdagrad``:
 
-   .. math::
+  .. math::
       :label: fedopt-serveropt-fedadagrad
 
       \begin{aligned}
@@ -253,7 +240,7 @@ accelerate the convergence. In [:footcite:ct:`reddi2020fed_opt`], the authors li
 
 - ``FedYogi``:
 
-   .. math::
+  .. math::
       :label: fedopt-serveropt-fedyogi
 
       \begin{aligned}
@@ -263,7 +250,7 @@ accelerate the convergence. In [:footcite:ct:`reddi2020fed_opt`], the authors li
 
 - ``FedAdam``:
 
-   .. math::
+  .. math::
       :label: fedopt-serveropt-fedadam
 
       \begin{aligned}
@@ -283,17 +270,13 @@ technique [:footcite:ct:`johnson2013accelerating`], which was first introduced t
 [:footcite:ct:`karimireddy2020scaffold`] in the form of a new federated learning algorithm called **SCAFFOLD**
 (Stochastic Controlled Averaging algorithm). The pseudocode for **SCAFFOLD** is shown as follows:
 
-.. _pseduocode-scaffold:
+.. _pcode-scaffold:
 
-.. image:: ../generated/algorithms/scaffold.svg
-   :align: center
-   :width: 80%
-   :alt: Psuedocode for ``Scaffold``
-   :class: no-scaled-link
+.. include:: ../_algo_pcode/scaffold.rst
 
 Variance reduction is a technique that can be flexibly combined with most algorithms and has been widely used
 in federated learning for dealing with statistical heterogeneity. However, it should be noted in the
-`SCAFFOLD algorithm <pseduocode-scaffold_>`_ that on both the server and the clients, there are extra parameters
+`SCAFFOLD algorithm <pcode-scaffold_>`_ that on both the server and the clients, there are extra parameters
 :math:`c` and :math:`c_k` to maintain, which may increase the communication cost. In scenarios which are sensitive
 to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of
 the variance reduction technique and some **skipping** techniques (e.g. [:footcite:ct:`proxskip-vr`]),

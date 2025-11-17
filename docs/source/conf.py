@@ -170,7 +170,7 @@ elif _theme_name == "sphinx_book_theme":
         "use_fullscreen_button": True,
         "path_to_docs": "docs/source",
         "repository_branch": "master",
-        "extra_navbar": "_templates/versions.html",
+        # "extra_navbar": "_templates/versions.html",
     }
 elif _theme_name == "pydata_sphinx_theme":
     html_theme = "pydata_sphinx_theme"
@@ -190,7 +190,16 @@ html_static_path = ["_static"]
 
 master_doc = "index"
 
-numfig = False
+# numfig = False
+
+pseudocode2_math_engine = "katex"
+
+pseudocode2_options = {
+    "lineNumber": True,  # Global default: enable line numbering
+    "commentDelimiter": " //",  # Global default comment delimiter
+    "noEnd": False,  # Global default: show "END" for control blocks
+    "scopeLines": True,  # Global default: enable scope lines
+}
 
 
 _mathjax_file = "tex-chtml-full.js"

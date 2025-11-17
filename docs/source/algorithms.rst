@@ -14,3 +14,4 @@ from the viewpoint of optimization theory, espcially the theory of operator spli
    algorithms/primal_dual
    algorithms/operator_splitting
    algorithms/skipping
+   algorithms/pfl

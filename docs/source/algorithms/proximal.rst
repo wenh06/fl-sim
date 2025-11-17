@@ -36,13 +36,9 @@ the overall optimization problem can be modeled as the following constrained opt
 For alternatives for the proximal center, studies were conducted in [:footcite:ct:`hanzely2020federated, li_2021_ditto`] which would be
 introduced later. Now, we summarize the pseudocode for ``FedProx`` as follows:
 
-.. _pseduocode-fedprox:
+.. _pcode-fedprox:
 
-.. image:: ../generated/algorithms/fedprox.svg
-   :align: center
-   :width: 80%
-   :alt: Psuedocode for ``FedProx``
-   :class: no-scaled-link
+.. include:: ../_algo_pcode/fedprox.rst
 
 We denote the :math:`\gamma`-inexact solution :math:`\theta_k^{(t)}` as
 
@@ -161,6 +157,11 @@ as the main technical tool for personalization.
    \draw[dashed, thin] (theta) circle (3.2);
    \end{scope}
 
+
+.. _pcode-apfl:
+
+.. include:: ../_algo_pcode/apfl.rst
+
 .. _fig-feddyn:
 
 .. tikz:: Client model parameter update schematic diagram of the FedDyn algorithm.
@@ -202,6 +203,10 @@ as the main technical tool for personalization.
    \draw[dashed, thin] (global) circle (1.9);
    \draw[dashed, thin] (global) circle (3.2);
    \end{scope}
+
+.. _pcode-feddyn:
+
+.. include:: ../_algo_pcode/feddyn.rst
 
 to write more....
 
