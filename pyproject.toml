@@ -141,6 +141,7 @@ testpaths = [
 source = [
     "fl_sim",
 ]
+patch = ["subprocess"]
 omit = [
     # omit all test files
     "tests/*",

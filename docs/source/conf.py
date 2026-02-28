@@ -64,8 +64,25 @@ extensions = [
 ]
 
 language = "en"
-locale_dirs = ["locale/"]  # path is example but recommended.
-gettext_compact = False
+# -- Options for sphinx-multiversion -----------------------------------------
+# https://holzhaus.github.io/sphinx-multiversion/master/configuration.html
+smv_branch_whitelist = r"^(master|dev|doc)$"
+smv_remote_whitelist = r"^(origin)$"
+smv_released_pattern = r"^tags/.*$"
+smv_outputdir_format = "{ref.name}"
+smv_prefer_remote_refs = False
+
+import os
+
+if os.environ.get("READTHEDOCS") == "True":
+    smv_branch_whitelist = r"^$"  # Disable multiversion on RTD
+    smv_tag_whitelist = r"^$"
+
+# -- Options for internationalization ----------------------------------------
+locale_dirs = ["../locale/"]  # path is example but recommended.
+gettext_compact = False  # optional.
+gettext_uuid = True  # optional.
+
 gettext_auto_build = True
 
 bibtex_bibfiles = ["references.bib"]
@@ -106,7 +123,13 @@ html_context = {
 
 templates_path = ["_templates"]
 
-# html_sidebars = {"*": ["versions.html"]}
+html_sidebars = {
+    "**": [
+        "search-field.html",
+        "sbt-sidebar-nav.html",
+        "versions.html",
+    ]
+}
 
 exclude_patterns = []
 

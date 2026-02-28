@@ -1,3 +1,4 @@
+sphinx-intl
 sphinx
 nbsphinx
 sphinx-theme

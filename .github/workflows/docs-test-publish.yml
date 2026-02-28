@@ -39,6 +39,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Fetch all history for sphinx-multiversion
     - name: Clear unnecessary system components
       run: |
         echo "Free space before cleanup:"
@@ -114,21 +116,28 @@ jobs:
       run: |
         cd docs
         # python pre_build.py
-        make html
-        make linkcheck
-        # mv build/html build/html_en
-        # make -e SPHINXOPTS="-D language='zh_CN'" html
-        # mv build/html build/html_zh_CN
-        # mkdir -p build/html
-        # mv build/html_en build/html/en
-        # mv build/html_zh_CN build/html/zh
+        # make html
+        # make linkcheck
+
+        # Build multiple versions and languages
+        make multiversion
+
+        # Copy redirect file
+        cp index_redirect.html build/multiversion/index.html
+
+        # Check if build was successful (check for en/master/index.html)
+        if [ ! -f build/multiversion/en/master/index.html ]; then
+          echo "Error: en/master/index.html not found!"
+          exit 1
+        fi
+
     - name: Publish to GitHub Pages
       # publish only when pushed to 'doc' and 'master' branches or manually triggered
       if: (github.event_name == 'push' && (contains(fromJson('["refs/heads/doc", "refs/heads/master"]'), github.ref))) || (github.event_name == 'workflow_dispatch')
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs/build/html
+        publish_dir: ./docs/build/multiversion
         publish_branch: gh-pages
         user_name: 'WEN Hao'
         user_email: 'wenh06@gmail.com'

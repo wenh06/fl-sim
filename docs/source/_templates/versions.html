@@ -1,17 +1,36 @@
-<div class="rst-versions" style="font-size: 0.9em;">
-  <strong>Version:</strong> {{ current_version }}<br>
-  {% if versions %}
-    <div><strong>Switch Version:</strong>
-      {% for the_version, url in versions %}
-        <a href="{{ url }}/index.html">{{ the_version }}</a>{% if not loop.last %} | {% endif %}
-      {% endfor %}
-    </div>
-  {% endif %}
-  {% if languages %}
-    <div><strong>Language:</strong>
-      {% for the_language, url in languages %}
-        <a href="{{ url }}/index.html">{{ the_language }}</a>{% if not loop.last %} | {% endif %}
-      {% endfor %}
-    </div>
-  {% endif %}
+<div class="sidebar-start-items__item">
+  <h3>Versions</h3>
+  <div class="rst-other-versions">
+    {% if versions %}
+    <dl>
+      <dt>Tags</dt>
+      {%- for v in versions %}
+        <dd><a href="{{ v.url }}">{{ v.name }}</a></dd>
+      {%- endfor %}
+    </dl>
+    {% endif %}
+    <dl>
+      <dt>Languages</dt>
+      {%- if current_version.name is defined %}
+      {# Multiversion build #}
+      {%- set vname = current_version.name %}
+      {%- if current_language == 'en' %}
+        <dd><strong>English</strong></dd>
+        <dd><a href="{{ pathto('../../../zh_CN/' + vname + '/index.html', 1) }}">简体中文</a></dd>
+      {%- else %}
+        <dd><a href="{{ pathto('../../../en/' + vname + '/index.html', 1) }}">English</a></dd>
+        <dd><strong>简体中文</strong></dd>
+      {%- endif %}
+      {%- else %}
+      {# Single version build (make html) #}
+      {%- if current_language == 'en' %}
+        <dd><strong>English</strong></dd>
+        <dd><a href="{{ pathto('../zh_CN/index.html', 1) }}">简体中文</a></dd>
+      {%- else %}
+        <dd><a href="{{ pathto('../en/index.html', 1) }}">English</a></dd>
+        <dd><strong>简体中文</strong></dd>
+      {%- endif %}
+      {%- endif %}
+    </dl>
+  </div>
 </div>

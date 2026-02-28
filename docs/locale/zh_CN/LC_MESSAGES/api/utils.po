@@ -1,0 +1,814 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-26 14:27+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: 2809d138d2184b10aa8a51ce8f5911b2 48039aa8b26b4f1a8770f43bb9a8c064
+#: fl_sim.utils:2 fl_sim.utils:9 of
+msgid "fl_sim.utils"
+msgstr ""
+
+#: 786f65ff2c9542d9af3f13520b1c174e fl_sim.utils:4 of
+msgid "This module contains various utilities for the ``fl-sim`` package."
+msgstr ""
+
+#: 1c633a33c0814dd6a785aebb6c28828d fl_sim.utils.loggers:4 of
+msgid "fl_sim.utils.loggers"
+msgstr ""
+
+#: 7ef3233b10354c4b8d88b7db6feb8412 fl_sim.utils.loggers:6 of
+msgid "This module contains various loggers."
+msgstr ""
+
+#: ecc55cfa8bfd4d4c82d17a69d93bf85e fl_sim.utils.loggers.BaseLogger:1 of
+msgid "Bases: :py:class:`~torch_ecg.utils.misc.ReprMixin`, :py:class:`~abc.ABC`"
+msgstr ""
+
+#: 82a599d4c69b4f7790c1bab9957f304c fl_sim.utils.loggers.BaseLogger:1 of
+msgid "Abstract base class of all loggers."
+msgstr ""
+
+#: 2700c52a431a49ef89cc477539f776a4 7799ffd5f50642218d5c44f94b42000f
+#: 7fe1c71958454773b6162edd5233b803 fe233296663a4f5589a48fc824e68c3e
+#: fl_sim.utils.loggers.BaseLogger.close:1
+#: fl_sim.utils.loggers.JsonLogger.close:1
+#: fl_sim.utils.loggers.LoggerManager.close:1
+#: fl_sim.utils.loggers.TxtLogger.close:1 of
+msgid "Close the logger."
+msgstr ""
+
+#: 1581e5f6550d462f88085113fa1f0ede 6ade515964f24df4878823faa55bc942
+#: b7b18e997f3a41cda1670baf27769d9c fl_sim.utils.loggers.BaseLogger.epoch_end:1
+#: fl_sim.utils.loggers.LoggerManager.epoch_end:1
+#: fl_sim.utils.loggers.TxtLogger.epoch_end:1 of
+msgid "Actions to be performed at the end of each epoch."
+msgstr ""
+
+#: 03437794f84f4fdca197579ed9196c1f 03c58e616f12463e94312ee8602c1ba5
+#: 0c09b11b380b4332994d3d857f964476 13c25b98521149f08a66a48024f53966
+#: 160571cea3c24245be2b8ec1e95c2579 232104e596934630af2a060970b86634
+#: 234c2fb15ae7411f832bb70a096a20eb 2d8eb8aa9eb347f9a3232ed5fab27323
+#: 2dc7a61228cc43bd8c4fba8dfcfde56f 2e39bab98fe94f31aec8bf4cba1bdc40
+#: 2f4888701db048fcb1c967eee1845087 3c465709516748639b270b6ada5a6cc1
+#: 4ba71270e8834a21aeb4b503232abf23 4eefafc1be6f4836a1c38a3cea1554f9
+#: 4fb55ca9080148e0b431b70df7515c49 55cc293ce8554ffd9d147763f65a5f9e
+#: 574e570f3b7c4beead44367eadb920f3 589f4332890549dd9e410932a023eae1
+#: 58d2403fb9f34014bcc12860d45e57aa 673c79bec45049909e119d9404d8daa9
+#: 69dd5b289bdc42678cc84ed8b0e1103f 92c1a9f73bcc4fcba774884403c2b948
+#: 9d06213bb8be45f8b2551c96066f4685 9d5470dd02444292b1d1cef356a51ec0
+#: a612899d956b4b54ace025aebcc5f84b a67c6028213545759e0db69e0e4ec54e
+#: a8880119a64d49528871f49fa321e3f7 adae990d13914828a84f25fee3df0800
+#: c03042cf7d2b49959d8457479ad5cab4 cf18d706594042fcb7a52688b4f7947b
+#: da40cffafb564a9d8e5db735270b3bfc ee5970a1217c4f6ca704129c68ff7607
+#: f08e17d8d2f64e23b3fa59226c8a2746 fc9f99142fe44920b7497d9cfdccd685
+#: fl_sim.utils fl_sim.utils.misc.make_serializable of
+msgid "Parameters"
+msgstr ""
+
+#: 04158fdd34964f56820c81b888437277 37dde5dc8b1e4b58906b550479db9902
+#: b6bad7237bad4cf9aa09750df76ad4b0 b9e1c01fd5cc42ad99aeea437b4e7adf
+#: e2b9d7ca57ef46718ed41a4b1eb1a38d f328e8daaac443e5badf713778966b96
+#: fl_sim.utils.loggers.BaseLogger.epoch_end:3
+#: fl_sim.utils.loggers.BaseLogger.epoch_start:3
+#: fl_sim.utils.loggers.LoggerManager.epoch_end:3
+#: fl_sim.utils.loggers.LoggerManager.epoch_start:3
+#: fl_sim.utils.loggers.TxtLogger.epoch_end:3
+#: fl_sim.utils.loggers.TxtLogger.epoch_start:3 of
+msgid "The number of the current epoch."
+msgstr ""
+
+#: 0127543e15e2422cb907955e20f6fa9c 23ff4414ff244b5cbf6c570f670565cc
+#: 270c00f507f54e36b1a61f4963969fff 2beaaf4254834699a0fda41dadc061ea
+#: 2e4ba7c2d99c4a20b70c97378d5c3690 2e585ab3487f48b9b50afac77114c358
+#: 315fe367f324446db6771a917f38336e 50df005a7639491db465f87f2f5cfa9a
+#: 5680d8834dba44aeb3ab5f28edbdafcd 5a89c13da5e3449b9989efe43db8a34b
+#: 68a03066fdee4ec5a098a5f41f4a9ab4 76aa215462d04366a536a2088514ee6b
+#: 7be152a02bb945f49ecac217d4008c3b 7e79ac5ad383430ea53999b22033acd1
+#: 80a06096abbc428f978411f0473ed0c8 8235fc8825b34eefb65f73250fd83eb8
+#: 88cdb2b973c14796afdcdc040356a8ec 8e038c07907d4b9ea7cb2ed19725b920
+#: a7e0c2c6f5da4fb5af001022d8918f86 af8ced48eee443d7856cacea08281570
+#: bd7b5784437345259650a563b06fa373 c4f1562c315e45cf9332295079a0b76f
+#: cbc17651fbf944e1a53b229ce1fc8745 d6d702ea82734b629560d3c9c7bdaa0f
+#: d7b5443051d94e6887722c15f08f6f3d d83b767e5ab8453ebf13a5db7fefb413
+#: f853db5594b04fc9a4843a4d9d0fe650 faddb3f1abbe420a8daf9388ea413843
+#: fd8f57ff7eed40249e2014fc5f7ed371 fl_sim.utils
+#: fl_sim.utils.misc.make_serializable of
+msgid "Return type"
+msgstr ""
+
+#: 2285520873e34effbda2c44297395c07 a23599ee070e4f8492625093a6482da3
+#: b97231afb20e43a2ba003dbf4e56c150
+#: fl_sim.utils.loggers.BaseLogger.epoch_start:1
+#: fl_sim.utils.loggers.LoggerManager.epoch_start:1
+#: fl_sim.utils.loggers.TxtLogger.epoch_start:1 of
+msgid "Actions to be performed at the start of each epoch."
+msgstr ""
+
+#: c257b42952fa4b758fdb966e25407673 d35a3b83285a4999a1f483da1fb158dd
+#: fl_sim.utils.loggers.BaseLogger.extra_repr_keys:1
+#: fl_sim.utils.loggers.LoggerManager.extra_repr_keys:1 of
+msgid "Extra keys for :meth:`__repr__` and :meth:`__str__`."
+msgstr ""
+
+#: 848b8c5c01ee4a42b5d520d5d944c967 b7a3c5f1c166405f8e1a548e0e988282
+#: f60ca6635f9245089ea4f5744f579868 fl_sim.utils.loggers.BaseLogger.filename:1
+#: fl_sim.utils.loggers.JsonLogger.filename:1
+#: fl_sim.utils.loggers.TxtLogger.filename:1 of
+msgid "Name of the log file."
+msgstr ""
+
+#: 16aa38a686034bbab94668bfd497c2e6 84bc8549779746c09ae83b00c3468b2c
+#: 8eecfe84c291420abf97f71dc81bd84f 9bd49a6690cb439c9dcf5f9608c1997a
+#: fl_sim.utils.loggers.BaseLogger.flush:1
+#: fl_sim.utils.loggers.JsonLogger.flush:1
+#: fl_sim.utils.loggers.LoggerManager.flush:1
+#: fl_sim.utils.loggers.TxtLogger.flush:1 of
+msgid "Flush the message buffer."
+msgstr ""
+
+#: 433436ce216148d488580db459b2c6a1
+#: fl_sim.utils.loggers.BaseLogger.from_config:1 of
+msgid "Create a logger instance from a configuration."
+msgstr ""
+
+#: 3db1a23028bc4907bc620d2e8395a65b fl_sim.utils.loggers.BaseLogger.log_dir:1
+#: of
+msgid "Directory to save the log file."
+msgstr ""
+
+#: 1b59a6de9b744f43a85277daf85b8049 34c71cb0641748cd9b14537fb1e76ec8
+#: 65c001988e9146de9f3896fcae9d4c22 6d41dcb568794e81b744b687f2ba6aa2
+#: efd9da0f863b454c8fefdea28cbd1c47
+#: fl_sim.utils.loggers.BaseLogger.log_message:1
+#: fl_sim.utils.loggers.JsonLogger.log_message:1
+#: fl_sim.utils.loggers.LoggerManager.log_message:1
+#: fl_sim.utils.loggers.LoggerManager.log_metrics:1
+#: fl_sim.utils.loggers.TxtLogger.log_message:1 of
+msgid "Log a message."
+msgstr ""
+
+#: 1441649e09a6482a99b38d361c487144 2be00914c2db47c982adf5393b838c97
+#: 2ec1eccb93db4a079ea6f2e2a0fe1943 4a4f4896a0be4b5980a412f090b75f27
+#: dce8ed9aa0354a51ad56a492f6c982a9
+#: fl_sim.utils.loggers.BaseLogger.log_message:3
+#: fl_sim.utils.loggers.JsonLogger.log_message:3
+#: fl_sim.utils.loggers.LoggerManager.log_message:3
+#: fl_sim.utils.loggers.LoggerManager.log_metrics:3
+#: fl_sim.utils.loggers.TxtLogger.log_message:3 of
+msgid "The message to be logged."
+msgstr ""
+
+#: 0fae56d28378467ca533e221ceda1ce3 1305b60409864092bfe5e15f2736bc17
+#: 386442716d0346a79c81c8eec40e6c89 8acf46674d83487fa6c1d0429173b502
+#: 9cb76a64a966425bb65eff13b930aa9a
+#: fl_sim.utils.loggers.BaseLogger.log_message:5
+#: fl_sim.utils.loggers.JsonLogger.log_message:5
+#: fl_sim.utils.loggers.LoggerManager.log_message:5
+#: fl_sim.utils.loggers.LoggerManager.log_metrics:5
+#: fl_sim.utils.loggers.TxtLogger.log_message:5 of
+msgid ""
+"The level of the message, can be one of ``logging.DEBUG``, "
+"``logging.INFO``, ``logging.WARNING``, ``logging.ERROR``, "
+"``logging.CRITICAL``"
+msgstr ""
+
+#: 18693fd86dbb4af49232a83f0837ef96 1bd09d7e25934383ba147cefc6169410
+#: 33666a97eb2d4507a45065981f32fb24
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:1
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:1
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:1 of
+msgid "Log metrics."
+msgstr ""
+
+#: 52173f7dac0448d5985f2a58ffd818bb 7ebb9ebd7bcf4bd6ab6d1569fe28b6f2
+#: ea3a464d14b9409fb3fd1dd272c7d947
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:3
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:3
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:3 of
+msgid "Index of the client, ``None`` for the server."
+msgstr ""
+
+#: 34942481596d4004af6479957a11bc74 5a34b1a4790545e6bfd1d852e9f6f29c
+#: f2afb7ef7b0044f69838f3d17c323ebd
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:5
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:5
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:5 of
+msgid "The metrics to be logged."
+msgstr ""
+
+#: 1a3a6fafc56c423b88ce6c1f6ff783dd 1adb25899cfb44f7936c5479970390a1
+#: b05bba9313e846c599d9d7e6d56f3595
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:7
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:7
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:7 of
+msgid "The current number of (global) steps of training."
+msgstr ""
+
+#: 18e93424d0dc48b7b4c97e295c39b35b b6a4c39ec5ed4ab99ce9aa795b570455
+#: f0aaeeba47ec42abae8d86af5fa3391d
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:9
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:9
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:9 of
+msgid "The current epoch number of training."
+msgstr ""
+
+#: 8488977dd3824e3991e5450f5d2681ca bd03eb207f304ba1a973736ccb25e2dd
+#: c730330d8b644d1788de151741a07a48
+#: fl_sim.utils.loggers.BaseLogger.log_metrics:11
+#: fl_sim.utils.loggers.JsonLogger.log_metrics:11
+#: fl_sim.utils.loggers.TxtLogger.log_metrics:11 of
+msgid ""
+"The part of the training data the metrics computed from, can be "
+"``\"train\"`` or ``\"val\"`` or ``\"test\"``, etc."
+msgstr ""
+
+#: 3418b8be2d7d4f0398eb668b41885800 4aa6b8724d5e4a31951afc614d416d69
+#: 638a47e230924b31a59c65c8a96cf593 7af061c9caee4e0da95ea8a348318992
+#: fl_sim.utils.loggers.BaseLogger.reset:1
+#: fl_sim.utils.loggers.JsonLogger.reset:1
+#: fl_sim.utils.loggers.LoggerManager.reset:1
+#: fl_sim.utils.loggers.TxtLogger.reset:1 of
+msgid "Reset the logger."
+msgstr ""
+
+#: 44e8fb7290304cc5a991f2b35a5d50be
+#: fl_sim.utils.loggers.BaseLogger.set_log_dir:1 of
+msgid "Set the log directory."
+msgstr ""
+
+#: 25b854494916493bb5f44bafc72ca1d3
+#: fl_sim.utils.loggers.BaseLogger.set_log_dir:3 of
+msgid "The log directory."
+msgstr ""
+
+#: 3c98a925b41b4ffb96be2c6dc52aac82 71909c772d1c49ffa2b368820006f3ea
+#: fl_sim.utils.loggers.JsonLogger:1 fl_sim.utils.loggers.TxtLogger:1 of
+msgid "Bases: :py:class:`~fl_sim.utils.loggers.BaseLogger`"
+msgstr ""
+
+#: fc39c7df55784d02b59109e0ddef02e8 fl_sim.utils.loggers.JsonLogger:1 of
+msgid "Logger that logs to a JSON file, or a yaml file."
+msgstr ""
+
+#: 504c1e3ec3254a07a4ea8fdfab8dbd68 fl_sim.utils.loggers.JsonLogger:4 of
+msgid "The structure is as follows for example:"
+msgstr ""
+
+#: 0f75b1a4e2104649a7d11151fa9315ec 3d69d416b73249b0807199026da5bad2
+#: 475d4351dead471a8fba7a076a64093c 56fb4d1f7a4a46cab4da3ee8d5c8af6c
+#: 5a222c773aa145029ac37c9482c9d942 85bbe33db92e49f695317eb7d9e4bd6a
+#: 889d953fc5b5481b805808d8a7673e3f da77beb8b5054c6abe89e7d092a396c2
+#: f4fe6cbfab764e35bba805ab936adc35 fl_sim.utils.loggers.JsonLogger:42
+#: fl_sim.utils.loggers.JsonLogger:44 fl_sim.utils.loggers.JsonLogger:46
+#: fl_sim.utils.loggers.LoggerManager:3 fl_sim.utils.loggers.LoggerManager:5
+#: fl_sim.utils.loggers.LoggerManager:7 fl_sim.utils.loggers.TxtLogger:3
+#: fl_sim.utils.loggers.TxtLogger:5 fl_sim.utils.loggers.TxtLogger:7 of
+msgid "Used to form the prefix of the log file."
+msgstr ""
+
+#: dd6ee27d608242c09dade0695ef90e5d fl_sim.utils.loggers.JsonLogger:48 of
+msgid "Format of the log file."
+msgstr ""
+
+#: 680db0ad78e04c1d8f71b5d7251d4fbf 6c9fe070ac574a7f96d0d336b7b31213
+#: fl_sim.utils.loggers.JsonLogger:50 fl_sim.utils.loggers.LoggerManager:9 of
+msgid "Directory to save the log file"
+msgstr ""
+
+#: 2bdba46af89a454cb149257d548e98fe 4ac484e8a9854375abe03493ce37020d
+#: ff66c2d25d21433cbcb5d10f52d689fa fl_sim.utils.loggers.JsonLogger:52
+#: fl_sim.utils.loggers.LoggerManager:11 fl_sim.utils.loggers.TxtLogger:13 of
+msgid "Suffix of the log file."
+msgstr ""
+
+#: e12f043263754c7eb6f779182464218d fl_sim.utils.loggers.JsonLogger:54 of
+msgid ""
+"The verbosity level. Not used in this logger, but is kept for "
+"compatibility with other loggers."
+msgstr ""
+
+#: 1adb936e1b944e1eab2a1ca6cdaf4bde
+#: fl_sim.utils.loggers.JsonLogger.from_config:1 of
+msgid "Create a :class:`JsonLogger` instance from a configuration."
+msgstr ""
+
+#: 63950ab59b954d6bac91dea80bc2d134
+#: fl_sim.utils.loggers.JsonLogger.from_config:3 of
+msgid ""
+"Configuration for the logger. The following keys are used:      - "
+"``\"algorithm\"``: :obj:`str`,       name of the algorithm.     - "
+"``\"dataset\"``: :obj:`str`,       name of the dataset.     - "
+"``\"model\"``: :obj:`str`,       name of the model.     - ``\"fmt\"``: "
+"{\"json\", \"yaml\"}, optional,       format of the log file, default: "
+"``\"json\"``.     - ``\"log_dir\"``: :obj:`str` or :class:`pathlib.Path`,"
+" optional,       directory to save the log file.     - "
+"``\"log_suffix\"``: :obj:`str`, optional,       suffix of the log file."
+msgstr ""
+
+#: b3e5c624a8fc4ee39d4c9c1575332bdd d2205e25a261422399b440a795d31390
+#: fl_sim.utils.loggers.JsonLogger.from_config:4
+#: fl_sim.utils.loggers.TxtLogger.from_config:4 of
+msgid "Configuration for the logger. The following keys are used:"
+msgstr ""
+
+#: 9ab26187f24248f7a83dfb0f7c8a84cf e71c695623fd488886b5e84f7fff7842
+#: fl_sim.utils.loggers.JsonLogger.from_config:6
+#: fl_sim.utils.loggers.TxtLogger.from_config:6 of
+msgid "``\"algorithm\"``: :obj:`str`, name of the algorithm."
+msgstr ""
+
+#: 8223455626d3496ea419cddf6f8d5f39 83e1ce5490964ac5b9e6d6bbef3ff35d
+#: fl_sim.utils.loggers.JsonLogger.from_config:8
+#: fl_sim.utils.loggers.TxtLogger.from_config:8 of
+msgid "``\"dataset\"``: :obj:`str`, name of the dataset."
+msgstr ""
+
+#: 22ddb908a90d496e98a39eead4d3a691 fe10d8941ba84ca1924f101cfcbcaacf
+#: fl_sim.utils.loggers.JsonLogger.from_config:10
+#: fl_sim.utils.loggers.TxtLogger.from_config:10 of
+msgid "``\"model\"``: :obj:`str`, name of the model."
+msgstr ""
+
+#: 2ae6f3ecf1ae4f4992cca5c81b00991e
+#: fl_sim.utils.loggers.JsonLogger.from_config:12 of
+msgid ""
+"``\"fmt\"``: {\"json\", \"yaml\"}, optional, format of the log file, "
+"default: ``\"json\"``."
+msgstr ""
+
+#: 2fb6f1084def4b95a57778ac24358253 b39c0e7b63344184bc970a69e1e27f85
+#: fl_sim.utils.loggers.JsonLogger.from_config:14
+#: fl_sim.utils.loggers.TxtLogger.from_config:12 of
+msgid ""
+"``\"log_dir\"``: :obj:`str` or :class:`pathlib.Path`, optional, directory"
+" to save the log file."
+msgstr ""
+
+#: 0360933bc9e34fa0b951bf60df84eee6 0484d73d0c3d4e539913a1e4341d0b8e
+#: fl_sim.utils.loggers.JsonLogger.from_config:16
+#: fl_sim.utils.loggers.TxtLogger.from_config:14 of
+msgid "``\"log_suffix\"``: :obj:`str`, optional, suffix of the log file."
+msgstr ""
+
+#: 25e5ffbae59c435f88c8903568172910 267e696831014994a7b32a80aa025ce3
+#: 4632a178b00448e0a7a581b843040679 52c8c0a3904c41a6a4019ad8ab2a2234
+#: 609307b49d614248a3fa03c564a8232c 65e046dcf4a8465fa2885d27e6a5ebdd
+#: 683c52aab98244c0bf14d84e9a827ec3 8112ad23328846e0956d6737bfdda896
+#: 8be8ebddc75d48ab9411883e70218195 aa6afc4b9d48490cb1aac662288f58fb
+#: b44ed19a24614c078959029872ac5868 b4e18d902dc6458691da99c593f88cd8
+#: bc05c79fa8514b0faac2c885c3749004 fac7c0ede81546e5bc998909691511aa
+#: fl_sim.utils fl_sim.utils.misc.make_serializable of
+msgid "Returns"
+msgstr ""
+
+#: b6942c6a4b864105aca8b5434c9d52c0
+#: fl_sim.utils.loggers.JsonLogger.from_config:20 of
+msgid "A :class:`JsonLogger` instance."
+msgstr ""
+
+#: e3ec2f27327d4c4db61944e3e4230e9b ec5f22b0b69c4b38a0929ffd5e93464e
+#: fl_sim.utils.loggers.JsonLogger.reset:3
+#: fl_sim.utils.loggers.TxtLogger.reset:3 of
+msgid "Close the current logger and create a new one, with new log file name."
+msgstr ""
+
+#: 7ae6a58106aa426cacb838f46bbb2aa2 fl_sim.utils.loggers.LoggerManager:1 of
+msgid "Bases: :py:class:`~torch_ecg.utils.misc.ReprMixin`"
+msgstr ""
+
+#: 5440f34c38764ae0a2af9eed7aa77e7e fl_sim.utils.loggers.LoggerManager:1 of
+msgid "Manager for loggers."
+msgstr ""
+
+#: 55da5cfada4349739eb8293213efc0f3 7d87736145434a98a987ab04ef770deb
+#: fl_sim.utils.loggers.LoggerManager:13 fl_sim.utils.loggers.TxtLogger:15 of
+msgid "The verbosity level."
+msgstr ""
+
+#: a725cbfbc9ad4ac38989d3e380d70aec
+#: fl_sim.utils.loggers.LoggerManager.from_config:1 of
+msgid "Create a :class:`LoggerManager` instance from a configuration."
+msgstr ""
+
+#: f8bb37e74d7f4349abc232661c3d2962
+#: fl_sim.utils.loggers.LoggerManager.from_config:3 of
+msgid ""
+"Configuration of the logger manager. The following keys are used:      - "
+"``\"algorithm\"``: :obj:`str`,       algorithm name.     - "
+"``\"dataset\"``: :obj:`str`,       dataset name.     - ``\"model\"``: "
+":obj:`str`,       model name.     - ``\"log_dir\"``: :obj:`str` or "
+":class:`pathlib.Path`, optional,       directory to save the log files."
+"     - ``\"log_suffix\"``: :obj:`str`, optional,       suffix of the log "
+"files.     - ``\"txt_logger\"``: :obj:`bool`, optional,       whether to "
+"add a :class:`TxtLogger` instance.     - ``\"json_logger\"``: "
+":obj:`bool`, optional,       whether to add a :class:`JsonLogger` "
+"instance.     - ``\"fmt\"``: {\"json\", \"yaml\"}, optional,       format"
+" of the json log file, default: ``\"json\"``,       valid when "
+"``\"json_logger\"`` is ``True``.     - ``\"verbose\"``: :obj:`int`, "
+"optional,       verbosity level of the logger manager,     - "
+"``\"silent\"``: :obj:`bool`, optional,       whether to suppress the "
+"output to the console."
+msgstr ""
+
+#: 55beb2049d8845c4a2c0214cdb5b5002
+#: fl_sim.utils.loggers.LoggerManager.from_config:4 of
+msgid "Configuration of the logger manager. The following keys are used:"
+msgstr ""
+
+#: d03968c706854e8f98bf6b09415ac70f
+#: fl_sim.utils.loggers.LoggerManager.from_config:6 of
+msgid "``\"algorithm\"``: :obj:`str`, algorithm name."
+msgstr ""
+
+#: 30529e2d37d9434693d93a3a43bf4e67
+#: fl_sim.utils.loggers.LoggerManager.from_config:8 of
+msgid "``\"dataset\"``: :obj:`str`, dataset name."
+msgstr ""
+
+#: b2bc90b0686545b393ca2a929249e7c5
+#: fl_sim.utils.loggers.LoggerManager.from_config:10 of
+msgid "``\"model\"``: :obj:`str`, model name."
+msgstr ""
+
+#: b6b70d3d365f4cd2b4588b2fab3f2457
+#: fl_sim.utils.loggers.LoggerManager.from_config:12 of
+msgid ""
+"``\"log_dir\"``: :obj:`str` or :class:`pathlib.Path`, optional, directory"
+" to save the log files."
+msgstr ""
+
+#: a3e12adcbc154c53934ef957a373b579
+#: fl_sim.utils.loggers.LoggerManager.from_config:14 of
+msgid "``\"log_suffix\"``: :obj:`str`, optional, suffix of the log files."
+msgstr ""
+
+#: f7d34f82f44d435fa74b84758e0c4fa0
+#: fl_sim.utils.loggers.LoggerManager.from_config:16 of
+msgid ""
+"``\"txt_logger\"``: :obj:`bool`, optional, whether to add a "
+":class:`TxtLogger` instance."
+msgstr ""
+
+#: 88b776e8c3bb40a3a416c9e167e3109f
+#: fl_sim.utils.loggers.LoggerManager.from_config:18 of
+msgid ""
+"``\"json_logger\"``: :obj:`bool`, optional, whether to add a "
+":class:`JsonLogger` instance."
+msgstr ""
+
+#: 25e135e208a2406ca44cc94e1f50548f
+#: fl_sim.utils.loggers.LoggerManager.from_config:20 of
+msgid ""
+"``\"fmt\"``: {\"json\", \"yaml\"}, optional, format of the json log file,"
+" default: ``\"json\"``, valid when ``\"json_logger\"`` is ``True``."
+msgstr ""
+
+#: 0824ccc9536f463291b4c04f6e0a4342
+#: fl_sim.utils.loggers.LoggerManager.from_config:23 of
+msgid ""
+"``\"verbose\"``: :obj:`int`, optional, verbosity level of the logger "
+"manager,"
+msgstr ""
+
+#: 237e5b4e32794007b6c73d937137dc54
+#: fl_sim.utils.loggers.LoggerManager.from_config:25 of
+msgid ""
+"``\"silent\"``: :obj:`bool`, optional, whether to suppress the output to "
+"the console."
+msgstr ""
+
+#: d22e545004a54ed8aba1c686e0a4b885
+#: fl_sim.utils.loggers.LoggerManager.from_config:29 of
+msgid "A :class:`LoggerManager` instance."
+msgstr ""
+
+#: 389f00f16bd74f769e1d78ed8e8339d0
+#: fl_sim.utils.loggers.LoggerManager.log_dir:1 of
+msgid "Directory to save the log files."
+msgstr ""
+
+#: 101e55e705244f54a55e34ffd60bbc38
+#: fl_sim.utils.loggers.LoggerManager.log_suffix:1 of
+msgid "Suffix of the log files."
+msgstr ""
+
+#: de2b10d9a402406ca1c23d74b63af451
+#: fl_sim.utils.loggers.LoggerManager.loggers:1 of
+msgid "The list of loggers."
+msgstr ""
+
+#: 82d12c6452fc43258a9ca6241fa686f2 fl_sim.utils.loggers.TxtLogger:1 of
+msgid "Logger that logs to a text file."
+msgstr ""
+
+#: edeebd3ca0864326b6216c88b342a54e fl_sim.utils.loggers.TxtLogger:9 of
+msgid ""
+"Directory to save the log file. If ``None``, use the default log "
+"directory. If not absolute, use ``DEFAULT_LOG_DIR/log_dir``."
+msgstr ""
+
+#: 3c15b36653774c77b9a345da30ba7c37
+#: fl_sim.utils.loggers.TxtLogger.from_config:1 of
+msgid "Create a :class:`TxtLogger` instance from a configuration."
+msgstr ""
+
+#: b2ef1bcd4ca04df783c4ac6c1aa8b1f8
+#: fl_sim.utils.loggers.TxtLogger.from_config:3 of
+msgid ""
+"Configuration for the logger. The following keys are used:      - "
+"``\"algorithm\"``: :obj:`str`,       name of the algorithm.     - "
+"``\"dataset\"``: :obj:`str`,       name of the dataset.     - "
+"``\"model\"``: :obj:`str`,       name of the model.     - "
+"``\"log_dir\"``: :obj:`str` or :class:`pathlib.Path`, optional,       "
+"directory to save the log file.     - ``\"log_suffix\"``: :obj:`str`, "
+"optional,       suffix of the log file."
+msgstr ""
+
+#: ac5c81e1e59a4acc9a095ed1a2189ca4
+#: fl_sim.utils.loggers.TxtLogger.from_config:18 of
+msgid "A :class:`TxtLogger` instance."
+msgstr ""
+
+#: 37c00204b99540d0be1df59c3eaaf425 fl_sim.utils.loggers.TxtLogger.long_sep:1
+#: of
+msgid "Long separator for logging messages."
+msgstr ""
+
+#: ca5971b8f3a34f0cb3638a96ae99715c fl_sim.utils.loggers.TxtLogger.short_sep:1
+#: of
+msgid "Short separator for logging messages."
+msgstr ""
+
+#: 2db0bd73fc3a4950ac05d798ceacb597 fl_sim.utils.imports:4 of
+msgid "fl_sim.utils.imports"
+msgstr ""
+
+#: ac6229a43bbc45f286c9f4cfd2121497 fl_sim.utils.imports:6 of
+msgid "This module contains utilities for dynamic imports."
+msgstr ""
+
+#: 29efdafd216942e4909c2f0f3bdc5bec
+#: fl_sim.utils.imports.load_module_from_file:1 of
+msgid "Load a module from a file."
+msgstr ""
+
+#: d5acb09ad2f84f35b1a96198213bed8f
+#: fl_sim.utils.imports.load_module_from_file:3 of
+msgid "The path of the file."
+msgstr ""
+
+#: dfc482349fca4729adb51ff67932b73c
+#: fl_sim.utils.imports.load_module_from_file:6 of
+msgid "The loaded module."
+msgstr ""
+
+#: 5b14c48d82f04fe7a5542b3f1e188e92 fl_sim.utils.misc:4 of
+msgid "fl_sim.utils.misc"
+msgstr ""
+
+#: 6b0f3d63884d42bf9bb142a61007dc02 fl_sim.utils.misc:6 of
+msgid "This module provides miscellaneous utilities."
+msgstr ""
+
+#: 26f95dc75ef0477c8a55b24bceaf6300 fl_sim.utils.misc.add_kwargs:1 of
+msgid "Add keyword arguments to a function."
+msgstr ""
+
+#: 8e8ea34e07e7493cb9897271e5f05689 fl_sim.utils.misc.add_kwargs:3 of
+msgid ""
+"This function is used to add keyword arguments to a function in order to "
+"make it compatible with other functions。"
+msgstr ""
+
+#: 8da98aa90b6449bca9225ecbfd09708d fl_sim.utils.misc.add_kwargs:6 of
+msgid "The function to be decorated."
+msgstr ""
+
+#: 943823724611445e882733d04697e42f fl_sim.utils.misc.add_kwargs:8 of
+msgid "The keyword arguments to be added."
+msgstr ""
+
+#: 34996ca91ba8463e93e1b7d8c8d26854 fl_sim.utils.misc.add_kwargs:11 of
+msgid "The decorated function, with the keyword arguments added."
+msgstr ""
+
+#: 69ea4ce27abd4a7cb4760e8f0d0ae7b5 fl_sim.utils.misc.clear_logs:1 of
+msgid "Clear given log files in given directory."
+msgstr ""
+
+#: e07efc2dbb894b2f9031cda8312f6c22 fl_sim.utils.misc.clear_logs:3 of
+msgid ""
+"Pattern of log files to be cleared, by default \"*\" The searching will "
+"be executed by :meth:`pathlib.Path.rglob`."
+msgstr ""
+
+#: 8ccb569120fb4f668668c04b7a224993 fl_sim.utils.misc.clear_logs:6 of
+msgid ""
+"Directory to be searched, by default the default log directory "
+":data:`LOG_DIR` will be used. If the given directory is not absolute, it "
+"will be joined with :data:`LOG_DIR`."
+msgstr ""
+
+#: 975c3f93f04d4fa0b5b20b6e8141d7bc
+#: fl_sim.utils.misc.compute_clustering_metrics:1 of
+msgid "Compute clustering metrics, including ARI, NMI, and clustering accuracy."
+msgstr ""
+
+#: 9ea09fd1a19040c18895acf37c1e51c4
+#: fl_sim.utils.misc.compute_clustering_metrics:3 of
+msgid "True cluster labels of the data points."
+msgstr ""
+
+#: 656aa143f3414c03b7625798bebf271a
+#: fl_sim.utils.misc.compute_clustering_metrics:5 of
+msgid "Predicted cluster labels of the data points."
+msgstr ""
+
+#: 696787f6576e4a2aabd3bfda93fb0d42
+#: fl_sim.utils.misc.compute_clustering_metrics:8 of
+msgid "**metrics** -- A dictionary containing the computed clustering metrics."
+msgstr ""
+
+#: 6f35e7c9099b4b09bfad42127604e247 fl_sim.utils.misc.compute_sparsity:1 of
+msgid "Compute the sparsity of a model or tensor."
+msgstr ""
+
+#: e83c2c11631848a1bb084fcd85a9558d fl_sim.utils.misc.compute_sparsity:3 of
+msgid "A model or tensor."
+msgstr ""
+
+#: afb01cfff27a4bd59b6ba957eef502fa fl_sim.utils.misc.compute_sparsity:6 of
+msgid "The sparsity of the model or tensor."
+msgstr ""
+
+#: 60ea9eee6d56497e90172f25268d3d82 fl_sim.utils.misc.default_dict_to_dict:1 of
+msgid "Convert default dict to dict."
+msgstr ""
+
+#: e85d245d7fed4e3f97c9bafbdb0becbe fl_sim.utils.misc.default_dict_to_dict:3 of
+msgid "Input default dict, or dict, list, tuple containing default dicts."
+msgstr ""
+
+#: 3762ec012a044b6aa5f72b8fbe0ab7e0 8a43c171a564494daed359a8962ba0aa
+#: fl_sim.utils.misc.default_dict_to_dict:7
+#: fl_sim.utils.misc.ordered_dict_to_dict:7 of
+msgid "Converted dict."
+msgstr ""
+
+#: e78096942065450ea61ebf830cd84b9e fl_sim.utils.misc.execute_cmd:1 of
+msgid "Execute shell command using `Popen`."
+msgstr ""
+
+#: d288b8e184fc4ba4b632af19a0d7ebd7 fl_sim.utils.misc.execute_cmd:3 of
+msgid "Shell command to be executed, or a list of .sh files to be executed."
+msgstr ""
+
+#: 2539d06d0eac4f8886b53a00b5f7ab04 fl_sim.utils.misc.execute_cmd:6 of
+msgid "If True, error will be raised when occured."
+msgstr ""
+
+#: ed3daabd2b954073bd8c2bc8a937a0b8 fl_sim.utils.misc.execute_cmd:9 of
+msgid ""
+"* **exitcode** (*int*) -- Exit code returned by `Popen`. * **output_msg**"
+" (*list of str*) -- Outputs from `stdout` of `Popen`."
+msgstr ""
+
+#: c6e442c23bb24a10add7015ab93eae05 fl_sim.utils.misc.execute_cmd:9 of
+msgid "**exitcode** (*int*) -- Exit code returned by `Popen`."
+msgstr ""
+
+#: 952466832644462d80bc5678e498e405 fl_sim.utils.misc.execute_cmd:10 of
+msgid "**output_msg** (*list of str*) -- Outputs from `stdout` of `Popen`."
+msgstr ""
+
+#: 6e36aa7b100049b1bcd2f564b86d3aa5
+#: fl_sim.utils.misc.find_longest_common_substring:1 of
+msgid "Find the longest common substring of a list of strings."
+msgstr ""
+
+#: 5aff936b906d4b2fa7741fa2380d42c1
+#: fl_sim.utils.misc.find_longest_common_substring:3 of
+msgid "The list of strings."
+msgstr ""
+
+#: ff2063a79fc144a8869c06dcea88fd52
+#: fl_sim.utils.misc.find_longest_common_substring:5 of
+msgid "The minimum length of the common substring."
+msgstr ""
+
+#: 83ebe641542e406b8aa0c700c6153cdc
+#: fl_sim.utils.misc.find_longest_common_substring:7 of
+msgid "The substring to be ignored."
+msgstr ""
+
+#: a86c8b40519840afa2c6815d485b02c3
+#: fl_sim.utils.misc.find_longest_common_substring:10 of
+msgid "The longest common substring."
+msgstr ""
+
+#: ebdfffde2f874874a9b414b6e71b9021 fl_sim.utils.misc.get_scheduler:1 of
+msgid "Get learning rate scheduler."
+msgstr ""
+
+#: e02131548e1f425db1c13aa897626a2b fl_sim.utils.misc.get_scheduler:3 of
+msgid "Name of the scheduler."
+msgstr ""
+
+#: 75b59f06c7534c3991b7d24315e34b5c fl_sim.utils.misc.get_scheduler:5 of
+msgid "Optimizer."
+msgstr ""
+
+#: 6cd8b9be4b5f41c48432f875a19d0b3c fl_sim.utils.misc.get_scheduler:7 of
+msgid "Configuration of the scheduler."
+msgstr ""
+
+#: 505296564aad421ea88f5a4574a24655 fl_sim.utils.misc.get_scheduler:10 of
+msgid "Learning rate scheduler."
+msgstr ""
+
+#: 6d8e0ca0fb474aae962aa41c864ffb53 fl_sim.utils.misc.get_scheduler_info:1 of
+msgid ""
+"Get information of the scheduler, including the required and optional "
+"configs."
+msgstr ""
+
+#: 40b41d4e243f4cf9855dda112c774087 fl_sim.utils.misc.is_notebook:1 of
+msgid "Check if the current environment is a notebook (Jupyter or Colab)."
+msgstr ""
+
+#: 66ebb04b9b2c40b0b2958597d6cd5db8 fl_sim.utils.misc.is_notebook:3 of
+msgid "Implementation adapted from [#sa]_."
+msgstr ""
+
+#: 0f4a0f601eae40b6a9bd420daaa68228 fl_sim.utils.misc.is_notebook:7 of
+msgid "Whether the code is running in a notebook"
+msgstr ""
+
+#: cc694f506745420385ff84b96376cd1d fl_sim.utils.misc.is_notebook:11 of
+msgid "References"
+msgstr ""
+
+#: 94503c2bb8fd4098a3f1e040ded12226 fl_sim.utils.misc.is_notebook:12 of
+msgid ""
+"https://stackoverflow.com/questions/15411967/how-can-i-check-if-code-is-"
+"executed-in-the-ipython-notebook"
+msgstr ""
+
+#: 97a14e1d0fff49cab67f047196dbf3c2 fl_sim.utils.misc.make_serializable:1 of
+msgid "Make an object serializable."
+msgstr ""
+
+#: 72281f4fd6fa4e0a9aa7a8c7c48970a5 fl_sim.utils.misc.make_serializable:3 of
+msgid ""
+"This function is used to convert all numpy arrays to list in an object, "
+"and also convert numpy data types to python data types in the object, so "
+"that it can be serialized by :mod:`json`."
+msgstr ""
+
+#: c1edbf501ea64106a412873ab634ca4a fl_sim.utils.misc.make_serializable:7 of
+msgid ""
+"Input data, which can be numpy array (or numpy data type), or dict, list,"
+" tuple containing numpy arrays (or numpy data type)."
+msgstr ""
+
+#: bf65970c82bb4d6fa9c64f23d1d1a03f fl_sim.utils.misc.make_serializable:11 of
+msgid "Converted data."
+msgstr ""
+
+#: 9753ec7895ad4a9eb11c6dfb41bb1962 fl_sim.utils.misc.make_serializable:15 of
+msgid "Examples"
+msgstr ""
+
+#: 5146e2b190fb49ddab8ac251bc1f2ecb fl_sim.utils.misc.ordered_dict_to_dict:1 of
+msgid "Convert ordered dict to dict."
+msgstr ""
+
+#: e67e03434f294ea39247a59dc5c34269 fl_sim.utils.misc.ordered_dict_to_dict:3 of
+msgid "Input ordered dict, or dict, list, tuple containing ordered dicts."
+msgstr ""
+
+#: ae93f95efebf46f4ab644844985c4388 fl_sim.utils.misc.set_seed:1 of
+msgid ""
+"Set random seed for numpy and pytorch, as well as disable cudnn to ensure"
+" reproducibility."
+msgstr ""
+
+#: a6c994bd00944a789ce803ab57515d1e fl_sim.utils.misc.set_seed:4 of
+msgid "Random seed."
+msgstr ""

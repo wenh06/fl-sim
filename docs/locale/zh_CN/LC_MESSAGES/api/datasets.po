@@ -1,0 +1,272 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-26 14:27+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: 25e04b6b5adf4e209cb08f2d8f52953a e4d77e38e66348ec808e1ce0d8243010
+#: fl_sim.data_processing:2 fl_sim.data_processing:9 of
+msgid "fl_sim.data_processing"
+msgstr ""
+
+#: 745e7fdc15a44df992938c3aa762a0c4 fl_sim.data_processing:4 of
+msgid "This module contains federated datasets and data processing utilities."
+msgstr ""
+
+#: 6013a36f3cf8459595ecf519af849f57 fl_sim.data_processing:14 of
+msgid "Base classes"
+msgstr ""
+
+#: 81ac5214e73946518fd3c62bc60db0ea fl_sim.data_processing:22:<autosummary>:1
+#: of
+msgid ":py:obj:`FedDataset <fl_sim.data_processing.FedDataset>`\\ \\(\\)"
+msgstr ""
+
+#: bc135dded555440f935dbfbff28942c0 fl_sim.data_processing:22:<autosummary>:1
+#: of
+msgid "Base class for all federated datasets."
+msgstr ""
+
+#: 8d9aa89f5f9b496dabd0b39900dc7239 fl_sim.data_processing:22:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedVisionDataset <fl_sim.data_processing.FedVisionDataset>`\\ "
+"\\(\\[datadir\\, transform\\, seed\\]\\)"
+msgstr ""
+
+#: ed42ae1327d34b4fa75c6da30a938069 fl_sim.data_processing:22:<autosummary>:1
+#: of
+msgid "Base class for all federated vision datasets."
+msgstr ""
+
+#: c2f39851333040b99e1782516e3c1113 fl_sim.data_processing:22:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedNLPDataset <fl_sim.data_processing.FedNLPDataset>`\\ "
+"\\(\\[datadir\\, seed\\]\\)"
+msgstr ""
+
+#: 5b49479cb27f4d618b74b946e6784b65 fl_sim.data_processing:22:<autosummary>:1
+#: of
+msgid "Base class for all federated NLP datasets."
+msgstr ""
+
+#: d0ad6a0f49e84b15ade6d0f3cadcc98f fl_sim.data_processing:24 of
+msgid "Vision datasets"
+msgstr ""
+
+#: c40b22ffb3cc4c96996a5caabfd9cbb4 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedCIFAR <fl_sim.data_processing.FedCIFAR>`\\ \\(\\[n\\_class\\,"
+" datadir\\, transform\\, seed\\]\\)"
+msgstr ""
+
+#: c9b3b642e1b24b698e550d8e319194d5 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid "Federated CIFAR10/100 dataset."
+msgstr ""
+
+#: f96c7ba3e5c941c19cedcfffe7c98182 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedCIFAR100 <fl_sim.data_processing.FedCIFAR100>`\\ "
+"\\(\\[datadir\\, transform\\, seed\\]\\)"
+msgstr ""
+
+#: 1ececb72cd224a31bd209e391859564a fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedEMNIST <fl_sim.data_processing.FedEMNIST>`\\ \\(\\[datadir\\,"
+" transform\\, seed\\]\\)"
+msgstr ""
+
+#: 1cf2070eee3e4ad2a71f4584c7b58741 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid "Federated EMNIST dataset."
+msgstr ""
+
+#: 699d7b1947674eec870614c5109d699d fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedMNIST <fl_sim.data_processing.FedMNIST>`\\ \\(\\[datadir\\, "
+"transform\\, seed\\]\\)"
+msgstr ""
+
+#: 6d56142d65124cd2a8636b7f5182e422 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+"MNIST is a dataset to study image classification of handwritten digits "
+"0-9."
+msgstr ""
+
+#: 0dd76ec745e843418d50c0d5bf0aa5ff fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedRotatedCIFAR10 <fl_sim.data_processing.FedRotatedCIFAR10>`\\ "
+"\\(\\[datadir\\, num\\_rotations\\, ...\\]\\)"
+msgstr ""
+
+#: 05fe04b1856e42ca97969a8ace76d3b3 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid "CIFAR10 dataset with rotation augmentation."
+msgstr ""
+
+#: d0d0fcde7bff44c79a522c99c52c5d45 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedRotatedMNIST <fl_sim.data_processing.FedRotatedMNIST>`\\ "
+"\\(\\[datadir\\, num\\_rotations\\, ...\\]\\)"
+msgstr ""
+
+#: 717fa1b501ff40c49a7e6bd02734bb7d fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid "MNIST dataset with rotation augmentation."
+msgstr ""
+
+#: 4b71d977ccd24d32bbeafa1f7748d7cd fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedProxFEMNIST <fl_sim.data_processing.FedProxFEMNIST>`\\ "
+"\\(\\[datadir\\, transform\\, seed\\]\\)"
+msgstr ""
+
+#: e554c0ffcc85471f900b915726a842c0 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid "A subset of the federeated EMNIST proposed in FedProx."
+msgstr ""
+
+#: e507f356d2d74bcab20da82a42136b0f fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedProxMNIST <fl_sim.data_processing.FedProxMNIST>`\\ "
+"\\(\\[datadir\\, transform\\, seed\\]\\)"
+msgstr ""
+
+#: 38f38e5621d64feeac366d19efe609f3 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid "Federeated MNIST proposed in FedProx."
+msgstr ""
+
+#: c80762954d2b420cbe242c32980ef6fb fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedTinyImageNet <fl_sim.data_processing.FedTinyImageNet>`\\ "
+"\\(\\[datadir\\, num\\_clients\\, ...\\]\\)"
+msgstr ""
+
+#: 064ff0be57034ac69298d267e5553253 fl_sim.data_processing:38:<autosummary>:1
+#: of
+msgid "Tiny ImageNet dataset."
+msgstr ""
+
+#: b9fc924550ff41ec83fd49be9c5cd985 fl_sim.data_processing:40 of
+msgid "NLP datasets"
+msgstr ""
+
+#: 3eeea9991db644dcabcbdfc4aa95755c fl_sim.data_processing:47:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedShakespeare <fl_sim.data_processing.FedShakespeare>`\\ "
+"\\(\\[datadir\\, seed\\]\\)"
+msgstr ""
+
+#: 5c702d9c1ad04465a4ed7a77187f6669 fl_sim.data_processing:47:<autosummary>:1
+#: of
+msgid "Federated Shakespeare dataset."
+msgstr ""
+
+#: 95131465f97348779f81b4845318691c fl_sim.data_processing:47:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedProxSent140 <fl_sim.data_processing.FedProxSent140>`\\ "
+"\\(\\[datadir\\, seed\\]\\)"
+msgstr ""
+
+#: f7534d61ca914413859321cbc6582ded fl_sim.data_processing:47:<autosummary>:1
+#: of
+msgid "Federated Sentiment140 dataset used in FedProx paper."
+msgstr ""
+
+#: 56f717e0925148e1b5c1b614750932b7 fl_sim.data_processing:49 of
+msgid "Synthetic datasets"
+msgstr ""
+
+#: 704a346e818b47769eb9f01c00fabf5e fl_sim.data_processing:55:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedSynthetic <fl_sim.data_processing.FedSynthetic>`\\ "
+"\\(alpha\\, beta\\, iid\\, num\\_clients\\)"
+msgstr ""
+
+#: e13e410a33774acab424dee01296113d fl_sim.data_processing:55:<autosummary>:1
+#: of
+msgid "Federated synthetic dataset."
+msgstr ""
+
+#: b2cc49d9038f4067ba6819d127582bd0 fl_sim.data_processing:57 of
+msgid "LibSVM datasets"
+msgstr ""
+
+#: a6c66c7f1edb459187d0938402621f2f fl_sim.data_processing:63:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`FedLibSVMDataset <fl_sim.data_processing.FedLibSVMDataset>`\\ "
+"\\(dataset\\_name\\, num\\_clients\\)"
+msgstr ""
+
+#: 8923a3324aa346f9b95de948d066b17d fl_sim.data_processing:65 of
+msgid "Dataset registry utilities"
+msgstr ""
+
+#: e04ad16493cc4d58993594f6d66c7ba5 fl_sim.data_processing:72:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`register_fed_dataset "
+"<fl_sim.data_processing.register_fed_dataset>`\\ \\(\\[name\\, "
+"override\\]\\)"
+msgstr ""
+
+#: 0b98955379c24127b51c963a69d77b85 fl_sim.data_processing:72:<autosummary>:1
+#: of
+msgid "Decorator to register a new federated dataset."
+msgstr ""
+
+#: db45b55baae4426ba51341cf3038f7a3 fl_sim.data_processing:72:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`list_fed_dataset <fl_sim.data_processing.list_fed_dataset>`\\ "
+"\\(\\)"
+msgstr ""
+
+#: 8f45f2467b5c45dc82212fd35a4fdc8d fl_sim.data_processing:72:<autosummary>:1
+#: of
+msgid "List all registered federated datasets."
+msgstr ""
+
+#: 5dd823ac6df442fa9d1dcef36229d5de fl_sim.data_processing:72:<autosummary>:1
+#: of
+msgid ""
+":py:obj:`get_fed_dataset <fl_sim.data_processing.get_fed_dataset>`\\ "
+"\\(name\\)"
+msgstr ""
+
+#: f3bdfe8a29ea4d03a61d5f27f06f7ea9 fl_sim.data_processing:72:<autosummary>:1
+#: of
+msgid "Get a registered federated dataset by name."
+msgstr ""

@@ -1,0 +1,60 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-26 14:27+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: bf53d3f12d0e437d9bc7743c393fef95 fl_sim.optimizers:2 of
+msgid "fl_sim.optimizers"
+msgstr ""
+
+#: 5d8341fb1e4f424b8bf9d356821b8092 fl_sim.optimizers:4 of
+msgid ""
+"This module contains the optimizers (local solvers) used in federated "
+"learning. Despite optimizers from :mod:`torch.optim` and "
+":mod:`torch_optimizer`, we also provide some custom optimizers for "
+"federated learning for solving for example"
+msgstr ""
+
+#: 1468883e22334ac5b443aacad2616fa3 fl_sim.optimizers:8 of
+msgid "proximal optimization problem"
+msgstr ""
+
+#: 752c2b903d884a0a9e6b9bf1972a3b90 fl_sim.optimizers:9 of
+msgid "lagrangian dual problem"
+msgstr ""
+
+#: 66890f359fb146e08f0b903e22524a45 fl_sim.optimizers:23:<autosummary>:1 of
+msgid ""
+":py:obj:`get_optimizer <fl_sim.optimizers.get_optimizer>`\\ "
+"\\(optimizer\\_name\\, params\\, config\\)"
+msgstr ""
+
+#: 08f360bbd0294570b2dcec5611d0abb9 fl_sim.optimizers:23:<autosummary>:1 of
+msgid "Get optimizer by name."
+msgstr ""
+
+#: ae6b6dcde2ff46fca3493f3fddf4a10f fl_sim.optimizers:23:<autosummary>:1 of
+msgid ""
+":py:obj:`register_optimizer <fl_sim.optimizers.register_optimizer>`\\ "
+"\\(\\[name\\, override\\]\\)"
+msgstr ""
+
+#: 7a8c7df80368466f99269f6cee22f57b fl_sim.optimizers:23:<autosummary>:1 of
+msgid "Decorator to register a new optimizer."
+msgstr ""

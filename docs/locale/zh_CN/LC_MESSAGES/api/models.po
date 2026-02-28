@@ -1,0 +1,263 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-26 14:27+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: 90ffa163320f42778f5f2a335831e27e e40fda1c15a5447b93aea660b2e80170
+#: fl_sim.models:2 fl_sim.models:9 of
+msgid "fl_sim.models"
+msgstr ""
+
+#: 8de66d5e7de842bdb356e8bd5f5a11af fl_sim.models:4 of
+msgid "This module contains built-in simple models."
+msgstr ""
+
+#: 761c6289d587447dabf95382d1509586 fl_sim.models:14 of
+msgid "Convolutional neural networks (CNN)"
+msgstr ""
+
+#: 2a0468edb2a64bae925886ea355904c9 fl_sim.models:28:<autosummary>:1 of
+msgid ":py:obj:`CNNMnist <fl_sim.models.CNNMnist>`\\ \\(num\\_classes\\)"
+msgstr ""
+
+#: fc19b4be51894ddb924932720e54c226 fl_sim.models:28:<autosummary>:1 of
+msgid "Convolutional neural network using MNIST type input."
+msgstr ""
+
+#: 3b626c2876f4484cbd1f43758ac6ca45 fl_sim.models:28:<autosummary>:1 of
+msgid ""
+":py:obj:`CNNFEMnist <fl_sim.models.CNNFEMnist>`\\ "
+"\\(\\[num\\_classes\\]\\)"
+msgstr ""
+
+#: 1f5133f8906a4ba3bdb55c9ddc4f480e fl_sim.models:28:<autosummary>:1 of
+msgid "Convolutional neural network using FEMnist type input."
+msgstr ""
+
+#: 2b2e8b16ab9d4883b3f3d15d124fb8b8 fl_sim.models:28:<autosummary>:1 of
+msgid ""
+":py:obj:`CNNFEMnist_Tiny <fl_sim.models.CNNFEMnist_Tiny>`\\ "
+"\\(\\[num\\_classes\\]\\)"
+msgstr ""
+
+#: 22c163e9936b44bc9748de384f99c026 fl_sim.models:28:<autosummary>:1 of
+msgid "Tiny version of :class:`CNNFEMnist`."
+msgstr ""
+
+#: 63be563d14134b9e800d8fa1f541261f fl_sim.models:28:<autosummary>:1 of
+msgid ":py:obj:`CNNCifar <fl_sim.models.CNNCifar>`\\ \\(num\\_classes\\)"
+msgstr ""
+
+#: 1286602413a747508da998754b37c5eb 53c4b3a57b5444f8a26c1c5d7d711542
+#: 8d496adebd9a415c87c57087eedff2d8 fl_sim.models:28:<autosummary>:1 of
+msgid "Convolutional neural network using CIFAR type input."
+msgstr ""
+
+#: d7192dff09c44313b32bb31650338ccb fl_sim.models:28:<autosummary>:1 of
+msgid ""
+":py:obj:`CNNCifar_Small <fl_sim.models.CNNCifar_Small>`\\ "
+"\\(num\\_classes\\)"
+msgstr ""
+
+#: 6024f98db7ba49819ff29927305ef84f fl_sim.models:28:<autosummary>:1 of
+msgid ""
+":py:obj:`CNNCifar_Tiny <fl_sim.models.CNNCifar_Tiny>`\\ "
+"\\(num\\_classes\\)"
+msgstr ""
+
+#: 1e8b762d7c334701bafe7e3dbf0263ce fl_sim.models:28:<autosummary>:1 of
+msgid ""
+":py:obj:`ResNet18 <fl_sim.models.ResNet18>`\\ \\(num\\_classes\\[\\, "
+"pretrained\\]\\)"
+msgstr ""
+
+#: 09496cc8a8f64210a78166d102d4cbab fl_sim.models:28:<autosummary>:1 of
+msgid "ResNet18 model for image classification."
+msgstr ""
+
+#: 05d9525c887142f3b80afde28b6d7980 fl_sim.models:28:<autosummary>:1 of
+msgid ""
+":py:obj:`ResNet10 <fl_sim.models.ResNet10>`\\ \\(num\\_classes\\[\\, "
+"pretrained\\]\\)"
+msgstr ""
+
+#: 3d3b724d6dde4398bdab1464aaa5ebd7 fl_sim.models:28:<autosummary>:1 of
+msgid "ResNet10 model for image classification."
+msgstr ""
+
+#: 534e97604328405e9c8a343f4db5c2e1 fl_sim.models:28:<autosummary>:1 of
+msgid ""
+":py:obj:`ShrinkedResNet <fl_sim.models.ShrinkedResNet>`\\ \\(layers\\[\\,"
+" num\\_classes\\]\\)"
+msgstr ""
+
+#: 03b956bba3b540a69b1b8a3f02767e2b fl_sim.models:28:<autosummary>:1 of
+msgid ""
+"Shrinked version of ResNet so that the number of macro blocks can be "
+"customized (shrinked)."
+msgstr ""
+
+#: fdf35a728399494faebb4ee77693b450 fl_sim.models:30 of
+msgid "Recurrent neural networks (RNN)"
+msgstr ""
+
+#: 7d8a8c5c57884ffaa86aeaac42c4adb3 fl_sim.models:39:<autosummary>:1 of
+msgid ""
+":py:obj:`RNN_OriginalFedAvg <fl_sim.models.RNN_OriginalFedAvg>`\\ "
+"\\(\\[embedding\\_dim\\, ...\\]\\)"
+msgstr ""
+
+#: 056b6336bda949a08a3a1ec16daff594 fl_sim.models:39:<autosummary>:1 of
+msgid ""
+"Creates a RNN model using LSTM layers for Shakespeare language models "
+"(next character prediction task)."
+msgstr ""
+
+#: c056b4b95617439ea8723ca25d27cb06 fl_sim.models:39:<autosummary>:1 of
+msgid ""
+":py:obj:`RNN_StackOverFlow <fl_sim.models.RNN_StackOverFlow>`\\ "
+"\\(\\[vocab\\_size\\, ...\\]\\)"
+msgstr ""
+
+#: 506c881f151a4be7b796ebc33df1c7ef fl_sim.models:39:<autosummary>:1 of
+msgid ""
+"Creates a RNN model using LSTM layers for StackOverFlow (next word "
+"prediction task)."
+msgstr ""
+
+#: 2980863feb814b5a8173d661ab053de3 fl_sim.models:39:<autosummary>:1 of
+msgid ""
+":py:obj:`RNN_Sent140 <fl_sim.models.RNN_Sent140>`\\ "
+"\\(\\[latent\\_size\\, num\\_classes\\, ...\\]\\)"
+msgstr ""
+
+#: 6a51a53f35f94473b5315ad86b674188 ed8e6273d57a4bbe803b0bf707abb69f
+#: fl_sim.models:39:<autosummary>:1 of
+msgid ""
+"Stacked :class:`~torch.nn.LSTM` model for sentiment analysis on the "
+"``Sent140`` dataset."
+msgstr ""
+
+#: 032527d15adf404db3ceee3f66b9d0a9 fl_sim.models:39:<autosummary>:1 of
+msgid ""
+":py:obj:`RNN_Sent140_LITE <fl_sim.models.RNN_Sent140_LITE>`\\ "
+"\\(\\[latent\\_size\\, num\\_classes\\, ...\\]\\)"
+msgstr ""
+
+#: 3bc9d624a7664318895a957fe1c4b33a fl_sim.models:41 of
+msgid "Multilayer perceptron (MLP)"
+msgstr ""
+
+#: 7cda5d85b10c4da990af18666c2ba1b5 fl_sim.models:48:<autosummary>:1 of
+msgid ""
+":py:obj:`MLP <fl_sim.models.MLP>`\\ \\(dim\\_in\\, dim\\_out\\[\\, "
+"dim\\_hidden\\, ...\\]\\)"
+msgstr ""
+
+#: 6a47e1a7929446839f47e542a21d365c fl_sim.models:48:<autosummary>:1 of
+msgid "Multi-layer perceptron."
+msgstr ""
+
+#: 32d838cd35b84ae7a9fad166691596c2 fl_sim.models:48:<autosummary>:1 of
+msgid ""
+":py:obj:`FedPDMLP <fl_sim.models.FedPDMLP>`\\ \\(dim\\_in\\, "
+"dim\\_hidden\\, dim\\_out\\[\\, ndim\\]\\)"
+msgstr ""
+
+#: d4a80b7120d54c60a50489783054ca51 fl_sim.models:48:<autosummary>:1 of
+msgid ""
+"Multi-layer perceptron modified from `FedPD/models.py "
+"<https://github.com/564612540/FedPD>`_."
+msgstr ""
+
+#: fc7ef938e2034fbaa8134e059a4cb03f fl_sim.models:50 of
+msgid "Linear models"
+msgstr ""
+
+#: 179a26e6fc084066b04cef73151b6386 fl_sim.models:58:<autosummary>:1 of
+msgid ""
+":py:obj:`LogisticRegression <fl_sim.models.LogisticRegression>`\\ "
+"\\(num\\_features\\, num\\_classes\\)"
+msgstr ""
+
+#: 9d8e8433c1114be0b93982086880ee09 fl_sim.models:58:<autosummary>:1 of
+msgid "Logistic regression model for classification task."
+msgstr ""
+
+#: fdd1cc17eee340e19b32ebc98c47a3b1 fl_sim.models:58:<autosummary>:1 of
+msgid ":py:obj:`SVC <fl_sim.models.SVC>`\\ \\(num\\_features\\, num\\_classes\\)"
+msgstr ""
+
+#: 2f13e612ea754e0c8c291dc3c5bb28f5 fl_sim.models:58:<autosummary>:1 of
+msgid "Support vector machine classifier."
+msgstr ""
+
+#: 81e727b3839f45a3ac191fe455cc2a94 fl_sim.models:58:<autosummary>:1 of
+msgid ":py:obj:`SVR <fl_sim.models.SVR>`\\ \\(num\\_features\\)"
+msgstr ""
+
+#: ceac343b0a604767b22372aa5632e6fc fl_sim.models:58:<autosummary>:1 of
+msgid "Support vector machine regressor."
+msgstr ""
+
+#: d85556c718554f03b026493cb3f90bc4 fl_sim.models:60 of
+msgid "Utilities"
+msgstr ""
+
+#: 025c387145d24667b393eadc0f6b09cd fl_sim.models:69:<autosummary>:1 of
+msgid ":py:obj:`reset_parameters <fl_sim.models.reset_parameters>`\\ \\(module\\)"
+msgstr ""
+
+#: 9ed71f6b47564768b4aee80ec8150a9d fl_sim.models:69:<autosummary>:1 of
+msgid "Reset the parameters of a module and its children."
+msgstr ""
+
+#: e9c4ce30f9434a39810a1bd80524336d fl_sim.models:69:<autosummary>:1 of
+msgid ""
+":py:obj:`top_n_accuracy <fl_sim.models.top_n_accuracy>`\\ \\(preds\\, "
+"labels\\[\\, n\\]\\)"
+msgstr ""
+
+#: d07a43c3dc6f4e868d527eda1dbf08f8 fl_sim.models:69:<autosummary>:1 of
+msgid "Top-n accuracy."
+msgstr ""
+
+#: cfb17b8d241048ab9b161dfe982bdd5e fl_sim.models:69:<autosummary>:1 of
+msgid ":py:obj:`CLFMixin <fl_sim.models.CLFMixin>`\\ \\(\\)"
+msgstr ""
+
+#: 05350d8d94f34c3db99022dbb61287dc fl_sim.models:69:<autosummary>:1 of
+msgid "Mixin class for classifiers."
+msgstr ""
+
+#: 057f056602c5460aa609cc8c7e36b2df fl_sim.models:69:<autosummary>:1 of
+msgid ":py:obj:`REGMixin <fl_sim.models.REGMixin>`\\ \\(\\)"
+msgstr ""
+
+#: 6b25989cc0de4cb3bb71e8c8b4bd64ad fl_sim.models:69:<autosummary>:1 of
+msgid "Mixin for regressors."
+msgstr ""
+
+#: 3ea9dbd26332428387c24991c787a252 fl_sim.models:69:<autosummary>:1 of
+msgid ":py:obj:`DiffMixin <fl_sim.models.DiffMixin>`\\ \\(\\)"
+msgstr ""
+
+#: 80b54f27e77344c3aaf134de665101cc fl_sim.models:69:<autosummary>:1 of
+msgid "Mixin for differences of two models."
+msgstr ""

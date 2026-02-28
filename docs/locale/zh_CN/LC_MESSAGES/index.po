@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-26 14:27+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: ../../source/index.rst:13
+msgid "Getting started"
+msgstr ""
+
+#: ../../source/index.rst:20
+msgid "API Reference"
+msgstr ""
+
+#: ../../source/index.rst:31
+msgid "Advanced Topics"
+msgstr ""
+
+#: ../../source/index.rst:7 b8f7d7e307884d939a5ef84d7117fc42
+msgid "Welcome to fl-sim's documentation!"
+msgstr "欢迎使用 fl-sim 文档！"
+
+#: ../../source/index.rst:9 9b51d2b565a642c6ae5aa25d48011efd
+msgid "A Simple Simulation Framework for Federated Learning Based on PyTorch."
+msgstr "基于 PyTorch 的联邦学习简单仿真框架。"
+
+#: ../../source/index.rst:11 e00d7c86e34c4dc3a37cca2cc0544caf
+msgid ""
+"Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee "
+"<https://gitee.com/wenh06/fl-sim/>`_"
+msgstr ""
+
+#: ../../source/index.rst:40 f37a46aca49c4f0e98a967935da88871
+msgid "Indices and tables"
+msgstr ""
+
+#: ../../source/index.rst:42 8980c4ac0b724b2190c3c0eee4b95663
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../../source/index.rst:43 1b922f4a0e95485da60d90cd671b2dba
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../../source/index.rst:44 98e85a8fda3c4f3398ac8d7cdbd9d4a4
+msgid ":ref:`search`"
+msgstr ""
