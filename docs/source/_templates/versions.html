@@ -16,9 +16,9 @@
       {%- set vname = current_version.name %}
       {%- if current_language == 'en' %}
         <dd><strong>English</strong></dd>
-        <dd><a href="{{ pathto('../../../zh_CN/' + vname + '/index.html', 1) }}">简体中文</a></dd>
+        <dd><a href="{{ pathto('../../zh_CN/' + vname + '/index.html', 1) }}">简体中文</a></dd>
       {%- else %}
-        <dd><a href="{{ pathto('../../../en/' + vname + '/index.html', 1) }}">English</a></dd>
+        <dd><a href="{{ pathto('../../en/' + vname + '/index.html', 1) }}">English</a></dd>
         <dd><strong>简体中文</strong></dd>
       {%- endif %}
       {%- else %}
