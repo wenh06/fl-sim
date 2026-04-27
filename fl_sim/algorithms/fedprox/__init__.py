@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from ._fedprox import FedProxClient, FedProxClientConfig, FedProxServer, FedProxServerConfig
 from .test_fedprox import test_fedprox

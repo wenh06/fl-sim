@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from ._feddyn import FedDynClient, FedDynClientConfig, FedDynServer, FedDynServerConfig
 from .test_feddyn import test_feddyn

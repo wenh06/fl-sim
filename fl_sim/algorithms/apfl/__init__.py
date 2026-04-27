@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from ._apfl import APFLClient, APFLClientConfig, APFLServer, APFLServerConfig
 from .test_apfl import test_apfl

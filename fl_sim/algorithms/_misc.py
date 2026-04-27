@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 server_config_kw_doc = """
         - ``log_dir`` : str or pathlib.Path, optional

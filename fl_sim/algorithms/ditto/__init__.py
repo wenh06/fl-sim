@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from ._ditto import DittoClient, DittoClientConfig, DittoServer, DittoServerConfig
 from .test_ditto import test_ditto

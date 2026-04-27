@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from ._fedsplit import FedSplitClient, FedSplitClientConfig, FedSplitServer, FedSplitServerConfig
 from .test_fedsplit import test_fedsplit

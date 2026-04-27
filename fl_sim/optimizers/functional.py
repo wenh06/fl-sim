@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from typing import Iterable, List, Optional
 

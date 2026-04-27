@@ -1,5 +1,4 @@
-"""
-"""
+""" """
 
 from ._fedopt import (
     FedAdagradClient,
