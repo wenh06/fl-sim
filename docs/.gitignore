@@ -1,2 +1,4 @@
 build
 generated
+# .mo files are compiled from .po, no need to track
+source/locale/**/*.mo

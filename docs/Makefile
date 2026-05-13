@@ -1,35 +1,37 @@
 # Minimal makefile for Sphinx documentation
-#
 
-# You can set these variables from the command line, and also
-# from the environment for the first two.
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
 
-# Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile
-# .PHONY: help Makefile gettext locale multiversion multiversion-en multiversion-zh
+.PHONY: help html-en html-zh html-all gettext locale-update Makefile
 
-# gettext:
-# 	$(SPHINXBUILD) -b gettext $(SOURCEDIR) $(BUILDDIR)/gettext
+# Build English docs
+html-en:
+	SPHINX_LANGUAGE=en $(SPHINXBUILD) -b html -D language=en \
+		"$(SOURCEDIR)" "$(BUILDDIR)/en" $(SPHINXOPTS) $(O)
 
-# locale:
-# 	sphinx-intl update -p $(BUILDDIR)/gettext -l zh_CN -l en
+# Build Chinese (Simplified) docs
+html-zh:
+	SPHINX_LANGUAGE=zh_CN $(SPHINXBUILD) -b html -D language=zh_CN \
+		"$(SOURCEDIR)" "$(BUILDDIR)/zh_CN" $(SPHINXOPTS) $(O)
 
-# multiversion-en:
-# 	sphinx-multiversion $(SOURCEDIR) $(BUILDDIR)/multiversion/en -D language='en'
+# Build both languages and add a root redirect
+html-all: html-en html-zh
+	@echo '<meta http-equiv="refresh" content="0; url=en/index.html">' > "$(BUILDDIR)/index.html"
 
-# multiversion-zh:
-# 	sphinx-multiversion $(SOURCEDIR) $(BUILDDIR)/multiversion/zh_CN -D language='zh_CN'
+# Extract translatable strings into .pot files
+gettext:
+	$(SPHINXBUILD) -b gettext "$(SOURCEDIR)" "$(BUILDDIR)/gettext" $(SPHINXOPTS) $(O)
 
-# multiversion: multiversion-en multiversion-zh
+# Update zh_CN .po files from freshly extracted .pot files
+locale-update: gettext
+	sphinx-intl update -p "$(BUILDDIR)/gettext" -l zh_CN
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+# Catch-all target: route all unknown targets to Sphinx.
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
