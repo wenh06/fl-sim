@@ -9,4 +9,4 @@ cd $SCRIPT_DIR
 make clean
 # python pre_build.py
 # make html
-make -e SPHINXOPTS="-D language='zh'" html
+make html-zh

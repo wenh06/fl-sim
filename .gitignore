@@ -106,7 +106,7 @@ instance/
 .scrapy
 
 # Sphinx documentation
-docs/_build/
+docs/build/
 
 # PyBuilder
 target/
@@ -178,5 +178,6 @@ tmp/
 temp/
 
 
+.zcodeignore
 *ipynb
 !algorithms/fedprox/issue-theorem4.ipynb

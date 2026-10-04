@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.10", "3.11"]
 
     steps:
     - uses: actions/checkout@v4
@@ -49,7 +49,6 @@ jobs:
         python -m pip install -r requirements.txt
         python -m pip install pytest pytest-xdist pytest-cov # Testing packages
         python -m pip uninstall fl-sim --yes # Remove if already installed
-        python setup.py install_egg_info # Workaround https://github.com/pypa/pip/issues/4537
         python -m pip install -e .[dev] # Install fl-sim
         python -m pip freeze
     - name: List installed Python packages

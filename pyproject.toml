@@ -111,7 +111,7 @@ viz = [
 fl-sim = "fl_sim.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/wenh06/fl_sim"
+Homepage = "https://github.com/wenh06/fl-sim"
 
 [tool.hatch.version]
 source = "vcs"
