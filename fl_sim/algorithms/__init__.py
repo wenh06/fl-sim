@@ -9,6 +9,7 @@ from . import (  # noqa: F401
     fedpd,
     fedprox,
     fedsplit,
+    fpfc,
     ifca,
     pfedmac,
     pfedme,

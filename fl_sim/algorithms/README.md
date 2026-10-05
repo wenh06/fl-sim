@@ -12,3 +12,7 @@ this folder contains algorithms for federated learning
 8. [ProxSkip](https://proceedings.mlr.press/v162/mishchenko22b.html) ![test-proxskip](https://github.com/wenh06/fl_sim/actions/workflows/test-proxskip.yml/badge.svg)
 9. [Ditto](https://arxiv.org/abs/2012.04221) ![test-ditto](https://github.com/wenh06/fl_sim/actions/workflows/test-ditto.yml/badge.svg)
 10. [IFCA](https://github.com/jichan3751/ifca) ![test-ifca](https://github.com/wenh06/fl_sim/actions/workflows/test-ifca.yml/badge.svg)
+11. [APFL](https://arxiv.org/abs/2003.13461) ![test-apfl](https://github.com/wenh06/fl-sim/actions/workflows/test-apfl.yml/badge.svg)
+12. [FedDyn](https://arxiv.org/abs/2111.04263) ![test-feddyn](https://github.com/wenh06/fl-sim/actions/workflows/test-feddyn.yml/badge.svg)
+13. [pFedMac](https://arxiv.org/abs/2107.05330) ![test-pfedmac](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedmac.yml/badge.svg)
+14. [FPFC](https://arxiv.org/abs/2211.04218) ![test-fpfc](https://github.com/wenh06/fl-sim/actions/workflows/test-fpfc.yml/badge.svg)
