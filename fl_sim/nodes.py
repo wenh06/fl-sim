@@ -1515,8 +1515,14 @@ class Client(Node):
         Accepts parameters from received_messages.
         Need to be implemented in the child class to specify part in received_messages
         if the key is not "parameters".
+
+        Some algorithms (e.g. ``IFCA``, ``FedPD``) do not put the parameters under
+        the ``"parameters"`` key of the received messages (or communicate only
+        with a subset of clients in a round); for those, the parameters are
+        accepted in the client's :meth:`update`, so a missing key is not an error.
         """
-        self.set_parameters(self._received_messages["parameters"])
+        if "parameters" in self._received_messages:
+            self.set_parameters(self._received_messages["parameters"])
 
     def _update(self) -> None:
         """Client update, and clear cached messages
