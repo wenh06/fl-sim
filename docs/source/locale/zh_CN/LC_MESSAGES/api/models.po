@@ -6,17 +6,17 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-05 20:57+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.16.0\n"
 
 #: fl_sim.models:2 fl_sim.models:9 of
@@ -25,11 +25,11 @@ msgstr ""
 
 #: fl_sim.models:4 of
 msgid "This module contains built-in simple models."
-msgstr ""
+msgstr "本模块包含内置的简单模型。"
 
 #: fl_sim.models:14 of
 msgid "Convolutional neural networks (CNN)"
-msgstr ""
+msgstr "卷积神经网络（CNN）"
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid ":py:obj:`CNNMnist <fl_sim.models.CNNMnist>`\\ \\(num\\_classes\\)"
@@ -37,17 +37,15 @@ msgstr ""
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid "Convolutional neural network using MNIST type input."
-msgstr ""
+msgstr "使用 MNIST 类型输入的卷积神经网络。"
 
 #: fl_sim.models:28:<autosummary>:1 of
-msgid ""
-":py:obj:`CNNFEMnist <fl_sim.models.CNNFEMnist>`\\ "
-"\\(\\[num\\_classes\\]\\)"
+msgid ":py:obj:`CNNFEMnist <fl_sim.models.CNNFEMnist>`\\ \\(\\[num\\_classes\\]\\)"
 msgstr ""
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid "Convolutional neural network using FEMnist type input."
-msgstr ""
+msgstr "使用 FEMnist 类型输入的卷积神经网络。"
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid ""
@@ -57,7 +55,7 @@ msgstr ""
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid "Tiny version of :class:`CNNFEMnist`."
-msgstr ""
+msgstr ":class:`CNNFEMnist` 的tiny 版本。"
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid ":py:obj:`CNNCifar <fl_sim.models.CNNCifar>`\\ \\(num\\_classes\\)"
@@ -65,18 +63,14 @@ msgstr ""
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid "Convolutional neural network using CIFAR type input."
+msgstr "使用 CIFAR 类型输入的卷积神经网络。"
+
+#: fl_sim.models:28:<autosummary>:1 of
+msgid ":py:obj:`CNNCifar_Small <fl_sim.models.CNNCifar_Small>`\\ \\(num\\_classes\\)"
 msgstr ""
 
 #: fl_sim.models:28:<autosummary>:1 of
-msgid ""
-":py:obj:`CNNCifar_Small <fl_sim.models.CNNCifar_Small>`\\ "
-"\\(num\\_classes\\)"
-msgstr ""
-
-#: fl_sim.models:28:<autosummary>:1 of
-msgid ""
-":py:obj:`CNNCifar_Tiny <fl_sim.models.CNNCifar_Tiny>`\\ "
-"\\(num\\_classes\\)"
+msgid ":py:obj:`CNNCifar_Tiny <fl_sim.models.CNNCifar_Tiny>`\\ \\(num\\_classes\\)"
 msgstr ""
 
 #: fl_sim.models:28:<autosummary>:1 of
@@ -87,7 +81,7 @@ msgstr ""
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid "ResNet18 model for image classification."
-msgstr ""
+msgstr "用于图像分类的 ResNet18 模型。"
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid ""
@@ -97,23 +91,23 @@ msgstr ""
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid "ResNet10 model for image classification."
-msgstr ""
+msgstr "用于图像分类的 ResNet10 模型。"
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid ""
-":py:obj:`ShrinkedResNet <fl_sim.models.ShrinkedResNet>`\\ \\(layers\\[\\,"
-" num\\_classes\\]\\)"
+":py:obj:`ShrinkedResNet <fl_sim.models.ShrinkedResNet>`\\ \\(layers\\[\\, "
+"num\\_classes\\]\\)"
 msgstr ""
 
 #: fl_sim.models:28:<autosummary>:1 of
 msgid ""
 "Shrinked version of ResNet so that the number of macro blocks can be "
 "customized (shrinked)."
-msgstr ""
+msgstr "ResNet 的缩减版本，宏块（macro block）数量可以自定义。"
 
 #: fl_sim.models:30 of
 msgid "Recurrent neural networks (RNN)"
-msgstr ""
+msgstr "循环神经网络（RNN）"
 
 #: fl_sim.models:39:<autosummary>:1 of
 msgid ""
@@ -123,9 +117,9 @@ msgstr ""
 
 #: fl_sim.models:39:<autosummary>:1 of
 msgid ""
-"Creates a RNN model using LSTM layers for Shakespeare language models "
-"(next character prediction task)."
-msgstr ""
+"Creates a RNN model using LSTM layers for Shakespeare language models (next "
+"character prediction task)."
+msgstr "为莎士比亚语言模型（下一个字符预测任务）创建的、使用 LSTM 层的 RNN 模型。"
 
 #: fl_sim.models:39:<autosummary>:1 of
 msgid ""
@@ -137,19 +131,19 @@ msgstr ""
 msgid ""
 "Creates a RNN model using LSTM layers for StackOverFlow (next word "
 "prediction task)."
-msgstr ""
+msgstr "为 StackOverFlow（下一个词预测任务）创建的、使用 LSTM 层的 RNN 模型。"
 
 #: fl_sim.models:39:<autosummary>:1 of
 msgid ""
-":py:obj:`RNN_Sent140 <fl_sim.models.RNN_Sent140>`\\ "
-"\\(\\[latent\\_size\\, num\\_classes\\, ...\\]\\)"
+":py:obj:`RNN_Sent140 <fl_sim.models.RNN_Sent140>`\\ \\(\\[latent\\_size\\, "
+"num\\_classes\\, ...\\]\\)"
 msgstr ""
 
 #: fl_sim.models:39:<autosummary>:1 of
 msgid ""
 "Stacked :class:`~torch.nn.LSTM` model for sentiment analysis on the "
 "``Sent140`` dataset."
-msgstr ""
+msgstr "用于 ``Sent140`` 情感分析的堆叠 :class:`~torch.nn.LSTM` 模型。"
 
 #: fl_sim.models:39:<autosummary>:1 of
 msgid ""
@@ -159,22 +153,20 @@ msgstr ""
 
 #: fl_sim.models:41 of
 msgid "Multilayer perceptron (MLP)"
-msgstr ""
+msgstr "多层感知机（MLP）"
 
 #: fl_sim.models:48:<autosummary>:1 of
-msgid ""
-":py:obj:`MLP <fl_sim.models.MLP>`\\ \\(dim\\_in\\, dim\\_out\\[\\, "
-"dim\\_hidden\\, ...\\]\\)"
+msgid ":py:obj:`MLP <fl_sim.models.MLP>`\\ \\(dim\\_in\\, dim\\_out\\[\\, dim\\_hidden\\, ...\\]\\)"
 msgstr ""
 
 #: fl_sim.models:48:<autosummary>:1 of
 msgid "Multi-layer perceptron."
-msgstr ""
+msgstr "多层感知机。"
 
 #: fl_sim.models:48:<autosummary>:1 of
 msgid ""
-":py:obj:`FedPDMLP <fl_sim.models.FedPDMLP>`\\ \\(dim\\_in\\, "
-"dim\\_hidden\\, dim\\_out\\[\\, ndim\\]\\)"
+":py:obj:`FedPDMLP <fl_sim.models.FedPDMLP>`\\ \\(dim\\_in\\, dim\\_hidden\\,"
+" dim\\_out\\[\\, ndim\\]\\)"
 msgstr ""
 
 #: fl_sim.models:48:<autosummary>:1 of
@@ -182,10 +174,11 @@ msgid ""
 "Multi-layer perceptron modified from `FedPD/models.py "
 "<https://github.com/564612540/FedPD>`_."
 msgstr ""
+"由 `FedPD/models.py <https://github.com/564612540/FedPD/>`_ 修改而来的多层感知机。"
 
 #: fl_sim.models:50 of
 msgid "Linear models"
-msgstr ""
+msgstr "线性模型"
 
 #: fl_sim.models:58:<autosummary>:1 of
 msgid ""
@@ -195,7 +188,7 @@ msgstr ""
 
 #: fl_sim.models:58:<autosummary>:1 of
 msgid "Logistic regression model for classification task."
-msgstr ""
+msgstr "用于分类任务的逻辑回归模型。"
 
 #: fl_sim.models:58:<autosummary>:1 of
 msgid ":py:obj:`SVC <fl_sim.models.SVC>`\\ \\(num\\_features\\, num\\_classes\\)"
@@ -203,7 +196,7 @@ msgstr ""
 
 #: fl_sim.models:58:<autosummary>:1 of
 msgid "Support vector machine classifier."
-msgstr ""
+msgstr "支持向量机分类器。"
 
 #: fl_sim.models:58:<autosummary>:1 of
 msgid ":py:obj:`SVR <fl_sim.models.SVR>`\\ \\(num\\_features\\)"
@@ -211,11 +204,11 @@ msgstr ""
 
 #: fl_sim.models:58:<autosummary>:1 of
 msgid "Support vector machine regressor."
-msgstr ""
+msgstr "支持向量机回归器。"
 
 #: fl_sim.models:60 of
 msgid "Utilities"
-msgstr ""
+msgstr "工具函数"
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid ":py:obj:`reset_parameters <fl_sim.models.reset_parameters>`\\ \\(module\\)"
@@ -223,7 +216,7 @@ msgstr ""
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid "Reset the parameters of a module and its children."
-msgstr ""
+msgstr "重置一个模块及其子模块的参数。"
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid ""
@@ -233,7 +226,7 @@ msgstr ""
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid "Top-n accuracy."
-msgstr ""
+msgstr "Top-n 准确率。"
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid ":py:obj:`CLFMixin <fl_sim.models.CLFMixin>`\\ \\(\\)"
@@ -241,7 +234,7 @@ msgstr ""
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid "Mixin class for classifiers."
-msgstr ""
+msgstr "用于分类器的 Mixin 类。"
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid ":py:obj:`REGMixin <fl_sim.models.REGMixin>`\\ \\(\\)"
@@ -249,7 +242,7 @@ msgstr ""
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid "Mixin for regressors."
-msgstr ""
+msgstr "用于回归器的 Mixin 类。"
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid ":py:obj:`DiffMixin <fl_sim.models.DiffMixin>`\\ \\(\\)"
@@ -257,4 +250,4 @@ msgstr ""
 
 #: fl_sim.models:69:<autosummary>:1 of
 msgid "Mixin for differences of two models."
-msgstr ""
+msgstr "用于计算两个模型之差的 Mixin 类。"

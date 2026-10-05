@@ -6,17 +6,17 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 02:12+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: fl_sim.optimizers:2 of
@@ -27,17 +27,18 @@ msgstr ""
 msgid ""
 "This module contains the optimizers (local solvers) used in federated "
 "learning. Despite optimizers from :mod:`torch.optim` and "
-":mod:`torch_optimizer`, we also provide some custom optimizers for "
-"federated learning for solving for example"
+":mod:`torch_optimizer`, we also provide some custom optimizers for federated"
+" learning for solving for example"
 msgstr ""
+"本模块包含联邦学习中所使用的优化器（局部求解器）。尽管优化器通常是为临近优化问题或拉格朗日对偶问题等特定形式的问题设计的，它们同样可以用于其他算法。"
 
 #: fl_sim.optimizers:8 of
 msgid "proximal optimization problem"
-msgstr ""
+msgstr "临近优化问题"
 
 #: fl_sim.optimizers:9 of
 msgid "lagrangian dual problem"
-msgstr ""
+msgstr "拉格朗日对偶问题"
 
 #: fl_sim.optimizers:23:<autosummary>:1 of
 msgid ""
@@ -47,7 +48,7 @@ msgstr ""
 
 #: fl_sim.optimizers:23:<autosummary>:1 of
 msgid "Get optimizer by name."
-msgstr ""
+msgstr "按名称获取优化器。"
 
 #: fl_sim.optimizers:23:<autosummary>:1 of
 msgid ""
@@ -57,4 +58,4 @@ msgstr ""
 
 #: fl_sim.optimizers:23:<autosummary>:1 of
 msgid "Decorator to register a new optimizer."
-msgstr ""
+msgstr "注册新优化器的装饰器。"

@@ -6,32 +6,33 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 02:12+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: ../../source/algorithms.rst:8
 msgid "Sections:"
-msgstr ""
+msgstr "目录："
 
 #: ../../source/algorithms.rst:2
 msgid "Federated learning algorithms"
-msgstr ""
+msgstr "联邦学习算法"
 
 #: ../../source/algorithms.rst:4
 msgid ""
-"Federated optimization algorithms have been the central problem in the "
-"field of federated learning since its inception. This chapter contains a "
-"collection of algorithms that have been proposed in the literature, which"
-" will be analyzed from the viewpoint of optimization theory, espcially "
-"the theory of operator splitting."
+"Federated optimization algorithms have been the central problem in the field"
+" of federated learning since its inception. This chapter contains a "
+"collection of algorithms that have been proposed in the literature, which "
+"will be analyzed from the viewpoint of optimization theory, espcially the "
+"theory of operator splitting."
 msgstr ""
+"联邦优化算法自从联邦学习这一概念诞生起，便一直是相关研究的中心问题之一。本章汇集了文献中提出的一系列算法，并将从优化理论的视角、尤其是算子分裂理论的角度对它们进行分析。"
