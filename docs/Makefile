@@ -8,7 +8,7 @@ BUILDDIR      = build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help html-en html-zh html-all gettext locale-update Makefile
+.PHONY: help html-en html-zh gettext locale-update Makefile
 
 # Build English docs
 html-en:
@@ -20,9 +20,9 @@ html-zh:
 	SPHINX_LANGUAGE=zh_CN $(SPHINXBUILD) -b html -D language=zh_CN \
 		"$(SOURCEDIR)" "$(BUILDDIR)/zh_CN" $(SPHINXOPTS) $(O)
 
-# Build both languages and add a root redirect
-html-all: html-en html-zh
-	@echo '<meta http-equiv="refresh" content="0; url=en/index.html">' > "$(BUILDDIR)/index.html"
+# For the full multi-version, multi-language build (with the version/language
+# switcher wired to absolute URLs), use `python build_docs.py` instead; it
+# builds every version x language combination into pages/ for GitHub Pages.
 
 # Extract translatable strings into .pot files
 gettext:

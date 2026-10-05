@@ -1,0 +1,12 @@
+# Documentation versions built by `docs/build_docs.py`.
+#
+# "latest" (the master branch / working tree) is always built and must NOT be
+# listed here. To publish a released version, add an entry mapping the version
+# name (used as the URL path segment on the pages site) to the git tag it
+# corresponds to; the tag must exist on the remote when CI runs. Example:
+#
+# v0.0.1:
+#   tag: v0.0.1
+#   languages: [en, zh_CN]
+#
+# Available languages for every version: en, zh_CN.

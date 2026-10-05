@@ -1,0 +1,7 @@
+{%- extends "!layout.html" %}
+
+{# Inject the version/language switcher flyout at the end of the page. #}
+{% block footer %}
+  {{ super() }}
+  {% include "versions.html" %}
+{% endblock footer %}
