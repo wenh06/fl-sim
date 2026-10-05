@@ -6,11 +6,8 @@
 # -- Path setup --------------------------------------------------------------
 
 import os
-import re
 import sys
 from pathlib import Path
-
-import requests
 
 project_root = Path(__file__).resolve().parents[2]
 src_root = project_root / "fl_sim"
@@ -77,22 +74,56 @@ autodoc_default_options = {
     "show-inheritance": True,
 }
 
+# -- Multi-version / multi-language switcher context ---------------------------
+# Single-language builds (e.g. `make html-en`) show only the language switcher
+# with relative links between the sibling build directories.
+# `docs/build_docs.py` sets PAGES_ROOT / CURRENT_VERSION / BUILD_ALL_DOCS for
+# full builds; then the switcher links across all versions and languages with
+# absolute URLs under PAGES_ROOT (the GitHub Pages site root).
+
+_pages_root = os.environ.get("PAGES_ROOT", "")
+_current_version = os.environ.get("CURRENT_VERSION", "latest")
+_build_all_docs = os.environ.get("BUILD_ALL_DOCS", "") == "1" and bool(_pages_root)
+
+_language_labels = [
+    ("English", "en"),
+    ("简体中文", "zh_CN"),
+]
+
+if _build_all_docs:
+    import yaml
+
+    _versions_file = Path(docs_root).parent / "versions.yaml"
+    _versions_cfg = {}
+    if _versions_file.exists():
+        _versions_cfg = yaml.safe_load(_versions_file.read_text()) or {}
+    # version names double as URL path segments; "latest" tracks the master branch
+    _all_versions = ["latest"] + [str(v) for v in _versions_cfg]
+
+    def _pages_url(version: str, lang_code: str) -> str:
+        return f"{_pages_root.rstrip('/')}/{version}/{lang_code}/"
+
+    _languages = [(label, code, _pages_url(_current_version, code)) for label, code in _language_labels]
+    _versions = [(v, _pages_url(v, language)) for v in _all_versions]
+else:
+    _languages = [(label, code, "") for label, code in _language_labels]
+    _versions = []
+
 html_context = {
     "display_github": True,
     "github_user": "wenh06",
     "github_repo": "fl-sim",
-    "github_version": "master",
+    # point the "edit on GitHub" button at the branch/tag being built
+    "github_version": "master" if _current_version == "latest" else _current_version,
     "conf_py_path": "/docs/source/",
     "current_language": language,
-    "languages": [
-        ("English", "en"),
-        ("简体中文", "zh_CN"),
-    ],
+    "current_version": _current_version,
+    "languages": _languages,
+    "versions": _versions,
+    "build_all_docs": _build_all_docs,
 }
 
 templates_path = ["_templates"]
-
-# html_sidebars = {"*": ["versions.html"]}
 
 exclude_patterns = []
 
@@ -138,7 +169,6 @@ html_theme_options = {
     "use_fullscreen_button": True,
     "path_to_docs": "docs/source",
     "repository_branch": "master",
-    "primary_sidebar_end": ["sbt-sidebar-footer.html"],
 }
 
 
@@ -162,34 +192,10 @@ pseudocode2_options = {
 
 
 _mathjax_file = "tex-chtml-full.js"
-
-
-def _get_mathjax_latest_version() -> str:
-    """Get the latest mathjax version.
-
-    Returns
-    -------
-    str
-        The latest mathjax version.
-
-    """
-    defalut_mathjax_latest_version = "3.2.2"
-    url = f"https://unpkg.com/mathjax@latest/es5/{_mathjax_file}"
-    try:
-        r = requests.get(url, timeout=3)
-        if r.status_code == 200:
-            # search for the version number in r.url
-            # which will be redirected to the latest version with version number
-            # e.g. https://unpkg.com/mathjax@3.2.2/es5/tex-chtml-full.js
-            return re.search("mathjax@([\\w\\.\\-]+)", r.url).group(1)  # type: ignore
-        else:
-            return defalut_mathjax_latest_version
-    except Exception:
-        return defalut_mathjax_latest_version
-
-
-mathjax_path = f"https://cdnjs.cloudflare.com/ajax/libs/mathjax/{_get_mathjax_latest_version()}/es5/{_mathjax_file}"
-# mathjax_path = f"https://cdn.bootcdn.net/ajax/libs/mathjax/{_get_mathjax_latest_version()}/es5/{_mathjax_file}"
+# pinned to avoid a build-time network probe; override with `make MATHJAX_VERSION=...`
+# or the MATHJAX_VERSION environment variable if a newer version is wanted
+_mathjax_version = os.environ.get("MATHJAX_VERSION", "3.2.2")
+mathjax_path = f"https://cdnjs.cloudflare.com/ajax/libs/mathjax/{_mathjax_version}/es5/{_mathjax_file}"
 
 
 emoji_favicon = ":abaque:"
@@ -203,4 +209,6 @@ def setup(app):
     app.add_css_file("css/custom.css")
     app.add_css_file("css/proof.css")
     app.add_css_file("css/codeblock.css")
+    app.add_css_file("css/versions.css")
     app.add_js_file("js/codeblock.js")
+    app.add_js_file("js/versions.js")

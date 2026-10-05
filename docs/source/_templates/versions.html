@@ -1,17 +1,28 @@
-<div class="rst-versions" style="font-size: 0.9em;">
-  <strong>Version:</strong> {{ current_version }}<br>
-  {% if versions %}
-    <div><strong>Switch Version:</strong>
-      {% for the_version, url in versions %}
-        <a href="{{ url }}/index.html">{{ the_version }}</a>{% if not loop.last %} | {% endif %}
+{# Version & language switcher flyout, rendered at the end of <body>. #}
+<div class="rst-versions" id="versions-flyout" role="note" aria-label="versions and languages">
+  <span class="rst-current-version" data-toggle="rst-versions" title="{{ _('Switch version or language') }}">
+    <span>{{ current_version or "latest" }}</span>
+    <span class="rst-caret">▾</span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>{{ _('Languages') }}</dt>
+      {% for label, code, url in languages %}
+        <dd>
+          <a href="{% if url %}{{ url }}{% else %}{{ pathto("", 1) }}../{{ code }}/{{ pagename }}{{ file_suffix }}{% endif %}"
+             {% if code == current_language %}class="rst-current-item"{% endif %}>{{ label }}</a>
+        </dd>
       {% endfor %}
-    </div>
-  {% endif %}
-  {% if languages %}
-    <div><strong>Language:</strong>
-      {% for the_language, url in languages %}
-        <a href="{{ url }}/index.html">{{ the_language }}</a>{% if not loop.last %} | {% endif %}
-      {% endfor %}
-    </div>
-  {% endif %}
+    </dl>
+    {% if versions %}
+      <dl>
+        <dt>{{ _('Versions') }}</dt>
+        {% for name, url in versions %}
+          <dd>
+            <a href="{{ url }}" {% if name == current_version %}class="rst-current-item"{% endif %}>{{ name }}</a>
+          </dd>
+        {% endfor %}
+      </dl>
+    {% endif %}
+  </div>
 </div>
