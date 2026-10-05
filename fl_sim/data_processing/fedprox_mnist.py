@@ -9,7 +9,6 @@ from scipy.io import loadmat
 
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
-from ..utils._download_data import url_is_reachable
 from ..utils.const import CACHED_DATA_DIR, MNIST_LABEL_MAP
 from ._register import register_fed_dataset
 from .fed_dataset import FedVisionDataset
@@ -206,10 +205,18 @@ class FedProxMNIST(FedVisionDataset):
         """URL for downloading the dataset."""
         # https://drive.google.com/file/d/1tCEcJgRJ8NdRo11UJZR6WSKMNdmox4GC/view?usp=sharing
         # "http://218.245.5.12/NLP/federated/fedprox-mnist.zip"
-        if url_is_reachable("https://www.dropbox.com/"):
-            return "https://www.dropbox.com/s/ndri55jt0w9juk1/fedprox-mnist.zip?dl=1"
-        else:
-            return "https://deep-psp.tech/Data/FL/fedprox-mnist.zip"
+        return self.mirrors[0][0]
+
+    @property
+    def mirrors(self) -> List[Tuple[str, Optional[str]]]:
+        """Download mirrors as (url, md5) pairs, tried in order."""
+        return [
+            (
+                "https://mega.nz/file/sBQTTALa#HHdikmFTV-O3g-wB4q1uEoaqqE-RdXRRoDasjkS8Zlg",
+                "defa1d88b348b225a47bde0ed737bbd0",  # md5 of fedprox-mnist.zip
+            ),
+            ("https://deep-psp.tech/Data/FL/fedprox-mnist.zip", None),
+        ]
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:

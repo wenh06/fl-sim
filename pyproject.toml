@@ -36,6 +36,7 @@ dependencies = [
     "PeakUtils",
     "Pillow",
     "PyYAML",
+    "pycryptodome",
     "requests",
     "scikit-learn",
     "scipy",

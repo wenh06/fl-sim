@@ -15,7 +15,6 @@ from fl_sim.data_processing._register import register_fed_dataset
 from fl_sim.data_processing.fed_dataset import FedVisionDataset
 from fl_sim.models import nn as mnn
 from fl_sim.models.utils import top_n_accuracy
-from fl_sim.utils._download_data import url_is_reachable
 from fl_sim.utils.const import CACHED_DATA_DIR
 
 __all__ = [
@@ -171,10 +170,18 @@ class CustomFEMNIST(FedVisionDataset):
     def url(self) -> str:
         # https://drive.google.com/file/d/1tCEcJgRJ8NdRo11UJZR6WSKMNdmox4GC/view?usp=sharing
         # "http://218.245.5.12/NLP/federated/fedprox-femnist.zip"
-        if url_is_reachable("http://www.dropbox.com"):
-            return "https://www.dropbox.com/s/55ibep82qqars9w/fedprox-femnist.zip?dl=1"
-        else:
-            return "https://deep-psp.tech/Data/FL/fedprox-femnist.zip"
+        return self.mirrors[0][0]
+
+    @property
+    def mirrors(self) -> List[Tuple[str, Optional[str]]]:
+        """Download mirrors as (url, md5) pairs, tried in order."""
+        return [
+            (
+                "https://mega.nz/file/BAB0xYpa#jbrEyDwu3zAZ1Au-WsBkEYelAouOZ61Y5SnfU21fVe0",
+                "5588308bc9d60c25fa155b32df7e4d35",  # md5 of fedprox-femnist.zip
+            ),
+            ("https://deep-psp.tech/Data/FL/fedprox-femnist.zip", None),
+        ]
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:

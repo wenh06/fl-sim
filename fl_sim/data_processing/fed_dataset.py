@@ -17,7 +17,7 @@ from datasets import load_dataset as HFD_load_dataset
 from PIL import Image
 from torch_ecg.utils import ReprMixin
 
-from ..utils._download_data import download_if_needed
+from ..utils._download_data import download_from_mirrors
 from ..utils.const import CACHED_DATA_DIR
 from ..utils.misc import set_seed
 
@@ -92,6 +92,16 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
         """URL for downloading the dataset."""
         raise NotImplementedError
 
+    @property
+    def mirrors(self) -> List[Tuple[str, Optional[str]]]:
+        """Download mirrors as (url, md5) pairs, tried in order.
+
+        The first mirror defaults to :attr:`url` without checksum;
+        subclasses can override this to add fallback mirrors and
+        MD5 checksums.
+        """
+        return [(self.url, None)]
+
     def download_if_needed(self) -> None:
         """Download data if needed."""
         if self.url:
@@ -103,7 +113,7 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
             else:
                 # dst_dir = self.datadir.parent
                 pass
-            download_if_needed(self.url, self.datadir, extract=True)
+            download_from_mirrors(self.mirrors, self.datadir, extract=True)
             return
         print("No url for downloading data")
 

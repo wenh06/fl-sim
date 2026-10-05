@@ -11,7 +11,6 @@ from bs4 import BeautifulSoup
 from ..models import nn as mnn
 from ..models.utils import top_n_accuracy
 from ..models.word_embeddings import GloveEmbedding
-from ..utils._download_data import url_is_reachable
 from ..utils.const import CACHED_DATA_DIR
 from ._register import register_fed_dataset
 from .fed_dataset import FedNLPDataset
@@ -250,10 +249,18 @@ class FedProxSent140(FedNLPDataset):
     def url(self) -> str:
         """URL for downloading the dataset."""
         # https://drive.google.com/file/d/1pgHf4DUZkGI6q-NLjBzMawX5yn4Y40k0/view?usp=sharing
-        if url_is_reachable("https://www.dropbox.com"):
-            return "https://www.dropbox.com/s/jbmubdtehkwade1/fedprox-sent140.zip?dl=1"
-        else:
-            return "https://deep-psp.tech/Data/FL/fedprox-sent140.zip"
+        return self.mirrors[0][0]
+
+    @property
+    def mirrors(self) -> List[Tuple[str, Optional[str]]]:
+        """Download mirrors as (url, md5) pairs, tried in order."""
+        return [
+            (
+                "https://mega.nz/file/ARQiEI7C#CMCWXMK_t40tCeJwwilKqsQ5xEoMxP2fXzN-QRsbnf0",
+                "df03b00d009b7ffc6558f133d1147298",  # md5 of fedprox-sent140.zip
+            ),
+            ("https://deep-psp.tech/Data/FL/fedprox-sent140.zip", None),
+        ]
 
     @property
     def candidate_models(self) -> Dict[str, torch.nn.Module]:
