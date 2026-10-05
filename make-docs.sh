@@ -6,5 +6,4 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPT_DIR="$SCRIPT_DIR/docs"
 cd $SCRIPT_DIR
 
-make clean
 python3 build_docs.py --latest-only
