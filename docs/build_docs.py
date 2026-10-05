@@ -92,6 +92,52 @@ def write_redirect(output_dir: Path) -> None:
     (output_dir / ".nojekyll").touch()
 
 
+COMPAT_REDIRECT_PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>fl-sim documentation</title>
+  <script>
+    (function () {
+      var lang = (navigator.language || navigator.userLanguage || "en").toLowerCase();
+      var target = lang.indexOf("zh") === 0 ? "zh_CN/" : "en/";
+      window.location.replace(target);
+    })();
+  </script>
+  <noscript><meta http-equiv="refresh" content="0; url=en/"></noscript>
+</head>
+<body>
+  <p>Redirecting to the documentation...</p>
+  <p><a href="en/">English</a> | <a href="zh_CN/">简体中文</a></p>
+</body>
+</html>
+"""
+
+
+def refresh_compat_layer(output_dir: Path, languages: list) -> None:
+    """Maintain the compatibility layer in ``docs/build``.
+
+    A web server may serve ``docs/build`` directly (e.g. via a symlink like
+    ``/var/www/html/fl-sim -> docs/build``, with the old flat layout
+    ``build/en`` + ``build/zh_CN`` + ``build/index.html``). After each build,
+    recreate that layer as symlinks into ``pages/latest/<lang>`` plus a
+    language-aware redirect page, so the served URLs keep working and always
+    reflect the latest build. ``make clean`` may wipe ``docs/build`` freely;
+    this function brings the layer back.
+    """
+    build_dir = DOCS_ROOT / "build"
+    build_dir.mkdir(parents=True, exist_ok=True)
+    for language in languages:
+        link = build_dir / language
+        target = os.path.relpath(output_dir / "latest" / language, build_dir)
+        if link.is_symlink():
+            link.unlink()
+        elif link.exists():
+            shutil.rmtree(link)
+        os.symlink(target, link)
+    (build_dir / "index.html").write_text(COMPAT_REDIRECT_PAGE, encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build the multi-version, multi-language documentation.")
     parser.add_argument("--pages-root", default=PAGES_ROOT_DEFAULT, help="Root URL of the pages site")
@@ -142,6 +188,7 @@ def main() -> None:
             run(["git", "checkout", start_rev, "--", "docs/source/conf.py", "docs/versions.yaml"], cwd=REPO_ROOT)
 
     write_redirect(output_dir)
+    refresh_compat_layer(output_dir, LANGUAGES)
     print(f"Done. Pages layout at {output_dir}", flush=True)
 
 
