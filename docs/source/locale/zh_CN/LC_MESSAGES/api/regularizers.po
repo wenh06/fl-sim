@@ -6,17 +6,17 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 02:12+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: fl_sim.regularizers:2 of
@@ -25,7 +25,7 @@ msgstr ""
 
 #: fl_sim.regularizers:4 of
 msgid "This module contains the regularizers for the optimization problems."
-msgstr ""
+msgstr "本模块包含用于优化问题的正则项。"
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid ""
@@ -35,17 +35,15 @@ msgstr ""
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid "Get the regularizer by name."
-msgstr ""
+msgstr "按名称获取正则项。"
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
-msgid ""
-":py:obj:`Regularizer <fl_sim.regularizers.Regularizer>`\\ "
-"\\(\\[coeff\\]\\)"
+msgid ":py:obj:`Regularizer <fl_sim.regularizers.Regularizer>`\\ \\(\\[coeff\\]\\)"
 msgstr ""
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid "Regularizer base class."
-msgstr ""
+msgstr "正则项（Regularizer）基类。"
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid ":py:obj:`L1Norm <fl_sim.regularizers.L1Norm>`\\ \\(\\[coeff\\]\\)"
@@ -53,7 +51,7 @@ msgstr ""
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid "L1 norm regularizer."
-msgstr ""
+msgstr "L1 范数正则项。"
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid ":py:obj:`L2Norm <fl_sim.regularizers.L2Norm>`\\ \\(\\[coeff\\]\\)"
@@ -61,17 +59,15 @@ msgstr ""
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid "L2 norm regularizer."
-msgstr ""
+msgstr "L2 范数正则项。"
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
-msgid ""
-":py:obj:`L2NormSquared <fl_sim.regularizers.L2NormSquared>`\\ "
-"\\(\\[coeff\\]\\)"
+msgid ":py:obj:`L2NormSquared <fl_sim.regularizers.L2NormSquared>`\\ \\(\\[coeff\\]\\)"
 msgstr ""
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid "L2 norm squared regularizer."
-msgstr ""
+msgstr "L2 范数平方正则项。"
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid ":py:obj:`LInfNorm <fl_sim.regularizers.LInfNorm>`\\ \\(\\[coeff\\]\\)"
@@ -79,7 +75,7 @@ msgstr ""
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid "L-infinity norm regularizer."
-msgstr ""
+msgstr "L-无穷范数正则项。"
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid ""
@@ -89,4 +85,4 @@ msgstr ""
 
 #: fl_sim.regularizers:23:<autosummary>:1 of
 msgid "Null regularizer, or equivalently the zero function."
-msgstr ""
+msgstr "空正则项，等价于零函数。"

@@ -6,48 +6,50 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 02:12+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: ../../source/index.rst:13
 msgid "Getting started"
-msgstr ""
+msgstr "快速开始"
 
 #: ../../source/index.rst:20
 msgid "API Reference"
-msgstr ""
+msgstr "API 参考"
 
 #: ../../source/index.rst:31
 msgid "Advanced Topics"
-msgstr ""
+msgstr "进阶主题"
 
 #: ../../source/index.rst:7
 msgid "Welcome to fl-sim's documentation!"
-msgstr ""
+msgstr "欢迎使用 fl-sim 文档！"
 
 #: ../../source/index.rst:9
 msgid "A Simple Simulation Framework for Federated Learning Based on PyTorch."
-msgstr ""
+msgstr "一个基于 PyTorch 的简单联邦学习仿真框架。"
 
 #: ../../source/index.rst:11
 msgid ""
 "Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee "
 "<https://gitee.com/wenh06/fl-sim/>`_"
 msgstr ""
+"项目链接：`GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee "
+"<https://gitee.com/wenh06/fl-sim/>`_"
 
 #: ../../source/index.rst:40
 msgid "Indices and tables"
-msgstr ""
+msgstr "索引和表格"
 
 #: ../../source/index.rst:42
 msgid ":ref:`genindex`"

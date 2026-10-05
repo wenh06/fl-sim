@@ -6,30 +6,30 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"POT-Creation-Date: 2026-10-06 01:22+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.12.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Generated-By: Babel 2.16.0\n"
 
 #: ../../source/install.rst:2
 msgid "Installation instructions"
-msgstr ""
+msgstr "安装说明"
 
 #: ../../source/install.rst:4
-msgid ":code:`fl-sim` requires **Python 3.6+** and is available through pip:"
-msgstr ""
+msgid ":code:`fl-sim` requires **Python 3.10+** and is available through pip:"
+msgstr ":code:`fl-sim` 需要 **Python 3.10+**，可通过 pip 安装："
 
 #: ../../source/install.rst:10
 msgid "or clone the repository and run"
-msgstr ""
+msgstr "或克隆仓库后运行"
 
 #: ../../source/install.rst:16
 msgid ""
@@ -39,14 +39,22 @@ msgid ""
 "sim/actions/workflows/docker-image.yml>`_. To pull the image, run the "
 "following command:"
 msgstr ""
+"或者，可以使用 Docker 镜像 `wenh06/fl-sim <https://hub.docker.com/r/wenh06/fl-sim>`_ "
+"来运行代码。镜像由 `Docker Image CI action <https://github.com/wenh06/fl-"
+"sim/actions/workflows/docker-image.yml>`_ 构建。拉取镜像请运行以下命令："
 
 #: ../../source/install.rst:24
 msgid "For the usage (interactive mode), run the following command:"
-msgstr ""
+msgstr "使用（交互模式）时，运行以下命令："
 
 #: ../../source/install.rst:30
 msgid ""
-"For more advanced usages (e.g., run a script), refer to the `Docker "
-"official documentation "
+"For more advanced usages (e.g., run a script), refer to the `Docker official"
+" documentation "
 "<https://docs.docker.com/engine/reference/commandline/run/>`_."
 msgstr ""
+"更高级的用法（如运行脚本），请参考 `Docker 官方文档 "
+"<https://docs.docker.com/engine/reference/commandline/run/>`_。"
+
+#~ msgid ":code:`fl-sim` requires **Python 3.6+** and is available through pip:"
+#~ msgstr ""

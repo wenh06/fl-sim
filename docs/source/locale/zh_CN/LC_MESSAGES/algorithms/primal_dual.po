@@ -6,29 +6,29 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-01 02:12+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: ../../source/algorithms/primal_dual.rst:4
 msgid "Primal-Dual Algorithms in Federated Learning"
-msgstr ""
+msgstr "联邦学习中的原始对偶算法"
 
 #: ../../source/algorithms/primal_dual.rst:6
 msgid ""
-"In traditional optimization methods, the primal-dual algorithm is a kind "
-"of frequently used algorithm that solves the primal and dual problems."
-msgstr ""
+"In traditional optimization methods, the primal-dual algorithm is a kind of "
+"frequently used algorithm that solves the primal and dual problems."
+msgstr "在传统的优化方法中，原始对偶算法是一类常用的、同时求解原问题（primal problem）与对偶问题（dual problem）的算法。"
 
 #: ../../source/algorithms/primal_dual.rst:9
 msgid "to write more...."
-msgstr ""
+msgstr "待补充……"
