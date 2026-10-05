@@ -202,6 +202,8 @@ emoji_favicon = ":abaque:"
 
 linkcheck_ignore = [
     r"https://doi.org/*",  # 418 Client Error
+    r"https://stackoverflow.com/*",  # 403 Client Error for bots
+    r"https://gitee.com/*",  # often times out from GitHub Actions runners
 ]
 
 

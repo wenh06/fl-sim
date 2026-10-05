@@ -1,0 +1,222 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-05 20:57+0800\n"
+"PO-Revision-Date: 2026-10-05 21:10+0800\n"
+"Last-Translator: WEN Hao <wenh06@gmail.com>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: ../../source/algorithms/notation.rst:4
+#: ../../source/algorithms/notation.rst:14
+msgid "Notation"
+msgstr "符号说明"
+
+#: ../../source/algorithms/notation.rst:6
+msgid ""
+"This page summarizes the notations used throughout the theory pages of "
+"this chapter; the same notation is used in the accompanying research "
+"report. Symbols not listed here are explained where they first appear."
+msgstr ""
+"本页汇总了本章理论页面中使用的记号；配套的研究报告亦采用同一套记号。未列出的"
+"符号将在首次出现处具体说明。"
+
+#: ../../source/algorithms/notation.rst:15
+msgid "Meaning"
+msgstr "含义"
+
+#: ../../source/algorithms/notation.rst:16
+msgid ":math:`\\N`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:17
+msgid "the set of natural numbers (including :math:`0`)"
+msgstr "自然数集（包括 :math:`0`）"
+
+#: ../../source/algorithms/notation.rst:18
+msgid ":math:`\\R`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:19
+msgid "the set of real numbers"
+msgstr "实数集"
+
+#: ../../source/algorithms/notation.rst:20
+msgid ":math:`\\R^d`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:21
+msgid "the :math:`d`-dimensional real vector space (of column vectors)"
+msgstr "实 :math:`d` 维列向量空间"
+
+#: ../../source/algorithms/notation.rst:22
+msgid ":math:`\\# S`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:23
+msgid "the cardinality of a finite set :math:`S`"
+msgstr "有限集合 :math:`S` 的元素个数"
+
+#: ../../source/algorithms/notation.rst:24
+msgid ":math:`\\Pi_{\\Omega}`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:25
+msgid "the projection map onto a convex set :math:`\\Omega \\subseteq \\R^d`"
+msgstr "向凸集 :math:`\\Omega \\subseteq \\R^d` 投影的投影映射"
+
+#: ../../source/algorithms/notation.rst:26
+msgid ":math:`[K]`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:27
+msgid "the set :math:`\\{1, 2, \\ldots, K\\}`, where :math:`K \\in \\N_{> 0}`"
+msgstr "集合 :math:`\\{1, 2, \\ldots, K\\}`，其中 :math:`K \\in \\N_{> 0}`"
+
+#: ../../source/algorithms/notation.rst:28
+msgid ":math:`\\theta`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:29
+msgid "the model parameters, :math:`\\theta \\in \\R^d`"
+msgstr "模型的参数，:math:`\\in \\R^d`"
+
+#: ../../source/algorithms/notation.rst:30
+msgid ":math:`\\col(\\theta_1, \\ldots, \\theta_K)`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:31
+msgid ""
+"the column vector stacking :math:`\\theta_1, \\ldots, \\theta_K` "
+"vertically in order"
+msgstr "列向量 :math:`\\theta_1, \\ldots, \\theta_K` 按顺序竖排在一起形成的列向量"
+
+#: ../../source/algorithms/notation.rst:32
+msgid ":math:`\\operatorname{dom}(f)`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:33
+msgid ""
+"the domain of the function :math:`f`, i.e. :math:`\\{\\theta \\in \\R^d "
+"~|~ f(\\theta) < +\\infty\\}`"
+msgstr "函数 :math:`f` 的定义域，即 :math:`\\{\\theta \\in \\R^d ~|~ f(\\theta) < +\\infty\\}`"
+
+#: ../../source/algorithms/notation.rst:34
+msgid ":math:`\\nabla f(\\cdot)`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:35
+msgid "the gradient of :math:`f`"
+msgstr "函数 :math:`f` 的梯度"
+
+#: ../../source/algorithms/notation.rst:36
+msgid ":math:`\\partial f(\\cdot)`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:37
+msgid "the subdifferential (the set of subgradients) of :math:`f`"
+msgstr "函数 :math:`f` 的次微分（次梯度的集合）"
+
+#: ../../source/algorithms/notation.rst:38
+msgid ":math:`\\mathcal{D}(x, y)`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:39
+msgid ""
+"the (joint) distribution of the data, where :math:`x` is the feature and "
+":math:`y` is the label"
+msgstr "数据的（联合）分布（Distribution），:math:`x` 是特征（Feature），:math:`y` 是标签（Label）"
+
+#: ../../source/algorithms/notation.rst:40
+msgid ":math:`I_n` or :math:`I`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:41
+msgid "the identity matrix (of order :math:`n`)"
+msgstr "（:math:`n` 阶）单位矩阵"
+
+#: ../../source/algorithms/notation.rst:42
+msgid ":math:`O_n` or :math:`O`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:43
+msgid "the zero matrix (of order :math:`n`)"
+msgstr "（:math:`n` 阶）零矩阵"
+
+#: ../../source/algorithms/notation.rst:44
+msgid ":math:`A^{\\mathrm{T}}`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:45
+msgid "the transpose of a matrix :math:`A`"
+msgstr "矩阵 :math:`A` 的转置矩阵"
+
+#: ../../source/algorithms/notation.rst:46
+msgid ":math:`A^{-1}`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:47
+msgid "the inverse of a matrix :math:`A`"
+msgstr "矩阵 :math:`A` 的逆矩阵"
+
+#: ../../source/algorithms/notation.rst:48
+msgid ":math:`\\lVert \\cdot \\rVert_p`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:49
+msgid ""
+"the :math:`p`-norm of a vector or a matrix (:math:`0 \\leqslant p "
+"\\leqslant +\\infty`); when the subscript :math:`p` is omitted, the "
+":math:`2`-norm is meant"
+msgstr ""
+"向量或矩阵的 :math:`p`-范数（:math:`0 \\leqslant p \\leqslant +\\infty`）；"
+"当下标 :math:`p` 省略时，表示向量或矩阵的 :math:`2`-范数"
+
+#: ../../source/algorithms/notation.rst:51
+msgid ":math:`\\lVert \\cdot \\rVert_F`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:52
+msgid "the Frobenius norm of a matrix"
+msgstr "矩阵的 Frobenius 范数"
+
+#: ../../source/algorithms/notation.rst:53
+msgid ":math:`\\mathbb{E}[\\cdot]`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:54
+msgid "the mathematical expectation"
+msgstr "数学期望"
+
+#: ../../source/algorithms/notation.rst:55
+msgid ":math:`\\mathcal{N}(\\mu, \\sigma^2)`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:56
+msgid ""
+"the univariate normal distribution with mean :math:`\\mu \\in \\R` and "
+"variance :math:`\\sigma^2 \\in \\R`"
+msgstr "均值为 :math:`\\mu \\in \\R`、方差为 :math:`\\sigma^2 \\in \\R` 的一维正态分布"
+
+#: ../../source/algorithms/notation.rst:57
+msgid ":math:`\\mathcal{N}(v, \\Sigma)`"
+msgstr ""
+
+#: ../../source/algorithms/notation.rst:58
+msgid ""
+"the :math:`d`-dimensional normal distribution with mean :math:`v \\in "
+"\\R^d` and covariance matrix :math:`\\Sigma \\in \\R^{d \\times d}`"
+msgstr ""
+"均值为 :math:`v \\in \\R^d`、协方差矩阵为 :math:`\\Sigma \\in \\R^{d \\times d}` "
+"的 :math:`d` 维正态分布"

@@ -9,6 +9,7 @@ from the viewpoint of optimization theory, espcially the theory of operator spli
    :maxdepth: 1
    :caption: Sections:
 
+   algorithms/notation
    algorithms/overview
    algorithms/proximal
    algorithms/primal_dual
