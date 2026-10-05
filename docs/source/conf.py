@@ -77,13 +77,13 @@ autodoc_default_options = {
 # -- Multi-version / multi-language switcher context ---------------------------
 # Single-language builds (e.g. `make html-en`) show only the language switcher
 # with relative links between the sibling build directories.
-# `docs/build_docs.py` sets PAGES_ROOT / CURRENT_VERSION / BUILD_ALL_DOCS for
-# full builds; then the switcher links across all versions and languages with
-# absolute URLs under PAGES_ROOT (the GitHub Pages site root).
+# `docs/build_docs.py` sets CURRENT_VERSION / BUILD_ALL_DOCS for full builds;
+# then the switcher also shows the Versions section. All switcher links are
+# computed relative to the current page, so they work both for the local
+# `pages/` layout (<root>/<version>/<lang>/) and after deployment.
 
-_pages_root = os.environ.get("PAGES_ROOT", "")
 _current_version = os.environ.get("CURRENT_VERSION", "latest")
-_build_all_docs = os.environ.get("BUILD_ALL_DOCS", "") == "1" and bool(_pages_root)
+_build_all_docs = os.environ.get("BUILD_ALL_DOCS", "") == "1"
 
 _language_labels = [
     ("English", "en"),
@@ -98,15 +98,8 @@ if _build_all_docs:
     if _versions_file.exists():
         _versions_cfg = yaml.safe_load(_versions_file.read_text()) or {}
     # version names double as URL path segments; "latest" tracks the master branch
-    _all_versions = ["latest"] + [str(v) for v in _versions_cfg]
-
-    def _pages_url(version: str, lang_code: str) -> str:
-        return f"{_pages_root.rstrip('/')}/{version}/{lang_code}/"
-
-    _languages = [(label, code, _pages_url(_current_version, code)) for label, code in _language_labels]
-    _versions = [(v, _pages_url(v, language)) for v in _all_versions]
+    _versions = ["latest"] + [str(v) for v in _versions_cfg]
 else:
-    _languages = [(label, code, "") for label, code in _language_labels]
     _versions = []
 
 html_context = {
@@ -118,7 +111,7 @@ html_context = {
     "conf_py_path": "/docs/source/",
     "current_language": language,
     "current_version": _current_version,
-    "languages": _languages,
+    "languages": _language_labels,
     "versions": _versions,
     "build_all_docs": _build_all_docs,
 }

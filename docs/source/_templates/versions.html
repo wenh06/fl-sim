@@ -1,4 +1,7 @@
-{# Version & language switcher flyout, rendered at the end of <body>. #}
+{# Version & language switcher flyout, rendered at the end of <body>.
+   All links are relative to the current page, so they work both in the
+   local `pages/` layout and after deployment (same <root>/<version>/<lang>
+   hierarchy). #}
 <div class="rst-versions" id="versions-flyout" role="note" aria-label="versions and languages">
   <span class="rst-current-version" data-toggle="rst-versions" title="{{ _('Switch version or language') }}">
     <span>{{ current_version or "latest" }}</span>
@@ -7,9 +10,9 @@
   <div class="rst-other-versions">
     <dl>
       <dt>{{ _('Languages') }}</dt>
-      {% for label, code, url in languages %}
+      {% for label, code in languages %}
         <dd>
-          <a href="{% if url %}{{ url }}{% else %}{{ pathto("", 1) }}../{{ code }}/{{ pagename }}{{ file_suffix }}{% endif %}"
+          <a href="{{ pathto("", 1) }}../{{ code }}/{{ pagename }}{{ file_suffix }}"
              {% if code == current_language %}class="rst-current-item"{% endif %}>{{ label }}</a>
         </dd>
       {% endfor %}
@@ -17,9 +20,10 @@
     {% if versions %}
       <dl>
         <dt>{{ _('Versions') }}</dt>
-        {% for name, url in versions %}
+        {% for name in versions %}
           <dd>
-            <a href="{{ url }}" {% if name == current_version %}class="rst-current-item"{% endif %}>{{ name }}</a>
+            <a href="{{ pathto("", 1) }}../../{% if name != current_version %}{{ name }}/{% endif %}{{ current_language }}/{{ pagename }}{{ file_suffix }}"
+               {% if name == current_version %}class="rst-current-item"{% endif %}>{{ name }}</a>
           </dd>
         {% endfor %}
       </dl>
