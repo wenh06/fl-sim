@@ -84,4 +84,40 @@ The resulting method is summarized below.
 
 .. include:: ../_algo_pcode/pfedmac.rst
 
+.. _fl_alg_pfl_fpfc:
+
+``FPFC``: Fusion Penalized Federated Clustering
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Beyond regularizing the deviation between each pair of *local* models (as in ``L2SGD``) or between
+the local model and the global one, one can also encourage *clusters* of clients to share identical
+models, without knowing the clusters a priori. The fusion penalized federated clustering
+(``FPFC``) algorithm (see `arXiv:2211.04218 <https://arxiv.org/abs/2211.04218>`_) achieves this by
+imposing a nonconvex *pairwise* fusion penalty on the model differences. Introducing the auxiliary
+variables :math:`\theta_{ij} \equiv \omega_i - \omega_j` for all pairs :math:`i, j \in [m]`, it considers
+
+.. math::
+   :label: fpfc-obj
+
+   \begin{array}{cl}
+   \minimize\limits_{\omega, \theta} & \sum\limits_{i=1}^m f_i(\omega_i) + \frac{1}{2m} \sum\limits_{i=1}^m \sum\limits_{j=1}^m \tilde{g}(\lVert \theta_{ij} \rVert) \\
+   \text{subject to} & \omega_i - \omega_j = \theta_{ij}, \qquad i, j \in [m],
+   \end{array}
+
+where :math:`\tilde{g}(\cdot)` is a smoothed SCAD-type penalty (parameterized by
+:math:`\xi, \lambda, a`) whose proximal operator shrinks small pairwise differences towards zero
+(clients in the same cluster) while keeping large ones (clients in different clusters) almost
+untouched. The problem is solved via an ADMM-style (Douglas--Rachford) splitting with the augmented
+Lagrangian penalty :math:`\rho` and dual variables :math:`v_{ij}`: each round, a random subset of
+devices performs :math:`T_i` local gradient epochs on
+:math:`f_i(\omega) + \frac{\rho}{2} \lVert \omega - \zeta_i \rVert^2`, and the server applies the
+piecewise proximal update to :math:`\theta_{ij}` and ascends the duals for the pairs of active
+devices. After training, devices :math:`i` and :math:`j` are assigned to the same cluster whenever
+:math:`\lVert \theta_{ij} \rVert` is (nearly) zero. The pseudocode is summarized below; note that
+neither the number of clusters nor the cluster membership needs to be specified in advance.
+
+.. _pcode-fpfc:
+
+.. include:: ../_algo_pcode/fpfc.rst
+
 .. footbibliography::
