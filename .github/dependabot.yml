@@ -11,6 +11,11 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    # bundle all action bumps into a single PR per weekly run
+    groups:
+      github-actions:
+        patterns:
+          - "*"
     labels:
       - dependencies
     commit-message:
