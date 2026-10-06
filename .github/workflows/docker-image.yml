@@ -45,7 +45,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build and push python3.8-slim version
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       with:
         context: .
         file: ./python-slim.Dockerfile
@@ -53,7 +53,7 @@ jobs:
         tags: |
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:python-slim
     - name: Build and push pytorch1.13.1-cu116 version
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       with:
         context: .
         file: ./pytorch1.13.1-cu116.Dockerfile
@@ -61,7 +61,7 @@ jobs:
         tags: |
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch1.13.1-cu116
     - name: Build and push pytorch2.0.1-cu117 version
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       with:
         context: .
         file: ./pytorch2-latest.Dockerfile
