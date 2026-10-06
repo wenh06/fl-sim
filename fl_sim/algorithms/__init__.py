@@ -3,6 +3,8 @@
 from . import (  # noqa: F401
     apfl,
     ditto,
+    fedcr,
+    feddc,
     feddr,
     feddyn,
     fedopt,
