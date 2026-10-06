@@ -1,0 +1,960 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
+    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.dev422+g4e7a9c10c 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/codeblock.css?v=d29e50c4" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/versions.css?v=b1c81d98" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=d4536b3c"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/proof.js"></script>
+    <script src="../_static/js/codeblock.js?v=82bf629b"></script>
+    <script src="../_static/js/versions.js?v=6609812c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+    <script>
+            if (window.pseudocode && !window.pseudocode.mathRenderer) {
+                window.pseudocode.mathRenderer = 'katex';
+            }
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.js"></script>
+    <script>
+        async function renderPseudocodeWithMath() {
+            try {
+                if (window.MathJax) {
+                    await MathJax.startup.promise;
+                    console.log("pseudocode2: MathJax is ready");
+                }
+
+                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
+                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
+                console.log("pseudocode2: Pseudocode rendered");
+
+                if (window.MathJax) {
+                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
+                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
+                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
+                    }).catch(err => {
+                        console.warn("pseudocode2: MathJax typeset failed:", err);
+                    });
+                }
+            } catch (err) {
+                console.error("pseudocode2: Render failed:", err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
+        } else {
+            renderPseudocodeWithMath();
+        }
+    </script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>
+            if (window.pseudocode && !window.pseudocode.mathRenderer) {
+                window.pseudocode.mathRenderer = 'katex';
+            }
+        </script>
+    <script>
+        async function renderPseudocodeWithMath() {
+            try {
+                if (window.MathJax) {
+                    await MathJax.startup.promise;
+                    console.log("pseudocode2: MathJax is ready");
+                }
+
+                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
+                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
+                console.log("pseudocode2: Pseudocode rendered");
+
+                if (window.MathJax) {
+                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
+                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
+                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
+                    }).catch(err => {
+                        console.warn("pseudocode2: MathJax typeset failed:", err);
+                    });
+                }
+            } catch (err) {
+                console.error("pseudocode2: Render failed:", err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
+        } else {
+            renderPseudocodeWithMath();
+        }
+    </script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml-full.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms/pfl';</script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="命令行接口" href="../cli.html" />
+    <link rel="prev" title="联邦学习中的跳步算法" href="skipping.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">fl-sim 0.1.dev422+g4e7a9c10c 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">搜索</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">快速开始</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">安装说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">使用示例</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API 参考</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/nodes.html">fl_sim.nodes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.Node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.Server.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.Client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/datasets.html">fl_sim.data_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/models.html">fl_sim.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.ResNet18.html">ResNet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.ResNet10.html">ResNet10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.ShrinkedResNet.html">ShrinkedResNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.MLP.html">MLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.SVC.html">SVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.SVR.html">SVR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.REGMixin.html">REGMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/optimizers.html">fl_sim.optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/regularizers.html">fl_sim.regularizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/utils.html">fl_sim.utils</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">进阶主题</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../algorithms.html">联邦学习算法</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="notation.html">符号说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html">联邦学习中的优化算法概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proximal.html">联邦学习中的临近算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primal_dual.html">联邦学习中的原始对偶算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operator_splitting.html">联邦学习中的算子分裂算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skipping.html">联邦学习中的跳步算法</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">个性化联邦学习算法</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">命令行接口</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../viz.html">可视化子系统</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="源码库"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/edit/master/docs/source/algorithms/pfl.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/issues/new?title=Issue%20on%20page%20%2Falgorithms/pfl.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="创建议题"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/algorithms/pfl.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>个性化联邦学习算法</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="personalized-federated-learning-algorithms">
+<span id="fl-alg-pfl"></span><h1>个性化联邦学习算法<a class="headerlink" href="#personalized-federated-learning-algorithms" title="Link to this heading">#</a></h1>
+<p>在个性化联邦学习（Personalized Federated Learning, PFL）中，每个客户端都希望得到适配自身数据分布的模型，同时又能利用其他客户端的知识。表述 PFL 的一种简单而通用的方式是*弱共识*（weak consensus）：不强制完全共识 <span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_K\)</span>，而是添加一个惩罚局部模型之间偏差的正则项 <span class="math notranslate nohighlight">\(\mathcal{R}\)</span>。本页收集了（在 <code class="docutils literal notranslate"><span class="pre">fl_sim</span></code> 中实现的或与之密切相关的）PFL 算法及其伪代码。</p>
+<section id="l2sgd-loopless-local-sgd">
+<span id="fl-alg-pfl-l2sgd"></span><h2><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降<a class="headerlink" href="#l2sgd-loopless-local-sgd" title="Link to this heading">#</a></h2>
+<p>这一族算法中最简单的是 [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 提出的无环随机梯度下降（Loopless Local SGD，<code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>）。它考虑如下弱共识问题</p>
+<div class="math notranslate nohighlight" id="equation-l2sgd">
+<span class="eqno">(1)<a class="headerlink" href="#equation-l2sgd" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize &amp; F(\Theta) = f(\Theta) + \lambda \varphi(\Theta) \\
+\text{where} &amp; f(\Theta) = \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
+&amp; \varphi(\Theta) = \frac{1}{2K} \sum\limits_{k=1}^K \left\lVert \theta_k - \bar{\theta} \right\rVert^2
+= \frac{1}{2K} \sum\limits_{k=1}^K \left\lVert \theta_k - \frac{1}{K} \sum\limits_{j=1}^K \theta_j \right\rVert^2, \\
+&amp; \Theta = \col(\theta_1, \ldots, \theta_K),
+\end{array}\end{split}\]</div>
+<p>其中 <span class="math notranslate nohighlight">\(\lambda \geqslant 0\)</span> 为罚参数，<span class="math notranslate nohighlight">\(\bar{\theta} = \frac{1}{K} \sum_{k=1}^K \theta_k\)</span> 为全局平均模型。当 <span class="math notranslate nohighlight">\(0 &lt; \lambda &lt; \infty\)</span> 时，解 <span class="math notranslate nohighlight">\(\bar{\theta}, \theta_1, \ldots, \theta_K\)</span> 被称作一组*混合模型*（mixed models）。容易看出，上述问题与 <a class="reference internal" href="proximal.html#fl-alg-proximal"><span class="std std-ref">临近算法一节</span></a> 中 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 所考察的问题等价。</p>
+<p>[Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 没有在每次迭代都计算完整的梯度 <span class="math notranslate nohighlight">\(\nabla F = \nabla f + \lambda \nabla \varphi\)</span>，而是为 <span class="math notranslate nohighlight">\(F\)</span> 定义了如下无偏随机梯度</p>
+<div class="math notranslate nohighlight" id="equation-l2sgd-grad">
+<span class="eqno">(2)<a class="headerlink" href="#equation-l2sgd-grad" title="Link to this equation">#</a></span>\[\begin{split}G(\Theta) := \begin{cases}
+\frac{\nabla f(\Theta)}{1 - p}, &amp; \text{with probability } 1 - p, \\
+\frac{\lambda \nabla \varphi(\Theta)}{p}, &amp; \text{with probability } p,
+\end{cases}\end{split}\]</div>
+<p>其中 <span class="math notranslate nohighlight">\(p \in (0, 1)\)</span>。注意，计算 <span class="math notranslate nohighlight">\(\nabla f(\Theta) = \col(\nabla f_1(\theta_1), \ldots, \nabla f_K(\theta_K))\)</span> 是完全块分离的：在联邦学习的场景下，这一步只需在客户端本地完成，不涉及与服务器的任何通信，这对以通信为主要瓶颈的联邦学习是巨大的优势。从这个意义上说，<code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> 已经融入了*无环*（跳步）的思想；参见 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a> 中的 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code>。在额外的有限和假设 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \sum_{j=1}^m f_{k,j}(\theta_k)\)</span> 下，还可以进一步把该随机梯度与随机 Kaczmarz 型（重要性采样）更新结合起来；关于无环方法的分析参见 [Kovalev <em>et al.</em><a class="footnote-reference brackets" href="#footcite-kovalev2020-loopless" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。由此得到的算法总结如下。</p>
+<div class="pseudocode-container docutils container" id="pcode-l2sgd">
+<pre class="scopeline-pseudocode" id="pseudocode-139836497634896" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{L2SGD}}
+\begin{algorithmic}
+\REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ probability $p \in (0, 1)$
+
+\STATE {Initiation:}
+\STATE local (clients) model parameters $\theta_k^{(0)} \in \R^d, ~ \forall k \in [K]$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+\STATE \COMMENT{with probability $1-p$: no global communication, only clients update}
+\STATE \FOR{each client $k \in [K]$ {in parallel}}
+\STATE sample $j \in [m]$ (uniformly at random)
+\STATE $g_k^{(t)} \gets \frac{1}{K(1-p)} \left( \nabla f_{k,j}(\theta_k^{(t)}) \right)$
+\STATE $\theta_k^{(t+1)} \gets \theta_k^{(t)} - \eta g_k^{(t)}$
+\STATE \ENDFOR
+
+\STATE \COMMENT{with probability $p$: global communication}
+\STATE client $k$ sends $\theta_{k}^{(t)}$ to the server, $\forall k \in [K]$
+\STATE {Server Update:}
+\STATE $\hspace{1.3em}$ $\theta^{(t)} \gets \frac{1}{K} \sum\limits_{k=1}^K \theta_{k}^{(t)}$ \COMMENT{compute the global average}
+\STATE server broadcasts $\theta^{(t)}$ to clients $k \in [K]$
+\STATE {Clients Update:}
+\STATE \FOR{each client $k \in [K]$ {in parallel}}
+\STATE $g_k^{(t)} \gets \frac{\lambda}{Kp} \left( \theta_k^{(t)} - \theta^{(t)} \right)$
+\STATE $\theta_k^{(t+1)} \gets \theta_k^{(t)} - \eta g_k^{(t)}$
+\STATE \ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+<div class="pseudocode-container docutils container" id="pcode-pfedme">
+<pre class="scopeline-pseudocode" id="pseudocode-139836497629952" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{pFedMe}}
+\begin{algorithmic}
+\REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ global update smoothing factor $\beta,$ {\bfseries proximal solvers} $\texttt{prox\_update}_k$
+
+\STATE {\bfseries Initiation:}
+\STATE $\hspace{1.3em}$ {\bfseries Init server:} global model parameters $\theta^{(0)} \in \mathbb{R}^d$
+\STATE $\hspace{1.3em}$ {\bfseries Init clients:} personalized model parameters $\theta_k^{(0)} \in \mathbb{R}^d, ~ \forall k \in [K]$
+
+\FOR{each round $t = 0, \cdots, T-1$}
+    \STATE Server sends $\theta^{(t)}$ to all clients
+    \FOR{each client $k = 1, \cdots, K$ in parallel}
+        \STATE $\omega_{k}^{(t, 0)} = \theta^{(t)}$ \COMMENT{a copy of the global model $\theta^{(t)}$}
+        \FOR{$r = 0,\cdots, R-1$}
+            \COMMENT{solve inner problem $\min\limits_{\theta_k \in \mathbb{R}^d} \left\{ f_k(\theta_k) + \frac{\lambda}{2} \left\lVert \theta_k - \theta \right\rVert^2 \right\}$}
+            \STATE sample a mini-batch $b_r$
+            \COMMENT{use proximal solver $\texttt{prox\_update}_k$ to solve $\underset{\theta_k}{\text{argmin}} \left\{ \ell_k(\theta_k; b_r) + \frac{\lambda}{2} \left\lVert \theta_k - \omega_{k}^{(t, r)} \right\rVert^2 \right\}, \text{ where } f_k(\theta_k) = \mathbb{E}_{b}[\ell_k(\theta_k; b)]$}
+            \STATE $\theta_k^{(t, r)} \gets \texttt{prox\_update}_k (\omega_{k}^{(t, r)}; b_r)$
+            \COMMENT{update the local copy of the global model}
+            \STATE $\omega_{k}^{(t, r+1)} \gets \omega_{k}^{(t, r)} - \eta \lambda \left( \omega_{k}^{(t, r)} - \theta_k^{(t, r)} \right)$
+        \ENDFOR
+        \STATE $\theta_k^{(t+1)} \gets \theta_k^{(t, R)}$ \COMMENT{update the personalized model}
+    \ENDFOR
+    \STATE Server uniformly samples a subset of clients $\mathcal{S}^{(t)}$
+    \STATE each client in $\mathcal{S}^{(t)}$ sends the local model $\omega_{k}^{(t, R)}$ to the server
+    \STATE Sever update $\theta^{(t+1)} \gets (1-\beta)\theta^{(t)} + \frac{\beta}{\# \mathcal{S}^{(t)}} \sum\limits_{k \in \mathcal{S}^{(t)}} \omega_{k}^{(t, R)}$
+\ENDFOR
+\STATE final global model: $\theta^* \gets \theta^{(T)}$
+\STATE final personalized models: $\theta_k^* \gets \theta_k^{(T)}$
+\end{algorithmic}
+\end{algorithm}</pre></div>
+<div class="pseudocode-container docutils container" id="pcode-ditto">
+<pre class="scopeline-pseudocode" id="pseudocode-139836497628512" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{Ditto}}
+\begin{algorithmic}
+\REQUIRE penalty coefficient $\mu,$ learning rate $\eta,$ methods $\textbf{UpdateGlobal}, \textbf{Aggregate}$
+
+\STATE {\bfseries Initiation:}
+\STATE $\hspace{1.3em}$ {\bfseries Init server:} global model parameters $\theta^{(0)} \in \mathbb{R}^d$
+\STATE $\hspace{1.3em}$ {\bfseries Init clients:} local model parameters $\omega_k^{(0)} \in \mathbb{R}^d, ~ \forall k \in [K]$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+    \STATE $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$
+    \STATE broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$
+    \FOR{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}
+        \COMMENT{solve the local sub-problem of $G(\dot)$ inexactly starting from $\theta^{(t)}$ to obtain $\theta_k^{(t)}$}
+        \STATE $\theta_k^{(t)} \gets \textbf{UpdateGlobal}(\theta^{(t)}, f_k)$
+        \COMMENT{update the personalized model via solving the proximal problem}
+        \STATE $\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta \left( \nabla f_k(\omega_k^{(t)}) + \mu (\omega_k^{(t)} - \theta^{(t)}) \right)$
+        \STATE send $\Delta_k^{(t)} \gets \theta_k^{(t)} - \theta^{(t)}$ to server
+    \ENDFOR
+    \STATE {\bfseries Server Update:}
+    \STATE $\hspace{1.3em}$ $\theta^{(t+1)} \gets \textbf{Aggregate} (\theta^{(t)}, \{ \Delta_k^{(t)} \}_{k \in \mathcal{S}^{(t)}})$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+<div class="pseudocode-container docutils container" id="pcode-apfl">
+<pre class="scopeline-pseudocode" id="pseudocode-139836497625584" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{APFL}}
+\begin{algorithmic}
+\REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
+
+\STATE {Initiation:}
+    \STATE $\hspace{1.3em}$ {Init server:} global model parameters $\theta^{(0)} \in \mathbb{R}^d,$ random set of clients $S^{(t)} \subseteq [K]$
+    \STATE $\hspace{1.3em}$ {Init clients:} local model parameters $\omega_k^{(0)} \in \mathbb{R}^d, ~ \theta_k^{(0)} \gets \theta^{(0)}, ~ \forall k \in [K]$
+    \STATE $\hspace{1.3em}$ {Constants:} condition number $\kappa \gets \frac{L}{\mu},$ $a \gets \max\{128\kappa, \tau\}$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+    \FOR{each client $k \in \mathcal{S}^{(t)}$ {in parallel}}
+        \STATE $\bar{\omega}_k^{(t)} \gets \alpha_k \omega_k^{(t)} + (1-\alpha_k) \theta_k^{(t)}$ \COMMENT{mixture model}
+        \STATE $\eta^{(t)} \gets \frac{16}{\mu(t+a)}$ \COMMENT{decay learning rate}
+        \STATE $\theta_k^{(t+1)} \gets \theta_k^{(t)} - \eta^{(t)} \nabla f_k(\theta_k^{(t)})$ \COMMENT{inner problem (global model) update}
+        \STATE $\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta^{(t)} \nabla f_k(\bar{\omega}_k^{(t)})$ \COMMENT{outer problem (personalized model) update}
+        \COMMENT{Optional: adaptive mixture weights update}
+        \COMMENT{$\alpha_k \gets \alpha_k - \eta^{(t)} \nabla_{\alpha_k} f_k(\bar{\omega}_k^{(t)}) = \alpha_k - \eta^{(t)} \left\langle \omega_k^{(t)} - \theta_k^{(t)}, \nabla f_k(\bar{\omega}_k^{(t)}) \right\rangle$}
+    \ENDFOR
+
+    \IF{$t$ not divides synchronization gap $\tau$}
+        \STATE {Server updates:} $\mathcal{S}^{(t+1)} \gets \mathcal{S}^{(t)}$
+    \ELSE
+        \STATE each client $k \in \mathcal{S}^{(t)}$ sends $\theta_k^{(t+1)}$ to server
+        \STATE {Server updates:}
+            \STATE $\hspace{1.3em}$ $\theta^{(t+1)} \gets \frac{1}{\# \mathcal{S}^{(t)}} \sum_{k \in \mathcal{S}^{(t)}} \theta_k^{(t+1)}$
+            \STATE $\hspace{1.3em}$ $\mathcal{S}^{(t+1)} \gets$ (random set of clients) $\subseteq [K]$
+            \STATE $\hspace{1.3em}$ broadcast $\theta^{(t+1)}$ to clients $k \in S^{(t+1)}:$ $\theta_k^{(t+1)} \gets \theta^{(t+1)}$
+    \ENDIF
+\ENDFOR
+
+\STATE final personalized model: $\hat{\omega}_k \gets \frac{1}{S_T}\sum\limits_{t=1}^{T} p_t \left( \alpha_k \omega_k^{(t)} + (1-\alpha_k)\frac{1}{\#\mathcal{S}^{(t-1)}}\sum\limits_{k\in\mathcal{S}^{(t-1)}}\theta_k^{(t)} \right)$
+\STATE final global model: $\hat{\theta} \gets \frac{1}{S_T}\sum\limits_{t=1}^{T} \frac{p_t}{\#\mathcal{S}^{(t-1)}} \sum\limits_{k\in\mathcal{S}^{(t-1)}}\theta_k^{(t)}$
+\STATE where $p_t = (t+a)^2, S_T = \sum\limits_{t=1}^{T}p_t$
+\end{algorithmic}
+\end{algorithm}</pre></div>
+<div class="pseudocode-container docutils container" id="pcode-feddyn">
+<pre class="scopeline-pseudocode" id="pseudocode-139836516467664" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{FedDyn}}
+\begin{algorithmic}
+\REQUIRE penalty coeffecient $\mu$
+
+\STATE {\bfseries Initiation:}
+\STATE $\hspace{1.3em}$ {\bfseries Init server:} global model parameters $\theta^{(0)} \in \mathbb{R}^d,$ $h = 0 \in \mathbb{R}^d$
+\STATE $\hspace{1.3em}$ {\bfseries Init clients:} local gradient $\mathfrak{g}_k^{(0)} \gets 0 \in \mathbb{R}^d, ~ \forall k \in [K]$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+    \STATE $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$
+    \STATE broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$
+    \FOR{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}
+        \STATE $\theta_k^{(t+1)} \gets \underset{\theta_k}{\text{argmin}} \left\{ f_k(\theta_k) - \langle \mathfrak{g}_k^{(t)}, \theta_k \rangle + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}$
+        \STATE $\mathfrak{g}_k^{(t+1)} \gets \mathfrak{g}_k^{(t)} - \mu (\theta_k^{(t+1)} - \theta^{(t)})$ \COMMENT{update local gradient}
+        \STATE send $\theta_k^{(t+1)}$ to server
+    \ENDFOR
+    \STATE {\bfseries Server Update:}
+    \STATE $\hspace{1.3em}$ $h^{(t+1)} \gets h^{(t)} - \frac{\mu}{K} \left(\sum\limits_{k \in \mathcal{S}^{(t)}} \theta_k^{(t+1)} - \theta^{(t)} \right)$
+    \STATE $\hspace{1.3em}$ $\theta^{(t+1)} \gets \left( \frac{1}{\# \mathcal{S}^{(t)}}\sum\limits_{k \in \mathcal{S}^{(t)}} \theta_k^{(t+1)} \right) - \frac{1}{\mu} h^{(t+1)}$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+<div class="pseudocode-container docutils container" id="pcode-pfedmac">
+<pre class="scopeline-pseudocode" id="pseudocode-139836497628032" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{pFedMac}}
+\begin{algorithmic}
+\REQUIRE learning rate $\eta$, penalty coefficient $\lambda$, $\beta$
+
+\STATE {\bfseries Initiation:} global (server) model parameters $\theta^{(0)} \in \mathbb{R}^d$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+    \STATE $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$
+    \STATE broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$
+    \FOR{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}
+        \STATE $\theta_k^{(t)} \gets$ {\bfseries ClientUpdate}$(k, \theta^{(t)})$
+        \STATE send $\theta_k^{(t)}$ to server
+    \ENDFOR
+    \STATE {\bfseries Server Update:}
+    \STATE $\hspace{1.3em}$ $\theta^{(t+1)} \gets (1 - \beta) \theta^{(t)} + \frac{\beta}{\lvert \mathcal{S}^{(t)} \rvert} \sum\limits_{k\in \mathcal{S}^{(t)}} \theta_k^{(t)}$
+\ENDFOR
+
+\PROCEDURE{ClientUpdate}{$(k, \theta)$} \COMMENT{on client $k$}
+\STATE $\omega_k^{(t,0)} = \theta_k^{(t,0)} = \theta^{(t)}$
+\FOR{local step $r = 0, 1, \cdots, R-1$}
+  \STATE $\mathcal{D}_{k, r} \gets$ (sample a mini-batch data)
+  \STATE $\omega_k^{(t,r)} \gets \argmin_{\omega_k} \left\{ \ell_k(\omega_k; \mathcal{D}_{k, r}) - \lambda \langle \omega_k, \theta_k^{(t,r)} \rangle \right\}$
+  \STATE $\theta_k^{(t,r+1)} \gets \theta_k^{(t,r)} - \eta\lambda \left( \theta_k^{(t,r)} - \omega_k^{(t,r)} \right)$
+\ENDFOR
+\RETURN{$\theta_k^{(t,R)}$}
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="fpfc-fusion-penalized-federated-clustering">
+<span id="fl-alg-pfl-fpfc"></span><h2><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类<a class="headerlink" href="#fpfc-fusion-penalized-federated-clustering" title="Link to this heading">#</a></h2>
+<p>除了在每对*局部*模型之间的偏差（如 <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>）或局部模型与全局模型之间的偏差上做正则之外，还可以在*不预先知道簇结构*的情况下，鼓励客户端聚成若干簇、簇内共享同一模型。融合惩罚联邦聚类（<code class="docutils literal notranslate"><span class="pre">FPFC</span></code>）算法（见 <a class="reference external" href="https://arxiv.org/abs/2211.04218">arXiv:2211.04218</a>）通过在模型之差上施加非凸的*成对*融合惩罚来实现这一点。引入辅助变量 <span class="math notranslate nohighlight">\(\theta_{ij} \equiv \omega_i - \omega_j`（:math:`i, j \in [m]\)</span>），它考虑</p>
+<div class="math notranslate nohighlight" id="equation-fpfc-obj">
+<span class="eqno">(3)<a class="headerlink" href="#equation-fpfc-obj" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize\limits_{\omega, \theta} &amp; \sum\limits_{i=1}^m f_i(\omega_i) + \frac{1}{2m} \sum\limits_{i=1}^m \sum\limits_{j=1}^m \tilde{g}(\lVert \theta_{ij} \rVert) \\
+\text{subject to} &amp; \omega_i - \omega_j = \theta_{ij}, \qquad i, j \in [m],
+\end{array}\end{split}\]</div>
+<p>其中 <span class="math notranslate nohighlight">\(\tilde{g}(\cdot)\)</span> 是平滑的 SCAD 型罚函数（由 <span class="math notranslate nohighlight">\(\xi, \lambda, a\)</span> 参数化），其近端算子把较小的成对差收缩到零（同簇的客户端），而几乎不动较大的差（不同簇的客户端）。该问题用 ADMM 式（Douglas--Rachford）分裂求解：增广拉格朗日罚参数为 <span class="math notranslate nohighlight">\(\rho\)</span>，对偶变量为 <span class="math notranslate nohighlight">\(v_{ij}\)</span>；每一轮，随机选中的一部分设备在 <span class="math notranslate nohighlight">\(f_i(\omega) + \frac{\rho}{2} \lVert \omega - \zeta_i \rVert^2\)</span> 上做 <span class="math notranslate nohighlight">\(T_i\)</span> 个 epoch 的本地梯度下降，服务器对活跃设备的成对变量 <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> 施加分段近端更新并做对偶上升。训练结束后，<span class="math notranslate nohighlight">\(\lVert \theta_{ij} \rVert\)</span> （近乎）为零的设备 <span class="math notranslate nohighlight">\(i\)</span> 与 <span class="math notranslate nohighlight">\(j\)</span> 被分到同一个簇。伪代码总结如下；注意，无论簇的个数还是簇的成员关系都不需要事先指定。</p>
+<div class="pseudocode-container docutils container" id="pcode-fpfc">
+<pre class="scopeline-pseudocode" id="pseudocode-139836497631008" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{FPFC}}
+\begin{algorithmic}
+\REQUIRE number of devices $m,$ number of rounds $K,$ local epochs $T_i,$ stepsize $\alpha,$ penalty parameters $\xi, \lambda, a,$ and $\rho$
+
+\STATE {Initiation:}
+\STATE $\omega_1^0 = \cdots = \omega_m^0$ on the clients
+\STATE $\zeta_i^0 = \omega_i^0$ for $i \in [m]$, $\theta_{ij}^0 = 0$ and $v_{ij}^0 = 0$ for $i, j \in [m]$ on the server
+
+\FOR{each round $k = 0, 1, \cdots, K-1$}
+\STATE the server randomly chooses a subset of devices $\mathcal{A}_k$
+\STATE the server downloads $\zeta_i^k$ to each device $i \in \mathcal{A}_k$
+\STATE \FOR{each device $i \in \mathcal{A}_k$ {in parallel}}
+\STATE $\omega_i^{k,0} = \omega_i^k$
+\STATE \FOR{$t = 0, 1, \cdots, T_i - 1$}
+\STATE $\hspace{1.3em}$ $\omega_i^{k,t+1} = \omega_i^{k,t} - \alpha \left[ \nabla f_i(\omega_i^{k,t}) + \rho \left( \omega_i^{k,t} - \zeta_i^k \right) \right]$
+\STATE \ENDFOR
+\STATE $\omega_i^{k+1} = \omega_i^{k,T_i}$
+\STATE \ENDFOR
+\STATE each device $i \in \mathcal{A}_k$ uploads $\omega_i^{k+1}$ to the server
+\STATE {Server Update:}
+\STATE \FOR{$i, j \in \mathcal{A}_k$ ($i &lt; j$)}
+\STATE $\hspace{1.3em}$ $\delta_{ij}^{k+1} = \omega_i^{k+1} - \omega_j^{k+1} + v_{ij}^k / \rho$
+\STATE $\hspace{1.3em}$ $\theta_{ij}^{k+1} \gets \underset{\theta}{\text{prox}}$ of the (scaled) fusion penalty at $\delta_{ij}^{k+1}$ (Eq. (6) of the paper)
+\STATE $\hspace{1.3em}$ $v_{ij}^{k+1} = v_{ij}^k + \rho \left( \omega_i^{k+1} - \omega_j^{k+1} - \theta_{ij}^{k+1} \right)$
+\STATE $\hspace{1.3em}$ $\theta_{ji}^{k+1} = -\theta_{ij}^{k+1}, ~ v_{ji}^{k+1} = -v_{ij}^{k+1}$
+\STATE \ENDFOR
+\STATE for $i \notin \mathcal{A}_k$ or $j \notin \mathcal{A}_k$: $\theta_{ij}^{k+1} = \theta_{ij}^k, ~ v_{ij}^{k+1} = v_{ij}^k$
+\STATE for $i \in [m]$: $\hspace{0.5em}$ $\zeta_i^{k+1} = \frac{1}{m} \sum\limits_{j=1}^m \left( \omega_j^{k+1} + \theta_{ij}^{k+1} - v_{ij}^{k+1} / \rho \right)$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+<p class="rubric">参考文献</p>
+<div class="docutils container" id="id4">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-hanzely2020federated" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>)</span>
+<p>Filip Hanzely and Peter Richtárik. Federated Learning of a Mixture of Global and Local Models. <em>arXiv preprint arXiv:2002.05516</em>, 2020.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-kovalev2020-loopless" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">2</a><span class="fn-bracket">]</span></span>
+<p>Dmitry Kovalev, Samuel Horváth, and Peter Richtárik. Don’t Jump Through Hoops and Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop. In Aryeh Kontorovich and Gergely Neu, editors, <em>Proceedings of the 31st International Conference on Algorithmic Learning Theory</em>, volume 117 of Proceedings of Machine Learning Research, 451–467. PMLR, 2 2020.</p>
+</aside>
+</aside>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="skipping.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">联邦学习中的跳步算法</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../cli.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">命令行接口</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： WEN Hao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, WEN Hao.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  
+  <footer class="bd-footer">
+  </footer>
+  
+<div class="rst-versions" id="versions-flyout" role="note" aria-label="versions and languages">
+  <span class="rst-current-version" data-toggle="rst-versions" title="切换版本或语言">
+    <span>latest</span>
+    <span class="rst-caret">▾</span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>语言</dt>
+      
+        <dd>
+          <a href="../../en/algorithms/pfl.html"
+             >English</a>
+        </dd>
+      
+        <dd>
+          <a href="../../zh_CN/algorithms/pfl.html"
+             class="rst-current-item">简体中文</a>
+        </dd>
+      
+    </dl>
+    
+      <dl>
+        <dt>版本</dt>
+        
+          <dd>
+            <a href="../../../zh_CN/algorithms/pfl.html"
+               class="rst-current-item">latest</a>
+          </dd>
+        
+      </dl>
+    
+  </div>
+</div>
+
+  </body>
+</html>

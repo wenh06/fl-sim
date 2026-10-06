@@ -1,4 +1,0 @@
-Usage examples
-^^^^^^^^^^^^^^^^
-
-to write....

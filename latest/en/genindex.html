@@ -1,0 +1,1559 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index &#8212; fl-sim 0.1.dev422+g4e7a9c10c documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="_static/css/codeblock.css?v=d29e50c4" />
+    <link rel="stylesheet" type="text/css" href="_static/css/versions.css?v=b1c81d98" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=3e8bfe43"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/proof.js"></script>
+    <script src="_static/js/codeblock.js?v=82bf629b"></script>
+    <script src="_static/js/versions.js?v=6609812c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+    <script>
+            if (window.pseudocode && !window.pseudocode.mathRenderer) {
+                window.pseudocode.mathRenderer = 'katex';
+            }
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.js"></script>
+    <script>
+        async function renderPseudocodeWithMath() {
+            try {
+                if (window.MathJax) {
+                    await MathJax.startup.promise;
+                    console.log("pseudocode2: MathJax is ready");
+                }
+
+                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
+                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
+                console.log("pseudocode2: Pseudocode rendered");
+
+                if (window.MathJax) {
+                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
+                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
+                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
+                    }).catch(err => {
+                        console.warn("pseudocode2: MathJax typeset failed:", err);
+                    });
+                }
+            } catch (err) {
+                console.error("pseudocode2: Render failed:", err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
+        } else {
+            renderPseudocodeWithMath();
+        }
+    </script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>
+            if (window.pseudocode && !window.pseudocode.mathRenderer) {
+                window.pseudocode.mathRenderer = 'katex';
+            }
+        </script>
+    <script>
+        async function renderPseudocodeWithMath() {
+            try {
+                if (window.MathJax) {
+                    await MathJax.startup.promise;
+                    console.log("pseudocode2: MathJax is ready");
+                }
+
+                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
+                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
+                console.log("pseudocode2: Pseudocode rendered");
+
+                if (window.MathJax) {
+                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
+                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
+                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
+                    }).catch(err => {
+                        console.warn("pseudocode2: MathJax typeset failed:", err);
+                    });
+                }
+            } catch (err) {
+                console.error("pseudocode2: Render failed:", err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
+        } else {
+            renderPseudocodeWithMath();
+        }
+    </script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">fl-sim 0.1.dev422+g4e7a9c10c documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/nodes.html">fl_sim.nodes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Server.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/datasets.html">fl_sim.data_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/models.html">fl_sim.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ResNet18.html">ResNet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ResNet10.html">ResNet10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ShrinkedResNet.html">ShrinkedResNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.MLP.html">MLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.SVC.html">SVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.SVR.html">SVR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.REGMixin.html">REGMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/optimizers.html">fl_sim.optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/regularizers.html">fl_sim.regularizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="api/utils.html">fl_sim.utils</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="algorithms.html">Federated learning algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/notation.html">Notation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/overview.html">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/proximal.html">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/primal_dual.html">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/operator_splitting.html">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/skipping.html">Skipping Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/pfl.html">Personalized Federated Learning Algorithms</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viz.html">Visualization subsystem</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/issues/new?title=Issue%20on%20page%20%2Fgenindex.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.accept_parameters">accept_parameters() (fl_sim.nodes.Client method)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.add_kwargs">add_kwargs() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.add_parameters">add_parameters() (fl_sim.nodes.Server method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.aggregate_client_metrics">aggregate_client_metrics() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.aggregate_results_from_json_log">aggregate_results_from_json_log() (fl_sim.nodes.Node static method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.avg_parameters">avg_parameters() (fl_sim.nodes.Server method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger">BaseLogger (class in fl_sim.utils.loggers)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR.candidate_models">candidate_models (fl_sim.data_processing.FedCIFAR property)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.candidate_models">(fl_sim.data_processing.FedDataset property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST.candidate_models">(fl_sim.data_processing.FedEMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.candidate_models">(fl_sim.data_processing.FedLibSVMDataset property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST.candidate_models">(fl_sim.data_processing.FedMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.candidate_models">(fl_sim.data_processing.FedProxFEMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.candidate_models">(fl_sim.data_processing.FedProxMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.candidate_models">(fl_sim.data_processing.FedProxSent140 property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10.candidate_models">(fl_sim.data_processing.FedRotatedCIFAR10 property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.candidate_models">(fl_sim.data_processing.FedRotatedMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.candidate_models">(fl_sim.data_processing.FedShakespeare property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.candidate_models">(fl_sim.data_processing.FedSynthetic property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet.candidate_models">(fl_sim.data_processing.FedTinyImageNet property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.char_to_id">char_to_id() (fl_sim.data_processing.FedShakespeare method)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.clear_logs">clear_logs() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.CLFMixin.html#fl_sim.models.CLFMixin">CLFMixin (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client">Client (class in fl_sim.nodes)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.client_cls">client_cls (fl_sim.nodes.Server property)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig">ClientConfig (class in fl_sim.nodes)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.close">close() (fl_sim.utils.loggers.BaseLogger method)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger.close">(fl_sim.utils.loggers.JsonLogger method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.close">(fl_sim.utils.loggers.LoggerManager method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.close">(fl_sim.utils.loggers.TxtLogger method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.models.CNNCifar.html#fl_sim.models.CNNCifar">CNNCifar (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.CNNCifar_Small.html#fl_sim.models.CNNCifar_Small">CNNCifar_Small (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.CNNCifar_Tiny.html#fl_sim.models.CNNCifar_Tiny">CNNCifar_Tiny (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.CNNFEMnist.html#fl_sim.models.CNNFEMnist">CNNFEMnist (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.CNNFEMnist_Tiny.html#fl_sim.models.CNNFEMnist_Tiny">CNNFEMnist_Tiny (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.CNNMnist.html#fl_sim.models.CNNMnist">CNNMnist (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.communicate">communicate() (fl_sim.nodes.Node method)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.compute_clustering_metrics">compute_clustering_metrics() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.compute_gradients">compute_gradients() (fl_sim.nodes.Node method)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.compute_sparsity">compute_sparsity() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.config_cls">config_cls (fl_sim.nodes.Server property)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.criteria_mapping">criteria_mapping (fl_sim.data_processing.FedLibSVMDataset property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.data_parts">data_parts (fl_sim.data_processing.FedDataset property)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.default_dict_to_dict">default_dict_to_dict() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.DiffMixin.html#fl_sim.models.DiffMixin.diff">diff() (fl_sim.models.DiffMixin method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.DiffMixin.html#fl_sim.models.DiffMixin">DiffMixin (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR.doi">doi (fl_sim.data_processing.FedCIFAR property)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.doi">(fl_sim.data_processing.FedDataset property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST.doi">(fl_sim.data_processing.FedEMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.doi">(fl_sim.data_processing.FedLibSVMDataset property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST.doi">(fl_sim.data_processing.FedMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.doi">(fl_sim.data_processing.FedProxFEMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.doi">(fl_sim.data_processing.FedProxMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.doi">(fl_sim.data_processing.FedProxSent140 property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10.doi">(fl_sim.data_processing.FedRotatedCIFAR10 property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.doi">(fl_sim.data_processing.FedRotatedMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.doi">(fl_sim.data_processing.FedShakespeare property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.doi">(fl_sim.data_processing.FedSynthetic property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet.doi">(fl_sim.data_processing.FedTinyImageNet property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.download_if_needed">download_if_needed() (fl_sim.data_processing.FedDataset method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.download_if_needed">(fl_sim.data_processing.FedLibSVMDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.download_if_needed">(fl_sim.data_processing.FedRotatedMNIST method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_end">epoch_end() (fl_sim.utils.loggers.BaseLogger method)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_end">(fl_sim.utils.loggers.LoggerManager method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_end">(fl_sim.utils.loggers.TxtLogger method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.epoch_start">epoch_start() (fl_sim.utils.loggers.BaseLogger method)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.epoch_start">(fl_sim.utils.loggers.LoggerManager method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.epoch_start">(fl_sim.utils.loggers.TxtLogger method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.eval">eval() (fl_sim.regularizers.L1Norm method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.eval">(fl_sim.regularizers.L2Norm method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.eval">(fl_sim.regularizers.L2NormSquared method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.eval">(fl_sim.regularizers.LInfNorm method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.eval">(fl_sim.regularizers.NullRegularizer method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.eval">(fl_sim.regularizers.Regularizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR.evaluate">evaluate() (fl_sim.data_processing.FedCIFAR method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.evaluate">(fl_sim.data_processing.FedDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST.evaluate">(fl_sim.data_processing.FedEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.evaluate">(fl_sim.data_processing.FedLibSVMDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST.evaluate">(fl_sim.data_processing.FedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.evaluate">(fl_sim.data_processing.FedProxFEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.evaluate">(fl_sim.data_processing.FedProxMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.evaluate">(fl_sim.data_processing.FedProxSent140 method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10.evaluate">(fl_sim.data_processing.FedRotatedCIFAR10 method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.evaluate">(fl_sim.data_processing.FedRotatedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.evaluate">(fl_sim.data_processing.FedShakespeare method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.evaluate">(fl_sim.data_processing.FedSynthetic method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet.evaluate">(fl_sim.data_processing.FedTinyImageNet method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.evaluate">(fl_sim.nodes.Client method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.evaluate_centralized">evaluate_centralized() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.execute_cmd">execute_cmd() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.experiment_indicator">experiment_indicator() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR.extra_repr_keys">extra_repr_keys() (fl_sim.data_processing.FedCIFAR method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.extra_repr_keys">(fl_sim.data_processing.FedDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST.extra_repr_keys">(fl_sim.data_processing.FedEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.extra_repr_keys">(fl_sim.data_processing.FedLibSVMDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST.extra_repr_keys">(fl_sim.data_processing.FedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.extra_repr_keys">(fl_sim.data_processing.FedProxFEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.extra_repr_keys">(fl_sim.data_processing.FedProxMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10.extra_repr_keys">(fl_sim.data_processing.FedRotatedCIFAR10 method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.extra_repr_keys">(fl_sim.data_processing.FedRotatedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.extra_repr_keys">(fl_sim.data_processing.FedSynthetic method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet.extra_repr_keys">(fl_sim.data_processing.FedTinyImageNet method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.extra_repr_keys">(fl_sim.nodes.Client method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig.extra_repr_keys">(fl_sim.nodes.ClientConfig method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.extra_repr_keys">(fl_sim.nodes.Server method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig.extra_repr_keys">(fl_sim.nodes.ServerConfig method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.extra_repr_keys">(fl_sim.regularizers.Regularizer method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.extra_repr_keys">(fl_sim.utils.loggers.BaseLogger method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.extra_repr_keys">(fl_sim.utils.loggers.LoggerManager method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR">FedCIFAR (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR100.html#fl_sim.data_processing.FedCIFAR100">FedCIFAR100 (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset">FedDataset (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST">FedEMNIST (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset">FedLibSVMDataset (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST">FedMNIST (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset">FedNLPDataset (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.FedPDMLP.html#fl_sim.models.FedPDMLP">FedPDMLP (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST">FedProxFEMNIST (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST">FedProxMNIST (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140">FedProxSent140 (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10">FedRotatedCIFAR10 (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST">FedRotatedMNIST (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare">FedShakespeare (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic">FedSynthetic (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet">FedTinyImageNet (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset">FedVisionDataset (class in fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.filename">filename (fl_sim.utils.loggers.BaseLogger property)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger.filename">(fl_sim.utils.loggers.JsonLogger property)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.filename">(fl_sim.utils.loggers.TxtLogger property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.find_longest_common_substring">find_longest_common_substring() (in module fl_sim.utils.misc)</a>
+</li>
+      <li>
+    fl_sim.data_processing
+
+      <ul>
+        <li><a href="api/datasets.html#module-fl_sim.data_processing">module</a>
+</li>
+      </ul></li>
+      <li>
+    fl_sim.models
+
+      <ul>
+        <li><a href="api/models.html#module-fl_sim.models">module</a>
+</li>
+      </ul></li>
+      <li>
+    fl_sim.nodes
+
+      <ul>
+        <li><a href="api/nodes.html#module-fl_sim.nodes">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    fl_sim.optimizers
+
+      <ul>
+        <li><a href="api/optimizers.html#module-fl_sim.optimizers">module</a>
+</li>
+      </ul></li>
+      <li>
+    fl_sim.regularizers
+
+      <ul>
+        <li><a href="api/regularizers.html#module-fl_sim.regularizers">module</a>
+</li>
+      </ul></li>
+      <li>
+    fl_sim.utils
+
+      <ul>
+        <li><a href="api/utils.html#module-fl_sim.utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    fl_sim.utils.imports
+
+      <ul>
+        <li><a href="api/utils.html#module-fl_sim.utils.imports">module</a>
+</li>
+      </ul></li>
+      <li>
+    fl_sim.utils.loggers
+
+      <ul>
+        <li><a href="api/utils.html#module-fl_sim.utils.loggers">module</a>
+</li>
+      </ul></li>
+      <li>
+    fl_sim.utils.misc
+
+      <ul>
+        <li><a href="api/utils.html#module-fl_sim.utils.misc">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.flush">flush() (fl_sim.utils.loggers.BaseLogger method)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger.flush">(fl_sim.utils.loggers.JsonLogger method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.flush">(fl_sim.utils.loggers.LoggerManager method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.flush">(fl_sim.utils.loggers.TxtLogger method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.models.LogisticRegression.html#fl_sim.models.LogisticRegression.forward">forward() (fl_sim.models.LogisticRegression method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg.forward">(fl_sim.models.RNN_OriginalFedAvg method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140.forward">(fl_sim.models.RNN_Sent140 method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.models.RNN_Sent140_LITE.html#fl_sim.models.RNN_Sent140_LITE.forward">(fl_sim.models.RNN_Sent140_LITE method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow.forward">(fl_sim.models.RNN_StackOverFlow method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.models.SVC.html#fl_sim.models.SVC.forward">(fl_sim.models.SVC method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.models.SVR.html#fl_sim.models.SVR.forward">(fl_sim.models.SVR method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.from_config">from_config() (fl_sim.utils.loggers.BaseLogger class method)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger.from_config">(fl_sim.utils.loggers.JsonLogger class method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.from_config">(fl_sim.utils.loggers.LoggerManager class method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.from_config">(fl_sim.utils.loggers.TxtLogger class method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.get_all_data">get_all_data() (fl_sim.nodes.Client method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_cached_metrics">get_cached_metrics() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_class">get_class() (fl_sim.data_processing.FedVisionDataset method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_classes">get_classes() (fl_sim.data_processing.FedVisionDataset method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_client_data">get_client_data() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_client_model">get_client_model() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR.get_dataloader">get_dataloader() (fl_sim.data_processing.FedCIFAR method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.get_dataloader">(fl_sim.data_processing.FedDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST.get_dataloader">(fl_sim.data_processing.FedEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.get_dataloader">(fl_sim.data_processing.FedLibSVMDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST.get_dataloader">(fl_sim.data_processing.FedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.get_dataloader">(fl_sim.data_processing.FedNLPDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.get_dataloader">(fl_sim.data_processing.FedProxFEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.get_dataloader">(fl_sim.data_processing.FedProxMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.get_dataloader">(fl_sim.data_processing.FedProxSent140 method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10.get_dataloader">(fl_sim.data_processing.FedRotatedCIFAR10 method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.get_dataloader">(fl_sim.data_processing.FedRotatedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.get_dataloader">(fl_sim.data_processing.FedShakespeare method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.get_dataloader">(fl_sim.data_processing.FedSynthetic method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet.get_dataloader">(fl_sim.data_processing.FedTinyImageNet method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.get_dataloader">(fl_sim.data_processing.FedVisionDataset method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.get_detached_model_parameters">get_detached_model_parameters() (fl_sim.nodes.Node method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.get_fed_dataset.html#fl_sim.data_processing.get_fed_dataset">get_fed_dataset() (in module fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.get_gradients">get_gradients() (fl_sim.nodes.Node method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.get_norm">get_norm() (fl_sim.nodes.Node static method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.optimizers.get_optimizer.html#fl_sim.optimizers.get_optimizer">get_optimizer() (in module fl_sim.optimizers)</a>
+</li>
+      <li><a href="api/generated/fl_sim.regularizers.get_regularizer.html#fl_sim.regularizers.get_regularizer">get_regularizer() (in module fl_sim.regularizers)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.get_scheduler">get_scheduler() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.get_scheduler_info">get_scheduler_info() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.get_word_dict">get_word_dict() (fl_sim.data_processing.FedShakespeare method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.id_to_word">id_to_word() (fl_sim.data_processing.FedShakespeare method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.is_convergent">is_convergent (fl_sim.nodes.Client property)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.is_convergent">(fl_sim.nodes.Node property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.is_convergent">(fl_sim.nodes.Server property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/utils.html#fl_sim.utils.misc.is_notebook">is_notebook() (in module fl_sim.utils.misc)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger">JsonLogger (class in fl_sim.utils.loggers)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm">L1Norm (class in fl_sim.regularizers)</a>
+</li>
+      <li><a href="api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm">L2Norm (class in fl_sim.regularizers)</a>
+</li>
+      <li><a href="api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared">L2NormSquared (class in fl_sim.regularizers)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR.label_map">label_map (fl_sim.data_processing.FedCIFAR property)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST.label_map">(fl_sim.data_processing.FedEMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST.label_map">(fl_sim.data_processing.FedMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.label_map">(fl_sim.data_processing.FedProxFEMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.label_map">(fl_sim.data_processing.FedProxMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10.label_map">(fl_sim.data_processing.FedRotatedCIFAR10 property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.label_map">(fl_sim.data_processing.FedRotatedMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet.label_map">(fl_sim.data_processing.FedTinyImageNet property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.label_map">(fl_sim.data_processing.FedVisionDataset property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm">LInfNorm (class in fl_sim.regularizers)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.list_all_libsvm_datasets">list_all_libsvm_datasets() (fl_sim.data_processing.FedLibSVMDataset class method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.list_datasets">list_datasets() (fl_sim.data_processing.FedLibSVMDataset class method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.list_fed_dataset.html#fl_sim.data_processing.list_fed_dataset">list_fed_dataset() (in module fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.imports.load_module_from_file">load_module_from_file() (in module fl_sim.utils.imports)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.load_partition_data">load_partition_data() (fl_sim.data_processing.FedDataset method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.load_partition_data">(fl_sim.data_processing.FedLibSVMDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.load_partition_data">(fl_sim.data_processing.FedNLPDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.load_partition_data">(fl_sim.data_processing.FedSynthetic method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.load_partition_data">(fl_sim.data_processing.FedVisionDataset method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.load_partition_data_distributed">load_partition_data_distributed() (fl_sim.data_processing.FedDataset method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.load_partition_data_distributed">(fl_sim.data_processing.FedLibSVMDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedNLPDataset.html#fl_sim.data_processing.FedNLPDataset.load_partition_data_distributed">(fl_sim.data_processing.FedNLPDataset method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.load_partition_data_distributed">(fl_sim.data_processing.FedSynthetic method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.load_partition_data_distributed">(fl_sim.data_processing.FedVisionDataset method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.log_dir">log_dir (fl_sim.utils.loggers.BaseLogger property)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_dir">(fl_sim.utils.loggers.LoggerManager property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.log_message">log_message() (fl_sim.utils.loggers.BaseLogger method)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger.log_message">(fl_sim.utils.loggers.JsonLogger method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_message">(fl_sim.utils.loggers.LoggerManager method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.log_message">(fl_sim.utils.loggers.TxtLogger method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.log_metrics">log_metrics() (fl_sim.utils.loggers.BaseLogger method)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger.log_metrics">(fl_sim.utils.loggers.JsonLogger method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_metrics">(fl_sim.utils.loggers.LoggerManager method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.log_metrics">(fl_sim.utils.loggers.TxtLogger method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.log_suffix">log_suffix (fl_sim.utils.loggers.LoggerManager property)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager">LoggerManager (class in fl_sim.utils.loggers)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.loggers">loggers (fl_sim.utils.loggers.LoggerManager property)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.LogisticRegression.html#fl_sim.models.LogisticRegression">LogisticRegression (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.long_sep">long_sep (fl_sim.utils.loggers.TxtLogger property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/utils.html#fl_sim.utils.misc.make_serializable">make_serializable() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.mirror">mirror (fl_sim.data_processing.FedRotatedMNIST property)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.mirrors">mirrors (fl_sim.data_processing.FedDataset property)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.mirrors">(fl_sim.data_processing.FedProxFEMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.mirrors">(fl_sim.data_processing.FedProxMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.mirrors">(fl_sim.data_processing.FedProxSent140 property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.models.MLP.html#fl_sim.models.MLP">MLP (class in fl_sim.models)</a>
+</li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="api/datasets.html#module-fl_sim.data_processing">fl_sim.data_processing</a>
+</li>
+        <li><a href="api/models.html#module-fl_sim.models">fl_sim.models</a>
+</li>
+        <li><a href="api/nodes.html#module-fl_sim.nodes">fl_sim.nodes</a>
+</li>
+        <li><a href="api/optimizers.html#module-fl_sim.optimizers">fl_sim.optimizers</a>
+</li>
+        <li><a href="api/regularizers.html#module-fl_sim.regularizers">fl_sim.regularizers</a>
+</li>
+        <li><a href="api/utils.html#module-fl_sim.utils">fl_sim.utils</a>
+</li>
+        <li><a href="api/utils.html#module-fl_sim.utils.imports">fl_sim.utils.imports</a>
+</li>
+        <li><a href="api/utils.html#module-fl_sim.utils.loggers">fl_sim.utils.loggers</a>
+</li>
+        <li><a href="api/utils.html#module-fl_sim.utils.misc">fl_sim.utils.misc</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.n_class">n_class (fl_sim.data_processing.FedVisionDataset property)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node">Node (class in fl_sim.nodes)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer">NullRegularizer (class in fl_sim.regularizers)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.num_classes">num_classes (fl_sim.data_processing.FedLibSVMDataset property)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.num_features">num_features (fl_sim.data_processing.FedLibSVMDataset property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/utils.html#fl_sim.utils.misc.ordered_dict_to_dict">ordered_dict_to_dict() (in module fl_sim.utils.misc)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg.pipeline">pipeline() (fl_sim.models.RNN_OriginalFedAvg method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140.pipeline">(fl_sim.models.RNN_Sent140 method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow.pipeline">(fl_sim.models.RNN_StackOverFlow method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.pre_iter">pre_iter() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.CLFMixin.html#fl_sim.models.CLFMixin.predict">predict() (fl_sim.models.CLFMixin method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.models.REGMixin.html#fl_sim.models.REGMixin.predict">(fl_sim.models.REGMixin method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.models.CLFMixin.html#fl_sim.models.CLFMixin.predict_proba">predict_proba() (fl_sim.models.CLFMixin method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.preprocess">preprocess() (fl_sim.data_processing.FedShakespeare method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.regularizers.L1Norm.html#fl_sim.regularizers.L1Norm.prox_eval">prox_eval() (fl_sim.regularizers.L1Norm method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.regularizers.L2Norm.html#fl_sim.regularizers.L2Norm.prox_eval">(fl_sim.regularizers.L2Norm method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.regularizers.L2NormSquared.html#fl_sim.regularizers.L2NormSquared.prox_eval">(fl_sim.regularizers.L2NormSquared method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.regularizers.LInfNorm.html#fl_sim.regularizers.LInfNorm.prox_eval">(fl_sim.regularizers.LInfNorm method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.regularizers.NullRegularizer.html#fl_sim.regularizers.NullRegularizer.prox_eval">(fl_sim.regularizers.NullRegularizer method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer.prox_eval">(fl_sim.regularizers.Regularizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR.random_grid_view">random_grid_view() (fl_sim.data_processing.FedCIFAR method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST.random_grid_view">(fl_sim.data_processing.FedEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST.random_grid_view">(fl_sim.data_processing.FedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.random_grid_view">(fl_sim.data_processing.FedProxFEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.random_grid_view">(fl_sim.data_processing.FedProxMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10.random_grid_view">(fl_sim.data_processing.FedRotatedCIFAR10 method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.random_grid_view">(fl_sim.data_processing.FedRotatedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet.random_grid_view">(fl_sim.data_processing.FedTinyImageNet method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.raw_data">raw_data (fl_sim.data_processing.FedProxMNIST property)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.register_fed_dataset.html#fl_sim.data_processing.register_fed_dataset">register_fed_dataset() (in module fl_sim.data_processing)</a>
+</li>
+      <li><a href="api/generated/fl_sim.optimizers.register_optimizer.html#fl_sim.optimizers.register_optimizer">register_optimizer() (in module fl_sim.optimizers)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.REGMixin.html#fl_sim.models.REGMixin">REGMixin (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.regularizers.Regularizer.html#fl_sim.regularizers.Regularizer">Regularizer (class in fl_sim.regularizers)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.required_config_fields">required_config_fields (fl_sim.nodes.Node property)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.reset">reset() (fl_sim.utils.loggers.BaseLogger method)</a>
+
+      <ul>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger.reset">(fl_sim.utils.loggers.JsonLogger method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.LoggerManager.reset">(fl_sim.utils.loggers.LoggerManager method)</a>
+</li>
+        <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.reset">(fl_sim.utils.loggers.TxtLogger method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.models.reset_parameters.html#fl_sim.models.reset_parameters">reset_parameters() (in module fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.reset_seed">reset_seed() (fl_sim.data_processing.FedLibSVMDataset method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.reset_seed">(fl_sim.data_processing.FedSynthetic method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/fl_sim.models.ResNet10.html#fl_sim.models.ResNet10">ResNet10 (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.ResNet18.html#fl_sim.models.ResNet18">ResNet18 (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.RNN_OriginalFedAvg.html#fl_sim.models.RNN_OriginalFedAvg">RNN_OriginalFedAvg (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.RNN_Sent140.html#fl_sim.models.RNN_Sent140">RNN_Sent140 (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.RNN_Sent140_LITE.html#fl_sim.models.RNN_Sent140_LITE">RNN_Sent140_LITE (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.RNN_StackOverFlow.html#fl_sim.models.RNN_StackOverFlow">RNN_StackOverFlow (class in fl_sim.models)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.sample_data">sample_data() (fl_sim.nodes.Client method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server">Server (class in fl_sim.nodes)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig">ServerConfig (class in fl_sim.nodes)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.BaseLogger.set_log_dir">set_log_dir() (fl_sim.utils.loggers.BaseLogger static method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.set_parameters">set_parameters() (fl_sim.nodes.Node method)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.misc.set_seed">set_seed() (in module fl_sim.utils.misc)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger.short_sep">short_sep (fl_sim.utils.loggers.TxtLogger property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset.show_image">show_image() (fl_sim.data_processing.FedVisionDataset static method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.ShrinkedResNet.html#fl_sim.models.ShrinkedResNet">ShrinkedResNet (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.solve_inner">solve_inner() (fl_sim.nodes.Client method)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger.strftime">strftime() (fl_sim.utils.loggers.JsonLogger static method)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.JsonLogger.strptime">strptime() (fl_sim.utils.loggers.JsonLogger static method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.SVC.html#fl_sim.models.SVC">SVC (class in fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.models.SVR.html#fl_sim.models.SVR">SVR (class in fl_sim.models)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.models.top_n_accuracy.html#fl_sim.models.top_n_accuracy">top_n_accuracy() (in module fl_sim.models)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.train">train() (fl_sim.nodes.Client method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train">(fl_sim.nodes.Server method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train_centralized">train_centralized() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train_federated">train_federated() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train_local">train_local() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/utils.html#fl_sim.utils.loggers.TxtLogger">TxtLogger (class in fl_sim.utils.loggers)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.update">update() (fl_sim.nodes.Node method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.update_gradients">update_gradients() (fl_sim.nodes.Server method)</a>
+</li>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR100.html#fl_sim.data_processing.FedCIFAR100.url">url (fl_sim.data_processing.FedCIFAR100 property)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset.url">(fl_sim.data_processing.FedDataset property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST.url">(fl_sim.data_processing.FedEMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html#fl_sim.data_processing.FedLibSVMDataset.url">(fl_sim.data_processing.FedLibSVMDataset property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST.url">(fl_sim.data_processing.FedMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.url">(fl_sim.data_processing.FedProxFEMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.url">(fl_sim.data_processing.FedProxMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.url">(fl_sim.data_processing.FedProxSent140 property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10.url">(fl_sim.data_processing.FedRotatedCIFAR10 property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.url">(fl_sim.data_processing.FedRotatedMNIST property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.url">(fl_sim.data_processing.FedShakespeare property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedSynthetic.html#fl_sim.data_processing.FedSynthetic.url">(fl_sim.data_processing.FedSynthetic property)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet.url">(fl_sim.data_processing.FedTinyImageNet property)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedCIFAR.html#fl_sim.data_processing.FedCIFAR.view_image">view_image() (fl_sim.data_processing.FedCIFAR method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedEMNIST.html#fl_sim.data_processing.FedEMNIST.view_image">(fl_sim.data_processing.FedEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedMNIST.html#fl_sim.data_processing.FedMNIST.view_image">(fl_sim.data_processing.FedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html#fl_sim.data_processing.FedProxFEMNIST.view_image">(fl_sim.data_processing.FedProxFEMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedProxMNIST.html#fl_sim.data_processing.FedProxMNIST.view_image">(fl_sim.data_processing.FedProxMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html#fl_sim.data_processing.FedRotatedCIFAR10.view_image">(fl_sim.data_processing.FedRotatedCIFAR10 method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html#fl_sim.data_processing.FedRotatedMNIST.view_image">(fl_sim.data_processing.FedRotatedMNIST method)</a>
+</li>
+        <li><a href="api/generated/fl_sim.data_processing.FedTinyImageNet.html#fl_sim.data_processing.FedTinyImageNet.view_image">(fl_sim.data_processing.FedTinyImageNet method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedProxSent140.html#fl_sim.data_processing.FedProxSent140.view_sample">view_sample() (fl_sim.data_processing.FedProxSent140 method)</a>
+
+      <ul>
+        <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.view_sample">(fl_sim.data_processing.FedShakespeare method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/fl_sim.data_processing.FedShakespeare.html#fl_sim.data_processing.FedShakespeare.words">words (fl_sim.data_processing.FedShakespeare property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By WEN Hao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, WEN Hao.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  
+  <footer class="bd-footer">
+  </footer>
+  
+<div class="rst-versions" id="versions-flyout" role="note" aria-label="versions and languages">
+  <span class="rst-current-version" data-toggle="rst-versions" title="Switch version or language">
+    <span>latest</span>
+    <span class="rst-caret">▾</span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Languages</dt>
+      
+        <dd>
+          <a href="./../en/genindex.html"
+             class="rst-current-item">English</a>
+        </dd>
+      
+        <dd>
+          <a href="./../zh_CN/genindex.html"
+             >简体中文</a>
+        </dd>
+      
+    </dl>
+    
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd>
+            <a href="./../../en/genindex.html"
+               class="rst-current-item">latest</a>
+          </dd>
+        
+      </dl>
+    
+  </div>
+</div>
+
+  </body>
+</html>
