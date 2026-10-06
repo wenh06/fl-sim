@@ -197,6 +197,7 @@ linkcheck_ignore = [
     r"https://doi.org/*",  # 418 Client Error
     r"https://stackoverflow.com/*",  # 403 Client Error for bots
     r"https://gitee.com/*",  # often times out from GitHub Actions runners
+    r"https://docs.pytorch.org/*",  # anchor checks fail after the pytorch docs migration
 ]
 
 
