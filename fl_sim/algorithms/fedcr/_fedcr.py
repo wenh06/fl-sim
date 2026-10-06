@@ -52,9 +52,7 @@ def _classifier_name(model: torch.nn.Module) -> str:
         if isinstance(module, torch.nn.Linear):
             name = n
     if name is None:
-        raise ValueError(
-            f"No `nn.Linear` classifier found in the model `{type(model).__name__}`."
-        )
+        raise ValueError(f"No `nn.Linear` classifier found in the model `{type(model).__name__}`.")
     return name
 
 
@@ -156,9 +154,7 @@ class FedCRServer(BaseServer):
     def _post_init(self) -> None:
         """Check the configs and initialize the global common representation."""
         super()._post_init()
-        assert (
-            self.config.beta >= 0
-        ), f"`beta` should be non-negative, but got {self.config.beta}."
+        assert self.config.beta >= 0, f"`beta` should be non-negative, but got {self.config.beta}."
         self._head_name = _classifier_name(self.model)
         # global class-wise common representation: {class_id: (mu, var)}, diagonal Gaussians
         self._global_stats: Dict[int, Tuple[torch.Tensor, torch.Tensor]] = {}
@@ -180,18 +176,10 @@ class FedCRServer(BaseServer):
 
     def _encoder_params(self, model: torch.nn.Module) -> List[torch.Tensor]:
         """The feature extractor parameters, i.e. all model parameters except the personal classifier head."""
-        return [
-            p.detach().clone()
-            for n, p in model.named_parameters()
-            if not _is_head(n, self._head_name)
-        ]
+        return [p.detach().clone() for n, p in model.named_parameters() if not _is_head(n, self._head_name)]
 
-    def _set_encoder(
-        self, model: torch.nn.Module, encoder_params: List[torch.Tensor]
-    ) -> None:
-        encoder = [
-            p for n, p in model.named_parameters() if not _is_head(n, self._head_name)
-        ]
+    def _set_encoder(self, model: torch.nn.Module, encoder_params: List[torch.Tensor]) -> None:
+        encoder = [p for n, p in model.named_parameters() if not _is_head(n, self._head_name)]
         assert len(encoder) == len(
             encoder_params
         ), "the number of feature extractor parameters does not match the received global feature extractor"
@@ -239,9 +227,7 @@ class FedCRServer(BaseServer):
             for mu, var, count in entries:
                 p = count / var
                 prec = p if prec is None else prec + p
-                mu_acc = (
-                    count * mu / var if mu_acc is None else mu_acc + count * mu / var
-                )
+                mu_acc = count * mu / var if mu_acc is None else mu_acc + count * mu / var
             # the standard normal prior p(z) ~ N(0, 1) contributes precision 1 and mean 0
             prec = prec + torch.ones_like(prec)
             var = 1 / prec
@@ -281,11 +267,7 @@ class FedCRClient(BaseClient):
         """Accept only the (aggregated) feature extractor parameters;
         the personal classifier head never leaves the client."""
         params = self._received_messages["parameters"]
-        encoder = [
-            p
-            for n, p in self.model.named_parameters()
-            if not _is_head(n, self._head_name)
-        ]
+        encoder = [p for n, p in self.model.named_parameters() if not _is_head(n, self._head_name)]
         assert len(encoder) == len(
             params
         ), "the number of feature extractor parameters does not match the received global feature extractor"
@@ -293,11 +275,7 @@ class FedCRClient(BaseClient):
             p.data.copy_(v.data.to(p.device))
 
     def communicate(self, target: "FedCRServer") -> None:
-        encoder_params = [
-            p.detach().clone()
-            for n, p in self.model.named_parameters()
-            if not _is_head(n, self._head_name)
-        ]
+        encoder_params = [p.detach().clone() for n, p in self.model.named_parameters() if not _is_head(n, self._head_name)]
         # round-level class-wise local feature statistics: mu = sum / count, var = sum_sq / count - mu^2
         class_stats = {}
         for class_id, (sum_, sum_sq, count) in self._local_stats.items():
@@ -369,14 +347,7 @@ class FedCRClient(BaseClient):
                             # KL[N(mu_b, var_b) || N(mu_g, var_g)], diagonal Gaussians
                             if class_id in self._global_stats:
                                 mu_g, var_g = self._global_stats[class_id]
-                                kl = (
-                                    0.5
-                                    * (
-                                        torch.log(var_g / var_b)
-                                        + (var_b + (mu_b - mu_g) ** 2) / var_g
-                                        - 1
-                                    ).sum()
-                                )
+                                kl = 0.5 * (torch.log(var_g / var_b) + (var_b + (mu_b - mu_g) ** 2) / var_g - 1).sum()
                                 loss = loss + self._beta * kl
                     loss.backward()
                     self.optimizer.step()

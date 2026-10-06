@@ -130,16 +130,13 @@ class FedDCServer(BaseServer):
     def _post_init(self) -> None:
         """Check the configs and initialize the auxiliary variables."""
         super()._post_init()
-        assert (
-            self.config.alpha >= 0
-        ), f"`alpha` should be non-negative, but got {self.config.alpha}."
+        assert self.config.alpha >= 0, f"`alpha` should be non-negative, but got {self.config.alpha}."
         # the average of all clients' local update values in the last round,
         # i.e. :math:`g = \\mathbb{E}_{i\\in[N]} g_i` in the paper
         self._global_update = [torch.zeros_like(p) for p in self.model.parameters()]
         # each client's last local update value (gradient drift) :math:`g_i`
         self._client_updates = {
-            client_id: [torch.zeros_like(p) for p in self.model.parameters()]
-            for client_id in range(self.config.num_clients)
+            client_id: [torch.zeros_like(p) for p in self.model.parameters()] for client_id in range(self.config.num_clients)
         }
 
     @property
@@ -159,12 +156,8 @@ class FedDCServer(BaseServer):
 
     def communicate(self, target: "FedDCClient") -> None:
         target._received_messages = {
-            "parameters": deepcopy(
-                [p.detach().clone() for p in self.model.parameters()]
-            ),
-            "global_update": deepcopy(
-                [p.detach().clone() for p in self._global_update]
-            ),
+            "parameters": deepcopy([p.detach().clone() for p in self.model.parameters()]),
+            "global_update": deepcopy([p.detach().clone() for p in self._global_update]),
             "alpha": self.config.alpha,
         }
 
@@ -181,17 +174,13 @@ class FedDCServer(BaseServer):
             for ap, p in zip(aggregated, m["parameters"]):
                 ap += ratio * p.detach().clone().to(self.device)
             # each client's local update value (gradient drift) of this round
-            self._client_updates[m["client_id"]] = [
-                u.detach().clone().to(self.device) for u in m["local_update"]
-            ]
+            self._client_updates[m["client_id"]] = [u.detach().clone().to(self.device) for u in m["local_update"]]
         for p, ap in zip(self.model.parameters(), aggregated):
             p.data.copy_(ap.data)
         # g = average of all clients' (including inactive ones') last local update values
         self._global_update = [
             torch.mean(
-                torch.stack(
-                    [self._client_updates[i][k] for i in range(self.config.num_clients)]
-                ),
+                torch.stack([self._client_updates[i][k] for i in range(self.config.num_clients)]),
                 dim=0,
             )
             for k in range(len(self._global_update))
@@ -235,9 +224,7 @@ class FedDCClient(BaseClient):
 
     def update(self) -> None:
         w = self._received_messages["parameters"]
-        self._global_update = [
-            p.to(self.device) for p in self._received_messages["global_update"]
-        ]
+        self._global_update = [p.to(self.device) for p in self._received_messages["global_update"]]
         self._alpha = self._received_messages.get("alpha", self._alpha)
         if len(self._drift) == 0:  # first participation: h_i = w - w = 0
             self._drift = [torch.zeros_like(p, device=self.device) for p in w]
@@ -248,10 +235,7 @@ class FedDCClient(BaseClient):
         self.solve_inner()  # alias of self.train()
         # after local training: delta_theta_i = theta_i^+ - w, h_i = h_i + delta_theta_i
         local_params = self.get_detached_model_parameters()
-        self._local_update = [
-            p.detach().clone() - wp
-            for p, wp in zip(local_params, self._cached_parameters)
-        ]
+        self._local_update = [p.detach().clone() - wp for p, wp in zip(local_params, self._cached_parameters)]
         self._drift = [h + d for h, d in zip(self._drift, self._local_update)]
 
     def train(self) -> None:
@@ -264,8 +248,7 @@ class FedDCClient(BaseClient):
         num_local_batches = self.config.num_epochs * len(self.train_loader)
         # drift correction: (g_i - g) / (eta * K), embedded into the loss as <theta, (g_i - g)> / (eta * K)
         correction = [
-            (li - lg) / (self.config.lr * num_local_batches)
-            for li, lg in zip(self._local_update, self._global_update)
+            (li - lg) / (self.config.lr * num_local_batches) for li, lg in zip(self._local_update, self._global_update)
         ]
         # parameter correction center: w - h_i
         center = [wp - h for wp, h in zip(self._cached_parameters, self._drift)]
@@ -285,19 +268,9 @@ class FedDCClient(BaseClient):
                     output = self.model(X)
                     loss = self.criterion(output, y)
                     # the penalized (parameter correction) term alpha / 2 * ||theta - (w - h_i)||^2
-                    penalty = (
-                        self._alpha
-                        / 2
-                        * sum(
-                            ((p - c) ** 2).sum()
-                            for p, c in zip(self.model.parameters(), center)
-                        )
-                    )
+                    penalty = self._alpha / 2 * sum(((p - c) ** 2).sum() for p, c in zip(self.model.parameters(), center))
                     # the gradient correction (drift) term <theta, (g_i - g)> / (eta * K)
-                    correction_term = sum(
-                        (p * c).sum()
-                        for p, c in zip(self.model.parameters(), correction)
-                    )
+                    correction_term = sum((p * c).sum() for p, c in zip(self.model.parameters(), correction))
                     loss = loss + penalty + correction_term
                     loss.backward()
                     self.optimizer.step()

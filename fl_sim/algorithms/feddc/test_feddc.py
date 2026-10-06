@@ -15,9 +15,7 @@ def test_feddc() -> None:
     print("Using dataset FedSynthetic")
     dataset = FedSynthetic(1, 1, False, 30)
     model = dataset.candidate_models["mlp_d1"]
-    server_config = FedDCServerConfig(
-        10, dataset.DEFAULT_TRAIN_CLIENTS_NUM, 0.7, alpha=0.01
-    )
+    server_config = FedDCServerConfig(10, dataset.DEFAULT_TRAIN_CLIENTS_NUM, 0.7, alpha=0.01)
     client_config = FedDCClientConfig(dataset.DEFAULT_BATCH_SIZE, 30)
     s = FedDCServer(model, dataset, server_config, client_config)
     s.train_federated()
@@ -26,9 +24,7 @@ def test_feddc() -> None:
     print("Using dataset FedSynthetic, with a larger alpha")
     dataset = FedSynthetic(1, 1, False, 30)
     model = dataset.candidate_models["mlp_d1"]
-    server_config = FedDCServerConfig(
-        5, dataset.DEFAULT_TRAIN_CLIENTS_NUM, 1.0, alpha=0.1
-    )
+    server_config = FedDCServerConfig(5, dataset.DEFAULT_TRAIN_CLIENTS_NUM, 1.0, alpha=0.1)
     client_config = FedDCClientConfig(dataset.DEFAULT_BATCH_SIZE, 30)
     s = FedDCServer(model, dataset, server_config, client_config)
     s.train_federated()
