@@ -103,9 +103,7 @@ def test_optimizers():
 
     model = ResNet10(10).train()
     local_model = ResNet10(10).train()
-    inner_solver = get_inner_solver(
-        "test-files/custom_optimizer.py", model.parameters(), config
-    )
+    inner_solver = get_inner_solver("test-files/custom_optimizer.py", model.parameters(), config)
     assert isinstance(inner_solver, torch.optim.Optimizer)
     inner_solver.zero_grad()
     loss = criterion(model(x), y)
@@ -117,9 +115,7 @@ def test_optimizers():
 
     model = ResNet10(10).train()
     local_model = ResNet10(10).train()
-    inner_solver = get_inner_solver(
-        "test-files/custom_optimizer.CustomOptimizer", model.parameters(), config
-    )
+    inner_solver = get_inner_solver("test-files/custom_optimizer.CustomOptimizer", model.parameters(), config)
     assert isinstance(inner_solver, torch.optim.Optimizer)
     inner_solver.zero_grad()
     loss = criterion(model(x), y)

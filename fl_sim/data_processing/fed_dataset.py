@@ -75,9 +75,7 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def load_partition_data_distributed(
-        self, process_id: int, batch_size: Optional[int] = None
-    ) -> tuple:
+    def load_partition_data_distributed(self, process_id: int, batch_size: Optional[int] = None) -> tuple:
         """Get local dataloader at client `process_id` or get global dataloader"""
         raise NotImplementedError
 
@@ -236,9 +234,7 @@ class FedVisionDataset(FedDataset, ABC):
         """Preload data."""
         raise NotImplementedError
 
-    def load_partition_data_distributed(
-        self, process_id: int, batch_size: Optional[int] = None
-    ) -> tuple:
+    def load_partition_data_distributed(self, process_id: int, batch_size: Optional[int] = None) -> tuple:
         """Get local dataloader at client `process_id` or get global dataloader.
 
         Parameters
@@ -275,9 +271,7 @@ class FedVisionDataset(FedDataset, ABC):
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         if process_id == 0:
             # get global dataset
-            train_data_global, test_data_global = self.get_dataloader(
-                _batch_size, _batch_size
-            )
+            train_data_global, test_data_global = self.get_dataloader(_batch_size, _batch_size)
             train_data_num = len(train_data_global.dataset)
             test_data_num = len(test_data_global.dataset)
             train_data_local = None
@@ -285,9 +279,7 @@ class FedVisionDataset(FedDataset, ABC):
             local_data_num = 0
         else:
             # get local dataset
-            train_data_local, test_data_local = self.get_dataloader(
-                _batch_size, _batch_size, process_id - 1
-            )
+            train_data_local, test_data_local = self.get_dataloader(_batch_size, _batch_size, process_id - 1)
             train_data_num = local_data_num = len(train_data_local.dataset)
             train_data_global = None
             test_data_global = None
@@ -342,9 +334,7 @@ class FedVisionDataset(FedDataset, ABC):
         test_data_local_dict = dict()
 
         for client_idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM):
-            train_data_local, test_data_local = self.get_dataloader(
-                _batch_size, _batch_size, client_idx
-            )
+            train_data_local, test_data_local = self.get_dataloader(_batch_size, _batch_size, client_idx)
             local_data_num = len(train_data_local.dataset)
             data_local_num_dict[client_idx] = local_data_num
             train_data_local_dict[client_idx] = train_data_local
@@ -352,22 +342,14 @@ class FedVisionDataset(FedDataset, ABC):
 
         # global dataset
         train_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(
-                list(dl.dataset for dl in list(train_data_local_dict.values()))
-            ),
+            torchdata.ConcatDataset(list(dl.dataset for dl in list(train_data_local_dict.values()))),
             batch_size=_batch_size,
             shuffle=True,
         )
         train_data_num = len(train_data_global.dataset)
 
         test_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(
-                list(
-                    dl.dataset
-                    for dl in list(test_data_local_dict.values())
-                    if dl is not None
-                )
-            ),
+            torchdata.ConcatDataset(list(dl.dataset for dl in list(test_data_local_dict.values()) if dl is not None)),
             batch_size=_batch_size,
             shuffle=True,
         )
@@ -531,9 +513,7 @@ class FedNLPDataset(FedDataset, ABC):
         """Get dataloader for client `client_idx` or get global dataloader."""
         raise NotImplementedError
 
-    def load_partition_data_distributed(
-        self, process_id: int, batch_size: Optional[int] = None
-    ) -> tuple:
+    def load_partition_data_distributed(self, process_id: int, batch_size: Optional[int] = None) -> tuple:
         """Get local dataloader at client `process_id` or get global dataloader.
 
         Parameters
@@ -570,9 +550,7 @@ class FedNLPDataset(FedDataset, ABC):
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         if process_id == 0:
             # get global dataset
-            train_data_global, test_data_global = self.get_dataloader(
-                batch_size, batch_size
-            )
+            train_data_global, test_data_global = self.get_dataloader(batch_size, batch_size)
             train_data_num = len(train_data_global.dataset)
             test_data_num = len(test_data_global.dataset)
             train_data_local = None
@@ -580,9 +558,7 @@ class FedNLPDataset(FedDataset, ABC):
             local_data_num = 0
         else:
             # get local dataset
-            train_data_local, test_data_local = self.get_dataloader(
-                batch_size, batch_size, process_id - 1
-            )
+            train_data_local, test_data_local = self.get_dataloader(batch_size, batch_size, process_id - 1)
             train_data_num = local_data_num = len(train_data_local.dataset)
             train_data_global = None
             test_data_global = None
@@ -642,9 +618,7 @@ class FedNLPDataset(FedDataset, ABC):
         test_data_local_dict = dict()
 
         for client_idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM):
-            train_data_local, test_data_local = self.get_dataloader(
-                batch_size, batch_size, client_idx
-            )
+            train_data_local, test_data_local = self.get_dataloader(batch_size, batch_size, client_idx)
             local_data_num = len(train_data_local.dataset)
             data_local_num_dict[client_idx] = local_data_num
             train_data_local_dict[client_idx] = train_data_local
@@ -652,22 +626,14 @@ class FedNLPDataset(FedDataset, ABC):
 
         # global dataset
         train_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(
-                list(dl.dataset for dl in list(train_data_local_dict.values()))
-            ),
+            torchdata.ConcatDataset(list(dl.dataset for dl in list(train_data_local_dict.values()))),
             batch_size=batch_size,
             shuffle=True,
         )
         train_data_num = len(train_data_global.dataset)
 
         test_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(
-                list(
-                    dl.dataset
-                    for dl in list(test_data_local_dict.values())
-                    if dl is not None
-                )
-            ),
+            torchdata.ConcatDataset(list(dl.dataset for dl in list(test_data_local_dict.values()) if dl is not None)),
             batch_size=batch_size,
             shuffle=True,
         )
@@ -787,9 +753,7 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         self.label_names = label_names
         if self.label_map and self.label_names:
             # If labels are remapped, the label names have to be remapped as well.
-            self.label_names = [
-                self.label_names[self.label_map[i]] for i in self.label_map
-            ]
+            self.label_names = [self.label_names[self.label_map[i]] for i in self.label_map]
         self.shuffled = shuffle
         self.output_scale_factor = output_scale_factor
 
@@ -823,24 +787,15 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         if isinstance(example[0], str):
             if len(self.input_columns) != 1:
                 raise ValueError(
-                    "Mismatch between the number of columns in `input_columns` "
-                    "and number of columns of actual input."
+                    "Mismatch between the number of columns in `input_columns` " "and number of columns of actual input."
                 )
-            input_dict = OrderedDict(
-                [(self.input_columns[0], self.clip_text(example[0]))]
-            )
+            input_dict = OrderedDict([(self.input_columns[0], self.clip_text(example[0]))])
         else:
             if len(self.input_columns) != len(example[0]):
                 raise ValueError(
-                    "Mismatch between the number of columns in `input_columns` "
-                    "and number of columns of actual input."
+                    "Mismatch between the number of columns in `input_columns` " "and number of columns of actual input."
                 )
-            input_dict = OrderedDict(
-                [
-                    (c, self.clip_text(example[0][i]))
-                    for i, c in enumerate(self.input_columns)
-                ]
-            )
+            input_dict = OrderedDict([(c, self.clip_text(example[0][i])) for i, c in enumerate(self.input_columns)])
         return input_dict, output
 
     def shuffle(self) -> None:
@@ -929,20 +884,13 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
 
         if sets:
             ret_ds = NLPDataset(
-                [
-                    (NLPDataset._gen_input(row, input_columns), row[output_column])
-                    for s in sets
-                    for row in _ds[s]
-                ],
+                [(NLPDataset._gen_input(row, input_columns), row[output_column]) for s in sets for row in _ds[s]],
                 input_columns=input_columns,
                 max_len=max_len,
             )
         else:
             ret_ds = NLPDataset(
-                [
-                    (NLPDataset._gen_input(row, input_columns), row[output_column])
-                    for row in _ds
-                ],
+                [(NLPDataset._gen_input(row, input_columns), row[output_column]) for row in _ds],
                 input_columns=input_columns,
                 max_len=max_len,
             )
@@ -952,11 +900,7 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
     def clip_text(self, text: str) -> str:
         if self.max_len is None:
             return text
-        inds = [
-            m.start()
-            for m in re.finditer(f"[{punctuation}]", text)
-            if m.start() < self.max_len
-        ]
+        inds = [m.start() for m in re.finditer(f"[{punctuation}]", text) if m.start() < self.max_len]
         if len(inds) == 0:
             return text[: self.max_len]
         return text[: inds[-1]]
@@ -1044,8 +988,7 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
             output_column = "label"
         else:
             raise ValueError(
-                f"Unsupported dataset column_names {_column_names}. "
-                "Try passing your own `dataset_columns` argument."
+                f"Unsupported dataset column_names {_column_names}. " "Try passing your own `dataset_columns` argument."
             )
 
         return input_columns, output_column
@@ -1073,9 +1016,7 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
             A tensor dataset instance.
 
         """
-        assert (
-            self.label_map is not None
-        ), "Label map must be set before converting to tensor dataset."
+        assert self.label_map is not None, "Label map must be set before converting to tensor dataset."
         if labels_to_keep is not None:
             self.filter_labels(labels_to_keep)
         X, y = {c: [] for c in self.input_columns}, []
@@ -1127,9 +1068,7 @@ class VisionDataset(torchdata.Dataset):
             self.transform = transforms.ToTensor()
         self.target_transform = target_transform
 
-    def __getitem__(
-        self, index: Union[slice, int]
-    ) -> Tuple[torch.Tensor, Union[torch.Tensor, int]]:
+    def __getitem__(self, index: Union[slice, int]) -> Tuple[torch.Tensor, Union[torch.Tensor, int]]:
         """Returns an image and its label."""
         img, target = self.images[index], self.targets[index]
         if isinstance(index, int):
