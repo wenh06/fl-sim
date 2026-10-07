@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.optimizers &#8212; fl-sim 0.1.dev433+g620deb691 documentation</title>
+    <title>fl_sim.optimizers &#8212; fl-sim 0.1.dev436+g7e329ae51 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=7b664496"></script>
+    <script src="../../_static/documentation_options.js?v=948e496b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -221,7 +221,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev433+g620deb691 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.dev436+g7e329ae51 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -694,6 +694,21 @@ document.write(`
                 <span class="c1"># is a .py file</span>
                 <span class="c1"># in this case, there should be only one optimizer class registered in the file</span>
                 <span class="n">optimizer_name</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">elif</span> <span class="s2">"."</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">optimizer_file</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="c1"># `optimizer_name` is neither a (federated) builtin optimizer,</span>
+                <span class="c1"># nor an optimizer from `torch.optim` / `torch_optimizer` that can be</span>
+                <span class="c1"># instantiated with the given parameters,</span>
+                <span class="c1"># nor a path to a custom optimizer file of the form</span>
+                <span class="c1"># ``/path/to/opt_file_stem.opt_name``.</span>
+                <span class="c1"># This happens for example for `torch.optim.Muon` (torch &gt;= 2.9),</span>
+                <span class="c1"># which supports only 2D parameters, hence can not be instantiated</span>
+                <span class="c1"># with parameters that also include 1D ones (biases, norm weights, etc.)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"optimizer `</span><span class="si">{</span><span class="n">optimizer_name</span><span class="si">}</span><span class="s2">` not found, or not applicable to the given parameters. "</span>
+                    <span class="s2">"Custom optimizers should be added via `register_optimizer` and referred to "</span>
+                    <span class="s2">"by a path of the form ``/path/to/opt_file_stem.opt_name`` "</span>
+                    <span class="s2">"(or ``/path/to/opt_file.py`` if the file registers only one optimizer)."</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># of the form /path/to/opt_file_stem.opt_name</span>
                 <span class="c1"># in this case, there could be multiple optimizers registered in the file</span>

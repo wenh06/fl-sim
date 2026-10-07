@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.data_processing.fed_dataset &#8212; fl-sim 0.1.dev433+g620deb691 文档</title>
+    <title>fl_sim.data_processing.fed_dataset &#8212; fl-sim 0.1.dev436+g7e329ae51 文档</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=9f804455"></script>
+    <script src="../../../_static/documentation_options.js?v=39e3b03e"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev433+g620deb691 文档</p>
+    <p class="title logo__title">fl-sim 0.1.dev436+g7e329ae51 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -484,6 +484,7 @@ document.write(`
   <h1>fl_sim.data_processing.fed_dataset 源代码</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
@@ -504,6 +505,13 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">..utils._download_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_from_mirrors</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.const</span><span class="w"> </span><span class="kn">import</span> <span class="n">CACHED_DATA_DIR</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_seed</span>
+
+<span class="c1"># `HfUriError` is new in `huggingface_hub` 2.0;</span>
+<span class="c1"># older versions accept the ``hf://datasets/{alias}@{hash}/...`` URIs as-is</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">HfUriError</span> <span class="k">as</span> <span class="n">_HfUriError</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_HfUriError</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"FedDataset"</span><span class="p">,</span>
@@ -1194,6 +1202,53 @@ document.write(`
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_hf_dataset_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Resolve a (canonical) HuggingFace dataset name to its namespaced repo id.</span>
+
+<span class="sd">    Canonical dataset names without a namespace (e.g. ``"sst2"``) are aliases that</span>
+<span class="sd">    are redirected by the Hub to their namespaced repository ids</span>
+<span class="sd">    (e.g. ``"stanfordnlp/sst2"``). Newer versions of `huggingface_hub` (&gt;= 2.0)</span>
+<span class="sd">    reject URIs whose repository id is not of the form ``namespace/name``,</span>
+<span class="sd">    while `datasets` keeps the alias as-is when building internal ``hf://`` URIs,</span>
+<span class="sd">    hence the alias has to be resolved before passing it to `datasets.load_dataset`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The name (or the namespaced repository id) of the dataset.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The namespaced repository id of the dataset,</span>
+<span class="sd">        or the original `name` if the resolution fails</span>
+<span class="sd">        (e.g. no network connection, in which case the dataset</span>
+<span class="sd">        is to be loaded from the local cache).</span>
+
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="s2">"/"</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+        <span class="c1"># already a (namespaced) repository id</span>
+        <span class="k">return</span> <span class="n">name</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span> <span class="k">as</span> <span class="n">HFD_config</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">HfApi</span>
+
+        <span class="n">api</span> <span class="o">=</span> <span class="n">HfApi</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">HFD_config</span><span class="o">.</span><span class="n">HF_ENDPOINT</span><span class="p">)</span>
+        <span class="c1"># a few attempts to be resilient to transient network failures</span>
+        <span class="n">last_err</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">api</span><span class="o">.</span><span class="n">dataset_info</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">id</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="n">last_err</span> <span class="o">=</span> <span class="n">err</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">last_err</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="c1"># e.g. no network connection (the dataset is to be loaded from the local cache),</span>
+        <span class="c1"># or the dataset does not exist (a proper error will be raised by `load_dataset`)</span>
+        <span class="k">return</span> <span class="n">name</span>
+
+
 <span class="k">class</span><span class="w"> </span><span class="nc">NLPDataset</span><span class="p">(</span><span class="n">torchdata</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">ReprMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Dataset for loading text data.</span>
 
@@ -1340,7 +1395,21 @@ document.write(`
 
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">_ds</span> <span class="o">=</span> <span class="n">HFD_load_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="n">split</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">_ds</span> <span class="o">=</span> <span class="n">HFD_load_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="n">split</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_HfUriError</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">_HfUriError</span><span class="p">):</span>
+                    <span class="k">raise</span>
+                <span class="c1"># `datasets` builds `hf://datasets/{alias}@{commit_hash}/...` URIs</span>
+                <span class="c1"># for canonical (namespace-less) dataset names like ``"sst2"``,</span>
+                <span class="c1"># which `huggingface_hub` &gt;= 2.0 rejects. Resolve the alias</span>
+                <span class="c1"># to its namespaced repository id (e.g. ``"stanfordnlp/sst2"``)</span>
+                <span class="c1"># and retry.</span>
+                <span class="n">resolved</span> <span class="o">=</span> <span class="n">_resolve_hf_dataset_name</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">resolved</span> <span class="o">==</span> <span class="n">ds</span><span class="p">:</span>
+                    <span class="c1"># the alias could not be resolved (e.g. no network connection)</span>
+                    <span class="k">raise</span> <span class="n">err</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+                <span class="n">_ds</span> <span class="o">=</span> <span class="n">HFD_load_dataset</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="n">split</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">_ds</span> <span class="o">=</span> <span class="n">ds</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_ds</span><span class="o">.</span><span class="n">column_names</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>

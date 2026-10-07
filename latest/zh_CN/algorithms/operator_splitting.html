@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的算子分裂算法 &#8212; fl-sim 0.1.dev433+g620deb691 文档</title>
+    <title>联邦学习中的算子分裂算法 &#8212; fl-sim 0.1.dev436+g7e329ae51 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=9f804455"></script>
+    <script src="../_static/documentation_options.js?v=39e3b03e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev433+g620deb691 文档</p>
+    <p class="title logo__title">fl-sim 0.1.dev436+g7e329ae51 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -586,7 +586,7 @@ document.write(`
 <p>对 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 而言，其中 <span class="math notranslate nohighlight">\(\mathcal{M}_{f_k, \mu}\)</span> 是 <span class="math notranslate nohighlight">\(f_k\)</span> 的 Moreau 包络。把它们应用到最小二乘问题 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \frac{1}{2} \lVert A_k \theta_k + b_k \rVert^2`（:math:`A_k\)</span> 列满秩），这些不动点有解析表达式，且一般不同于整体问题的真解 <span class="math notranslate nohighlight">\(\theta^* = \big( \sum_{k=1}^K A_k^{\mathrm{T}} A_k \big)^{-1} \sum_{k=1}^K A_k^{\mathrm{T}} b_k\)</span>。</p>
 <p>上述观察促使我们把联邦问题重新表述成一种等价形式，使其基于算子分裂的解收敛到*正确*的点——这正是下文 <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 与 <code class="docutils literal notranslate"><span class="pre">FedDR</span></code> 的出发点。</p>
 <div class="pseudocode-container docutils container" id="pcode-fedsplit">
-<pre class="scopeline-pseudocode" id="pseudocode-139902325407600" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140523351862016" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedSplit}}
 \begin{algorithmic}
 \REQUIRE {\bfseries proximal solvers} $\texttt{prox\_update}_k: \mathbb{R}^d \to \mathbb{R}^d$
@@ -611,7 +611,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-feddr">
-<pre class="scopeline-pseudocode" id="pseudocode-139902325392960" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140523351859136" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDR}}
 \begin{algorithmic}
 \REQUIRE step size $s = \frac{1}{\mu} &gt; 0$, $\alpha \in (0, 2)$, error bounds $\varepsilon_{k,0} \geqslant 0$
