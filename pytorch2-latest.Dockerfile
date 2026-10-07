@@ -1,5 +1,8 @@
 # https://hub.docker.com/r/pytorch/pytorch
-FROM pytorch/pytorch:2.5.1-cuda11.8-cudnn8-runtime
+# NOTE: pytorch 2.5.1 cuda11.8 images only exist with cudnn9; there is no
+# 2.5.1-cuda11.8-cudnn8-runtime tag on Docker Hub, which made this build fail
+# with "failed to resolve source metadata ... not found".
+FROM pytorch/pytorch:2.5.1-cuda11.8-cudnn9-runtime
 # NOTE:
 # pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime has python version 3.10.8, system version Ubuntu 18.04.6 LTS
 # pytorch/pytorch:1.10.1-cuda11.3-cudnn8-runtime has python version 3.7.x
@@ -38,6 +41,15 @@ RUN pip install -r requirements-no-torch.txt
 RUN pip install -r requirements-viz.txt
 RUN pip install torch-optimizer --no-deps
 RUN python -m pip cache purge
+
+# hatch-vcs derives the package version from git metadata (setuptools-scm),
+# which is not available inside the docker build (no git binary in the base
+# image and the CI checkout is shallow without tags), so `pip install .` fails
+# with "LookupError: Error getting the version from source `vcs`".
+# Pin a fallback version; override with
+# --build-arg SETUPTOOLS_SCM_PRETEND_VERSION=<version> if needed.
+ARG SETUPTOOLS_SCM_PRETEND_VERSION=0.1.dev0
+ENV SETUPTOOLS_SCM_PRETEND_VERSION=${SETUPTOOLS_SCM_PRETEND_VERSION}
 
 RUN python -m pip install .
 

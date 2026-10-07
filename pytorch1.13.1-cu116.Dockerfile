@@ -9,6 +9,12 @@ FROM pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
 # set the environment variable to avoid interactive installation
 # which might stuck the docker build process
 ENV DEBIAN_FRONTEND=noninteractive
+# The base image is Ubuntu 18.04 based (glibc 2.27). The latest versions of
+# some dependencies only ship manylinux_2_28 (glibc >= 2.28) wheels and would
+# fall back to source builds that need a Rust/C toolchain (e.g. the newest
+# pyarrow pulls in libcst, which needs Rust). Prefer the newest versions that
+# ship compatible wheels instead.
+ENV PIP_PREFER_BINARY=1
 
 ## The MAINTAINER instruction sets the author field of the generated images.
 LABEL maintainer="wenh06@gmail.com"
@@ -31,12 +37,26 @@ RUN ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 # http://pypi.douban.com/simple/
 # RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ## Include the following line if you have a requirements.txt file.
-RUN pip install -r requirements-no-torch.txt
+# datasets >= 4.1 requires pyarrow >= 21, whose wheels are manylinux_2_28-only
+# (glibc >= 2.28, incompatible with this Ubuntu 18.04-based image); pin the
+# last versions that ship wheels compatible with the older glibc.
+# (PIP_PREFER_BINARY alone is not enough here: the version floor keeps the
+# resolver on the sdist, whose build needs a Rust compiler for libcst.)
+RUN pip install -r requirements-no-torch.txt "datasets<4.1" "pyarrow<21"
 RUN pip install -r requirements-viz.txt
 # RUN pip install torch==1.13.1+cu116 -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip install torchvision==0.14.1+cu116 --no-deps -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip install torch-optimizer --no-deps
 RUN python -m pip cache purge
+
+# hatch-vcs derives the package version from git metadata (setuptools-scm),
+# which is not available inside the docker build (no git binary in the base
+# image and the CI checkout is shallow without tags), so `pip install .` fails
+# with "LookupError: Error getting the version from source `vcs`".
+# Pin a fallback version; override with
+# --build-arg SETUPTOOLS_SCM_PRETEND_VERSION=<version> if needed.
+ARG SETUPTOOLS_SCM_PRETEND_VERSION=0.1.dev0
+ENV SETUPTOOLS_SCM_PRETEND_VERSION=${SETUPTOOLS_SCM_PRETEND_VERSION}
 
 RUN python -m pip install .
 
