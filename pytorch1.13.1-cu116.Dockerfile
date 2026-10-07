@@ -9,6 +9,12 @@ FROM pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
 # set the environment variable to avoid interactive installation
 # which might stuck the docker build process
 ENV DEBIAN_FRONTEND=noninteractive
+# The base image is Ubuntu 18.04 based (glibc 2.27). The latest versions of
+# some dependencies only ship manylinux_2_28 (glibc >= 2.28) wheels and would
+# fall back to source builds that need a Rust/C toolchain (e.g. the newest
+# pyarrow pulls in libcst, which needs Rust). Prefer the newest versions that
+# ship compatible wheels instead.
+ENV PIP_PREFER_BINARY=1
 
 ## The MAINTAINER instruction sets the author field of the generated images.
 LABEL maintainer="wenh06@gmail.com"
