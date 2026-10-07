@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.dev436+g7e329ae51 文档</title>
+    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.dev437+gab23bea33 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=39e3b03e"></script>
+    <script src="../_static/documentation_options.js?v=118e5001"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev436+g7e329ae51 文档</p>
+    <p class="title logo__title">fl-sim 0.1.dev437+gab23bea33 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -583,7 +583,7 @@ document.write(`
 \end{cases}\end{split}\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(p \in (0, 1)\)</span>。注意，计算 <span class="math notranslate nohighlight">\(\nabla f(\Theta) = \col(\nabla f_1(\theta_1), \ldots, \nabla f_K(\theta_K))\)</span> 是完全块分离的：在联邦学习的场景下，这一步只需在客户端本地完成，不涉及与服务器的任何通信，这对以通信为主要瓶颈的联邦学习是巨大的优势。从这个意义上说，<code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> 已经融入了*无环*（跳步）的思想；参见 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a> 中的 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code>。在额外的有限和假设 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \sum_{j=1}^m f_{k,j}(\theta_k)\)</span> 下，还可以进一步把该随机梯度与随机 Kaczmarz 型（重要性采样）更新结合起来；关于无环方法的分析参见 [Kovalev <em>et al.</em><a class="footnote-reference brackets" href="#footcite-kovalev2020-loopless" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。由此得到的算法总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-l2sgd">
-<pre class="scopeline-pseudocode" id="pseudocode-140523349550288" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140424957829824" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{L2SGD}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ probability $p \in (0, 1)$
@@ -613,7 +613,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-pfedme">
-<pre class="scopeline-pseudocode" id="pseudocode-140523348242496" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140424956642064" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMe}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ global update smoothing factor $\beta,$ {\bfseries proximal solvers} $\texttt{prox\_update}_k$
@@ -645,7 +645,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-ditto">
-<pre class="scopeline-pseudocode" id="pseudocode-140523348243840" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140424957487488" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{Ditto}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\mu,$ learning rate $\eta,$ methods $\textbf{UpdateGlobal}, \textbf{Aggregate}$
@@ -670,7 +670,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-apfl">
-<pre class="scopeline-pseudocode" id="pseudocode-140523381727792" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140424957491040" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{APFL}}
 \begin{algorithmic}
 \REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
@@ -707,7 +707,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-feddyn">
-<pre class="scopeline-pseudocode" id="pseudocode-140523351022976" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140424957484080" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDyn}}
 \begin{algorithmic}
 \REQUIRE penalty coeffecient $\mu$
@@ -731,7 +731,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-pfedmac">
-<pre class="scopeline-pseudocode" id="pseudocode-140523351029504" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140424957176816" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMac}}
 \begin{algorithmic}
 \REQUIRE learning rate $\eta$, penalty coefficient $\lambda$, $\beta$
@@ -771,7 +771,7 @@ document.write(`
 \end{array}\end{split}\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(\tilde{g}(\cdot)\)</span> 是平滑的 SCAD 型罚函数（由 <span class="math notranslate nohighlight">\(\xi, \lambda, a\)</span> 参数化），其近端算子把较小的成对差收缩到零（同簇的客户端），而几乎不动较大的差（不同簇的客户端）。该问题用 ADMM 式（Douglas--Rachford）分裂求解：增广拉格朗日罚参数为 <span class="math notranslate nohighlight">\(\rho\)</span>，对偶变量为 <span class="math notranslate nohighlight">\(v_{ij}\)</span>；每一轮，随机选中的一部分设备在 <span class="math notranslate nohighlight">\(f_i(\omega) + \frac{\rho}{2} \lVert \omega - \zeta_i \rVert^2\)</span> 上做 <span class="math notranslate nohighlight">\(T_i\)</span> 个 epoch 的本地梯度下降，服务器对活跃设备的成对变量 <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> 施加分段近端更新并做对偶上升。训练结束后，<span class="math notranslate nohighlight">\(\lVert \theta_{ij} \rVert\)</span> （近乎）为零的设备 <span class="math notranslate nohighlight">\(i\)</span> 与 <span class="math notranslate nohighlight">\(j\)</span> 被分到同一个簇。伪代码总结如下；注意，无论簇的个数还是簇的成员关系都不需要事先指定。</p>
 <div class="pseudocode-container docutils container" id="pcode-fpfc">
-<pre class="scopeline-pseudocode" id="pseudocode-140523348716144" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140424955989536" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FPFC}}
 \begin{algorithmic}
 \REQUIRE number of devices $m,$ number of rounds $K,$ local epochs $T_i,$ stepsize $\alpha,$ penalty parameters $\xi, \lambda, a,$ and $\rho$

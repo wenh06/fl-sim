@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Overview of Optimization Algorithms in Federated Learning &#8212; fl-sim 0.1.dev436+g7e329ae51 documentation</title>
+    <title>Overview of Optimization Algorithms in Federated Learning &#8212; fl-sim 0.1.dev437+gab23bea33 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=948e496b"></script>
+    <script src="../_static/documentation_options.js?v=fa83ac2c"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -224,7 +224,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev436+g7e329ae51 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.dev437+gab23bea33 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -664,7 +664,7 @@ hence accelerating the convergence of the algorithm. This may well be thought of
 <strong>skipping</strong> algorithm, which were further developed in [Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Mishchenko <em>et al.</em><a class="footnote-reference brackets" href="#footcite-proxskip" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>, Zhang and Loizou<a class="footnote-reference brackets" href="#footcite-proxskip-vr" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>].
 Pseudocode for <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> is shown as follows:</p>
 <div class="pseudocode-container docutils container" id="pcode-fedavg">
-<pre class="scopeline-pseudocode" id="pseudocode-139730170146160" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140070660769680" data-line-number="true">\begin{algorithm}
 \caption{Pseudo-code for \texttt{FedAvg}}
 \begin{algorithmic}
 \REQUIRE learning rate $\eta$, batch size $B$
@@ -732,7 +732,7 @@ to the whole algorithm framework. Indeed, the authors of the <code class="docuti
 a federated learning framework called <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> [Reddi <em>et al.</em><a class="footnote-reference brackets" href="#footcite-reddi2020fed-opt" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></a>] which has stronger adaptability.
 The pseudocode for <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> is shown as follows:</p>
 <div class="pseudocode-container docutils container" id="pcode-fedopt">
-<pre class="scopeline-pseudocode" id="pseudocode-139730170248208" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140070660782880" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedOpt}}
 \begin{algorithmic}
 \REQUIRE methods {\bfseries ServerOpt, ClientOpt}, learning rates (schedule) $\eta_g, \eta_l$
@@ -801,7 +801,7 @@ technique [Johnson and Zhang<a class="footnote-reference brackets" href="#footci
 [Karimireddy <em>et al.</em><a class="footnote-reference brackets" href="#footcite-karimireddy2020scaffold" id="id24" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>] in the form of a new federated learning algorithm called <strong>SCAFFOLD</strong>
 (Stochastic Controlled Averaging algorithm). The pseudocode for <strong>SCAFFOLD</strong> is shown as follows:</p>
 <div class="pseudocode-container docutils container" id="pcode-scaffold">
-<pre class="scopeline-pseudocode" id="pseudocode-139730170150432" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140070660664016" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{SCAFFOLD} (Stochastic Controlled Averaging)}
 \begin{algorithmic}
 \REQUIRE server learning rate $\eta_g,$ client learning rates $\eta_k,$ $\forall k \in [K]$
