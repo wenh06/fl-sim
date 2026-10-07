@@ -70,6 +70,11 @@ jobs:
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:pytorch2-latest
           ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:latest
     - name: Test the Docker image
+      # on pull_request events the images are neither pushed to Docker Hub
+      # nor loaded into the local docker daemon (buildx docker-container
+      # driver), so the smoke test below (which pulls the images by tag)
+      # can only run after an actual push
+      if: github.event_name != 'pull_request'
       run: |
         docker images  # list local images
         docker run \
