@@ -17,7 +17,10 @@ jobs:
 
   build:
     # Don't run on forked repos.
-    if: contains(fromJson('["wenh06"]'), github.repository_owner)
+    # Skip dependabot PRs: their workflows can not access the DOCKER_HUB_*
+    # secrets, so the image tags would be built as invalid references
+    # (e.g. "/fl-sim:python-slim").
+    if: contains(fromJson('["wenh06"]'), github.repository_owner) && github.actor != 'dependabot[bot]'
 
     runs-on: ubuntu-22.04
 
