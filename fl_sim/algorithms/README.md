@@ -16,3 +16,5 @@ this folder contains algorithms for federated learning
 12. [FedDyn](https://arxiv.org/abs/2111.04263) ![test-feddyn](https://github.com/wenh06/fl-sim/actions/workflows/test-feddyn.yml/badge.svg)
 13. [pFedMac](https://arxiv.org/abs/2107.05330) ![test-pfedmac](https://github.com/wenh06/fl-sim/actions/workflows/test-pfedmac.yml/badge.svg)
 14. [FPFC](https://arxiv.org/abs/2211.04218) ![test-fpfc](https://github.com/wenh06/fl-sim/actions/workflows/test-fpfc.yml/badge.svg)
+15. [FedDC](https://arxiv.org/abs/2203.11751) ![test-feddc](https://github.com/wenh06/fl-sim/actions/workflows/test-feddc.yml/badge.svg)
+16. FedCR (ICML 2023) ![test-fedcr](https://github.com/wenh06/fl-sim/actions/workflows/test-fedcr.yml/badge.svg)
