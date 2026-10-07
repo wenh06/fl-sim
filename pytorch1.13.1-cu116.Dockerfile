@@ -37,7 +37,12 @@ RUN ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 # http://pypi.douban.com/simple/
 # RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ## Include the following line if you have a requirements.txt file.
-RUN pip install -r requirements-no-torch.txt
+# datasets >= 4.1 requires pyarrow >= 21, whose wheels are manylinux_2_28-only
+# (glibc >= 2.28, incompatible with this Ubuntu 18.04-based image); pin the
+# last versions that ship wheels compatible with the older glibc.
+# (PIP_PREFER_BINARY alone is not enough here: the version floor keeps the
+# resolver on the sdist, whose build needs a Rust compiler for libcst.)
+RUN pip install -r requirements-no-torch.txt "datasets<4.1" "pyarrow<21"
 RUN pip install -r requirements-viz.txt
 # RUN pip install torch==1.13.1+cu116 -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip install torchvision==0.14.1+cu116 --no-deps -f https://download.pytorch.org/whl/torch_stable.html
