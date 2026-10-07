@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的优化算法概述 &#8212; fl-sim 0.1.dev431+g5f531f2a1 文档</title>
+    <title>联邦学习中的优化算法概述 &#8212; fl-sim 0.1.dev432+g26c453da3 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1953c9d5"></script>
+    <script src="../_static/documentation_options.js?v=cd343c11"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev431+g5f531f2a1 文档</p>
+    <p class="title logo__title">fl-sim 0.1.dev432+g26c453da3 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -641,7 +641,7 @@ document.write(`
 <h2>联邦平均算法<a class="headerlink" href="#federated-averaging-algorithm" title="Link to this heading">#</a></h2>
 <p>联邦平均算法的核心思想，是充分利用子节点的计算能力，在以学习率 <span class="math notranslate nohighlight">\(\eta\)</span> 执行完一定轮数的随机梯度下降 (Stochastic Gradient Descent, SGD) 之后，由中心节点收集各子节点发送过来的模型参数，进行平均 (Averaging)，之后再将平均之后的模型参数广播 (Broadcast) 给子节点进行下一轮迭代。这样规避了每一轮 SGD 都进行通信带来的巨大的通信开销，在加速模型训练的同时，数值上在某些情况下还有更好的收敛性。这实际上是一种比较朴素与简单的“跳步”的思想，这种思想在随后的研究 [Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Mishchenko <em>et al.</em><a class="footnote-reference brackets" href="#footcite-proxskip" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>, Zhang and Loizou<a class="footnote-reference brackets" href="#footcite-proxskip-vr" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>] 中也得到了进一步的发展。<code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 的伪代码如下：</p>
 <div class="pseudocode-container docutils container" id="pcode-fedavg">
-<pre class="scopeline-pseudocode" id="pseudocode-140390030886032" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139846177605232" data-line-number="true">\begin{algorithm}
 \caption{Pseudo-code for \texttt{FedAvg}}
 \begin{algorithmic}
 \REQUIRE learning rate $\eta$, batch size $B$
@@ -692,7 +692,7 @@ document.write(`
 <h2>联邦平均算法的改进<a class="headerlink" href="#a-direct-improvement-of-fedavg" title="Link to this heading">#</a></h2>
 <p>因为联邦平均算法是以随机梯度下降法为基础的，那么一个自然的想法就是将随机梯度下降法的一些加速的技巧 [Duchi <em>et al.</em><a class="footnote-reference brackets" href="#footcite-adagrad" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></a>, Kingma and Ba<a class="footnote-reference brackets" href="#footcite-adam" id="id18" role="doc-noteref"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></a>, Zaheer <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zaheer-2018-yogi" id="id19" role="doc-noteref"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></a>, Reddi <em>et al.</em><a class="footnote-reference brackets" href="#footcite-adamw-amsgrad" id="id20" role="doc-noteref"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></a>] 引入联邦学习整个算法体系内。由于联邦学习子节点与中心节点的计算相对独立、没有耦合，所以这种做法并不需要对联邦学习整个算法框架做大改动，是一种可行的方法。事实上，联邦平均算法的作者在随后发表的文章 [Reddi <em>et al.</em><a class="footnote-reference brackets" href="#footcite-reddi2020fed-opt" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></a>] 中实践了这一想法，提出了一个泛用性更强的自适应联邦学习算法框架 <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code>，其伪代码如下：</p>
 <div class="pseudocode-container docutils container" id="pcode-fedopt">
-<pre class="scopeline-pseudocode" id="pseudocode-140390030898272" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139846176814080" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedOpt}}
 \begin{algorithmic}
 \REQUIRE methods {\bfseries ServerOpt, ClientOpt}, learning rates (schedule) $\eta_g, \eta_l$
@@ -750,7 +750,7 @@ v^{(t)} &amp; \gets \beta_2 v^{(t-1)} + (1 - \beta_2) ( \Delta^{(t)} )^2 \\
 <p><code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> 将机器学习领域内常用的一些加速的技巧应用于联邦学习的场景，是 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 较为平凡但又重要的推广。它另一个更重要的意义在于充分表明了联邦学习子节点与中心节点的计算的解耦合的性质。</p>
 <p>联邦平均算法 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 与自适应联邦学习算法 <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> 考虑的主要是数据在各子节点之间独立同分布的场景。对于更具有实际意义的数据非独立同分布的场景，我们需要引入一些别的工具来处理这种情况。此时，各子节点上的梯度在分布上是有差异的，一个很自然的想法就是引入一些额外的参数，与模型参数一起更新，利用这些额外的参数对子节点的梯度进行修正，减小各子节点上的梯度在分布上的差异，进而达到使算法收敛更稳定以及加速收敛的目的。这种技术就是方差缩减 (Variance Reduction, VR) 技术 [Johnson and Zhang<a class="footnote-reference brackets" href="#footcite-johnson2013accelerating" id="id23" role="doc-noteref"><span class="fn-bracket">[</span>17<span class="fn-bracket">]</span></a>]，由 [Karimireddy <em>et al.</em><a class="footnote-reference brackets" href="#footcite-karimireddy2020scaffold" id="id24" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>] 以算法 <strong>SCAFFOLD</strong> (Stochastic Controlled Averaging algorithm) 的形式首次引入联邦学习中。<strong>SCAFFOLD</strong> 的伪代码如下：</p>
 <div class="pseudocode-container docutils container" id="pcode-scaffold">
-<pre class="scopeline-pseudocode" id="pseudocode-140390029078160" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139846176926944" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{SCAFFOLD} (Stochastic Controlled Averaging)}
 \begin{algorithmic}
 \REQUIRE server learning rate $\eta_g,$ client learning rates $\eta_k,$ $\forall k \in [K]$
