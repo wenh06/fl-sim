@@ -9,7 +9,13 @@ import torch
 from torch_ecg.utils.misc import get_required_args
 
 from fl_sim.models import ResNet10
-from fl_sim.optimizers import available_optimizers, available_optimizers_plus, get_inner_solver, get_optimizer, get_oracle
+from fl_sim.optimizers import (
+    available_optimizers,
+    available_optimizers_plus,
+    get_inner_solver,
+    get_optimizer,
+    get_oracle,
+)
 from fl_sim.optimizers._register import _built_in_optimizers
 
 
@@ -61,6 +67,11 @@ def test_optimizers():
         model = ResNet10(10).train()
         if optimizer_name in available_optimizers:
             continue
+        if optimizer_name == "Muon":
+            # `torch.optim.Muon` (added in torch 2.9) supports only 2D parameters,
+            # hence it can not be instantiated with ResNet10's parameters,
+            # which also include 1D ones (biases, batch-normalization weights, etc.)
+            continue
         oracle = get_oracle(optimizer_name, model.parameters(), config)
         assert isinstance(oracle, torch.optim.Optimizer)
         required_kwargs = get_required_args(oracle.step)
@@ -92,7 +103,9 @@ def test_optimizers():
 
     model = ResNet10(10).train()
     local_model = ResNet10(10).train()
-    inner_solver = get_inner_solver("test-files/custom_optimizer.py", model.parameters(), config)
+    inner_solver = get_inner_solver(
+        "test-files/custom_optimizer.py", model.parameters(), config
+    )
     assert isinstance(inner_solver, torch.optim.Optimizer)
     inner_solver.zero_grad()
     loss = criterion(model(x), y)
@@ -104,7 +117,9 @@ def test_optimizers():
 
     model = ResNet10(10).train()
     local_model = ResNet10(10).train()
-    inner_solver = get_inner_solver("test-files/custom_optimizer.CustomOptimizer", model.parameters(), config)
+    inner_solver = get_inner_solver(
+        "test-files/custom_optimizer.CustomOptimizer", model.parameters(), config
+    )
     assert isinstance(inner_solver, torch.optim.Optimizer)
     inner_solver.zero_grad()
     loss = criterion(model(x), y)

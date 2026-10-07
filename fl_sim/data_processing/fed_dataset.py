@@ -1,5 +1,6 @@
 import random
 import re
+import time
 from abc import ABC, abstractmethod
 from collections import OrderedDict
 from pathlib import Path
@@ -20,6 +21,13 @@ from torch_ecg.utils import ReprMixin
 from ..utils._download_data import download_from_mirrors
 from ..utils.const import CACHED_DATA_DIR
 from ..utils.misc import set_seed
+
+# `HfUriError` is new in `huggingface_hub` 2.0;
+# older versions accept the ``hf://datasets/{alias}@{hash}/...`` URIs as-is
+try:
+    from huggingface_hub.errors import HfUriError as _HfUriError
+except ImportError:
+    _HfUriError = None
 
 __all__ = [
     "FedDataset",
@@ -67,7 +75,9 @@ class FedDataset(ReprMixin, CitationMixin, ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def load_partition_data_distributed(self, process_id: int, batch_size: Optional[int] = None) -> tuple:
+    def load_partition_data_distributed(
+        self, process_id: int, batch_size: Optional[int] = None
+    ) -> tuple:
         """Get local dataloader at client `process_id` or get global dataloader"""
         raise NotImplementedError
 
@@ -226,7 +236,9 @@ class FedVisionDataset(FedDataset, ABC):
         """Preload data."""
         raise NotImplementedError
 
-    def load_partition_data_distributed(self, process_id: int, batch_size: Optional[int] = None) -> tuple:
+    def load_partition_data_distributed(
+        self, process_id: int, batch_size: Optional[int] = None
+    ) -> tuple:
         """Get local dataloader at client `process_id` or get global dataloader.
 
         Parameters
@@ -263,7 +275,9 @@ class FedVisionDataset(FedDataset, ABC):
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         if process_id == 0:
             # get global dataset
-            train_data_global, test_data_global = self.get_dataloader(_batch_size, _batch_size)
+            train_data_global, test_data_global = self.get_dataloader(
+                _batch_size, _batch_size
+            )
             train_data_num = len(train_data_global.dataset)
             test_data_num = len(test_data_global.dataset)
             train_data_local = None
@@ -271,7 +285,9 @@ class FedVisionDataset(FedDataset, ABC):
             local_data_num = 0
         else:
             # get local dataset
-            train_data_local, test_data_local = self.get_dataloader(_batch_size, _batch_size, process_id - 1)
+            train_data_local, test_data_local = self.get_dataloader(
+                _batch_size, _batch_size, process_id - 1
+            )
             train_data_num = local_data_num = len(train_data_local.dataset)
             train_data_global = None
             test_data_global = None
@@ -326,7 +342,9 @@ class FedVisionDataset(FedDataset, ABC):
         test_data_local_dict = dict()
 
         for client_idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM):
-            train_data_local, test_data_local = self.get_dataloader(_batch_size, _batch_size, client_idx)
+            train_data_local, test_data_local = self.get_dataloader(
+                _batch_size, _batch_size, client_idx
+            )
             local_data_num = len(train_data_local.dataset)
             data_local_num_dict[client_idx] = local_data_num
             train_data_local_dict[client_idx] = train_data_local
@@ -334,14 +352,22 @@ class FedVisionDataset(FedDataset, ABC):
 
         # global dataset
         train_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(list(dl.dataset for dl in list(train_data_local_dict.values()))),
+            torchdata.ConcatDataset(
+                list(dl.dataset for dl in list(train_data_local_dict.values()))
+            ),
             batch_size=_batch_size,
             shuffle=True,
         )
         train_data_num = len(train_data_global.dataset)
 
         test_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(list(dl.dataset for dl in list(test_data_local_dict.values()) if dl is not None)),
+            torchdata.ConcatDataset(
+                list(
+                    dl.dataset
+                    for dl in list(test_data_local_dict.values())
+                    if dl is not None
+                )
+            ),
             batch_size=_batch_size,
             shuffle=True,
         )
@@ -505,7 +531,9 @@ class FedNLPDataset(FedDataset, ABC):
         """Get dataloader for client `client_idx` or get global dataloader."""
         raise NotImplementedError
 
-    def load_partition_data_distributed(self, process_id: int, batch_size: Optional[int] = None) -> tuple:
+    def load_partition_data_distributed(
+        self, process_id: int, batch_size: Optional[int] = None
+    ) -> tuple:
         """Get local dataloader at client `process_id` or get global dataloader.
 
         Parameters
@@ -542,7 +570,9 @@ class FedNLPDataset(FedDataset, ABC):
         _batch_size = batch_size or self.DEFAULT_BATCH_SIZE
         if process_id == 0:
             # get global dataset
-            train_data_global, test_data_global = self.get_dataloader(batch_size, batch_size)
+            train_data_global, test_data_global = self.get_dataloader(
+                batch_size, batch_size
+            )
             train_data_num = len(train_data_global.dataset)
             test_data_num = len(test_data_global.dataset)
             train_data_local = None
@@ -550,7 +580,9 @@ class FedNLPDataset(FedDataset, ABC):
             local_data_num = 0
         else:
             # get local dataset
-            train_data_local, test_data_local = self.get_dataloader(batch_size, batch_size, process_id - 1)
+            train_data_local, test_data_local = self.get_dataloader(
+                batch_size, batch_size, process_id - 1
+            )
             train_data_num = local_data_num = len(train_data_local.dataset)
             train_data_global = None
             test_data_global = None
@@ -610,7 +642,9 @@ class FedNLPDataset(FedDataset, ABC):
         test_data_local_dict = dict()
 
         for client_idx in range(self.DEFAULT_TRAIN_CLIENTS_NUM):
-            train_data_local, test_data_local = self.get_dataloader(batch_size, batch_size, client_idx)
+            train_data_local, test_data_local = self.get_dataloader(
+                batch_size, batch_size, client_idx
+            )
             local_data_num = len(train_data_local.dataset)
             data_local_num_dict[client_idx] = local_data_num
             train_data_local_dict[client_idx] = train_data_local
@@ -618,14 +652,22 @@ class FedNLPDataset(FedDataset, ABC):
 
         # global dataset
         train_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(list(dl.dataset for dl in list(train_data_local_dict.values()))),
+            torchdata.ConcatDataset(
+                list(dl.dataset for dl in list(train_data_local_dict.values()))
+            ),
             batch_size=batch_size,
             shuffle=True,
         )
         train_data_num = len(train_data_global.dataset)
 
         test_data_global = torchdata.DataLoader(
-            torchdata.ConcatDataset(list(dl.dataset for dl in list(test_data_local_dict.values()) if dl is not None)),
+            torchdata.ConcatDataset(
+                list(
+                    dl.dataset
+                    for dl in list(test_data_local_dict.values())
+                    if dl is not None
+                )
+            ),
             batch_size=batch_size,
             shuffle=True,
         )
@@ -654,6 +696,53 @@ class FedNLPDataset(FedDataset, ABC):
     @property
     def is_iid(self) -> bool:
         return self._is_iid
+
+
+def _resolve_hf_dataset_name(name: str) -> str:
+    """Resolve a (canonical) HuggingFace dataset name to its namespaced repo id.
+
+    Canonical dataset names without a namespace (e.g. ``"sst2"``) are aliases that
+    are redirected by the Hub to their namespaced repository ids
+    (e.g. ``"stanfordnlp/sst2"``). Newer versions of `huggingface_hub` (>= 2.0)
+    reject URIs whose repository id is not of the form ``namespace/name``,
+    while `datasets` keeps the alias as-is when building internal ``hf://`` URIs,
+    hence the alias has to be resolved before passing it to `datasets.load_dataset`.
+
+    Parameters
+    ----------
+    name : str
+        The name (or the namespaced repository id) of the dataset.
+
+    Returns
+    -------
+    str
+        The namespaced repository id of the dataset,
+        or the original `name` if the resolution fails
+        (e.g. no network connection, in which case the dataset
+        is to be loaded from the local cache).
+
+    """
+    if "/" in name:
+        # already a (namespaced) repository id
+        return name
+    try:
+        from datasets import config as HFD_config
+        from huggingface_hub import HfApi
+
+        api = HfApi(endpoint=HFD_config.HF_ENDPOINT)
+        # a few attempts to be resilient to transient network failures
+        last_err = None
+        for _ in range(3):
+            try:
+                return api.dataset_info(name).id
+            except Exception as err:
+                last_err = err
+                time.sleep(0.5)
+        raise last_err
+    except Exception:
+        # e.g. no network connection (the dataset is to be loaded from the local cache),
+        # or the dataset does not exist (a proper error will be raised by `load_dataset`)
+        return name
 
 
 class NLPDataset(torchdata.Dataset, ReprMixin):
@@ -698,7 +787,9 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         self.label_names = label_names
         if self.label_map and self.label_names:
             # If labels are remapped, the label names have to be remapped as well.
-            self.label_names = [self.label_names[self.label_map[i]] for i in self.label_map]
+            self.label_names = [
+                self.label_names[self.label_map[i]] for i in self.label_map
+            ]
         self.shuffled = shuffle
         self.output_scale_factor = output_scale_factor
 
@@ -732,15 +823,24 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
         if isinstance(example[0], str):
             if len(self.input_columns) != 1:
                 raise ValueError(
-                    "Mismatch between the number of columns in `input_columns` " "and number of columns of actual input."
+                    "Mismatch between the number of columns in `input_columns` "
+                    "and number of columns of actual input."
                 )
-            input_dict = OrderedDict([(self.input_columns[0], self.clip_text(example[0]))])
+            input_dict = OrderedDict(
+                [(self.input_columns[0], self.clip_text(example[0]))]
+            )
         else:
             if len(self.input_columns) != len(example[0]):
                 raise ValueError(
-                    "Mismatch between the number of columns in `input_columns` " "and number of columns of actual input."
+                    "Mismatch between the number of columns in `input_columns` "
+                    "and number of columns of actual input."
                 )
-            input_dict = OrderedDict([(c, self.clip_text(example[0][i])) for i, c in enumerate(self.input_columns)])
+            input_dict = OrderedDict(
+                [
+                    (c, self.clip_text(example[0][i]))
+                    for i, c in enumerate(self.input_columns)
+                ]
+            )
         return input_dict, output
 
     def shuffle(self) -> None:
@@ -802,7 +902,21 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
 
         """
         if isinstance(ds, str):
-            _ds = HFD_load_dataset(ds, split=split)
+            try:
+                _ds = HFD_load_dataset(ds, split=split)
+            except Exception as err:
+                if _HfUriError is None or not isinstance(err, _HfUriError):
+                    raise
+                # `datasets` builds `hf://datasets/{alias}@{commit_hash}/...` URIs
+                # for canonical (namespace-less) dataset names like ``"sst2"``,
+                # which `huggingface_hub` >= 2.0 rejects. Resolve the alias
+                # to its namespaced repository id (e.g. ``"stanfordnlp/sst2"``)
+                # and retry.
+                resolved = _resolve_hf_dataset_name(ds)
+                if resolved == ds:
+                    # the alias could not be resolved (e.g. no network connection)
+                    raise err from None
+                _ds = HFD_load_dataset(resolved, split=split)
         else:
             _ds = ds
         if isinstance(_ds.column_names, dict):
@@ -815,13 +929,20 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
 
         if sets:
             ret_ds = NLPDataset(
-                [(NLPDataset._gen_input(row, input_columns), row[output_column]) for s in sets for row in _ds[s]],
+                [
+                    (NLPDataset._gen_input(row, input_columns), row[output_column])
+                    for s in sets
+                    for row in _ds[s]
+                ],
                 input_columns=input_columns,
                 max_len=max_len,
             )
         else:
             ret_ds = NLPDataset(
-                [(NLPDataset._gen_input(row, input_columns), row[output_column]) for row in _ds],
+                [
+                    (NLPDataset._gen_input(row, input_columns), row[output_column])
+                    for row in _ds
+                ],
                 input_columns=input_columns,
                 max_len=max_len,
             )
@@ -831,7 +952,11 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
     def clip_text(self, text: str) -> str:
         if self.max_len is None:
             return text
-        inds = [m.start() for m in re.finditer(f"[{punctuation}]", text) if m.start() < self.max_len]
+        inds = [
+            m.start()
+            for m in re.finditer(f"[{punctuation}]", text)
+            if m.start() < self.max_len
+        ]
         if len(inds) == 0:
             return text[: self.max_len]
         return text[: inds[-1]]
@@ -919,7 +1044,8 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
             output_column = "label"
         else:
             raise ValueError(
-                f"Unsupported dataset column_names {_column_names}. " "Try passing your own `dataset_columns` argument."
+                f"Unsupported dataset column_names {_column_names}. "
+                "Try passing your own `dataset_columns` argument."
             )
 
         return input_columns, output_column
@@ -947,7 +1073,9 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
             A tensor dataset instance.
 
         """
-        assert self.label_map is not None, "Label map must be set before converting to tensor dataset."
+        assert (
+            self.label_map is not None
+        ), "Label map must be set before converting to tensor dataset."
         if labels_to_keep is not None:
             self.filter_labels(labels_to_keep)
         X, y = {c: [] for c in self.input_columns}, []
@@ -999,7 +1127,9 @@ class VisionDataset(torchdata.Dataset):
             self.transform = transforms.ToTensor()
         self.target_transform = target_transform
 
-    def __getitem__(self, index: Union[slice, int]) -> Tuple[torch.Tensor, Union[torch.Tensor, int]]:
+    def __getitem__(
+        self, index: Union[slice, int]
+    ) -> Tuple[torch.Tensor, Union[torch.Tensor, int]]:
         """Returns an image and its label."""
         img, target = self.images[index], self.targets[index]
         if isinstance(index, int):

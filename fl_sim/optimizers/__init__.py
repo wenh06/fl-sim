@@ -63,13 +63,18 @@ _extra_kwargs = dict(
 )
 
 
-_available_optimizers = {item: get_builtin_optimizer(item) for item in list_builtin_optimizers()}
+_available_optimizers = {
+    item: get_builtin_optimizer(item) for item in list_builtin_optimizers()
+}
 
 available_optimizers = list(_available_optimizers)
 _extra_opt_optimizers = {
     obj_name: getattr(opt, obj_name)
     for obj_name in dir(opt)
-    if eval(f"inspect.isclass(opt.{obj_name}) and issubclass(opt.{obj_name}, Optimizer) " f"and opt.{obj_name} != Optimizer")
+    if eval(
+        f"inspect.isclass(opt.{obj_name}) and issubclass(opt.{obj_name}, Optimizer) "
+        f"and opt.{obj_name} != Optimizer"
+    )
 }
 _extra_topt_optimizers = {
     obj_name: getattr(topt, obj_name)
@@ -174,14 +179,18 @@ def get_optimizer(
                 optimizer_cls = topt.get(optimizer_name)
             except ValueError:
                 optimizer_cls = eval(f"topt.{optimizer_name}")
-            optimizer = optimizer_cls(params, **_get_cls_init_args(optimizer_cls, config))
+            optimizer = optimizer_cls(
+                params, **_get_cls_init_args(optimizer_cls, config)
+            )
             # print(f"Optimizer `{optimizer_name}` from torch_optimizer is used.")
             step_args = inspect.getfullargspec(optimizer.step).args
             optimizer.step = add_kwargs(
                 optimizer.step,
                 **{k: v for k, v in _extra_kwargs.items() if k not in step_args},
             )
-            if packaging.version.parse(torch_version) < packaging.version.parse("2.4.0"):
+            if packaging.version.parse(torch_version) < packaging.version.parse(
+                "2.4.0"
+            ):
                 optimizer.step._with_counter = True
             else:
                 optimizer.step._wrapped_by_lr_sched = True
@@ -209,6 +218,21 @@ def get_optimizer(
                 # is a .py file
                 # in this case, there should be only one optimizer class registered in the file
                 optimizer_name = None
+            elif "." not in optimizer_file.name:
+                # `optimizer_name` is neither a (federated) builtin optimizer,
+                # nor an optimizer from `torch.optim` / `torch_optimizer` that can be
+                # instantiated with the given parameters,
+                # nor a path to a custom optimizer file of the form
+                # ``/path/to/opt_file_stem.opt_name``.
+                # This happens for example for `torch.optim.Muon` (torch >= 2.9),
+                # which supports only 2D parameters, hence can not be instantiated
+                # with parameters that also include 1D ones (biases, norm weights, etc.)
+                raise ValueError(
+                    f"optimizer `{optimizer_name}` not found, or not applicable to the given parameters. "
+                    "Custom optimizers should be added via `register_optimizer` and referred to "
+                    "by a path of the form ``/path/to/opt_file_stem.opt_name`` "
+                    "(or ``/path/to/opt_file.py`` if the file registers only one optimizer)."
+                )
             else:
                 # of the form /path/to/opt_file_stem.opt_name
                 # in this case, there could be multiple optimizers registered in the file
@@ -222,7 +246,11 @@ def get_optimizer(
             optimizer_module = load_module_from_file(optimizer_file)
             # the custom algorithm should be added to the optimizer pool
             # using the decorator @register_optimizer
-            new_optimizers = [item for item in list_builtin_optimizers() if item not in builtin_optimizers]
+            new_optimizers = [
+                item
+                for item in list_builtin_optimizers()
+                if item not in builtin_optimizers
+            ]
             if optimizer_name is None:
                 if len(new_optimizers) == 0:
                     raise ValueError(
@@ -301,7 +329,9 @@ def get_inner_solver(
 
 
 @add_docstring(
-    get_optimizer.__doc__.replace("get optimizer", "get oracle").replace("optimizer = get_optimizer", "oracle = get_oracle")
+    get_optimizer.__doc__.replace("get optimizer", "get oracle").replace(
+        "optimizer = get_optimizer", "oracle = get_oracle"
+    )
 )
 def get_oracle(
     optimizer_name: Union[str, type],

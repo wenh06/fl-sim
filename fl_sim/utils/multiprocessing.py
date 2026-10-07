@@ -22,11 +22,28 @@ from torch_ecg.cfg import CFG
 from ..cli import single_run
 from .output_redirector import generate_output_redirector, release_output
 
-__all__ = ["Task", "Worker", "ProcessStatus", "OutputManager", "MultiprocessManager", "run_parallel_tasks"]
+__all__ = [
+    "Task",
+    "Worker",
+    "ProcessStatus",
+    "OutputManager",
+    "MultiprocessManager",
+    "run_parallel_tasks",
+]
+
+
+# patterns to parse progress info from plain-text (stdout/stderr) log messages,
+# e.g. "Training epoch 3/10 with clients 2/5", "epoch: 1/5", "Training with client 2/3"
+_EPOCH_PATTERN = re.compile(r"epoch\s*:?\s*(\d+)\s*/\s*(\d+)", re.IGNORECASE)
+_CLIENT_PATTERN = re.compile(r"clients?\s*:?\s*(\d+)\s*/\s*(\d+)", re.IGNORECASE)
 
 
 def report_progress(
-    n_iter=None, num_iters=None, current_client_progress=None, selected_clients_count=None, training_phase="idle"
+    n_iter=None,
+    num_iters=None,
+    current_client_progress=None,
+    selected_clients_count=None,
+    training_phase="idle",
 ) -> None:
     """Report the progress of the server."""
     if hasattr(sys.stdout, "_send"):
@@ -34,8 +51,12 @@ def report_progress(
         progress_data = {
             "current_iter": n_iter if n_iter is not None else 0,
             "total_iters": num_iters if num_iters is not None else 0,
-            "current_clients": current_client_progress if current_client_progress is not None else 0,
-            "total_clients": selected_clients_count if selected_clients_count is not None else 0,
+            "current_clients": (
+                current_client_progress if current_client_progress is not None else 0
+            ),
+            "total_clients": (
+                selected_clients_count if selected_clients_count is not None else 0
+            ),
             "phase": training_phase,  # 'idle', 'training', 'evaluating', 'updating'
         }
 
@@ -77,8 +98,20 @@ class ProcessStatus:
             progress_data = eval(content)
             self.current_epoch = progress_data.get("current_iter", self.current_epoch)
             self.total_epochs = progress_data.get("total_iters", self.total_epochs)
-            self.current_clients = progress_data.get("current_clients", self.current_clients)
+            self.current_clients = progress_data.get(
+                "current_clients", self.current_clients
+            )
             self.total_clients = progress_data.get("total_clients", self.total_clients)
+        elif content:
+            # try to parse progress info from plain-text log messages
+            epoch_match = _EPOCH_PATTERN.search(content)
+            client_match = _CLIENT_PATTERN.search(content)
+            if epoch_match is not None:
+                self.current_epoch = int(epoch_match.group(1))
+                self.total_epochs = int(epoch_match.group(2))
+            if client_match is not None:
+                self.current_clients = int(client_match.group(1))
+                self.total_clients = int(client_match.group(2))
 
         self.last_update = time.time()
 
@@ -94,8 +127,16 @@ class ProcessStatus:
         time_str = f"{elapsed//60:02d}:{elapsed%60:02d}"
 
         # Build status components
-        epoch_str = f"{self.current_epoch}/{self.total_epochs}" if self.total_epochs > 0 else "-/-"
-        client_str = f"{self.current_clients}/{self.total_clients}" if self.total_clients > 0 else "-/-"
+        epoch_str = (
+            f"{self.current_epoch}/{self.total_epochs}"
+            if self.total_epochs > 0
+            else "-/-"
+        )
+        client_str = (
+            f"{self.current_clients}/{self.total_clients}"
+            if self.total_clients > 0
+            else "-/-"
+        )
 
         # Format: [Tag] PID:xxxx Epoch:x/x Clients:x/x Time:xx:xx Status:xxxxx
         return (
@@ -178,7 +219,9 @@ class OutputManager:
 
         # Print status if both conditions are met
         # OR if a very long time has passed (5x the normal interval) regardless of log count
-        force_print = (current_time - self.last_status_print) >= (self.status_interval * 5)
+        force_print = (current_time - self.last_status_print) >= (
+            self.status_interval * 5
+        )
 
         return time_elapsed and (enough_logs or force_print)
 
@@ -201,12 +244,20 @@ class OutputManager:
                 print(status.get_status_line())
 
             # Summary statistics
-            running = sum(1 for s in self.process_statuses.values() if s.status == "Running")
-            completed = sum(1 for s in self.process_statuses.values() if s.status == "Completed")
-            total_messages = sum(s.message_count for s in self.process_statuses.values())
+            running = sum(
+                1 for s in self.process_statuses.values() if s.status == "Running"
+            )
+            completed = sum(
+                1 for s in self.process_statuses.values() if s.status == "Completed"
+            )
+            total_messages = sum(
+                s.message_count for s in self.process_statuses.values()
+            )
 
             print("-" * 80)
-            print(f"Running: {running} | Task Progress: {completed}/{self.total_tasks} | Total Messages: {total_messages}")
+            print(
+                f"Running: {running} | Task Progress: {completed}/{self.total_tasks} | Total Messages: {total_messages}"
+            )
             print("=" * 80 + "\n")
 
     def _display_loop(self):
@@ -240,11 +291,15 @@ class OutputManager:
             print("MULTIPROCESS FEDERATED LEARNING EXECUTION")
             print("=" * 80)
             print("Starting execution... Press Ctrl+C to stop")
-            print(f"Status updates: every {self.status_interval}s (if >{self.min_log_lines} logs)")
+            print(
+                f"Status updates: every {self.status_interval}s (if >{self.min_log_lines} logs)"
+            )
             print("-" * 80 + "\n")
 
             # Start display thread
-            self.display_thread = threading.Thread(target=self._display_loop, daemon=True)
+            self.display_thread = threading.Thread(
+                target=self._display_loop, daemon=True
+            )
             self.display_thread.start()
 
     def stop(self) -> None:
@@ -274,7 +329,9 @@ class OutputManager:
                     duration = int((status.end_time or time.time()) - status.start_time)
                     print(f"  {status.task_tag}:")
                     print(f"    PID: {status.pid}")
-                    print(f"    Final Progress: Epoch {status.current_epoch}/{status.total_epochs}")
+                    print(
+                        f"    Final Progress: Epoch {status.current_epoch}/{status.total_epochs}"
+                    )
                     print(f"    Duration: {duration//60:02d}:{duration%60:02d}")
                     print(f"    Messages: {status.message_count}")
                     print(f"    Status: {status.status}")
@@ -285,7 +342,9 @@ class OutputManager:
             print(f"\nTotal logs collected: {len(self.all_logs)}")
 
             # Option to save logs
-            print("\nAll logs have been displayed above and are available in terminal history.")
+            print(
+                "\nAll logs have been displayed above and are available in terminal history."
+            )
 
         print("=" * 80 + "\n")
 
@@ -376,7 +435,9 @@ class Worker:
             raise ValueError("No task assigned to worker")
 
         # Use spawn context to create subprocess
-        self.process = self.ctx.Process(target=_worker_process, args=(self.task, self.output_queue))
+        self.process = self.ctx.Process(
+            target=_worker_process, args=(self.task, self.output_queue)
+        )
         self.process.start()
         self.pid = self.process.pid
         return self.pid
@@ -396,7 +457,12 @@ class Worker:
 class MultiprocessManager:
     """Manager for multiple federated learning processes."""
 
-    def __init__(self, num_workers: int = None, status_interval: float = 2.0, min_log_lines: int = 10):
+    def __init__(
+        self,
+        num_workers: int = None,
+        status_interval: float = 2.0,
+        min_log_lines: int = 10,
+    ):
         # Set spawn method
         try:
             mp.set_start_method("spawn", force=True)
@@ -405,7 +471,9 @@ class MultiprocessManager:
             pass
 
         self.num_workers = num_workers or min(os.cpu_count(), 4)
-        self.output_manager = OutputManager(status_interval=status_interval, min_log_lines=min_log_lines)
+        self.output_manager = OutputManager(
+            status_interval=status_interval, min_log_lines=min_log_lines
+        )
         self.workers: List[Worker] = []
         self.tasks: List[Task] = []
         self.completed_tasks = 0
@@ -442,11 +510,15 @@ class MultiprocessManager:
                     task = self.tasks[task_index]
                     worker.assign_task(task)
                     pid = worker.start()
-                    self.output_manager.register_process(pid, task.task_id, task.task_tag)
+                    self.output_manager.register_process(
+                        pid, task.task_id, task.task_tag
+                    )
                     task_index += 1
 
             # Monitor and reassign tasks
-            while task_index < len(self.tasks) or any(w.is_alive() for w in self.workers):
+            while task_index < len(self.tasks) or any(
+                w.is_alive() for w in self.workers
+            ):
                 for worker in self.workers:
                     if not worker.is_alive():
                         # Mark previous task as completed
@@ -460,7 +532,9 @@ class MultiprocessManager:
                             task = self.tasks[task_index]
                             worker.assign_task(task)
                             pid = worker.start()
-                            self.output_manager.register_process(pid, task.task_id, task.task_tag)
+                            self.output_manager.register_process(
+                                pid, task.task_id, task.task_tag
+                            )
                             task_index += 1
 
                 time.sleep(0.5)
