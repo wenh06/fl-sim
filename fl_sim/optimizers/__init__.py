@@ -209,6 +209,21 @@ def get_optimizer(
                 # is a .py file
                 # in this case, there should be only one optimizer class registered in the file
                 optimizer_name = None
+            elif "." not in optimizer_file.name:
+                # `optimizer_name` is neither a (federated) builtin optimizer,
+                # nor an optimizer from `torch.optim` / `torch_optimizer` that can be
+                # instantiated with the given parameters,
+                # nor a path to a custom optimizer file of the form
+                # ``/path/to/opt_file_stem.opt_name``.
+                # This happens for example for `torch.optim.Muon` (torch >= 2.9),
+                # which supports only 2D parameters, hence can not be instantiated
+                # with parameters that also include 1D ones (biases, norm weights, etc.)
+                raise ValueError(
+                    f"optimizer `{optimizer_name}` not found, or not applicable to the given parameters. "
+                    "Custom optimizers should be added via `register_optimizer` and referred to "
+                    "by a path of the form ``/path/to/opt_file_stem.opt_name`` "
+                    "(or ``/path/to/opt_file.py`` if the file registers only one optimizer)."
+                )
             else:
                 # of the form /path/to/opt_file_stem.opt_name
                 # in this case, there could be multiple optimizers registered in the file

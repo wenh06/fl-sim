@@ -22,11 +22,28 @@ from torch_ecg.cfg import CFG
 from ..cli import single_run
 from .output_redirector import generate_output_redirector, release_output
 
-__all__ = ["Task", "Worker", "ProcessStatus", "OutputManager", "MultiprocessManager", "run_parallel_tasks"]
+__all__ = [
+    "Task",
+    "Worker",
+    "ProcessStatus",
+    "OutputManager",
+    "MultiprocessManager",
+    "run_parallel_tasks",
+]
+
+
+# patterns to parse progress info from plain-text (stdout/stderr) log messages,
+# e.g. "Training epoch 3/10 with clients 2/5", "epoch: 1/5", "Training with client 2/3"
+_EPOCH_PATTERN = re.compile(r"epoch\s*:?\s*(\d+)\s*/\s*(\d+)", re.IGNORECASE)
+_CLIENT_PATTERN = re.compile(r"clients?\s*:?\s*(\d+)\s*/\s*(\d+)", re.IGNORECASE)
 
 
 def report_progress(
-    n_iter=None, num_iters=None, current_client_progress=None, selected_clients_count=None, training_phase="idle"
+    n_iter=None,
+    num_iters=None,
+    current_client_progress=None,
+    selected_clients_count=None,
+    training_phase="idle",
 ) -> None:
     """Report the progress of the server."""
     if hasattr(sys.stdout, "_send"):
@@ -34,8 +51,8 @@ def report_progress(
         progress_data = {
             "current_iter": n_iter if n_iter is not None else 0,
             "total_iters": num_iters if num_iters is not None else 0,
-            "current_clients": current_client_progress if current_client_progress is not None else 0,
-            "total_clients": selected_clients_count if selected_clients_count is not None else 0,
+            "current_clients": (current_client_progress if current_client_progress is not None else 0),
+            "total_clients": (selected_clients_count if selected_clients_count is not None else 0),
             "phase": training_phase,  # 'idle', 'training', 'evaluating', 'updating'
         }
 
@@ -79,6 +96,16 @@ class ProcessStatus:
             self.total_epochs = progress_data.get("total_iters", self.total_epochs)
             self.current_clients = progress_data.get("current_clients", self.current_clients)
             self.total_clients = progress_data.get("total_clients", self.total_clients)
+        elif content:
+            # try to parse progress info from plain-text log messages
+            epoch_match = _EPOCH_PATTERN.search(content)
+            client_match = _CLIENT_PATTERN.search(content)
+            if epoch_match is not None:
+                self.current_epoch = int(epoch_match.group(1))
+                self.total_epochs = int(epoch_match.group(2))
+            if client_match is not None:
+                self.current_clients = int(client_match.group(1))
+                self.total_clients = int(client_match.group(2))
 
         self.last_update = time.time()
 
@@ -396,7 +423,12 @@ class Worker:
 class MultiprocessManager:
     """Manager for multiple federated learning processes."""
 
-    def __init__(self, num_workers: int = None, status_interval: float = 2.0, min_log_lines: int = 10):
+    def __init__(
+        self,
+        num_workers: int = None,
+        status_interval: float = 2.0,
+        min_log_lines: int = 10,
+    ):
         # Set spawn method
         try:
             mp.set_start_method("spawn", force=True)

@@ -528,10 +528,10 @@ class Node(ReprMixin, ABC):
                 d = yaml.safe_load(d.read_text())
             else:
                 raise ValueError(f"unsupported file type: {d.suffix}")
-        epochs = list(sorted(np.unique([item["epoch"] for _, v in d[part].items() for item in v])))
+        epochs = list(sorted(np.unique([item["epoch"] for client, v in d[part].items() if client != "Server" for item in v])))
         metric_curve = [[] for _ in range(len(epochs))]
         num_samples = [0 for _ in range(len(epochs))]
-        for _, v in tqdm(
+        for client, v in tqdm(
             d[part].items(),
             mininterval=1,
             desc="Aggregating results",
@@ -540,7 +540,7 @@ class Node(ReprMixin, ABC):
             leave=False,
             disable=int(os.environ.get("FLSIM_VERBOSE", "1")) < 1,
         ):
-            if v.key == "Server":
+            if client == "Server":
                 # skip server metrics
                 continue
             for item in v:

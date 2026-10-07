@@ -1,5 +1,6 @@
 import random
 import re
+import time
 from abc import ABC, abstractmethod
 from collections import OrderedDict
 from pathlib import Path
@@ -20,6 +21,13 @@ from torch_ecg.utils import ReprMixin
 from ..utils._download_data import download_from_mirrors
 from ..utils.const import CACHED_DATA_DIR
 from ..utils.misc import set_seed
+
+# `HfUriError` is new in `huggingface_hub` 2.0;
+# older versions accept the ``hf://datasets/{alias}@{hash}/...`` URIs as-is
+try:
+    from huggingface_hub.errors import HfUriError as _HfUriError
+except ImportError:
+    _HfUriError = None
 
 __all__ = [
     "FedDataset",
@@ -656,6 +664,53 @@ class FedNLPDataset(FedDataset, ABC):
         return self._is_iid
 
 
+def _resolve_hf_dataset_name(name: str) -> str:
+    """Resolve a (canonical) HuggingFace dataset name to its namespaced repo id.
+
+    Canonical dataset names without a namespace (e.g. ``"sst2"``) are aliases that
+    are redirected by the Hub to their namespaced repository ids
+    (e.g. ``"stanfordnlp/sst2"``). Newer versions of `huggingface_hub` (>= 2.0)
+    reject URIs whose repository id is not of the form ``namespace/name``,
+    while `datasets` keeps the alias as-is when building internal ``hf://`` URIs,
+    hence the alias has to be resolved before passing it to `datasets.load_dataset`.
+
+    Parameters
+    ----------
+    name : str
+        The name (or the namespaced repository id) of the dataset.
+
+    Returns
+    -------
+    str
+        The namespaced repository id of the dataset,
+        or the original `name` if the resolution fails
+        (e.g. no network connection, in which case the dataset
+        is to be loaded from the local cache).
+
+    """
+    if "/" in name:
+        # already a (namespaced) repository id
+        return name
+    try:
+        from datasets import config as HFD_config
+        from huggingface_hub import HfApi
+
+        api = HfApi(endpoint=HFD_config.HF_ENDPOINT)
+        # a few attempts to be resilient to transient network failures
+        last_err = None
+        for _ in range(3):
+            try:
+                return api.dataset_info(name).id
+            except Exception as err:
+                last_err = err
+                time.sleep(0.5)
+        raise last_err
+    except Exception:
+        # e.g. no network connection (the dataset is to be loaded from the local cache),
+        # or the dataset does not exist (a proper error will be raised by `load_dataset`)
+        return name
+
+
 class NLPDataset(torchdata.Dataset, ReprMixin):
     """Dataset for loading text data.
 
@@ -802,7 +857,21 @@ class NLPDataset(torchdata.Dataset, ReprMixin):
 
         """
         if isinstance(ds, str):
-            _ds = HFD_load_dataset(ds, split=split)
+            try:
+                _ds = HFD_load_dataset(ds, split=split)
+            except Exception as err:
+                if _HfUriError is None or not isinstance(err, _HfUriError):
+                    raise
+                # `datasets` builds `hf://datasets/{alias}@{commit_hash}/...` URIs
+                # for canonical (namespace-less) dataset names like ``"sst2"``,
+                # which `huggingface_hub` >= 2.0 rejects. Resolve the alias
+                # to its namespaced repository id (e.g. ``"stanfordnlp/sst2"``)
+                # and retry.
+                resolved = _resolve_hf_dataset_name(ds)
+                if resolved == ds:
+                    # the alias could not be resolved (e.g. no network connection)
+                    raise err from None
+                _ds = HFD_load_dataset(resolved, split=split)
         else:
             _ds = ds
         if isinstance(_ds.column_names, dict):
