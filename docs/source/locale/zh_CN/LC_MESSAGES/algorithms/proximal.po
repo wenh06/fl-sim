@@ -365,5 +365,3 @@ msgstr "伪代码总结如下。"
 #: ../../foot_bibliography_header:1
 msgid "References"
 msgstr "参考文献"
-
-
