@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-05 20:57+0800\n"
+"POT-Creation-Date: 2026-10-08 11:31+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh <LL@li.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.16.0\n"
@@ -265,13 +265,105 @@ msgstr ""
 "[:footcite:ct:`hanzely2020federated, acar2021feddyn, li_2021_ditto, "
 "t2020pfedme, li2021pfedmac`] 都依赖于引入邻近项（或者类似的项）作为模型个性化的主要技术手段。"
 
-#: ../../source/algorithms/proximal.rst:211
-msgid "to write more...."
-msgstr "待补充……"
+#: ../../source/algorithms/proximal.rst:214
+msgid ""
+"``FedDC``: Federated Learning with Local Drift Decoupling and Correction"
+msgstr "``FedDC``：基于局部漂移解耦与校正的联邦学习"
+
+#: ../../source/algorithms/proximal.rst:216
+msgid ""
+"The proximal term of ``FedProx`` pulls each local model towards the global "
+"one, tacitly treating the gap between them as a nuisance to be suppressed. "
+"Under statistical heterogeneity, however, a nonzero drift between the local "
+"and the global model is inherent rather than incidental: the local models "
+"*should* deviate from the global one to better fit their own data "
+"distributions. The federated learning algorithm with local drift decoupling "
+"and correction (``FedDC``, see `arXiv:2203.11751 "
+"<https://arxiv.org/abs/2203.11751>`_) therefore *decouples* the local drift "
+"into an auxiliary variable :math:`h_i` maintained by client :math:`i`, which"
+" tracks the gap between its local model and the global one. The ideal "
+"restriction :math:`h_i = w - \\theta_i` is relaxed into a penalized term, "
+"and the local objective of client :math:`i` in round :math:`t` reads"
+msgstr ""
+"``FedProx`` "
+"的临近项将每个局部模型拉向全局模型，默认把二者之间的差距视为应当被抑制的干扰。然而在统计异质性的情形下，局部模型与全局模型之间非零的漂移是固有的、而非偶然的：局部模型理应偏离全局模型，以便更好地拟合自身的数据分布。因此，具有局部漂移解耦与校正的联邦学习算法（``FedDC``，见"
+" `arXiv:2203.11751 <https://arxiv.org/abs/2203.11751>`_）将局部漂移解耦到由客户端 "
+":math:`i` 维护的辅助变量 :math:`h_i` 中，用以刻画其局部模型与全局模型之间的差距。理想的约束 :math:`h_i = w - "
+"\\theta_i` 被松弛为一个罚项，客户端 :math:`i` 在第 :math:`t` 轮的局部目标函数为"
+
+#: ../../source/algorithms/proximal.rst:226
+msgid ""
+"F(\\theta_i; h_i, D_i, w) = L_i(\\theta_i) + \\frac{\\alpha}{2} "
+"\\left\\lVert \\theta_i + h_i - w \\right\\rVert^2 + \\frac{1}{\\eta K} "
+"\\langle \\theta_i, g_i - g \\rangle,"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:231
+msgid ""
+"where :math:`L_i` is the empirical loss on :math:`D_i`, :math:`\\alpha > 0` "
+"weights the parameter correction term, :math:`\\eta` is the learning rate, "
+":math:`K` is the number of local iterations per round, and :math:`g_i` "
+"(resp. :math:`g`) denotes the last local update value :math:`g_i = "
+"\\theta_i^{+} - \\theta_i` (resp. its sample-size weighted average :math:`g "
+"= \\sum_{i=1}^N \\frac{\\lvert D_i \\rvert}{\\lvert D \\rvert} g_i`); the "
+"inner-product term, adopted from ``SCAFFOLD`` "
+"[:footcite:ct:`karimireddy2020scaffold`], corrects the gradient drift. Note "
+"that the center of the quadratic term is :math:`w - h_i`, i.e. the proximal "
+"center of ``FedProx`` corrected by the drift."
+msgstr ""
+"其中 :math:`L_i` 为 :math:`D_i` 上的经验损失，:math:`\\alpha > 0` "
+"为参数校正项的权重，:math:`\\eta` 为学习率，:math:`K` "
+"为每轮的本地迭代次数；:math:`g_i`（相应地，:math:`g`）表示上一轮的本地更新量 :math:`g_i = \\theta_i^{+} "
+"- \\theta_i`（及其按样本量的加权平均 :math:`g = \\sum_{i=1}^N \\frac{\\lvert D_i "
+"\\rvert}{\\lvert D \\rvert} g_i`）；内积项沿用自 ``SCAFFOLD`` "
+"[:footcite:ct:`karimireddy2020scaffold`]，用以校正梯度漂移。注意二次项的中心是 :math:`w - "
+"h_i`，即被漂移校正后的 ``FedProx`` 临近中心。"
+
+#: ../../source/algorithms/proximal.rst:240
+msgid ""
+"Each round, client :math:`i` initializes :math:`\\theta_i = w` and performs "
+":math:`K` local gradient steps on :math:`F`, which in closed form amounts to"
+msgstr ""
+"每一轮中，客户端 :math:`i` 先将 :math:`\\theta_i` 初始化为 :math:`w`，再对 :math:`F` 执行 "
+":math:`K` 步本地梯度下降，其显式形式为"
+
+#: ../../source/algorithms/proximal.rst:243
+msgid ""
+"\\theta_i^{k+1} = \\theta_i^{k} - \\eta \\nabla L_i(\\theta_i^{k}) - \\eta "
+"\\alpha \\left( \\theta_i^{k} + h_i - w \\right) - \\frac{1}{K} \\left( g_i "
+"- g \\right)."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:248
+msgid ""
+"Afterwards, the drift variable is updated *reusing* the local update (so "
+"that no additional backpropagation is needed),"
+msgstr "随后，漂移变量的更新复用本地更新量（因而无需额外的反向传播），"
+
+#: ../../source/algorithms/proximal.rst:251
+msgid "h_i^{+} = h_i + \\left( \\theta_i^{+} - \\theta_i \\right),"
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:256
+msgid ""
+"and the drift-corrected local parameters :math:`\\theta_i^{+} + h_i^{+}` are"
+" uploaded, of which the server takes the sample-size weighted average as the"
+" new global model,"
+msgstr ""
+"最后上传经漂移校正后的局部模型参数 :math:`\\theta_i^{+} + h_i^{+}`，服务器对其做按样本量的加权平均以得到新的全局模型，"
+
+#: ../../source/algorithms/proximal.rst:259
+msgid ""
+"w^{+} = \\sum_{i=1}^N \\frac{\\lvert D_i \\rvert}{\\lvert D \\rvert} \\left("
+" \\theta_i^{+} + h_i^{+} \\right)."
+msgstr ""
+
+#: ../../source/algorithms/proximal.rst:264
+msgid "The pseudocode is summarized below."
+msgstr "伪代码总结如下。"
 
 #: ../../foot_bibliography_header:1
 msgid "References"
 msgstr "参考文献"
 
-#~ msgid "Psuedocode for ``FedProx``"
-#~ msgstr "``FedProx`` 伪代码"
+

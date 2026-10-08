@@ -208,6 +208,63 @@ as the main technical tool for personalization.
 
 .. include:: ../_algo_pcode/feddyn.rst
 
-to write more....
+.. _fl_alg_proximal_feddc:
+
+``FedDC``: Federated Learning with Local Drift Decoupling and Correction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The proximal term of ``FedProx`` pulls each local model towards the global one, tacitly treating
+the gap between them as a nuisance to be suppressed. Under statistical heterogeneity, however, a
+nonzero drift between the local and the global model is inherent rather than incidental: the local
+models *should* deviate from the global one to better fit their own data distributions. The
+federated learning algorithm with local drift decoupling and correction (``FedDC``, see
+`arXiv:2203.11751 <https://arxiv.org/abs/2203.11751>`_) therefore *decouples* the local drift into
+an auxiliary variable :math:`h_i` maintained by client :math:`i`, which tracks the gap between its
+local model and the global one. The ideal restriction :math:`h_i = w - \theta_i` is relaxed into a
+penalized term, and the local objective of client :math:`i` in round :math:`t` reads
+
+.. math::
+   :label: feddc-obj
+
+   F(\theta_i; h_i, D_i, w) = L_i(\theta_i) + \frac{\alpha}{2} \left\lVert \theta_i + h_i - w \right\rVert^2 + \frac{1}{\eta K} \langle \theta_i, g_i - g \rangle,
+
+where :math:`L_i` is the empirical loss on :math:`D_i`, :math:`\alpha > 0` weights the parameter
+correction term, :math:`\eta` is the learning rate, :math:`K` is the number of local iterations per
+round, and :math:`g_i` (resp. :math:`g`) denotes the last local update value
+:math:`g_i = \theta_i^{+} - \theta_i` (resp. its sample-size weighted average
+:math:`g = \sum_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} g_i`); the inner-product term,
+adopted from ``SCAFFOLD`` [:footcite:ct:`karimireddy2020scaffold`], corrects the gradient drift.
+Note that the center of the quadratic term is :math:`w - h_i`, i.e. the proximal center of
+``FedProx`` corrected by the drift.
+
+Each round, client :math:`i` initializes :math:`\theta_i = w` and performs :math:`K` local
+gradient steps on :math:`F`, which in closed form amounts to
+
+.. math::
+   :label: feddc-step
+
+   \theta_i^{k+1} = \theta_i^{k} - \eta \nabla L_i(\theta_i^{k}) - \eta \alpha \left( \theta_i^{k} + h_i - w \right) - \frac{1}{K} \left( g_i - g \right).
+
+Afterwards, the drift variable is updated *reusing* the local update (so that no additional
+backpropagation is needed),
+
+.. math::
+   :label: feddc-h
+
+   h_i^{+} = h_i + \left( \theta_i^{+} - \theta_i \right),
+
+and the drift-corrected local parameters :math:`\theta_i^{+} + h_i^{+}` are uploaded, of which the
+server takes the sample-size weighted average as the new global model,
+
+.. math::
+   :label: feddc-agg
+
+   w^{+} = \sum_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} \left( \theta_i^{+} + h_i^{+} \right).
+
+The pseudocode is summarized below.
+
+.. _pcode-feddc:
+
+.. include:: ../_algo_pcode/feddc.rst
 
 .. footbibliography::

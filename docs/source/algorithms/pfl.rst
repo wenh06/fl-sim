@@ -120,4 +120,66 @@ neither the number of clusters nor the cluster membership needs to be specified 
 
 .. include:: ../_algo_pcode/fpfc.rst
 
+.. _fl_alg_pfl_fedcr:
+
+``FedCR``: Personalized Federated Learning Based on Across-Client Common Representation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The methods above personalize the *whole* local model. ``FedCR`` (see
+`ICML 2023 <https://proceedings.mlr.press/v202/zhang23w.html>`_) instead decouples each local model
+:math:`w_i = [w_i^f, w_i^p]` into a *feature extractor* (body) :math:`w_i^f`, shared across
+clients and aggregated at the server, and a *predictor* (head) :math:`w_i^p`, kept personal. The
+extractors are aligned through a *common representation*: for each class :math:`c`, the local
+class-conditional mutual information is constrained to be close to the global one, which (via the
+Markov chain :math:`y \to x \to z`) amounts to a class-wise feature alignment
+
+.. math::
+   :label: fedcr-cmi
+
+   I(z; x \mid y_i) - I_i(z; x_i \mid y_i) = \mathbb{E}_{p(x_i, y_i)} \mathbb{E}_{p(x \mid x_i, y_i)} \left[ \mathrm{KL}\left[ p(z \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],
+
+weighted by a Lagrange multiplier :math:`\beta \geqslant 0` (the CMI regularizer). The
+representation mapping is modeled as a diagonal Gaussian
+:math:`p(z \mid x_i) = \mathcal{N}\left(z \,\middle|\, \mu(x_i), \Sigma(x_i)\right)`, under which
+the intractable global posterior is estimated by a *product of experts* (PoE) over the class-wise
+local posteriors of the active clients :math:`\mathcal{P}_t`, with prior :math:`p(z) = \mathcal{N}(0, 1)`:
+
+.. math::
+   :label: fedcr-poe
+
+   p(z^c \mid x) \propto p(z) \prod_{i \in \mathcal{P}_t} p^c(z \mid x_i), \qquad
+   p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)^{1 / N_i^{c}},
+
+where :math:`p^c(z \mid x_i)` is the (geometric-mean) local PoE over the :math:`N_i^{c}` samples
+of class :math:`c` at client :math:`i`, computed on the fly from the latest forward passes of
+local training. As a product of Gaussians is itself Gaussian, both PoEs reduce to class-wise
+means and covariances: each client uploads :math:`(\mu_i^c, \Sigma_i^c)` for its classes only,
+and the server combines them analytically via the precisions,
+
+.. math::
+   :label: fedcr-poe-closed
+
+   \Sigma^c = \left( I + \sum_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}, \qquad
+   \mu^c = \Sigma^c \sum_{i \in \mathcal{P}_t} \mu_i^c \left( \Sigma_i^c \right)^{-1},
+
+besides averaging the extractors, :math:`w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum_{i \in \mathcal{P}_t} w_i^f`.
+Classes missed by all active clients keep the statistics of the previous round. The local
+objective of client :math:`i` is its empirical loss plus the alignment term above,
+
+.. math::
+   :label: fedcr-obj
+
+   L_i = f_i(w_i) + \beta \, \mathbb{E}_{p(x_i, y_i)} \left[ \mathrm{KL}\left[ p(z^{c = y_i} \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],
+
+optimized with the re-parameterization trick for the stochastic features. Since the PoE posterior
+can be sharper than any single expert, the common representation carries not only the common but
+also the complementary information across clients; the alignment term doubles as noise injection
+into the local features, which improves generalization and uncertainty calibration. Note that for
+:math:`\beta = 0` and :math:`\Sigma(x_i) = 0` (deterministic features), the method degenerates to
+``FedPer``. The pseudocode is summarized below.
+
+.. _pcode-fedcr:
+
+.. include:: ../_algo_pcode/fedcr.rst
+
 .. footbibliography::
