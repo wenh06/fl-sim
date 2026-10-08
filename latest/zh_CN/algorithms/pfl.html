@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.dev437+gab23bea33 文档</title>
+    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.dev438+g0a7e69f90 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=118e5001"></script>
+    <script src="../_static/documentation_options.js?v=54366e1b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev437+gab23bea33 文档</p>
+    <p class="title logo__title">fl-sim 0.1.dev438+g0a7e69f90 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -549,6 +549,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>：基于跨客户端共性表示的个性化联邦学习</a></li>
 </ul>
             </nav>
         </div>
@@ -583,7 +584,7 @@ document.write(`
 \end{cases}\end{split}\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(p \in (0, 1)\)</span>。注意，计算 <span class="math notranslate nohighlight">\(\nabla f(\Theta) = \col(\nabla f_1(\theta_1), \ldots, \nabla f_K(\theta_K))\)</span> 是完全块分离的：在联邦学习的场景下，这一步只需在客户端本地完成，不涉及与服务器的任何通信，这对以通信为主要瓶颈的联邦学习是巨大的优势。从这个意义上说，<code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> 已经融入了*无环*（跳步）的思想；参见 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a> 中的 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code>。在额外的有限和假设 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \sum_{j=1}^m f_{k,j}(\theta_k)\)</span> 下，还可以进一步把该随机梯度与随机 Kaczmarz 型（重要性采样）更新结合起来；关于无环方法的分析参见 [Kovalev <em>et al.</em><a class="footnote-reference brackets" href="#footcite-kovalev2020-loopless" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。由此得到的算法总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-l2sgd">
-<pre class="scopeline-pseudocode" id="pseudocode-140424957829824" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632218327888" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{L2SGD}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ probability $p \in (0, 1)$
@@ -613,7 +614,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-pfedme">
-<pre class="scopeline-pseudocode" id="pseudocode-140424956642064" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632218329136" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMe}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ global update smoothing factor $\beta,$ {\bfseries proximal solvers} $\texttt{prox\_update}_k$
@@ -645,7 +646,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-ditto">
-<pre class="scopeline-pseudocode" id="pseudocode-140424957487488" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632218330336" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{Ditto}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\mu,$ learning rate $\eta,$ methods $\textbf{UpdateGlobal}, \textbf{Aggregate}$
@@ -670,7 +671,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-apfl">
-<pre class="scopeline-pseudocode" id="pseudocode-140424957491040" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632218325680" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{APFL}}
 \begin{algorithmic}
 \REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
@@ -707,7 +708,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-feddyn">
-<pre class="scopeline-pseudocode" id="pseudocode-140424957484080" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632215946432" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDyn}}
 \begin{algorithmic}
 \REQUIRE penalty coeffecient $\mu$
@@ -731,7 +732,7 @@ document.write(`
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-pfedmac">
-<pre class="scopeline-pseudocode" id="pseudocode-140424957176816" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632215946000" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMac}}
 \begin{algorithmic}
 \REQUIRE learning rate $\eta$, penalty coefficient $\lambda$, $\beta$
@@ -771,7 +772,7 @@ document.write(`
 \end{array}\end{split}\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(\tilde{g}(\cdot)\)</span> 是平滑的 SCAD 型罚函数（由 <span class="math notranslate nohighlight">\(\xi, \lambda, a\)</span> 参数化），其近端算子把较小的成对差收缩到零（同簇的客户端），而几乎不动较大的差（不同簇的客户端）。该问题用 ADMM 式（Douglas--Rachford）分裂求解：增广拉格朗日罚参数为 <span class="math notranslate nohighlight">\(\rho\)</span>，对偶变量为 <span class="math notranslate nohighlight">\(v_{ij}\)</span>；每一轮，随机选中的一部分设备在 <span class="math notranslate nohighlight">\(f_i(\omega) + \frac{\rho}{2} \lVert \omega - \zeta_i \rVert^2\)</span> 上做 <span class="math notranslate nohighlight">\(T_i\)</span> 个 epoch 的本地梯度下降，服务器对活跃设备的成对变量 <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> 施加分段近端更新并做对偶上升。训练结束后，<span class="math notranslate nohighlight">\(\lVert \theta_{ij} \rVert\)</span> （近乎）为零的设备 <span class="math notranslate nohighlight">\(i\)</span> 与 <span class="math notranslate nohighlight">\(j\)</span> 被分到同一个簇。伪代码总结如下；注意，无论簇的个数还是簇的成员关系都不需要事先指定。</p>
 <div class="pseudocode-container docutils container" id="pcode-fpfc">
-<pre class="scopeline-pseudocode" id="pseudocode-140424955989536" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632218339696" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FPFC}}
 \begin{algorithmic}
 \REQUIRE number of devices $m,$ number of rounds $K,$ local epochs $T_i,$ stepsize $\alpha,$ penalty parameters $\xi, \lambda, a,$ and $\rho$
@@ -800,6 +801,52 @@ document.write(`
 \STATE \ENDFOR
 \STATE for $i \notin \mathcal{A}_k$ or $j \notin \mathcal{A}_k$: $\theta_{ij}^{k+1} = \theta_{ij}^k, ~ v_{ij}^{k+1} = v_{ij}^k$
 \STATE for $i \in [m]$: $\hspace{0.5em}$ $\zeta_i^{k+1} = \frac{1}{m} \sum\limits_{j=1}^m \left( \omega_j^{k+1} + \theta_{ij}^{k+1} - v_{ij}^{k+1} / \rho \right)$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="fedcr-personalized-federated-learning-based-on-across-client-common-representation">
+<span id="fl-alg-pfl-fedcr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>：基于跨客户端共性表示的个性化联邦学习<a class="headerlink" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation" title="Link to this heading">#</a></h2>
+<p>上述方法个性化的是整个局部模型。<a href="#id1"><span class="problematic" id="id2">``</span></a>FedCR``（见 <a class="reference external" href="https://proceedings.mlr.press/v202/zhang23w.html">ICML 2023</a>）则将每个局部模型 <span class="math notranslate nohighlight">\(w_i = [w_i^f, w_i^p]\)</span> 解耦为跨客户端共享、在服务器端聚合的特征提取器（主体）:math:<cite>w_i^f</cite>，以及保持个性化的预测器（头部）:math:<cite>w_i^p</cite>。特征提取器经由共性表示进行对齐：对每个类别 <span class="math notranslate nohighlight">\(c\)</span>，局部的类条件互信息被约束为接近全局的类条件互信息；借由马尔可夫链 <span class="math notranslate nohighlight">\(y \to x \to z\)</span>，这等价于类别级的特征对齐</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-cmi">
+<span class="eqno">(4)<a class="headerlink" href="#equation-fedcr-cmi" title="Link to this equation">#</a></span>\[I(z; x \mid y_i) - I_i(z; x_i \mid y_i) = \mathbb{E}_{p(x_i, y_i)} \mathbb{E}_{p(x \mid x_i, y_i)} \left[ \mathrm{KL}\left[ p(z \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
+<p>对齐项由拉格朗日乘子 <span class="math notranslate nohighlight">\(\beta \geqslant 0\)</span> 加权（即 CMI 正则项）。表示映射建模为对角高斯分布 <span class="math notranslate nohighlight">\(p(z \mid x_i) = \mathcal{N}\left(z \,\middle|\, \mu(x_i), \Sigma(x_i)\right)\)</span>；在此之下，难以直接求解的全局后验由活跃客户端集合 <span class="math notranslate nohighlight">\(\mathcal{P}_t\)</span> 的类别级局部后验的专家乘积（PoE）来估计，先验取 <span class="math notranslate nohighlight">\(p(z) = \mathcal{N}(0, 1)\)</span>：</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-poe">
+<span class="eqno">(5)<a class="headerlink" href="#equation-fedcr-poe" title="Link to this equation">#</a></span>\[p(z^c \mid x) \propto p(z) \prod_{i \in \mathcal{P}_t} p^c(z \mid x_i), \qquad
+p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)^{1 / N_i^{c}},\]</div>
+<p>其中 <span class="math notranslate nohighlight">\(p^c(z \mid x_i)\)</span> 为客户端 <span class="math notranslate nohighlight">\(i\)</span> 上类别 <span class="math notranslate nohighlight">\(c\)</span> 的 <span class="math notranslate nohighlight">\(N_i^{c}\)</span> 个样本的（几何平均）局部专家乘积，直接取自本地训练中最新一轮前向传播的结果。高斯分布的乘积仍为高斯分布，故两个 PoE 都可化为类别级的均值与协方差：每个客户端只需上传其拥有的类别的 <span class="math notranslate nohighlight">\((\mu_i^c, \Sigma_i^c)\)</span>，服务器经由精度（协方差之逆）解析地合并，</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-poe-closed">
+<span class="eqno">(6)<a class="headerlink" href="#equation-fedcr-poe-closed" title="Link to this equation">#</a></span>\[\Sigma^c = \left( I + \sum_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}, \qquad
+\mu^c = \Sigma^c \sum_{i \in \mathcal{P}_t} \mu_i^c \left( \Sigma_i^c \right)^{-1},\]</div>
+<p>同时对特征提取器做平均：<span class="math notranslate nohighlight">\(w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum_{i \in \mathcal{P}_t} w_i^f\)</span>。所有活跃客户端都不具备的类别沿用上一轮的统计量。客户端 <span class="math notranslate nohighlight">\(i\)</span> 的局部目标即其经验损失加上上述对齐项，</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-obj">
+<span class="eqno">(7)<a class="headerlink" href="#equation-fedcr-obj" title="Link to this equation">#</a></span>\[L_i = f_i(w_i) + \beta \, \mathbb{E}_{p(x_i, y_i)} \left[ \mathrm{KL}\left[ p(z^{c = y_i} \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
+<p>对随机特征采用重参数化技巧进行优化。由于专家乘积的后验可以比任何单一专家更尖锐，共性表示不仅承载客户端之间的共性信息，也承载互补信息；对齐项同时起到向局部特征注入噪声的作用，可改善泛化与不确定性校准。注意当 <span class="math notranslate nohighlight">\(\beta = 0\)</span> 且 <span class="math notranslate nohighlight">\(\Sigma(x_i) = 0`（确定性特征）时，该方法退化为 ``FedPer`\)</span>。伪代码总结如下。</p>
+<div class="pseudocode-container docutils container" id="pcode-fedcr">
+<pre class="scopeline-pseudocode" id="pseudocode-139632217578640" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{FedCR}}
+\begin{algorithmic}
+\REQUIRE number of clients $m,$ number of rounds $T,$ local steps $K,$ learning rate $\eta,$ CMI coefficient $\beta$; class-wise initialization $\mu_0^c = 0,$ $\Sigma_0^c = I$ for all classes $c$
+
+\FOR{each round $t = 1, 2, \cdots, T$}
+\STATE the server samples a subset of active clients $\mathcal{P}_t$ and sends $w^f$, $\mu_t^c$ and $\Sigma_t^c$ ($\forall c \in \mathcal{C}$) to each $i \in \mathcal{P}_t$
+\STATE \FOR{each client $i \in \mathcal{P}_t$ {in parallel}}
+\STATE initialize the local model as $w_{i,0} = [w^f, w_i^p]$
+\FOR{$k = 1, 2, \cdots, K$}
+\STATE $\hspace{1.3em}$ update the whole network by SGD on the local objective:
+\STATE $\hspace{1.3em}$ $w_{i,k} = w_{i,k-1} - \eta \nabla L_i$, where
+\STATE $\hspace{2.3em}$ $L_i \approx \frac{1}{N_i} \sum\limits_{n=1}^{N_i} \left[ -\log \hat{p}\left( y_i^{(n)} \,\middle|\, z^{(n)} \right) + \beta \, \mathrm{KL}\left[ p(z^{c = y_i^{(n)}} \mid x) \,\middle\|\, p(z \mid x_i^{(n)}) \right] \right]$
+\STATE \ENDFOR
+\STATE aggregate the class-wise local features via the local PoE: $\mu_i^c, \Sigma_i^c$ for $c \in \mathcal{C}_i$
+\STATE keep the personal head $w_i^p = w_{i,K}^p$
+\STATE send $w_{i,K}^f$ and $\mu_i^c, \Sigma_i^c$ ($\forall c \in \mathcal{C}_i$) to the server
+\STATE \ENDFOR
+\STATE {Server Update:}
+\STATE average the feature extractors: $w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum\limits_{i \in \mathcal{P}_t} w_{i,K}^f$
+\STATE for classes $c$ contained in no active client: keep $\mu_t^c = \mu_{t-1}^c$, $\Sigma_t^c = \Sigma_{t-1}^c$
+\STATE aggregate the global class-wise features via the PoE with prior $p(z) = \mathcal{N}(0, 1)$, i.e. for $c$ contained in some active client:
+\STATE $\hspace{1.3em}$ $\Sigma_t^c = \left( I + \sum\limits_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}$, \quad $\mu_t^c = \Sigma_t^c \sum\limits_{i \in \mathcal{P}_t} \mu_i^c \left( \Sigma_i^c \right)^{-1}$
+\STATE send $w^f$, $\mu_t^c$ and $\Sigma_t^c$ ($\forall c \in \mathcal{C}$) to the clients
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
@@ -867,6 +914,7 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>：基于跨客户端共性表示的个性化联邦学习</a></li>
 </ul>
   </nav></div>
 

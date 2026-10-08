@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Proximal Algorithms in Federated Learning &#8212; fl-sim 0.1.dev437+gab23bea33 documentation</title>
+    <title>Proximal Algorithms in Federated Learning &#8212; fl-sim 0.1.dev438+g0a7e69f90 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=fa83ac2c"></script>
+    <script src="../_static/documentation_options.js?v=0f03211f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -224,7 +224,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev437+gab23bea33 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.dev438+g0a7e69f90 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -523,7 +523,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -539,6 +541,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddc-federated-learning-with-local-drift-decoupling-and-correction"><code class="docutils literal notranslate"><span class="pre">FedDC</span></code>: Federated Learning with Local Drift Decoupling and Correction</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -572,7 +582,7 @@ the overall optimization problem can be modeled as the following constrained opt
 <p>For alternatives for the proximal center, studies were conducted in [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>] which would be
 introduced later. Now, we summarize the pseudocode for <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> as follows:</p>
 <div class="pseudocode-container docutils container" id="pcode-fedprox">
-<pre class="scopeline-pseudocode" id="pseudocode-140070660959840" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480719022656" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedProx}}
 \begin{algorithmic}
 \REQUIRE penalty constant $\mu,$ constant $\gamma \in [0, 1]$
@@ -611,7 +621,7 @@ Moreau envelope of a function <span class="math notranslate nohighlight">\(f_k\)
 <span class="eqno">(5)<a class="headerlink" href="#equation-prox-moreau-relation" title="Link to this equation">#</a></span>\[\prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.\]</div>
 <p>Namely, <span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span> can be regarded as the gradient descent operator for minimizing <span class="math notranslate nohighlight">\(\mathcal{M}_{sf_k}\)</span> with step size <span class="math notranslate nohighlight">\(s\)</span>.</p>
 <p>For the convergence of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> in non-I.I.D. scenarios, [Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-sahu2018fedprox" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] has the following theorem:</p>
-<div class="proof proof-type-theorem" id="id17">
+<div class="proof proof-type-theorem" id="id18">
 <span id="fedprox-thm4"></span>
     <div class="proof-title">
         <span class="proof-type">Theorem </span>
@@ -634,7 +644,7 @@ the following inequality holds</p>
 (i.e. <span class="math notranslate nohighlight">\(\theta^{(t)} \in \mathcal{S}_{\varepsilon}^c\)</span>), the following decrease in the global objective function holds</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-obj-decrease">
 <span class="eqno">(8)<a class="headerlink" href="#equation-fedprox-obj-decrease" title="Link to this equation">#</a></span>\[\expectation\nolimits_{\mathcal{S}^{(t)}}[f(\theta^{(t+1)})] \leqslant f(\theta^{(t)}) - \rho \lVert \nabla f (\theta^{(t)}) \rVert^2.\]</div>
-</div></div><div class="proof proof-type-remark" id="id18">
+</div></div><div class="proof proof-type-remark" id="id19">
 <span id="fedprox-rem1"></span>
     <div class="proof-title">
         <span class="proof-type">Remark </span>
@@ -653,11 +663,11 @@ whole of the <code class="docutils literal notranslate"><span class="pre">FedPro
 analysis, but also a good starting point for the design of new algorithms. A large proportion of the algorithms proposed later for personalized
 fedrated learning [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Acar <em>et al.</em><a class="footnote-reference brackets" href="#footcite-acar2021feddyn" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>, Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-t2020pfedme" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li2021pfedmac" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a>] rely on the proximal terms (or similar terms)
 as the main technical tool for personalization.</p>
-<div class="figure" id="id19" style="text-align: center">
+<div class="figure" id="id20" style="text-align: center">
 <span id="fig-apfl"></span><p><img width="80%" src="../_images/tikz-a4a11a93d19f47c1e3a684dd5159c5d79f350276.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Schematic diagram for <span class="math notranslate nohighlight">\(f_k(\alpha_k \omega_k + (1 - \alpha_k) \theta^*)\)</span> in the APFL algorithm.</span></p>
 </div><div class="pseudocode-container docutils container" id="pcode-apfl">
-<pre class="scopeline-pseudocode" id="pseudocode-140070662761552" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480719371664" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{APFL}}
 \begin{algorithmic}
 \REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
@@ -693,11 +703,11 @@ as the main technical tool for personalization.</p>
 \STATE where $p_t = (t+a)^2, S_T = \sum\limits_{t=1}^{T}p_t$
 \end{algorithmic}
 \end{algorithm}</pre></div>
-<div class="figure" id="id20" style="text-align: center">
+<div class="figure" id="id21" style="text-align: center">
 <span id="fig-feddyn"></span><p><img width="80%" src="../_images/tikz-ea5939230cbfad9f08b2efbb2087d0f52426b2e4.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Client model parameter update schematic diagram of the FedDyn algorithm.</span></p>
 </div><div class="pseudocode-container docutils container" id="pcode-feddyn">
-<pre class="scopeline-pseudocode" id="pseudocode-140070662763232" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480717496160" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDyn}}
 \begin{algorithmic}
 \REQUIRE penalty coeffecient $\mu$
@@ -720,9 +730,70 @@ as the main technical tool for personalization.</p>
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
-<p>to write more….</p>
+<section id="feddc-federated-learning-with-local-drift-decoupling-and-correction">
+<span id="fl-alg-proximal-feddc"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDC</span></code>: Federated Learning with Local Drift Decoupling and Correction<a class="headerlink" href="#feddc-federated-learning-with-local-drift-decoupling-and-correction" title="Link to this heading">#</a></h2>
+<p>The proximal term of <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> pulls each local model towards the global one, tacitly treating
+the gap between them as a nuisance to be suppressed. Under statistical heterogeneity, however, a
+nonzero drift between the local and the global model is inherent rather than incidental: the local
+models <em>should</em> deviate from the global one to better fit their own data distributions. The
+federated learning algorithm with local drift decoupling and correction (<code class="docutils literal notranslate"><span class="pre">FedDC</span></code>, see
+<a class="reference external" href="https://arxiv.org/abs/2203.11751">arXiv:2203.11751</a>) therefore <em>decouples</em> the local drift into
+an auxiliary variable <span class="math notranslate nohighlight">\(h_i\)</span> maintained by client <span class="math notranslate nohighlight">\(i\)</span>, which tracks the gap between its
+local model and the global one. The ideal restriction <span class="math notranslate nohighlight">\(h_i = w - \theta_i\)</span> is relaxed into a
+penalized term, and the local objective of client <span class="math notranslate nohighlight">\(i\)</span> in round <span class="math notranslate nohighlight">\(t\)</span> reads</p>
+<div class="math notranslate nohighlight" id="equation-feddc-obj">
+<span class="eqno">(9)<a class="headerlink" href="#equation-feddc-obj" title="Link to this equation">#</a></span>\[F(\theta_i; h_i, D_i, w) = L_i(\theta_i) + \frac{\alpha}{2} \left\lVert \theta_i + h_i - w \right\rVert^2 + \frac{1}{\eta K} \langle \theta_i, g_i - g \rangle,\]</div>
+<p>where <span class="math notranslate nohighlight">\(L_i\)</span> is the empirical loss on <span class="math notranslate nohighlight">\(D_i\)</span>, <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> weights the parameter
+correction term, <span class="math notranslate nohighlight">\(\eta\)</span> is the learning rate, <span class="math notranslate nohighlight">\(K\)</span> is the number of local iterations per
+round, and <span class="math notranslate nohighlight">\(g_i\)</span> (resp. <span class="math notranslate nohighlight">\(g\)</span>) denotes the last local update value
+<span class="math notranslate nohighlight">\(g_i = \theta_i^{+} - \theta_i\)</span> (resp. its sample-size weighted average
+<span class="math notranslate nohighlight">\(g = \sum_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} g_i\)</span>); the inner-product term,
+adopted from <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> [Karimireddy <em>et al.</em><a class="footnote-reference brackets" href="#footcite-karimireddy2020scaffold" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></a>], corrects the gradient drift.
+Note that the center of the quadratic term is <span class="math notranslate nohighlight">\(w - h_i\)</span>, i.e. the proximal center of
+<code class="docutils literal notranslate"><span class="pre">FedProx</span></code> corrected by the drift.</p>
+<p>Each round, client <span class="math notranslate nohighlight">\(i\)</span> initializes <span class="math notranslate nohighlight">\(\theta_i = w\)</span> and performs <span class="math notranslate nohighlight">\(K\)</span> local
+gradient steps on <span class="math notranslate nohighlight">\(F\)</span>, which in closed form amounts to</p>
+<div class="math notranslate nohighlight" id="equation-feddc-step">
+<span class="eqno">(10)<a class="headerlink" href="#equation-feddc-step" title="Link to this equation">#</a></span>\[\theta_i^{k+1} = \theta_i^{k} - \eta \nabla L_i(\theta_i^{k}) - \eta \alpha \left( \theta_i^{k} + h_i - w \right) - \frac{1}{K} \left( g_i - g \right).\]</div>
+<p>Afterwards, the drift variable is updated <em>reusing</em> the local update (so that no additional
+backpropagation is needed),</p>
+<div class="math notranslate nohighlight" id="equation-feddc-h">
+<span class="eqno">(11)<a class="headerlink" href="#equation-feddc-h" title="Link to this equation">#</a></span>\[h_i^{+} = h_i + \left( \theta_i^{+} - \theta_i \right),\]</div>
+<p>and the drift-corrected local parameters <span class="math notranslate nohighlight">\(\theta_i^{+} + h_i^{+}\)</span> are uploaded, of which the
+server takes the sample-size weighted average as the new global model,</p>
+<div class="math notranslate nohighlight" id="equation-feddc-agg">
+<span class="eqno">(12)<a class="headerlink" href="#equation-feddc-agg" title="Link to this equation">#</a></span>\[w^{+} = \sum_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} \left( \theta_i^{+} + h_i^{+} \right).\]</div>
+<p>The pseudocode is summarized below.</p>
+<div class="pseudocode-container docutils container" id="pcode-feddc">
+<pre class="scopeline-pseudocode" id="pseudocode-140480721538112" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{FedDC}}
+\begin{algorithmic}
+\REQUIRE number of clients $N,$ number of rounds $T,$ local iterations $K,$ learning rate $\eta,$ correction coefficient $\alpha$
+
+\STATE {Initiation:}
+\STATE $w^0$ on the server
+\STATE $\theta_i^0 = w^0$ and $h_i^0 = 0$ for all $i \in [N]$ on the clients
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+\STATE the server downloads $w^t$ (and $g^t$, if any) to the clients
+\STATE \FOR{each client $i$ {in parallel}}
+\STATE $\theta_i^{t,0} = w^t$
+\FOR{$k = 0, 1, \cdots, K-1$}
+\STATE $\hspace{1.3em}$ $\theta_i^{t,k+1} = \theta_i^{t,k} - \eta \nabla L_i(\theta_i^{t,k}) - \eta \alpha \left( \theta_i^{t,k} + h_i^t - w^t \right) - \frac{1}{K} \left( g_i^t - g^t \right)$
+\STATE \ENDFOR
+\STATE $\theta_i^+ = \theta_i^{t,K}$
+\STATE $h_i^{t+1} = h_i^t + \left( \theta_i^+ - w^t \right)$
+\STATE $g_i^{t+1} = \theta_i^+ - w^t$
+\STATE upload $\theta_i^+ + h_i^{t+1}$ and $g_i^{t+1}$ to the server
+\STATE \ENDFOR
+\STATE {Server Update:}
+\STATE $w^{t+1} = \sum\limits_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} \left( \theta_i^+ + h_i^{t+1} \right)$
+\STATE $g^{t+1} = \sum\limits_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} g_i^{t+1}$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
 <p class="rubric">References</p>
-<div class="docutils container" id="id16">
+<div class="docutils container" id="id17">
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="footcite-sahu2018fedprox" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
@@ -771,8 +842,13 @@ as the main technical tool for personalization.</p>
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">11</a><span class="fn-bracket">]</span></span>
 <p>Yinchuan Li, Xiaofeng Liu, Xu Zhang, Yunfeng Shao, Qing Wang, and Yanhui Geng. Personalized Federated Learning via Maximizing Correlation with Sparse and Hierarchical Extensions. <em>arXiv preprint arXiv:2107.05330</em>, 2021.</p>
 </aside>
+<aside class="footnote brackets" id="footcite-karimireddy2020scaffold" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">12</a><span class="fn-bracket">]</span></span>
+<p>Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In <em>International Conference on Machine Learning</em>, 5132–5143. PMLR, 2020.</p>
+</aside>
 </aside>
 </div>
+</section>
 </section>
 
 
@@ -810,6 +886,21 @@ as the main technical tool for personalization.</p>
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddc-federated-learning-with-local-drift-decoupling-and-correction"><code class="docutils literal notranslate"><span class="pre">FedDC</span></code>: Federated Learning with Local Drift Decoupling and Correction</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

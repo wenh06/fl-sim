@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的临近算法 &#8212; fl-sim 0.1.dev437+gab23bea33 文档</title>
+    <title>联邦学习中的临近算法 &#8212; fl-sim 0.1.dev438+g0a7e69f90 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=118e5001"></script>
+    <script src="../_static/documentation_options.js?v=54366e1b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev437+gab23bea33 文档</p>
+    <p class="title logo__title">fl-sim 0.1.dev438+g0a7e69f90 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -524,7 +524,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -540,6 +542,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddc-federated-learning-with-local-drift-decoupling-and-correction"><code class="docutils literal notranslate"><span class="pre">FedDC</span></code>：基于局部漂移解耦与校正的联邦学习</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -565,7 +575,7 @@ document.write(`
 \end{array}\end{split}\]</div>
 <p>关于邻近项中心的其他选取，[Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>] 进行了研究，我们随后进行详细介绍。我们将联邦临近算法 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的伪代码总结如下：</p>
 <div class="pseudocode-container docutils container" id="pcode-fedprox">
-<pre class="scopeline-pseudocode" id="pseudocode-140424956649408" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632218268400" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedProx}}
 \begin{algorithmic}
 \REQUIRE penalty constant $\mu,$ constant $\gamma \in [0, 1]$
@@ -601,7 +611,7 @@ document.write(`
 <span class="eqno">(5)<a class="headerlink" href="#equation-prox-moreau-relation" title="Link to this equation">#</a></span>\[\prox_{sf_k} (\theta) = \theta - s \nabla \mathcal{M}_{sf_k} (\theta), ~ \forall \theta \in \R^d.\]</div>
 <p>也就是说，<span class="math notranslate nohighlight">\(\prox_{sf_k}\)</span> 可以视作是以 <span class="math notranslate nohighlight">\(s\)</span> 为步长进行的、极小化函数 <span class="math notranslate nohighlight">\(\mathcal{M}_{sf_k}\)</span> 的梯度下降算子。</p>
 <p>关于联邦临近算法 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 在非凸情况下的收敛性，[Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-sahu2018fedprox" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 有如下的结论：</p>
-<div class="proof proof-type-theorem" id="id17">
+<div class="proof proof-type-theorem" id="id18">
 <span id="fedprox-thm4"></span>
     <div class="proof-title">
         <span class="proof-type">Theorem </span>
@@ -618,7 +628,7 @@ document.write(`
 <p>其中 <span class="math notranslate nohighlight">\(\bar{\mu} = \mu - L_- &gt; 0\)</span>。那么在 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的第 <span class="math notranslate nohighlight">\((t+1)\)</span> 步，设前一步的全局模型参数 <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> 为全局目标函数 <span class="math notranslate nohighlight">\(f\)</span> 的一阶非稳定点（即 <span class="math notranslate nohighlight">\(\theta^{(t)} \in \mathcal{S}_{\varepsilon}^c\)</span>），那么 <span class="math notranslate nohighlight">\(f\)</span> 的值满足如下的下降关系</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-obj-decrease">
 <span class="eqno">(8)<a class="headerlink" href="#equation-fedprox-obj-decrease" title="Link to this equation">#</a></span>\[\expectation\nolimits_{\mathcal{S}^{(t)}}[f(\theta^{(t+1)})] \leqslant f(\theta^{(t)}) - \rho \lVert \nabla f (\theta^{(t)}) \rVert^2.\]</div>
-</div></div><div class="proof proof-type-remark" id="id18">
+</div></div><div class="proof proof-type-remark" id="id19">
 <span id="fedprox-rem1"></span>
     <div class="proof-title">
         <span class="proof-type">Remark </span>
@@ -627,11 +637,11 @@ document.write(`
 <p>对于联邦临近算法 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 收敛性定理，我们有如下的观察：在 <span class="math notranslate nohighlight">\(\lVert \nabla f \rVert\)</span> 的零点附近，如果这个零点没有被 <span class="math notranslate nohighlight">\(\mathbb{E}_k[\lVert \nabla f_k \rVert]\)</span> 消除掉，即这个点也是 <span class="math notranslate nohighlight">\(\mathbb{E}_k[\lVert \nabla f_k \rVert]\)</span> 的零点，且零点的阶数相同或更高，那么在这个点的邻域内，<span class="math notranslate nohighlight">\(B_{\varepsilon}\)</span> 会随着 <span class="math notranslate nohighlight">\(\varepsilon \to 0\)</span> 而急速趋向于无穷，导致在 <span class="math notranslate nohighlight">\(\lVert \nabla f \rVert\)</span> 的零点附近，<span class="math notranslate nohighlight">\(\rho &gt; 0\)</span> 的假设不再成立，那么定理中的不等式 <a class="reference internal" href="#equation-fedprox-obj-decrease">(8)</a> 就变得无意义。</p>
 <p>当子节点之间的数据分布完全一致的时候（理想情况下），<span class="math notranslate nohighlight">\(B_{\varepsilon}\)</span> 恒为 1，就不会有这个问题。这个问题也是后续一系列文章 [Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>, Tran-Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-tran2021feddr" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>] 进行改进的出发点。</p>
 </div></div><p>联邦临近算法 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的积极意义在于，首次将临近点算法 (Proximal Point Algorithms, PPA) 引入联邦学习领域中，虽然临近点算法只是用做了（内循环问题的）子节点上的子问题的求解器，而 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 算法整体严格意义上来看并不是临近点算法。临近点算法不仅仅在理论分析上可以提供一个好的框架，在算法设计上也能提供一个支撑。后续在个性化联邦学习方面的工作 [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Acar <em>et al.</em><a class="footnote-reference brackets" href="#footcite-acar2021feddyn" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>, Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-t2020pfedme" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li2021pfedmac" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a>] 都依赖于引入邻近项（或者类似的项）作为模型个性化的主要技术手段。</p>
-<div class="figure" id="id19" style="text-align: center">
+<div class="figure" id="id20" style="text-align: center">
 <span id="fig-apfl"></span><p><img width="80%" src="../_images/tikz-a4a11a93d19f47c1e3a684dd5159c5d79f350276.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Schematic diagram for <span class="math notranslate nohighlight">\(f_k(\alpha_k \omega_k + (1 - \alpha_k) \theta^*)\)</span> in the APFL algorithm.</span></p>
 </div><div class="pseudocode-container docutils container" id="pcode-apfl">
-<pre class="scopeline-pseudocode" id="pseudocode-140424958414464" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632219174320" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{APFL}}
 \begin{algorithmic}
 \REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
@@ -667,11 +677,11 @@ document.write(`
 \STATE where $p_t = (t+a)^2, S_T = \sum\limits_{t=1}^{T}p_t$
 \end{algorithmic}
 \end{algorithm}</pre></div>
-<div class="figure" id="id20" style="text-align: center">
+<div class="figure" id="id21" style="text-align: center">
 <span id="fig-feddyn"></span><p><img width="80%" src="../_images/tikz-ea5939230cbfad9f08b2efbb2087d0f52426b2e4.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Client model parameter update schematic diagram of the FedDyn algorithm.</span></p>
 </div><div class="pseudocode-container docutils container" id="pcode-feddyn">
-<pre class="scopeline-pseudocode" id="pseudocode-140424957821424" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139632219170048" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDyn}}
 \begin{algorithmic}
 \REQUIRE penalty coeffecient $\mu$
@@ -694,9 +704,52 @@ document.write(`
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
-<p>待补充……</p>
+<section id="feddc-federated-learning-with-local-drift-decoupling-and-correction">
+<span id="fl-alg-proximal-feddc"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDC</span></code>：基于局部漂移解耦与校正的联邦学习<a class="headerlink" href="#feddc-federated-learning-with-local-drift-decoupling-and-correction" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的临近项将每个局部模型拉向全局模型，默认把二者之间的差距视为应当被抑制的干扰。然而在统计异质性的情形下，局部模型与全局模型之间非零的漂移是固有的、而非偶然的：局部模型理应偏离全局模型，以便更好地拟合自身的数据分布。因此，具有局部漂移解耦与校正的联邦学习算法（<code class="docutils literal notranslate"><span class="pre">FedDC</span></code>，见 <a class="reference external" href="https://arxiv.org/abs/2203.11751">arXiv:2203.11751</a>）将局部漂移解耦到由客户端 <span class="math notranslate nohighlight">\(i\)</span> 维护的辅助变量 <span class="math notranslate nohighlight">\(h_i\)</span> 中，用以刻画其局部模型与全局模型之间的差距。理想的约束 <span class="math notranslate nohighlight">\(h_i = w - \theta_i\)</span> 被松弛为一个罚项，客户端 <span class="math notranslate nohighlight">\(i\)</span> 在第 <span class="math notranslate nohighlight">\(t\)</span> 轮的局部目标函数为</p>
+<div class="math notranslate nohighlight" id="equation-feddc-obj">
+<span class="eqno">(9)<a class="headerlink" href="#equation-feddc-obj" title="Link to this equation">#</a></span>\[F(\theta_i; h_i, D_i, w) = L_i(\theta_i) + \frac{\alpha}{2} \left\lVert \theta_i + h_i - w \right\rVert^2 + \frac{1}{\eta K} \langle \theta_i, g_i - g \rangle,\]</div>
+<p>其中 <span class="math notranslate nohighlight">\(L_i\)</span> 为 <span class="math notranslate nohighlight">\(D_i\)</span> 上的经验损失，<span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> 为参数校正项的权重，<span class="math notranslate nohighlight">\(\eta\)</span> 为学习率，<span class="math notranslate nohighlight">\(K\)</span> 为每轮的本地迭代次数；<span class="math notranslate nohighlight">\(g_i`（相应地，:math:`g\)</span>）表示上一轮的本地更新量 <span class="math notranslate nohighlight">\(g_i = \theta_i^{+} - \theta_i`（及其按样本量的加权平均 :math:`g = \sum_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} g_i\)</span>）；内积项沿用自 <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> [Karimireddy <em>et al.</em><a class="footnote-reference brackets" href="#footcite-karimireddy2020scaffold" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></a>]，用以校正梯度漂移。注意二次项的中心是 <span class="math notranslate nohighlight">\(w - h_i\)</span>，即被漂移校正后的 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 临近中心。</p>
+<p>每一轮中，客户端 <span class="math notranslate nohighlight">\(i\)</span> 先将 <span class="math notranslate nohighlight">\(\theta_i\)</span> 初始化为 <span class="math notranslate nohighlight">\(w\)</span>，再对 <span class="math notranslate nohighlight">\(F\)</span> 执行 <span class="math notranslate nohighlight">\(K\)</span> 步本地梯度下降，其显式形式为</p>
+<div class="math notranslate nohighlight" id="equation-feddc-step">
+<span class="eqno">(10)<a class="headerlink" href="#equation-feddc-step" title="Link to this equation">#</a></span>\[\theta_i^{k+1} = \theta_i^{k} - \eta \nabla L_i(\theta_i^{k}) - \eta \alpha \left( \theta_i^{k} + h_i - w \right) - \frac{1}{K} \left( g_i - g \right).\]</div>
+<p>随后，漂移变量的更新复用本地更新量（因而无需额外的反向传播），</p>
+<div class="math notranslate nohighlight" id="equation-feddc-h">
+<span class="eqno">(11)<a class="headerlink" href="#equation-feddc-h" title="Link to this equation">#</a></span>\[h_i^{+} = h_i + \left( \theta_i^{+} - \theta_i \right),\]</div>
+<p>最后上传经漂移校正后的局部模型参数 <span class="math notranslate nohighlight">\(\theta_i^{+} + h_i^{+}\)</span>，服务器对其做按样本量的加权平均以得到新的全局模型，</p>
+<div class="math notranslate nohighlight" id="equation-feddc-agg">
+<span class="eqno">(12)<a class="headerlink" href="#equation-feddc-agg" title="Link to this equation">#</a></span>\[w^{+} = \sum_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} \left( \theta_i^{+} + h_i^{+} \right).\]</div>
+<p>伪代码总结如下。</p>
+<div class="pseudocode-container docutils container" id="pcode-feddc">
+<pre class="scopeline-pseudocode" id="pseudocode-139632219175616" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{FedDC}}
+\begin{algorithmic}
+\REQUIRE number of clients $N,$ number of rounds $T,$ local iterations $K,$ learning rate $\eta,$ correction coefficient $\alpha$
+
+\STATE {Initiation:}
+\STATE $w^0$ on the server
+\STATE $\theta_i^0 = w^0$ and $h_i^0 = 0$ for all $i \in [N]$ on the clients
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+\STATE the server downloads $w^t$ (and $g^t$, if any) to the clients
+\STATE \FOR{each client $i$ {in parallel}}
+\STATE $\theta_i^{t,0} = w^t$
+\FOR{$k = 0, 1, \cdots, K-1$}
+\STATE $\hspace{1.3em}$ $\theta_i^{t,k+1} = \theta_i^{t,k} - \eta \nabla L_i(\theta_i^{t,k}) - \eta \alpha \left( \theta_i^{t,k} + h_i^t - w^t \right) - \frac{1}{K} \left( g_i^t - g^t \right)$
+\STATE \ENDFOR
+\STATE $\theta_i^+ = \theta_i^{t,K}$
+\STATE $h_i^{t+1} = h_i^t + \left( \theta_i^+ - w^t \right)$
+\STATE $g_i^{t+1} = \theta_i^+ - w^t$
+\STATE upload $\theta_i^+ + h_i^{t+1}$ and $g_i^{t+1}$ to the server
+\STATE \ENDFOR
+\STATE {Server Update:}
+\STATE $w^{t+1} = \sum\limits_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} \left( \theta_i^+ + h_i^{t+1} \right)$
+\STATE $g^{t+1} = \sum\limits_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} g_i^{t+1}$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
 <p class="rubric">参考文献</p>
-<div class="docutils container" id="id16">
+<div class="docutils container" id="id17">
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="footcite-sahu2018fedprox" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
@@ -745,8 +798,13 @@ document.write(`
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">11</a><span class="fn-bracket">]</span></span>
 <p>Yinchuan Li, Xiaofeng Liu, Xu Zhang, Yunfeng Shao, Qing Wang, and Yanhui Geng. Personalized Federated Learning via Maximizing Correlation with Sparse and Hierarchical Extensions. <em>arXiv preprint arXiv:2107.05330</em>, 2021.</p>
 </aside>
+<aside class="footnote brackets" id="footcite-karimireddy2020scaffold" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">12</a><span class="fn-bracket">]</span></span>
+<p>Sai Praneeth Karimireddy, Satyen Kale, Mehryar Mohri, Sashank Reddi, Sebastian Stich, and Ananda Theertha Suresh. SCAFFOLD: Stochastic Controlled Averaging for Federated Learning. In <em>International Conference on Machine Learning</em>, 5132–5143. PMLR, 2020.</p>
+</aside>
 </aside>
 </div>
+</section>
 </section>
 
 
@@ -784,6 +842,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddc-federated-learning-with-local-drift-decoupling-and-correction"><code class="docutils literal notranslate"><span class="pre">FedDC</span></code>：基于局部漂移解耦与校正的联邦学习</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

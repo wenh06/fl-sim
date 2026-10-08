@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Personalized Federated Learning Algorithms &#8212; fl-sim 0.1.dev437+gab23bea33 documentation</title>
+    <title>Personalized Federated Learning Algorithms &#8212; fl-sim 0.1.dev438+g0a7e69f90 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=fa83ac2c"></script>
+    <script src="../_static/documentation_options.js?v=0f03211f"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -224,7 +224,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.dev437+gab23bea33 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.dev438+g0a7e69f90 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -548,6 +548,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>: Loopless Local SGD</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>: Fusion Penalized Federated Clustering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>: Personalized Federated Learning Based on Across-Client Common Representation</a></li>
 </ul>
             </nav>
         </div>
@@ -605,7 +606,7 @@ further combine the stochastic gradient with randomized Kaczmarz-type (importanc
 see [Kovalev <em>et al.</em><a class="footnote-reference brackets" href="#footcite-kovalev2020-loopless" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>] for the analysis of loopless methods.
 The resulting method is summarized below.</p>
 <div class="pseudocode-container docutils container" id="pcode-l2sgd">
-<pre class="scopeline-pseudocode" id="pseudocode-140070661919200" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480735612784" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{L2SGD}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ probability $p \in (0, 1)$
@@ -635,7 +636,7 @@ The resulting method is summarized below.</p>
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-pfedme">
-<pre class="scopeline-pseudocode" id="pseudocode-140070661916992" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480716186640" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMe}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ global update smoothing factor $\beta,$ {\bfseries proximal solvers} $\texttt{prox\_update}_k$
@@ -667,7 +668,7 @@ The resulting method is summarized below.</p>
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-ditto">
-<pre class="scopeline-pseudocode" id="pseudocode-140070660663104" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480716179152" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{Ditto}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\mu,$ learning rate $\eta,$ methods $\textbf{UpdateGlobal}, \textbf{Aggregate}$
@@ -692,7 +693,7 @@ The resulting method is summarized below.</p>
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-apfl">
-<pre class="scopeline-pseudocode" id="pseudocode-140070660662864" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480716179152" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{APFL}}
 \begin{algorithmic}
 \REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
@@ -729,7 +730,7 @@ The resulting method is summarized below.</p>
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-feddyn">
-<pre class="scopeline-pseudocode" id="pseudocode-140070660658640" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480714415776" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDyn}}
 \begin{algorithmic}
 \REQUIRE penalty coeffecient $\mu$
@@ -753,7 +754,7 @@ The resulting method is summarized below.</p>
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <div class="pseudocode-container docutils container" id="pcode-pfedmac">
-<pre class="scopeline-pseudocode" id="pseudocode-140070660660512" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480714418944" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMac}}
 \begin{algorithmic}
 \REQUIRE learning rate $\eta$, penalty coefficient $\lambda$, $\beta$
@@ -808,7 +809,7 @@ devices. After training, devices <span class="math notranslate nohighlight">\(i\
 <span class="math notranslate nohighlight">\(\lVert \theta_{ij} \rVert\)</span> is (nearly) zero. The pseudocode is summarized below; note that
 neither the number of clusters nor the cluster membership needs to be specified in advance.</p>
 <div class="pseudocode-container docutils container" id="pcode-fpfc">
-<pre class="scopeline-pseudocode" id="pseudocode-140070662488368" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140480714703248" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FPFC}}
 \begin{algorithmic}
 \REQUIRE number of devices $m,$ number of rounds $K,$ local epochs $T_i,$ stepsize $\alpha,$ penalty parameters $\xi, \lambda, a,$ and $\rho$
@@ -837,6 +838,73 @@ neither the number of clusters nor the cluster membership needs to be specified 
 \STATE \ENDFOR
 \STATE for $i \notin \mathcal{A}_k$ or $j \notin \mathcal{A}_k$: $\theta_{ij}^{k+1} = \theta_{ij}^k, ~ v_{ij}^{k+1} = v_{ij}^k$
 \STATE for $i \in [m]$: $\hspace{0.5em}$ $\zeta_i^{k+1} = \frac{1}{m} \sum\limits_{j=1}^m \left( \omega_j^{k+1} + \theta_{ij}^{k+1} - v_{ij}^{k+1} / \rho \right)$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="fedcr-personalized-federated-learning-based-on-across-client-common-representation">
+<span id="fl-alg-pfl-fedcr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>: Personalized Federated Learning Based on Across-Client Common Representation<a class="headerlink" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation" title="Link to this heading">#</a></h2>
+<p>The methods above personalize the <em>whole</em> local model. <code class="docutils literal notranslate"><span class="pre">FedCR</span></code> (see
+<a class="reference external" href="https://proceedings.mlr.press/v202/zhang23w.html">ICML 2023</a>) instead decouples each local model
+<span class="math notranslate nohighlight">\(w_i = [w_i^f, w_i^p]\)</span> into a <em>feature extractor</em> (body) <span class="math notranslate nohighlight">\(w_i^f\)</span>, shared across
+clients and aggregated at the server, and a <em>predictor</em> (head) <span class="math notranslate nohighlight">\(w_i^p\)</span>, kept personal. The
+extractors are aligned through a <em>common representation</em>: for each class <span class="math notranslate nohighlight">\(c\)</span>, the local
+class-conditional mutual information is constrained to be close to the global one, which (via the
+Markov chain <span class="math notranslate nohighlight">\(y \to x \to z\)</span>) amounts to a class-wise feature alignment</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-cmi">
+<span class="eqno">(4)<a class="headerlink" href="#equation-fedcr-cmi" title="Link to this equation">#</a></span>\[I(z; x \mid y_i) - I_i(z; x_i \mid y_i) = \mathbb{E}_{p(x_i, y_i)} \mathbb{E}_{p(x \mid x_i, y_i)} \left[ \mathrm{KL}\left[ p(z \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
+<p>weighted by a Lagrange multiplier <span class="math notranslate nohighlight">\(\beta \geqslant 0\)</span> (the CMI regularizer). The
+representation mapping is modeled as a diagonal Gaussian
+<span class="math notranslate nohighlight">\(p(z \mid x_i) = \mathcal{N}\left(z \,\middle|\, \mu(x_i), \Sigma(x_i)\right)\)</span>, under which
+the intractable global posterior is estimated by a <em>product of experts</em> (PoE) over the class-wise
+local posteriors of the active clients <span class="math notranslate nohighlight">\(\mathcal{P}_t\)</span>, with prior <span class="math notranslate nohighlight">\(p(z) = \mathcal{N}(0, 1)\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-poe">
+<span class="eqno">(5)<a class="headerlink" href="#equation-fedcr-poe" title="Link to this equation">#</a></span>\[p(z^c \mid x) \propto p(z) \prod_{i \in \mathcal{P}_t} p^c(z \mid x_i), \qquad
+p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)^{1 / N_i^{c}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(p^c(z \mid x_i)\)</span> is the (geometric-mean) local PoE over the <span class="math notranslate nohighlight">\(N_i^{c}\)</span> samples
+of class <span class="math notranslate nohighlight">\(c\)</span> at client <span class="math notranslate nohighlight">\(i\)</span>, computed on the fly from the latest forward passes of
+local training. As a product of Gaussians is itself Gaussian, both PoEs reduce to class-wise
+means and covariances: each client uploads <span class="math notranslate nohighlight">\((\mu_i^c, \Sigma_i^c)\)</span> for its classes only,
+and the server combines them analytically via the precisions,</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-poe-closed">
+<span class="eqno">(6)<a class="headerlink" href="#equation-fedcr-poe-closed" title="Link to this equation">#</a></span>\[\Sigma^c = \left( I + \sum_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}, \qquad
+\mu^c = \Sigma^c \sum_{i \in \mathcal{P}_t} \mu_i^c \left( \Sigma_i^c \right)^{-1},\]</div>
+<p>besides averaging the extractors, <span class="math notranslate nohighlight">\(w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum_{i \in \mathcal{P}_t} w_i^f\)</span>.
+Classes missed by all active clients keep the statistics of the previous round. The local
+objective of client <span class="math notranslate nohighlight">\(i\)</span> is its empirical loss plus the alignment term above,</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-obj">
+<span class="eqno">(7)<a class="headerlink" href="#equation-fedcr-obj" title="Link to this equation">#</a></span>\[L_i = f_i(w_i) + \beta \, \mathbb{E}_{p(x_i, y_i)} \left[ \mathrm{KL}\left[ p(z^{c = y_i} \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
+<p>optimized with the re-parameterization trick for the stochastic features. Since the PoE posterior
+can be sharper than any single expert, the common representation carries not only the common but
+also the complementary information across clients; the alignment term doubles as noise injection
+into the local features, which improves generalization and uncertainty calibration. Note that for
+<span class="math notranslate nohighlight">\(\beta = 0\)</span> and <span class="math notranslate nohighlight">\(\Sigma(x_i) = 0\)</span> (deterministic features), the method degenerates to
+<code class="docutils literal notranslate"><span class="pre">FedPer</span></code>. The pseudocode is summarized below.</p>
+<div class="pseudocode-container docutils container" id="pcode-fedcr">
+<pre class="scopeline-pseudocode" id="pseudocode-140484904523840" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{FedCR}}
+\begin{algorithmic}
+\REQUIRE number of clients $m,$ number of rounds $T,$ local steps $K,$ learning rate $\eta,$ CMI coefficient $\beta$; class-wise initialization $\mu_0^c = 0,$ $\Sigma_0^c = I$ for all classes $c$
+
+\FOR{each round $t = 1, 2, \cdots, T$}
+\STATE the server samples a subset of active clients $\mathcal{P}_t$ and sends $w^f$, $\mu_t^c$ and $\Sigma_t^c$ ($\forall c \in \mathcal{C}$) to each $i \in \mathcal{P}_t$
+\STATE \FOR{each client $i \in \mathcal{P}_t$ {in parallel}}
+\STATE initialize the local model as $w_{i,0} = [w^f, w_i^p]$
+\FOR{$k = 1, 2, \cdots, K$}
+\STATE $\hspace{1.3em}$ update the whole network by SGD on the local objective:
+\STATE $\hspace{1.3em}$ $w_{i,k} = w_{i,k-1} - \eta \nabla L_i$, where
+\STATE $\hspace{2.3em}$ $L_i \approx \frac{1}{N_i} \sum\limits_{n=1}^{N_i} \left[ -\log \hat{p}\left( y_i^{(n)} \,\middle|\, z^{(n)} \right) + \beta \, \mathrm{KL}\left[ p(z^{c = y_i^{(n)}} \mid x) \,\middle\|\, p(z \mid x_i^{(n)}) \right] \right]$
+\STATE \ENDFOR
+\STATE aggregate the class-wise local features via the local PoE: $\mu_i^c, \Sigma_i^c$ for $c \in \mathcal{C}_i$
+\STATE keep the personal head $w_i^p = w_{i,K}^p$
+\STATE send $w_{i,K}^f$ and $\mu_i^c, \Sigma_i^c$ ($\forall c \in \mathcal{C}_i$) to the server
+\STATE \ENDFOR
+\STATE {Server Update:}
+\STATE average the feature extractors: $w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum\limits_{i \in \mathcal{P}_t} w_{i,K}^f$
+\STATE for classes $c$ contained in no active client: keep $\mu_t^c = \mu_{t-1}^c$, $\Sigma_t^c = \Sigma_{t-1}^c$
+\STATE aggregate the global class-wise features via the PoE with prior $p(z) = \mathcal{N}(0, 1)$, i.e. for $c$ contained in some active client:
+\STATE $\hspace{1.3em}$ $\Sigma_t^c = \left( I + \sum\limits_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}$, \quad $\mu_t^c = \Sigma_t^c \sum\limits_{i \in \mathcal{P}_t} \mu_i^c \left( \Sigma_i^c \right)^{-1}$
+\STATE send $w^f$, $\mu_t^c$ and $\Sigma_t^c$ ($\forall c \in \mathcal{C}$) to the clients
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
@@ -904,6 +972,7 @@ neither the number of clusters nor the cluster membership needs to be specified 
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>: Loopless Local SGD</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>: Fusion Penalized Federated Clustering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>: Personalized Federated Learning Based on Across-Client Common Representation</a></li>
 </ul>
   </nav></div>
 
