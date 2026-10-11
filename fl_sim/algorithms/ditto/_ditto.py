@@ -1,11 +1,11 @@
 """ """
 
 import warnings
-from pydantic import model_validator
 from copy import deepcopy
 from typing import Dict, List, Optional
 
 import torch
+from pydantic import model_validator
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
