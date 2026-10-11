@@ -164,6 +164,17 @@ class ServerConfig(BaseModel):
         # map positional arguments onto the fields in their declaration order,
         # for backward compatibility with the (formerly hand-written) configs
         if args:
+            if isinstance(args[0], str):
+                # the former (hand-written) configs took the algorithm name as
+                # the first positional argument; it is now auto-derived from
+                # the class name, and a string in the first positional slot
+                # almost surely means an un-migrated old-style call
+                raise TypeError(
+                    f"{type(self).__name__} received a string ({args[0]!r}) as the first positional argument. "
+                    "The former leading `algorithm` positional argument has been removed "
+                    "(it is now auto-derived from the class name); "
+                    "use keyword arguments, or drop the leading algorithm name."
+                )
             fields = list(type(self).model_fields)
             if len(args) > len(fields):
                 raise TypeError(
@@ -268,6 +279,17 @@ class ClientConfig(BaseModel):
         # map positional arguments onto the fields in their declaration order,
         # for backward compatibility with the (formerly hand-written) configs
         if args:
+            if isinstance(args[0], str):
+                # the former (hand-written) configs took the algorithm name as
+                # the first positional argument; it is now auto-derived from
+                # the class name, and a string in the first positional slot
+                # almost surely means an un-migrated old-style call
+                raise TypeError(
+                    f"{type(self).__name__} received a string ({args[0]!r}) as the first positional argument. "
+                    "The former leading `algorithm` positional argument has been removed "
+                    "(it is now auto-derived from the class name); "
+                    "use keyword arguments, or drop the leading algorithm name."
+                )
             fields = list(type(self).model_fields)
             if len(args) > len(fields):
                 raise TypeError(

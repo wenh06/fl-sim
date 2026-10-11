@@ -53,6 +53,13 @@ class FedPDServerConfig(ServerConfig):
     stochastic: bool = False
     vr: bool = False
 
+    @model_validator(mode="after")
+    def _set_comm_freq(self) -> "FedPDServerConfig":
+        # clients communicate with the server once per `comm_freq` local steps,
+        # derived from the sampling ratio `p` (as in the original implementation)
+        self.comm_freq = int(1 / self.p)
+        return self
+
 
 @register_algorithm()
 @add_docstring(client_config_kw_doc, "append")
