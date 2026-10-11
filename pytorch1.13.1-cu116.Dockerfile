@@ -27,7 +27,7 @@ WORKDIR /fl_sim
 ## Install your dependencies here using apt install, etc.
 
 RUN apt update && apt upgrade -y && apt clean
-RUN apt install ffmpeg libsm6 libxext6 tar unzip wget vim nano -y
+RUN apt install ffmpeg libsm6 libxext6 tar unzip wget vim nano git -y
 
 # RUN apt install python3-pip
 RUN ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
@@ -49,14 +49,6 @@ RUN pip install torchvision==0.14.1+cu116 --no-deps -f https://download.pytorch.
 RUN pip install torch-optimizer --no-deps
 RUN python -m pip cache purge
 
-# hatch-vcs derives the package version from git metadata (setuptools-scm),
-# which is not available inside the docker build (no git binary in the base
-# image and the CI checkout is shallow without tags), so `pip install .` fails
-# with "LookupError: Error getting the version from source `vcs`".
-# Pin a fallback version; override with
-# --build-arg SETUPTOOLS_SCM_PRETEND_VERSION=<version> if needed.
-ARG SETUPTOOLS_SCM_PRETEND_VERSION=0.1.dev0
-ENV SETUPTOOLS_SCM_PRETEND_VERSION=${SETUPTOOLS_SCM_PRETEND_VERSION}
 
 RUN python -m pip install .
 
