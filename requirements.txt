@@ -20,4 +20,5 @@ deprecate-kwargs
 torch-ecg
 PyYAML
 packaging
+pydantic>=2
 PeakUtils
