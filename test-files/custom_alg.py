@@ -4,9 +4,10 @@ The same as the FedProx algorithm, for testing custom algorithm.
 
 import warnings
 from copy import deepcopy
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import torch
+from pydantic import model_validator
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
@@ -43,28 +44,7 @@ class CustomServerConfig(ServerConfig):
 
     __name__ = "CustomServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        vr: bool = False,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            vr=vr,
-            **kwargs,
-        )
+    vr: bool = False
 
 
 @register_algorithm()
@@ -90,37 +70,22 @@ class CustomClientConfig(ClientConfig):
 
     __name__ = "CustomClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        mu: float = 0.01,
-        vr: bool = False,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        optimizer = "FedProx" if not vr else "FedProx_VR"
-        if kwargs.pop("optimizer", None) is not None:
+    lr: float = 1e-2
+    mu: float = 0.01
+    vr: bool = False
+    # NOTE: the optimizer is fixed by the algorithm (derived from `vr`),
+    # mirroring ``FedProxClientConfig``
+    optimizer: str = ""
+
+    @model_validator(mode="after")
+    def _fix_optimizer(self) -> "CustomClientConfig":
+        if "optimizer" in self.model_fields_set and self.optimizer:
             warnings.warn(
                 "The `optimizer` argument is fixed to `FedProx` or `FedProx_VR` and will be ignored.",
                 RuntimeWarning,
             )
-        super().__init__(
-            name,
-            optimizer,
-            batch_size,
-            num_epochs,
-            lr,
-            mu=mu,
-            vr=vr,
-            **kwargs,
-        )
+        self.optimizer = "FedProx_VR" if self.vr else "FedProx"
+        return self
 
 
 @register_algorithm()

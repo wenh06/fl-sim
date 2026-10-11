@@ -6,7 +6,7 @@ Warning: possible memory leak in the current version?
 
 import warnings
 from copy import deepcopy
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import torch
 from torch_ecg.utils.misc import add_docstring
@@ -45,28 +45,7 @@ class SCAFFOLDServerConfig(ServerConfig):
 
     __name__ = "SCAFFOLDServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        lr: float,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            lr=lr,
-            **kwargs,
-        )
+    lr: float
 
 
 @register_algorithm()
@@ -90,35 +69,9 @@ class SCAFFOLDClientConfig(ClientConfig):
 
     __name__ = "SCAFFOLDClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        control_variate_update_rule: int = 1,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        if kwargs.pop("optimizer", None) is not None:
-            warnings.warn(
-                f"The `optimizer` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            # name,  # parameter explosion observed using the `SGD_VR` optimizer
-            "SGD",
-            batch_size,
-            num_epochs,
-            lr,
-            control_variate_update_rule=control_variate_update_rule,
-            **kwargs,
-        )
+    lr: float = 1e-2
+    optimizer: str = "SGD"
+    control_variate_update_rule: int = 1
 
 
 @register_algorithm()
@@ -146,10 +99,6 @@ class SCAFFOLDServer(Server):
     @property
     def client_cls(self) -> type:
         return SCAFFOLDClient
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def communicate(self, target: "SCAFFOLDClient") -> None:
         target._received_messages = {
@@ -202,10 +151,6 @@ class SCAFFOLDClient(Client):
         self._control_variates = [torch.zeros_like(p) for p in self.model.parameters()]
         self._server_control_variates = [torch.zeros_like(p) for p in self.model.parameters()]
         self._updated_control_variates = None  # c_i^+ in the paper
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def communicate(self, target: "SCAFFOLDServer") -> None:
         message = {

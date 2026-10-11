@@ -2,9 +2,10 @@
 
 import warnings
 from copy import deepcopy
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 import torch
+from pydantic import model_validator
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
@@ -41,27 +42,6 @@ class DittoServerConfig(ServerConfig):
 
     __name__ = "DittoServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            **kwargs,
-        )
-
 
 @register_algorithm()
 @add_docstring(client_config_kw_doc, "append")
@@ -91,34 +71,18 @@ class DittoClientConfig(ClientConfig):
 
     __name__ = "DittoClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        optimizer: str = "SGD",
-        optimizer_per: str = "ProxSGD",
-        prox: float = 0.01,
-        lr: float = 1e-2,
-        lr_per: Optional[float] = None,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            optimizer,
-            batch_size,
-            num_epochs,
-            lr,
-            prox=prox,
-            optimizer_per=optimizer_per,
-            lr_per=lr_per if lr_per is not None else lr,
-            **kwargs,
-        )
+    optimizer: str = "SGD"
+    optimizer_per: str = "ProxSGD"
+    prox: float = 0.01
+    lr: float = 1e-2
+    lr_per: Optional[float] = None
+
+    @model_validator(mode="after")
+    def _set_lr_per(self) -> "DittoClientConfig":
+        # `lr_per` defaults to `lr` when not specified
+        if self.lr_per is None:
+            self.lr_per = self.lr
+        return self
 
 
 @register_algorithm()
@@ -135,10 +99,6 @@ class DittoServer(Server):
     @property
     def client_cls(self) -> type:
         return DittoClient
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def communicate(self, target: "DittoClient") -> None:
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
@@ -194,10 +154,6 @@ class DittoClient(Client):
             optimizer=self.optimizer_per,
             config=scheduler_config,
         )
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["optimizer_per", "lr_per"]
 
     def communicate(self, target: "DittoServer") -> None:
         message = {

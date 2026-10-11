@@ -169,10 +169,6 @@ class FPFCServer(BaseServer):
             "client": FPFCClientConfig,
         }
 
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
-
     def _fusion_prox(self, delta: List[torch.Tensor]) -> List[torch.Tensor]:
         """The proximal operator of the (scaled) pairwise fusion penalty,
         i.e. Eq. (6) of the paper.
@@ -270,10 +266,6 @@ class FPFCClient(BaseClient):
         """
         super()._post_init()
         self._rho = 1.0
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def communicate(self, target: "FPFCServer") -> None:
         message = {

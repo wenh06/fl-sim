@@ -2,8 +2,9 @@
 
 import warnings
 from copy import deepcopy
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
+from pydantic import field_validator, model_validator  # noqa: F401
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
@@ -39,27 +40,6 @@ class FedSplitServerConfig(ServerConfig):
 
     __name__ = "FedSplitServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            **kwargs,
-        )
-
 
 @register_algorithm()
 @add_docstring(client_config_kw_doc, "append")
@@ -82,32 +62,15 @@ class FedSplitClientConfig(ClientConfig):
 
     __name__ = "FedSplitClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        s: float = 10.0,
-        **kwargs: Any,
-    ) -> None:
-        self.s = s
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        if kwargs.pop("optimizer", None) is not None:
-            warnings.warn("The `optimizer` argument is fixed to `ProxSGD`.", RuntimeWarning)
-        super().__init__(
-            name,
-            "ProxSGD",
-            batch_size,
-            num_epochs,
-            lr,
-            prox=1.0 / s,
-            **kwargs,
-        )
+    optimizer: str = "ProxSGD"
+    lr: float = 1e-2
+    s: float = 10.0
+
+    @model_validator(mode="after")
+    def _set_prox(self) -> "FedSplitClientConfig":
+        # the proximal coefficient is the reciprocal of the step size `s`
+        self.prox = 1.0 / self.s
+        return self
 
 
 @register_algorithm()
@@ -156,10 +119,6 @@ class FedSplitServer(Server):
             c._z_parameters = [p.to(c.device) for p in self.get_detached_model_parameters()]
 
     @property
-    def required_config_fields(self) -> List[str]:
-        return []
-
-    @property
     def client_cls(self) -> type:
         return FedSplitClient
 
@@ -197,10 +156,6 @@ class FedSplitClient(Client):
         super()._post_init()
         self._z_parameters = None
         # self._z_half_parameters = None  # self.model.parameters() holds this
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["s"]
 
     def communicate(self, target: "FedSplitServer") -> None:
         target._received_messages.append(

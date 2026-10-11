@@ -4,10 +4,11 @@ FedPD re-implemented in the new framework
 
 import warnings
 from copy import deepcopy
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import numpy as np
 import torch
+from pydantic import model_validator
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
@@ -47,37 +48,17 @@ class FedPDServerConfig(ServerConfig):
 
     __name__ = "FedPDServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        p: float,
-        stochastic: bool = False,
-        vr: bool = False,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        if kwargs.pop("clients_sample_ratio", None) is not None:
-            warnings.warn(
-                "The `clients_sample_ratio` is controlled by `p` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio=1,  # controlled by p
-            vr=vr,
-            p=p,
-            comm_freq=int(1 / p),
-            stochastic=stochastic,
-            **kwargs,
-        )
+    clients_sample_ratio: float = 1
+    p: float
+    stochastic: bool = False
+    vr: bool = False
+
+    @model_validator(mode="after")
+    def _set_comm_freq(self) -> "FedPDServerConfig":
+        # clients communicate with the server once per `comm_freq` local steps,
+        # derived from the sampling ratio `p` (as in the original implementation)
+        self.comm_freq = int(1 / self.p)
+        return self
 
 
 @register_algorithm()
@@ -105,39 +86,24 @@ class FedPDClientConfig(ClientConfig):
 
     __name__ = "FedPDClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        mu: float = 1 / 10,  # reciprocal of original implementation
-        vr: bool = False,
-        dual_rand_init: bool = False,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        optimizer = "FedPD_VR" if vr else "FedPD_SGD"
-        if kwargs.pop("optimizer", None) is not None:
+    # NOTE: the optimizer is fixed by the algorithm (derived from `vr`);
+    # declared optional here and set by the validator below
+    optimizer: str = ""
+
+    lr: float = 1e-2
+    mu: float = 1 / 10
+    vr: bool = False
+    dual_rand_init: bool = False
+
+    @model_validator(mode="after")
+    def _fix_optimizer(self) -> "FedPDClientConfig":
+        if "optimizer" in self.model_fields_set:
             warnings.warn(
                 "The `optimizer` argument is fixed to `FedPD_VR` or `FedPD_SGD` and will be ignored.",
                 RuntimeWarning,
             )
-        super().__init__(
-            name,
-            optimizer,
-            batch_size,
-            num_epochs,
-            lr,
-            mu=mu,
-            vr=vr,
-            dual_rand_init=dual_rand_init,
-            **kwargs,
-        )
+        self.optimizer = "FedPD_VR" if self.vr else "FedPD_SGD"
+        return self
 
 
 @register_algorithm()
@@ -178,10 +144,6 @@ class FedPDServer(Server):
     @property
     def client_cls(self) -> type:
         return FedPDClient
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["p", "stochastic", "comm_freq"]
 
     def communicate(self, target: "FedPDClient") -> None:
         if target.client_id not in self._communicated_clients:
@@ -244,10 +206,6 @@ class FedPDClient(Client):
             self._dual_weights = [torch.randn_like(p) for p in self.model.parameters()]
         else:
             self._dual_weights = [torch.zeros_like(p) for p in self.model.parameters()]
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["p", "stochastic", "comm_freq"]
 
     def communicate(self, target: "FedPDServer") -> None:
         # determine if communication happens

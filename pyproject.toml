@@ -32,6 +32,7 @@ dependencies = [
     "nltk",
     "numpy",
     "packaging",
+    "pydantic>=2",
     "pandas",
     "PeakUtils",
     "Pillow",

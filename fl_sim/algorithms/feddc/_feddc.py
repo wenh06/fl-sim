@@ -8,9 +8,8 @@ Codebase URL: https://github.com/GaoLiangFDU/FedDC
 
 """
 
-import warnings
 from copy import deepcopy
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import torch
 from torch_ecg.utils.misc import add_docstring
@@ -57,28 +56,8 @@ class FedDCServerConfig(BaseServerConfig):
 
     __name__ = "FedDCServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float = 1,
-        alpha: float = 0.01,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            num_iters,
-            num_clients,
-            clients_sample_ratio=clients_sample_ratio,
-            **kwargs,
-        )
-        self.algorithm = name
-        self.alpha = alpha
+    clients_sample_ratio: float = 1
+    alpha: float = 0.01
 
 
 @register_algorithm()
@@ -100,26 +79,7 @@ class FedDCClientConfig(BaseClientConfig):
 
     __name__ = "FedDCClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            batch_size=batch_size,
-            num_epochs=num_epochs,
-            lr=lr,
-            **kwargs,
-        )
-        self.algorithm = name
+    lr: float = 1e-2
 
 
 @register_algorithm()
@@ -149,10 +109,6 @@ class FedDCServer(BaseServer):
             "server": FedDCServerConfig,
             "client": FedDCClientConfig,
         }
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def communicate(self, target: "FedDCClient") -> None:
         target._received_messages = {
@@ -205,10 +161,6 @@ class FedDCClient(BaseClient):
         self._global_update: List[torch.Tensor] = []
         # the coefficient of the parameter correction term, sent by the server
         self._alpha = 0.01
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def communicate(self, target: "FedDCServer") -> None:
         message = {

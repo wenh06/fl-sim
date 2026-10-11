@@ -2,7 +2,7 @@
 
 import warnings
 from copy import deepcopy
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import torch
 from torch_ecg.utils.misc import add_docstring
@@ -36,30 +36,8 @@ class pFedMacServerConfig(ServerConfig):
 
     __name__ = "pFedMacServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        beta: float = 1.0,
-        vr: bool = False,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            beta=beta,
-            vr=vr,
-            **kwargs,
-        )
+    beta: float = 1.0
+    vr: bool = False
 
 
 @register_algorithm()
@@ -85,36 +63,10 @@ class pFedMacClientConfig(ClientConfig):
 
     __name__ = "pFedMacClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        lam: float = 15.0,
-        vr: bool = False,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        if kwargs.pop("optimizer", None) is not None:
-            warnings.warn(
-                f"The `optimizer` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            name,
-            batch_size,
-            num_epochs,
-            lr,
-            lam=lam,
-            vr=vr,
-            **kwargs,
-        )
+    lr: float = 1e-2
+    lam: float = 15.0
+    vr: bool = False
+    optimizer: str = "pFedMac"
 
 
 @register_algorithm()
@@ -142,10 +94,6 @@ class pFedMacServer(Server):
     @property
     def client_cls(self) -> type:
         return pFedMacClient
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["beta"]
 
     def communicate(self, target: "pFedMacClient") -> None:
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
@@ -194,10 +142,6 @@ class pFedMacClient(Client):
             self._gradient_buffer = [torch.zeros_like(p) for p in self.model.parameters()]
         else:
             self._gradient_buffer = None
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["lam"]
 
     def communicate(self, target: "pFedMacServer") -> None:
         message = {

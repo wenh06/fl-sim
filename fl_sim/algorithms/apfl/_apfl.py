@@ -1,8 +1,7 @@
 """ """
 
-import warnings
 from copy import deepcopy
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import torch
 from torch_ecg.utils.misc import add_docstring
@@ -42,29 +41,7 @@ class APFLServerConfig(ServerConfig):
 
     __name__ = "APFLServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        tau: int = 1,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        assert isinstance(tau, int) and tau >= 1, "`tau` (synchronization gap) must be a positive integer."
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            tau=tau,
-            **kwargs,
-        )
+    tau: int = 1
 
 
 @register_algorithm()
@@ -90,30 +67,9 @@ class APFLClientConfig(ClientConfig):
 
     __name__ = "APFLClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        optimizer: str = "SGD",
-        lr: float = 1e-2,
-        mixture_weight: float = 0.5,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            optimizer,
-            batch_size,
-            num_epochs,
-            lr,
-            mixture_weight=mixture_weight,
-            **kwargs,
-        )
+    optimizer: str = "SGD"
+    lr: float = 1e-2
+    mixture_weight: float = 0.5
 
 
 @register_algorithm()
@@ -159,10 +115,6 @@ class APFLServer(Server):
     @property
     def client_cls(self) -> type:
         return APFLClient
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["tau"]
 
     def communicate(self, target: "APFLClient") -> None:
         if self.n_iter % self.config.tau == 0:
@@ -213,10 +165,6 @@ class APFLClient(Client):
         self.model_per = deepcopy(self.model)
         self.mixture_parameters = [torch.zeros_like(p) for p in self.model.parameters()]
         self._sync_counter = 0
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["mixture_weight", "sync_gap"]
 
     def communicate(self, target: "APFLServer") -> None:
         self._sync_counter += 1
