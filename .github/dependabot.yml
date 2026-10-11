@@ -21,7 +21,7 @@ updates:
     commit-message:
       prefix: "chore(deps)"
   - package-ecosystem: "pip"
-    # Python dependencies are defined in `pyproject.toml` and `requirements.txt` at the repository root.
+    # Python dependencies are defined in `pyproject.toml` at the repository root.
     directory: "/" # Location of Python package manifests
     schedule:
       interval: "weekly"
