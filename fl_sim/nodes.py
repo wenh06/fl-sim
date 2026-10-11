@@ -69,6 +69,7 @@ from torch_ecg.utils import ReprMixin, add_docstring
 from tqdm.auto import tqdm
 
 from .data_processing.fed_dataset import FedDataset
+from .messages import ClientToServer, ServerToClient
 from .models import reset_parameters
 from .optimizers import get_optimizer
 from .utils.loggers import LoggerManager
@@ -81,6 +82,8 @@ __all__ = [
     "ServerConfig",
     "ClientConfig",
     "ClientMessage",
+    "ServerToClient",
+    "ClientToServer",
 ]
 
 
@@ -337,25 +340,43 @@ class Node(ReprMixin, ABC):
         """Communicate with the target node.
 
         The current node communicates model parameters, gradients, etc. to `target` node.
-        For example, a client node communicates its local model parameters to server node via
+
+        The **typed API** (recommended) sends
+        :class:`~fl_sim.messages.ClientToServer` / :class:`~fl_sim.messages.ServerToClient`
+        messages via :meth:`Server.receive_one` / :meth:`Client.receive`; the base classes
+        provide working default implementations for the common cases:
 
         .. code-block:: python
 
+            # client -> server (typed, default implementation of Client.communicate)
+            target.receive_one(
+                ClientToServer(
+                    client_id=self.client_id,
+                    train_samples=...,
+                    metrics=self._metrics,
+                    parameters=self.get_detached_model_parameters(),
+                )
+            )
+            # server -> client (typed, default implementation of Server.communicate)
+            target.receive(ServerToClient(parameters=self.get_detached_model_parameters()))
+
+        The **legacy API** (kept working, used by the built-in algorithms) manipulates
+        the ``_received_messages`` containers directly:
+
+        .. code-block:: python
+
+            # client -> server (legacy)
             target._received_messages.append(
                 ClientMessage(
                     {
                         "client_id": self.client_id,
                         "parameters": self.get_detached_model_parameters(),
-                        "train_samples": self.config.num_epochs * self.config.num_steps * self.config.batch_size,
+                        "train_samples": ...,
                         "metrics": self._metrics,
                     }
                 )
             )
-
-        For a server node, global model parameters are communicated to clients via
-
-        .. code-block:: python
-
+            # server -> client (legacy)
             target._received_messages = {"parameters": self.get_detached_model_parameters()}
 
         """
@@ -845,6 +866,46 @@ class Server(Node, CitationMixin):
         # return random.sample(subset, k=k)
         # random.sample does not support numpy array input
         return np.random.choice(subset, k, replace=False).tolist()
+
+    def communicate(self, target: "Client") -> None:
+        """Broadcast the current model parameters to the target client.
+
+        This is the default (typed-API) implementation; subclasses override it
+        for algorithm-specific payloads. The typed-API way to send additional
+        data is building a :class:`~fl_sim.messages.ServerToClient` and calling
+        :meth:`Client.receive` on the target; the legacy way (overriding
+        `communicate` and writing `target._received_messages` directly)
+        keeps working.
+
+        Parameters
+        ----------
+        target : Client
+            The client to broadcast to.
+
+        Returns
+        -------
+        None
+
+        """
+        target.receive(ServerToClient(parameters=self.get_detached_model_parameters()))
+
+    def receive_one(self, message: ClientToServer) -> None:
+        """Receive a typed message uploaded from a client.
+
+        The message is converted to the legacy :class:`ClientMessage` and
+        appended to ``self._received_messages``.
+
+        Parameters
+        ----------
+        message : ClientToServer
+            The typed message uploaded from a client.
+
+        Returns
+        -------
+        None
+
+        """
+        self._received_messages.append(ClientMessage.from_typed(message))
 
     def _communicate(self, target: "Client") -> None:
         """Broadcast to target client, and maintain state variables."""
@@ -1553,6 +1614,10 @@ class Client(Node):
 
         self._cached_parameters = None
         self._received_messages = {}
+        # the latest typed message received from the server
+        # (see :meth:`Client.receive`), `None` if the legacy
+        # `Server.communicate` (writing `_received_messages` directly) is used
+        self._latest_message = None
         self._metrics = {}
         self._cached_metrics = []  # container for caching metrics
         self._is_convergent = False
@@ -1604,6 +1669,56 @@ class Client(Node):
         """
         if "parameters" in self._received_messages:
             self.set_parameters(self._received_messages["parameters"])
+
+    def receive(self, message: ServerToClient) -> None:
+        """Receive a typed message broadcast from the server.
+
+        The message is stored in ``self._latest_message`` (for typed-API
+        consumers) and merged into the legacy ``self._received_messages``
+        dict (for legacy consumers, e.g. :meth:`accept_parameters`).
+
+        Parameters
+        ----------
+        message : ServerToClient
+            The typed message broadcast from the server.
+
+        Returns
+        -------
+        None
+
+        """
+        self._latest_message = message
+        self._received_messages = message.to_legacy_dict()
+
+    def communicate(self, target: "Server") -> None:
+        """Upload the local model parameters and metrics to the target server.
+
+        This is the default (typed-API) implementation; subclasses override it
+        for algorithm-specific payloads (deltas, gradients, control variates,
+        etc.). The typed-API way to send additional data is building a
+        :class:`~fl_sim.messages.ClientToServer` and calling
+        :meth:`Server.receive_one` on the target; the legacy way (overriding
+        `communicate` and appending to ``target._received_messages`` directly)
+        keeps working.
+
+        Parameters
+        ----------
+        target : Server
+            The server to upload to.
+
+        Returns
+        -------
+        None
+
+        """
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                parameters=self.get_detached_model_parameters(),
+            )
+        )
 
     def _update(self) -> None:
         """Client update, and clear cached messages
@@ -1754,3 +1869,8 @@ class ClientMessage(dict):
 
     def __init__(self, client_id: int, train_samples: int, metrics: dict, **kwargs) -> None:
         super().__init__(client_id=client_id, train_samples=train_samples, metrics=metrics, **kwargs)
+
+    @classmethod
+    def from_typed(cls, message: "ClientToServer") -> "ClientMessage":
+        """Build the legacy message from the typed :class:`~fl_sim.messages.ClientToServer`."""
+        return cls(**message.to_legacy_kwargs())
