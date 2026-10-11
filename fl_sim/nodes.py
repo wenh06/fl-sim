@@ -1143,36 +1143,11 @@ class Server(Node, CitationMixin):
                             part="val",
                         )
                     self.pre_iter()
+                    evaluate = self._should_evaluate()
                     for client_id in selected_clients:
                         client = self._clients[client_id]
-                        # server communicates with client
-                        # typically broadcasting the global model to the client
-                        self._communicate(client)
-                        # NOTE: before evaluating, the client should accept parameters
-                        # if the key in received_messages is not "parameters", accept_parameters need to be reimplemented
-                        client.accept_parameters()
-                        if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
-                            part = "train"  # only evaluate train metrics on clients
-                            # NOTE: one should execute `client.evaluate`
-                            # before `client._update`,
-                            # otherwise the evaluation would be done
-                            # on the ``personalized`` (locally fine-tuned) model.
-                            metrics = client.evaluate(part)
-                            self._logger_manager.log_metrics(
-                                client_id,
-                                metrics,
-                                step=self.n_iter,
-                                epoch=self.n_iter,
-                                part=part,
-                            )
-                        # client trains the model
-                        # and perhaps updates other local variables
-                        client._update()
-                        # client communicates with server
-                        # typically sending the local model
-                        # and evaluated local metrics to the server
-                        # and perhaps other local variables (e.g. gradients, etc.)
-                        client._communicate(self)
+                        self._broadcast(client)
+                        self._local_step(client, evaluate=evaluate)
                         pbar.update(1)
                         # report progress for multi-processing
                         if self._subprocess:
@@ -1186,16 +1161,81 @@ class Server(Node, CitationMixin):
                             )
                             # DEBUG message
                             # print("DEBUG: report progress for multi-processing")
-                    if self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0:
-                        # server aggregates the metrics from clients
-                        self.aggregate_client_metrics()
-                    # server updates the global model
-                    # and perhaps other global variables
-                    self._update()
+                    self._aggregate_metrics(evaluate=evaluate)
+                    self._global_step()
         self._logger_manager.log_message("Federated training finished...")
         self._logger_manager.flush()
 
         self._complete_experiment = True
+
+    def _should_evaluate(self) -> bool:
+        """Whether to evaluate the (train-part) metrics on the clients in this iteration."""
+        return self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0
+
+    def _broadcast(self, client: "Client") -> None:
+        """Downlink phase: broadcast to the client, and let it accept the parameters.
+
+        The broadcast is done by :meth:`Server.communicate` (overridable per algorithm),
+        and the client applies the received parameters via
+        :meth:`Client.accept_parameters` (also overridable per algorithm).
+        """
+        # server communicates with client, typically broadcasting the global model to the client
+        self._communicate(client)
+        # NOTE: before evaluating (and updating), the client should accept parameters;
+        # if the key in received_messages is not "parameters", accept_parameters
+        # needs to be reimplemented.
+        client.accept_parameters()
+
+    def _local_step(self, client: "Client", evaluate: bool = False) -> None:
+        """Local phase on one client: evaluate (optional) → update → upload.
+
+        NOTE: evaluation (if any) is always executed BEFORE the client's local
+        update, so that the metrics are computed on the model just received
+        from the server, rather than on the locally-updated (possibly
+        personalized) model. This ordering is guaranteed here by construction.
+
+        Parameters
+        ----------
+        client : Client
+            The client to run the local step on.
+        evaluate : bool, optional
+            Whether to evaluate (and log) the train-part metrics on the client
+            before the local update, by default False.
+
+        """
+        if evaluate:
+            # only evaluate train metrics on clients
+            metrics = client.evaluate("train")
+            self._logger_manager.log_metrics(
+                client.client_id,
+                metrics,
+                step=self.n_iter,
+                epoch=self.n_iter,
+                part="train",
+            )
+        # client trains the model and perhaps updates other local variables
+        client._update()
+        # client communicates with server, typically sending the local model
+        # and evaluated local metrics to the server,
+        # and perhaps other local variables (e.g. gradients, etc.)
+        client._communicate(self)
+
+    def _aggregate_metrics(self, evaluate: bool = False) -> None:
+        """Aggregate phase: the server aggregates the client metrics of this iteration.
+
+        Parameters
+        ----------
+        evaluate : bool, optional
+            Whether client metrics were evaluated (and logged) this iteration,
+            by default False. Aggregation happens only when they were.
+
+        """
+        if evaluate:
+            self.aggregate_client_metrics()
+
+    def _global_step(self) -> None:
+        """Global phase: the server updates the global model (and other global variables)."""
+        self._update()
 
     def train_local(self, extra_configs: Optional[dict] = None) -> None:
         """Local training, conducted on the clients,
