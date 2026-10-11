@@ -1,6 +1,7 @@
 """ """
 
 import warnings
+from pydantic import model_validator
 from copy import deepcopy
 from typing import Dict, List, Optional
 
@@ -75,6 +76,13 @@ class DittoClientConfig(ClientConfig):
     prox: float = 0.01
     lr: float = 1e-2
     lr_per: Optional[float] = None
+
+    @model_validator(mode="after")
+    def _set_lr_per(self) -> "DittoClientConfig":
+        # `lr_per` defaults to `lr` when not specified
+        if self.lr_per is None:
+            self.lr_per = self.lr
+        return self
 
 
 @register_algorithm()
