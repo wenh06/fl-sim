@@ -26,6 +26,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v7
+      with:
+        # full history + tags: hatch-vcs derives the package version from
+        # git metadata inside the docker build (which installs git)
+        fetch-depth: 0
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v4
     - name: Clear unnecessary system components
