@@ -17,9 +17,8 @@ class-wise feature alignment.
 
 """
 
-import warnings
 from copy import deepcopy
-from typing import Any, Dict, List, Tuple
+from typing import Dict, List, Tuple
 
 import torch
 from torch_ecg.utils.misc import add_docstring
@@ -81,28 +80,8 @@ class FedCRServerConfig(BaseServerConfig):
 
     __name__ = "FedCRServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float = 1,
-        beta: float = 0.005,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            num_iters,
-            num_clients,
-            clients_sample_ratio=clients_sample_ratio,
-            **kwargs,
-        )
-        self.algorithm = name
-        self.beta = beta
+    clients_sample_ratio: float = 1
+    beta: float = 0.005
 
 
 @register_algorithm()
@@ -124,26 +103,7 @@ class FedCRClientConfig(BaseClientConfig):
 
     __name__ = "FedCRClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            batch_size=batch_size,
-            num_epochs=num_epochs,
-            lr=lr,
-            **kwargs,
-        )
-        self.algorithm = name
+    lr: float = 1e-2
 
 
 @register_algorithm()
@@ -169,10 +129,6 @@ class FedCRServer(BaseServer):
             "server": FedCRServerConfig,
             "client": FedCRClientConfig,
         }
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def _encoder_params(self, model: torch.nn.Module) -> List[torch.Tensor]:
         """The feature extractor parameters, i.e. all model parameters except the personal classifier head."""
@@ -258,10 +214,6 @@ class FedCRClient(BaseClient):
 
     def _capture_features(self, module: torch.nn.Module, args: tuple) -> None:
         self._features_buffer = args[0].detach()
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def accept_parameters(self) -> None:
         """Accept only the (aggregated) feature extractor parameters;

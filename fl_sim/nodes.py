@@ -42,6 +42,7 @@ Client classes
 
 import json
 import os
+import re
 import types
 import warnings
 from abc import ABC, abstractmethod
@@ -57,13 +58,14 @@ import torch
 import torch.nn as nn
 import yaml
 from bib_lookup import CitationMixin
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from torch import Tensor
 from torch.nn.parameter import Parameter
 from torch.optim import SGD
 from torch.optim.lr_scheduler import LambdaLR
 from torch.utils.data import DataLoader
 from torch_ecg.cfg import CFG
-from torch_ecg.utils import ReprMixin, add_docstring, get_kwargs
+from torch_ecg.utils import ReprMixin, add_docstring
 from tqdm.auto import tqdm
 
 from .data_processing.fed_dataset import FedDataset
@@ -82,17 +84,21 @@ __all__ = [
 ]
 
 
-class ServerConfig(ReprMixin):
+class ServerConfig(BaseModel):
     """Configs for the Server.
 
     Parameters
     ----------
     algorithm : str
         The algorithm name.
+        Defaults to be derived from the class name
+        (with the ``ServerConfig`` suffix removed).
     num_iters : int
         The number of (outer) iterations.
-    num_clients : int
+    num_clients : int, optional
         The number of clients.
+        If `None`, will use the dataset's default
+        (filled in by :meth:`Server._post_init`).
     clients_sample_ratio : float
         The ratio of clients to sample for each iteration.
     log_dir : str or pathlib.Path, optional
@@ -124,63 +130,91 @@ class ServerConfig(ReprMixin):
         The other arguments,
         will be set as attributes of the class.
 
+    .. note::
+        Positional arguments are supported for backward compatibility
+        (mapped onto the fields in their declaration order),
+        but keyword arguments are recommended.
+
     """
 
     __name__ = "ServerConfig"
 
-    def __init__(
-        self,
-        algorithm: str,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        log_dir: Optional[Union[str, Path]] = None,
-        txt_logger: bool = True,
-        json_logger: bool = True,
-        eval_every: int = 1,
-        visiable_gpus: Optional[Sequence[int]] = None,
-        extra_observes: Optional[List[str]] = None,
-        seed: int = 0,
-        tag: Optional[str] = None,
-        verbose: int = 1,
-        gpu_proportion: float = 0.2,
-        **kwargs: Any,
-    ) -> None:
-        self.algorithm = algorithm
-        self.num_iters = num_iters
-        self.num_clients = num_clients
-        self.clients_sample_ratio = clients_sample_ratio
-        self.log_dir = log_dir
-        self.txt_logger = txt_logger
-        self.json_logger = json_logger
-        self.eval_every = eval_every
-        self.visiable_gpus = visiable_gpus
+    model_config = ConfigDict(extra="allow")
+
+    # NOTE: the field order matters for (backward-compatible) positional
+    # construction, which maps onto the fields in their declaration order;
+    # `algorithm` goes last since the (sub)config classes derive it from
+    # the class name rather than taking it as the first argument.
+    num_iters: int
+    num_clients: Optional[int] = None
+    clients_sample_ratio: float
+    log_dir: Optional[Union[str, Path]] = None
+    txt_logger: bool = True
+    json_logger: bool = True
+    eval_every: int = 1
+    visiable_gpus: Optional[List[int]] = None
+    extra_observes: List[str] = Field(default_factory=list)
+    seed: int = 0
+    tag: Optional[str] = None
+    verbose: int = 1
+    gpu_proportion: float = 0.2
+    algorithm: str = ""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        # map positional arguments onto the fields in their declaration order,
+        # for backward compatibility with the (formerly hand-written) configs
+        if args:
+            fields = list(type(self).model_fields)
+            if len(args) > len(fields):
+                raise TypeError(
+                    f"{type(self).__name__} takes at most {len(fields)} positional arguments "
+                    f"({len(args)} given); use keyword arguments instead."
+                )
+            for name, val in zip(fields, args):
+                if name in kwargs:
+                    raise TypeError(f"{type(self).__name__} got multiple values for argument {name!r}")
+                kwargs[name] = val
+        super().__init__(**kwargs)
+
+    @model_validator(mode="after")
+    def _post_init_config(self) -> "ServerConfig":
+        """Derive the algorithm name; filter GPUs; set the global seed."""
+        derived = re.sub(r"(Server|Client)Config$", "", type(self).__name__)
+        if derived:
+            # a conventionally named (sub)config: the algorithm name is fixed to it
+            if not self.algorithm:
+                self.algorithm = derived
+            elif self.algorithm != derived:
+                warnings.warn(
+                    f"The `algorithm` argument is fixed to `{derived}` for `{type(self).__name__}` " "and will be ignored.",
+                    RuntimeWarning,
+                )
+                self.algorithm = derived
         default_gpus = list(range(torch.cuda.device_count()))
         if self.visiable_gpus is None:
             self.visiable_gpus = default_gpus
-        if not set(self.visiable_gpus).issubset(set(default_gpus)):
+        elif not set(self.visiable_gpus).issubset(set(default_gpus)):
             warnings.warn(f"GPU(s) {set(self.visiable_gpus) - set(default_gpus)} " "are not available.")
             self.visiable_gpus = [item for item in self.visiable_gpus if item in default_gpus]
-        self.extra_observes = extra_observes or []
-        self.seed = seed
-        self.tag = tag
-        self.verbose = verbose
-        self.gpu_proportion = gpu_proportion
-        for k, v in kwargs.items():
-            setattr(self, k, v)
         set_seed(self.seed)
+        return self
 
     def extra_repr_keys(self) -> List[str]:
-        return super().extra_repr_keys() + list(self.__dict__)
+        """Kept for backward compatibility with the former `ReprMixin`-based configs;
+        the fields are all included in the (pydantic) default representation.
+        """
+        return []
 
 
-class ClientConfig(ReprMixin):
+class ClientConfig(BaseModel):
     """Configs for the Client.
 
     Parameters
     ----------
     algorithm : str
         The algorithm name.
+        Defaults to be derived from the class name
+        (with the ``ClientConfig`` suffix removed).
     optimizer : str
         The name of the optimizer to solve the local (inner) problem.
     batch_size : int
@@ -205,37 +239,70 @@ class ClientConfig(ReprMixin):
         The other arguments,
         will be set as attributes of the class.
 
+    .. note::
+        Positional arguments are supported for backward compatibility
+        (mapped onto the fields in their declaration order),
+        but keyword arguments are recommended.
+
     """
 
     __name__ = "ClientConfig"
 
-    def __init__(
-        self,
-        algorithm: str,
-        optimizer: str,
-        batch_size: int,
-        num_epochs: int,
-        lr: float,
-        scheduler: Optional[dict] = None,
-        extra_observes: Optional[List[str]] = None,
-        verbose: int = 1,
-        latency: float = 0.0,
-        **kwargs: Any,
-    ) -> None:
-        self.algorithm = algorithm
-        self.optimizer = optimizer
-        self.batch_size = batch_size
-        self.num_epochs = num_epochs
-        self.lr = lr
-        self.scheduler = scheduler or {"name": "none"}
-        self.extra_observes = extra_observes or []
-        self.verbose = verbose
-        self.latency = latency
-        for k, v in kwargs.items():
-            setattr(self, k, v)
+    model_config = ConfigDict(extra="allow")
+
+    # NOTE: the field order matters for (backward-compatible) positional
+    # construction, which maps onto the fields in their declaration order;
+    # `algorithm` goes last since the (sub)config classes derive it from
+    # the class name rather than taking it as the first argument.
+    batch_size: int
+    num_epochs: int
+    lr: float
+    optimizer: str
+    scheduler: Optional[dict] = None
+    extra_observes: List[str] = Field(default_factory=list)
+    verbose: int = 1
+    latency: float = 0.0
+    algorithm: str = ""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        # map positional arguments onto the fields in their declaration order,
+        # for backward compatibility with the (formerly hand-written) configs
+        if args:
+            fields = list(type(self).model_fields)
+            if len(args) > len(fields):
+                raise TypeError(
+                    f"{type(self).__name__} takes at most {len(fields)} positional arguments "
+                    f"({len(args)} given); use keyword arguments instead."
+                )
+            for name, val in zip(fields, args):
+                if name in kwargs:
+                    raise TypeError(f"{type(self).__name__} got multiple values for argument {name!r}")
+                kwargs[name] = val
+        super().__init__(**kwargs)
+
+    @model_validator(mode="after")
+    def _post_init_config(self) -> "ClientConfig":
+        """Derive the algorithm name; normalize the scheduler config."""
+        derived = re.sub(r"(Server|Client)Config$", "", type(self).__name__)
+        if derived:
+            # a conventionally named (sub)config: the algorithm name is fixed to it
+            if not self.algorithm:
+                self.algorithm = derived
+            elif self.algorithm != derived:
+                warnings.warn(
+                    f"The `algorithm` argument is fixed to `{derived}` for `{type(self).__name__}` " "and will be ignored.",
+                    RuntimeWarning,
+                )
+                self.algorithm = derived
+        if not self.scheduler:
+            self.scheduler = {"name": "none"}
+        return self
 
     def extra_repr_keys(self) -> List[str]:
-        return super().extra_repr_keys() + list(self.__dict__)
+        """Kept for backward compatibility with the former `ReprMixin`-based configs;
+        the fields are all included in the (pydantic) default representation.
+        """
+        return []
 
 
 class Node(ReprMixin, ABC):
@@ -280,16 +347,12 @@ class Node(ReprMixin, ABC):
         raise NotImplementedError
 
     def _post_init(self) -> None:
-        """Check if all required field in the config are set."""
-        assert all(
-            [hasattr(self.config, k) for k in self.required_config_fields]
-        ), f"missing required config fields: {list(set(self.required_config_fields) - set(self.config.__dict__))}"
-
-    @property
-    @abstractmethod
-    def required_config_fields(self) -> List[str]:
-        """The list of required fields in the config."""
-        raise NotImplementedError
+        """Extension point for subclasses;
+        called at the end of `Server.__init__` and `Client.__init__`,
+        after the configs are set.
+        """
+        # NOTE: required config fields are enforced by the (pydantic) configs
+        # themselves at construction time, so no check is needed here.
 
     @property
     @abstractmethod
@@ -602,12 +665,6 @@ class Server(Node, CitationMixin):
             f"(server) config should be an instance of " f"{self.config_cls['server']}, but got {type(config)}."
         )
         self.config = config
-        if not hasattr(self.config, "verbose"):
-            self.config.verbose = get_kwargs(ServerConfig)["verbose"]
-            warnings.warn(
-                "The `verbose` attribute is not found in the config, " f"set it to the default value {self.config.verbose}.",
-                RuntimeWarning,
-            )
         if self.config.num_clients is None:
             self.config.num_clients = self.dataset.DEFAULT_TRAIN_CLIENTS_NUM
         self.device = torch.device("cpu")
@@ -615,14 +672,6 @@ class Server(Node, CitationMixin):
             f"client_config should be an instance of " f"{self.config_cls['client']}, but got {type(client_config)}."
         )
         self._client_config = client_config
-        if not hasattr(self._client_config, "verbose"):
-            # self._client_config.verbose = get_kwargs(ClientConfig)["verbose"]
-            self._client_config.verbose = self.config.verbose  # set to server's verbose
-            warnings.warn(
-                "The `verbose` attribute is not found in the client_config, "
-                f"set it to the default value {self._client_config.verbose}.",
-                RuntimeWarning,
-            )
         # multi-processing
         self._subprocess = is_subprocess
         if self._subprocess:
@@ -646,6 +695,16 @@ class Server(Node, CitationMixin):
 
         # set batch_size, in case of centralized training
         setattr(self.config, "batch_size", client_config.batch_size)
+
+        # persist the (machine-readable) configs for reproducibility
+        configs_json = {
+            "server": self.config.model_dump(mode="json"),
+            "client": self._client_config.model_dump(mode="json"),
+        }
+        config_json_path = Path(self._logger_manager.log_dir) / "config.json"
+        if config_json_path.exists():  # e.g. re-run in the same directory
+            config_json_path.rename(config_json_path.with_suffix(".json.bak"))
+        config_json_path.write_text(json.dumps(configs_json, indent=4, ensure_ascii=False))
 
         # echo the configs to stdout and txt log file
         self._logger_manager.log_message(f"Server Configs:\n{str(self.config)}")

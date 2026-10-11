@@ -2,9 +2,10 @@
 
 import warnings
 from copy import deepcopy
-from typing import Any, Dict, List, Sequence
+from typing import Dict, List, Tuple
 
 import torch
+from pydantic import field_validator, model_validator
 from torch_ecg.utils.misc import add_docstring, remove_parameters_returns_from_docstring
 from tqdm.auto import tqdm
 
@@ -64,40 +65,21 @@ class FedOptServerConfig(ServerConfig):
 
     __name__ = "FedOptServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        optimizer: str = "Adam",
-        lr: float = 1e-2,
-        betas: Sequence[float] = (0.9, 0.99),
-        tau: float = 1e-5,
-        **kwargs: Any,
-    ) -> None:
-        assert optimizer.lower() in [
+    optimizer: str = "Adam"
+    lr: float = 1e-2
+    betas: Tuple[float, float] = (0.9, 0.99)
+    tau: float = 1e-5
+
+    @field_validator("optimizer")
+    @classmethod
+    def _check_optimizer(cls, v: str) -> str:
+        assert v.lower() in [
             "avg",
             "adagrad",
             "yogi",
             "adam",
-        ], f"Unsupported optimizer: {optimizer}."
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            optimizer=optimizer,
-            lr=lr,
-            betas=betas,
-            tau=tau,
-            **kwargs,
-        )
+        ], f"Unsupported optimizer: {v}."
+        return v
 
 
 @register_algorithm()
@@ -122,28 +104,8 @@ class FedOptClientConfig(ClientConfig):
 
     __name__ = "FedOptClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        optimizer: str = "SGD",
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            optimizer,
-            batch_size,
-            num_epochs,
-            lr,
-            **kwargs,
-        )
+    lr: float = 1e-2
+    optimizer: str = "SGD"
 
 
 @register_algorithm()
@@ -184,10 +146,6 @@ class FedOptServer(Server):
     @property
     def client_cls(self) -> type:
         return FedOptClient
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["optimizer", "lr", "betas", "tau"]
 
     def communicate(self, target: "FedOptClient") -> None:
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
@@ -287,10 +245,6 @@ class FedOptClient(Client):
 
     __name__ = "FedOptClient"
 
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["optimizer"]
-
     def communicate(self, target: "FedOptServer") -> None:
         delta_parameters = self.get_detached_model_parameters()
         for dp, rp in zip(delta_parameters, self._cached_parameters):
@@ -353,39 +307,29 @@ class FedAvgServerConfig(FedOptServerConfig):
 
     __name__ = "FedAvgServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        **kwargs: Any,
-    ) -> None:
-        if kwargs.pop("lr", None) is not None:
-            warnings.warn(
-                "`lr` is fixed to `1` for FedAvgServerConfig and will be ignored.",
-                RuntimeWarning,
-            )
-        if kwargs.pop("betas", None) is not None:
-            warnings.warn(
-                "`betas` is fixed to `(0, 1)` for FedAvgServerConfig and will be ignored.",
-                RuntimeWarning,
-            )
-        if kwargs.pop("tau", None) is not None:
-            warnings.warn(
-                "`tau` is not used for FedAvgServerConfig and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            optimizer="Avg",
-            lr=1,
-            betas=(0, 1),  # betas[1] can be set arbitrarily since it is not used
-            tau=1,  # tau can be set arbitrarily since it is not used
-            **kwargs,
-        )
-        self.algorithm = "FedAvg"
+    optimizer: str = "Avg"
+    lr: float = 1
+    betas: Tuple[float, float] = (0, 1)
+    tau: float = 1
+
+    @model_validator(mode="after")
+    def _fix_optimizer_params(self) -> "FedAvgServerConfig":
+        # none of `optimizer`, `lr`, `betas`, `tau` is used by FedAvg
+        # (the server simply averages the collected local models);
+        # warn if any of them is explicitly set, then force the neutral values
+        for k, msg in [
+            ("optimizer", "`optimizer` is fixed to `Avg` for FedAvgServerConfig and will be ignored."),
+            ("lr", "`lr` is fixed to `1` for FedAvgServerConfig and will be ignored."),
+            ("betas", "`betas` is fixed to `(0, 1)` for FedAvgServerConfig and will be ignored."),
+            ("tau", "`tau` is fixed to `1` for FedAvgServerConfig and will be ignored."),
+        ]:
+            if k in self.model_fields_set:
+                warnings.warn(msg, RuntimeWarning)
+        self.optimizer = "Avg"
+        self.lr = 1
+        self.betas = (0, 1)
+        self.tau = 1
+        return self
 
 
 @register_algorithm()
@@ -394,23 +338,6 @@ class FedAvgClientConfig(FedOptClientConfig):
     """ """
 
     __name__ = "FedAvgClientConfig"
-
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        optimizer: str = "SGD",
-        **kwargs: Any,
-    ) -> None:
-        super().__init__(
-            batch_size=batch_size,
-            num_epochs=num_epochs,
-            lr=lr,
-            optimizer=optimizer,
-            **kwargs,
-        )
-        self.algorithm = "FedAvg"
 
 
 @register_algorithm()
@@ -431,10 +358,6 @@ class FedAvgServer(FedOptServer):
             "client": FedAvgClientConfig,
         }
 
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
-
 
 @register_algorithm()
 @add_docstring(FedOptClient.__doc__.replace("FedOpt", "FedAvg"))
@@ -451,27 +374,20 @@ class FedAdagradServerConfig(FedOptServerConfig):
 
     __name__ = "FedAdagradServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        lr: float = 1e-2,
-        betas: Sequence[float] = (0.0, 0.99),
-        tau: float = 1e-5,
-        **kwargs: Any,
-    ) -> None:
-        super().__init__(
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            optimizer="Adagrad",
-            lr=lr,
-            betas=betas,
-            tau=tau,
-            **kwargs,
-        )
-        self.algorithm = "FedAdagrad"
+    optimizer: str = "Adagrad"
+    lr: float = 1e-2
+    betas: Tuple[float, float] = (0.0, 0.99)
+    tau: float = 1e-5
+
+    @model_validator(mode="after")
+    def _fix_optimizer(self) -> "FedAdagradServerConfig":
+        if "optimizer" in self.model_fields_set and self.optimizer.lower() != "Adagrad":
+            warnings.warn(
+                "The `optimizer` argument is fixed to `Adagrad` for `FedAdagradServerConfig` and will be ignored.",
+                RuntimeWarning,
+            )
+        self.optimizer = "Adagrad"
+        return self
 
 
 @register_algorithm()
@@ -480,23 +396,6 @@ class FedAdagradClientConfig(FedOptClientConfig):
     """ """
 
     __name__ = "FedAdagradClientConfig"
-
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        optimizer: str = "SGD",
-        **kwargs: Any,
-    ) -> None:
-        super().__init__(
-            batch_size=batch_size,
-            num_epochs=num_epochs,
-            lr=lr,
-            optimizer=optimizer,
-            **kwargs,
-        )
-        self.algorithm = "FedAdagrad"
 
 
 @register_algorithm()
@@ -517,10 +416,6 @@ class FedAdagradServer(FedOptServer):
             "client": FedAdagradClientConfig,
         }
 
-    @property
-    def required_config_fields(self) -> List[str]:
-        return [k for k in super().required_config_fields if k != "optimizer"]
-
 
 @register_algorithm()
 @add_docstring(FedOptClient.__doc__.replace("FedOpt", "FedAdagrad"))
@@ -537,27 +432,20 @@ class FedYogiServerConfig(FedOptServerConfig):
 
     __name__ = "FedYogiServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        lr: float = 1e-2,
-        betas: Sequence[float] = (0.9, 0.99),
-        tau: float = 1e-5,
-        **kwargs: Any,
-    ) -> None:
-        super().__init__(
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            optimizer="Yogi",
-            lr=lr,
-            betas=betas,
-            tau=tau,
-            **kwargs,
-        )
-        self.algorithm = "FedYogi"
+    optimizer: str = "Yogi"
+    lr: float = 1e-2
+    betas: Tuple[float, float] = (0.9, 0.99)
+    tau: float = 1e-5
+
+    @model_validator(mode="after")
+    def _fix_optimizer(self) -> "FedYogiServerConfig":
+        if "optimizer" in self.model_fields_set and self.optimizer.lower() != "Yogi":
+            warnings.warn(
+                "The `optimizer` argument is fixed to `Yogi` for `FedYogiServerConfig` and will be ignored.",
+                RuntimeWarning,
+            )
+        self.optimizer = "Yogi"
+        return self
 
 
 @register_algorithm()
@@ -566,23 +454,6 @@ class FedYogiClientConfig(FedOptClientConfig):
     """ """
 
     __name__ = "FedYogiClientConfig"
-
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        optimizer: str = "SGD",
-        **kwargs: Any,
-    ) -> None:
-        super().__init__(
-            batch_size=batch_size,
-            num_epochs=num_epochs,
-            lr=lr,
-            optimizer=optimizer,
-            **kwargs,
-        )
-        self.algorithm = "FedYogi"
 
 
 @register_algorithm()
@@ -603,10 +474,6 @@ class FedYogiServer(FedOptServer):
             "client": FedYogiClientConfig,
         }
 
-    @property
-    def required_config_fields(self) -> List[str]:
-        return [k for k in super().required_config_fields if k != "optimizer"]
-
 
 @register_algorithm()
 @add_docstring(FedOptClient.__doc__.replace("FedOpt", "FedYogi"))
@@ -623,27 +490,20 @@ class FedAdamServerConfig(FedOptServerConfig):
 
     __name__ = "FedAdamServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        lr: float = 1e-2,
-        betas: Sequence[float] = (0.9, 0.99),
-        tau: float = 1e-5,
-        **kwargs: Any,
-    ) -> None:
-        super().__init__(
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            optimizer="Adam",
-            lr=lr,
-            betas=betas,
-            tau=tau,
-            **kwargs,
-        )
-        self.algorithm = "FedAdam"
+    optimizer: str = "Adam"
+    lr: float = 1e-2
+    betas: Tuple[float, float] = (0.9, 0.99)
+    tau: float = 1e-5
+
+    @model_validator(mode="after")
+    def _fix_optimizer(self) -> "FedAdamServerConfig":
+        if "optimizer" in self.model_fields_set and self.optimizer.lower() != "Adam":
+            warnings.warn(
+                "The `optimizer` argument is fixed to `Adam` for `FedAdamServerConfig` and will be ignored.",
+                RuntimeWarning,
+            )
+        self.optimizer = "Adam"
+        return self
 
 
 @register_algorithm()
@@ -652,23 +512,6 @@ class FedAdamClientConfig(FedOptClientConfig):
     """ """
 
     __name__ = "FedAdamClientConfig"
-
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        optimizer: str = "SGD",
-        **kwargs: Any,
-    ) -> None:
-        super().__init__(
-            batch_size=batch_size,
-            num_epochs=num_epochs,
-            lr=lr,
-            optimizer=optimizer,
-            **kwargs,
-        )
-        self.algorithm = "FedAdam"
 
 
 @register_algorithm()
@@ -688,10 +531,6 @@ class FedAdamServer(FedOptServer):
             "server": FedAdamServerConfig,
             "client": FedAdamClientConfig,
         }
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return [k for k in super().required_config_fields if k != "optimizer"]
 
 
 @register_algorithm()

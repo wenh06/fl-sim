@@ -16,18 +16,17 @@ from fl_sim.nodes import Client, ClientConfig, ClientMessage, Server, ServerConf
 
 
 class DummySeverConfig(ServerConfig):
+    # the (pydantic) configs support positional arguments,
+    # mapped onto the fields in their declaration order
     def __init__(
         self,
         num_iters: int,
         num_clients: int,
     ) -> None:
         super().__init__(
-            "Dummy",
             num_iters,
             num_clients,
             clients_sample_ratio=1.0,
-            optimizer="SGD",
-            lr=1e-2,
         )
 
 
@@ -39,11 +38,10 @@ class DummyClientConfig(ClientConfig):
         lr: float = 1e-3,
     ) -> None:
         super().__init__(
-            "Dummy",
-            "SGD",
             batch_size,
             num_epochs,
             lr,
+            optimizer="SGD",
         )
 
 
@@ -54,10 +52,6 @@ class DummyServer(Server):
     @property
     def client_cls(self) -> type:
         return DummyClient
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["num_iters", "num_clients"]
 
     def communicate(self, target: "DummyClient") -> None:
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
@@ -79,10 +73,6 @@ class DummyServer(Server):
 
 
 class DummyClient(Client):
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["batch_size", "num_epochs", "lr"]
-
     def communicate(self, target: "DummyServer"):
         target._received_messages.append(
             ClientMessage(

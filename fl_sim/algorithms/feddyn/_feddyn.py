@@ -4,9 +4,10 @@ FedDyn re-implemented in the new framework
 
 import warnings
 from copy import deepcopy
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import torch
+from pydantic import field_validator, model_validator  # noqa: F401
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
@@ -44,29 +45,14 @@ class FedDynServerConfig(ServerConfig):
 
     __name__ = "FedDynServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        mu: float = 1 / 10,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            mu=mu,
-            prox=mu,  # for the `ProxSGD` optimizer
-            **kwargs,
-        )
+    mu: float = 1 / 10
+
+    @model_validator(mode="after")
+    def _set_prox(self) -> "FedDynServerConfig":
+        # the penalty coefficient of the (client-side) `ProxSGD` optimizer
+        # equals the drift coefficient `mu`
+        self.prox = self.mu
+        return self
 
 
 @register_algorithm()
@@ -88,38 +74,21 @@ class FedDynClientConfig(ClientConfig):
 
     __name__ = "FedDynClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        optimizer = "ProxSGD"
-        if kwargs.pop("optimizer", None) is not None:
+    # NOTE: the optimizer is fixed by the algorithm (derived from `vr`);
+    # declared optional here and set by the validator below
+    optimizer: str = ""
+
+    lr: float = 1e-2
+
+    @model_validator(mode="after")
+    def _fix_optimizer(self) -> "FedDynClientConfig":
+        if "optimizer" in self.model_fields_set:
             warnings.warn(
                 "The `optimizer` argument is fixed to `ProxSGD` and will be ignored.",
                 RuntimeWarning,
             )
-        if kwargs.pop("mu", None) is not None:
-            warnings.warn(
-                "The `mu` argument of the client will be assigned by the server.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            optimizer,
-            batch_size,
-            num_epochs,
-            lr,
-            **kwargs,
-        )
+        self.optimizer = "ProxSGD"
+        return self
 
 
 @register_algorithm()
@@ -157,10 +126,6 @@ class FedDynServer(Server):
         """
         super()._post_init()
         self.h_params = [torch.zeros_like(p) for p in self.model.parameters()]
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["mu"]
 
     @property
     def client_cls(self) -> type:
@@ -214,10 +179,6 @@ class FedDynClient(Client):
         """
         super()._post_init()
         self.gradients = [torch.zeros_like(p) for p in self.model.parameters()]
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["mu"]
 
     def communicate(self, target: "FedDynServer") -> None:
         message = {

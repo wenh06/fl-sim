@@ -3,7 +3,7 @@ ProxSkip and ProxSkip-VR re-implemented in the new framework
 """
 
 import warnings
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 import numpy as np
 import torch
@@ -44,34 +44,9 @@ class ProxSkipServerConfig(ServerConfig):
 
     __name__ = "ProxSkipServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        p: float,
-        vr: bool = False,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        if kwargs.pop("clients_sample_ratio", None) is not None:
-            warnings.warn(
-                "The `clients_sample_ratio` is controlled by `p` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio=1,
-            p=p,
-            vr=vr,
-            **kwargs,
-        )
+    clients_sample_ratio: float = 1
+    p: float
+    vr: bool = False
 
 
 @register_algorithm()
@@ -95,34 +70,9 @@ class ProxSkipClientConfig(ClientConfig):
 
     __name__ = "ProxSkipClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        vr: bool = False,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        if kwargs.pop("optimizer", None) is not None:
-            warnings.warn(
-                "The `optimizer` argument is fixed to `SCAFFOLD` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            "SCAFFOLD",
-            batch_size,
-            num_epochs,
-            lr,
-            vr=vr,
-            **kwargs,
-        )
+    optimizer: str = "SCAFFOLD"
+    lr: float = 1e-2
+    vr: bool = False
 
 
 @register_algorithm()
@@ -196,10 +146,6 @@ class ProxSkipServer(Server):
     def client_cls(self) -> type:
         return ProxSkipClient
 
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
-
     def communicate(self, target: "ProxSkipClient") -> None:
         target._received_messages = {
             "parameters": [p.detach().clone() for p in self.model.parameters()],
@@ -257,10 +203,6 @@ class ProxSkipClient(Client):
         else:
             self._gradient_buffer = None
         self.communication_pattern = None  # would be set by the server in its `_post_init` method
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def communicate(self, target: "ProxSkipServer") -> None:
         if self.communication_pattern[target.n_iter] == 0:

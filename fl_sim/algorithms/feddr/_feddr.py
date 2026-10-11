@@ -2,7 +2,7 @@
 
 import warnings
 from copy import deepcopy
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import torch
 from torch_ecg.utils.misc import add_docstring
@@ -46,32 +46,9 @@ class FedDRServerConfig(ServerConfig):
 
     __name__ = "FedDRServerConfig"
 
-    def __init__(
-        self,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float,
-        eta: float = 1.0,
-        alpha: float = 1.9,
-        reg_type: str = "l1_norm",
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            num_iters,
-            num_clients,
-            clients_sample_ratio,
-            eta=eta,
-            alpha=alpha,
-            reg_type=reg_type,
-            **kwargs,
-        )
+    eta: float = 1.0
+    alpha: float = 1.9
+    reg_type: str = "l1_norm"
 
 
 @register_algorithm()
@@ -97,36 +74,10 @@ class FedDRClientConfig(ClientConfig):
 
     __name__ = "FedDRClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        eta: float = 1.0,
-        alpha: float = 1.9,  # in the FedDR paper, clients' alpha is equal to the server's alpha
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        if kwargs.pop("optimizer", None) is not None:
-            warnings.warn(
-                f"The `optimizer` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            name,
-            name,
-            batch_size,
-            num_epochs,
-            lr,
-            eta=eta,
-            alpha=alpha,
-            **kwargs,
-        )
+    lr: float = 1e-2
+    eta: float = 1.0
+    alpha: float = 1.9
+    optimizer: str = "FedDR"
 
 
 @register_algorithm()
@@ -153,10 +104,6 @@ class FedDRServer(Server):
     @property
     def client_cls(self) -> type:
         return FedDRClient
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["alpha", "eta", "reg_type"]
 
     def communicate(self, target: "FedDRClient") -> None:
         target._received_messages = {"parameters": self.get_detached_model_parameters()}
@@ -216,10 +163,6 @@ class FedDRClient(Client):
         self._y_parameters = None  # y
         self._x_hat_parameters = None  # x_hat
         self._x_hat_buffer = None  # x_hat_buffer
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["alpha", "eta"]
 
     def communicate(self, target: "FedDRServer") -> None:
         if self._x_hat_buffer is None:

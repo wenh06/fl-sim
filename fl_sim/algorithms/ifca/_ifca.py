@@ -7,9 +7,8 @@ Codebase URL: https://github.com/jichan3751/ifca
 
 """
 
-import warnings
 from copy import deepcopy
-from typing import Any, Dict, List, Sequence
+from typing import Dict, Sequence
 
 import torch
 from torch_ecg.utils.misc import add_docstring, list_sum
@@ -54,28 +53,8 @@ class IFCAServerConfig(BaseServerConfig):
 
     __name__ = "IFCAServerConfig"
 
-    def __init__(
-        self,
-        num_clusters: int,
-        num_iters: int,
-        num_clients: int,
-        clients_sample_ratio: float = 1,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ServerConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            num_iters,
-            num_clients,
-            clients_sample_ratio=clients_sample_ratio,
-            **kwargs,
-        )
-        self.algorithm = name
-        self.num_clusters = num_clusters
+    num_clusters: int
+    clients_sample_ratio: float = 1
 
 
 @register_algorithm()
@@ -97,26 +76,7 @@ class IFCAClientConfig(BaseClientConfig):
 
     __name__ = "IFCAClientConfig"
 
-    def __init__(
-        self,
-        batch_size: int,
-        num_epochs: int,
-        lr: float = 1e-2,
-        **kwargs: Any,
-    ) -> None:
-        name = self.__name__.replace("ClientConfig", "")
-        if kwargs.pop("algorithm", None) is not None:
-            warnings.warn(
-                f"The `algorithm` argument is fixed to `{name}` and will be ignored.",
-                RuntimeWarning,
-            )
-        super().__init__(
-            batch_size=batch_size,
-            num_epochs=num_epochs,
-            lr=lr,
-            **kwargs,
-        )
-        self.algorithm = name
+    lr: float = 1e-2
 
 
 @register_algorithm()
@@ -150,10 +110,6 @@ class IFCAServer(BaseServer):
             "server": IFCAServerConfig,
             "client": IFCAClientConfig,
         }
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["num_clusters"]
 
     def communicate(self, target: "IFCAClient") -> None:
         """Send cluster centers to client"""
@@ -222,10 +178,6 @@ class IFCAClient(BaseClient):
         """
         super()._post_init()
         self.cluster_id = -1
-
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
 
     def communicate(self, target: "IFCAServer") -> None:
         delta_parameters = self.get_detached_model_parameters()
