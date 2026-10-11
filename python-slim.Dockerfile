@@ -23,7 +23,6 @@ RUN ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 # http://pypi.douban.com/simple/
 # RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ## Include the following line if you have a requirements.txt file.
-RUN pip install -r requirements.txt
 RUN pip install -r requirements-viz.txt
 RUN python -m pip cache purge
 
