@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Server &#8212; fl-sim 0.1.1.dev1+g0bbce4035 documentation</title>
+    <title>Server &#8212; fl-sim 0.1.1.dev5+g472aba7bd documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=e0ab5f30"></script>
+    <script src="../../_static/documentation_options.js?v=57f6cdeb"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev1+g0bbce4035 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev5+g472aba7bd documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -549,6 +549,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.aggregate_client_metrics"><code class="docutils literal notranslate"><span class="pre">Server.aggregate_client_metrics()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.avg_parameters"><code class="docutils literal notranslate"><span class="pre">Server.avg_parameters()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.client_cls"><code class="docutils literal notranslate"><span class="pre">Server.client_cls</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.communicate"><code class="docutils literal notranslate"><span class="pre">Server.communicate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.config_cls"><code class="docutils literal notranslate"><span class="pre">Server.config_cls</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.evaluate_centralized"><code class="docutils literal notranslate"><span class="pre">Server.evaluate_centralized()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">Server.extra_repr_keys()</span></code></a></li>
@@ -557,6 +558,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.get_client_model"><code class="docutils literal notranslate"><span class="pre">Server.get_client_model()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.is_convergent"><code class="docutils literal notranslate"><span class="pre">Server.is_convergent</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.pre_iter"><code class="docutils literal notranslate"><span class="pre">Server.pre_iter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.receive_one"><code class="docutils literal notranslate"><span class="pre">Server.receive_one()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.train"><code class="docutils literal notranslate"><span class="pre">Server.train()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.train_centralized"><code class="docutils literal notranslate"><span class="pre">Server.train_centralized()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.train_federated"><code class="docutils literal notranslate"><span class="pre">Server.train_federated()</span></code></a></li>
@@ -665,6 +667,26 @@ should be in the range [0, 1).</p></li>
 <dd><p>Class of the client node.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="fl_sim.nodes.Server.communicate">
+<span class="sig-name descname"><span class="pre">communicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fl_sim.nodes.Client.html#fl_sim.nodes.Client" title="fl_sim.nodes.Client"><span class="pre">Client</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/fl_sim/nodes.html#Server.communicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.nodes.Server.communicate" title="Link to this definition">#</a></dt>
+<dd><p>Broadcast the current model parameters to the target client.</p>
+<p>This is the default (typed-API) implementation; subclasses override it
+for algorithm-specific payloads. The typed-API way to send additional
+data is building a <code class="xref py py-class docutils literal notranslate"><span class="pre">ServerToClient</span></code> and calling
+<a class="reference internal" href="fl_sim.nodes.Client.html#fl_sim.nodes.Client.receive" title="fl_sim.nodes.Client.receive"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Client.receive()</span></code></a> on the target; the legacy way (overriding
+<cite>communicate</cite> and writing <cite>target._received_messages</cite> directly)
+keeps working.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target</strong> (<a class="reference internal" href="fl_sim.nodes.Client.html#fl_sim.nodes.Client" title="fl_sim.nodes.Client"><em>Client</em></a>) – The client to broadcast to.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="fl_sim.nodes.Server.config_cls">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config_cls</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.15)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#type" title="(in Python v3.15)"><span class="pre">type</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#fl_sim.nodes.Server.config_cls" title="Link to this definition">#</a></dt>
@@ -767,6 +789,22 @@ Can be used to update the model, e.g. update the local model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fl_sim.nodes.Server.receive_one">
+<span class="sig-name descname"><span class="pre">receive_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClientToServer</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/fl_sim/nodes.html#Server.receive_one"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.nodes.Server.receive_one" title="Link to this definition">#</a></dt>
+<dd><p>Receive a typed message uploaded from a client.</p>
+<p>The message is converted to the legacy <code class="xref py py-class docutils literal notranslate"><span class="pre">ClientMessage</span></code> and
+appended to <code class="docutils literal notranslate"><span class="pre">self._received_messages</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>ClientToServer</em>) – The typed message uploaded from a client.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -895,6 +933,7 @@ without any communication with the server. Used for comparison.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.aggregate_client_metrics"><code class="docutils literal notranslate"><span class="pre">Server.aggregate_client_metrics()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.avg_parameters"><code class="docutils literal notranslate"><span class="pre">Server.avg_parameters()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.client_cls"><code class="docutils literal notranslate"><span class="pre">Server.client_cls</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.communicate"><code class="docutils literal notranslate"><span class="pre">Server.communicate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.config_cls"><code class="docutils literal notranslate"><span class="pre">Server.config_cls</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.evaluate_centralized"><code class="docutils literal notranslate"><span class="pre">Server.evaluate_centralized()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">Server.extra_repr_keys()</span></code></a></li>
@@ -903,6 +942,7 @@ without any communication with the server. Used for comparison.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.get_client_model"><code class="docutils literal notranslate"><span class="pre">Server.get_client_model()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.is_convergent"><code class="docutils literal notranslate"><span class="pre">Server.is_convergent</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.pre_iter"><code class="docutils literal notranslate"><span class="pre">Server.pre_iter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.receive_one"><code class="docutils literal notranslate"><span class="pre">Server.receive_one()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.train"><code class="docutils literal notranslate"><span class="pre">Server.train()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.train_centralized"><code class="docutils literal notranslate"><span class="pre">Server.train_centralized()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Server.train_federated"><code class="docutils literal notranslate"><span class="pre">Server.train_federated()</span></code></a></li>
