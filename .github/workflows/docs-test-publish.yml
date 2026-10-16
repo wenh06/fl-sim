@@ -85,25 +85,31 @@ jobs:
     - name: Setup TeX Live
       # This is used to render the tikz plots, algorithm2e, etc.
       # uses: teatimeguest/setup-texlive-action@v3
-      uses: zauguin/install-texlive@v4
+      # Wrapped in a retry action: the CTAN mirror selection inside
+      # `install-texlive` occasionally fails transiently ("No mirror available").
+      uses: Wandalen/wretry.action@v3
       with:
-        # List of TeXLive-packages contained in the scheme-basic
-        # https://trac.macports.org/wiki/TeXLivePackages
-        # tlmgr info --list scheme-basic
-        # tlmgr info --list collection-latex
-        # tlmgr info --list collection-basic
-        packages: >-
-          scheme-basic
-          algorithm2e
-          biber
-          biblatex
-          pgf
-          pgfplots
-          relsize
-          standalone
-          xetex
-          xecjk
-          ifoddpage
+        action: zauguin/install-texlive@v4
+        with: |
+          # List of TeXLive-packages contained in the scheme-basic
+          # https://trac.macports.org/wiki/TeXLivePackages
+          # tlmgr info --list scheme-basic
+          # tlmgr info --list collection-latex
+          # tlmgr info --list collection-basic
+          packages: >-
+            scheme-basic
+            algorithm2e
+            biber
+            biblatex
+            pgf
+            pgfplots
+            relsize
+            standalone
+            xetex
+            xecjk
+            ifoddpage
+        attempt_limit: 3
+        attempt_delay: 300000 # ms to wait between attempts
     - name: Install latexmk and pandoc and extra software
       run: |
         sudo apt install latexmk -y
