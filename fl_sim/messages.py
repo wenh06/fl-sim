@@ -13,7 +13,9 @@ containers directly with magic string keys, e.g.
     # server -> client (legacy)
     target._received_messages = {"parameters": params, "alpha": 0.01}
     # client -> server (legacy)
-    target._received_messages.append(ClientMessage({...}))
+    target._received_messages.append(
+        ClientMessage(client_id=..., train_samples=..., metrics=...)
+    )
 
 The typed messages below are the recommended replacement: the message
 fields are explicit (hence IDE-discoverable and validated by construction),
@@ -44,6 +46,7 @@ from torch import Tensor
 __all__ = [
     "ClientToServer",
     "ServerToClient",
+    "ClientMessage",
 ]
 
 
@@ -114,3 +117,31 @@ class ClientToServer:
             metrics=self.metrics,
         )
         return d
+
+
+class ClientMessage(dict):
+    """A class used to specify required fields
+    for a message from client to server.
+
+    Parameters
+    ----------
+    client_id : int
+        The id of the client.
+    train_samples : int
+        The number of samples used for training on the client.
+    metrics : dict
+        The metrics evaluated on the client.
+    **kwargs : dict, optional
+        Extra message to be sent to the server.
+
+    """
+
+    __name__ = "ClientMessage"
+
+    def __init__(self, client_id: int, train_samples: int, metrics: dict, **kwargs) -> None:
+        super().__init__(client_id=client_id, train_samples=train_samples, metrics=metrics, **kwargs)
+
+    @classmethod
+    def from_typed(cls, message: ClientToServer) -> "ClientMessage":
+        """Build the legacy message from the typed :class:`ClientToServer`."""
+        return cls(**message.to_legacy_kwargs())

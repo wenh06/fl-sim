@@ -10,6 +10,7 @@ This module provides miscellaneous utilities.
 
 import collections
 import inspect
+import json
 import os
 import platform
 import random
@@ -25,10 +26,12 @@ from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
 
 import numpy as np
 import torch
+import yaml
 from scipy.optimize import linear_sum_assignment
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 from sklearn.preprocessing import LabelEncoder
 from torch_ecg.utils import get_kwargs, get_required_args
+from tqdm.auto import tqdm
 
 from .const import LOG_DIR
 
@@ -47,7 +50,97 @@ __all__ = [
     "compute_sparsity",
     "execute_cmd",
     "compute_clustering_metrics",
+    "aggregate_results_from_json_log",
 ]
+
+
+def aggregate_results_from_json_log(d: Union[dict, str, Path], part: str = "val", metric: str = "acc") -> np.ndarray:
+    """Aggregate the federated results from json log.
+
+    Parameters
+    ----------
+    d : dict or str or pathlib.Path
+        The dict of the json/yaml log,
+        or the path to the json/yaml log file.
+    part : str, default "train"
+        The part of the log to aggregate.
+    metric : str, default "acc"
+        The metric to aggregate.
+
+    Returns
+    -------
+    numpy.ndarray
+        The aggregated results (curve).
+
+    NOTE
+    ----
+    The parameter `d` should be a dict similar to the following structure:
+
+    .. dropdown::
+        :animate: fade-in-slide-down
+
+        .. code-block:: json
+
+            {
+                "train": {
+                    "client0": [
+                        {
+                            "epoch": 1,
+                            "step": 1,
+                            "time": "2020-01-01 00:00:00",
+                            "loss": 0.1,
+                            "acc": 0.2,
+                            "top3_acc": 0.3,
+                            "top5_acc": 0.4,
+                            "num_samples": 100
+                        }
+                    ]
+                },
+                "val": {
+                    "client0": [
+                        {
+                            "epoch": 1,
+                            "step": 1,
+                            "time": "2020-01-01 00:00:00",
+                            "loss": 0.1,
+                            "acc": 0.2,
+                            "top3_acc": 0.3,
+                            "top5_acc": 0.4,
+                            "num_samples": 100
+                        }
+                    ]
+                }
+            }
+
+    """
+    if isinstance(d, (str, Path)):
+        d = Path(d)
+        if d.suffix == ".json":
+            d = json.loads(d.read_text())
+        elif d.suffix in [".yaml", ".yml"]:
+            d = yaml.safe_load(d.read_text())
+        else:
+            raise ValueError(f"unsupported file type: {d.suffix}")
+    epochs = list(sorted(np.unique([item["epoch"] for client, v in d[part].items() if client != "Server" for item in v])))
+    metric_curve = [[] for _ in range(len(epochs))]
+    num_samples = [0 for _ in range(len(epochs))]
+    for client, v in tqdm(
+        d[part].items(),
+        mininterval=1,
+        desc="Aggregating results",
+        total=len(d[part]),
+        unit="client",
+        leave=False,
+        disable=int(os.environ.get("FLSIM_VERBOSE", "1")) < 1,
+    ):
+        if client == "Server":
+            # skip server metrics
+            continue
+        for item in v:
+            idx = epochs.index(item["epoch"])
+            metric_curve[idx].append(item[metric] * item["num_samples"])
+            num_samples[idx] += item["num_samples"]
+    return np.array([sum(v) / num_samples[i] for i, v in enumerate(metric_curve)])
 
 
 def experiment_indicator(name: str) -> Callable:
