@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="../../" >
+<html lang="zh-CN" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.nodes &#8212; fl-sim 0.1.1.dev6+gd0fdb6156 documentation</title>
+    <title>fl_sim.nodes.server &#8212; fl-sim 0.1.1.dev7+g15ebf4794 文档</title>
   
   
   
@@ -17,43 +17,44 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=da4407d3" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/proof.css?v=7ba180f6" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/codeblock.css?v=d29e50c4" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/versions.css?v=b1c81d98" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/codeblock.css?v=d29e50c4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/versions.css?v=b1c81d98" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=4a4b2973"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/proof.js"></script>
-    <script src="../../_static/js/codeblock.js?v=82bf629b"></script>
-    <script src="../../_static/js/versions.js?v=6609812c"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/documentation_options.js?v=a37a4ef4"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/proof.js"></script>
+    <script src="../../../_static/js/codeblock.js?v=82bf629b"></script>
+    <script src="../../../_static/js/versions.js?v=6609812c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
     <script>
             if (window.pseudocode && !window.pseudocode.mathRenderer) {
@@ -129,11 +130,11 @@
             renderPseudocodeWithMath();
         }
     </script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/nodes';</script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/fl_sim/nodes/server';</script>
+    <link rel="index" title="索引" href="../../../genindex.html" />
+    <link rel="search" title="搜索" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:language" content="zh-CN"/>
   </head>
   
   
@@ -163,7 +164,7 @@
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
-      action="../../search.html"
+      action="../../../search.html"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -214,123 +215,123 @@
     
   
 
-<a class="navbar-brand logo" href="../../index.html">
+<a class="navbar-brand logo" href="../../../index.html">
   
   
   
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev6+gd0fdb6156 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev7+g15ebf4794 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
  <script>
  document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
+    <span class="search-button__default-text">搜索</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
    </button>
  `);
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">快速开始</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation instructions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Usage examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">安装说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">使用示例</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API 参考</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/nodes.html">fl_sim.nodes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.nodes.Node.html">Node</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.nodes.Server.html">Server</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.nodes.Client.html">Client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/nodes.html">fl_sim.nodes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.Node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.Server.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.Client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/datasets.html">fl_sim.data_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/datasets.html">fl_sim.data_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/models.html">fl_sim.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.ResNet18.html">ResNet18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.ResNet10.html">ResNet10</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.ShrinkedResNet.html">ShrinkedResNet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.MLP.html">MLP</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.SVC.html">SVC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.SVR.html">SVR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.REGMixin.html">REGMixin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/models.html">fl_sim.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.ResNet18.html">ResNet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.ResNet10.html">ResNet10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.ShrinkedResNet.html">ShrinkedResNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.MLP.html">MLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.SVC.html">SVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.SVR.html">SVR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.REGMixin.html">REGMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/optimizers.html">fl_sim.optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/optimizers.html">fl_sim.optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/regularizers.html">fl_sim.regularizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/regularizers.html">fl_sim.regularizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/utils.html">fl_sim.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/utils.html">fl_sim.utils</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">进阶主题</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../algorithms.html">Federated learning algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../algorithms/notation.html">Notation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../algorithms/overview.html">Overview of Optimization Algorithms in Federated Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../algorithms/proximal.html">Proximal Algorithms in Federated Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../algorithms/primal_dual.html">Primal-Dual Algorithms in Federated Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../algorithms/operator_splitting.html">Operator Splitting Algorithms in Federated Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../algorithms/skipping.html">Skipping Algorithms in Federated Learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../algorithms/pfl.html">Personalized Federated Learning Algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../algorithms.html">联邦学习算法</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms/notation.html">符号说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms/overview.html">联邦学习中的优化算法概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms/proximal.html">联邦学习中的临近算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms/primal_dual.html">联邦学习中的原始对偶算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms/operator_splitting.html">联邦学习中的算子分裂算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms/skipping.html">联邦学习中的跳步算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../algorithms/pfl.html">个性化联邦学习算法</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command line interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../viz.html">Visualization subsystem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">命令行接口</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../viz.html">可视化子系统</a></li>
 </ul>
 
     </div>
@@ -387,7 +388,7 @@
       
       <li><a href="https://github.com/wenh06/fl-sim" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
-   title="Source repository"
+   title="源码库"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
@@ -402,9 +403,9 @@
       
       
       
-      <li><a href="https://github.com/wenh06/fl-sim/issues/new?title=Issue%20on%20page%20%2F_modules/fl_sim/nodes.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/wenh06/fl-sim/issues/new?title=Issue%20on%20page%20%2F_modules/fl_sim/nodes/server.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
-   title="Open an issue"
+   title="创建议题"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
@@ -424,7 +425,7 @@
 
 <button onclick="toggleFullScreen()"
   class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
+  title="全屏模式"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
@@ -450,7 +451,7 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
@@ -480,706 +481,50 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Source code for fl_sim.nodes</h1><div class="highlight"><pre>
+  <h1>fl_sim.nodes.server 源代码</h1><div class="highlight"><pre>
 <span></span><span class="sd">"""</span>
-<span class="sd">fl_sim.nodes</span>
-<span class="sd">=============</span>
-
-<span class="sd">:class:`Node` s are the core of the simulation framework.</span>
-<span class="sd">:class:`Node` has two subclasses: :class:`Server` and :class:`Client`.</span>
-<span class="sd">The :class:`Server` class is the base class for all servers,</span>
-<span class="sd">which acts as the coordinator of the training process, as well as maintainer of status variables.</span>
-<span class="sd">The :class:`Client` class is the base class for all clients.</span>
-
-<span class="sd">.. contents::</span>
-<span class="sd">    :depth: 2</span>
-<span class="sd">    :local:</span>
-<span class="sd">    :backlinks: top</span>
-
-<span class="sd">.. currentmodule:: fl_sim.nodes</span>
-
-<span class="sd">Base Node class</span>
-<span class="sd">---------------</span>
-<span class="sd">.. autosummary::</span>
-<span class="sd">    :toctree: generated/</span>
-
-<span class="sd">    Node</span>
-
-<span class="sd">Server classes</span>
-<span class="sd">--------------</span>
-<span class="sd">.. autosummary::</span>
-<span class="sd">    :toctree: generated/</span>
-
-<span class="sd">    Server</span>
-<span class="sd">    ServerConfig</span>
-
-<span class="sd">Client classes</span>
-<span class="sd">--------------</span>
-<span class="sd">.. autosummary::</span>
-<span class="sd">    :toctree: generated/</span>
-
-<span class="sd">    Client</span>
-<span class="sd">    ClientConfig</span>
+<span class="sd">The base Server class.</span>
+<span class="sd">======================</span>
 
 <span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">types</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">repeat</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Number</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bib_lookup</span><span class="w"> </span><span class="kn">import</span> <span class="n">CitationMixin</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tensor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.parameter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">SGD</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.optim.lr_scheduler</span><span class="w"> </span><span class="kn">import</span> <span class="n">LambdaLR</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.cfg</span><span class="w"> </span><span class="kn">import</span> <span class="n">CFG</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReprMixin</span><span class="p">,</span> <span class="n">add_docstring</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.auto</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.data_processing.fed_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">FedDataset</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientToServer</span><span class="p">,</span> <span class="n">ServerToClient</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">reset_parameters</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.optimizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_optimizer</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.utils.loggers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoggerManager</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_dict_to_dict</span><span class="p">,</span> <span class="n">get_scheduler</span><span class="p">,</span> <span class="n">set_seed</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.utils.torch_compat</span><span class="w"> </span><span class="kn">import</span> <span class="n">torch_norm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..data_processing.fed_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">FedDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientMessage</span><span class="p">,</span> <span class="n">ClientToServer</span><span class="p">,</span> <span class="n">ServerToClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..models</span><span class="w"> </span><span class="kn">import</span> <span class="n">reset_parameters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.loggers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoggerManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_dict_to_dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientConfig</span><span class="p">,</span> <span class="n">ServerConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.node</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"Server"</span><span class="p">,</span>
-    <span class="s2">"Client"</span><span class="p">,</span>
-    <span class="s2">"ServerConfig"</span><span class="p">,</span>
-    <span class="s2">"ClientConfig"</span><span class="p">,</span>
-    <span class="s2">"ClientMessage"</span><span class="p">,</span>
-    <span class="s2">"ServerToClient"</span><span class="p">,</span>
-    <span class="s2">"ClientToServer"</span><span class="p">,</span>
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="ServerConfig">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ServerConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Configs for the Server.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    algorithm : str</span>
-<span class="sd">        The algorithm name.</span>
-<span class="sd">        Defaults to be derived from the class name</span>
-<span class="sd">        (with the ``ServerConfig`` suffix removed).</span>
-<span class="sd">    num_iters : int</span>
-<span class="sd">        The number of (outer) iterations.</span>
-<span class="sd">    num_clients : int, optional</span>
-<span class="sd">        The number of clients.</span>
-<span class="sd">        If `None`, will use the dataset's default</span>
-<span class="sd">        (filled in by :meth:`Server._post_init`).</span>
-<span class="sd">    clients_sample_ratio : float</span>
-<span class="sd">        The ratio of clients to sample for each iteration.</span>
-<span class="sd">    log_dir : str or pathlib.Path, optional</span>
-<span class="sd">        The log directory.</span>
-<span class="sd">        If not specified, will use the default log directory.</span>
-<span class="sd">        If not absolute, will be relative to the default log directory.</span>
-<span class="sd">    txt_logger : bool, default True</span>
-<span class="sd">        Whether to use txt logger.</span>
-<span class="sd">    json_logger : bool, default True</span>
-<span class="sd">        Whether to use json logger.</span>
-<span class="sd">    eval_every : int, default 1</span>
-<span class="sd">        The number of iterations to evaluate the model.</span>
-<span class="sd">    visiable_gpus : Sequence[int], optional</span>
-<span class="sd">        Visable GPU IDs for allocating devices for clients.</span>
-<span class="sd">        Defaults to use all GPUs if available.</span>
-<span class="sd">    extra_observes : List[str], optional</span>
-<span class="sd">        Extra attributes to observe during training.</span>
-<span class="sd">    seed : int, default 0</span>
-<span class="sd">        The random seed.</span>
-<span class="sd">    tag : str, optional</span>
-<span class="sd">        The tag of the experiment.</span>
-<span class="sd">    verbose : int, default 1</span>
-<span class="sd">        The verbosity level.</span>
-<span class="sd">    gpu_proportion : float, default 0.2</span>
-<span class="sd">        The proportion of clients to use GPU.</span>
-<span class="sd">        Used to similate the system heterogeneity of the clients.</span>
-<span class="sd">        Not used in the current version, reserved for future use.</span>
-<span class="sd">    **kwargs : dict, optional</span>
-<span class="sd">        The other arguments,</span>
-<span class="sd">        will be set as attributes of the class.</span>
-
-<span class="sd">    .. note::</span>
-<span class="sd">        Positional arguments are supported for backward compatibility</span>
-<span class="sd">        (mapped onto the fields in their declaration order),</span>
-<span class="sd">        but keyword arguments are recommended.</span>
-
-<span class="sd">    """</span>
-
-    <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">"ServerConfig"</span>
-
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">"allow"</span><span class="p">)</span>
-
-    <span class="c1"># NOTE: the field order matters for (backward-compatible) positional</span>
-    <span class="c1"># construction, which maps onto the fields in their declaration order;</span>
-    <span class="c1"># `algorithm` goes last since the (sub)config classes derive it from</span>
-    <span class="c1"># the class name rather than taking it as the first argument.</span>
-    <span class="n">num_iters</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">num_clients</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">clients_sample_ratio</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">log_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">txt_logger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">json_logger</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">eval_every</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">visiable_gpus</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">extra_observes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">tag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">gpu_proportion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>
-    <span class="n">algorithm</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># map positional arguments onto the fields in their declaration order,</span>
-        <span class="c1"># for backward compatibility with the (formerly hand-written) configs</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="c1"># the former (hand-written) configs took the algorithm name as</span>
-                <span class="c1"># the first positional argument; it is now auto-derived from</span>
-                <span class="c1"># the class name, and a string in the first positional slot</span>
-                <span class="c1"># almost surely means an un-migrated old-style call</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> received a string (</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">!r}</span><span class="s2">) as the first positional argument. "</span>
-                    <span class="s2">"The former leading `algorithm` positional argument has been removed "</span>
-                    <span class="s2">"(it is now auto-derived from the class name); "</span>
-                    <span class="s2">"use keyword arguments, or drop the leading algorithm name."</span>
-                <span class="p">)</span>
-            <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">model_fields</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> takes at most </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span><span class="si">}</span><span class="s2"> positional arguments "</span>
-                    <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2"> given); use keyword arguments instead."</span>
-                <span class="p">)</span>
-            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> got multiple values for argument </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_post_init_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ServerConfig"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Derive the algorithm name; filter GPUs; set the global seed."""</span>
-        <span class="n">derived</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"(Server|Client)Config$"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">derived</span><span class="p">:</span>
-            <span class="c1"># a conventionally named (sub)config: the algorithm name is fixed to it</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">derived</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">!=</span> <span class="n">derived</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"The `algorithm` argument is fixed to `</span><span class="si">{</span><span class="n">derived</span><span class="si">}</span><span class="s2">` for `</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">` "</span> <span class="s2">"and will be ignored."</span><span class="p">,</span>
-                    <span class="ne">RuntimeWarning</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">derived</span>
-        <span class="n">default_gpus</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="o">=</span> <span class="n">default_gpus</span>
-        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">default_gpus</span><span class="p">)):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">"GPU(s) </span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">set</span><span class="p">(</span><span class="n">default_gpus</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span> <span class="s2">"are not available."</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visiable_gpus</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">default_gpus</span><span class="p">]</span>
-        <span class="n">set_seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-<div class="viewcode-block" id="ServerConfig.extra_repr_keys">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.ServerConfig.html#fl_sim.nodes.ServerConfig.extra_repr_keys">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Kept for backward compatibility with the former `ReprMixin`-based configs;</span>
-<span class="sd">        the fields are all included in the (pydantic) default representation.</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
-</div>
-
-
-
-<div class="viewcode-block" id="ClientConfig">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ClientConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Configs for the Client.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    algorithm : str</span>
-<span class="sd">        The algorithm name.</span>
-<span class="sd">        Defaults to be derived from the class name</span>
-<span class="sd">        (with the ``ClientConfig`` suffix removed).</span>
-<span class="sd">    optimizer : str</span>
-<span class="sd">        The name of the optimizer to solve the local (inner) problem.</span>
-<span class="sd">    batch_size : int</span>
-<span class="sd">        The batch size.</span>
-<span class="sd">    num_epochs : int</span>
-<span class="sd">        The number of epochs.</span>
-<span class="sd">    lr : float</span>
-<span class="sd">        The learning rate.</span>
-<span class="sd">    scheduler : dict, optional</span>
-<span class="sd">        The scheduler config.</span>
-<span class="sd">        None for no scheduler, using constant learning rate.</span>
-<span class="sd">    extra_observes : List[str], optional</span>
-<span class="sd">        Extra attributes to observe during training,</span>
-<span class="sd">        which would be recorded in evaluated metrics,</span>
-<span class="sd">        sent to the server, and written to the log file.</span>
-<span class="sd">    verbose : int, default 1</span>
-<span class="sd">        The verbosity level.</span>
-<span class="sd">    latency : float, default 0.0</span>
-<span class="sd">        The latency of the client.</span>
-<span class="sd">        Not used in the current version, reserved for future use.</span>
-<span class="sd">    **kwargs : dict, optional</span>
-<span class="sd">        The other arguments,</span>
-<span class="sd">        will be set as attributes of the class.</span>
-
-<span class="sd">    .. note::</span>
-<span class="sd">        Positional arguments are supported for backward compatibility</span>
-<span class="sd">        (mapped onto the fields in their declaration order),</span>
-<span class="sd">        but keyword arguments are recommended.</span>
-
-<span class="sd">    """</span>
-
-    <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">"ClientConfig"</span>
-
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">"allow"</span><span class="p">)</span>
-
-    <span class="c1"># NOTE: the field order matters for (backward-compatible) positional</span>
-    <span class="c1"># construction, which maps onto the fields in their declaration order;</span>
-    <span class="c1"># `algorithm` goes last since the (sub)config classes derive it from</span>
-    <span class="c1"># the class name rather than taking it as the first argument.</span>
-    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">num_epochs</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">optimizer</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">scheduler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">extra_observes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">latency</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">algorithm</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># map positional arguments onto the fields in their declaration order,</span>
-        <span class="c1"># for backward compatibility with the (formerly hand-written) configs</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="c1"># the former (hand-written) configs took the algorithm name as</span>
-                <span class="c1"># the first positional argument; it is now auto-derived from</span>
-                <span class="c1"># the class name, and a string in the first positional slot</span>
-                <span class="c1"># almost surely means an un-migrated old-style call</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> received a string (</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">!r}</span><span class="s2">) as the first positional argument. "</span>
-                    <span class="s2">"The former leading `algorithm` positional argument has been removed "</span>
-                    <span class="s2">"(it is now auto-derived from the class name); "</span>
-                    <span class="s2">"use keyword arguments, or drop the leading algorithm name."</span>
-                <span class="p">)</span>
-            <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">model_fields</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> takes at most </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span><span class="si">}</span><span class="s2"> positional arguments "</span>
-                    <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2"> given); use keyword arguments instead."</span>
-                <span class="p">)</span>
-            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> got multiple values for argument </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_post_init_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ClientConfig"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Derive the algorithm name; normalize the scheduler config."""</span>
-        <span class="n">derived</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"(Server|Client)Config$"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">derived</span><span class="p">:</span>
-            <span class="c1"># a conventionally named (sub)config: the algorithm name is fixed to it</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">derived</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">!=</span> <span class="n">derived</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"The `algorithm` argument is fixed to `</span><span class="si">{</span><span class="n">derived</span><span class="si">}</span><span class="s2">` for `</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">` "</span> <span class="s2">"and will be ignored."</span><span class="p">,</span>
-                    <span class="ne">RuntimeWarning</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">derived</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"none"</span><span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-<div class="viewcode-block" id="ClientConfig.extra_repr_keys">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.ClientConfig.html#fl_sim.nodes.ClientConfig.extra_repr_keys">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Kept for backward compatibility with the former `ReprMixin`-based configs;</span>
-<span class="sd">        the fields are all included in the (pydantic) default representation.</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
-</div>
-
-
-
-<div class="viewcode-block" id="Node">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Node</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""An abstract base class for the server and client nodes."""</span>
-
-    <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">"Node"</span>
-
-<div class="viewcode-block" id="Node.communicate">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.communicate">[docs]</a>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">communicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">"Node"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Communicate with the target node.</span>
-
-<span class="sd">        The current node communicates model parameters, gradients, etc. to `target` node.</span>
-
-<span class="sd">        The **typed API** (recommended) sends</span>
-<span class="sd">        :class:`~fl_sim.messages.ClientToServer` / :class:`~fl_sim.messages.ServerToClient`</span>
-<span class="sd">        messages via :meth:`Server.receive_one` / :meth:`Client.receive`; the base classes</span>
-<span class="sd">        provide working default implementations for the common cases:</span>
-
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            # client -&gt; server (typed, default implementation of Client.communicate)</span>
-<span class="sd">            target.receive_one(</span>
-<span class="sd">                ClientToServer(</span>
-<span class="sd">                    client_id=self.client_id,</span>
-<span class="sd">                    train_samples=...,</span>
-<span class="sd">                    metrics=self._metrics,</span>
-<span class="sd">                    parameters=self.get_detached_model_parameters(),</span>
-<span class="sd">                )</span>
-<span class="sd">            )</span>
-<span class="sd">            # server -&gt; client (typed, default implementation of Server.communicate)</span>
-<span class="sd">            target.receive(ServerToClient(parameters=self.get_detached_model_parameters()))</span>
-
-<span class="sd">        The **legacy API** (kept working, used by the built-in algorithms) manipulates</span>
-<span class="sd">        the ``_received_messages`` containers directly:</span>
-
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            # client -&gt; server (legacy)</span>
-<span class="sd">            target._received_messages.append(</span>
-<span class="sd">                ClientMessage(</span>
-<span class="sd">                    {</span>
-<span class="sd">                        "client_id": self.client_id,</span>
-<span class="sd">                        "parameters": self.get_detached_model_parameters(),</span>
-<span class="sd">                        "train_samples": ...,</span>
-<span class="sd">                        "metrics": self._metrics,</span>
-<span class="sd">                    }</span>
-<span class="sd">                )</span>
-<span class="sd">            )</span>
-<span class="sd">            # server -&gt; client (legacy)</span>
-<span class="sd">            target._received_messages = {"parameters": self.get_detached_model_parameters()}</span>
-
-<span class="sd">        """</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-
-
-<div class="viewcode-block" id="Node.update">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.update">[docs]</a>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Update model parameters, gradients, etc.</span>
-<span class="sd">        according to `self._reveived_messages`.</span>
-<span class="sd">        """</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Extension point for subclasses;</span>
-<span class="sd">        called at the end of `Server.__init__` and `Client.__init__`,</span>
-<span class="sd">        after the configs are set.</span>
-<span class="sd">        """</span>
-        <span class="c1"># NOTE: required config fields are enforced by the (pydantic) configs</span>
-        <span class="c1"># themselves at construction time, so no check is needed here.</span>
-
-    <span class="nd">@property</span>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">is_convergent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Whether the training process on the node is convergent."""</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-<div class="viewcode-block" id="Node.get_detached_model_parameters">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.get_detached_model_parameters">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_detached_model_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Get the detached model parameters."""</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()]</span></div>
-
-
-<div class="viewcode-block" id="Node.compute_gradients">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.compute_gradients">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">compute_gradients</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">dataloader</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataLoader</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Compute the gradients of the model on the node.</span>
-
-<span class="sd">        The gradients are computed on the model parameters `at` or the current model parameters,</span>
-<span class="sd">        as the average of the gradients on the mini-batches from `dataloader` or `self.train_loader`.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        at : list of torch.Tensor, optional</span>
-<span class="sd">            The model parameters to compute the gradients.</span>
-<span class="sd">            None for the current model parameters.</span>
-<span class="sd">        dataloader : torch.utils.data.DataLoader, optional</span>
-<span class="sd">            The dataloader to compute the gradients.</span>
-<span class="sd">            None for `self.train_loader`.</span>
-
-<span class="sd">        """</span>
-        <span class="n">prev_training</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">training</span>
-        <span class="n">prev_model_state_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">at</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="n">at</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">dataloader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"train_loader"</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"train_loader is not set"</span>
-            <span class="n">dataloader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"empty dataloader"</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        <span class="n">total_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
-            <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-            <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-            <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_samples</span>
-            <span class="c1"># gradients are accumulated after each backward pass</span>
-            <span class="c1"># one should **NOT** call `optimizer.zero_grad()` before the backward pass</span>
-            <span class="c1"># and should **NOT** call `optimizer.step()` after the backward pass</span>
-            <span class="c1"># since the model parameters should not be updated</span>
-            <span class="c1"># otherwise, the result is not the gradients **at** ``at``</span>
-            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-        <span class="n">mini_batch_grads</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()]</span>
-        <span class="c1"># set the model state back and clear the gradients</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">prev_model_state_dict</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">prev_training</span><span class="p">)</span>
-        <span class="c1"># garbage collection</span>
-        <span class="k">del</span> <span class="n">prev_model_state_dict</span>
-
-        <span class="k">return</span> <span class="n">mini_batch_grads</span></div>
-
-
-<div class="viewcode-block" id="Node.get_gradients">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.get_gradients">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_gradients</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">norm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">"""Get the gradients or norm of the gradients</span>
-<span class="sd">        of the model on the node.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        norm : str or int or float, optional</span>
-<span class="sd">            The norm of the gradients to compute.</span>
-<span class="sd">            None for the raw gradients (list of tensors).</span>
-<span class="sd">            Refer to :func:`torch.linalg.norm` for more details.</span>
-<span class="sd">        model : torch.nn.Module, optional</span>
-<span class="sd">            The model to get the gradients,</span>
-<span class="sd">            default to `self.model`.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        float or List[torch.Tensor]</span>
-<span class="sd">            The gradients or norm of the gradients.</span>
-
-<span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
-        <span class="n">grads</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">grads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">grads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">norm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">grads</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">grads</span> <span class="o">=</span> <span class="mf">0.0</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"No gradients available. Set to 0.0 by default."</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">grads</span> <span class="o">=</span> <span class="n">torch_norm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">grad</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">grad</span> <span class="ow">in</span> <span class="n">grads</span><span class="p">]),</span> <span class="n">norm</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">grads</span></div>
-
-
-<div class="viewcode-block" id="Node.get_norm">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.get_norm">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_norm</span><span class="p">(</span>
-        <span class="n">tensor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
-            <span class="n">Number</span><span class="p">,</span>
-            <span class="n">Tensor</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-            <span class="n">Parameter</span><span class="p">,</span>
-            <span class="n">types</span><span class="o">.</span><span class="n">GeneratorType</span><span class="p">,</span>
-            <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">GeneratorType</span><span class="p">]],</span>
-        <span class="p">],</span>
-        <span class="n">norm</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"fro"</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Get the norm of a tensor.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tensor : torch.Tensor or np.ndarray or torch.nn.parameter.Parameter or generator or list</span>
-<span class="sd">            The tensor (array, parameter, etc.) to compute the norm.</span>
-<span class="sd">        norm : str or int or float, default "fro"</span>
-<span class="sd">            The norm to compute.</span>
-<span class="sd">            Refer to :func:`torch.linalg.norm` for more details.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        float</span>
-<span class="sd">            The norm of the tensor.</span>
-
-<span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">tensor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">tensor</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
-            <span class="n">tensor</span> <span class="o">=</span> <span class="p">[</span><span class="n">tensor</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="n">tensor</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">tensor</span><span class="p">)]</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">):</span>
-            <span class="n">tensor</span> <span class="o">=</span> <span class="p">[</span><span class="n">tensor</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-            <span class="n">tensor</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="n">t</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tensor</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">GeneratorType</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Node</span><span class="o">.</span><span class="n">get_norm</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tensor</span><span class="p">),</span> <span class="n">norm</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">torch_norm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tensor</span><span class="p">]),</span> <span class="n">norm</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Node.set_parameters">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.set_parameters">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Set the parameters of the model on the node.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        params : Iterable[torch.nn.parameter.Parameter]</span>
-<span class="sd">            The parameters to set.</span>
-<span class="sd">        model : torch.nn.Module, optional</span>
-<span class="sd">            The model to set the parameters,</span>
-<span class="sd">            default to `self.model`.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
-        <span class="k">for</span> <span class="n">node_param</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">params</span><span class="p">):</span>
-            <span class="n">node_param</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Node.aggregate_results_from_json_log">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.aggregate_results_from_json_log">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">aggregate_results_from_json_log</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"val"</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"acc"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Aggregate the federated results from json log.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        d : dict or str or pathlib.Path</span>
-<span class="sd">            The dict of the json/yaml log,</span>
-<span class="sd">            or the path to the json/yaml log file.</span>
-<span class="sd">        part : str, default "train"</span>
-<span class="sd">            The part of the log to aggregate.</span>
-<span class="sd">        metric : str, default "acc"</span>
-<span class="sd">            The metric to aggregate.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        numpy.ndarray</span>
-<span class="sd">            The aggregated results (curve).</span>
-
-<span class="sd">        NOTE</span>
-<span class="sd">        ----</span>
-<span class="sd">        The parameter `d` should be a dict similar to the following structure:</span>
-
-<span class="sd">        .. dropdown::</span>
-<span class="sd">            :animate: fade-in-slide-down</span>
-
-<span class="sd">            .. code-block:: json</span>
-
-<span class="sd">                {</span>
-<span class="sd">                    "train": {</span>
-<span class="sd">                        "client0": [</span>
-<span class="sd">                            {</span>
-<span class="sd">                                "epoch": 1,</span>
-<span class="sd">                                "step": 1,</span>
-<span class="sd">                                "time": "2020-01-01 00:00:00",</span>
-<span class="sd">                                "loss": 0.1,</span>
-<span class="sd">                                "acc": 0.2,</span>
-<span class="sd">                                "top3_acc": 0.3,</span>
-<span class="sd">                                "top5_acc": 0.4,</span>
-<span class="sd">                                "num_samples": 100</span>
-<span class="sd">                            }</span>
-<span class="sd">                        ]</span>
-<span class="sd">                    },</span>
-<span class="sd">                    "val": {</span>
-<span class="sd">                        "client0": [</span>
-<span class="sd">                            {</span>
-<span class="sd">                                "epoch": 1,</span>
-<span class="sd">                                "step": 1,</span>
-<span class="sd">                                "time": "2020-01-01 00:00:00",</span>
-<span class="sd">                                "loss": 0.1,</span>
-<span class="sd">                                "acc": 0.2,</span>
-<span class="sd">                                "top3_acc": 0.3,</span>
-<span class="sd">                                "top5_acc": 0.4,</span>
-<span class="sd">                                "num_samples": 100</span>
-<span class="sd">                            }</span>
-<span class="sd">                        ]</span>
-<span class="sd">                    }</span>
-<span class="sd">                }</span>
-
-<span class="sd">        """</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
-            <span class="n">d</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">".json"</span><span class="p">:</span>
-                <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
-            <span class="k">elif</span> <span class="n">d</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">".yaml"</span><span class="p">,</span> <span class="s2">".yml"</span><span class="p">]:</span>
-                <span class="n">d</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"unsupported file type: </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="n">epochs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s2">"epoch"</span><span class="p">]</span> <span class="k">for</span> <span class="n">client</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">client</span> <span class="o">!=</span> <span class="s2">"Server"</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">v</span><span class="p">])))</span>
-        <span class="n">metric_curve</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">epochs</span><span class="p">))]</span>
-        <span class="n">num_samples</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">epochs</span><span class="p">))]</span>
-        <span class="k">for</span> <span class="n">client</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
-            <span class="n">d</span><span class="p">[</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-            <span class="n">mininterval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">desc</span><span class="o">=</span><span class="s2">"Aggregating results"</span><span class="p">,</span>
-            <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">part</span><span class="p">]),</span>
-            <span class="n">unit</span><span class="o">=</span><span class="s2">"client"</span><span class="p">,</span>
-            <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">disable</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"FLSIM_VERBOSE"</span><span class="p">,</span> <span class="s2">"1"</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="p">):</span>
-            <span class="k">if</span> <span class="n">client</span> <span class="o">==</span> <span class="s2">"Server"</span><span class="p">:</span>
-                <span class="c1"># skip server metrics</span>
-                <span class="k">continue</span>
-            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
-                <span class="n">idx</span> <span class="o">=</span> <span class="n">epochs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">"epoch"</span><span class="p">])</span>
-                <span class="n">metric_curve</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">*</span> <span class="n">item</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">])</span>
-                <span class="n">num_samples</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">item</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_samples</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">metric_curve</span><span class="p">)])</span></div>
-</div>
-
-
-
 <div class="viewcode-block" id="Server">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server">[文档]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Server</span><span class="p">(</span><span class="n">Node</span><span class="p">,</span> <span class="n">CitationMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""The class to simulate the server node.</span>
 
@@ -1243,7 +588,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_subprocess</span> <span class="o">=</span> <span class="n">is_subprocess</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subprocess</span><span class="p">:</span>
             <span class="c1"># import necessary modules for multi-processing</span>
-            <span class="kn">from</span><span class="w"> </span><span class="nn">.utils.multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">report_progress</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">report_progress</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_report_progress</span> <span class="o">=</span> <span class="n">report_progress</span>
 
@@ -1392,7 +737,7 @@ document.write(`
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Server.communicate">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.communicate">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.communicate">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">communicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">"Client"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Broadcast the current model parameters to the target client.</span>
 
@@ -1417,7 +762,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.receive_one">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.receive_one">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.receive_one">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">receive_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">ClientToServer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Receive a typed message uploaded from a client.</span>
 
@@ -1462,7 +807,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Server update finished..."</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Server.train">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"federated"</span><span class="p">,</span> <span class="n">extra_configs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""The main training loop.</span>
 
@@ -1494,7 +839,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.train_centralized">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train_centralized">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train_centralized">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">train_centralized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_configs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Centralized training, conducted only on the server node.</span>
 
@@ -1608,7 +953,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.train_federated">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train_federated">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train_federated">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">train_federated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_configs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Federated (distributed) training,</span>
 <span class="sd">        conducted on the clients and the server.</span>
@@ -1777,7 +1122,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Server.train_local">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train_local">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train_local">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">train_local</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_configs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Local training, conducted on the clients,</span>
 <span class="sd">        without any communication with the server. Used for comparison.</span>
@@ -1856,7 +1201,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.pre_iter">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.pre_iter">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.pre_iter">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pre_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Preprocess before each iteration, after evaluation.</span>
 <span class="sd">        Can be used to update the model, e.g. update the local model.</span>
@@ -1869,7 +1214,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.evaluate_centralized">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.evaluate_centralized">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.evaluate_centralized">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_centralized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Evaluate the model on the given dataloader on the server node.</span>
 
@@ -1899,7 +1244,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.aggregate_client_metrics">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.aggregate_client_metrics">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.aggregate_client_metrics">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">aggregate_client_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Aggregate the metrics transmitted from the clients.</span>
 
@@ -1951,7 +1296,7 @@ document.write(`
         <span class="c1"># to update the status varibles `self._is_convergent`</span>
 
 <div class="viewcode-block" id="Server.add_parameters">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.add_parameters">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.add_parameters">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Parameter</span><span class="p">],</span> <span class="n">ratio</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Update the server's parameters with the given parameters.</span>
 
@@ -1972,7 +1317,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.avg_parameters">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.avg_parameters">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.avg_parameters">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">avg_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size_aware</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">inertia</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Update the server's parameters via</span>
 <span class="sd">        averaging the parameters received from the clients.</span>
@@ -2006,7 +1351,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.update_gradients">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.update_gradients">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.update_gradients">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_gradients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Update the server's gradients."""</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -2026,7 +1371,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.get_client_data">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_client_data">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_client_data">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_client_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get all the data of the given client.</span>
 
@@ -2051,7 +1396,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.get_client_model">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_client_model">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_client_model">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_client_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get the model of the given client.</span>
 
@@ -2076,7 +1421,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="Server.get_cached_metrics">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_cached_metrics">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.get_cached_metrics">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_cached_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Get the cached metrics of the given client,</span>
 <span class="sd">        or the cached aggregated metrics stored on the server.</span>
@@ -2135,7 +1480,7 @@ document.write(`
                 <span class="n">c</span><span class="o">.</span><span class="n">_reset</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Server.extra_repr_keys">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.extra_repr_keys">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.extra_repr_keys">[文档]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span>
             <span class="s2">"config"</span><span class="p">,</span>
@@ -2168,355 +1513,6 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Whether the training process is convergent."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_convergent</span></div>
 
-
-
-<div class="viewcode-block" id="Client">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Client</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""The class to simulate the client node.</span>
-
-<span class="sd">    The client node is responsible for training the local models,</span>
-<span class="sd">    and communicating with the server node.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    client_id : int</span>
-<span class="sd">        The id of the client.</span>
-<span class="sd">    device : torch.device</span>
-<span class="sd">        The device to train the model on.</span>
-<span class="sd">    model : torch.nn.Module</span>
-<span class="sd">        The model to train.</span>
-<span class="sd">    dataset : FedDataset</span>
-<span class="sd">        The dataset to train on.</span>
-<span class="sd">    config : ClientConfig</span>
-<span class="sd">        The config for the client.</span>
-
-<span class="sd">    """</span>
-
-    <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">"Client"</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">device</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
-        <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
-        <span class="n">dataset</span><span class="p">:</span> <span class="n">FedDataset</span><span class="p">,</span>
-        <span class="n">config</span><span class="p">:</span> <span class="n">ClientConfig</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">client_id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">criterion</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_loader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">get_dataloader</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span>
-        <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">get_optimizer</span><span class="p">(</span>
-            <span class="n">optimizer_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span>
-            <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
-            <span class="n">config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">scheduler_config</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"name"</span><span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lr_scheduler</span> <span class="o">=</span> <span class="n">get_scheduler</span><span class="p">(</span>
-            <span class="n">scheduler_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">scheduler</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
-            <span class="n">optimizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">scheduler_config</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_parameters</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1"># the latest typed message received from the server</span>
-        <span class="c1"># (see :meth:`Client.receive`), `None` if the legacy</span>
-        <span class="c1"># `Server.communicate` (writing `_received_messages` directly) is used</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_latest_message</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_metrics</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># container for caching metrics</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_is_convergent</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_post_init</span><span class="p">()</span>
-
-        <span class="c1"># checks that the client has all the required attributes in config.extra_observes</span>
-        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extra_observes</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">),</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> should have attribute </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2"> for extra observes."</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_communicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">"Server"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Check validity and send messages to the server,</span>
-<span class="sd">        and maintain state variables.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        target : Server</span>
-<span class="sd">            The server to communicate with.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        """</span>
-        <span class="c1"># check validity of self._metrics</span>
-        <span class="k">for</span> <span class="n">part</span><span class="p">,</span> <span class="n">metrics</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="sa">f</span><span class="s2">"metrics for </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> should be a dict, "</span> <span class="sa">f</span><span class="s2">"but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
-            <span class="k">assert</span> <span class="s2">"num_samples"</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">,</span> <span class="p">(</span>
-                <span class="s2">"In order to let the server aggregate the metrics, "</span>
-                <span class="sa">f</span><span class="s2">"metrics for </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> should have key `num_samples`, "</span>
-                <span class="sa">f</span><span class="s2">"but got </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span>
-            <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-        <span class="n">target</span><span class="o">.</span><span class="n">_num_communications</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="c1"># move self._metrics to self._cached_metrics</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># clear the metrics</span>
-
-<div class="viewcode-block" id="Client.accept_parameters">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.accept_parameters">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">accept_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""</span>
-<span class="sd">        Accepts parameters from received_messages.</span>
-<span class="sd">        Need to be implemented in the child class to specify part in received_messages</span>
-<span class="sd">        if the key is not "parameters".</span>
-
-<span class="sd">        Some algorithms (e.g. ``IFCA``, ``FedPD``) do not put the parameters under</span>
-<span class="sd">        the ``"parameters"`` key of the received messages (or communicate only</span>
-<span class="sd">        with a subset of clients in a round); for those, the parameters are</span>
-<span class="sd">        accepted in the client's :meth:`update`, so a missing key is not an error.</span>
-<span class="sd">        """</span>
-        <span class="k">if</span> <span class="s2">"parameters"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">])</span></div>
-
-
-<div class="viewcode-block" id="Client.receive">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.receive">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">ServerToClient</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Receive a typed message broadcast from the server.</span>
-
-<span class="sd">        The message is stored in ``self._latest_message`` (for typed-API</span>
-<span class="sd">        consumers) and merged into the legacy ``self._received_messages``</span>
-<span class="sd">        dict (for legacy consumers, e.g. :meth:`accept_parameters`).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        message : ServerToClient</span>
-<span class="sd">            The typed message broadcast from the server.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_latest_message</span> <span class="o">=</span> <span class="n">message</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">to_legacy_dict</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Client.communicate">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.communicate">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">communicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">"Server"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Upload the local model parameters and metrics to the target server.</span>
-
-<span class="sd">        This is the default (typed-API) implementation; subclasses override it</span>
-<span class="sd">        for algorithm-specific payloads (deltas, gradients, control variates,</span>
-<span class="sd">        etc.). The typed-API way to send additional data is building a</span>
-<span class="sd">        :class:`~fl_sim.messages.ClientToServer` and calling</span>
-<span class="sd">        :meth:`Server.receive_one` on the target; the legacy way (overriding</span>
-<span class="sd">        `communicate` and appending to ``target._received_messages`` directly)</span>
-<span class="sd">        keeps working.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        target : Server</span>
-<span class="sd">            The server to upload to.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        """</span>
-        <span class="n">target</span><span class="o">.</span><span class="n">receive_one</span><span class="p">(</span>
-            <span class="n">ClientToServer</span><span class="p">(</span>
-                <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
-                <span class="n">train_samples</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">),</span>
-                <span class="n">metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">,</span>
-                <span class="n">parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_detached_model_parameters</span><span class="p">(),</span>
-            <span class="p">)</span>
-        <span class="p">)</span></div>
-
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Client update, and clear cached messages</span>
-<span class="sd">        from the server of the previous iteration.</span>
-<span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-        <span class="c1"># free the memory in received_messages</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># clear the received messages</span>
-
-<div class="viewcode-block" id="Client.train">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.train">[docs]</a>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Main part of inner loop solver.</span>
-
-<span class="sd">        Basic example:</span>
-
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            self.model.train()</span>
-<span class="sd">            epoch_losses = []</span>
-<span class="sd">            for epoch in range(self.config.num_epochs):</span>
-<span class="sd">                batch_losses = []</span>
-<span class="sd">                for batch_idx, (data, target) in enumerate(self.train_loader):</span>
-<span class="sd">                    data, target = data.to(self.device), target.to(self.device)</span>
-<span class="sd">                    self.optimizer.zero_grad()</span>
-<span class="sd">                    output = self.model(data)</span>
-<span class="sd">                    loss = self.criterion(output, target)</span>
-<span class="sd">                    loss.backward()</span>
-<span class="sd">                    self.optimizer.step()</span>
-<span class="sd">                    batch_losses.append(loss.item())</span>
-<span class="sd">                epoch_losses.append(sum(batch_losses) / len(batch_losses))</span>
-<span class="sd">            self.lr_scheduler.step()</span>
-
-<span class="sd">        """</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-
-
-<div class="viewcode-block" id="Client.solve_inner">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.solve_inner">[docs]</a>
-    <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">solve_inner</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""alias of `train`"""</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Client.sample_data">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.sample_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">sample_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Sample data for training."""</span>
-        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span><span class="p">))</span></div>
-
-
-<div class="viewcode-block" id="Client.evaluate">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.evaluate">[docs]</a>
-    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Evaluate the model on the given part of the dataset.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        part : str</span>
-<span class="sd">            The part of the dataset to evaluate on,</span>
-<span class="sd">            can be either "train" or "val".</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Dict[str, float]</span>
-<span class="sd">            The metrics of the evaluation.</span>
-
-<span class="sd">        """</span>
-        <span class="k">assert</span> <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">data_parts</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Invalid part name, should be one of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">data_parts</span><span class="si">}</span><span class="s2">."</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-        <span class="c1"># _metrics = []</span>
-        <span class="n">data_loader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_loader</span> <span class="k">if</span> <span class="n">part</span> <span class="o">==</span> <span class="s2">"val"</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span>
-        <span class="k">if</span> <span class="n">data_loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="n">part</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"num_samples"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="n">part</span><span class="p">]</span>
-        <span class="n">all_logits</span><span class="p">,</span> <span class="n">all_labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data_loader</span><span class="p">:</span>
-            <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-            <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-            <span class="n">all_logits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
-            <span class="n">all_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-            <span class="c1"># _metrics.append(self.dataset.evaluate(logits, y))</span>
-        <span class="n">all_logits</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">all_logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">all_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">all_labels</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="n">part</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"num_samples"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_labels</span><span class="p">)}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">all_logits</span><span class="p">,</span> <span class="n">all_labels</span><span class="p">))</span>
-        <span class="c1"># get the gradient norm of the local model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="n">part</span><span class="p">][</span><span class="s2">"grad_norm"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gradients</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="s2">"fro"</span><span class="p">)</span>
-        <span class="c1"># record items in config.extra_observes</span>
-        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extra_observes</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="n">part</span><span class="p">][</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">get_norm</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
-        <span class="c1"># free the memory</span>
-        <span class="k">del</span> <span class="n">all_logits</span><span class="p">,</span> <span class="n">all_labels</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="n">part</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="Client.get_all_data">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.get_all_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Get all the data on the client.</span>
-
-<span class="sd">        This method is a helper function for fast access</span>
-<span class="sd">        to the data on the client,</span>
-<span class="sd">        including both training and validation data;</span>
-<span class="sd">        both features and labels.</span>
-<span class="sd">        """</span>
-        <span class="n">feature_train</span><span class="p">,</span> <span class="n">label_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">[:]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">feature_train</span><span class="p">,</span> <span class="n">label_train</span>
-        <span class="n">feature_val</span><span class="p">,</span> <span class="n">label_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">[:]</span>
-        <span class="n">feature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">feature_train</span><span class="p">,</span> <span class="n">feature_val</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">label_train</span><span class="p">,</span> <span class="n">label_val</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">feature</span><span class="p">,</span> <span class="n">label</span></div>
-
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Reset the model and optimizer."""</span>
-        <span class="c1"># reset the model</span>
-        <span class="n">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
-        <span class="c1"># reset the optimizer and clear gradients</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">get_optimizer</span><span class="p">(</span>
-            <span class="n">optimizer_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span>
-            <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
-            <span class="n">config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-
-<div class="viewcode-block" id="Client.extra_repr_keys">
-<a class="viewcode-back" href="../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.extra_repr_keys">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">extra_repr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">extra_repr_keys</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span>
-            <span class="s2">"client_id"</span><span class="p">,</span>
-            <span class="s2">"config"</span><span class="p">,</span>
-        <span class="p">]</span></div>
-
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">is_convergent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Whether the training process is convergent."""</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_convergent</span></div>
-
-
-
-<span class="k">class</span><span class="w"> </span><span class="nc">ClientMessage</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""A class used to specify required fields</span>
-<span class="sd">    for a message from client to server.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    client_id : int</span>
-<span class="sd">        The id of the client.</span>
-<span class="sd">    train_samples : int</span>
-<span class="sd">        The number of samples used for training on the client.</span>
-<span class="sd">    metrics : dict</span>
-<span class="sd">        The metrics evaluated on the client.</span>
-<span class="sd">    **kwargs : dict, optional</span>
-<span class="sd">        Extra message to be sent to the server.</span>
-
-<span class="sd">    """</span>
-
-    <span class="vm">__name__</span> <span class="o">=</span> <span class="s2">"ClientMessage"</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">train_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="n">client_id</span><span class="p">,</span> <span class="n">train_samples</span><span class="o">=</span><span class="n">train_samples</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_typed</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="s2">"ClientToServer"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ClientMessage"</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Build the legacy message from the typed :class:`~fl_sim.messages.ClientToServer`."""</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">message</span><span class="o">.</span><span class="n">to_legacy_kwargs</span><span class="p">())</span>
 </pre></div>
 
                 </article>
@@ -2545,7 +1541,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By WEN Hao
+作者： WEN Hao
 </p>
 
   </div>
@@ -2579,39 +1575,39 @@ By WEN Hao
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   
   <footer class="bd-footer">
   </footer>
   
 <div class="rst-versions" id="versions-flyout" role="note" aria-label="versions and languages">
-  <span class="rst-current-version" data-toggle="rst-versions" title="Switch version or language">
+  <span class="rst-current-version" data-toggle="rst-versions" title="切换版本或语言">
     <span>latest</span>
     <span class="rst-caret">▾</span>
   </span>
   <div class="rst-other-versions">
     <dl>
-      <dt>Languages</dt>
+      <dt>语言</dt>
       
         <dd>
-          <a href="../../../en/_modules/fl_sim/nodes.html"
-             class="rst-current-item">English</a>
+          <a href="../../../../en/_modules/fl_sim/nodes/server.html"
+             >English</a>
         </dd>
       
         <dd>
-          <a href="../../../zh_CN/_modules/fl_sim/nodes.html"
-             >简体中文</a>
+          <a href="../../../../zh_CN/_modules/fl_sim/nodes/server.html"
+             class="rst-current-item">简体中文</a>
         </dd>
       
     </dl>
     
       <dl>
-        <dt>Versions</dt>
+        <dt>版本</dt>
         
           <dd>
-            <a href="../../../../en/_modules/fl_sim/nodes.html"
+            <a href="../../../../../zh_CN/_modules/fl_sim/nodes/server.html"
                class="rst-current-item">latest</a>
           </dd>
         

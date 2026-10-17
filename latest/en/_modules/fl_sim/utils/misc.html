@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.utils.misc &#8212; fl-sim 0.1.1.dev6+gd0fdb6156 documentation</title>
+    <title>fl_sim.utils.misc &#8212; fl-sim 0.1.1.dev7+g15ebf4794 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=4a4b2973"></script>
+    <script src="../../../_static/documentation_options.js?v=bc98fde2"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -221,7 +221,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev6+gd0fdb6156 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev7+g15ebf4794 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -493,6 +493,7 @@ document.write(`
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
@@ -508,10 +509,12 @@ document.write(`
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">linear_sum_assignment</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjusted_rand_score</span><span class="p">,</span> <span class="n">normalized_mutual_info_score</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch_ecg.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_kwargs</span><span class="p">,</span> <span class="n">get_required_args</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.auto</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.const</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOG_DIR</span>
 
@@ -530,7 +533,100 @@ document.write(`
     <span class="s2">"compute_sparsity"</span><span class="p">,</span>
     <span class="s2">"execute_cmd"</span><span class="p">,</span>
     <span class="s2">"compute_clustering_metrics"</span><span class="p">,</span>
+    <span class="s2">"aggregate_results_from_json_log"</span><span class="p">,</span>
 <span class="p">]</span>
+
+
+<div class="viewcode-block" id="aggregate_results_from_json_log">
+<a class="viewcode-back" href="../../../api/utils.html#fl_sim.utils.misc.aggregate_results_from_json_log">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">aggregate_results_from_json_log</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">part</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"val"</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"acc"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Aggregate the federated results from json log.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d : dict or str or pathlib.Path</span>
+<span class="sd">        The dict of the json/yaml log,</span>
+<span class="sd">        or the path to the json/yaml log file.</span>
+<span class="sd">    part : str, default "train"</span>
+<span class="sd">        The part of the log to aggregate.</span>
+<span class="sd">    metric : str, default "acc"</span>
+<span class="sd">        The metric to aggregate.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The aggregated results (curve).</span>
+
+<span class="sd">    NOTE</span>
+<span class="sd">    ----</span>
+<span class="sd">    The parameter `d` should be a dict similar to the following structure:</span>
+
+<span class="sd">    .. dropdown::</span>
+<span class="sd">        :animate: fade-in-slide-down</span>
+
+<span class="sd">        .. code-block:: json</span>
+
+<span class="sd">            {</span>
+<span class="sd">                "train": {</span>
+<span class="sd">                    "client0": [</span>
+<span class="sd">                        {</span>
+<span class="sd">                            "epoch": 1,</span>
+<span class="sd">                            "step": 1,</span>
+<span class="sd">                            "time": "2020-01-01 00:00:00",</span>
+<span class="sd">                            "loss": 0.1,</span>
+<span class="sd">                            "acc": 0.2,</span>
+<span class="sd">                            "top3_acc": 0.3,</span>
+<span class="sd">                            "top5_acc": 0.4,</span>
+<span class="sd">                            "num_samples": 100</span>
+<span class="sd">                        }</span>
+<span class="sd">                    ]</span>
+<span class="sd">                },</span>
+<span class="sd">                "val": {</span>
+<span class="sd">                    "client0": [</span>
+<span class="sd">                        {</span>
+<span class="sd">                            "epoch": 1,</span>
+<span class="sd">                            "step": 1,</span>
+<span class="sd">                            "time": "2020-01-01 00:00:00",</span>
+<span class="sd">                            "loss": 0.1,</span>
+<span class="sd">                            "acc": 0.2,</span>
+<span class="sd">                            "top3_acc": 0.3,</span>
+<span class="sd">                            "top5_acc": 0.4,</span>
+<span class="sd">                            "num_samples": 100</span>
+<span class="sd">                        }</span>
+<span class="sd">                    ]</span>
+<span class="sd">                }</span>
+<span class="sd">            }</span>
+
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">".json"</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">d</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">".yaml"</span><span class="p">,</span> <span class="s2">".yml"</span><span class="p">]:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"unsupported file type: </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s2">"epoch"</span><span class="p">]</span> <span class="k">for</span> <span class="n">client</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">client</span> <span class="o">!=</span> <span class="s2">"Server"</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">v</span><span class="p">])))</span>
+    <span class="n">metric_curve</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">epochs</span><span class="p">))]</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">epochs</span><span class="p">))]</span>
+    <span class="k">for</span> <span class="n">client</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+        <span class="n">mininterval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">desc</span><span class="o">=</span><span class="s2">"Aggregating results"</span><span class="p">,</span>
+        <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">part</span><span class="p">]),</span>
+        <span class="n">unit</span><span class="o">=</span><span class="s2">"client"</span><span class="p">,</span>
+        <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">disable</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"FLSIM_VERBOSE"</span><span class="p">,</span> <span class="s2">"1"</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">client</span> <span class="o">==</span> <span class="s2">"Server"</span><span class="p">:</span>
+            <span class="c1"># skip server metrics</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">epochs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">"epoch"</span><span class="p">])</span>
+            <span class="n">metric_curve</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">*</span> <span class="n">item</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">])</span>
+            <span class="n">num_samples</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">item</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_samples</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">metric_curve</span><span class="p">)])</span></div>
+
 
 
 <div class="viewcode-block" id="experiment_indicator">
