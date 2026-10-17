@@ -1,5 +1,7 @@
 """ """
 
+import json
+import subprocess
 import sys
 from collections import OrderedDict, defaultdict
 from pathlib import Path
@@ -283,3 +285,97 @@ def test_torch_norm():
     assert torch.allclose(torch_norm(d_sp), torch.tensor(11.8322), atol=1e-4)
     with pytest.raises(RuntimeError):
         torch_norm(d_sp, p="xxx")
+
+
+def test_set_seed_reproducibility():
+    from fl_sim.utils.misc import set_seed
+
+    set_seed(42)
+    a = torch.randn(3)
+    an = np.random.randn(3)
+    set_seed(42)
+    b = torch.randn(3)
+    bn = np.random.randn(3)
+    assert torch.equal(a, b) and np.allclose(an, bn)
+
+
+def test_clear_logs(tmp_path):
+    from fl_sim.utils.misc import clear_logs
+
+    (tmp_path / "a.log").write_text("log")
+    (tmp_path / "b.json").write_text("{}")
+    (tmp_path / "c.dat").write_text("not a log")
+    (tmp_path / "sub").mkdir()
+    (tmp_path / "sub" / "d.txt").write_text("log")
+    clear_logs(directory=tmp_path)
+    assert not (tmp_path / "a.log").exists()
+    assert not (tmp_path / "b.json").exists()
+    assert not (tmp_path / "sub" / "d.txt").exists()
+    # non-log files are kept
+    assert (tmp_path / "c.dat").exists()
+
+
+def test_is_notebook():
+    from fl_sim.utils.misc import is_notebook
+
+    # plain python interpreter / pytest process: not a notebook
+    assert is_notebook() is False
+
+
+def test_execute_cmd():
+    from fl_sim.utils.misc import execute_cmd
+
+    exitcode, output = execute_cmd("echo hello")
+    assert exitcode == 0 and "hello" in " ".join(output)
+
+    with pytest.raises(subprocess.CalledProcessError):
+        execute_cmd("exit 3")
+
+    # raise_error=False: the failure is returned instead of raised
+    exitcode, output = execute_cmd("exit 3", raise_error=False)
+    assert exitcode == 3
+
+
+def test_compute_sparsity():
+    from fl_sim.utils.misc import compute_sparsity
+
+    t = torch.tensor([[1.0, 0.0], [0.0, 1.0]])
+    assert compute_sparsity(t) == 0.5
+
+    m = CNNFEMnist()
+    sparsity = compute_sparsity(m)
+    assert 0.0 < sparsity <= 1.0
+
+
+def test_compute_clustering_metrics():
+    from fl_sim.utils.misc import compute_clustering_metrics
+
+    y_true = np.array([0, 0, 1, 1, 2, 2])
+    # perfect clustering (labels may be permuted consistently)
+    y_pred = np.array([2, 2, 0, 0, 1, 1])
+    metrics = compute_clustering_metrics(y_true, y_pred)
+    assert metrics["ACC"] == pytest.approx(1.0)
+    assert metrics["ARI"] == pytest.approx(1.0)
+    assert metrics["NMI"] == pytest.approx(1.0)
+
+    # the worst (anti-correlated) case
+    y_bad = np.array([1, 1, 0, 0, 0, 0])
+    metrics = compute_clustering_metrics(y_true, y_bad)
+    assert 0.0 <= metrics["ACC"] < 1.0
+
+
+def test_aggregate_results_from_json_log():
+    from fl_sim.utils.misc import aggregate_results_from_json_log
+
+    json_log_file = list((Path(__file__).parents[1].resolve() / "test-files").glob("*.json"))[0]
+
+    # dict input
+    d = json.loads(json_log_file.read_text())
+    curve = aggregate_results_from_json_log(d, part="train", metric="acc")
+    assert len(curve) > 0
+
+    # file path input (json and unsupported suffixes)
+    curve = aggregate_results_from_json_log(json_log_file)
+    assert len(curve) > 0
+    with pytest.raises(ValueError, match="unsupported file type"):
+        aggregate_results_from_json_log(str(json_log_file).replace(".json", ".foo"))
