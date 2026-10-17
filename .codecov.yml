@@ -1,0 +1,19 @@
+codecov:
+  require_ci_to_pass: false
+
+coverage:
+  status:
+    project:
+      default:
+        # keep up with the base commit instead of an absolute target,
+        # so the check measures regressions, not the historical backlog
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        target: auto
+        threshold: 5%
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
