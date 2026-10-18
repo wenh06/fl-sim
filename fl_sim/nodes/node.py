@@ -9,7 +9,7 @@ import warnings
 from abc import ABC, abstractmethod
 from numbers import Number
 from pathlib import Path
-from typing import Iterable, List, Optional, Sequence, Union
+from typing import Dict, Iterable, List, Mapping, Optional, Sequence, Union
 
 import numpy as np
 import torch
@@ -102,6 +102,54 @@ class Node(ReprMixin, ABC):
     def get_detached_model_parameters(self) -> List[Tensor]:
         """Get the detached model parameters."""
         return [p.detach().clone() for p in self.model.parameters()]
+
+    def get_model_state(self) -> Dict[str, Tensor]:
+        """Get the model state as a named tensor mapping (:data:`~fl_sim.messages.ModelState`).
+
+        The (recommended) named-parameter exchange format: an ordered mapping
+        from component names to tensors. The model does NOT need to be a
+        :class:`torch.nn.Module`; the default implementation here is an
+        adapter for module models (wrapping :meth:`torch.nn.Module.state_dict`),
+        and models of any other kind get first-class support by overriding
+        this method and :meth:`set_model_state` on the node (server or client)
+        holding the model.
+
+        Returns
+        -------
+        Dict[str, torch.Tensor]
+            The named model parameters (detached clones).
+
+        """
+        if isinstance(self.model, torch.nn.Module):
+            return {k: v.detach().clone() for k, v in self.model.state_dict().items()}
+        raise NotImplementedError(
+            f"{type(self).__name__}.model is not a torch.nn.Module "
+            f"({type(self.model).__name__}); override `get_model_state` "
+            "to expose the model's parameters as a named tensor mapping."
+        )
+
+    def set_model_state(self, state: Mapping[str, Tensor]) -> None:
+        """Set the model state from a named tensor mapping
+        (:data:`~fl_sim.messages.ModelState`).
+
+        The counterpart of :meth:`get_model_state`; module models are handled
+        by the default implementation (:meth:`torch.nn.Module.load_state_dict`),
+        and other model kinds override this method on the node holding the model.
+
+        Parameters
+        ----------
+        state : Mapping[str, torch.Tensor]
+            The named model parameters to load.
+
+        """
+        if isinstance(self.model, torch.nn.Module):
+            self.model.load_state_dict(state)
+            return
+        raise NotImplementedError(
+            f"{type(self).__name__}.model is not a torch.nn.Module "
+            f"({type(self.model).__name__}); override `set_model_state` "
+            "to load a named tensor mapping into the model."
+        )
 
     def compute_gradients(
         self,

@@ -102,3 +102,39 @@ def test_default_communicate_implementations_exist():
     assert "communicate" not in Server.__abstractmethods__
     assert "communicate" not in Client.__abstractmethods__
     assert "communicate" in Server.__mro__[1].__abstractmethods__  # Node
+
+
+def test_model_state_in_typed_messages():
+    """The named-parameter format flows through both directions."""
+    state = {"w": torch.arange(6.0).reshape(2, 3), "b": torch.ones(2)}
+
+    # server -> client: legacy dict carries "model_state" (and extras)
+    d = ServerToClient(model_state=state, extras={"alpha": 0.1}).to_legacy_dict()
+    assert d["model_state"]["w"].equal(state["w"])
+    assert d["alpha"] == 0.1
+
+    # client -> server: from_typed keeps the named state
+    typed = ClientToServer(client_id=1, train_samples=10, metrics={}, model_state=state)
+    legacy = ClientMessage.from_typed(typed)
+    assert legacy["model_state"]["w"].equal(state["w"])
+
+    # absent -> the key is absent
+    assert "model_state" not in ServerToClient(parameters=_params()).to_legacy_dict()
+    assert "model_state" not in ClientMessage.from_typed(ClientToServer(client_id=1, train_samples=2, metrics={}))
+
+
+def test_accept_parameters_prefers_model_state():
+    """`accept_parameters` handles the named format first, flat list second."""
+    state = {"w": torch.arange(6.0).reshape(2, 3), "b": torch.ones(2)}
+    client = _fake_client()
+    client.set_model_state = lambda s: setattr(client, "_accepted_state", s)
+    Client.receive(client, ServerToClient(model_state=state, parameters=_params()))
+    Client.accept_parameters(client)
+    assert client._accepted_state["w"].equal(state["w"])
+
+    # only the flat list: the legacy path (set_parameters) applies
+    params = _params()
+    client2 = _fake_client()
+    Client.receive(client2, ServerToClient(parameters=params))
+    Client.accept_parameters(client2)
+    assert client2._cached_parameters == params

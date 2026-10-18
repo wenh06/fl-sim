@@ -39,14 +39,24 @@ unchanged during the transition.
 """
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Mapping, Optional
 
 from torch import Tensor
+
+# The (recommended) named-parameter exchange format: an ordered mapping
+# from component names to (general) tensors. The model itself does NOT
+# need to be a torch.nn.Module — a linear model's ``{"w": ..., "b": ...}``
+# or a matrix factorization's ``{"U": ..., "V": ...}`` are first-class.
+# For torch modules this is exactly what ``state_dict`` produces, and the
+# legacy flat ``List[Tensor]`` maps onto it with positional names
+# ("0", "1", ...) via :meth:`fl_sim.nodes.Node.get_model_state`.
+ModelState = Dict[str, Tensor]
 
 __all__ = [
     "ClientToServer",
     "ServerToClient",
     "ClientMessage",
+    "ModelState",
 ]
 
 
@@ -57,10 +67,17 @@ class ServerToClient:
     Parameters
     ----------
     parameters : List[torch.Tensor], optional
-        The model parameters broadcast to the client.
+        The (flat, positional) model parameters broadcast to the client.
         `None` for algorithms that do not broadcast parameters
         (e.g. sending gradients or other statistics instead),
         in which case the payload goes to `extras`.
+    model_state : Mapping[str, torch.Tensor], optional
+        The named model parameters broadcast to the client,
+        see :data:`ModelState`. Preferred over the flat `parameters`
+        for models with semantically distinct components
+        (e.g. encoder/head splits), or for non-module models.
+        May coexist with `parameters`; consumers preferring the named
+        format handle it first (see :meth:`Client.accept_parameters`).
     extras : Dict[str, Any], optional
         Algorithm-specific payloads, e.g. hyperparameters
         (``{"alpha": 0.01}``), statistics (``{"global_stats": ...}``), etc.
@@ -68,6 +85,7 @@ class ServerToClient:
     """
 
     parameters: Optional[List[Tensor]] = None
+    model_state: Optional[Mapping[str, Tensor]] = None
     extras: Dict[str, Any] = field(default_factory=dict)
 
     def to_legacy_dict(self) -> Dict[str, Any]:
@@ -75,6 +93,8 @@ class ServerToClient:
         d: Dict[str, Any] = dict(self.extras)
         if self.parameters is not None:
             d["parameters"] = self.parameters
+        if self.model_state is not None:
+            d["model_state"] = dict(self.model_state)
         return d
 
 
@@ -92,8 +112,14 @@ class ClientToServer:
         The (part-nested) evaluated metrics of the client,
         e.g. ``{"train": {"acc": ..., "loss": ..., "num_samples": ...}}``.
     parameters : List[torch.Tensor], optional
-        The parameters (or deltas, gradients, etc.) uploaded by the client.
+        The (flat, positional) parameters (or deltas, gradients, etc.)
+        uploaded by the client.
         `None` for algorithms that upload nothing parameter-like.
+    model_state : Mapping[str, torch.Tensor], optional
+        The named model parameters uploaded by the client,
+        see :data:`ModelState`. Preferred over the flat `parameters`
+        for models with semantically distinct components, or for
+        non-module models. May coexist with `parameters`.
     extras : Dict[str, Any], optional
         Algorithm-specific payloads, e.g. control variates
         (``{"control_variates": ...}``), cluster ids, etc.
@@ -104,6 +130,7 @@ class ClientToServer:
     train_samples: int
     metrics: Dict[str, Any] = field(default_factory=dict)
     parameters: Optional[List[Tensor]] = None
+    model_state: Optional[Mapping[str, Tensor]] = None
     extras: Dict[str, Any] = field(default_factory=dict)
 
     def to_legacy_kwargs(self) -> Dict[str, Any]:
@@ -111,6 +138,8 @@ class ClientToServer:
         d: Dict[str, Any] = dict(self.extras)
         if self.parameters is not None:
             d["parameters"] = self.parameters
+        if self.model_state is not None:
+            d["model_state"] = dict(self.model_state)
         d.update(
             client_id=self.client_id,
             train_samples=self.train_samples,

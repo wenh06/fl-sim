@@ -131,15 +131,22 @@ class Client(Node):
     def accept_parameters(self) -> None:
         """
         Accepts parameters from received_messages.
+
+        The named ``"model_state"`` mapping (the recommended exchange format,
+        see :data:`~fl_sim.messages.ModelState`) takes precedence over the
+        flat positional ``"parameters"`` list.
+
         Need to be implemented in the child class to specify part in received_messages
-        if the key is not "parameters".
+        if the key is not "parameters"/"model_state".
 
         Some algorithms (e.g. ``IFCA``, ``FedPD``) do not put the parameters under
         the ``"parameters"`` key of the received messages (or communicate only
         with a subset of clients in a round); for those, the parameters are
         accepted in the client's :meth:`update`, so a missing key is not an error.
         """
-        if "parameters" in self._received_messages:
+        if "model_state" in self._received_messages:
+            self.set_model_state(self._received_messages["model_state"])
+        elif "parameters" in self._received_messages:
             self.set_parameters(self._received_messages["parameters"])
 
     def receive(self, message: ServerToClient) -> None:

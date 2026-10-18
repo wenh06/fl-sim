@@ -40,7 +40,7 @@ Client classes
 
 """
 
-from ..messages import ClientMessage, ClientToServer, ServerToClient
+from ..messages import ClientMessage, ClientToServer, ModelState, ServerToClient
 from .client import Client
 from .configs import ClientConfig, ServerConfig
 from .node import Node
@@ -54,5 +54,6 @@ __all__ = [
     "ClientMessage",
     "ServerToClient",
     "ClientToServer",
+    "ModelState",
     "Node",
 ]
