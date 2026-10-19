@@ -6,18 +6,18 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim\n"
+"Project-Id-Version:  fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"POT-Creation-Date: 2026-10-19 21:25+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: zh <LL@li.org>\n"
 "Language: zh_CN\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"Generated-By: Babel 2.12.1\n"
+"Generated-By: Babel 2.16.0\n"
 
 #: fl_sim.nodes:2 of
 msgid "fl_sim.nodes"
@@ -25,11 +25,11 @@ msgstr ""
 
 #: fl_sim.nodes:4 of
 msgid ""
-":class:`Node` s are the core of the simulation framework. :class:`Node` has "
-"two subclasses: :class:`Server` and :class:`Client`. The :class:`Server` "
-"class is the base class for all servers, which acts as the coordinator of "
-"the training process, as well as maintainer of status variables. The "
-":class:`Client` class is the base class for all clients."
+":class:`Node` s are the core of the simulation framework. :class:`Node` "
+"has two subclasses: :class:`Server` and :class:`Client`. The "
+":class:`Server` class is the base class for all servers, which acts as "
+"the coordinator of the training process, as well as maintainer of status "
+"variables. The :class:`Client` class is the base class for all clients."
 msgstr ""
 ":class:`Node`（节点）是仿真框架的核心。:class:`Node` 有两个子类：:class:`Server` 与 "
 ":class:`Client`。"
@@ -52,8 +52,8 @@ msgstr "服务器类"
 
 #: fl_sim.nodes:31:<autosummary>:1 of
 msgid ""
-":py:obj:`Server <fl_sim.nodes.Server>`\\ \\(model\\, dataset\\, config\\, "
-"client\\_config\\)"
+":py:obj:`Server <fl_sim.nodes.Server>`\\ \\(model\\, dataset\\, config\\,"
+" client\\_config\\)"
 msgstr ""
 
 #: fl_sim.nodes:31:<autosummary>:1 of
@@ -62,8 +62,8 @@ msgstr "模拟服务器节点的类。"
 
 #: fl_sim.nodes:31:<autosummary>:1 of
 msgid ""
-":py:obj:`ServerConfig <fl_sim.nodes.ServerConfig>`\\ \\(algorithm\\, "
-"num\\_iters\\, ...\\[\\, ...\\]\\)"
+":py:obj:`ServerConfig <fl_sim.nodes.ServerConfig>`\\ \\(\\*args\\, "
+"num\\_iters\\, num\\_clients\\, ...\\)"
 msgstr ""
 
 #: fl_sim.nodes:31:<autosummary>:1 of
@@ -86,10 +86,20 @@ msgstr "模拟客户端节点的类。"
 
 #: fl_sim.nodes:38:<autosummary>:1 of
 msgid ""
-":py:obj:`ClientConfig <fl_sim.nodes.ClientConfig>`\\ \\(algorithm\\, "
-"optimizer\\, ...\\[\\, ...\\]\\)"
+":py:obj:`ClientConfig <fl_sim.nodes.ClientConfig>`\\ \\(\\*args\\, "
+"batch\\_size\\, num\\_epochs\\, ...\\)"
 msgstr ""
 
 #: fl_sim.nodes:38:<autosummary>:1 of
 msgid "Configs for the Client."
 msgstr "客户端（Client）的配置。"
+
+#~ msgid ""
+#~ ":py:obj:`ServerConfig <fl_sim.nodes.ServerConfig>`\\ "
+#~ "\\(algorithm\\, num\\_iters\\, ...\\[\\, ...\\]\\)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":py:obj:`ClientConfig <fl_sim.nodes.ClientConfig>`\\ "
+#~ "\\(algorithm\\, optimizer\\, ...\\[\\, ...\\]\\)"
+#~ msgstr ""

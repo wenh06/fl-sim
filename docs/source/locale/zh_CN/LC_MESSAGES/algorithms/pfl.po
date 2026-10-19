@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-08 11:31+0800\n"
+"POT-Creation-Date: 2026-10-19 21:25+0800\n"
 "PO-Revision-Date: 2026-10-05 21:10+0800\n"
 "Last-Translator: WEN Hao <wenh06@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.16.0\n"
@@ -30,14 +30,14 @@ msgid ""
 "consensus*: instead of enforcing full consensus :math:`\\theta_1 = \\cdots ="
 " \\theta_K`, one adds a regularizer :math:`\\mathcal{R}` that penalizes the "
 "deviation between the local models. This page collects the PFL algorithms "
-"(implemented in ``fl_sim`` or closely related) together with their "
-"pseudocodes."
+"(implemented in ``fl_sim`` or closely related) together with their modeling,"
+" theory, and pseudocodes."
 msgstr ""
-"在个性化联邦学习（Personalized Federated Learning, "
-"PFL）中，每个客户端都希望得到适配自身数据分布的模型，同时又能利用其他客户端的知识。表述 PFL 的一种简单而通用的方式是*弱共识*（weak "
-"consensus）：不强制完全共识 :math:`\\theta_1 = \\cdots = "
-"\\theta_K`，而是添加一个惩罚局部模型之间偏差的正则项 :math:`\\mathcal{R}`。本页收集了（在 ``fl_sim`` "
-"中实现的或与之密切相关的）PFL 算法及其伪代码。"
+"在个性化联邦学习 (Personalized Federated Learning, PFL) "
+"中，每个子节点都寻求一个适合自身数据分布的模型，同时仍受益于其他子节点上的知识。对 PFL 进行建模的一种简单而通用的方式是*弱共识* (Weak "
+"Consensus)：不再强制完全共识 :math:`\\theta_1 = \\cdots = "
+"\\theta_K`，而是添加一个惩罚子节点模型之间偏差的正则项 :math:`\\mathcal{R}`。本页收集各 PFL 算法（在 "
+"``fl_sim`` 中实现的以及密切相关的），并给出它们的建模、理论与伪代码。"
 
 #: ../../source/algorithms/pfl.rst:16
 msgid "``L2SGD``: Loopless Local SGD"
@@ -120,11 +120,398 @@ msgstr ""
 "f_{k,j}(\\theta_k)` 下，还可以进一步把该随机梯度与随机 Kaczmarz 型（重要性采样）更新结合起来；关于无环方法的分析参见 "
 "[:footcite:ct:`Kovalev2020_loopless`]。由此得到的算法总结如下。"
 
+#: ../../source/algorithms/pfl.rst:70
+msgid "``pFedMe``: Personalized Federated Mean"
+msgstr "``pFedMe``：个性化联邦均值算法"
+
+#: ../../source/algorithms/pfl.rst:72
+msgid ""
+"The ``pFedMe`` algorithm [:footcite:ct:`t2020pfedme`] considers a weak-"
+"consensus problem of the same family as :eq:`l2sgd`, with the global model "
+"appearing as a single variable :math:`\\theta \\in \\R^d`,"
+msgstr ""
+"``pFedMe`` 算法 [:footcite:ct:`t2020pfedme`] 考虑了与 :eq:`l2sgd` "
+"同一族的弱共识问题，其中全局模型作为单一变量 :math:`\\theta \\in \\R^d` 出现，"
+
+#: ../../source/algorithms/pfl.rst:76
+msgid ""
+"\\DeclareMathOperator*{\\minimize}{minimize}\n"
+"\\DeclareMathOperator*{\\argmin}{arg\\,min}\n"
+"\\newcommand{\\R}{\\mathbb{R}}\n"
+"\\newcommand{\\prox}{\\mathbf{prox}}\n"
+"\n"
+"\\minimize_{\\theta, \\theta_1, \\ldots, \\theta_K} \\quad \\sum\\limits_{k=1}^K \\left\\{ f_k(\\theta_k) + \\frac{\\lambda}{2} \\left\\lVert \\theta_k - \\theta \\right\\rVert^2 \\right\\},"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:86
+msgid ""
+"where :math:`\\lambda \\geqslant 0` is the penalty coefficient. Exploiting "
+"the center--client structure of federated learning, the problem is "
+"equivalently reformulated as a *bi-level optimization problem*,"
+msgstr ""
+"其中 :math:`\\lambda \\geqslant 0` 是罚参数。特别地，文献基于联邦学习中心节点--"
+"子节点这一二元结构，进一步将上述问题等价地转换为一个*双层优化问题* (Bi-level Optimization Problem)，"
+
 #: ../../source/algorithms/pfl.rst:90
+msgid ""
+"\\begin{array}{cl}\n"
+"\\minimize & F(\\theta) := \\frac{1}{K} \\sum\\limits_{k=1}^K F_k(\\theta), \\\\\n"
+"\\text{where} & F_k(\\theta) = \\min\\limits_{\\theta_k \\in \\R^d} \\left\\{ f_k(\\theta_k) + \\frac{\\lambda}{2} \\left\\lVert \\theta_k - \\theta \\right\\rVert^2 \\right\\},\n"
+"\\end{array}"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:98
+msgid ""
+"whose inner objective :math:`F_k(\\theta)` is exactly the *Moreau envelope* "
+"of :math:`f_k`, :math:`\\mathcal{M}_{f_k, \\lambda}(\\theta) := "
+"\\inf_{\\theta_k} \\{ f_k(\\theta_k) + \\frac{\\lambda}{2} \\lVert \\theta_k"
+" - \\theta \\rVert^2 \\}`, and the inner minimizer is the proximal operator "
+":math:`\\prox_{f_k, \\lambda}(\\theta) := \\argmin_{\\theta_k} \\{ "
+"f_k(\\theta_k) + \\frac{\\lambda}{2} \\lVert \\theta_k - \\theta \\rVert^2 "
+"\\}` evaluated at the global model. This proximal point is precisely the "
+"personalized model of client :math:`k`. By the Moreau envelope--proximal "
+"operator relation, the gradient of the outer objective is"
+msgstr ""
+"其内层目标函数 :math:`F_k(\\theta)` 恰为 :math:`f_k` 的 *Moreau 包络* "
+":math:`\\mathcal{M}_{f_k, \\lambda}(\\theta) := \\inf_{\\theta_k} \\{ "
+"f_k(\\theta_k) + \\frac{\\lambda}{2} \\lVert \\theta_k - \\theta \\rVert^2 "
+"\\}`，而相应的内层极小点即临近算子 :math:`\\prox_{f_k, \\lambda}(\\theta) := "
+"\\argmin_{\\theta_k} \\{ f_k(\\theta_k) + \\frac{\\lambda}{2} \\lVert "
+"\\theta_k - \\theta \\rVert^2 \\}` 在全局模型 :math:`\\theta` 处的取值——这个取值正是 "
+"``pFedMe`` 算法得到的子节点 :math:`k` 上的个性化模型。通过 Moreau 包络与临近算子的关系式可知，外层目标函数的梯度为"
+
+#: ../../source/algorithms/pfl.rst:106
+msgid ""
+"\\nabla F(\\theta) = \\frac{1}{K} \\sum\\limits_{k=1}^K \\nabla \\mathcal{M}_{f_k, \\lambda} (\\theta)\n"
+"= \\frac{\\lambda}{K} \\sum\\limits_{k=1}^K \\left( \\theta - \\prox_{f_k, \\lambda} (\\theta) \\right),"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:112
+msgid ""
+"so that one (stochastic) gradient step on :math:`F` decomposes into the "
+"average of the client-side partial updates :math:`\\theta^{(t)} - \\eta "
+"\\lambda \\left( \\theta^{(t)} - \\prox_{f_k, \\lambda} (\\theta^{(t)}) "
+"\\right)`. Operationally, each client holds a copy :math:`\\omega_k^{(t, "
+"r)}` of the global model and, between two communications, alternates for "
+":math:`R` rounds"
+msgstr ""
+"如此，对 :math:`F` 的一步（随机）梯度下降即分解为子节点侧部分更新 :math:`\\theta^{(t)} - \\eta \\lambda"
+" \\left( \\theta^{(t)} - \\prox_{f_k, \\lambda} (\\theta^{(t)}) \\right)` "
+"的平均。具体执行时，每个子节点持有全局模型的一份拷贝 :math:`\\omega_k^{(t, r)}`，并在两次通信之间交替执行 :math:`R`"
+" 轮"
+
+#: ../../source/algorithms/pfl.rst:117
+msgid ""
+"\\theta_k^{(t, r)} \\gets \\prox_{f_k, \\lambda} \\left( \\omega_k^{(t, r)}; \\ b_r \\right),\n"
+"\\qquad\n"
+"\\omega_k^{(t, r+1)} \\gets \\omega_k^{(t, r)} - \\eta \\lambda \\left( \\omega_k^{(t, r)} - \\prox_{f_k, \\lambda} \\left( \\omega_k^{(t, r)} \\right) \\right),"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:124
+msgid ""
+"where :math:`b_r` is the minibatch of round :math:`r`; the server then "
+"aggregates"
+msgstr "其中 :math:`b_r` 是第 :math:`r` 轮的小批量数据；随后中心节点进行聚合"
+
+#: ../../source/algorithms/pfl.rst:126
+msgid ""
+"\\theta^{(t+1)} \\gets (1-\\beta)\\,\\theta^{(t)} + \\frac{\\beta}{\\# "
+"\\mathcal{S}^{(t)}} \\sum\\limits_{k \\in \\mathcal{S}^{(t)}} "
+"\\omega_{k}^{(t, R)}."
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:131
+msgid ""
+"Note that the two parts of :eq:`pfedme-local` are executed for :math:`R` "
+"local rounds *before* any communication happens -- yet another instance of "
+"the loopless (skipping) idea; cf. :ref:`L2SGD <fl_alg_pfl_l2sgd>` and the "
+":ref:`skipping algorithms section <fl_alg_skipping>`. The pseudocode is "
+"summarized below."
+msgstr ""
+"值得特别注意的是，:eq:`pfedme-local` 的两部分并不是交替进行的，而是先在子节点上执行 :math:`R` "
+"轮本地迭代，之后才与中心节点通信——这是无环（跳步）思想的又一个实例；参见 :ref:`L2SGD <fl_alg_pfl_l2sgd>` 以及 "
+":ref:`跳步算法一节 <fl_alg_skipping>`。伪代码总结如下。"
+
+#: ../../source/algorithms/pfl.rst:143
+msgid "``Ditto``: Fair and Robust Personalized Models"
+msgstr "``Ditto``：公平且鲁棒的个性化模型"
+
+#: ../../source/algorithms/pfl.rst:145
+msgid ""
+"The ``Ditto`` algorithm [:footcite:ct:`li_2021_ditto`] develops the "
+"proximal-subproblem idea of ``FedProx`` into a *bi-level* formulation seen "
+"from the *client's* perspective (``APFL``, proposed slightly earlier, adopts"
+" a similar viewpoint; see below),"
+msgstr ""
+"``Ditto`` 算法 [:footcite:ct:`li_2021_ditto`] 进一步发展了 ``FedProx`` "
+"添加临近项求解子问题的思想，将其改造为从*子节点*视角出发的*双层*问题格式（稍早提出的 ``APFL`` 也采用了类似的视角，见下文），"
+
+#: ../../source/algorithms/pfl.rst:149
+msgid ""
+"\\begin{array}{cl}\n"
+"\\minimize\\limits_{\\omega_k} & h_k(\\omega_k, \\theta^*) := f_k(\\omega_k) + \\frac{\\mu}{2} \\lVert \\omega_k - \\theta^* \\rVert^2, \\\\\n"
+"\\text{subject to} & \\theta^* \\in \\argmin\\limits_{\\theta} G\\left( f_1(\\theta), \\cdots, f_K(\\theta) \\right),\n"
+"\\end{array}"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:157
+msgid ""
+"where :math:`G` is the aggregation rule applied by the server to the client "
+"models, e.g. plain averaging as in ``FedAvg``. Reading the formulation: the "
+"inner problem is a plain federated optimization problem on the global model "
+":math:`\\theta` alone, while the outer problem attaches to each client a "
+"proximal task for personalization -- and the personalized model "
+":math:`\\omega_k` does *not* participate in the global update. The global "
+"and the personalized models are thereby decoupled, and their updates can be "
+"scheduled flexibly."
+msgstr ""
+"其中 :math:`G` 是中心节点上对子节点模型执行聚合的规则，例如 ``FedAvg`` 中的求均值。解读这一问题格式：内层问题即是仅关于全局模型 "
+":math:`\\theta` 的一个普通联邦优化问题，而外层问题则为每个子节点附带一个用于个性化的临近任务——且个性化模型 "
+":math:`\\omega_k` *不*参与全局模型的更新。全局模型与个性化模型由此解耦合，两者的迭代更新可以更灵活地进行。"
+
+#: ../../source/algorithms/pfl.rst:164
+msgid ""
+"Consequently, each client solves two problems per round: the global update "
+":math:`\\theta_k^{(t)} \\gets "
+"\\operatorname{\\mathbf{UpdateGlobal}}(\\theta^{(t)}, f_k)` (the inner "
+"problem), and the proximal task whose solution tracks the moving center "
+":math:`\\theta^{(t)}`,"
+msgstr ""
+"由此，每个子节点每轮求解两个问题：全局模型的更新 :math:`\\theta_k^{(t)} \\gets "
+"\\operatorname{\\mathbf{UpdateGlobal}}(\\theta^{(t)}, f_k)`（内层问题），以及解点追踪移动中心"
+" :math:`\\theta^{(t)}` 的临近任务，"
+
+#: ../../source/algorithms/pfl.rst:169
+msgid ""
+"\\omega_k^{(t+1)} \\gets \\omega_k^{(t)} - \\eta \\left( \\nabla "
+"f_k(\\omega_k^{(t)}) + \\mu \\left( \\omega_k^{(t)} - \\theta^{(t)} \\right)"
+" \\right)."
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:174
+msgid ""
+"Unlike ``FedSplit`` or ``pFedMe``, where the proximal operator is solved in "
+"an inner loop to (approximate) optimality, ``Ditto`` executes only a "
+"*single* (stochastic) gradient step per round for the outer problem, letting"
+" the proximal center :math:`\\theta^{(t)}` evolve alongside the global "
+"model. The pseudocode is summarized below."
+msgstr ""
+"与 ``FedSplit`` 或 ``pFedMe`` 在内循环中将临近算子求解至（近似）最优不同，``Ditto`` "
+"对外层问题每轮只执行*一步*（随机）梯度下降，让临近中心 :math:`\\theta^{(t)}` 随全局模型一起演化。伪代码总结如下。"
+
+#: ../../source/algorithms/pfl.rst:186
+msgid "``APFL``: Adaptive Personalized Federated Learning"
+msgstr "``APFL``：自适应个性化联邦学习算法"
+
+#: ../../source/algorithms/pfl.rst:188
+msgid ""
+"Proposed slightly before ``Ditto`` [:footcite:ct:`deng2020_apfl`], ``APFL`` "
+"considers the bi-level problem"
+msgstr "比 ``Ditto`` 稍早提出的 ``APFL`` [:footcite:ct:`deng2020_apfl`] 考虑了如下的双层问题"
+
+#: ../../source/algorithms/pfl.rst:191
+msgid ""
+"\\begin{array}{cl}\n"
+"\\minimize\\limits_{\\omega_k \\in \\mathrm{dom} f_k} & h_k(\\omega_k, \\theta^*) := f_k\\left( \\alpha_k \\omega_k + (1 - \\alpha_k) \\theta^* \\right), \\\\\n"
+"\\text{subject to} & \\theta^* \\in \\argmin\\limits_{\\theta} \\frac{1}{K} \\sum\\limits_{k=1}^K f_k(\\theta),\n"
+"\\end{array}"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:199
+msgid ""
+"with the *mixture weight* :math:`\\alpha_k \\in (0, 1)`. The main difference"
+" from :eq:`ditto-bilevel` is the personalization mechanism: instead of a "
+"quadratic proximal term, the local objective is evaluated at the convex "
+"combination :math:`\\alpha_k \\omega_k + (1 - \\alpha_k) \\theta^*` of an "
+"auxiliary local model and the global model, and :math:`\\alpha_k` plays the "
+"same \"personalization degree\" role as the penalty :math:`\\mu` in a "
+"proximal term. The resulting personalized model is"
+msgstr ""
+"其中 :math:`\\alpha_k \\in (0, 1)` 被称作*混合权重* (Mixture Weights)。与 :eq:`ditto-"
+"bilevel` 最主要的区别在于个性化的机制：不再是二次临近项，而是将局部目标函数在辅助局部模型与全局模型的凸组合 :math:`\\alpha_k "
+"\\omega_k + (1 - \\alpha_k) \\theta^*` 处取值；混合权重 :math:`\\alpha_k` 起到与临近项中罚参数"
+" :math:`\\mu` 类似的调节子节点模型个性化程度的作用。最终得到的个性化模型为"
+
+#: ../../source/algorithms/pfl.rst:206
+msgid ""
+"\\hat{\\omega}_k = \\alpha_k \\omega_k^* + (1 - \\alpha_k) \\theta^*,\n"
+"\\qquad\n"
+"\\omega_k^* = \\argmin\\limits_{\\omega_k \\in \\mathrm{dom} f_k} f_k\\left( \\alpha_k \\omega_k + (1 - \\alpha_k) \\theta^* \\right)."
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:213
+msgid ""
+"A caveat worth noting: when :math:`\\mathrm{dom} f_k` is a *proper* subset "
+"of :math:`\\R^d`, the convex combination in :eq:`apfl-model` may fail to "
+"attain a minimizer of :math:`f_k` -- the range of :math:`\\alpha_k "
+"\\omega_k^* + (1 - \\alpha_k) \\theta^*` can be a strict subset of the "
+"search domain that excludes the minimizer. Enlarging the search domain of "
+":math:`\\omega_k` restores attainability, but then :math:`\\hat{\\omega}_k` "
+"could equally be obtained by minimizing :math:`f_k` alone, i.e. by pure "
+"local training -- which contradicts the very goal of personalized federated "
+"learning. The pseudocode is summarized below."
+msgstr ""
+"值得特别注意的是：当 :math:`\\mathrm{dom} f_k` 是 :math:`\\R^d` 的*真*子集时，:eq:`apfl-"
+"model` 中的凸组合可能无法取到 :math:`f_k` 的极小点——凸组合 :math:`\\alpha_k \\omega_k^* + (1 -"
+" \\alpha_k) \\theta^*` 能取到的区域可以只是搜索区域的一个真子集，且不包含极小点。扩大 :math:`\\omega_k` "
+"的搜索区域固然可以恢复可达性，但此时 :math:`\\hat{\\omega}_k` 完全可以通过直接极小化 "
+":math:`f_k`（即仅使用节点自身的数据进行训练）获取——这与个性化联邦学习的目的是相违背的。伪代码总结如下。"
+
+#: ../../source/algorithms/pfl.rst:228
+msgid "``FedDyn``: Dynamic Regularized Federated Learning"
+msgstr "``FedDyn``：动态正则化联邦学习算法"
+
+#: ../../source/algorithms/pfl.rst:230
+msgid ""
+"The algorithms above (and ``FedProx`` alike) regularize the local objective "
+"with a *static* proximal term: in round :math:`(t+1)`, client :math:`k` "
+"minimizes :math:`f_k(\\theta_k) + \\frac{\\mu}{2} \\lVert \\theta_k - "
+"\\theta^{(t)} \\rVert^2`. The ``FedDyn`` algorithm "
+"[:footcite:ct:`acar2021feddyn`] refines this into a *dynamically "
+"regularized* objective,"
+msgstr ""
+"前文介绍的算法（以及 ``FedProx`` 等）都是以*静态*的临近项正则化局部目标函数：在第 :math:`(t+1)` 轮，子节点 "
+":math:`k` 极小化 :math:`f_k(\\theta_k) + \\frac{\\mu}{2} \\lVert \\theta_k - "
+"\\theta^{(t)} \\rVert^2`。``FedDyn`` 算法 [:footcite:ct:`acar2021feddyn`] "
+"对此进行改进，提出了*动态正则化*的目标函数，"
+
+#: ../../source/algorithms/pfl.rst:236
+msgid ""
+"F_k(\\theta_k) := f_k(\\theta_k) - \\left\\langle \\nabla f_k\\left( "
+"\\theta_k^{(t)} \\right), \\theta_k \\right\\rangle + \\frac{\\mu}{2} "
+"\\lVert \\theta_k - \\theta^{(t)} \\rVert^2,"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:241
+msgid "which is equivalent to"
+msgstr "其可以等价地写为"
+
+#: ../../source/algorithms/pfl.rst:243
+msgid ""
+"F_k(\\theta_k) = \\left( f_k(\\theta_k) + \\frac{\\mu}{2} \\lVert \\theta_k - \\theta^{(t)} \\rVert^2 \\right)\n"
+"- \\left\\langle \\nabla f_k\\left( \\theta_k^{(t)} \\right), \\theta_k - \\theta_k^{(t)} \\right\\rangle."
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:249
+msgid ""
+"In words: each (stochastic) step on :math:`F_k` follows the descent "
+"direction of the prox-augmented objective, *corrected* by the linearization "
+"of :math:`f_k` at the previous local iterate :math:`\\theta_k^{(t)}` (with "
+":math:`\\mathfrak{g}_k^{(t)} := \\nabla f_k(\\theta_k^{(t)})`). Another "
+"remarkable property is the first-order optimality condition of :eq:`feddyn-"
+"obj`,"
+msgstr ""
+"换言之，对 :math:`F_k` 的每一步（随机）迭代都沿着带临近项目标函数的下降方向进行，并用 :math:`f_k` 在上一步局部迭代点 "
+":math:`\\theta_k^{(t)}` 处的线性化（即 :math:`\\mathfrak{g}_k^{(t)} := \\nabla "
+"f_k(\\theta_k^{(t)})`）对其加以*修正*。动态正则化问题 :eq:`feddyn-obj` 另一个值得注意的性质是其一阶最优性条件"
+
+#: ../../source/algorithms/pfl.rst:254
+msgid ""
+"\\nabla f_k\\left( \\theta_k^{(t+1)} \\right) - \\nabla f_k\\left( "
+"\\theta_k^{(t)} \\right) + \\mu \\left( \\theta_k^{(t+1)} - \\theta^{(t)} "
+"\\right) = 0,"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:259
+msgid "which yields the recursion"
+msgstr "由此可得如下的递推格式"
+
+#: ../../source/algorithms/pfl.rst:261
+msgid ""
+"\\mathfrak{g}_k^{(t+1)} \\gets \\mathfrak{g}_k^{(t)} - \\mu \\left( "
+"\\theta_k^{(t+1)} - \\theta^{(t)} \\right),"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:266
+msgid ""
+"i.e. the local gradient estimate is maintained *without* additional function"
+" or gradient evaluations -- a substantial computational and implementational"
+" convenience. The pseudocode is summarized below."
+msgstr "即局部梯度估计*无需*额外的函数或梯度计算即可维护——这对计算与算法实现是巨大的便利。伪代码总结如下。"
+
+#: ../../source/algorithms/pfl.rst:277
+msgid "``pFedMac``: Personalized FL via Maximizing Correlation"
+msgstr "``pFedMac``：极大化相关性的个性化联邦学习算法"
+
+#: ../../source/algorithms/pfl.rst:279
+msgid ""
+"Related to the \"direction correction\" of ``FedDyn``, the ``pFedMac`` "
+"algorithm [:footcite:ct:`li2021pfedmac`] considers the bi-level problem"
+msgstr ""
+"与 ``FedDyn`` 的“方向修正”思路相关，``pFedMac`` 算法 [:footcite:ct:`li2021pfedmac`] "
+"考虑了如下的双层问题"
+
+#: ../../source/algorithms/pfl.rst:282
+msgid ""
+"\\begin{array}{cl}\n"
+"\\minimize & F(\\theta) = \\frac{1}{K} \\sum\\limits_{k=1}^K F_k(\\theta), \\\\\n"
+"\\text{where} & F_k(\\theta) := \\min\\limits_{\\theta_k} \\left\\{ f_k(\\theta_k) - \\mu \\langle \\theta_k, \\theta \\rangle + \\frac{\\mu}{2} \\lVert \\theta \\rVert^2_2 \\right\\},\n"
+"\\end{array}"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:290
+msgid ""
+"in which the inner problem corrects the personalized model :math:`\\theta_k`"
+" using the global model :math:`\\theta` through their inner product. In "
+"probability and statistics, :math:`\\langle \\theta_k, \\theta \\rangle` "
+"quantifies the *correlation* between the personalized and the global models;"
+" hence the technique is known as *maximizing correlation*. Two elementary "
+"rewritings connect it to the formulations above: moving the global term out "
+"of the inner minimization gives :math:`F_k(\\theta) = F_k'(\\theta) + "
+"\\frac{\\mu}{2} \\lVert \\theta \\rVert^2_2` with :math:`F_k'(\\theta) := "
+"\\min_{\\theta_k} \\{ f_k(\\theta_k) - \\mu \\langle \\theta_k, \\theta "
+"\\rangle \\}`, and completing the square shows"
+msgstr ""
+"其中内层问题利用全局模型 :math:`\\theta` 通过内积对个性化模型 :math:`\\theta_k` "
+"进行修正。在概率与统计中，:math:`\\langle \\theta_k, \\theta \\rangle` "
+"量化了个性化模型与全局模型之间的*相关性*；因此该技术被称作*极大化相关性* (Maximizing "
+"Correlation)。两个初等的变形将其与上文的问题格式联系起来：把全局项从内层极小化中移出，得 :math:`F_k(\\theta) = "
+"F_k'(\\theta) + \\frac{\\mu}{2} \\lVert \\theta \\rVert^2_2`，其中 "
+":math:`F_k'(\\theta) := \\min_{\\theta_k} \\{ f_k(\\theta_k) - \\mu \\langle"
+" \\theta_k, \\theta \\rangle \\}`；而配方后可得"
+
+#: ../../source/algorithms/pfl.rst:299
+msgid ""
+"F_k(\\theta) = \\min\\limits_{\\theta_k} \\left\\{ f_k(\\theta_k) + "
+"\\frac{\\mu}{2} \\lVert \\theta_k - \\theta \\rVert^2_2 - \\frac{\\mu}{2} "
+"\\lVert \\theta_k \\rVert^2_2 \\right\\},"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:304
+msgid ""
+"i.e. the prox-augmented objective corrected by a quadratic term in "
+":math:`\\theta_k` itself -- exactly the flavor of :eq:`feddyn-adjusted`, so "
+"the same one-step direction-correction updates apply. ``pFedMac`` further "
+"studies *sparse* personalized models via an additional :math:`\\ell_1` term,"
+msgstr ""
+"即带临近项的目标函数再减去一个关于 :math:`\\theta_k` 自身的二次项——这正是 :eq:`feddyn-adjusted` "
+"的味道，因此同样的单步方向修正更新在此适用。``pFedMac`` 进一步借助附加的 :math:`\\ell_1` 项研究了*稀疏*个性化模型，"
+
+#: ../../source/algorithms/pfl.rst:309
+msgid ""
+"F_k(\\theta) := \\min\\limits_{\\theta_k} \\left\\{ f_k(\\theta_k) - \\mu "
+"\\langle \\theta_k, \\theta \\rangle + \\frac{\\mu}{2} \\lVert \\theta "
+"\\rVert^2_2 + \\gamma \\lVert \\theta_k \\rVert_1 \\right\\},"
+msgstr ""
+
+#: ../../source/algorithms/pfl.rst:314
+msgid ""
+"and extends the center--client hierarchy to a *three-level* structure with "
+"sub-centers (edges or hubs), each aggregating a cluster :math:`\\{ "
+"\\theta_{k,1}, \\ldots, \\theta_{k, J_k} \\}` of clients before "
+"communicating with the center -- a structure expected to become increasingly"
+" common as federated networks scale, and closely related to clustered FL. "
+"The pseudocode is summarized below."
+msgstr ""
+"此外，它还将中心节点--子节点的二元结构扩展为带次中心（边缘节点或枢纽）的*三层*结构：每个次中心先聚合一个集群 :math:`\\{ "
+"\\theta_{k,1}, \\ldots, \\theta_{k, J_k} \\}` "
+"内的子节点模型，再与中心节点通信——随着联邦网络规模的扩大，这类结构预计会越来越常见，并与聚类联邦学习密切相关。伪代码总结如下。"
+
+#: ../../source/algorithms/pfl.rst:327
 msgid "``FPFC``: Fusion Penalized Federated Clustering"
 msgstr "``FPFC``：融合惩罚联邦聚类"
 
-#: ../../source/algorithms/pfl.rst:92
+#: ../../source/algorithms/pfl.rst:329
 msgid ""
 "Beyond regularizing the deviation between each pair of *local* models (as in"
 " ``L2SGD``) or between the local model and the global one, one can also "
@@ -143,7 +530,7 @@ msgstr ""
 ":math:`\\theta_{ij} \\equiv \\omega_i - \\omega_j`（:math:`i, j \\in "
 "[m]`），它考虑"
 
-#: ../../source/algorithms/pfl.rst:99
+#: ../../source/algorithms/pfl.rst:336
 msgid ""
 "\\begin{array}{cl}\n"
 "\\minimize\\limits_{\\omega, \\theta} & \\sum\\limits_{i=1}^m f_i(\\omega_i) + \\frac{1}{2m} \\sum\\limits_{i=1}^m \\sum\\limits_{j=1}^m \\tilde{g}(\\lVert \\theta_{ij} \\rVert) \\\\\n"
@@ -151,7 +538,7 @@ msgid ""
 "\\end{array}"
 msgstr ""
 
-#: ../../source/algorithms/pfl.rst:107
+#: ../../source/algorithms/pfl.rst:344
 msgid ""
 "where :math:`\\tilde{g}(\\cdot)` is a smoothed SCAD-type penalty "
 "(parameterized by :math:`\\xi, \\lambda, a`) whose proximal operator shrinks"
@@ -177,13 +564,13 @@ msgstr ""
 "施加分段近端更新并做对偶上升。训练结束后，:math:`\\lVert \\theta_{ij} \\rVert` （近乎）为零的设备 "
 ":math:`i` 与 :math:`j` 被分到同一个簇。伪代码总结如下；注意，无论簇的个数还是簇的成员关系都不需要事先指定。"
 
-#: ../../source/algorithms/pfl.rst:126
+#: ../../source/algorithms/pfl.rst:363
 msgid ""
 "``FedCR``: Personalized Federated Learning Based on Across-Client Common "
 "Representation"
 msgstr "``FedCR``：基于跨客户端共性表示的个性化联邦学习"
 
-#: ../../source/algorithms/pfl.rst:128
+#: ../../source/algorithms/pfl.rst:365
 msgid ""
 "The methods above personalize the *whole* local model. ``FedCR`` (see `ICML "
 "2023 <https://proceedings.mlr.press/v202/zhang23w.html>`_) instead decouples"
@@ -202,14 +589,14 @@ msgstr ""
 " :math:`c`，局部的类条件互信息被约束为接近全局的类条件互信息；借由马尔可夫链 :math:`y \\to x \\to "
 "z`，这等价于类别级的特征对齐"
 
-#: ../../source/algorithms/pfl.rst:136
+#: ../../source/algorithms/pfl.rst:373
 msgid ""
 "I(z; x \\mid y_i) - I_i(z; x_i \\mid y_i) = \\mathbb{E}_{p(x_i, y_i)} "
 "\\mathbb{E}_{p(x \\mid x_i, y_i)} \\left[ \\mathrm{KL}\\left[ p(z \\mid x) "
 "\\,\\middle\\|\\, p(z \\mid x_i) \\right] \\right],"
 msgstr ""
 
-#: ../../source/algorithms/pfl.rst:141
+#: ../../source/algorithms/pfl.rst:378
 msgid ""
 "weighted by a Lagrange multiplier :math:`\\beta \\geqslant 0` (the CMI "
 "regularizer). The representation mapping is modeled as a diagonal Gaussian "
@@ -224,13 +611,13 @@ msgstr ""
 "\\Sigma(x_i)\\right)`；在此之下，难以直接求解的全局后验由活跃客户端集合 :math:`\\mathcal{P}_t` "
 "的类别级局部后验的专家乘积（PoE）来估计，先验取 :math:`p(z) = \\mathcal{N}(0, 1)`："
 
-#: ../../source/algorithms/pfl.rst:147
+#: ../../source/algorithms/pfl.rst:384
 msgid ""
 "p(z^c \\mid x) \\propto p(z) \\prod_{i \\in \\mathcal{P}_t} p^c(z \\mid x_i), \\qquad\n"
 "p^c(z \\mid x_i) = \\prod_{n = 1}^{N_i^{c}} p\\left(z \\,\\middle|\\, x_i^{(n)}\\right)^{1 / N_i^{c}},"
 msgstr ""
 
-#: ../../source/algorithms/pfl.rst:153
+#: ../../source/algorithms/pfl.rst:390
 msgid ""
 "where :math:`p^c(z \\mid x_i)` is the (geometric-mean) local PoE over the "
 ":math:`N_i^{c}` samples of class :math:`c` at client :math:`i`, computed on "
@@ -244,13 +631,13 @@ msgstr ""
 "都可化为类别级的均值与协方差：每个客户端只需上传其拥有的类别的 :math:`(\\mu_i^c, "
 "\\Sigma_i^c)`，服务器经由精度（协方差之逆）解析地合并，"
 
-#: ../../source/algorithms/pfl.rst:159
+#: ../../source/algorithms/pfl.rst:396
 msgid ""
 "\\Sigma^c = \\left( I + \\sum_{i \\in \\mathcal{P}_t} \\left( \\Sigma_i^c \\right)^{-1} \\right)^{-1}, \\qquad\n"
 "\\mu^c = \\Sigma^c \\sum_{i \\in \\mathcal{P}_t} \\mu_i^c \\left( \\Sigma_i^c \\right)^{-1},"
 msgstr ""
 
-#: ../../source/algorithms/pfl.rst:165
+#: ../../source/algorithms/pfl.rst:402
 msgid ""
 "besides averaging the extractors, :math:`w^f = \\frac{1}{\\lvert "
 "\\mathcal{P}_t \\rvert} \\sum_{i \\in \\mathcal{P}_t} w_i^f`. Classes missed"
@@ -262,14 +649,14 @@ msgstr ""
 "\\in \\mathcal{P}_t} w_i^f`。所有活跃客户端都不具备的类别沿用上一轮的统计量。客户端 :math:`i` "
 "的局部目标即其经验损失加上上述对齐项，"
 
-#: ../../source/algorithms/pfl.rst:169
+#: ../../source/algorithms/pfl.rst:406
 msgid ""
 "L_i = f_i(w_i) + \\beta \\, \\mathbb{E}_{p(x_i, y_i)} \\left[ "
 "\\mathrm{KL}\\left[ p(z^{c = y_i} \\mid x) \\,\\middle\\|\\, p(z \\mid x_i) "
 "\\right] \\right],"
 msgstr ""
 
-#: ../../source/algorithms/pfl.rst:174
+#: ../../source/algorithms/pfl.rst:411
 msgid ""
 "optimized with the re-parameterization trick for the stochastic features. "
 "Since the PoE posterior can be sharper than any single expert, the common "
