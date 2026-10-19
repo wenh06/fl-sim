@@ -24,50 +24,27 @@ msgid "Visualization subsystem"
 msgstr "可视化子系统"
 
 #: ../../source/viz.rst:4
-msgid ""
-"``fl-sim`` implements a simple visualization subsystem named ``Panel`` along"
-" with a logging system. ``Panel`` is based on Jupyter Widgets (`ipywidgets "
-"<https://ipywidgets.readthedocs.io/en/latest/>`_), `matplotlib "
-"<https://matplotlib.org/>`_ and `seaborn <https://seaborn.pydata.org/>`_. It"
-" runs in a Jupyter Notebook or similar environment (Jupyter Lab, Google "
-"Colab, Amazon SageMaker, etc.). ``Panel`` has the following features:"
-msgstr ""
-"``fl-sim`` 实现了一个名为 ``Panel`` 的简单可视化子系统，并配有日志系统。``Panel`` 基于 Jupyter "
-"Widgets（`ipywidgets "
-"<https://ipywidgets.readthedocs.io/en/latest/>`_）、`matplotlib "
-"<https://matplotlib.org/>`_ 与 `seaborn <https://seaborn.pydata.org/>`_，可在 "
-"Jupyter Notebook 或类似环境（Jupyter Lab、Google Colab、Amazon SageMaker "
-"等）中运行。``Panel`` 具有以下功能："
+msgid "``fl-sim`` implements a simple visualization subsystem named ``Panel`` along with a logging system. ``Panel`` is based on Jupyter Widgets (`ipywidgets <https://ipywidgets.readthedocs.io/en/latest/>`_), `matplotlib <https://matplotlib.org/>`_ and `seaborn <https://seaborn.pydata.org/>`_. It runs in a Jupyter Notebook or similar environment (Jupyter Lab, Google Colab, Amazon SageMaker, etc.). ``Panel`` has the following features:"
+msgstr "``fl-sim`` 实现了一个名为 ``Panel`` 的简单可视化子系统，并配有日志系统。 ``Panel`` 基于 Jupyter Widgets（ `ipywidgets <https://ipywidgets.readthedocs.io/en/latest/>`_）、 `matplotlib <https://matplotlib.org/>`_ 与 `seaborn <https://seaborn.pydata.org/>`_，可在 Jupyter Notebook 或类似环境（Jupyter Lab、Google Colab、Amazon SageMaker 等）中运行。 ``Panel`` 具有以下功能："
 
 #: ../../source/viz.rst:9
-msgid ""
-"It automatically searches, lists the log files of completed simulations "
-"(numerical experiments) in the specified directory, and displays them in a "
-"multi-select list box."
+msgid "It automatically searches, lists the log files of completed simulations (numerical experiments) in the specified directory, and displays them in a multi-select list box."
 msgstr "自动搜索、列出指定目录中已完成仿真（数值实验）的日志文件，并在多选列表框中展示。"
 
 #: ../../source/viz.rst:10
-msgid ""
-"It automatically decodes the log files and plots the curves of the specified"
-" metrics."
+msgid "It automatically decodes the log files and plots the curves of the specified metrics."
 msgstr "自动解码日志文件，绘制指定指标的曲线。"
 
 #: ../../source/viz.rst:11
-msgid ""
-"It supports interactive operations on the plotted curves, such as zooming, "
-"smoothing, font family and size adjustment, etc."
+msgid "It supports interactive operations on the plotted curves, such as zooming, smoothing, font family and size adjustment, etc."
 msgstr "支持对所绘曲线的交互操作，如缩放、平滑、字体族与字号调整等。"
 
 #: ../../source/viz.rst:12
-msgid ""
-"It supports saving the plotted curves to a file in PDF/SVG/PNG/JPEG/PS "
-"formats."
+msgid "It supports saving the plotted curves to a file in PDF/SVG/PNG/JPEG/PS formats."
 msgstr "支持将所绘曲线保存为 PDF/SVG/PNG/JPEG/PS 格式的文件。"
 
 #: ../../source/viz.rst:13
-msgid ""
-"It supports curve merging via tags into mean-value curves with error bars "
-"(optional). The error bounds have 4 options:"
+msgid "It supports curve merging via tags into mean-value curves with error bars (optional). The error bounds have 4 options:"
 msgstr "支持通过标签将多条曲线合并为带误差棒（可选）的均值曲线。误差范围有 4 种选项："
 
 #: ../../source/viz.rst:15
@@ -87,20 +64,13 @@ msgid "interquartile range (IQR)"
 msgstr "四分位距（IQR）"
 
 #: ../../source/viz.rst:20
-msgid ""
-"The following GIF (created using `ScreenToGif "
-"<https://github.com/NickeManarin/ScreenToGif>`_) shows a demo of the "
-"visualization ``Panel``:"
-msgstr ""
-"下面的 GIF（使用 `ScreenToGif <https://github.com/NickeManarin/ScreenToGif>`_ "
-"制作）展示了 ``Panel`` 的界面。"
+msgid "The following GIF (created using `ScreenToGif <https://github.com/NickeManarin/ScreenToGif>`_) shows a demo of the visualization ``Panel``:"
+msgstr "下面的 GIF（使用 `ScreenToGif <https://github.com/NickeManarin/ScreenToGif>`_ 制作）展示了 ``Panel`` 的界面。"
 
 #: ../../source/viz.rst:-1
 msgid "FL-SIM Panel Demo GIF"
 msgstr "FL-SIM Panel 演示 GIF"
 
 #: ../../source/viz.rst:27
-msgid ""
-"**NOTE:** to use Windows fonts on a Linux machine (e.g. Ubuntu), one can "
-"execute the following commands:"
+msgid "**NOTE:** to use Windows fonts on a Linux machine (e.g. Ubuntu), one can execute the following commands:"
 msgstr "**注意：** 在 Linux 机器（例如 Ubuntu）上使用 Windows 字体，可以执行以下命令："

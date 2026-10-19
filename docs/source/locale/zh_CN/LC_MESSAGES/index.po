@@ -40,12 +40,8 @@ msgid "A Simple Simulation Framework for Federated Learning Based on PyTorch."
 msgstr "一个基于 PyTorch 的简单联邦学习仿真框架。"
 
 #: ../../source/index.rst:11
-msgid ""
-"Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee "
-"<https://gitee.com/wenh06/fl-sim/>`_"
-msgstr ""
-"项目链接：`GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee "
-"<https://gitee.com/wenh06/fl-sim/>`_"
+msgid "Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gitee.com/wenh06/fl-sim/>`_"
+msgstr "项目链接： `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gitee.com/wenh06/fl-sim/>`_"
 
 #: ../../source/index.rst:40
 msgid "Indices and tables"
