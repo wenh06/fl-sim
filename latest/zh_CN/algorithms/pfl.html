@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.1.dev10+g341511849 文档</title>
+    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.1.dev13+g2ad52435e 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=7c90c6fb"></script>
+    <script src="../_static/documentation_options.js?v=c5bf6f1e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev10+g341511849 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev13+g2ad52435e 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -256,6 +256,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/messages.html">fl_sim.messages</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/datasets.html">fl_sim.data_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
@@ -548,6 +549,11 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedme-personalized-federated-mean"><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>: Personalized Federated Mean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ditto-fair-and-robust-personalized-models"><code class="docutils literal notranslate"><span class="pre">Ditto</span></code>: Fair and Robust Personalized Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apfl-adaptive-personalized-federated-learning"><code class="docutils literal notranslate"><span class="pre">APFL</span></code>: Adaptive Personalized Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddyn-dynamic-regularized-federated-learning"><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>: Dynamic Regularized Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedmac-personalized-fl-via-maximizing-correlation"><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code>: Personalized FL via Maximizing Correlation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>：基于跨客户端共性表示的个性化联邦学习</a></li>
 </ul>
@@ -563,7 +569,12 @@ document.write(`
                   
   <section id="personalized-federated-learning-algorithms">
 <span id="fl-alg-pfl"></span><h1>个性化联邦学习算法<a class="headerlink" href="#personalized-federated-learning-algorithms" title="Link to this heading">#</a></h1>
-<p>在个性化联邦学习（Personalized Federated Learning, PFL）中，每个客户端都希望得到适配自身数据分布的模型，同时又能利用其他客户端的知识。表述 PFL 的一种简单而通用的方式是*弱共识*（weak consensus）：不强制完全共识 <span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_K\)</span>，而是添加一个惩罚局部模型之间偏差的正则项 <span class="math notranslate nohighlight">\(\mathcal{R}\)</span>。本页收集了（在 <code class="docutils literal notranslate"><span class="pre">fl_sim</span></code> 中实现的或与之密切相关的）PFL 算法及其伪代码。</p>
+<p>In personalized federated learning (PFL), each client seeks a model tailored to its own data
+distribution while still benefiting from the knowledge of the other clients. A simple and general
+way to formulate PFL is via <em>weak consensus</em>: instead of enforcing full consensus
+<span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_K\)</span>, one adds a regularizer <span class="math notranslate nohighlight">\(\mathcal{R}\)</span> that penalizes the
+deviation between the local models. This page collects the PFL algorithms (implemented in
+<code class="docutils literal notranslate"><span class="pre">fl_sim</span></code> or closely related) together with their modeling, theory, and pseudocodes.</p>
 <section id="l2sgd-loopless-local-sgd">
 <span id="fl-alg-pfl-l2sgd"></span><h2><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降<a class="headerlink" href="#l2sgd-loopless-local-sgd" title="Link to this heading">#</a></h2>
 <p>这一族算法中最简单的是 [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 提出的无环随机梯度下降（Loopless Local SGD，<code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>）。它考虑如下弱共识问题</p>
@@ -584,7 +595,7 @@ document.write(`
 \end{cases}\end{split}\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(p \in (0, 1)\)</span>。注意，计算 <span class="math notranslate nohighlight">\(\nabla f(\Theta) = \col(\nabla f_1(\theta_1), \ldots, \nabla f_K(\theta_K))\)</span> 是完全块分离的：在联邦学习的场景下，这一步只需在客户端本地完成，不涉及与服务器的任何通信，这对以通信为主要瓶颈的联邦学习是巨大的优势。从这个意义上说，<code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> 已经融入了*无环*（跳步）的思想；参见 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a> 中的 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code>。在额外的有限和假设 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \sum_{j=1}^m f_{k,j}(\theta_k)\)</span> 下，还可以进一步把该随机梯度与随机 Kaczmarz 型（重要性采样）更新结合起来；关于无环方法的分析参见 [Kovalev <em>et al.</em><a class="footnote-reference brackets" href="#footcite-kovalev2020-loopless" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。由此得到的算法总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-l2sgd">
-<pre class="scopeline-pseudocode" id="pseudocode-140272254270768" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140670343170752" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{L2SGD}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ probability $p \in (0, 1)$
@@ -613,8 +624,52 @@ document.write(`
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
+</section>
+<section id="pfedme-personalized-federated-mean">
+<span id="fl-alg-pfl-pfedme"></span><h2><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>: Personalized Federated Mean<a class="headerlink" href="#pfedme-personalized-federated-mean" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> algorithm [Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-t2020pfedme" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>] considers a weak-consensus problem of the
+same family as <a class="reference internal" href="#equation-l2sgd">(1)</a>, with the global model appearing as a single variable
+<span class="math notranslate nohighlight">\(\theta \in \R^d\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-obj">
+<span class="eqno">(3)<a class="headerlink" href="#equation-pfedme-obj" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\minimize}{minimize}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\prox}{\mathbf{prox}}\\\minimize_{\theta, \theta_1, \ldots, \theta_K} \quad \sum\limits_{k=1}^K \left\{ f_k(\theta_k) + \frac{\lambda}{2} \left\lVert \theta_k - \theta \right\rVert^2 \right\},\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda \geqslant 0\)</span> is the penalty coefficient. Exploiting the center--client
+structure of federated learning, the problem is equivalently reformulated as a <em>bi-level
+optimization problem</em>,</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-bilevel">
+<span class="eqno">(4)<a class="headerlink" href="#equation-pfedme-bilevel" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize &amp; F(\theta) := \frac{1}{K} \sum\limits_{k=1}^K F_k(\theta), \\
+\text{where} &amp; F_k(\theta) = \min\limits_{\theta_k \in \R^d} \left\{ f_k(\theta_k) + \frac{\lambda}{2} \left\lVert \theta_k - \theta \right\rVert^2 \right\},
+\end{array}\end{split}\]</div>
+<p>whose inner objective <span class="math notranslate nohighlight">\(F_k(\theta)\)</span> is exactly the <em>Moreau envelope</em> of <span class="math notranslate nohighlight">\(f_k\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{M}_{f_k, \lambda}(\theta) := \inf_{\theta_k} \{ f_k(\theta_k) + \frac{\lambda}{2} \lVert \theta_k - \theta \rVert^2 \}\)</span>,
+and the inner minimizer is the proximal operator
+<span class="math notranslate nohighlight">\(\prox_{f_k, \lambda}(\theta) := \argmin_{\theta_k} \{ f_k(\theta_k) + \frac{\lambda}{2} \lVert \theta_k - \theta \rVert^2 \}\)</span>
+evaluated at the global model. This proximal point is precisely the personalized model of client
+<span class="math notranslate nohighlight">\(k\)</span>. By the Moreau envelope--proximal operator relation, the gradient of the outer
+objective is</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-grad">
+<span class="eqno">(5)<a class="headerlink" href="#equation-pfedme-grad" title="Link to this equation">#</a></span>\[\nabla F(\theta) = \frac{1}{K} \sum\limits_{k=1}^K \nabla \mathcal{M}_{f_k, \lambda} (\theta)
+= \frac{\lambda}{K} \sum\limits_{k=1}^K \left( \theta - \prox_{f_k, \lambda} (\theta) \right),\]</div>
+<p>so that one (stochastic) gradient step on <span class="math notranslate nohighlight">\(F\)</span> decomposes into the average of the client-side
+partial updates <span class="math notranslate nohighlight">\(\theta^{(t)} - \eta \lambda \left( \theta^{(t)} - \prox_{f_k, \lambda} (\theta^{(t)}) \right)\)</span>.
+Operationally, each client holds a copy <span class="math notranslate nohighlight">\(\omega_k^{(t, r)}\)</span> of the global model and,
+between two communications, alternates for <span class="math notranslate nohighlight">\(R\)</span> rounds</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-local">
+<span class="eqno">(6)<a class="headerlink" href="#equation-pfedme-local" title="Link to this equation">#</a></span>\[\theta_k^{(t, r)} \gets \prox_{f_k, \lambda} \left( \omega_k^{(t, r)}; \ b_r \right),
+\qquad
+\omega_k^{(t, r+1)} \gets \omega_k^{(t, r)} - \eta \lambda \left( \omega_k^{(t, r)} - \prox_{f_k, \lambda} \left( \omega_k^{(t, r)} \right) \right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(b_r\)</span> is the minibatch of round <span class="math notranslate nohighlight">\(r\)</span>; the server then aggregates</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-agg">
+<span class="eqno">(7)<a class="headerlink" href="#equation-pfedme-agg" title="Link to this equation">#</a></span>\[\theta^{(t+1)} \gets (1-\beta)\,\theta^{(t)} + \frac{\beta}{\# \mathcal{S}^{(t)}} \sum\limits_{k \in \mathcal{S}^{(t)}} \omega_{k}^{(t, R)}.\]</div>
+<p>Note that the two parts of <a class="reference internal" href="#equation-pfedme-local">(6)</a> are executed for <span class="math notranslate nohighlight">\(R\)</span> local rounds <em>before</em> any
+communication happens -- yet another instance of the loopless (skipping) idea;
+cf. <a class="reference internal" href="#fl-alg-pfl-l2sgd"><span class="std std-ref">L2SGD</span></a> and the <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">skipping algorithms section</span></a>.
+The pseudocode is summarized below.</p>
 <div class="pseudocode-container docutils container" id="pcode-pfedme">
-<pre class="scopeline-pseudocode" id="pseudocode-140272254262272" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140670344709072" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMe}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ global update smoothing factor $\beta,$ {\bfseries proximal solvers} $\texttt{prox\_update}_k$
@@ -645,8 +700,35 @@ document.write(`
 \STATE final personalized models: $\theta_k^* \gets \theta_k^{(T)}$
 \end{algorithmic}
 \end{algorithm}</pre></div>
+</section>
+<section id="ditto-fair-and-robust-personalized-models">
+<span id="fl-alg-pfl-ditto"></span><h2><code class="docutils literal notranslate"><span class="pre">Ditto</span></code>: Fair and Robust Personalized Models<a class="headerlink" href="#ditto-fair-and-robust-personalized-models" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Ditto</span></code> algorithm [Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>] develops the proximal-subproblem idea of
+<code class="docutils literal notranslate"><span class="pre">FedProx</span></code> into a <em>bi-level</em> formulation seen from the <em>client's</em> perspective (<code class="docutils literal notranslate"><span class="pre">APFL</span></code>,
+proposed slightly earlier, adopts a similar viewpoint; see below),</p>
+<div class="math notranslate nohighlight" id="equation-ditto-bilevel">
+<span class="eqno">(8)<a class="headerlink" href="#equation-ditto-bilevel" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize\limits_{\omega_k} &amp; h_k(\omega_k, \theta^*) := f_k(\omega_k) + \frac{\mu}{2} \lVert \omega_k - \theta^* \rVert^2, \\
+\text{subject to} &amp; \theta^* \in \argmin\limits_{\theta} G\left( f_1(\theta), \cdots, f_K(\theta) \right),
+\end{array}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(G\)</span> is the aggregation rule applied by the server to the client models, e.g. plain
+averaging as in <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>. Reading the formulation: the inner problem is a plain federated
+optimization problem on the global model <span class="math notranslate nohighlight">\(\theta\)</span> alone, while the outer problem attaches
+to each client a proximal task for personalization -- and the personalized model
+<span class="math notranslate nohighlight">\(\omega_k\)</span> does <em>not</em> participate in the global update. The global and the personalized
+models are thereby decoupled, and their updates can be scheduled flexibly.</p>
+<p>Consequently, each client solves two problems per round: the global update
+<span class="math notranslate nohighlight">\(\theta_k^{(t)} \gets \operatorname{\mathbf{UpdateGlobal}}(\theta^{(t)}, f_k)\)</span> (the inner
+problem), and the proximal task whose solution tracks the moving center
+<span class="math notranslate nohighlight">\(\theta^{(t)}\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-ditto-local">
+<span class="eqno">(9)<a class="headerlink" href="#equation-ditto-local" title="Link to this equation">#</a></span>\[\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta \left( \nabla f_k(\omega_k^{(t)}) + \mu \left( \omega_k^{(t)} - \theta^{(t)} \right) \right).\]</div>
+<p>Unlike <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> or <code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>, where the proximal operator is solved in an inner loop to
+(approximate) optimality, <code class="docutils literal notranslate"><span class="pre">Ditto</span></code> executes only a <em>single</em> (stochastic) gradient step per round
+for the outer problem, letting the proximal center <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> evolve alongside the
+global model. The pseudocode is summarized below.</p>
 <div class="pseudocode-container docutils container" id="pcode-ditto">
-<pre class="scopeline-pseudocode" id="pseudocode-140272245038800" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140670346584192" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{Ditto}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\mu,$ learning rate $\eta,$ methods $\textbf{UpdateGlobal}, \textbf{Aggregate}$
@@ -670,8 +752,35 @@ document.write(`
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
+</section>
+<section id="apfl-adaptive-personalized-federated-learning">
+<span id="fl-alg-pfl-apfl"></span><h2><code class="docutils literal notranslate"><span class="pre">APFL</span></code>: Adaptive Personalized Federated Learning<a class="headerlink" href="#apfl-adaptive-personalized-federated-learning" title="Link to this heading">#</a></h2>
+<p>Proposed slightly before <code class="docutils literal notranslate"><span class="pre">Ditto</span></code> [Deng <em>et al.</em><a class="footnote-reference brackets" href="#footcite-deng2020-apfl" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>], <code class="docutils literal notranslate"><span class="pre">APFL</span></code> considers the
+bi-level problem</p>
+<div class="math notranslate nohighlight" id="equation-apfl-bilevel">
+<span class="eqno">(10)<a class="headerlink" href="#equation-apfl-bilevel" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize\limits_{\omega_k \in \mathrm{dom} f_k} &amp; h_k(\omega_k, \theta^*) := f_k\left( \alpha_k \omega_k + (1 - \alpha_k) \theta^* \right), \\
+\text{subject to} &amp; \theta^* \in \argmin\limits_{\theta} \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta),
+\end{array}\end{split}\]</div>
+<p>with the <em>mixture weight</em> <span class="math notranslate nohighlight">\(\alpha_k \in (0, 1)\)</span>. The main difference from
+<a class="reference internal" href="#equation-ditto-bilevel">(8)</a> is the personalization mechanism: instead of a quadratic proximal term, the
+local objective is evaluated at the convex combination
+<span class="math notranslate nohighlight">\(\alpha_k \omega_k + (1 - \alpha_k) \theta^*\)</span> of an auxiliary local model and the global
+model, and <span class="math notranslate nohighlight">\(\alpha_k\)</span> plays the same &quot;personalization degree&quot; role as the penalty
+<span class="math notranslate nohighlight">\(\mu\)</span> in a proximal term. The resulting personalized model is</p>
+<div class="math notranslate nohighlight" id="equation-apfl-model">
+<span class="eqno">(11)<a class="headerlink" href="#equation-apfl-model" title="Link to this equation">#</a></span>\[\hat{\omega}_k = \alpha_k \omega_k^* + (1 - \alpha_k) \theta^*,
+\qquad
+\omega_k^* = \argmin\limits_{\omega_k \in \mathrm{dom} f_k} f_k\left( \alpha_k \omega_k + (1 - \alpha_k) \theta^* \right).\]</div>
+<p>A caveat worth noting: when <span class="math notranslate nohighlight">\(\mathrm{dom} f_k\)</span> is a <em>proper</em> subset of <span class="math notranslate nohighlight">\(\R^d\)</span>, the
+convex combination in <a class="reference internal" href="#equation-apfl-model">(11)</a> may fail to attain a minimizer of <span class="math notranslate nohighlight">\(f_k\)</span> -- the range
+of <span class="math notranslate nohighlight">\(\alpha_k \omega_k^* + (1 - \alpha_k) \theta^*\)</span> can be a strict subset of the search
+domain that excludes the minimizer. Enlarging the search domain of <span class="math notranslate nohighlight">\(\omega_k\)</span> restores
+attainability, but then <span class="math notranslate nohighlight">\(\hat{\omega}_k\)</span> could equally be obtained by minimizing
+<span class="math notranslate nohighlight">\(f_k\)</span> alone, i.e. by pure local training -- which contradicts the very goal of personalized
+federated learning. The pseudocode is summarized below.</p>
 <div class="pseudocode-container docutils container" id="pcode-apfl">
-<pre class="scopeline-pseudocode" id="pseudocode-140272245046048" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140669925381392" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{APFL}}
 \begin{algorithmic}
 \REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
@@ -707,8 +816,34 @@ document.write(`
 \STATE where $p_t = (t+a)^2, S_T = \sum\limits_{t=1}^{T}p_t$
 \end{algorithmic}
 \end{algorithm}</pre></div>
+</section>
+<section id="feddyn-dynamic-regularized-federated-learning">
+<span id="fl-alg-pfl-feddyn"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>: Dynamic Regularized Federated Learning<a class="headerlink" href="#feddyn-dynamic-regularized-federated-learning" title="Link to this heading">#</a></h2>
+<p>The algorithms above (and <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> alike) regularize the local objective with a <em>static</em>
+proximal term: in round <span class="math notranslate nohighlight">\((t+1)\)</span>, client <span class="math notranslate nohighlight">\(k\)</span> minimizes
+<span class="math notranslate nohighlight">\(f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2\)</span>.
+The <code class="docutils literal notranslate"><span class="pre">FedDyn</span></code> algorithm [Acar <em>et al.</em><a class="footnote-reference brackets" href="#footcite-acar2021feddyn" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>] refines this into a <em>dynamically
+regularized</em> objective,</p>
+<div class="math notranslate nohighlight" id="equation-feddyn-obj">
+<span class="eqno">(12)<a class="headerlink" href="#equation-feddyn-obj" title="Link to this equation">#</a></span>\[F_k(\theta_k) := f_k(\theta_k) - \left\langle \nabla f_k\left( \theta_k^{(t)} \right), \theta_k \right\rangle + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,\]</div>
+<p>which is equivalent to</p>
+<div class="math notranslate nohighlight" id="equation-feddyn-adjusted">
+<span class="eqno">(13)<a class="headerlink" href="#equation-feddyn-adjusted" title="Link to this equation">#</a></span>\[F_k(\theta_k) = \left( f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right)
+- \left\langle \nabla f_k\left( \theta_k^{(t)} \right), \theta_k - \theta_k^{(t)} \right\rangle.\]</div>
+<p>In words: each (stochastic) step on <span class="math notranslate nohighlight">\(F_k\)</span> follows the descent direction of the
+prox-augmented objective, <em>corrected</em> by the linearization of <span class="math notranslate nohighlight">\(f_k\)</span> at the previous local
+iterate <span class="math notranslate nohighlight">\(\theta_k^{(t)}\)</span> (with <span class="math notranslate nohighlight">\(\mathfrak{g}_k^{(t)} := \nabla f_k(\theta_k^{(t)})\)</span>).
+Another remarkable property is the first-order optimality condition of <a class="reference internal" href="#equation-feddyn-obj">(12)</a>,</p>
+<div class="math notranslate nohighlight" id="equation-feddyn-opt">
+<span class="eqno">(14)<a class="headerlink" href="#equation-feddyn-opt" title="Link to this equation">#</a></span>\[\nabla f_k\left( \theta_k^{(t+1)} \right) - \nabla f_k\left( \theta_k^{(t)} \right) + \mu \left( \theta_k^{(t+1)} - \theta^{(t)} \right) = 0,\]</div>
+<p>which yields the recursion</p>
+<div class="math notranslate nohighlight" id="equation-feddyn-grad-iter">
+<span class="eqno">(15)<a class="headerlink" href="#equation-feddyn-grad-iter" title="Link to this equation">#</a></span>\[\mathfrak{g}_k^{(t+1)} \gets \mathfrak{g}_k^{(t)} - \mu \left( \theta_k^{(t+1)} - \theta^{(t)} \right),\]</div>
+<p>i.e. the local gradient estimate is maintained <em>without</em> additional function or gradient
+evaluations -- a substantial computational and implementational convenience. The pseudocode is
+summarized below.</p>
 <div class="pseudocode-container docutils container" id="pcode-feddyn">
-<pre class="scopeline-pseudocode" id="pseudocode-140272244855120" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140669925337520" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDyn}}
 \begin{algorithmic}
 \REQUIRE penalty coeffecient $\mu$
@@ -731,8 +866,39 @@ document.write(`
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
+</section>
+<section id="pfedmac-personalized-fl-via-maximizing-correlation">
+<span id="fl-alg-pfl-pfedmac"></span><h2><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code>: Personalized FL via Maximizing Correlation<a class="headerlink" href="#pfedmac-personalized-fl-via-maximizing-correlation" title="Link to this heading">#</a></h2>
+<p>Related to the &quot;direction correction&quot; of <code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>, the <code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> algorithm
+[Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li2021pfedmac" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>] considers the bi-level problem</p>
+<div class="math notranslate nohighlight" id="equation-pfedmac-obj">
+<span class="eqno">(16)<a class="headerlink" href="#equation-pfedmac-obj" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize &amp; F(\theta) = \frac{1}{K} \sum\limits_{k=1}^K F_k(\theta), \\
+\text{where} &amp; F_k(\theta) := \min\limits_{\theta_k} \left\{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle + \frac{\mu}{2} \lVert \theta \rVert^2_2 \right\},
+\end{array}\end{split}\]</div>
+<p>in which the inner problem corrects the personalized model <span class="math notranslate nohighlight">\(\theta_k\)</span> using the global
+model <span class="math notranslate nohighlight">\(\theta\)</span> through their inner product. In probability and statistics,
+<span class="math notranslate nohighlight">\(\langle \theta_k, \theta \rangle\)</span> quantifies the <em>correlation</em> between the personalized
+and the global models; hence the technique is known as <em>maximizing correlation</em>. Two elementary
+rewritings connect it to the formulations above: moving the global term out of the inner
+minimization gives <span class="math notranslate nohighlight">\(F_k(\theta) = F_k'(\theta) + \frac{\mu}{2} \lVert \theta \rVert^2_2\)</span>
+with <span class="math notranslate nohighlight">\(F_k'(\theta) := \min_{\theta_k} \{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle \}\)</span>,
+and completing the square shows</p>
+<div class="math notranslate nohighlight" id="equation-pfedmac-adjusted">
+<span class="eqno">(17)<a class="headerlink" href="#equation-pfedmac-adjusted" title="Link to this equation">#</a></span>\[F_k(\theta) = \min\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta \rVert^2_2 - \frac{\mu}{2} \lVert \theta_k \rVert^2_2 \right\},\]</div>
+<p>i.e. the prox-augmented objective corrected by a quadratic term in <span class="math notranslate nohighlight">\(\theta_k\)</span> itself --
+exactly the flavor of <a class="reference internal" href="#equation-feddyn-adjusted">(13)</a>, so the same one-step direction-correction updates
+apply. <code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> further studies <em>sparse</em> personalized models via an additional
+<span class="math notranslate nohighlight">\(\ell_1\)</span> term,</p>
+<div class="math notranslate nohighlight" id="equation-pfedmac-sparse">
+<span class="eqno">(18)<a class="headerlink" href="#equation-pfedmac-sparse" title="Link to this equation">#</a></span>\[F_k(\theta) := \min\limits_{\theta_k} \left\{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle + \frac{\mu}{2} \lVert \theta \rVert^2_2 + \gamma \lVert \theta_k \rVert_1 \right\},\]</div>
+<p>and extends the center--client hierarchy to a <em>three-level</em> structure with sub-centers (edges or
+hubs), each aggregating a cluster <span class="math notranslate nohighlight">\(\{ \theta_{k,1}, \ldots, \theta_{k, J_k} \}\)</span> of clients
+before communicating with the center -- a structure expected to become increasingly common as
+federated networks scale, and closely related to clustered FL. The pseudocode is summarized
+below.</p>
 <div class="pseudocode-container docutils container" id="pcode-pfedmac">
-<pre class="scopeline-pseudocode" id="pseudocode-140272735215744" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140670346801552" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMac}}
 \begin{algorithmic}
 \REQUIRE learning rate $\eta$, penalty coefficient $\lambda$, $\beta$
@@ -766,13 +932,13 @@ document.write(`
 <span id="fl-alg-pfl-fpfc"></span><h2><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类<a class="headerlink" href="#fpfc-fusion-penalized-federated-clustering" title="Link to this heading">#</a></h2>
 <p>除了在每对*局部*模型之间的偏差（如 <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>）或局部模型与全局模型之间的偏差上做正则之外，还可以在*不预先知道簇结构*的情况下，鼓励客户端聚成若干簇、簇内共享同一模型。融合惩罚联邦聚类（<code class="docutils literal notranslate"><span class="pre">FPFC</span></code>）算法（见 <a class="reference external" href="https://arxiv.org/abs/2211.04218">arXiv:2211.04218</a>）通过在模型之差上施加非凸的*成对*融合惩罚来实现这一点。引入辅助变量 <span class="math notranslate nohighlight">\(\theta_{ij} \equiv \omega_i - \omega_j`（:math:`i, j \in [m]\)</span>），它考虑</p>
 <div class="math notranslate nohighlight" id="equation-fpfc-obj">
-<span class="eqno">(3)<a class="headerlink" href="#equation-fpfc-obj" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+<span class="eqno">(19)<a class="headerlink" href="#equation-fpfc-obj" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize\limits_{\omega, \theta} &amp; \sum\limits_{i=1}^m f_i(\omega_i) + \frac{1}{2m} \sum\limits_{i=1}^m \sum\limits_{j=1}^m \tilde{g}(\lVert \theta_{ij} \rVert) \\
 \text{subject to} &amp; \omega_i - \omega_j = \theta_{ij}, \qquad i, j \in [m],
 \end{array}\end{split}\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(\tilde{g}(\cdot)\)</span> 是平滑的 SCAD 型罚函数（由 <span class="math notranslate nohighlight">\(\xi, \lambda, a\)</span> 参数化），其近端算子把较小的成对差收缩到零（同簇的客户端），而几乎不动较大的差（不同簇的客户端）。该问题用 ADMM 式（Douglas--Rachford）分裂求解：增广拉格朗日罚参数为 <span class="math notranslate nohighlight">\(\rho\)</span>，对偶变量为 <span class="math notranslate nohighlight">\(v_{ij}\)</span>；每一轮，随机选中的一部分设备在 <span class="math notranslate nohighlight">\(f_i(\omega) + \frac{\rho}{2} \lVert \omega - \zeta_i \rVert^2\)</span> 上做 <span class="math notranslate nohighlight">\(T_i\)</span> 个 epoch 的本地梯度下降，服务器对活跃设备的成对变量 <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> 施加分段近端更新并做对偶上升。训练结束后，<span class="math notranslate nohighlight">\(\lVert \theta_{ij} \rVert\)</span> （近乎）为零的设备 <span class="math notranslate nohighlight">\(i\)</span> 与 <span class="math notranslate nohighlight">\(j\)</span> 被分到同一个簇。伪代码总结如下；注意，无论簇的个数还是簇的成员关系都不需要事先指定。</p>
 <div class="pseudocode-container docutils container" id="pcode-fpfc">
-<pre class="scopeline-pseudocode" id="pseudocode-140272715652384" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140669925096128" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FPFC}}
 \begin{algorithmic}
 \REQUIRE number of devices $m,$ number of rounds $K,$ local epochs $T_i,$ stepsize $\alpha,$ penalty parameters $\xi, \lambda, a,$ and $\rho$
@@ -809,21 +975,21 @@ document.write(`
 <span id="fl-alg-pfl-fedcr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>：基于跨客户端共性表示的个性化联邦学习<a class="headerlink" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation" title="Link to this heading">#</a></h2>
 <p>上述方法个性化的是整个局部模型。<a href="#id1"><span class="problematic" id="id2">``</span></a>FedCR``（见 <a class="reference external" href="https://proceedings.mlr.press/v202/zhang23w.html">ICML 2023</a>）则将每个局部模型 <span class="math notranslate nohighlight">\(w_i = [w_i^f, w_i^p]\)</span> 解耦为跨客户端共享、在服务器端聚合的特征提取器（主体）:math:<cite>w_i^f</cite>，以及保持个性化的预测器（头部）:math:<cite>w_i^p</cite>。特征提取器经由共性表示进行对齐：对每个类别 <span class="math notranslate nohighlight">\(c\)</span>，局部的类条件互信息被约束为接近全局的类条件互信息；借由马尔可夫链 <span class="math notranslate nohighlight">\(y \to x \to z\)</span>，这等价于类别级的特征对齐</p>
 <div class="math notranslate nohighlight" id="equation-fedcr-cmi">
-<span class="eqno">(4)<a class="headerlink" href="#equation-fedcr-cmi" title="Link to this equation">#</a></span>\[I(z; x \mid y_i) - I_i(z; x_i \mid y_i) = \mathbb{E}_{p(x_i, y_i)} \mathbb{E}_{p(x \mid x_i, y_i)} \left[ \mathrm{KL}\left[ p(z \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
+<span class="eqno">(20)<a class="headerlink" href="#equation-fedcr-cmi" title="Link to this equation">#</a></span>\[I(z; x \mid y_i) - I_i(z; x_i \mid y_i) = \mathbb{E}_{p(x_i, y_i)} \mathbb{E}_{p(x \mid x_i, y_i)} \left[ \mathrm{KL}\left[ p(z \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
 <p>对齐项由拉格朗日乘子 <span class="math notranslate nohighlight">\(\beta \geqslant 0\)</span> 加权（即 CMI 正则项）。表示映射建模为对角高斯分布 <span class="math notranslate nohighlight">\(p(z \mid x_i) = \mathcal{N}\left(z \,\middle|\, \mu(x_i), \Sigma(x_i)\right)\)</span>；在此之下，难以直接求解的全局后验由活跃客户端集合 <span class="math notranslate nohighlight">\(\mathcal{P}_t\)</span> 的类别级局部后验的专家乘积（PoE）来估计，先验取 <span class="math notranslate nohighlight">\(p(z) = \mathcal{N}(0, 1)\)</span>：</p>
 <div class="math notranslate nohighlight" id="equation-fedcr-poe">
-<span class="eqno">(5)<a class="headerlink" href="#equation-fedcr-poe" title="Link to this equation">#</a></span>\[p(z^c \mid x) \propto p(z) \prod_{i \in \mathcal{P}_t} p^c(z \mid x_i), \qquad
+<span class="eqno">(21)<a class="headerlink" href="#equation-fedcr-poe" title="Link to this equation">#</a></span>\[p(z^c \mid x) \propto p(z) \prod_{i \in \mathcal{P}_t} p^c(z \mid x_i), \qquad
 p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)^{1 / N_i^{c}},\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(p^c(z \mid x_i)\)</span> 为客户端 <span class="math notranslate nohighlight">\(i\)</span> 上类别 <span class="math notranslate nohighlight">\(c\)</span> 的 <span class="math notranslate nohighlight">\(N_i^{c}\)</span> 个样本的（几何平均）局部专家乘积，直接取自本地训练中最新一轮前向传播的结果。高斯分布的乘积仍为高斯分布，故两个 PoE 都可化为类别级的均值与协方差：每个客户端只需上传其拥有的类别的 <span class="math notranslate nohighlight">\((\mu_i^c, \Sigma_i^c)\)</span>，服务器经由精度（协方差之逆）解析地合并，</p>
 <div class="math notranslate nohighlight" id="equation-fedcr-poe-closed">
-<span class="eqno">(6)<a class="headerlink" href="#equation-fedcr-poe-closed" title="Link to this equation">#</a></span>\[\Sigma^c = \left( I + \sum_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}, \qquad
+<span class="eqno">(22)<a class="headerlink" href="#equation-fedcr-poe-closed" title="Link to this equation">#</a></span>\[\Sigma^c = \left( I + \sum_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}, \qquad
 \mu^c = \Sigma^c \sum_{i \in \mathcal{P}_t} \mu_i^c \left( \Sigma_i^c \right)^{-1},\]</div>
 <p>同时对特征提取器做平均：<span class="math notranslate nohighlight">\(w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum_{i \in \mathcal{P}_t} w_i^f\)</span>。所有活跃客户端都不具备的类别沿用上一轮的统计量。客户端 <span class="math notranslate nohighlight">\(i\)</span> 的局部目标即其经验损失加上上述对齐项，</p>
 <div class="math notranslate nohighlight" id="equation-fedcr-obj">
-<span class="eqno">(7)<a class="headerlink" href="#equation-fedcr-obj" title="Link to this equation">#</a></span>\[L_i = f_i(w_i) + \beta \, \mathbb{E}_{p(x_i, y_i)} \left[ \mathrm{KL}\left[ p(z^{c = y_i} \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
+<span class="eqno">(23)<a class="headerlink" href="#equation-fedcr-obj" title="Link to this equation">#</a></span>\[L_i = f_i(w_i) + \beta \, \mathbb{E}_{p(x_i, y_i)} \left[ \mathrm{KL}\left[ p(z^{c = y_i} \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
 <p>对随机特征采用重参数化技巧进行优化。由于专家乘积的后验可以比任何单一专家更尖锐，共性表示不仅承载客户端之间的共性信息，也承载互补信息；对齐项同时起到向局部特征注入噪声的作用，可改善泛化与不确定性校准。注意当 <span class="math notranslate nohighlight">\(\beta = 0\)</span> 且 <span class="math notranslate nohighlight">\(\Sigma(x_i) = 0`（确定性特征）时，该方法退化为 ``FedPer`\)</span>。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-fedcr">
-<pre class="scopeline-pseudocode" id="pseudocode-140272715648496" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140670347400224" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedCR}}
 \begin{algorithmic}
 \REQUIRE number of clients $m,$ number of rounds $T,$ local steps $K,$ learning rate $\eta,$ CMI coefficient $\beta$; class-wise initialization $\mu_0^c = 0,$ $\Sigma_0^c = I$ for all classes $c$
@@ -851,7 +1017,7 @@ p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)
 \end{algorithmic}
 \end{algorithm}</pre></div>
 <p class="rubric">参考文献</p>
-<div class="docutils container" id="id4">
+<div class="docutils container" id="id9">
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="footcite-hanzely2020federated" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
@@ -861,6 +1027,26 @@ p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)
 <aside class="footnote brackets" id="footcite-kovalev2020-loopless" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">2</a><span class="fn-bracket">]</span></span>
 <p>Dmitry Kovalev, Samuel Horváth, and Peter Richtárik. Don’t Jump Through Hoops and Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop. In Aryeh Kontorovich and Gergely Neu, editors, <em>Proceedings of the 31st International Conference on Algorithmic Learning Theory</em>, volume 117 of Proceedings of Machine Learning Research, 451–467. PMLR, 2 2020.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-t2020pfedme" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
+<p>Canh T. Dinh, Nguyen H. Tran, and Tuan Dung Nguyen. Personalized Federated Learning with Moreau Envelopes. In <em>Proceedings of the 34th International Conference on Neural Information Processing Systems</em>. Red Hook, NY, USA, 2020. Curran Associates Inc.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-li-2021-ditto" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">4</a><span class="fn-bracket">]</span></span>
+<p>Tian Li, Shengyuan Hu, Ahmad Beirami, and Virginia Smith. Ditto: Fair and Robust Federated Learning Through Personalization. In Marina Meila and Tong Zhang, editors, <em>Proceedings of the 38th International Conference on Machine Learning</em>, volume 139 of Proceedings of Machine Learning Research, 6357–6368. PMLR, 7 2021.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-deng2020-apfl" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">5</a><span class="fn-bracket">]</span></span>
+<p>Yuyang Deng, Mohammad Mahdi Kamani, and Mehrdad Mahdavi. Adaptive Personalized Federated Learning. <em>arXiv preprint arXiv:2003.13461v3</em>, 3 2020. <a class="reference external" href="https://doi.org/10.48550/ARXIV.2003.13461">doi:10.48550/ARXIV.2003.13461</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-acar2021feddyn" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">6</a><span class="fn-bracket">]</span></span>
+<p>Durmus Alp Emre Acar, Yue Zhao, Ramon Matas, Matthew Mattina, Paul Whatmough, and Venkatesh Saligrama. Federated Learning Based on Dynamic Regularization. In <em>International Conference on Learning Representations</em>. 2021.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-li2021pfedmac" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">7</a><span class="fn-bracket">]</span></span>
+<p>Yinchuan Li, Xiaofeng Liu, Xu Zhang, Yunfeng Shao, Qing Wang, and Yanhui Geng. Personalized Federated Learning via Maximizing Correlation with Sparse and Hierarchical Extensions. <em>arXiv preprint arXiv:2107.05330</em>, 2021.</p>
 </aside>
 </aside>
 </div>
@@ -913,6 +1099,11 @@ p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedme-personalized-federated-mean"><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>: Personalized Federated Mean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ditto-fair-and-robust-personalized-models"><code class="docutils literal notranslate"><span class="pre">Ditto</span></code>: Fair and Robust Personalized Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apfl-adaptive-personalized-federated-learning"><code class="docutils literal notranslate"><span class="pre">APFL</span></code>: Adaptive Personalized Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddyn-dynamic-regularized-federated-learning"><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>: Dynamic Regularized Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedmac-personalized-fl-via-maximizing-correlation"><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code>: Personalized FL via Maximizing Correlation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>：基于跨客户端共性表示的个性化联邦学习</a></li>
 </ul>

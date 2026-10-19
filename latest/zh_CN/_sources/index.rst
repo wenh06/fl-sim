@@ -22,6 +22,7 @@ Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gi
    :maxdepth: 1
 
    api/nodes
+   api/messages
    api/datasets
    api/models
    api/optimizers
