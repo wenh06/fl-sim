@@ -202,6 +202,18 @@ linkcheck_ignore = [
 ]
 
 
+# -- Algorithm configuration reference (generated at build time) -------------
+# Regenerate ``api/config_reference.rst`` from the (pydantic) schemas of the
+# built-in algorithms' configs, so the page never goes stale. Failures are
+# non-fatal: a stale committed copy of the page is used instead.
+try:
+    import runpy
+
+    runpy.run_path(str(docs_root.parent / "gen_config_reference.py"), run_name="__config_gen__")
+except Exception as _err:  # pragma: no cover
+    print(f"[conf.py] WARNING: could not regenerate the config reference page: {_err}")
+
+
 def setup(app):
     app.add_css_file("css/custom.css")
     app.add_css_file("css/proof.css")
