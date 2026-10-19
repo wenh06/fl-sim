@@ -13,7 +13,7 @@ from typing import Dict, Sequence
 import torch
 from torch_ecg.utils.misc import add_docstring, list_sum
 
-from ...nodes import ClientMessage
+from ...messages import ClientToServer, ServerToClient
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 from ..fedopt import FedAvgClient as BaseClient
@@ -30,6 +30,12 @@ __all__ = [
 
 
 _base_algorithm = "FedAvg"
+
+
+def _named_params(model: torch.nn.Module) -> Dict[str, torch.Tensor]:
+    """All model parameters as a named tensor mapping
+    (the :data:`~fl_sim.messages.ModelState` format; parameters only, no buffers)."""
+    return {n: p.detach().clone() for n, p in model.named_parameters()}
 
 
 @register_algorithm()
@@ -94,7 +100,7 @@ class IFCAServer(BaseServer):
         assert self.config.num_clusters > 0
         self._cluster_centers = {
             cluster_id: {
-                "center_model_params": [p.detach().clone() for p in self.model.parameters()],
+                "center_model_state": _named_params(self.model),
                 "client_ids": [],
             }
             for cluster_id in range(self.config.num_clusters)
@@ -112,12 +118,17 @@ class IFCAServer(BaseServer):
         }
 
     def communicate(self, target: "IFCAClient") -> None:
-        """Send cluster centers to client"""
-        target._received_messages = {
-            "cluster_centers": {
-                cluster_id: deepcopy(cluster["center_model_params"]) for cluster_id, cluster in self._cluster_centers.items()
-            }
-        }
+        """Send the cluster centers (named model states) to the client."""
+        target.receive(
+            ServerToClient(
+                extras={
+                    "cluster_centers": {
+                        cluster_id: deepcopy(cluster["center_model_state"])
+                        for cluster_id, cluster in self._cluster_centers.items()
+                    }
+                }
+            )
+        )
 
     @torch.no_grad()
     def update(self) -> None:
@@ -139,12 +150,12 @@ class IFCAServer(BaseServer):
             for client_id in prev_client_ids[cluster_id]:
                 if client_id not in collected_client_ids:
                     cluster["client_ids"].append(client_id)
-        # update the cluster centers via averaging the delta_parameters from each client
+        # update the cluster centers via averaging the delta (model) states from each client, by name
         for m in self._received_messages:
             cluster_id = m["cluster_id"]
             cluster = self._cluster_centers[cluster_id]
-            for p, p_delta in zip(cluster["center_model_params"], m["delta_parameters"]):
-                p.data.add_(
+            for n, p_delta in m["model_state"].items():
+                cluster["center_model_state"][n].data.add_(
                     p_delta.data.detach().clone().to(self.device),
                     alpha=1 / cluster_sizes[cluster_id],
                 )
@@ -179,18 +190,25 @@ class IFCAClient(BaseClient):
         super()._post_init()
         self.cluster_id = -1
 
+    def _load_named_params(self, state: Dict[str, torch.Tensor]) -> None:
+        """Load a (parameters-only) named mapping into the model, by name."""
+        for n, p in self.model.named_parameters():
+            p.data.copy_(state[n].data.to(p.device))
+
     def communicate(self, target: "IFCAServer") -> None:
-        delta_parameters = self.get_detached_model_parameters()
-        for dp, rp in zip(delta_parameters, self._cached_parameters):
-            dp.data.add_(rp.data, alpha=-1)
-        message = {
-            "client_id": self.client_id,
-            "cluster_id": self.cluster_id,
-            "delta_parameters": delta_parameters,
-            "train_samples": len(self.train_loader.dataset),
-            "metrics": self._metrics,
-        }
-        target._received_messages.append(ClientMessage(**message))
+        # the delta (model) state: current parameters minus the chosen cluster center, by name
+        delta_state = _named_params(self.model)
+        for n, v in delta_state.items():
+            v.data.add_(self._cached_parameters[n].data.to(v.device), alpha=-1)
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                model_state=delta_state,
+                extras={"cluster_id": self.cluster_id},
+            )
+        )
 
     def update(self) -> None:
         """Perform clustering and local training."""
@@ -199,10 +217,9 @@ class IFCAClient(BaseClient):
         local_model_weights = self.model.state_dict()
         prev_metrics = self._metrics.copy()
         with torch.no_grad():
-            for cluster_id, cluster in self._received_messages["cluster_centers"].items():
-                # load cluster center into self.model
-                for p, p_center in zip(self.model.parameters(), cluster):
-                    p.data.copy_(p_center.data)
+            for cluster_id, center in self._received_messages["cluster_centers"].items():
+                # load the cluster center into self.model (by name)
+                self._load_named_params(center)
                 # evaluate the loss
                 losses[cluster_id] = self.evaluate(part="train")["loss"]
         # restore model parameters and metrics
@@ -212,9 +229,7 @@ class IFCAClient(BaseClient):
         # select the cluster with the minimum loss
         self.cluster_id = min(losses, key=losses.get)
 
-        # set the cluster center as the local model parameters
-        self._cached_parameters = [
-            p.detach().clone().to(self.device) for p in self._received_messages["cluster_centers"][self.cluster_id]
-        ]
-        self.set_parameters(self._cached_parameters)
+        # set the chosen cluster center as the local model parameters
+        self._cached_parameters = deepcopy(self._received_messages["cluster_centers"][self.cluster_id])
+        self._load_named_params(self._cached_parameters)
         self.solve_inner()  # alias of self.train()
