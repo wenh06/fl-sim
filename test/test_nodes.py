@@ -370,3 +370,113 @@ def test_server_four_phase_hooks():
     s._aggregate_metrics(evaluate=False)
 
     del s
+
+
+class _PlainModel:
+    """A deliberately NON-torch.nn.Module model: parameters are plain tensors."""
+
+    def __init__(self) -> None:
+        self.w = torch.zeros(3, 2)
+        self.b = torch.zeros(3)
+
+
+class NamedStateServer(DummyServer):
+    """A server holding a non-module model, with the named exchange implemented."""
+
+    def get_model_state(self):
+        return {"w": self.model.w.detach().clone(), "b": self.model.b.detach().clone()}
+
+    def set_model_state(self, state):
+        self.model.w = state["w"].detach().clone().to(self.device)
+        self.model.b = state["b"].detach().clone().to(self.device)
+
+
+class NamedStateClient(DummyClient):
+    """A client holding a non-module model, with the named exchange implemented."""
+
+    def get_model_state(self):
+        return {"w": self.model.w.detach().clone(), "b": self.model.b.detach().clone()}
+
+    def set_model_state(self, state):
+        self.model.w = state["w"].detach().clone().to(self.device)
+        self.model.b = state["b"].detach().clone().to(self.device)
+
+
+def test_node_model_state_default_module_path():
+    """For nn.Module models the default methods wrap state_dict/load_state_dict."""
+    s = _make_server()
+
+    state = s.get_model_state()
+    assert set(state.keys()) == set(s.model.state_dict().keys())
+    for k, v in state.items():
+        assert v.equal(s.model.state_dict()[k])
+        assert not v.requires_grad  # detached clones
+
+    # roundtrip: change the model, then restore from the saved state
+    saved = s.get_model_state()
+    with torch.no_grad():
+        for p in s.model.parameters():
+            p.add_(1.0)
+    s.set_model_state(saved)
+    for k, v in s.model.state_dict().items():
+        assert v.equal(saved[k])
+
+    # client side default too
+    client = s._clients[0]
+    cstate = client.get_model_state()
+    client.set_model_state(cstate)
+    for k, v in client.model.state_dict().items():
+        assert v.equal(cstate[k])
+
+    del s
+
+
+def test_node_model_state_non_module_raises_by_default():
+    s = _make_server()
+    s.model = _PlainModel()  # not an nn.Module
+    with pytest.raises(NotImplementedError, match="get_model_state"):
+        s.get_model_state()
+    with pytest.raises(NotImplementedError, match="set_model_state"):
+        s.set_model_state({"w": torch.zeros(3, 2)})
+    del s
+
+
+def test_named_exchange_with_non_module_model():
+    """End-to-end named exchange between nodes holding a non-module model."""
+    dataset = FedSynthetic(1, 1, False, 30)
+    model = _PlainModel()
+    with torch.no_grad():
+        model.w += 1.5
+        model.b += 0.5
+    server = NamedStateServer.__new__(NamedStateServer)
+    # skip __init__: only the pieces the named exchange touches are needed
+    server.model = model
+    server.device = torch.device("cpu")
+    server._received_messages = []
+
+    client = NamedStateClient.__new__(NamedStateClient)
+    client.model = _PlainModel()
+    client.device = torch.device("cpu")
+    client._received_messages = {}
+    client._metrics = {}
+    client._cached_metrics = []
+
+    # typed downlink: ServerToClient(model_state=...) -> receive -> accept
+    from fl_sim.messages import ServerToClient
+
+    client.receive(ServerToClient(model_state=server.get_model_state()))
+    assert "model_state" in client._received_messages
+    client.accept_parameters()
+    assert client.model.w.equal(model.w) and client.model.b.equal(model.b)
+
+    # typed uplink: the client's named state reaches the server's legacy container
+    from fl_sim.messages import ClientToServer
+
+    client.communicate = lambda target: target.receive_one(
+        ClientToServer(client_id=0, train_samples=1, metrics={}, model_state=client.get_model_state())
+    )
+    server._num_communications = 0
+    client._communicate(server)
+    assert server._num_communications == 1
+    m = server._received_messages[0]
+    assert m["model_state"]["w"].equal(model.w) and m["model_state"]["b"].equal(model.b)
