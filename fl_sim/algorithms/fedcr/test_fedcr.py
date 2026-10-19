@@ -18,6 +18,14 @@ def test_fedcr() -> None:
     server_config = FedCRServerConfig(10, dataset.DEFAULT_TRAIN_CLIENTS_NUM, 0.7, beta=0.005)
     client_config = FedCRClientConfig(dataset.DEFAULT_BATCH_SIZE, 30)
     s = FedCRServer(model, dataset, server_config, client_config)
+    # the named exchange carries the feature extractor only;
+    # the personal classifier head never enters the model_state
+    head = s._head_name
+    encoder_state = s._encoder_state(model)
+    assert all(not (k == head or k.startswith(head + ".")) for k in encoder_state)
+    assert set(encoder_state) | {n for n, _ in model.named_parameters() if n == head or n.startswith(head + ".")} == {
+        n for n, _ in model.named_parameters()
+    }
     s.train_federated()
     del dataset, model, s
 

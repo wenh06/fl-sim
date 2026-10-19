@@ -7,7 +7,10 @@ Implementation notes
 The model is split into a **feature extractor** (all parameters except the last
 ``nn.Linear`` classifier) and a **personal classifier head** (the last ``nn.Linear``):
 the extractor is aggregated at the server while the head stays local (as required
-by the algorithm). The global/common class-wise feature representation is tracked
+by the algorithm). The exchange uses the (recommended) named-parameter format
+(``model_state``, cf. :data:`fl_sim.messages.ModelState`) restricted to the
+extractor's parameters, so no positional index bookkeeping is needed. The
+global/common class-wise feature representation is tracked
 as diagonal Gaussians aggregated via product-of-experts (PoE). The local objective
 adds a KL alignment term between the local class-wise feature distribution and the
 global one (the conditional-mutual-information regularizer). This implementation
@@ -24,7 +27,7 @@ import torch
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import ClientMessage
+from ...messages import ClientToServer, ServerToClient
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 from ..fedopt import FedAvgClient as BaseClient
@@ -130,24 +133,35 @@ class FedCRServer(BaseServer):
             "client": FedCRClientConfig,
         }
 
-    def _encoder_params(self, model: torch.nn.Module) -> List[torch.Tensor]:
-        """The feature extractor parameters, i.e. all model parameters except the personal classifier head."""
-        return [p.detach().clone() for n, p in model.named_parameters() if not _is_head(n, self._head_name)]
+    def _encoder_state(self, model: torch.nn.Module) -> Dict[str, torch.Tensor]:
+        """The feature extractor state as a named tensor mapping,
+        i.e. all model parameters except the personal classifier head,
+        in the (recommended) :data:`~fl_sim.messages.ModelState` format."""
+        return {n: p.detach().clone() for n, p in model.named_parameters() if not _is_head(n, self._head_name)}
 
-    def _set_encoder(self, model: torch.nn.Module, encoder_params: List[torch.Tensor]) -> None:
-        encoder = [p for n, p in model.named_parameters() if not _is_head(n, self._head_name)]
-        assert len(encoder) == len(
-            encoder_params
-        ), "the number of feature extractor parameters does not match the received global feature extractor"
-        for p, v in zip(encoder, encoder_params):
-            p.data.copy_(v.data.to(p.device))
+    def _set_encoder(self, model: torch.nn.Module, state: Dict[str, torch.Tensor]) -> None:
+        """Load the (aggregated) feature extractor state into the model, by name."""
+        for n, p in model.named_parameters():
+            if _is_head(n, self._head_name):
+                continue
+            assert n in state, (
+                "the received global feature extractor misses the parameter "
+                f"`{n}`; the encoder/head split of the two sides does not match"
+            )
+            p.data.copy_(state[n].data.to(p.device))
 
     def communicate(self, target: "FedCRClient") -> None:
-        target._received_messages = {
-            "parameters": deepcopy(self._encoder_params(self.model)),
-            "global_stats": deepcopy(self._global_stats),
-            "beta": self.config.beta,
-        }
+        # named exchange: only the feature extractor leaves the server;
+        # the global common representation and the regularizer coefficient go as extras
+        target.receive(
+            ServerToClient(
+                model_state=deepcopy(self._encoder_state(self.model)),
+                extras={
+                    "global_stats": deepcopy(self._global_stats),
+                    "beta": self.config.beta,
+                },
+            )
+        )
 
     @torch.no_grad()
     def update(self) -> None:
@@ -158,11 +172,11 @@ class FedCRServer(BaseServer):
         """
         # aggregate the feature extractors (the personal heads are kept local)
         total_samples = sum(m["train_samples"] for m in self._received_messages)
-        aggregated = [torch.zeros_like(p) for p in self._encoder_params(self.model)]
+        aggregated = {n: torch.zeros_like(p) for n, p in self._encoder_state(self.model).items()}
         for m in self._received_messages:
             ratio = m["train_samples"] / total_samples
-            for ap, p in zip(aggregated, m["parameters"]):
-                ap += ratio * p.detach().clone().to(self.device)
+            for n, v in m["model_state"].items():
+                aggregated[n] += ratio * v.detach().clone().to(self.device)
         self._set_encoder(self.model, aggregated)
         # aggregate the class-wise feature distributions via PoE:
         # precision = prior precision (1) + sum_i (count_i / var_i)
@@ -215,33 +229,43 @@ class FedCRClient(BaseClient):
     def _capture_features(self, module: torch.nn.Module, args: tuple) -> None:
         self._features_buffer = args[0].detach()
 
+    def _encoder_state(self, model: torch.nn.Module) -> Dict[str, torch.Tensor]:
+        """The feature extractor state as a named tensor mapping,
+        i.e. all model parameters except the personal classifier head,
+        in the (recommended) :data:`~fl_sim.messages.ModelState` format."""
+        return {n: p.detach().clone() for n, p in model.named_parameters() if not _is_head(n, self._head_name)}
+
     def accept_parameters(self) -> None:
         """Accept only the (aggregated) feature extractor parameters;
         the personal classifier head never leaves the client."""
-        params = self._received_messages["parameters"]
-        encoder = [p for n, p in self.model.named_parameters() if not _is_head(n, self._head_name)]
-        assert len(encoder) == len(
-            params
-        ), "the number of feature extractor parameters does not match the received global feature extractor"
-        for p, v in zip(encoder, params):
-            p.data.copy_(v.data.to(p.device))
+        state = self._received_messages["model_state"]
+        for n, p in self.model.named_parameters():
+            if _is_head(n, self._head_name):
+                continue
+            assert n in state, (
+                "the received global feature extractor misses the parameter "
+                f"`{n}`; the encoder/head split of the two sides does not match"
+            )
+            p.data.copy_(state[n].data.to(p.device))
 
     def communicate(self, target: "FedCRServer") -> None:
-        encoder_params = [p.detach().clone() for n, p in self.model.named_parameters() if not _is_head(n, self._head_name)]
-        # round-level class-wise local feature statistics: mu = sum / count, var = sum_sq / count - mu^2
+        # named exchange: upload the feature extractor state (the personal head never leaves);
+        # the round-level class-wise local feature statistics go as extras:
+        # mu = sum / count, var = sum_sq / count - mu^2
         class_stats = {}
         for class_id, (sum_, sum_sq, count) in self._local_stats.items():
             mu = sum_ / count
             var = sum_sq / count - mu**2
             class_stats[class_id] = (mu, var.clamp_min(1e-6), count)
-        message = {
-            "client_id": self.client_id,
-            "parameters": encoder_params,
-            "class_stats": class_stats,
-            "train_samples": len(self.train_loader.dataset),
-            "metrics": self._metrics,
-        }
-        target._received_messages.append(ClientMessage(**message))
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                model_state=self._encoder_state(self.model),
+                extras={"class_stats": class_stats},
+            )
+        )
 
     def update(self) -> None:
         # receive the global feature extractor and the global common representation;
