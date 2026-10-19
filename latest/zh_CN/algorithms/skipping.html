@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的跳步算法 &#8212; fl-sim 0.1.1.dev13+g2ad52435e 文档</title>
+    <title>联邦学习中的跳步算法 &#8212; fl-sim 0.1.1.dev14+gc8c6afd80 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c5bf6f1e"></script>
+    <script src="../_static/documentation_options.js?v=d43d33e6"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -131,6 +131,8 @@
             renderPseudocodeWithMath();
         }
     </script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml-full.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms/skipping';</script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
@@ -223,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev13+g2ad52435e 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev14+gc8c6afd80 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -523,7 +525,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -539,6 +543,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proxskip-scaffnew"><code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code>/<code class="docutils literal notranslate"><span class="pre">Scaffnew</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -550,8 +562,57 @@ document.write(`
                   
   <section id="skipping-algorithms-in-federated-learning">
 <span id="fl-alg-skipping"></span><h1>联邦学习中的跳步算法<a class="headerlink" href="#skipping-algorithms-in-federated-learning" title="Link to this heading">#</a></h1>
+<p>Even the earliest federated learning algorithm, <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>
+[McMahan <em>et al.</em><a class="footnote-reference brackets" href="#footcite-mcmahan2017fed-avg" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>], performs multiple gradient-descent steps in the local inner
+loop of its clients -- which, in a sense, is already a <em>skipping</em> update: the communication
+round is skipped with probability <span class="math notranslate nohighlight">\(1 - p = 0\)</span>. The <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> algorithm
+[Mishchenko <em>et al.</em><a class="footnote-reference brackets" href="#footcite-proxskip" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, Zhang and Loizou<a class="footnote-reference brackets" href="#footcite-proxskip-vr" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>] (named <code class="docutils literal notranslate"><span class="pre">Scaffnew</span></code> in the original paper) studies the
+skipping technique systematically and makes the communication round skipped with a <em>nonzero</em>
+probability. It is instructive to read <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> as <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> combined with the skipping
+technique.</p>
+<section id="proxskip-scaffnew">
+<span id="fl-alg-skipping-proxskip"></span><h2><code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code>/<code class="docutils literal notranslate"><span class="pre">Scaffnew</span></code><a class="headerlink" href="#proxskip-scaffnew" title="Link to this heading">#</a></h2>
+<p>From the optimization-theoretic viewpoint, model the federated learning problem as the consensus
+optimization problem over the consensus set
+<span class="math notranslate nohighlight">\(\mathcal{E} = \{ \Theta \mid \theta_1 = \cdots = \theta_K \}\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-skipping-consensus">
+<span class="eqno">(1)<a class="headerlink" href="#equation-skipping-consensus" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\minimize}{minimize}
+\newcommand{\col}{\operatorname{col}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\prox}{\mathbf{prox}}\\\begin{split}\begin{array}{cl}
+\minimize &amp; F(\Theta) = \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
+\text{subject to} &amp; \Theta \in \mathcal{E}, \\
+\text{where} &amp; \Theta = \col(\theta_1, \cdots, \theta_K) \in \R^{Kd}.
+\end{array}\end{split}\end{aligned}\end{align} \]</div>
+<p>As in the <a class="reference internal" href="operator_splitting.html#fl-alg-operator-splitting"><span class="std std-ref">operator splitting section</span></a>, one can convert this
+constrained problem into an unconstrained one with the indicator function
+<span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> of the consensus set and split the first-order optimality condition
+<span class="math notranslate nohighlight">\(0 \in \nabla F(\Theta) + \partial \iota_{\mathcal{E}}(\Theta)\)</span>. More generally, replacing
+<span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> by any CCP function <span class="math notranslate nohighlight">\(g\)</span>, the fixed-point solver is the
+<em>proximal gradient descent</em> (ProxGD)</p>
+<div class="math notranslate nohighlight" id="equation-skipping-proxgd">
+<span class="eqno">(2)<a class="headerlink" href="#equation-skipping-proxgd" title="Link to this equation">#</a></span>\[\Theta^{(t+1)} = \prox_{s g}\left( \Theta^{(t)} - s \nabla F(\Theta^{(t)}) \right),\]</div>
+<p>for the problem <span class="math notranslate nohighlight">\(\minimize \ F(\Theta) + g(\Theta)\)</span>. The practical difficulty of ProxGD is
+that the proximal operator <span class="math notranslate nohighlight">\(\prox_{s g}\)</span> of the CCP function <span class="math notranslate nohighlight">\(g\)</span> is typically
+expensive to evaluate [Friedlander and Goh<a class="footnote-reference brackets" href="#footcite-friedlander2017efficient" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>]. In federated learning, this
+proximal step <em>is</em> the communication: the model aggregation from the clients to the server
+followed by the broadcast back. Skipping this performance-bottleneck step with some probability
+is therefore a natural remedy, and this is exactly what <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> does.</p>
+<p>A remark on the control variates: unlike <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code>, <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> does not use (explicit)
+gradient variance reduction. The primary role of the control variates <span class="math notranslate nohighlight">\(c_k\)</span> is to
+guarantee the <em>correct convergence</em> of the overall iteration: one can show
+<span class="math notranslate nohighlight">\(c_k \to \nabla f_k(\theta^*)\)</span> at a solution <span class="math notranslate nohighlight">\(\theta^*\)</span> of the original problem, so
+the fixed point of the iteration is a solution of the problem -- this is the key property.
+<code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> maintains no global control variate communicated between the server and the
+clients; instead, whenever a communication happens, the local control variate
+<span class="math notranslate nohighlight">\(c_k\)</span> is <em>implicitly</em> updated by
+<span class="math notranslate nohighlight">\(\frac{p}{\gamma} \left( \theta^{(t+1)} - \theta_k^{(t + \frac{1}{2})} \right)\)</span>, which acts
+as a global control variate. This is reminiscent of the Option II update rule of the local
+control variates in <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code>: it saves the extra parameter exchange between the server and
+the clients, at the cost of the flexibility of the control variate updates. The pseudocode is
+summarized below.</p>
 <div class="pseudocode-container docutils container" id="pcode-proxskip">
-<pre class="scopeline-pseudocode" id="pseudocode-140670351744672" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140695778789504" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{ProxSkip}}
 \begin{algorithmic}
 \REQUIRE learning rate $\gamma,$ probability $p \in [0, 1)$
@@ -581,7 +642,28 @@ document.write(`
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
-<p>待补充……</p>
+<p class="rubric">References</p>
+<div class="docutils container" id="id5">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-mcmahan2017fed-avg" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise Aguera y Arcas. Communication-Efficient Learning of Deep Networks from Decentralized Data. In <em>Artificial Intelligence and Statistics</em>, 1273–1282. PMLR, 2017.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-proxskip" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Konstantin Mishchenko, Grigory Malinovsky, Sebastian Stich, and Peter Richtarik. ProxSkip: Yes! Local Gradient Steps Provably Lead to Communication Acceleration! Finally! In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, <em>Proceedings of the 39th International Conference on Machine Learning</em>, volume 162 of Proceedings of Machine Learning Research, 15750–15769. PMLR, 7 2022.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-proxskip-vr" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Siqi Zhang and Nicolas Loizou. ProxSkip for Stochastic Variational Inequalities: A Federated Learning Algorithm for Provable Communication Acceleration. In <em>OPT 2022: Optimization for Machine Learning (NeurIPS 2022 Workshop)</em>. 2022.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-friedlander2017efficient" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Michael P Friedlander and Gabriel Goh. Efficient Evaluation of Scaled Proximal Operators. <em>Electronic Transactions on Numerical Analysis</em>, 46:1–22, 2017.</p>
+</aside>
+</aside>
+</div>
+</section>
 </section>
 
 
@@ -619,6 +701,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proxskip-scaffnew"><code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code>/<code class="docutils literal notranslate"><span class="pre">Scaffnew</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

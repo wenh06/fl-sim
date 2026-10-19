@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的原始对偶算法 &#8212; fl-sim 0.1.1.dev13+g2ad52435e 文档</title>
+    <title>联邦学习中的原始对偶算法 &#8212; fl-sim 0.1.1.dev14+gc8c6afd80 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c5bf6f1e"></script>
+    <script src="../_static/documentation_options.js?v=d43d33e6"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -131,6 +131,8 @@
             renderPseudocodeWithMath();
         }
     </script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml-full.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms/primal_dual';</script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
@@ -223,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev13+g2ad52435e 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev14+gc8c6afd80 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -523,7 +525,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -539,6 +543,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedpd-federated-primal-dual-algorithm"><code class="docutils literal notranslate"><span class="pre">FedPD</span></code>: Federated Primal-Dual Algorithm</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -550,9 +562,81 @@ document.write(`
                   
   <section id="primal-dual-algorithms-in-federated-learning">
 <span id="fl-alg-primal-dual"></span><h1>联邦学习中的原始对偶算法<a class="headerlink" href="#primal-dual-algorithms-in-federated-learning" title="Link to this heading">#</a></h1>
-<p>在传统的优化方法中，原始对偶算法是一类常用的、同时求解原问题（primal problem）与对偶问题（dual problem）的算法。</p>
+<p>In traditional optimization, primal-dual algorithms are a classic tool for problems with an
+explicit primal-dual structure. Consider the consensus optimization problem with an explicit
+global-variable constraint (note the subtle difference from the consensus set formulation in the
+<a class="reference internal" href="operator_splitting.html#fl-alg-operator-splitting"><span class="std std-ref">operator splitting</span></a> and
+<a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">skipping</span></a> sections),</p>
+<div class="math notranslate nohighlight" id="equation-fedpd-constraint">
+<span class="eqno">(1)<a class="headerlink" href="#equation-fedpd-constraint" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\minimize}{minimize}
+\DeclareMathOperator*{\maximize}{maximize}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\col}{\operatorname{col}}
+\newcommand{\R}{\mathbb{R}}\\\begin{split}\begin{array}{cl}
+\minimize &amp; F(\Theta) := \sum\limits_{k=1}^K f_k(\theta_k), \\
+\text{subject to} &amp; \theta_k = \theta, ~ k = 1, \ldots, K,
+\end{array}\end{split}\end{aligned}\end{align} \]</div>
+<p>with <span class="math notranslate nohighlight">\(\Theta = \col(\theta_1, \cdots, \theta_K)\)</span> and
+<span class="math notranslate nohighlight">\(\theta, \theta_1, \ldots, \theta_K \in \R^d\)</span>. The <em>augmented Lagrangian</em> (AL) of
+<a class="reference internal" href="#equation-fedpd-constraint">(1)</a> is</p>
+<div class="math notranslate nohighlight" id="equation-al">
+<span class="eqno">(2)<a class="headerlink" href="#equation-al" title="Link to this equation">#</a></span>\[\mathcal{L}(\theta, \Theta, \Lambda) = \sum\limits_{k=1}^K \mathcal{L}_k(\theta, \theta_k, \lambda_k),
+\qquad
+\mathcal{L}_k(\theta, \theta_k, \lambda_k) = f_k(\theta_k) + \langle \lambda_k, \theta_k - \theta \rangle + \frac{1}{2s} \lVert \theta_k - \theta \rVert^2,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Lambda = \col(\lambda_1, \ldots, \lambda_K)\)</span> collects the <em>dual variables</em> (the
+Lagrangian multipliers) and <span class="math notranslate nohighlight">\(s &gt; 0\)</span> is the penalty parameter. Applying a gradient
+ascent-type method to the dual problem
+<span class="math notranslate nohighlight">\(\maximize_\Lambda \ G(\Lambda) := \inf_{\theta, \Theta} \mathcal{L}(\theta, \Theta, \Lambda)\)</span>
+yields the generic iteration scheme for this class of problems,</p>
+<div class="math notranslate nohighlight" id="equation-al-iter">
+<span class="eqno">(3)<a class="headerlink" href="#equation-al-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+\theta_k^{(t+1)} &amp; = \argmin_{\theta_k} \mathcal{L}_k\left( \theta^{(t)}, \theta_k, \lambda_k^{(t)} \right), \\
+\lambda_k^{(t+1)} &amp; = \lambda_k^{(t)} + \frac{1}{s} \left( \theta_k^{(t+1)} - \theta^{(t)} \right), \\
+\theta^{(t+1)} &amp; = \argmin_{\theta} \sum\limits_{k=1}^K \left\{ \frac{1}{2s} \lVert \theta_k^{(t+1)} - \theta \rVert^2 - \langle \lambda_k^{(t+1)}, \theta \rangle \right\}
+= \frac{1}{K} \sum\limits_{k=1}^K \left( \theta_k^{(t+1)} + s\lambda_k^{(t+1)} \right).
+\end{aligned}\end{split}\]</div>
+<section id="fedpd-federated-primal-dual-algorithm">
+<span id="fl-alg-primal-dual-fedpd"></span><h2><code class="docutils literal notranslate"><span class="pre">FedPD</span></code>: Federated Primal-Dual Algorithm<a class="headerlink" href="#fedpd-federated-primal-dual-algorithm" title="Link to this heading">#</a></h2>
+<p>Based on this scheme, the <code class="docutils literal notranslate"><span class="pre">FedPD</span></code> algorithm [Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] alternates the
+client-side local updates, the client-side dual updates, and the server-side global averaging.
+Two design choices are worth highlighting.</p>
+<p><strong>A flexible local solver.</strong> For the local update in <a class="reference internal" href="#equation-al-iter">(3)</a> (the minimization of the
+local AL <span class="math notranslate nohighlight">\(\mathcal{L}_k\)</span>), <code class="docutils literal notranslate"><span class="pre">FedPD</span></code> allows an arbitrary client-side solver
+<span class="math notranslate nohighlight">\(\operatorname{\mathbf{Oracle}}_k\)</span> -- plain SGD, or combined with variance-reduction
+techniques as in <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code>. This flexibility is a hallmark of federated optimization (the
+same idea as the server-side <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code>). In the variance-reduced case, one can further
+<em>linearize</em> <span class="math notranslate nohighlight">\(f_k\)</span> at the current inner iterate <span class="math notranslate nohighlight">\(\theta_k^{(t, r)}\)</span> (with local
+gradient <span class="math notranslate nohighlight">\(g_k^{(t, r)}\)</span>), under which the local AL becomes a quadratic whose minimizer has
+a closed form,</p>
+<div class="math notranslate nohighlight" id="equation-fedpd-linearize">
+<span class="eqno">(4)<a class="headerlink" href="#equation-fedpd-linearize" title="Link to this equation">#</a></span>\[\argmin \ \widetilde{\mathcal{L}}(\theta_{k})
+= \frac{s}{s+\gamma} \, \theta_k^{(t,r)} + \frac{\gamma}{s+\gamma} \, \theta_{k, 0}^{(t)} - \frac{s\gamma}{s+\gamma}\left( g_k^{(t,r)} + \lambda_k^{(t)} \right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\gamma\)</span> is the linearization (proximal) coefficient and
+<span class="math notranslate nohighlight">\(\theta_{k, 0}^{(t)}\)</span> is the value of the local model at the beginning of the round.</p>
+<p><strong>Skipping the global step.</strong> The outer (server) step in <a class="reference internal" href="#equation-al-iter">(3)</a> is executed only with
+probability <span class="math notranslate nohighlight">\(1 - p\)</span>. When it is skipped, the clients use their own
+<span class="math notranslate nohighlight">\(\widetilde{\theta}^{(t)} = \theta_k^{(t-1)} + s \lambda_k^{(t-1)}\)</span> in place of the global
+model,</p>
+<div class="math notranslate nohighlight" id="equation-fedpd-iter">
+<span class="eqno">(5)<a class="headerlink" href="#equation-fedpd-iter" title="Link to this equation">#</a></span>\[\begin{split}\theta^{(t+1)} = \begin{cases}
+\frac{1}{K} \sum\limits_{k=1}^K \left( \theta_k^{(t+1)} + s\lambda_k^{(t+1)} \right), &amp; \text{with probability } 1 - p, \\
+\theta^{(t)}, &amp; \text{with probability } p,
+\end{cases}\end{split}\]</div>
+<p>so the expensive server round -- exactly the communication bottleneck -- is skipped with
+probability <span class="math notranslate nohighlight">\(p\)</span>. Moreover, the skipping probability can be made <em>heterogeneity-aware</em>:
+[Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] (TABLE III) relates the achievable <span class="math notranslate nohighlight">\(p\)</span> to the degree of
+data heterogeneity across clients <span class="math notranslate nohighlight">\(G\)</span> (quantified via the bounded gradient dissimilarity),
+the target accuracy <span class="math notranslate nohighlight">\(\varepsilon\)</span> of the (epsilon-)stationary point, and the Lipschitz
+constant <span class="math notranslate nohighlight">\(L\)</span> of <span class="math notranslate nohighlight">\(f, f_k\)</span>, with the step size <span class="math notranslate nohighlight">\(s = \frac{\sqrt{5}-1}{8L}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-fedpd-skipping-prob">
+<span class="eqno">(6)<a class="headerlink" href="#equation-fedpd-skipping-prob" title="Link to this equation">#</a></span>\[\begin{split}p \approx \begin{cases}
+\sqrt{\frac{1}{36s} \cdot \frac{\varepsilon}{G^2}}, &amp; \text{if } 0 \leqslant p &lt; \frac{1-2Ls}{1+Ls}, \\
+1 - 2 \Big/ \log\left(\frac{1}{42s} \cdot \frac{\varepsilon}{G^2}\right), &amp; \text{if } \frac{1-2Ls}{1+Ls} &lt; p &lt; 1.
+\end{cases}\end{split}\]</div>
+<p>The more homogeneous the client data (smaller <span class="math notranslate nohighlight">\(G\)</span>), the more aggressively the
+communication rounds can be skipped. The pseudocode is summarized below.</p>
 <div class="pseudocode-container docutils container" id="pcode-fedpd">
-<pre class="scopeline-pseudocode" id="pseudocode-140670348204768" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140695770925280" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedPD}}
 \begin{algorithmic}
 \REQUIRE step size $s = \frac{1}{\mu} &gt; 0,$ skip probability $p \in [0, 1)$
@@ -578,7 +662,17 @@ document.write(`
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
-<p>待补充……</p>
+<p class="rubric">References</p>
+<div class="docutils container" id="id3">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-zhang2020fedpd" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>)</span>
+<p>Xinwei Zhang, Mingyi Hong, Sairaj Dhople, Wotao Yin, and Yang Liu. FedPD: A Federated Learning Framework With Adaptivity to Non-IID Data. <em>IEEE Transactions on Signal Processing</em>, 69:6055–6070, 2021. <a class="reference external" href="https://doi.org/10.1109/tsp.2021.3115952">doi:10.1109/tsp.2021.3115952</a>.</p>
+</aside>
+</aside>
+</div>
+</section>
 </section>
 
 
@@ -616,6 +710,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedpd-federated-primal-dual-algorithm"><code class="docutils literal notranslate"><span class="pre">FedPD</span></code>: Federated Primal-Dual Algorithm</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
