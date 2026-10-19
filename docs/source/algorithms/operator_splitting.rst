@@ -70,12 +70,214 @@ This observation motivates reformulating the federated problem in a form whose s
 solution converges to the *correct* point, which is exactly the route taken by ``FedSplit`` and
 ``FedDR`` below.
 
+.. _fl_alg_os_splitting:
+
+From monotone inclusions to splitting methods
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Start from the constrained form of the federated problem, :math:`\minimize \ F(\Theta) := \frac{1}{K} \sum_{k=1}^K f_k(\theta_k)`
+subject to :math:`\Theta = \col(\theta_1, \ldots, \theta_K) \in \mathcal{E}` with the consensus
+set :math:`\mathcal{E} = \{ \Theta \mid \theta_1 = \cdots = \theta_K \}`, and penalize the
+constraint with its indicator function :math:`\iota_{\mathcal{E}}` (:math:`\iota_{\mathcal{E}}(\Theta) = 0`
+on :math:`\mathcal{E}`, :math:`+\infty` otherwise). The penalized problem
+:math:`\minimize \ F(\Theta) + \iota_{\mathcal{E}}(\Theta)` has the first-order optimality
+condition
+
+.. math::
+   :label: os-mono-incl
+
+   \DeclareMathOperator*{\minimize}{minimize}
+   \DeclareMathOperator*{\argmin}{arg\,min}
+   \DeclareMathOperator*{\expectation}{\mathbb{E}}
+   \newcommand{\col}{\operatorname{col}}
+   \newcommand{\R}{\mathbb{R}}
+   \newcommand{\prox}{\mathbf{prox}}
+
+   0 \in \nabla F(\Theta) + \partial \iota_{\mathcal{E}}(\Theta) = \nabla F(\Theta) + \mathcal{N}_{\mathcal{E}}(\Theta),
+
+a *monotone inclusion problem*: :math:`\nabla F` and the normal cone
+:math:`\mathcal{N}_{\mathcal{E}}` (here :math:`\mathcal{E}^{\perp}` on :math:`\mathcal{E}`,
+empty elsewhere) are both *maximal monotone operators* [:footcite:ct:`ryu2022large`]. The workhorses
+for splitting such an inclusion :math:`0 \in \mathcal{A}(x) + \mathcal{B}(x)` are the
+*resolvents* :math:`\mathcal{R}_{s\mathcal{T}} := (\mathcal{I} + s\mathcal{T})^{-1}` and the
+*reflected resolvents* (Cayley operators) :math:`\mathcal{C}_{s\mathcal{T}} := 2\mathcal{R}_{s\mathcal{T}} - \mathcal{I}`.
+For a gradient or a subdifferential the resolvent is a proximal operator,
+:math:`\mathcal{R}_{s\partial f} = \prox_{s f}`, and for the indicator function it is the
+projection, :math:`\mathcal{R}_{s\partial\iota_{\mathcal{E}}} = \Pi_{\mathcal{E}}`. The key
+equivalence is that solving the inclusion is the same as finding a fixed point of the
+*nonexpansive* composition :math:`\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}`:
+
+.. math::
+   :label: os-fixed-pt
+
+   0 \in \mathcal{A}(x) + \mathcal{B}(x)
+   \quad \Longleftrightarrow \quad
+   \mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}(z) = z,
+   \quad x = \mathcal{R}_{s\mathcal{B}}(z).
+
+Since :math:`\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}` is merely nonexpansive, its
+averaged version :math:`(1 - \tau)\mathcal{I} + \tau\, \mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}`
+(:math:`\tau \in (0, 1]`) is used for the fixed-point iteration, giving the family of
+splitting methods
+
+.. math::
+   :label: os-splitting-iter
+
+   \begin{aligned}
+   x^{(t+1/2)} & = \mathcal{R}_{s\mathcal{B}}\left( z^{(t)} \right), \\
+   z^{(t+1/2)} & = 2 x^{(t+1/2)} - z^{(t)}, \\
+   x^{(t+1)} & = \mathcal{R}_{s\mathcal{A}}\left( z^{(t+1/2)} \right), \\
+   z^{(t+1)} & = z^{(t)} + 2\tau \left( x^{(t+1)} - x^{(t+1/2)} \right).
+   \end{aligned}
+
+The case :math:`\tau = 1` is the **Peaceman--Rachford splitting method** (PRSM); the case
+:math:`\tau = \frac{1}{2}` is the **Douglas--Rachford splitting method** (DRSM)
+[:footcite:ct:`Douglas_1956_drsm, Lions_1979_splitting`]. The two differ only in the last
+(relaxation) step -- precisely in the choice of :math:`\tau` -- and this difference is decisive:
+unlike PRSM, DRSM converges for general maximal monotone operators without any additional
+assumptions beyond monotonicity [:footcite:ct:`ryu2022large`].
+
+.. _fl_alg_os_fedsplit:
+
+``FedSplit``: Federated Peaceman--Rachford Splitting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Apply the machinery above with
+:math:`\mathcal{A} = \nabla F`, :math:`\mathcal{B} = \partial\iota_{\mathcal{E}} = \mathcal{N}_{\mathcal{E}}`
+(and :math:`s = \frac{1}{\mu}`). The two resolvents are
+:math:`\mathcal{R}_{s\nabla F} = \prox_{F, \mu}` and
+:math:`\mathcal{R}_{s\mathcal{N}_{\mathcal{E}}} = \Pi_{\mathcal{E}}`, and -- crucially for
+federated learning -- the proximal operator of the block-separable objective decomposes into
+client-local proximal steps,
+
+.. math::
+   :label: os-blockwise-prox
+
+   \prox_{F, \mu}(\Theta)
+   = \argmin_{\omega} \left\{ \sum_{k=1}^K f_k(\omega_k) + \frac{\mu}{2} \sum_{k=1}^K \lVert \omega_k - \theta_k \rVert^2 \right\}
+   = \left( \prox_{f_k, \mu}(\theta_k) \right)_{k=1}^K,
+
+while the projection :math:`\Pi_{\mathcal{E}}` is exactly the averaging aggregation at the
+server. The splitting is thus fully decoupled across clients and fits the center--client
+communication pattern. Applying the PRSM (:math:`\tau = 1`) yields the ``FedSplit`` algorithm
+[:footcite:ct:`pathak2020fedsplit`] -- the first application of splitting methods to federated
+learning -- whose :math:`\texttt{prox\_update}_k` is an inexact client-side solver of
+:math:`\prox_{f_k, \mu}` (e.g. stochastic gradient descent).
+
+``FedSplit`` fixes the correctness problem above: the fixed point of its iteration yields the
+genuine solution of the federated problem, not a shifted one as for ``FedAvg``/``FedProx``.
+Its convergence, however, inherits the caveat of PRSM: for general nonexpansive Cayley
+operators PRSM carries no convergence guarantee, so additional assumptions (strong convexity
+and :math:`L`-smoothness of :math:`f_k`) are needed, under which the rate is
+
+.. math::
+   :label: os-fedsplit-rate
+
+   \lVert \theta^{(t+1)} - \theta^* \rVert \leqslant
+   \left( 1 - \frac{2}{\sqrt{\kappa}+1} \right)^t \frac{\lVert \theta^{(1)} - \theta^* \rVert}{\sqrt{K}}
+   + (\sqrt{\kappa}+1)\, b,
+
+with :math:`\ell_* = \min_k \ell_k` the strong convexity modulus, :math:`L^* = \max_k L_k`,
+:math:`\kappa = L^* / \ell_*`, and :math:`b` the uniform error bound of the inexact proximal
+solves. The pseudocode is summarized below.
+
 .. _pcode-fedsplit:
 
 .. include:: ../_algo_pcode/fedsplit.rst
 
+.. _fl_alg_os_feddr:
+
+``FedDR``: Federated Douglas--Rachford Splitting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``FedDR`` algorithm [:footcite:ct:`tran2021feddr`] replaces PRSM by the convergent DRSM
+(:math:`\tau = \frac{1}{2}`) and, in doing so, enlarges the admissible problem class to
+*nonconvex* smooth objectives, with an explicit regularizer built into the model,
+
+.. math::
+   :label: os-feddr-model
+
+   \minimize \quad F(\theta) = f(\theta) + g(\theta) = \frac{1}{K} \sum_{k=1}^K f_k(\theta) + g(\theta),
+
+where :math:`f_k` are :math:`L`-smooth (possibly nonconvex) and :math:`g` is a closed, proper,
+convex (CCP) regularizer. Introducing one more block :math:`\theta_{K+1}` for :math:`g` and
+penalizing the consensus constraint :math:`\theta_1 = \cdots = \theta_{K+1}` with
+:math:`\iota_{\mathcal{E}}` as before, the first-order condition becomes the three-operator
+inclusion
+
+.. math::
+   :label: os-feddr-mono-incl
+
+   0 \in \nabla f(\Theta) + \partial \left( g + \iota_{\mathcal{E}} \right)(\Theta),
+
+with :math:`\mathcal{B} = \nabla f` and :math:`\mathcal{A} = \partial (g + \iota_{\mathcal{E}})`.
+The resolvent of :math:`\mathcal{B}` is
+:math:`\mathcal{R}_{s\mathcal{B}} = \prox_{K s f}` -- blockwise, the client-local proximal steps
+-- and the resolvent of :math:`\mathcal{A}` handles the regularizer *and* the consensus
+constraint jointly at the server. The DRSM iteration (:eq:`os-splitting-iter` with
+:math:`\tau = \frac{1}{2}`, written with relaxation coefficient :math:`\alpha`) reads
+
+.. math::
+   :label: os-feddr-iter
+
+   \begin{aligned}
+   \omega_k^{(t+1)} & = \omega_k^{(t)} + \alpha \left( \overline{\theta}^{(t)} - \theta_k^{(t)} \right), & k \in [K], \\
+   \theta_k^{(t+1)} & = \prox_{f_k, \mu} \left( \omega_k^{(t+1)} \right), & k \in [K], \\
+   \widehat{\theta}_k^{(t+1)} & = 2\theta_k^{(t+1)} - \omega_k^{(t+1)}, & k \in [K], \\
+   \widetilde{\theta}^{(t+1)} & = \frac{1}{K}\sum_{k=1}^K \widehat{\theta}_k^{(t+1)}, & \\
+   \omega^{(t+1)} & = \omega^{(t)} + \alpha \left( \overline{\theta}^{(t)} - \omega^{(t)} \right), & \\
+   \overline{\theta}^{(t+1)} & = \prox_{g, \frac{K+1}{Ks}} \left( \frac{K}{K+1} \widetilde{\theta}^{(t+1)} + \frac{1}{K+1} \omega^{(t+1)} \right). &
+   \end{aligned}
+
+The first three lines are the clients' local work; the last line is the server, which averages
+the reflected blocks and applies the proximal step of the regularizer :math:`g`.
+
+As for convergence [:footcite:ct:`tran2021feddr`], assuming :math:`L`-smooth :math:`f_k` and
+letting :math:`e_k^{(t)}` denote the error of the inexact client-side proximal solve at round
+:math:`t`: (i) the gap between the (regularizer-corrected) global model and each local model is
+bounded by the consecutive local differences and the proximal errors
+:math:`\lVert e_k^{(t)} \rVert`; (ii) the squared norm of the gradient mapping
+:math:`\mathcal{G}_{\beta}(\theta) := \frac{1}{\beta} \left( \theta - \prox_{\beta g}\left( \theta - \beta \nabla f(\theta) \right) \right)`
+of the global objective at :math:`\overline{\theta}^{(t)}` is bounded by the same quantities
+(and the drift of the auxiliary variable :math:`\omega^{(t)}`); and (iii) the averaged
+gradient-mapping norm enjoys an :math:`\mathcal{O}(1/T)` bound,
+
+.. math::
+   :label: os-feddr-rate
+
+   \frac{1}{T} \sum_{t=0}^{T-1} \expectation \left[ \lVert \mathcal{G}_{\frac{Ks}{K+1}} \left( \overline{\theta}^{(t)} \right) \rVert^2 \right]
+   \leqslant \frac{C_1 \left( F(\theta^{(0)}) - F^* \right)}{T}
+   + \frac{1}{KT} \sum_{t=0}^{T-1} \sum_{k=1}^K \left( C_2 \varepsilon_{k,t}^2 + C_3 \varepsilon_{k,t+1}^2 \right),
+
+with :math:`F^* = \inf_\theta F(\theta)`; in particular, after
+
+.. math::
+   :label: os-feddr-T
+
+   T = \left\lfloor \frac{C_1 \left[ F(\theta^{(0)}) - F^* \right] + (C_2 + C_3) M}{\varepsilon^2} \right\rfloor,
+   \qquad
+   M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,
+
+iterations the output :math:`\overline{\theta}^{(T)}` is an :math:`\varepsilon`-stationary
+point of :eq:`os-feddr-model`. The pseudocode is summarized below.
+
 .. _pcode-feddr:
 
 .. include:: ../_algo_pcode/feddr.rst
+
+.. _fl_alg_os_summary:
+
+Summary
+~~~~~~~
+
+Splitting methods belong to the family of *decomposition algorithms*: they break a large
+problem into smaller subproblems handled separately (here, by the clients and the server), so
+that each subproblem is easier to solve and easier to parallelize. In theory, they bring many
+federated algorithms under one umbrella and -- unlike ``FedAvg``/``FedProx`` -- their limits are
+guaranteed to be correct (:ref:`FedSplit <fl_alg_os_fedsplit>`) or to approach a stationary
+point of the true objective (:ref:`FedDR <fl_alg_os_feddr>`). The price is bookkeeping: besides
+the model parameters, every node (server and clients) maintains auxiliary variables (the
+reflected blocks :math:`z`, the blended copies :math:`\omega`), which adds memory and
+computation overhead.
 
 .. footbibliography::
