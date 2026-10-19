@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fl-sim \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-05 20:57+0800\n"
+"POT-Creation-Date: 2026-10-19 21:25+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -483,6 +483,30 @@ msgstr ""
 
 #: fl_sim.utils.misc.add_kwargs:11 of
 msgid "The decorated function, with the keyword arguments added."
+msgstr ""
+
+#: fl_sim.utils.misc.aggregate_results_from_json_log:1 of
+msgid "Aggregate the federated results from json log."
+msgstr ""
+
+#: fl_sim.utils.misc.aggregate_results_from_json_log:3 of
+msgid "The dict of the json/yaml log, or the path to the json/yaml log file."
+msgstr ""
+
+#: fl_sim.utils.misc.aggregate_results_from_json_log:6 of
+msgid "The part of the log to aggregate."
+msgstr ""
+
+#: fl_sim.utils.misc.aggregate_results_from_json_log:8 of
+msgid "The metric to aggregate."
+msgstr ""
+
+#: fl_sim.utils.misc.aggregate_results_from_json_log:11 of
+msgid "The aggregated results (curve)."
+msgstr ""
+
+#: fl_sim.utils.misc.aggregate_results_from_json_log:16 of
+msgid "The parameter `d` should be a dict similar to the following structure:"
 msgstr ""
 
 #: fl_sim.utils.misc.clear_logs:1 of

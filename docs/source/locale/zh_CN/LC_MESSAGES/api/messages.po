@@ -1,0 +1,36 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-19 21:25+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: fl_sim.messages:2 of
+msgid "fl_sim.messages"
+msgstr "fl_sim.messages"
+
+#: fl_sim.messages:4 of
+msgid "Typed messages exchanged between the :class:`~fl_sim.nodes.Server` and :class:`~fl_sim.nodes.Client` nodes."
+msgstr "在 :class:`~fl_sim.nodes.Server` 与 :class:`~fl_sim.nodes.Client` 节点之间交换的类型化消息。"
+
+#: fl_sim.messages:7 of
+msgid "The legacy protocol manipulates the (private) ``_received_messages`` containers directly with magic string keys, e.g."
+msgstr "旧式协议直接用魔法字符串键操作（私有的）``_received_messages`` 容器，例如"
+
+#: fl_sim.messages:19 of
+msgid "The typed messages below are the recommended replacement: the message fields are explicit (hence IDE-discoverable and validated by construction), and the (private) legacy containers are populated automatically by :meth:`Client.receive` and :meth:`Server.receive_one`, so that the legacy consumption code (e.g. :meth:`Client.accept_parameters`) keeps working unchanged during the transition."
+msgstr "下文的类型化消息是推荐的替代方案：消息字段是显式的（因而可被 IDE 发现并在构造时得到校验），且（私有的）旧式容器会由 :meth:`Client.receive` 与 :meth:`Server.receive_one` 自动填充，因此旧式的消费代码（例如 :meth:`Client.accept_parameters`）在过渡期间无需修改即可继续工作。"

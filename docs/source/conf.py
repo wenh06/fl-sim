@@ -70,6 +70,11 @@ intersphinx_mapping = {
     "torch_ecg": ("https://torch-ecg.readthedocs.io/en/latest/", None),
 }
 
+# fail fast instead of stalling the whole build when an inventory is
+# unreachable (e.g. no network); missing inventories only cost some
+# cross-references, not the build itself
+intersphinx_timeout = 10
+
 autodoc_default_options = {
     "show-inheritance": True,
 }

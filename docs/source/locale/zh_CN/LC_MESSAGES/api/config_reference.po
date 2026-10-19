@@ -1,0 +1,2351 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-19 21:25+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: ../../source/api/config_reference.rst:4
+msgid "Algorithm Configuration Reference"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:8
+msgid ""
+"This page is **auto-generated** at documentation build time from the "
+"(pydantic) JSON schemas of the built-in algorithms' configs -- do not "
+"edit it by hand; the generator is ``docs/gen_config_reference.py``."
+msgstr ""
+
+#: ../../source/api/config_reference.rst:12
+msgid ""
+"All server and client configs accept additional keyword arguments beyond "
+"the listed fields (``extra=\"allow\"``); extras are stored as attributes "
+"and are available to the algorithm implementation. Positional "
+"construction maps arguments onto the fields in their declaration order, "
+"i.e. the order of the tables below; a ``*`` in the Default column marks a"
+" required field."
+msgstr ""
+
+#: ../../source/api/config_reference.rst:22
+msgid "APFL"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:24
+msgid "**Server config:** ``APFLServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:30
+#: ../../source/api/config_reference.rst:213
+#: ../../source/api/config_reference.rst:335
+#: ../../source/api/config_reference.rst:510
+#: ../../source/api/config_reference.rst:655
+#: ../../source/api/config_reference.rst:875
+#: ../../source/api/config_reference.rst:989
+#: ../../source/api/config_reference.rst:1209
+#: ../../source/api/config_reference.rst:1323
+#: ../../source/api/config_reference.rst:1543
+#: ../../source/api/config_reference.rst:1657
+#: ../../source/api/config_reference.rst:1877
+#: ../../source/api/config_reference.rst:1991
+#: ../../source/api/config_reference.rst:2219
+#: ../../source/api/config_reference.rst:2333
+#: ../../source/api/config_reference.rst:2561
+#: ../../source/api/config_reference.rst:2675
+#: ../../source/api/config_reference.rst:2874
+#: ../../source/api/config_reference.rst:3004
+#: ../../source/api/config_reference.rst:3187
+#: ../../source/api/config_reference.rst:3301
+#: ../../source/api/config_reference.rst:3521
+#: ../../source/api/config_reference.rst:3635
+#: ../../source/api/config_reference.rst:3834
+#: ../../source/api/config_reference.rst:3972
+#: ../../source/api/config_reference.rst:4155
+#: ../../source/api/config_reference.rst:4285
+#: ../../source/api/config_reference.rst:4460
+#: ../../source/api/config_reference.rst:4582
+#: ../../source/api/config_reference.rst:4802
+#: ../../source/api/config_reference.rst:4916
+#: ../../source/api/config_reference.rst:5144
+#: ../../source/api/config_reference.rst:5258
+#: ../../source/api/config_reference.rst:5449
+#: ../../source/api/config_reference.rst:5571
+#: ../../source/api/config_reference.rst:5754
+#: ../../source/api/config_reference.rst:5876
+#: ../../source/api/config_reference.rst:6067
+#: ../../source/api/config_reference.rst:6197
+#: ../../source/api/config_reference.rst:6380
+msgid "Field"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:31
+#: ../../source/api/config_reference.rst:214
+#: ../../source/api/config_reference.rst:336
+#: ../../source/api/config_reference.rst:511
+#: ../../source/api/config_reference.rst:656
+#: ../../source/api/config_reference.rst:876
+#: ../../source/api/config_reference.rst:990
+#: ../../source/api/config_reference.rst:1210
+#: ../../source/api/config_reference.rst:1324
+#: ../../source/api/config_reference.rst:1544
+#: ../../source/api/config_reference.rst:1658
+#: ../../source/api/config_reference.rst:1878
+#: ../../source/api/config_reference.rst:1992
+#: ../../source/api/config_reference.rst:2220
+#: ../../source/api/config_reference.rst:2334
+#: ../../source/api/config_reference.rst:2562
+#: ../../source/api/config_reference.rst:2676
+#: ../../source/api/config_reference.rst:2875
+#: ../../source/api/config_reference.rst:3005
+#: ../../source/api/config_reference.rst:3188
+#: ../../source/api/config_reference.rst:3302
+#: ../../source/api/config_reference.rst:3522
+#: ../../source/api/config_reference.rst:3636
+#: ../../source/api/config_reference.rst:3835
+#: ../../source/api/config_reference.rst:3973
+#: ../../source/api/config_reference.rst:4156
+#: ../../source/api/config_reference.rst:4286
+#: ../../source/api/config_reference.rst:4461
+#: ../../source/api/config_reference.rst:4583
+#: ../../source/api/config_reference.rst:4803
+#: ../../source/api/config_reference.rst:4917
+#: ../../source/api/config_reference.rst:5145
+#: ../../source/api/config_reference.rst:5259
+#: ../../source/api/config_reference.rst:5450
+#: ../../source/api/config_reference.rst:5572
+#: ../../source/api/config_reference.rst:5755
+#: ../../source/api/config_reference.rst:5877
+#: ../../source/api/config_reference.rst:6068
+#: ../../source/api/config_reference.rst:6198
+#: ../../source/api/config_reference.rst:6381
+msgid "Type"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:32
+#: ../../source/api/config_reference.rst:215
+#: ../../source/api/config_reference.rst:337
+#: ../../source/api/config_reference.rst:512
+#: ../../source/api/config_reference.rst:657
+#: ../../source/api/config_reference.rst:877
+#: ../../source/api/config_reference.rst:991
+#: ../../source/api/config_reference.rst:1211
+#: ../../source/api/config_reference.rst:1325
+#: ../../source/api/config_reference.rst:1545
+#: ../../source/api/config_reference.rst:1659
+#: ../../source/api/config_reference.rst:1879
+#: ../../source/api/config_reference.rst:1993
+#: ../../source/api/config_reference.rst:2221
+#: ../../source/api/config_reference.rst:2335
+#: ../../source/api/config_reference.rst:2563
+#: ../../source/api/config_reference.rst:2677
+#: ../../source/api/config_reference.rst:2876
+#: ../../source/api/config_reference.rst:3006
+#: ../../source/api/config_reference.rst:3189
+#: ../../source/api/config_reference.rst:3303
+#: ../../source/api/config_reference.rst:3523
+#: ../../source/api/config_reference.rst:3637
+#: ../../source/api/config_reference.rst:3836
+#: ../../source/api/config_reference.rst:3974
+#: ../../source/api/config_reference.rst:4157
+#: ../../source/api/config_reference.rst:4287
+#: ../../source/api/config_reference.rst:4462
+#: ../../source/api/config_reference.rst:4584
+#: ../../source/api/config_reference.rst:4804
+#: ../../source/api/config_reference.rst:4918
+#: ../../source/api/config_reference.rst:5146
+#: ../../source/api/config_reference.rst:5260
+#: ../../source/api/config_reference.rst:5451
+#: ../../source/api/config_reference.rst:5573
+#: ../../source/api/config_reference.rst:5756
+#: ../../source/api/config_reference.rst:5878
+#: ../../source/api/config_reference.rst:6069
+#: ../../source/api/config_reference.rst:6199
+#: ../../source/api/config_reference.rst:6382
+msgid "Default"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:33
+#: ../../source/api/config_reference.rst:338
+#: ../../source/api/config_reference.rst:658
+#: ../../source/api/config_reference.rst:992
+#: ../../source/api/config_reference.rst:1326
+#: ../../source/api/config_reference.rst:1660
+#: ../../source/api/config_reference.rst:1994
+#: ../../source/api/config_reference.rst:2336
+#: ../../source/api/config_reference.rst:2678
+#: ../../source/api/config_reference.rst:3007
+#: ../../source/api/config_reference.rst:3304
+#: ../../source/api/config_reference.rst:3638
+#: ../../source/api/config_reference.rst:3975
+#: ../../source/api/config_reference.rst:4288
+#: ../../source/api/config_reference.rst:4585
+#: ../../source/api/config_reference.rst:4919
+#: ../../source/api/config_reference.rst:5261
+#: ../../source/api/config_reference.rst:5574
+#: ../../source/api/config_reference.rst:5879
+#: ../../source/api/config_reference.rst:6200
+msgid "``num_iters``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:34
+#: ../../source/api/config_reference.rst:52
+#: ../../source/api/config_reference.rst:61
+#: ../../source/api/config_reference.rst:67
+#: ../../source/api/config_reference.rst:76
+#: ../../source/api/config_reference.rst:217
+#: ../../source/api/config_reference.rst:220
+#: ../../source/api/config_reference.rst:235
+#: ../../source/api/config_reference.rst:339
+#: ../../source/api/config_reference.rst:357
+#: ../../source/api/config_reference.rst:366
+#: ../../source/api/config_reference.rst:372
+#: ../../source/api/config_reference.rst:514
+#: ../../source/api/config_reference.rst:517
+#: ../../source/api/config_reference.rst:532
+#: ../../source/api/config_reference.rst:659
+#: ../../source/api/config_reference.rst:677
+#: ../../source/api/config_reference.rst:686
+#: ../../source/api/config_reference.rst:692
+#: ../../source/api/config_reference.rst:879
+#: ../../source/api/config_reference.rst:882
+#: ../../source/api/config_reference.rst:897
+#: ../../source/api/config_reference.rst:993
+#: ../../source/api/config_reference.rst:1011
+#: ../../source/api/config_reference.rst:1020
+#: ../../source/api/config_reference.rst:1026
+#: ../../source/api/config_reference.rst:1213
+#: ../../source/api/config_reference.rst:1216
+#: ../../source/api/config_reference.rst:1231
+#: ../../source/api/config_reference.rst:1327
+#: ../../source/api/config_reference.rst:1345
+#: ../../source/api/config_reference.rst:1354
+#: ../../source/api/config_reference.rst:1360
+#: ../../source/api/config_reference.rst:1547
+#: ../../source/api/config_reference.rst:1550
+#: ../../source/api/config_reference.rst:1565
+#: ../../source/api/config_reference.rst:1661
+#: ../../source/api/config_reference.rst:1679
+#: ../../source/api/config_reference.rst:1688
+#: ../../source/api/config_reference.rst:1694
+#: ../../source/api/config_reference.rst:1881
+#: ../../source/api/config_reference.rst:1884
+#: ../../source/api/config_reference.rst:1899
+#: ../../source/api/config_reference.rst:1995
+#: ../../source/api/config_reference.rst:2013
+#: ../../source/api/config_reference.rst:2022
+#: ../../source/api/config_reference.rst:2028
+#: ../../source/api/config_reference.rst:2223
+#: ../../source/api/config_reference.rst:2226
+#: ../../source/api/config_reference.rst:2241
+#: ../../source/api/config_reference.rst:2337
+#: ../../source/api/config_reference.rst:2355
+#: ../../source/api/config_reference.rst:2364
+#: ../../source/api/config_reference.rst:2370
+#: ../../source/api/config_reference.rst:2565
+#: ../../source/api/config_reference.rst:2568
+#: ../../source/api/config_reference.rst:2583
+#: ../../source/api/config_reference.rst:2679
+#: ../../source/api/config_reference.rst:2697
+#: ../../source/api/config_reference.rst:2706
+#: ../../source/api/config_reference.rst:2712
+#: ../../source/api/config_reference.rst:2878
+#: ../../source/api/config_reference.rst:2881
+#: ../../source/api/config_reference.rst:2896
+#: ../../source/api/config_reference.rst:3008
+#: ../../source/api/config_reference.rst:3026
+#: ../../source/api/config_reference.rst:3035
+#: ../../source/api/config_reference.rst:3041
+#: ../../source/api/config_reference.rst:3191
+#: ../../source/api/config_reference.rst:3194
+#: ../../source/api/config_reference.rst:3209
+#: ../../source/api/config_reference.rst:3305
+#: ../../source/api/config_reference.rst:3323
+#: ../../source/api/config_reference.rst:3332
+#: ../../source/api/config_reference.rst:3338
+#: ../../source/api/config_reference.rst:3525
+#: ../../source/api/config_reference.rst:3528
+#: ../../source/api/config_reference.rst:3543
+#: ../../source/api/config_reference.rst:3639
+#: ../../source/api/config_reference.rst:3657
+#: ../../source/api/config_reference.rst:3666
+#: ../../source/api/config_reference.rst:3672
+#: ../../source/api/config_reference.rst:3838
+#: ../../source/api/config_reference.rst:3841
+#: ../../source/api/config_reference.rst:3856
+#: ../../source/api/config_reference.rst:3976
+#: ../../source/api/config_reference.rst:3994
+#: ../../source/api/config_reference.rst:4003
+#: ../../source/api/config_reference.rst:4009
+#: ../../source/api/config_reference.rst:4159
+#: ../../source/api/config_reference.rst:4162
+#: ../../source/api/config_reference.rst:4177
+#: ../../source/api/config_reference.rst:4289
+#: ../../source/api/config_reference.rst:4307
+#: ../../source/api/config_reference.rst:4316
+#: ../../source/api/config_reference.rst:4322
+#: ../../source/api/config_reference.rst:4464
+#: ../../source/api/config_reference.rst:4467
+#: ../../source/api/config_reference.rst:4482
+#: ../../source/api/config_reference.rst:4586
+#: ../../source/api/config_reference.rst:4604
+#: ../../source/api/config_reference.rst:4613
+#: ../../source/api/config_reference.rst:4619
+#: ../../source/api/config_reference.rst:4806
+#: ../../source/api/config_reference.rst:4809
+#: ../../source/api/config_reference.rst:4824
+#: ../../source/api/config_reference.rst:4920
+#: ../../source/api/config_reference.rst:4938
+#: ../../source/api/config_reference.rst:4947
+#: ../../source/api/config_reference.rst:4953
+#: ../../source/api/config_reference.rst:4974
+#: ../../source/api/config_reference.rst:5148
+#: ../../source/api/config_reference.rst:5151
+#: ../../source/api/config_reference.rst:5166
+#: ../../source/api/config_reference.rst:5262
+#: ../../source/api/config_reference.rst:5280
+#: ../../source/api/config_reference.rst:5289
+#: ../../source/api/config_reference.rst:5295
+#: ../../source/api/config_reference.rst:5453
+#: ../../source/api/config_reference.rst:5456
+#: ../../source/api/config_reference.rst:5471
+#: ../../source/api/config_reference.rst:5575
+#: ../../source/api/config_reference.rst:5593
+#: ../../source/api/config_reference.rst:5602
+#: ../../source/api/config_reference.rst:5608
+#: ../../source/api/config_reference.rst:5758
+#: ../../source/api/config_reference.rst:5761
+#: ../../source/api/config_reference.rst:5776
+#: ../../source/api/config_reference.rst:5785
+#: ../../source/api/config_reference.rst:5880
+#: ../../source/api/config_reference.rst:5898
+#: ../../source/api/config_reference.rst:5907
+#: ../../source/api/config_reference.rst:5913
+#: ../../source/api/config_reference.rst:6071
+#: ../../source/api/config_reference.rst:6074
+#: ../../source/api/config_reference.rst:6089
+#: ../../source/api/config_reference.rst:6201
+#: ../../source/api/config_reference.rst:6219
+#: ../../source/api/config_reference.rst:6228
+#: ../../source/api/config_reference.rst:6234
+#: ../../source/api/config_reference.rst:6384
+#: ../../source/api/config_reference.rst:6387
+#: ../../source/api/config_reference.rst:6402
+#: ../../source/api/config_reference.rst:6411
+msgid "int"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:36
+#: ../../source/api/config_reference.rst:341
+#: ../../source/api/config_reference.rst:661
+#: ../../source/api/config_reference.rst:995
+#: ../../source/api/config_reference.rst:1329
+#: ../../source/api/config_reference.rst:1663
+#: ../../source/api/config_reference.rst:1997
+#: ../../source/api/config_reference.rst:2339
+#: ../../source/api/config_reference.rst:2681
+#: ../../source/api/config_reference.rst:3010
+#: ../../source/api/config_reference.rst:3307
+#: ../../source/api/config_reference.rst:3641
+#: ../../source/api/config_reference.rst:3978
+#: ../../source/api/config_reference.rst:4291
+#: ../../source/api/config_reference.rst:4588
+#: ../../source/api/config_reference.rst:4922
+#: ../../source/api/config_reference.rst:5264
+#: ../../source/api/config_reference.rst:5577
+#: ../../source/api/config_reference.rst:5882
+#: ../../source/api/config_reference.rst:6203
+msgid "``num_clients``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:37
+#: ../../source/api/config_reference.rst:342
+#: ../../source/api/config_reference.rst:662
+#: ../../source/api/config_reference.rst:996
+#: ../../source/api/config_reference.rst:1330
+#: ../../source/api/config_reference.rst:1664
+#: ../../source/api/config_reference.rst:1998
+#: ../../source/api/config_reference.rst:2340
+#: ../../source/api/config_reference.rst:2682
+#: ../../source/api/config_reference.rst:3011
+#: ../../source/api/config_reference.rst:3308
+#: ../../source/api/config_reference.rst:3642
+#: ../../source/api/config_reference.rst:3979
+#: ../../source/api/config_reference.rst:4292
+#: ../../source/api/config_reference.rst:4589
+#: ../../source/api/config_reference.rst:4923
+#: ../../source/api/config_reference.rst:5265
+#: ../../source/api/config_reference.rst:5578
+#: ../../source/api/config_reference.rst:5883
+#: ../../source/api/config_reference.rst:6204
+msgid "Optional[int]"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:38
+#: ../../source/api/config_reference.rst:44
+#: ../../source/api/config_reference.rst:56
+#: ../../source/api/config_reference.rst:65
+#: ../../source/api/config_reference.rst:230
+#: ../../source/api/config_reference.rst:343
+#: ../../source/api/config_reference.rst:349
+#: ../../source/api/config_reference.rst:361
+#: ../../source/api/config_reference.rst:370
+#: ../../source/api/config_reference.rst:527
+#: ../../source/api/config_reference.rst:548
+#: ../../source/api/config_reference.rst:663
+#: ../../source/api/config_reference.rst:669
+#: ../../source/api/config_reference.rst:681
+#: ../../source/api/config_reference.rst:690
+#: ../../source/api/config_reference.rst:892
+#: ../../source/api/config_reference.rst:997
+#: ../../source/api/config_reference.rst:1003
+#: ../../source/api/config_reference.rst:1015
+#: ../../source/api/config_reference.rst:1024
+#: ../../source/api/config_reference.rst:1226
+#: ../../source/api/config_reference.rst:1331
+#: ../../source/api/config_reference.rst:1337
+#: ../../source/api/config_reference.rst:1349
+#: ../../source/api/config_reference.rst:1358
+#: ../../source/api/config_reference.rst:1560
+#: ../../source/api/config_reference.rst:1665
+#: ../../source/api/config_reference.rst:1671
+#: ../../source/api/config_reference.rst:1683
+#: ../../source/api/config_reference.rst:1692
+#: ../../source/api/config_reference.rst:1894
+#: ../../source/api/config_reference.rst:1999
+#: ../../source/api/config_reference.rst:2005
+#: ../../source/api/config_reference.rst:2017
+#: ../../source/api/config_reference.rst:2026
+#: ../../source/api/config_reference.rst:2236
+#: ../../source/api/config_reference.rst:2341
+#: ../../source/api/config_reference.rst:2347
+#: ../../source/api/config_reference.rst:2359
+#: ../../source/api/config_reference.rst:2368
+#: ../../source/api/config_reference.rst:2578
+#: ../../source/api/config_reference.rst:2683
+#: ../../source/api/config_reference.rst:2689
+#: ../../source/api/config_reference.rst:2701
+#: ../../source/api/config_reference.rst:2710
+#: ../../source/api/config_reference.rst:2891
+#: ../../source/api/config_reference.rst:3012
+#: ../../source/api/config_reference.rst:3018
+#: ../../source/api/config_reference.rst:3030
+#: ../../source/api/config_reference.rst:3039
+#: ../../source/api/config_reference.rst:3204
+#: ../../source/api/config_reference.rst:3309
+#: ../../source/api/config_reference.rst:3315
+#: ../../source/api/config_reference.rst:3327
+#: ../../source/api/config_reference.rst:3336
+#: ../../source/api/config_reference.rst:3538
+#: ../../source/api/config_reference.rst:3643
+#: ../../source/api/config_reference.rst:3649
+#: ../../source/api/config_reference.rst:3661
+#: ../../source/api/config_reference.rst:3670
+#: ../../source/api/config_reference.rst:3851
+#: ../../source/api/config_reference.rst:3980
+#: ../../source/api/config_reference.rst:3986
+#: ../../source/api/config_reference.rst:3998
+#: ../../source/api/config_reference.rst:4007
+#: ../../source/api/config_reference.rst:4172
+#: ../../source/api/config_reference.rst:4293
+#: ../../source/api/config_reference.rst:4299
+#: ../../source/api/config_reference.rst:4311
+#: ../../source/api/config_reference.rst:4320
+#: ../../source/api/config_reference.rst:4477
+#: ../../source/api/config_reference.rst:4590
+#: ../../source/api/config_reference.rst:4596
+#: ../../source/api/config_reference.rst:4608
+#: ../../source/api/config_reference.rst:4617
+#: ../../source/api/config_reference.rst:4819
+#: ../../source/api/config_reference.rst:4924
+#: ../../source/api/config_reference.rst:4930
+#: ../../source/api/config_reference.rst:4942
+#: ../../source/api/config_reference.rst:4951
+#: ../../source/api/config_reference.rst:5161
+#: ../../source/api/config_reference.rst:5266
+#: ../../source/api/config_reference.rst:5272
+#: ../../source/api/config_reference.rst:5284
+#: ../../source/api/config_reference.rst:5293
+#: ../../source/api/config_reference.rst:5466
+#: ../../source/api/config_reference.rst:5579
+#: ../../source/api/config_reference.rst:5585
+#: ../../source/api/config_reference.rst:5597
+#: ../../source/api/config_reference.rst:5606
+#: ../../source/api/config_reference.rst:5771
+#: ../../source/api/config_reference.rst:5884
+#: ../../source/api/config_reference.rst:5890
+#: ../../source/api/config_reference.rst:5902
+#: ../../source/api/config_reference.rst:5911
+#: ../../source/api/config_reference.rst:6084
+#: ../../source/api/config_reference.rst:6205
+#: ../../source/api/config_reference.rst:6211
+#: ../../source/api/config_reference.rst:6223
+#: ../../source/api/config_reference.rst:6232
+#: ../../source/api/config_reference.rst:6397
+msgid "None"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:39
+#: ../../source/api/config_reference.rst:344
+#: ../../source/api/config_reference.rst:664
+#: ../../source/api/config_reference.rst:998
+#: ../../source/api/config_reference.rst:1332
+#: ../../source/api/config_reference.rst:1666
+#: ../../source/api/config_reference.rst:2000
+#: ../../source/api/config_reference.rst:2342
+#: ../../source/api/config_reference.rst:2684
+#: ../../source/api/config_reference.rst:3013
+#: ../../source/api/config_reference.rst:3310
+#: ../../source/api/config_reference.rst:3644
+#: ../../source/api/config_reference.rst:3981
+#: ../../source/api/config_reference.rst:4294
+#: ../../source/api/config_reference.rst:4591
+#: ../../source/api/config_reference.rst:4925
+#: ../../source/api/config_reference.rst:5267
+#: ../../source/api/config_reference.rst:5580
+#: ../../source/api/config_reference.rst:5885
+#: ../../source/api/config_reference.rst:6206
+msgid "``clients_sample_ratio``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:40
+#: ../../source/api/config_reference.rst:70
+#: ../../source/api/config_reference.rst:223
+#: ../../source/api/config_reference.rst:238
+#: ../../source/api/config_reference.rst:244
+#: ../../source/api/config_reference.rst:345
+#: ../../source/api/config_reference.rst:375
+#: ../../source/api/config_reference.rst:520
+#: ../../source/api/config_reference.rst:535
+#: ../../source/api/config_reference.rst:544
+#: ../../source/api/config_reference.rst:665
+#: ../../source/api/config_reference.rst:695
+#: ../../source/api/config_reference.rst:704
+#: ../../source/api/config_reference.rst:710
+#: ../../source/api/config_reference.rst:885
+#: ../../source/api/config_reference.rst:900
+#: ../../source/api/config_reference.rst:999
+#: ../../source/api/config_reference.rst:1029
+#: ../../source/api/config_reference.rst:1038
+#: ../../source/api/config_reference.rst:1044
+#: ../../source/api/config_reference.rst:1219
+#: ../../source/api/config_reference.rst:1234
+#: ../../source/api/config_reference.rst:1333
+#: ../../source/api/config_reference.rst:1363
+#: ../../source/api/config_reference.rst:1372
+#: ../../source/api/config_reference.rst:1378
+#: ../../source/api/config_reference.rst:1553
+#: ../../source/api/config_reference.rst:1568
+#: ../../source/api/config_reference.rst:1667
+#: ../../source/api/config_reference.rst:1697
+#: ../../source/api/config_reference.rst:1706
+#: ../../source/api/config_reference.rst:1712
+#: ../../source/api/config_reference.rst:1887
+#: ../../source/api/config_reference.rst:1902
+#: ../../source/api/config_reference.rst:2001
+#: ../../source/api/config_reference.rst:2031
+#: ../../source/api/config_reference.rst:2040
+#: ../../source/api/config_reference.rst:2046
+#: ../../source/api/config_reference.rst:2049
+#: ../../source/api/config_reference.rst:2229
+#: ../../source/api/config_reference.rst:2244
+#: ../../source/api/config_reference.rst:2343
+#: ../../source/api/config_reference.rst:2373
+#: ../../source/api/config_reference.rst:2382
+#: ../../source/api/config_reference.rst:2388
+#: ../../source/api/config_reference.rst:2391
+#: ../../source/api/config_reference.rst:2571
+#: ../../source/api/config_reference.rst:2586
+#: ../../source/api/config_reference.rst:2685
+#: ../../source/api/config_reference.rst:2715
+#: ../../source/api/config_reference.rst:2721
+#: ../../source/api/config_reference.rst:2724
+#: ../../source/api/config_reference.rst:2884
+#: ../../source/api/config_reference.rst:2899
+#: ../../source/api/config_reference.rst:2905
+#: ../../source/api/config_reference.rst:2908
+#: ../../source/api/config_reference.rst:3014
+#: ../../source/api/config_reference.rst:3044
+#: ../../source/api/config_reference.rst:3050
+#: ../../source/api/config_reference.rst:3197
+#: ../../source/api/config_reference.rst:3212
+#: ../../source/api/config_reference.rst:3311
+#: ../../source/api/config_reference.rst:3341
+#: ../../source/api/config_reference.rst:3350
+#: ../../source/api/config_reference.rst:3356
+#: ../../source/api/config_reference.rst:3531
+#: ../../source/api/config_reference.rst:3546
+#: ../../source/api/config_reference.rst:3645
+#: ../../source/api/config_reference.rst:3675
+#: ../../source/api/config_reference.rst:3681
+#: ../../source/api/config_reference.rst:3844
+#: ../../source/api/config_reference.rst:3859
+#: ../../source/api/config_reference.rst:3865
+#: ../../source/api/config_reference.rst:3982
+#: ../../source/api/config_reference.rst:4012
+#: ../../source/api/config_reference.rst:4165
+#: ../../source/api/config_reference.rst:4180
+#: ../../source/api/config_reference.rst:4186
+#: ../../source/api/config_reference.rst:4295
+#: ../../source/api/config_reference.rst:4325
+#: ../../source/api/config_reference.rst:4470
+#: ../../source/api/config_reference.rst:4485
+#: ../../source/api/config_reference.rst:4491
+#: ../../source/api/config_reference.rst:4592
+#: ../../source/api/config_reference.rst:4622
+#: ../../source/api/config_reference.rst:4631
+#: ../../source/api/config_reference.rst:4637
+#: ../../source/api/config_reference.rst:4812
+#: ../../source/api/config_reference.rst:4827
+#: ../../source/api/config_reference.rst:4926
+#: ../../source/api/config_reference.rst:4956
+#: ../../source/api/config_reference.rst:4965
+#: ../../source/api/config_reference.rst:4971
+#: ../../source/api/config_reference.rst:5154
+#: ../../source/api/config_reference.rst:5169
+#: ../../source/api/config_reference.rst:5268
+#: ../../source/api/config_reference.rst:5298
+#: ../../source/api/config_reference.rst:5304
+#: ../../source/api/config_reference.rst:5459
+#: ../../source/api/config_reference.rst:5474
+#: ../../source/api/config_reference.rst:5581
+#: ../../source/api/config_reference.rst:5611
+#: ../../source/api/config_reference.rst:5617
+#: ../../source/api/config_reference.rst:5764
+#: ../../source/api/config_reference.rst:5779
+#: ../../source/api/config_reference.rst:5886
+#: ../../source/api/config_reference.rst:5916
+#: ../../source/api/config_reference.rst:5922
+#: ../../source/api/config_reference.rst:6077
+#: ../../source/api/config_reference.rst:6092
+#: ../../source/api/config_reference.rst:6098
+#: ../../source/api/config_reference.rst:6207
+#: ../../source/api/config_reference.rst:6237
+#: ../../source/api/config_reference.rst:6243
+#: ../../source/api/config_reference.rst:6390
+#: ../../source/api/config_reference.rst:6405
+#: ../../source/api/config_reference.rst:6414
+#: ../../source/api/config_reference.rst:6417
+#: ../../source/api/config_reference.rst:6420
+msgid "float"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:42
+#: ../../source/api/config_reference.rst:347
+#: ../../source/api/config_reference.rst:667
+#: ../../source/api/config_reference.rst:1001
+#: ../../source/api/config_reference.rst:1335
+#: ../../source/api/config_reference.rst:1669
+#: ../../source/api/config_reference.rst:2003
+#: ../../source/api/config_reference.rst:2345
+#: ../../source/api/config_reference.rst:2687
+#: ../../source/api/config_reference.rst:3016
+#: ../../source/api/config_reference.rst:3313
+#: ../../source/api/config_reference.rst:3647
+#: ../../source/api/config_reference.rst:3984
+#: ../../source/api/config_reference.rst:4297
+#: ../../source/api/config_reference.rst:4594
+#: ../../source/api/config_reference.rst:4928
+#: ../../source/api/config_reference.rst:5270
+#: ../../source/api/config_reference.rst:5583
+#: ../../source/api/config_reference.rst:5888
+#: ../../source/api/config_reference.rst:6209
+msgid "``log_dir``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:43
+#: ../../source/api/config_reference.rst:64
+#: ../../source/api/config_reference.rst:348
+#: ../../source/api/config_reference.rst:369
+#: ../../source/api/config_reference.rst:668
+#: ../../source/api/config_reference.rst:689
+#: ../../source/api/config_reference.rst:1002
+#: ../../source/api/config_reference.rst:1023
+#: ../../source/api/config_reference.rst:1336
+#: ../../source/api/config_reference.rst:1357
+#: ../../source/api/config_reference.rst:1670
+#: ../../source/api/config_reference.rst:1691
+#: ../../source/api/config_reference.rst:2004
+#: ../../source/api/config_reference.rst:2025
+#: ../../source/api/config_reference.rst:2346
+#: ../../source/api/config_reference.rst:2367
+#: ../../source/api/config_reference.rst:2688
+#: ../../source/api/config_reference.rst:2709
+#: ../../source/api/config_reference.rst:3017
+#: ../../source/api/config_reference.rst:3038
+#: ../../source/api/config_reference.rst:3314
+#: ../../source/api/config_reference.rst:3335
+#: ../../source/api/config_reference.rst:3648
+#: ../../source/api/config_reference.rst:3669
+#: ../../source/api/config_reference.rst:3985
+#: ../../source/api/config_reference.rst:4006
+#: ../../source/api/config_reference.rst:4298
+#: ../../source/api/config_reference.rst:4319
+#: ../../source/api/config_reference.rst:4595
+#: ../../source/api/config_reference.rst:4616
+#: ../../source/api/config_reference.rst:4929
+#: ../../source/api/config_reference.rst:4950
+#: ../../source/api/config_reference.rst:5271
+#: ../../source/api/config_reference.rst:5292
+#: ../../source/api/config_reference.rst:5584
+#: ../../source/api/config_reference.rst:5605
+#: ../../source/api/config_reference.rst:5889
+#: ../../source/api/config_reference.rst:5910
+#: ../../source/api/config_reference.rst:6210
+#: ../../source/api/config_reference.rst:6231
+msgid "Optional[str]"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:45
+#: ../../source/api/config_reference.rst:350
+#: ../../source/api/config_reference.rst:670
+#: ../../source/api/config_reference.rst:1004
+#: ../../source/api/config_reference.rst:1338
+#: ../../source/api/config_reference.rst:1672
+#: ../../source/api/config_reference.rst:2006
+#: ../../source/api/config_reference.rst:2348
+#: ../../source/api/config_reference.rst:2690
+#: ../../source/api/config_reference.rst:3019
+#: ../../source/api/config_reference.rst:3316
+#: ../../source/api/config_reference.rst:3650
+#: ../../source/api/config_reference.rst:3987
+#: ../../source/api/config_reference.rst:4300
+#: ../../source/api/config_reference.rst:4597
+#: ../../source/api/config_reference.rst:4931
+#: ../../source/api/config_reference.rst:5273
+#: ../../source/api/config_reference.rst:5586
+#: ../../source/api/config_reference.rst:5891
+#: ../../source/api/config_reference.rst:6212
+msgid "``txt_logger``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:46
+#: ../../source/api/config_reference.rst:49
+#: ../../source/api/config_reference.rst:351
+#: ../../source/api/config_reference.rst:354
+#: ../../source/api/config_reference.rst:671
+#: ../../source/api/config_reference.rst:674
+#: ../../source/api/config_reference.rst:1005
+#: ../../source/api/config_reference.rst:1008
+#: ../../source/api/config_reference.rst:1339
+#: ../../source/api/config_reference.rst:1342
+#: ../../source/api/config_reference.rst:1673
+#: ../../source/api/config_reference.rst:1676
+#: ../../source/api/config_reference.rst:2007
+#: ../../source/api/config_reference.rst:2010
+#: ../../source/api/config_reference.rst:2349
+#: ../../source/api/config_reference.rst:2352
+#: ../../source/api/config_reference.rst:2691
+#: ../../source/api/config_reference.rst:2694
+#: ../../source/api/config_reference.rst:3020
+#: ../../source/api/config_reference.rst:3023
+#: ../../source/api/config_reference.rst:3317
+#: ../../source/api/config_reference.rst:3320
+#: ../../source/api/config_reference.rst:3651
+#: ../../source/api/config_reference.rst:3654
+#: ../../source/api/config_reference.rst:3684
+#: ../../source/api/config_reference.rst:3687
+#: ../../source/api/config_reference.rst:3868
+#: ../../source/api/config_reference.rst:3871
+#: ../../source/api/config_reference.rst:3988
+#: ../../source/api/config_reference.rst:3991
+#: ../../source/api/config_reference.rst:4018
+#: ../../source/api/config_reference.rst:4189
+#: ../../source/api/config_reference.rst:4301
+#: ../../source/api/config_reference.rst:4304
+#: ../../source/api/config_reference.rst:4598
+#: ../../source/api/config_reference.rst:4601
+#: ../../source/api/config_reference.rst:4932
+#: ../../source/api/config_reference.rst:4935
+#: ../../source/api/config_reference.rst:5274
+#: ../../source/api/config_reference.rst:5277
+#: ../../source/api/config_reference.rst:5307
+#: ../../source/api/config_reference.rst:5480
+#: ../../source/api/config_reference.rst:5587
+#: ../../source/api/config_reference.rst:5590
+#: ../../source/api/config_reference.rst:5892
+#: ../../source/api/config_reference.rst:5895
+#: ../../source/api/config_reference.rst:5925
+#: ../../source/api/config_reference.rst:6101
+#: ../../source/api/config_reference.rst:6213
+#: ../../source/api/config_reference.rst:6216
+msgid "bool"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:47
+#: ../../source/api/config_reference.rst:50
+#: ../../source/api/config_reference.rst:352
+#: ../../source/api/config_reference.rst:355
+#: ../../source/api/config_reference.rst:672
+#: ../../source/api/config_reference.rst:675
+#: ../../source/api/config_reference.rst:1006
+#: ../../source/api/config_reference.rst:1009
+#: ../../source/api/config_reference.rst:1340
+#: ../../source/api/config_reference.rst:1343
+#: ../../source/api/config_reference.rst:1674
+#: ../../source/api/config_reference.rst:1677
+#: ../../source/api/config_reference.rst:2008
+#: ../../source/api/config_reference.rst:2011
+#: ../../source/api/config_reference.rst:2350
+#: ../../source/api/config_reference.rst:2353
+#: ../../source/api/config_reference.rst:2692
+#: ../../source/api/config_reference.rst:2695
+#: ../../source/api/config_reference.rst:3021
+#: ../../source/api/config_reference.rst:3024
+#: ../../source/api/config_reference.rst:3318
+#: ../../source/api/config_reference.rst:3321
+#: ../../source/api/config_reference.rst:3652
+#: ../../source/api/config_reference.rst:3655
+#: ../../source/api/config_reference.rst:3989
+#: ../../source/api/config_reference.rst:3992
+#: ../../source/api/config_reference.rst:4302
+#: ../../source/api/config_reference.rst:4305
+#: ../../source/api/config_reference.rst:4599
+#: ../../source/api/config_reference.rst:4602
+#: ../../source/api/config_reference.rst:4933
+#: ../../source/api/config_reference.rst:4936
+#: ../../source/api/config_reference.rst:5275
+#: ../../source/api/config_reference.rst:5278
+#: ../../source/api/config_reference.rst:5588
+#: ../../source/api/config_reference.rst:5591
+#: ../../source/api/config_reference.rst:5893
+#: ../../source/api/config_reference.rst:5896
+#: ../../source/api/config_reference.rst:6214
+#: ../../source/api/config_reference.rst:6217
+msgid "True"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:48
+#: ../../source/api/config_reference.rst:353
+#: ../../source/api/config_reference.rst:673
+#: ../../source/api/config_reference.rst:1007
+#: ../../source/api/config_reference.rst:1341
+#: ../../source/api/config_reference.rst:1675
+#: ../../source/api/config_reference.rst:2009
+#: ../../source/api/config_reference.rst:2351
+#: ../../source/api/config_reference.rst:2693
+#: ../../source/api/config_reference.rst:3022
+#: ../../source/api/config_reference.rst:3319
+#: ../../source/api/config_reference.rst:3653
+#: ../../source/api/config_reference.rst:3990
+#: ../../source/api/config_reference.rst:4303
+#: ../../source/api/config_reference.rst:4600
+#: ../../source/api/config_reference.rst:4934
+#: ../../source/api/config_reference.rst:5276
+#: ../../source/api/config_reference.rst:5589
+#: ../../source/api/config_reference.rst:5894
+#: ../../source/api/config_reference.rst:6215
+msgid "``json_logger``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:51
+#: ../../source/api/config_reference.rst:356
+#: ../../source/api/config_reference.rst:676
+#: ../../source/api/config_reference.rst:1010
+#: ../../source/api/config_reference.rst:1344
+#: ../../source/api/config_reference.rst:1678
+#: ../../source/api/config_reference.rst:2012
+#: ../../source/api/config_reference.rst:2354
+#: ../../source/api/config_reference.rst:2696
+#: ../../source/api/config_reference.rst:3025
+#: ../../source/api/config_reference.rst:3322
+#: ../../source/api/config_reference.rst:3656
+#: ../../source/api/config_reference.rst:3993
+#: ../../source/api/config_reference.rst:4306
+#: ../../source/api/config_reference.rst:4603
+#: ../../source/api/config_reference.rst:4937
+#: ../../source/api/config_reference.rst:5279
+#: ../../source/api/config_reference.rst:5592
+#: ../../source/api/config_reference.rst:5897
+#: ../../source/api/config_reference.rst:6218
+msgid "``eval_every``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:53
+#: ../../source/api/config_reference.rst:68
+#: ../../source/api/config_reference.rst:77
+#: ../../source/api/config_reference.rst:236
+#: ../../source/api/config_reference.rst:358
+#: ../../source/api/config_reference.rst:373
+#: ../../source/api/config_reference.rst:533
+#: ../../source/api/config_reference.rst:678
+#: ../../source/api/config_reference.rst:693
+#: ../../source/api/config_reference.rst:705
+#: ../../source/api/config_reference.rst:711
+#: ../../source/api/config_reference.rst:898
+#: ../../source/api/config_reference.rst:1012
+#: ../../source/api/config_reference.rst:1027
+#: ../../source/api/config_reference.rst:1232
+#: ../../source/api/config_reference.rst:1346
+#: ../../source/api/config_reference.rst:1361
+#: ../../source/api/config_reference.rst:1566
+#: ../../source/api/config_reference.rst:1680
+#: ../../source/api/config_reference.rst:1695
+#: ../../source/api/config_reference.rst:1707
+#: ../../source/api/config_reference.rst:1713
+#: ../../source/api/config_reference.rst:1900
+#: ../../source/api/config_reference.rst:2002
+#: ../../source/api/config_reference.rst:2014
+#: ../../source/api/config_reference.rst:2029
+#: ../../source/api/config_reference.rst:2041
+#: ../../source/api/config_reference.rst:2047
+#: ../../source/api/config_reference.rst:2242
+#: ../../source/api/config_reference.rst:2344
+#: ../../source/api/config_reference.rst:2356
+#: ../../source/api/config_reference.rst:2371
+#: ../../source/api/config_reference.rst:2383
+#: ../../source/api/config_reference.rst:2389
+#: ../../source/api/config_reference.rst:2584
+#: ../../source/api/config_reference.rst:2698
+#: ../../source/api/config_reference.rst:2713
+#: ../../source/api/config_reference.rst:2897
+#: ../../source/api/config_reference.rst:3027
+#: ../../source/api/config_reference.rst:3042
+#: ../../source/api/config_reference.rst:3210
+#: ../../source/api/config_reference.rst:3324
+#: ../../source/api/config_reference.rst:3339
+#: ../../source/api/config_reference.rst:3544
+#: ../../source/api/config_reference.rst:3646
+#: ../../source/api/config_reference.rst:3658
+#: ../../source/api/config_reference.rst:3673
+#: ../../source/api/config_reference.rst:3857
+#: ../../source/api/config_reference.rst:3995
+#: ../../source/api/config_reference.rst:4010
+#: ../../source/api/config_reference.rst:4178
+#: ../../source/api/config_reference.rst:4308
+#: ../../source/api/config_reference.rst:4323
+#: ../../source/api/config_reference.rst:4483
+#: ../../source/api/config_reference.rst:4605
+#: ../../source/api/config_reference.rst:4620
+#: ../../source/api/config_reference.rst:4825
+#: ../../source/api/config_reference.rst:4927
+#: ../../source/api/config_reference.rst:4939
+#: ../../source/api/config_reference.rst:4954
+#: ../../source/api/config_reference.rst:4966
+#: ../../source/api/config_reference.rst:4972
+#: ../../source/api/config_reference.rst:5167
+#: ../../source/api/config_reference.rst:5269
+#: ../../source/api/config_reference.rst:5281
+#: ../../source/api/config_reference.rst:5296
+#: ../../source/api/config_reference.rst:5472
+#: ../../source/api/config_reference.rst:5594
+#: ../../source/api/config_reference.rst:5609
+#: ../../source/api/config_reference.rst:5777
+#: ../../source/api/config_reference.rst:5786
+#: ../../source/api/config_reference.rst:5899
+#: ../../source/api/config_reference.rst:5914
+#: ../../source/api/config_reference.rst:6090
+#: ../../source/api/config_reference.rst:6220
+#: ../../source/api/config_reference.rst:6235
+#: ../../source/api/config_reference.rst:6403
+msgid "1"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:54
+#: ../../source/api/config_reference.rst:359
+#: ../../source/api/config_reference.rst:679
+#: ../../source/api/config_reference.rst:1013
+#: ../../source/api/config_reference.rst:1347
+#: ../../source/api/config_reference.rst:1681
+#: ../../source/api/config_reference.rst:2015
+#: ../../source/api/config_reference.rst:2357
+#: ../../source/api/config_reference.rst:2699
+#: ../../source/api/config_reference.rst:3028
+#: ../../source/api/config_reference.rst:3325
+#: ../../source/api/config_reference.rst:3659
+#: ../../source/api/config_reference.rst:3996
+#: ../../source/api/config_reference.rst:4309
+#: ../../source/api/config_reference.rst:4606
+#: ../../source/api/config_reference.rst:4940
+#: ../../source/api/config_reference.rst:5282
+#: ../../source/api/config_reference.rst:5595
+#: ../../source/api/config_reference.rst:5900
+#: ../../source/api/config_reference.rst:6221
+msgid "``visiable_gpus``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:55
+#: ../../source/api/config_reference.rst:360
+#: ../../source/api/config_reference.rst:680
+#: ../../source/api/config_reference.rst:1014
+#: ../../source/api/config_reference.rst:1348
+#: ../../source/api/config_reference.rst:1682
+#: ../../source/api/config_reference.rst:2016
+#: ../../source/api/config_reference.rst:2358
+#: ../../source/api/config_reference.rst:2700
+#: ../../source/api/config_reference.rst:3029
+#: ../../source/api/config_reference.rst:3326
+#: ../../source/api/config_reference.rst:3660
+#: ../../source/api/config_reference.rst:3997
+#: ../../source/api/config_reference.rst:4310
+#: ../../source/api/config_reference.rst:4607
+#: ../../source/api/config_reference.rst:4941
+#: ../../source/api/config_reference.rst:5283
+#: ../../source/api/config_reference.rst:5596
+#: ../../source/api/config_reference.rst:5901
+#: ../../source/api/config_reference.rst:6222
+msgid "Optional[list[int]]"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:57
+#: ../../source/api/config_reference.rst:231
+#: ../../source/api/config_reference.rst:362
+#: ../../source/api/config_reference.rst:528
+#: ../../source/api/config_reference.rst:682
+#: ../../source/api/config_reference.rst:893
+#: ../../source/api/config_reference.rst:1016
+#: ../../source/api/config_reference.rst:1227
+#: ../../source/api/config_reference.rst:1350
+#: ../../source/api/config_reference.rst:1561
+#: ../../source/api/config_reference.rst:1684
+#: ../../source/api/config_reference.rst:1895
+#: ../../source/api/config_reference.rst:2018
+#: ../../source/api/config_reference.rst:2237
+#: ../../source/api/config_reference.rst:2360
+#: ../../source/api/config_reference.rst:2579
+#: ../../source/api/config_reference.rst:2702
+#: ../../source/api/config_reference.rst:2892
+#: ../../source/api/config_reference.rst:3031
+#: ../../source/api/config_reference.rst:3205
+#: ../../source/api/config_reference.rst:3328
+#: ../../source/api/config_reference.rst:3539
+#: ../../source/api/config_reference.rst:3662
+#: ../../source/api/config_reference.rst:3852
+#: ../../source/api/config_reference.rst:3999
+#: ../../source/api/config_reference.rst:4173
+#: ../../source/api/config_reference.rst:4312
+#: ../../source/api/config_reference.rst:4478
+#: ../../source/api/config_reference.rst:4609
+#: ../../source/api/config_reference.rst:4820
+#: ../../source/api/config_reference.rst:4943
+#: ../../source/api/config_reference.rst:5162
+#: ../../source/api/config_reference.rst:5285
+#: ../../source/api/config_reference.rst:5467
+#: ../../source/api/config_reference.rst:5598
+#: ../../source/api/config_reference.rst:5772
+#: ../../source/api/config_reference.rst:5903
+#: ../../source/api/config_reference.rst:6085
+#: ../../source/api/config_reference.rst:6224
+#: ../../source/api/config_reference.rst:6398
+msgid "``extra_observes``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:58
+#: ../../source/api/config_reference.rst:232
+#: ../../source/api/config_reference.rst:363
+#: ../../source/api/config_reference.rst:529
+#: ../../source/api/config_reference.rst:683
+#: ../../source/api/config_reference.rst:894
+#: ../../source/api/config_reference.rst:1017
+#: ../../source/api/config_reference.rst:1228
+#: ../../source/api/config_reference.rst:1351
+#: ../../source/api/config_reference.rst:1562
+#: ../../source/api/config_reference.rst:1685
+#: ../../source/api/config_reference.rst:1896
+#: ../../source/api/config_reference.rst:2019
+#: ../../source/api/config_reference.rst:2238
+#: ../../source/api/config_reference.rst:2361
+#: ../../source/api/config_reference.rst:2580
+#: ../../source/api/config_reference.rst:2703
+#: ../../source/api/config_reference.rst:2893
+#: ../../source/api/config_reference.rst:3032
+#: ../../source/api/config_reference.rst:3206
+#: ../../source/api/config_reference.rst:3329
+#: ../../source/api/config_reference.rst:3540
+#: ../../source/api/config_reference.rst:3663
+#: ../../source/api/config_reference.rst:3853
+#: ../../source/api/config_reference.rst:4000
+#: ../../source/api/config_reference.rst:4174
+#: ../../source/api/config_reference.rst:4313
+#: ../../source/api/config_reference.rst:4479
+#: ../../source/api/config_reference.rst:4610
+#: ../../source/api/config_reference.rst:4821
+#: ../../source/api/config_reference.rst:4944
+#: ../../source/api/config_reference.rst:5163
+#: ../../source/api/config_reference.rst:5286
+#: ../../source/api/config_reference.rst:5468
+#: ../../source/api/config_reference.rst:5599
+#: ../../source/api/config_reference.rst:5773
+#: ../../source/api/config_reference.rst:5904
+#: ../../source/api/config_reference.rst:6086
+#: ../../source/api/config_reference.rst:6225
+#: ../../source/api/config_reference.rst:6399
+msgid "list[str]"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:59
+#: ../../source/api/config_reference.rst:233
+#: ../../source/api/config_reference.rst:364
+#: ../../source/api/config_reference.rst:530
+#: ../../source/api/config_reference.rst:684
+#: ../../source/api/config_reference.rst:895
+#: ../../source/api/config_reference.rst:1018
+#: ../../source/api/config_reference.rst:1229
+#: ../../source/api/config_reference.rst:1352
+#: ../../source/api/config_reference.rst:1563
+#: ../../source/api/config_reference.rst:1686
+#: ../../source/api/config_reference.rst:1897
+#: ../../source/api/config_reference.rst:2020
+#: ../../source/api/config_reference.rst:2239
+#: ../../source/api/config_reference.rst:2362
+#: ../../source/api/config_reference.rst:2581
+#: ../../source/api/config_reference.rst:2704
+#: ../../source/api/config_reference.rst:2894
+#: ../../source/api/config_reference.rst:3033
+#: ../../source/api/config_reference.rst:3207
+#: ../../source/api/config_reference.rst:3330
+#: ../../source/api/config_reference.rst:3541
+#: ../../source/api/config_reference.rst:3664
+#: ../../source/api/config_reference.rst:3854
+#: ../../source/api/config_reference.rst:4001
+#: ../../source/api/config_reference.rst:4175
+#: ../../source/api/config_reference.rst:4314
+#: ../../source/api/config_reference.rst:4480
+#: ../../source/api/config_reference.rst:4611
+#: ../../source/api/config_reference.rst:4822
+#: ../../source/api/config_reference.rst:4945
+#: ../../source/api/config_reference.rst:5164
+#: ../../source/api/config_reference.rst:5287
+#: ../../source/api/config_reference.rst:5469
+#: ../../source/api/config_reference.rst:5600
+#: ../../source/api/config_reference.rst:5774
+#: ../../source/api/config_reference.rst:5905
+#: ../../source/api/config_reference.rst:6087
+#: ../../source/api/config_reference.rst:6226
+#: ../../source/api/config_reference.rst:6400
+msgid "(factory)"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:60
+#: ../../source/api/config_reference.rst:365
+#: ../../source/api/config_reference.rst:685
+#: ../../source/api/config_reference.rst:1019
+#: ../../source/api/config_reference.rst:1353
+#: ../../source/api/config_reference.rst:1687
+#: ../../source/api/config_reference.rst:2021
+#: ../../source/api/config_reference.rst:2363
+#: ../../source/api/config_reference.rst:2705
+#: ../../source/api/config_reference.rst:3034
+#: ../../source/api/config_reference.rst:3331
+#: ../../source/api/config_reference.rst:3665
+#: ../../source/api/config_reference.rst:4002
+#: ../../source/api/config_reference.rst:4315
+#: ../../source/api/config_reference.rst:4612
+#: ../../source/api/config_reference.rst:4946
+#: ../../source/api/config_reference.rst:5288
+#: ../../source/api/config_reference.rst:5601
+#: ../../source/api/config_reference.rst:5906
+#: ../../source/api/config_reference.rst:6227
+msgid "``seed``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:62
+#: ../../source/api/config_reference.rst:367
+#: ../../source/api/config_reference.rst:687
+#: ../../source/api/config_reference.rst:1021
+#: ../../source/api/config_reference.rst:1355
+#: ../../source/api/config_reference.rst:1689
+#: ../../source/api/config_reference.rst:2023
+#: ../../source/api/config_reference.rst:2365
+#: ../../source/api/config_reference.rst:2707
+#: ../../source/api/config_reference.rst:3036
+#: ../../source/api/config_reference.rst:3333
+#: ../../source/api/config_reference.rst:3667
+#: ../../source/api/config_reference.rst:4004
+#: ../../source/api/config_reference.rst:4317
+#: ../../source/api/config_reference.rst:4614
+#: ../../source/api/config_reference.rst:4948
+#: ../../source/api/config_reference.rst:5290
+#: ../../source/api/config_reference.rst:5603
+#: ../../source/api/config_reference.rst:5908
+#: ../../source/api/config_reference.rst:6229
+msgid "0"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:63
+#: ../../source/api/config_reference.rst:368
+#: ../../source/api/config_reference.rst:688
+#: ../../source/api/config_reference.rst:1022
+#: ../../source/api/config_reference.rst:1356
+#: ../../source/api/config_reference.rst:1690
+#: ../../source/api/config_reference.rst:2024
+#: ../../source/api/config_reference.rst:2366
+#: ../../source/api/config_reference.rst:2708
+#: ../../source/api/config_reference.rst:3037
+#: ../../source/api/config_reference.rst:3334
+#: ../../source/api/config_reference.rst:3668
+#: ../../source/api/config_reference.rst:4005
+#: ../../source/api/config_reference.rst:4318
+#: ../../source/api/config_reference.rst:4615
+#: ../../source/api/config_reference.rst:4949
+#: ../../source/api/config_reference.rst:5291
+#: ../../source/api/config_reference.rst:5604
+#: ../../source/api/config_reference.rst:5909
+#: ../../source/api/config_reference.rst:6230
+msgid "``tag``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:66
+#: ../../source/api/config_reference.rst:234
+#: ../../source/api/config_reference.rst:371
+#: ../../source/api/config_reference.rst:531
+#: ../../source/api/config_reference.rst:691
+#: ../../source/api/config_reference.rst:896
+#: ../../source/api/config_reference.rst:1025
+#: ../../source/api/config_reference.rst:1230
+#: ../../source/api/config_reference.rst:1359
+#: ../../source/api/config_reference.rst:1564
+#: ../../source/api/config_reference.rst:1693
+#: ../../source/api/config_reference.rst:1898
+#: ../../source/api/config_reference.rst:2027
+#: ../../source/api/config_reference.rst:2240
+#: ../../source/api/config_reference.rst:2369
+#: ../../source/api/config_reference.rst:2582
+#: ../../source/api/config_reference.rst:2711
+#: ../../source/api/config_reference.rst:2895
+#: ../../source/api/config_reference.rst:3040
+#: ../../source/api/config_reference.rst:3208
+#: ../../source/api/config_reference.rst:3337
+#: ../../source/api/config_reference.rst:3542
+#: ../../source/api/config_reference.rst:3671
+#: ../../source/api/config_reference.rst:3855
+#: ../../source/api/config_reference.rst:4008
+#: ../../source/api/config_reference.rst:4176
+#: ../../source/api/config_reference.rst:4321
+#: ../../source/api/config_reference.rst:4481
+#: ../../source/api/config_reference.rst:4618
+#: ../../source/api/config_reference.rst:4823
+#: ../../source/api/config_reference.rst:4952
+#: ../../source/api/config_reference.rst:5165
+#: ../../source/api/config_reference.rst:5294
+#: ../../source/api/config_reference.rst:5470
+#: ../../source/api/config_reference.rst:5607
+#: ../../source/api/config_reference.rst:5775
+#: ../../source/api/config_reference.rst:5912
+#: ../../source/api/config_reference.rst:6088
+#: ../../source/api/config_reference.rst:6233
+#: ../../source/api/config_reference.rst:6401
+msgid "``verbose``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:69
+#: ../../source/api/config_reference.rst:374
+#: ../../source/api/config_reference.rst:694
+#: ../../source/api/config_reference.rst:1028
+#: ../../source/api/config_reference.rst:1362
+#: ../../source/api/config_reference.rst:1696
+#: ../../source/api/config_reference.rst:2030
+#: ../../source/api/config_reference.rst:2372
+#: ../../source/api/config_reference.rst:2714
+#: ../../source/api/config_reference.rst:3043
+#: ../../source/api/config_reference.rst:3340
+#: ../../source/api/config_reference.rst:3674
+#: ../../source/api/config_reference.rst:4011
+#: ../../source/api/config_reference.rst:4324
+#: ../../source/api/config_reference.rst:4621
+#: ../../source/api/config_reference.rst:4955
+#: ../../source/api/config_reference.rst:5297
+#: ../../source/api/config_reference.rst:5610
+#: ../../source/api/config_reference.rst:5915
+#: ../../source/api/config_reference.rst:6236
+msgid "``gpu_proportion``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:71
+#: ../../source/api/config_reference.rst:376
+#: ../../source/api/config_reference.rst:696
+#: ../../source/api/config_reference.rst:1030
+#: ../../source/api/config_reference.rst:1364
+#: ../../source/api/config_reference.rst:1698
+#: ../../source/api/config_reference.rst:2032
+#: ../../source/api/config_reference.rst:2374
+#: ../../source/api/config_reference.rst:2716
+#: ../../source/api/config_reference.rst:3045
+#: ../../source/api/config_reference.rst:3342
+#: ../../source/api/config_reference.rst:3676
+#: ../../source/api/config_reference.rst:4013
+#: ../../source/api/config_reference.rst:4326
+#: ../../source/api/config_reference.rst:4623
+#: ../../source/api/config_reference.rst:4957
+#: ../../source/api/config_reference.rst:5299
+#: ../../source/api/config_reference.rst:5612
+#: ../../source/api/config_reference.rst:5917
+#: ../../source/api/config_reference.rst:6238
+msgid "0.2"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:72
+#: ../../source/api/config_reference.rst:240
+#: ../../source/api/config_reference.rst:377
+#: ../../source/api/config_reference.rst:537
+#: ../../source/api/config_reference.rst:697
+#: ../../source/api/config_reference.rst:902
+#: ../../source/api/config_reference.rst:1031
+#: ../../source/api/config_reference.rst:1236
+#: ../../source/api/config_reference.rst:1365
+#: ../../source/api/config_reference.rst:1570
+#: ../../source/api/config_reference.rst:1699
+#: ../../source/api/config_reference.rst:1904
+#: ../../source/api/config_reference.rst:2033
+#: ../../source/api/config_reference.rst:2246
+#: ../../source/api/config_reference.rst:2375
+#: ../../source/api/config_reference.rst:2588
+#: ../../source/api/config_reference.rst:2717
+#: ../../source/api/config_reference.rst:2901
+#: ../../source/api/config_reference.rst:3046
+#: ../../source/api/config_reference.rst:3214
+#: ../../source/api/config_reference.rst:3343
+#: ../../source/api/config_reference.rst:3548
+#: ../../source/api/config_reference.rst:3677
+#: ../../source/api/config_reference.rst:3861
+#: ../../source/api/config_reference.rst:4014
+#: ../../source/api/config_reference.rst:4182
+#: ../../source/api/config_reference.rst:4327
+#: ../../source/api/config_reference.rst:4487
+#: ../../source/api/config_reference.rst:4624
+#: ../../source/api/config_reference.rst:4829
+#: ../../source/api/config_reference.rst:4958
+#: ../../source/api/config_reference.rst:5171
+#: ../../source/api/config_reference.rst:5300
+#: ../../source/api/config_reference.rst:5476
+#: ../../source/api/config_reference.rst:5613
+#: ../../source/api/config_reference.rst:5781
+#: ../../source/api/config_reference.rst:5918
+#: ../../source/api/config_reference.rst:6094
+#: ../../source/api/config_reference.rst:6239
+#: ../../source/api/config_reference.rst:6407
+msgid "``algorithm``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:73
+#: ../../source/api/config_reference.rst:226
+#: ../../source/api/config_reference.rst:241
+#: ../../source/api/config_reference.rst:378
+#: ../../source/api/config_reference.rst:523
+#: ../../source/api/config_reference.rst:538
+#: ../../source/api/config_reference.rst:541
+#: ../../source/api/config_reference.rst:698
+#: ../../source/api/config_reference.rst:701
+#: ../../source/api/config_reference.rst:888
+#: ../../source/api/config_reference.rst:903
+#: ../../source/api/config_reference.rst:1032
+#: ../../source/api/config_reference.rst:1035
+#: ../../source/api/config_reference.rst:1222
+#: ../../source/api/config_reference.rst:1237
+#: ../../source/api/config_reference.rst:1366
+#: ../../source/api/config_reference.rst:1369
+#: ../../source/api/config_reference.rst:1556
+#: ../../source/api/config_reference.rst:1571
+#: ../../source/api/config_reference.rst:1700
+#: ../../source/api/config_reference.rst:1703
+#: ../../source/api/config_reference.rst:1890
+#: ../../source/api/config_reference.rst:1905
+#: ../../source/api/config_reference.rst:2034
+#: ../../source/api/config_reference.rst:2037
+#: ../../source/api/config_reference.rst:2232
+#: ../../source/api/config_reference.rst:2247
+#: ../../source/api/config_reference.rst:2376
+#: ../../source/api/config_reference.rst:2379
+#: ../../source/api/config_reference.rst:2574
+#: ../../source/api/config_reference.rst:2589
+#: ../../source/api/config_reference.rst:2718
+#: ../../source/api/config_reference.rst:2727
+#: ../../source/api/config_reference.rst:2887
+#: ../../source/api/config_reference.rst:2902
+#: ../../source/api/config_reference.rst:3047
+#: ../../source/api/config_reference.rst:3200
+#: ../../source/api/config_reference.rst:3215
+#: ../../source/api/config_reference.rst:3344
+#: ../../source/api/config_reference.rst:3347
+#: ../../source/api/config_reference.rst:3534
+#: ../../source/api/config_reference.rst:3549
+#: ../../source/api/config_reference.rst:3678
+#: ../../source/api/config_reference.rst:3847
+#: ../../source/api/config_reference.rst:3862
+#: ../../source/api/config_reference.rst:4015
+#: ../../source/api/config_reference.rst:4168
+#: ../../source/api/config_reference.rst:4183
+#: ../../source/api/config_reference.rst:4328
+#: ../../source/api/config_reference.rst:4473
+#: ../../source/api/config_reference.rst:4488
+#: ../../source/api/config_reference.rst:4625
+#: ../../source/api/config_reference.rst:4628
+#: ../../source/api/config_reference.rst:4815
+#: ../../source/api/config_reference.rst:4830
+#: ../../source/api/config_reference.rst:4959
+#: ../../source/api/config_reference.rst:4962
+#: ../../source/api/config_reference.rst:5157
+#: ../../source/api/config_reference.rst:5172
+#: ../../source/api/config_reference.rst:5301
+#: ../../source/api/config_reference.rst:5462
+#: ../../source/api/config_reference.rst:5477
+#: ../../source/api/config_reference.rst:5614
+#: ../../source/api/config_reference.rst:5767
+#: ../../source/api/config_reference.rst:5782
+#: ../../source/api/config_reference.rst:5919
+#: ../../source/api/config_reference.rst:6080
+#: ../../source/api/config_reference.rst:6095
+#: ../../source/api/config_reference.rst:6240
+#: ../../source/api/config_reference.rst:6393
+#: ../../source/api/config_reference.rst:6408
+msgid "str"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:74
+#: ../../source/api/config_reference.rst:242
+#: ../../source/api/config_reference.rst:379
+#: ../../source/api/config_reference.rst:539
+#: ../../source/api/config_reference.rst:699
+#: ../../source/api/config_reference.rst:904
+#: ../../source/api/config_reference.rst:1033
+#: ../../source/api/config_reference.rst:1238
+#: ../../source/api/config_reference.rst:1367
+#: ../../source/api/config_reference.rst:1572
+#: ../../source/api/config_reference.rst:1701
+#: ../../source/api/config_reference.rst:1906
+#: ../../source/api/config_reference.rst:2035
+#: ../../source/api/config_reference.rst:2248
+#: ../../source/api/config_reference.rst:2377
+#: ../../source/api/config_reference.rst:2590
+#: ../../source/api/config_reference.rst:2719
+#: ../../source/api/config_reference.rst:2903
+#: ../../source/api/config_reference.rst:3048
+#: ../../source/api/config_reference.rst:3201
+#: ../../source/api/config_reference.rst:3216
+#: ../../source/api/config_reference.rst:3345
+#: ../../source/api/config_reference.rst:3550
+#: ../../source/api/config_reference.rst:3679
+#: ../../source/api/config_reference.rst:3848
+#: ../../source/api/config_reference.rst:3863
+#: ../../source/api/config_reference.rst:4016
+#: ../../source/api/config_reference.rst:4169
+#: ../../source/api/config_reference.rst:4184
+#: ../../source/api/config_reference.rst:4329
+#: ../../source/api/config_reference.rst:4489
+#: ../../source/api/config_reference.rst:4626
+#: ../../source/api/config_reference.rst:4831
+#: ../../source/api/config_reference.rst:4960
+#: ../../source/api/config_reference.rst:5173
+#: ../../source/api/config_reference.rst:5302
+#: ../../source/api/config_reference.rst:5478
+#: ../../source/api/config_reference.rst:5615
+#: ../../source/api/config_reference.rst:5783
+#: ../../source/api/config_reference.rst:5920
+#: ../../source/api/config_reference.rst:6096
+#: ../../source/api/config_reference.rst:6241
+#: ../../source/api/config_reference.rst:6409
+msgid "\"\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst:75
+#: ../../source/api/config_reference.rst:709
+#: ../../source/api/config_reference.rst:1043
+#: ../../source/api/config_reference.rst:1377
+#: ../../source/api/config_reference.rst:1711
+#: ../../source/api/config_reference.rst:2045
+#: ../../source/api/config_reference.rst:2387
+#: ../../source/api/config_reference.rst:3355
+#: ../../source/api/config_reference.rst:4636
+#: ../../source/api/config_reference.rst:4970
+msgid "``tau``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``APFLServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:207
+msgid "**Client config:** ``APFLClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:216
+#: ../../source/api/config_reference.rst:513
+#: ../../source/api/config_reference.rst:878
+#: ../../source/api/config_reference.rst:1212
+#: ../../source/api/config_reference.rst:1546
+#: ../../source/api/config_reference.rst:1880
+#: ../../source/api/config_reference.rst:2222
+#: ../../source/api/config_reference.rst:2564
+#: ../../source/api/config_reference.rst:2877
+#: ../../source/api/config_reference.rst:3190
+#: ../../source/api/config_reference.rst:3524
+#: ../../source/api/config_reference.rst:3837
+#: ../../source/api/config_reference.rst:4158
+#: ../../source/api/config_reference.rst:4463
+#: ../../source/api/config_reference.rst:4805
+#: ../../source/api/config_reference.rst:5147
+#: ../../source/api/config_reference.rst:5452
+#: ../../source/api/config_reference.rst:5757
+#: ../../source/api/config_reference.rst:6070
+#: ../../source/api/config_reference.rst:6383
+msgid "``batch_size``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:219
+#: ../../source/api/config_reference.rst:516
+#: ../../source/api/config_reference.rst:881
+#: ../../source/api/config_reference.rst:1215
+#: ../../source/api/config_reference.rst:1549
+#: ../../source/api/config_reference.rst:1883
+#: ../../source/api/config_reference.rst:2225
+#: ../../source/api/config_reference.rst:2567
+#: ../../source/api/config_reference.rst:2880
+#: ../../source/api/config_reference.rst:3193
+#: ../../source/api/config_reference.rst:3527
+#: ../../source/api/config_reference.rst:3840
+#: ../../source/api/config_reference.rst:4161
+#: ../../source/api/config_reference.rst:4466
+#: ../../source/api/config_reference.rst:4808
+#: ../../source/api/config_reference.rst:5150
+#: ../../source/api/config_reference.rst:5455
+#: ../../source/api/config_reference.rst:5760
+#: ../../source/api/config_reference.rst:6073
+#: ../../source/api/config_reference.rst:6386
+msgid "``num_epochs``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:222
+#: ../../source/api/config_reference.rst:519
+#: ../../source/api/config_reference.rst:703
+#: ../../source/api/config_reference.rst:884
+#: ../../source/api/config_reference.rst:1037
+#: ../../source/api/config_reference.rst:1218
+#: ../../source/api/config_reference.rst:1371
+#: ../../source/api/config_reference.rst:1552
+#: ../../source/api/config_reference.rst:1705
+#: ../../source/api/config_reference.rst:1886
+#: ../../source/api/config_reference.rst:2039
+#: ../../source/api/config_reference.rst:2228
+#: ../../source/api/config_reference.rst:2381
+#: ../../source/api/config_reference.rst:2570
+#: ../../source/api/config_reference.rst:2883
+#: ../../source/api/config_reference.rst:3196
+#: ../../source/api/config_reference.rst:3349
+#: ../../source/api/config_reference.rst:3530
+#: ../../source/api/config_reference.rst:3843
+#: ../../source/api/config_reference.rst:4164
+#: ../../source/api/config_reference.rst:4469
+#: ../../source/api/config_reference.rst:4630
+#: ../../source/api/config_reference.rst:4811
+#: ../../source/api/config_reference.rst:4964
+#: ../../source/api/config_reference.rst:5153
+#: ../../source/api/config_reference.rst:5458
+#: ../../source/api/config_reference.rst:5616
+#: ../../source/api/config_reference.rst:5763
+#: ../../source/api/config_reference.rst:6076
+#: ../../source/api/config_reference.rst:6389
+msgid "``lr``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:224
+#: ../../source/api/config_reference.rst:521
+#: ../../source/api/config_reference.rst:545
+#: ../../source/api/config_reference.rst:886
+#: ../../source/api/config_reference.rst:1039
+#: ../../source/api/config_reference.rst:1220
+#: ../../source/api/config_reference.rst:1373
+#: ../../source/api/config_reference.rst:1554
+#: ../../source/api/config_reference.rst:1888
+#: ../../source/api/config_reference.rst:2230
+#: ../../source/api/config_reference.rst:2392
+#: ../../source/api/config_reference.rst:2572
+#: ../../source/api/config_reference.rst:2885
+#: ../../source/api/config_reference.rst:3198
+#: ../../source/api/config_reference.rst:3351
+#: ../../source/api/config_reference.rst:3532
+#: ../../source/api/config_reference.rst:3845
+#: ../../source/api/config_reference.rst:4166
+#: ../../source/api/config_reference.rst:4187
+#: ../../source/api/config_reference.rst:4471
+#: ../../source/api/config_reference.rst:4632
+#: ../../source/api/config_reference.rst:4813
+#: ../../source/api/config_reference.rst:5155
+#: ../../source/api/config_reference.rst:5460
+#: ../../source/api/config_reference.rst:5765
+#: ../../source/api/config_reference.rst:6078
+msgid "0.01"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:225
+#: ../../source/api/config_reference.rst:522
+#: ../../source/api/config_reference.rst:700
+#: ../../source/api/config_reference.rst:887
+#: ../../source/api/config_reference.rst:1034
+#: ../../source/api/config_reference.rst:1221
+#: ../../source/api/config_reference.rst:1368
+#: ../../source/api/config_reference.rst:1555
+#: ../../source/api/config_reference.rst:1702
+#: ../../source/api/config_reference.rst:1889
+#: ../../source/api/config_reference.rst:2036
+#: ../../source/api/config_reference.rst:2231
+#: ../../source/api/config_reference.rst:2378
+#: ../../source/api/config_reference.rst:2573
+#: ../../source/api/config_reference.rst:2886
+#: ../../source/api/config_reference.rst:3199
+#: ../../source/api/config_reference.rst:3346
+#: ../../source/api/config_reference.rst:3533
+#: ../../source/api/config_reference.rst:3846
+#: ../../source/api/config_reference.rst:4167
+#: ../../source/api/config_reference.rst:4472
+#: ../../source/api/config_reference.rst:4627
+#: ../../source/api/config_reference.rst:4814
+#: ../../source/api/config_reference.rst:4961
+#: ../../source/api/config_reference.rst:5156
+#: ../../source/api/config_reference.rst:5461
+#: ../../source/api/config_reference.rst:5766
+#: ../../source/api/config_reference.rst:6079
+#: ../../source/api/config_reference.rst:6392
+msgid "``optimizer``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:227
+#: ../../source/api/config_reference.rst:524
+#: ../../source/api/config_reference.rst:889
+#: ../../source/api/config_reference.rst:1223
+#: ../../source/api/config_reference.rst:1557
+#: ../../source/api/config_reference.rst:1891
+#: ../../source/api/config_reference.rst:2233
+#: ../../source/api/config_reference.rst:2575
+#: ../../source/api/config_reference.rst:3535
+#: ../../source/api/config_reference.rst:4816
+#: ../../source/api/config_reference.rst:5158
+#: ../../source/api/config_reference.rst:5768
+msgid "\"SGD\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst:228
+#: ../../source/api/config_reference.rst:525
+#: ../../source/api/config_reference.rst:890
+#: ../../source/api/config_reference.rst:1224
+#: ../../source/api/config_reference.rst:1558
+#: ../../source/api/config_reference.rst:1892
+#: ../../source/api/config_reference.rst:2234
+#: ../../source/api/config_reference.rst:2576
+#: ../../source/api/config_reference.rst:2889
+#: ../../source/api/config_reference.rst:3202
+#: ../../source/api/config_reference.rst:3536
+#: ../../source/api/config_reference.rst:3849
+#: ../../source/api/config_reference.rst:4170
+#: ../../source/api/config_reference.rst:4475
+#: ../../source/api/config_reference.rst:4817
+#: ../../source/api/config_reference.rst:5159
+#: ../../source/api/config_reference.rst:5464
+#: ../../source/api/config_reference.rst:5769
+#: ../../source/api/config_reference.rst:6082
+#: ../../source/api/config_reference.rst:6395
+msgid "``scheduler``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:229
+#: ../../source/api/config_reference.rst:526
+#: ../../source/api/config_reference.rst:891
+#: ../../source/api/config_reference.rst:1225
+#: ../../source/api/config_reference.rst:1559
+#: ../../source/api/config_reference.rst:1893
+#: ../../source/api/config_reference.rst:2235
+#: ../../source/api/config_reference.rst:2577
+#: ../../source/api/config_reference.rst:2890
+#: ../../source/api/config_reference.rst:3203
+#: ../../source/api/config_reference.rst:3537
+#: ../../source/api/config_reference.rst:3850
+#: ../../source/api/config_reference.rst:4171
+#: ../../source/api/config_reference.rst:4476
+#: ../../source/api/config_reference.rst:4818
+#: ../../source/api/config_reference.rst:5160
+#: ../../source/api/config_reference.rst:5465
+#: ../../source/api/config_reference.rst:5770
+#: ../../source/api/config_reference.rst:6083
+#: ../../source/api/config_reference.rst:6396
+msgid "Optional[dict]"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:237
+#: ../../source/api/config_reference.rst:534
+#: ../../source/api/config_reference.rst:899
+#: ../../source/api/config_reference.rst:1233
+#: ../../source/api/config_reference.rst:1567
+#: ../../source/api/config_reference.rst:1901
+#: ../../source/api/config_reference.rst:2243
+#: ../../source/api/config_reference.rst:2585
+#: ../../source/api/config_reference.rst:2898
+#: ../../source/api/config_reference.rst:3211
+#: ../../source/api/config_reference.rst:3545
+#: ../../source/api/config_reference.rst:3858
+#: ../../source/api/config_reference.rst:4179
+#: ../../source/api/config_reference.rst:4484
+#: ../../source/api/config_reference.rst:4826
+#: ../../source/api/config_reference.rst:5168
+#: ../../source/api/config_reference.rst:5473
+#: ../../source/api/config_reference.rst:5778
+#: ../../source/api/config_reference.rst:6091
+#: ../../source/api/config_reference.rst:6404
+msgid "``latency``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:239
+#: ../../source/api/config_reference.rst:536
+#: ../../source/api/config_reference.rst:901
+#: ../../source/api/config_reference.rst:1235
+#: ../../source/api/config_reference.rst:1569
+#: ../../source/api/config_reference.rst:1903
+#: ../../source/api/config_reference.rst:2245
+#: ../../source/api/config_reference.rst:2587
+#: ../../source/api/config_reference.rst:2900
+#: ../../source/api/config_reference.rst:3213
+#: ../../source/api/config_reference.rst:3547
+#: ../../source/api/config_reference.rst:3860
+#: ../../source/api/config_reference.rst:4181
+#: ../../source/api/config_reference.rst:4486
+#: ../../source/api/config_reference.rst:4828
+#: ../../source/api/config_reference.rst:5170
+#: ../../source/api/config_reference.rst:5475
+#: ../../source/api/config_reference.rst:5780
+#: ../../source/api/config_reference.rst:6093
+#: ../../source/api/config_reference.rst:6406
+msgid "0.0"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:243
+msgid "``mixture_weight``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:245
+msgid "0.5"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``APFLClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:327
+msgid "Ditto"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:329
+msgid "**Server config:** ``DittoServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``DittoServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:504
+msgid "**Client config:** ``DittoClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:540
+msgid "``optimizer_per``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:542
+#: ../../source/api/config_reference.rst:4474
+msgid "\"ProxSGD\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst:543
+msgid "``prox``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:546
+msgid "``lr_per``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:547
+msgid "Optional[float]"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``DittoClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:647
+msgid "FPFC"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:649
+msgid "**Server config:** ``FPFCServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:702
+#: ../../source/api/config_reference.rst:1704
+#: ../../source/api/config_reference.rst:2038
+#: ../../source/api/config_reference.rst:2380
+#: ../../source/api/config_reference.rst:4963
+msgid "\"Avg\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst:706
+#: ../../source/api/config_reference.rst:1040
+#: ../../source/api/config_reference.rst:1374
+#: ../../source/api/config_reference.rst:1708
+#: ../../source/api/config_reference.rst:2042
+#: ../../source/api/config_reference.rst:2384
+#: ../../source/api/config_reference.rst:3352
+#: ../../source/api/config_reference.rst:4633
+#: ../../source/api/config_reference.rst:4967
+msgid "``betas``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:707
+#: ../../source/api/config_reference.rst:1041
+#: ../../source/api/config_reference.rst:1375
+#: ../../source/api/config_reference.rst:1709
+#: ../../source/api/config_reference.rst:2043
+#: ../../source/api/config_reference.rst:2385
+#: ../../source/api/config_reference.rst:3353
+#: ../../source/api/config_reference.rst:4634
+#: ../../source/api/config_reference.rst:4968
+msgid "list"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:708
+#: ../../source/api/config_reference.rst:1710
+#: ../../source/api/config_reference.rst:2044
+#: ../../source/api/config_reference.rst:2386
+#: ../../source/api/config_reference.rst:4969
+msgid "[0, 1]"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FPFCServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:869
+msgid "**Client config:** ``FPFCClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FPFCClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:981
+msgid "FedAdagrad"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:983
+msgid "**Server config:** ``FedAdagradServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1036
+msgid "\"Adagrad\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1042
+msgid "[0.0, 0.99]"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1045
+#: ../../source/api/config_reference.rst:1379
+#: ../../source/api/config_reference.rst:3357
+#: ../../source/api/config_reference.rst:4638
+msgid "1e-05"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedAdagradServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1203
+msgid "**Client config:** ``FedAdagradClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedAdagradClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1315
+msgid "FedAdam"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1317
+msgid "**Server config:** ``FedAdamServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1370
+#: ../../source/api/config_reference.rst:3348
+msgid "\"Adam\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1376
+#: ../../source/api/config_reference.rst:3354
+#: ../../source/api/config_reference.rst:4635
+msgid "[0.9, 0.99]"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedAdamServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1537
+msgid "**Client config:** ``FedAdamClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedAdamClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1649
+msgid "FedAvg"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1651
+msgid "**Server config:** ``FedAvgServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedAvgServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1871
+msgid "**Client config:** ``FedAvgClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedAvgClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1983
+msgid "FedCR"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:1985
+msgid "**Server config:** ``FedCRServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2048
+#: ../../source/api/config_reference.rst:5921
+#: ../../source/api/config_reference.rst:6242
+msgid "``beta``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2050
+#: ../../source/api/config_reference.rst:6391
+msgid "0.005"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedCRServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2213
+msgid "**Client config:** ``FedCRClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedCRClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2325
+msgid "FedDC"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2327
+msgid "**Server config:** ``FedDCServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2390
+#: ../../source/api/config_reference.rst:2723
+#: ../../source/api/config_reference.rst:2907
+msgid "``alpha``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedDCServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2555
+msgid "**Client config:** ``FedDCClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedDCClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2667
+msgid "FedDR"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2669
+msgid "**Server config:** ``FedDRServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2720
+#: ../../source/api/config_reference.rst:2904
+#: ../../source/api/config_reference.rst:6416
+msgid "``eta``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2722
+#: ../../source/api/config_reference.rst:2906
+#: ../../source/api/config_reference.rst:5923
+#: ../../source/api/config_reference.rst:6244
+msgid "1.0"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2725
+#: ../../source/api/config_reference.rst:2909
+msgid "1.9"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2726
+msgid "``reg_type``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2728
+msgid "\"l1_norm\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedDRServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2868
+msgid "**Client config:** ``FedDRClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2888
+msgid "\"FedDR\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedDRClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2996
+msgid "FedDyn"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:2998
+msgid "**Server config:** ``FedDynServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3049
+#: ../../source/api/config_reference.rst:3864
+#: ../../source/api/config_reference.rst:4185
+#: ../../source/api/config_reference.rst:6419
+msgid "``mu``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3051
+#: ../../source/api/config_reference.rst:3866
+msgid "0.1"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedDynServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3181
+msgid "**Client config:** ``FedDynClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedDynClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3293
+msgid "FedOpt"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3295
+msgid "**Server config:** ``FedOptServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedOptServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3515
+msgid "**Client config:** ``FedOptClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedOptClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3627
+msgid "FedPD"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3629
+msgid "**Server config:** ``FedPDServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3680
+#: ../../source/api/config_reference.rst:5303
+msgid "``p``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3683
+msgid "``stochastic``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3685
+#: ../../source/api/config_reference.rst:3688
+#: ../../source/api/config_reference.rst:3869
+#: ../../source/api/config_reference.rst:3872
+#: ../../source/api/config_reference.rst:4019
+#: ../../source/api/config_reference.rst:4190
+#: ../../source/api/config_reference.rst:5308
+#: ../../source/api/config_reference.rst:5481
+#: ../../source/api/config_reference.rst:5926
+#: ../../source/api/config_reference.rst:6102
+msgid "False"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3686
+#: ../../source/api/config_reference.rst:3867
+#: ../../source/api/config_reference.rst:4017
+#: ../../source/api/config_reference.rst:4188
+#: ../../source/api/config_reference.rst:5306
+#: ../../source/api/config_reference.rst:5479
+#: ../../source/api/config_reference.rst:5924
+#: ../../source/api/config_reference.rst:6100
+msgid "``vr``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedPDServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3828
+msgid "**Client config:** ``FedPDClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3870
+msgid "``dual_rand_init``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedPDClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3964
+msgid "FedProx"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:3966
+msgid "**Server config:** ``FedProxServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedProxServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4149
+msgid "**Client config:** ``FedProxClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedProxClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4277
+msgid "FedSplit"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4279
+msgid "**Server config:** ``FedSplitServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedSplitServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4454
+msgid "**Client config:** ``FedSplitClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4490
+msgid "``s``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4492
+msgid "10.0"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedSplitClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4574
+msgid "FedYogi"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4576
+msgid "**Server config:** ``FedYogiServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4629
+msgid "\"Yogi\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedYogiServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4796
+msgid "**Client config:** ``FedYogiClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``FedYogiClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4908
+msgid "IFCA"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4910
+msgid "**Server config:** ``IFCAServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:4973
+msgid "``num_clusters``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``IFCAServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5138
+msgid "**Client config:** ``IFCAClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``IFCAClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5250
+msgid "ProxSkip"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5252
+msgid "**Server config:** ``ProxSkipServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``ProxSkipServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5443
+msgid "**Client config:** ``ProxSkipClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5463
+msgid "\"SCAFFOLD\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``ProxSkipClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5563
+msgid "SCAFFOLD"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5565
+msgid "**Server config:** ``SCAFFOLDServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``SCAFFOLDServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5748
+msgid "**Client config:** ``SCAFFOLDClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5784
+msgid "``control_variate_update_rule``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``SCAFFOLDClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5868
+msgid "pFedMac"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:5870
+msgid "**Server config:** ``pFedMacServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``pFedMacServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6061
+msgid "**Client config:** ``pFedMacClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6081
+msgid "\"pFedMac\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6097
+msgid "``lam``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6099
+#: ../../source/api/config_reference.rst:6415
+msgid "15.0"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``pFedMacClientConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6189
+msgid "pFedMe"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6191
+msgid "**Server config:** ``pFedMeServerConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``pFedMeServerConfig`` JSON schema"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6374
+msgid "**Client config:** ``pFedMeClientConfig``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6394
+msgid "\"pFedMe\""
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6410
+msgid "``num_steps``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6412
+msgid "30"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6413
+msgid "``lamda``"
+msgstr ""
+
+#: ../../source/api/config_reference.rst:6418
+#: ../../source/api/config_reference.rst:6421
+msgid "0.001"
+msgstr ""
+
+#: ../../source/api/config_reference.rst
+msgid "``pFedMeClientConfig`` JSON schema"
+msgstr ""
