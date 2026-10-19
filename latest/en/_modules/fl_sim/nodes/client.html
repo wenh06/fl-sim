@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.nodes.client &#8212; fl-sim 0.1.1.dev8+g552322644 documentation</title>
+    <title>fl_sim.nodes.client &#8212; fl-sim 0.1.1.dev9+gf88d213e2 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=78a4ae64"></script>
+    <script src="../../../_static/documentation_options.js?v=b319ba7b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -221,7 +221,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev8+g552322644 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev9+gf88d213e2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -618,15 +618,22 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">accept_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Accepts parameters from received_messages.</span>
+
+<span class="sd">        The named ``"model_state"`` mapping (the recommended exchange format,</span>
+<span class="sd">        see :data:`~fl_sim.messages.ModelState`) takes precedence over the</span>
+<span class="sd">        flat positional ``"parameters"`` list.</span>
+
 <span class="sd">        Need to be implemented in the child class to specify part in received_messages</span>
-<span class="sd">        if the key is not "parameters".</span>
+<span class="sd">        if the key is not "parameters"/"model_state".</span>
 
 <span class="sd">        Some algorithms (e.g. ``IFCA``, ``FedPD``) do not put the parameters under</span>
 <span class="sd">        the ``"parameters"`` key of the received messages (or communicate only</span>
 <span class="sd">        with a subset of clients in a round); for those, the parameters are</span>
 <span class="sd">        accepted in the client's :meth:`update`, so a missing key is not an error.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="s2">"parameters"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"model_state"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_model_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">[</span><span class="s2">"model_state"</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="s2">"parameters"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_received_messages</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">])</span></div>
 
 

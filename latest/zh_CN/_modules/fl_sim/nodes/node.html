@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.nodes.node &#8212; fl-sim 0.1.1.dev8+g552322644 文档</title>
+    <title>fl_sim.nodes.node &#8212; fl-sim 0.1.1.dev9+gf88d213e2 文档</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=f83b5b12"></script>
+    <script src="../../../_static/documentation_options.js?v=743fa7f0"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev8+g552322644 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev9+gf88d213e2 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -493,7 +493,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Number</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
@@ -596,6 +596,60 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">get_detached_model_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get the detached model parameters."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()]</span></div>
+
+
+<div class="viewcode-block" id="Node.get_model_state">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.get_model_state">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_model_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get the model state as a named tensor mapping (:data:`~fl_sim.messages.ModelState`).</span>
+
+<span class="sd">        The (recommended) named-parameter exchange format: an ordered mapping</span>
+<span class="sd">        from component names to tensors. The model does NOT need to be a</span>
+<span class="sd">        :class:`torch.nn.Module`; the default implementation here is an</span>
+<span class="sd">        adapter for module models (wrapping :meth:`torch.nn.Module.state_dict`),</span>
+<span class="sd">        and models of any other kind get first-class support by overriding</span>
+<span class="sd">        this method and :meth:`set_model_state` on the node (server or client)</span>
+<span class="sd">        holding the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict[str, torch.Tensor]</span>
+<span class="sd">            The named model parameters (detached clones).</span>
+
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.model is not a torch.nn.Module "</span>
+            <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">); override `get_model_state` "</span>
+            <span class="s2">"to expose the model's parameters as a named tensor mapping."</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Node.set_model_state">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Node.html#fl_sim.nodes.Node.set_model_state">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_model_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Set the model state from a named tensor mapping</span>
+<span class="sd">        (:data:`~fl_sim.messages.ModelState`).</span>
+
+<span class="sd">        The counterpart of :meth:`get_model_state`; module models are handled</span>
+<span class="sd">        by the default implementation (:meth:`torch.nn.Module.load_state_dict`),</span>
+<span class="sd">        and other model kinds override this method on the node holding the model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        state : Mapping[str, torch.Tensor]</span>
+<span class="sd">            The named model parameters to load.</span>
+
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.model is not a torch.nn.Module "</span>
+            <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">); override `set_model_state` "</span>
+            <span class="s2">"to load a named tensor mapping into the model."</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Node.compute_gradients">
