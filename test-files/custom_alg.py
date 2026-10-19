@@ -1,9 +1,13 @@
 """
 The same as the FedProx algorithm, for testing custom algorithm.
+
+This example demonstrates the (recommended) named-parameter exchange:
+parameters travel as a ``model_state`` mapping (parameter name -> tensor,
+cf. :data:`fl_sim.messages.ModelState`) instead of the flat positional
+``parameters`` list. The legacy flat-list style keeps working unchanged.
 """
 
 import warnings
-from copy import deepcopy
 from typing import Dict, List
 
 import torch
@@ -13,7 +17,8 @@ from tqdm.auto import tqdm
 
 from fl_sim.algorithms._misc import client_config_kw_doc, server_config_kw_doc
 from fl_sim.algorithms._register import register_algorithm
-from fl_sim.nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from fl_sim.messages import ClientToServer, ServerToClient
+from fl_sim.nodes import Client, ClientConfig, Server, ServerConfig
 
 __all__ = [
     "CustomServer",
@@ -114,20 +119,28 @@ class CustomServer(Server):
     def client_cls(self) -> type:
         return CustomClient
 
-    @property
-    def required_config_fields(self) -> List[str]:
-        return []
+    def _named_params_state(self) -> Dict[str, torch.Tensor]:
+        """Model parameters as a named mapping (the ModelState format, parameters only)."""
+        return {n: p.detach().clone() for n, p in self.model.named_parameters()}
 
     def communicate(self, target: "CustomClient") -> None:
-        target._received_messages = {"parameters": self.get_detached_model_parameters()}
+        # named exchange: broadcast the global model state by parameter names
+        extras = {}
         if target.config.vr:
-            target._received_messages["gradients"] = [
+            extras["gradients"] = [
                 p.grad.detach().clone() if p.grad is not None else torch.zeros_like(p) for p in target.model.parameters()
             ]
+        target.receive(ServerToClient(model_state=self._named_params_state(), extras=extras))
 
+    @torch.no_grad()
     def update(self) -> None:
-        # sum of received parameters, with self.model.parameters() as its container
-        self.avg_parameters()
+        # average the received (named) model states into the global model, by name
+        global_state = {n: torch.zeros_like(p) for n, p in self.model.named_parameters()}
+        for m in self._received_messages:
+            for n, v in m["model_state"].items():
+                global_state[n] += v.detach().clone().to(self.device) / len(self._received_messages)
+        for n, p in self.model.named_parameters():
+            p.data.copy_(global_state[n].to(p.device))
         if self.config.vr:
             self.update_gradients()
 
@@ -166,33 +179,49 @@ class CustomClient(Client):
         else:
             self._gradient_buffer = None
 
-    @property
-    def required_config_fields(self) -> List[str]:
-        return ["mu"]
+    def _named_params_state(self) -> Dict[str, torch.Tensor]:
+        """Model parameters as a named mapping (the ModelState format, parameters only)."""
+        return {n: p.detach().clone() for n, p in self.model.named_parameters()}
+
+    def accept_parameters(self) -> None:
+        """Load the received named state into the model, by name.
+
+        The mapping carries parameters only, so the loading is done by name
+        rather than via the default :meth:`set_model_state` (which expects
+        a full module ``state_dict``, buffers included).
+        """
+        state = self._received_messages.get("model_state", None)
+        if state is not None:
+            for n, p in self.model.named_parameters():
+                p.data.copy_(state[n].data.to(p.device))
 
     def communicate(self, target: "CustomServer") -> None:
-        message = {
-            "client_id": self.client_id,
-            "parameters": self.get_detached_model_parameters(),
-            "train_samples": len(self.train_loader.dataset),
-            "metrics": self._metrics,
-        }
+        # named exchange: upload the local model state by parameter names
+        extras = {}
         if self.config.vr:
-            message["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
-        target._received_messages.append(ClientMessage(**message))
+            extras["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                model_state=self._named_params_state(),
+                extras=extras,
+            )
+        )
 
     def update(self) -> None:
         try:
-            self._cached_parameters = deepcopy(self._received_messages["parameters"])
+            state = self._received_messages["model_state"]
         except KeyError:
             warnings.warn(
-                "No parameters received from server. " "Using current model parameters as initial parameters.",
+                "No model state received from server. " "Using current model parameters as initial parameters.",
                 RuntimeWarning,
             )
-            self._cached_parameters = self.get_detached_model_parameters()
-        except Exception as err:
-            raise err
-        self._cached_parameters = [p.to(self.device) for p in self._cached_parameters]
+            state = self._named_params_state()
+        # the (list-based) local solver reads the initial parameters positionally;
+        # extract them from the received named state, by name
+        self._cached_parameters = [state[n].to(self.device) for n, _ in self.model.named_parameters()]
         if self.config.vr and self._received_messages.get("gradients", None) is not None:
             self._gradient_buffer = [gd.clone().to(self.device) for gd in self._received_messages["gradients"]]
         self.solve_inner()  # alias of self.train()
