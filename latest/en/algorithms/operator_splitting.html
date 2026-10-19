@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Operator Splitting Algorithms in Federated Learning &#8212; fl-sim 0.1.1.dev14+gc8c6afd80 documentation</title>
+    <title>Operator Splitting Algorithms in Federated Learning &#8212; fl-sim 0.1.1.dev17+gcdb91a0fc documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=e1718c2e"></script>
+    <script src="../_static/documentation_options.js?v=97a4fe6b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -224,7 +224,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev14+gc8c6afd80 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev17+gcdb91a0fc documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -320,6 +320,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../api/utils.html">fl_sim.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/config_reference.html">Algorithm Configuration Reference</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
 <ul class="current nav bd-sidenav">
@@ -548,6 +549,10 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-operator-splitting-the-correctness-of-the-limit">Why operator splitting? The correctness of the limit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-monotone-inclusions-to-splitting-methods">From monotone inclusions to splitting methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedsplit-federated-peaceman-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code>: Federated Peaceman–Rachford Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddr-federated-douglas-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedDR</span></code>: Federated Douglas–Rachford Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
             </nav>
         </div>
@@ -603,8 +608,90 @@ of the joint problem.</p>
 <p>This observation motivates reformulating the federated problem in a form whose splitting-based
 solution converges to the <em>correct</em> point, which is exactly the route taken by <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> and
 <code class="docutils literal notranslate"><span class="pre">FedDR</span></code> below.</p>
+</section>
+<section id="from-monotone-inclusions-to-splitting-methods">
+<span id="fl-alg-os-splitting"></span><h2>From monotone inclusions to splitting methods<a class="headerlink" href="#from-monotone-inclusions-to-splitting-methods" title="Link to this heading">#</a></h2>
+<p>Start from the constrained form of the federated problem, <span class="math notranslate nohighlight">\(\minimize \ F(\Theta) := \frac{1}{K} \sum_{k=1}^K f_k(\theta_k)\)</span>
+subject to <span class="math notranslate nohighlight">\(\Theta = \col(\theta_1, \ldots, \theta_K) \in \mathcal{E}\)</span> with the consensus
+set <span class="math notranslate nohighlight">\(\mathcal{E} = \{ \Theta \mid \theta_1 = \cdots = \theta_K \}\)</span>, and penalize the
+constraint with its indicator function <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> (<span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}(\Theta) = 0\)</span>
+on <span class="math notranslate nohighlight">\(\mathcal{E}\)</span>, <span class="math notranslate nohighlight">\(+\infty\)</span> otherwise). The penalized problem
+<span class="math notranslate nohighlight">\(\minimize \ F(\Theta) + \iota_{\mathcal{E}}(\Theta)\)</span> has the first-order optimality
+condition</p>
+<div class="math notranslate nohighlight" id="equation-os-mono-incl">
+<span class="eqno">(4)<a class="headerlink" href="#equation-os-mono-incl" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\minimize}{minimize}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\expectation}{\mathbb{E}}
+\newcommand{\col}{\operatorname{col}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\prox}{\mathbf{prox}}\\0 \in \nabla F(\Theta) + \partial \iota_{\mathcal{E}}(\Theta) = \nabla F(\Theta) + \mathcal{N}_{\mathcal{E}}(\Theta),\end{aligned}\end{align} \]</div>
+<p>a <em>monotone inclusion problem</em>: <span class="math notranslate nohighlight">\(\nabla F\)</span> and the normal cone
+<span class="math notranslate nohighlight">\(\mathcal{N}_{\mathcal{E}}\)</span> (here <span class="math notranslate nohighlight">\(\mathcal{E}^{\perp}\)</span> on <span class="math notranslate nohighlight">\(\mathcal{E}\)</span>,
+empty elsewhere) are both <em>maximal monotone operators</em> [Ryu and Yin<a class="footnote-reference brackets" href="#footcite-ryu2022large" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]. The workhorses
+for splitting such an inclusion <span class="math notranslate nohighlight">\(0 \in \mathcal{A}(x) + \mathcal{B}(x)\)</span> are the
+<em>resolvents</em> <span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{T}} := (\mathcal{I} + s\mathcal{T})^{-1}\)</span> and the
+<em>reflected resolvents</em> (Cayley operators) <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{T}} := 2\mathcal{R}_{s\mathcal{T}} - \mathcal{I}\)</span>.
+For a gradient or a subdifferential the resolvent is a proximal operator,
+<span class="math notranslate nohighlight">\(\mathcal{R}_{s\partial f} = \prox_{s f}\)</span>, and for the indicator function it is the
+projection, <span class="math notranslate nohighlight">\(\mathcal{R}_{s\partial\iota_{\mathcal{E}}} = \Pi_{\mathcal{E}}\)</span>. The key
+equivalence is that solving the inclusion is the same as finding a fixed point of the
+<em>nonexpansive</em> composition <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-os-fixed-pt">
+<span class="eqno">(5)<a class="headerlink" href="#equation-os-fixed-pt" title="Link to this equation">#</a></span>\[0 \in \mathcal{A}(x) + \mathcal{B}(x)
+\quad \Longleftrightarrow \quad
+\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}(z) = z,
+\quad x = \mathcal{R}_{s\mathcal{B}}(z).\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span> is merely nonexpansive, its
+averaged version <span class="math notranslate nohighlight">\((1 - \tau)\mathcal{I} + \tau\, \mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span>
+(<span class="math notranslate nohighlight">\(\tau \in (0, 1]\)</span>) is used for the fixed-point iteration, giving the family of
+splitting methods</p>
+<div class="math notranslate nohighlight" id="equation-os-splitting-iter">
+<span class="eqno">(6)<a class="headerlink" href="#equation-os-splitting-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+x^{(t+1/2)} &amp; = \mathcal{R}_{s\mathcal{B}}\left( z^{(t)} \right), \\
+z^{(t+1/2)} &amp; = 2 x^{(t+1/2)} - z^{(t)}, \\
+x^{(t+1)} &amp; = \mathcal{R}_{s\mathcal{A}}\left( z^{(t+1/2)} \right), \\
+z^{(t+1)} &amp; = z^{(t)} + 2\tau \left( x^{(t+1)} - x^{(t+1/2)} \right).
+\end{aligned}\end{split}\]</div>
+<p>The case <span class="math notranslate nohighlight">\(\tau = 1\)</span> is the <strong>Peaceman–Rachford splitting method</strong> (PRSM); the case
+<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span> is the <strong>Douglas–Rachford splitting method</strong> (DRSM)
+[Douglas and Rachford<a class="footnote-reference brackets" href="#footcite-douglas-1956-drsm" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Lions and Mercier<a class="footnote-reference brackets" href="#footcite-lions-1979-splitting" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>]. The two differ only in the last
+(relaxation) step – precisely in the choice of <span class="math notranslate nohighlight">\(\tau\)</span> – and this difference is decisive:
+unlike PRSM, DRSM converges for general maximal monotone operators without any additional
+assumptions beyond monotonicity [Ryu and Yin<a class="footnote-reference brackets" href="#footcite-ryu2022large" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>].</p>
+</section>
+<section id="fedsplit-federated-peaceman-rachford-splitting">
+<span id="fl-alg-os-fedsplit"></span><h2><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code>: Federated Peaceman–Rachford Splitting<a class="headerlink" href="#fedsplit-federated-peaceman-rachford-splitting" title="Link to this heading">#</a></h2>
+<p>Apply the machinery above with
+<span class="math notranslate nohighlight">\(\mathcal{A} = \nabla F\)</span>, <span class="math notranslate nohighlight">\(\mathcal{B} = \partial\iota_{\mathcal{E}} = \mathcal{N}_{\mathcal{E}}\)</span>
+(and <span class="math notranslate nohighlight">\(s = \frac{1}{\mu}\)</span>). The two resolvents are
+<span class="math notranslate nohighlight">\(\mathcal{R}_{s\nabla F} = \prox_{F, \mu}\)</span> and
+<span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{N}_{\mathcal{E}}} = \Pi_{\mathcal{E}}\)</span>, and – crucially for
+federated learning – the proximal operator of the block-separable objective decomposes into
+client-local proximal steps,</p>
+<div class="math notranslate nohighlight" id="equation-os-blockwise-prox">
+<span class="eqno">(7)<a class="headerlink" href="#equation-os-blockwise-prox" title="Link to this equation">#</a></span>\[\prox_{F, \mu}(\Theta)
+= \argmin_{\omega} \left\{ \sum_{k=1}^K f_k(\omega_k) + \frac{\mu}{2} \sum_{k=1}^K \lVert \omega_k - \theta_k \rVert^2 \right\}
+= \left( \prox_{f_k, \mu}(\theta_k) \right)_{k=1}^K,\]</div>
+<p>while the projection <span class="math notranslate nohighlight">\(\Pi_{\mathcal{E}}\)</span> is exactly the averaging aggregation at the
+server. The splitting is thus fully decoupled across clients and fits the center–client
+communication pattern. Applying the PRSM (<span class="math notranslate nohighlight">\(\tau = 1\)</span>) yields the <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> algorithm
+[Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] – the first application of splitting methods to federated
+learning – whose <span class="math notranslate nohighlight">\(\texttt{prox\_update}_k\)</span> is an inexact client-side solver of
+<span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span> (e.g. stochastic gradient descent).</p>
+<p><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> fixes the correctness problem above: the fixed point of its iteration yields the
+genuine solution of the federated problem, not a shifted one as for <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>/<code class="docutils literal notranslate"><span class="pre">FedProx</span></code>.
+Its convergence, however, inherits the caveat of PRSM: for general nonexpansive Cayley
+operators PRSM carries no convergence guarantee, so additional assumptions (strong convexity
+and <span class="math notranslate nohighlight">\(L\)</span>-smoothness of <span class="math notranslate nohighlight">\(f_k\)</span>) are needed, under which the rate is</p>
+<div class="math notranslate nohighlight" id="equation-os-fedsplit-rate">
+<span class="eqno">(8)<a class="headerlink" href="#equation-os-fedsplit-rate" title="Link to this equation">#</a></span>\[\lVert \theta^{(t+1)} - \theta^* \rVert \leqslant
+\left( 1 - \frac{2}{\sqrt{\kappa}+1} \right)^t \frac{\lVert \theta^{(1)} - \theta^* \rVert}{\sqrt{K}}
++ (\sqrt{\kappa}+1)\, b,\]</div>
+<p>with <span class="math notranslate nohighlight">\(\ell_* = \min_k \ell_k\)</span> the strong convexity modulus, <span class="math notranslate nohighlight">\(L^* = \max_k L_k\)</span>,
+<span class="math notranslate nohighlight">\(\kappa = L^* / \ell_*\)</span>, and <span class="math notranslate nohighlight">\(b\)</span> the uniform error bound of the inexact proximal
+solves. The pseudocode is summarized below.</p>
 <div class="pseudocode-container docutils container" id="pcode-fedsplit">
-<pre class="scopeline-pseudocode" id="pseudocode-139818272547328" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139739951854640" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedSplit}}
 \begin{algorithmic}
 \REQUIRE {\bfseries proximal solvers} $\texttt{prox\_update}_k: \mathbb{R}^d \to \mathbb{R}^d$
@@ -628,8 +715,60 @@ solution converges to the <em>correct</em> point, which is exactly the route tak
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
+</section>
+<section id="feddr-federated-douglas-rachford-splitting">
+<span id="fl-alg-os-feddr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDR</span></code>: Federated Douglas–Rachford Splitting<a class="headerlink" href="#feddr-federated-douglas-rachford-splitting" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">FedDR</span></code> algorithm [Tran-Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-tran2021feddr" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>] replaces PRSM by the convergent DRSM
+(<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span>) and, in doing so, enlarges the admissible problem class to
+<em>nonconvex</em> smooth objectives, with an explicit regularizer built into the model,</p>
+<div class="math notranslate nohighlight" id="equation-os-feddr-model">
+<span class="eqno">(9)<a class="headerlink" href="#equation-os-feddr-model" title="Link to this equation">#</a></span>\[\minimize \quad F(\theta) = f(\theta) + g(\theta) = \frac{1}{K} \sum_{k=1}^K f_k(\theta) + g(\theta),\]</div>
+<p>where <span class="math notranslate nohighlight">\(f_k\)</span> are <span class="math notranslate nohighlight">\(L\)</span>-smooth (possibly nonconvex) and <span class="math notranslate nohighlight">\(g\)</span> is a closed, proper,
+convex (CCP) regularizer. Introducing one more block <span class="math notranslate nohighlight">\(\theta_{K+1}\)</span> for <span class="math notranslate nohighlight">\(g\)</span> and
+penalizing the consensus constraint <span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_{K+1}\)</span> with
+<span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> as before, the first-order condition becomes the three-operator
+inclusion</p>
+<div class="math notranslate nohighlight" id="equation-os-feddr-mono-incl">
+<span class="eqno">(10)<a class="headerlink" href="#equation-os-feddr-mono-incl" title="Link to this equation">#</a></span>\[0 \in \nabla f(\Theta) + \partial \left( g + \iota_{\mathcal{E}} \right)(\Theta),\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathcal{B} = \nabla f\)</span> and <span class="math notranslate nohighlight">\(\mathcal{A} = \partial (g + \iota_{\mathcal{E}})\)</span>.
+The resolvent of <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> is
+<span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{B}} = \prox_{K s f}\)</span> – blockwise, the client-local proximal steps
+– and the resolvent of <span class="math notranslate nohighlight">\(\mathcal{A}\)</span> handles the regularizer <em>and</em> the consensus
+constraint jointly at the server. The DRSM iteration (<a class="reference internal" href="#equation-os-splitting-iter">(6)</a> with
+<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span>, written with relaxation coefficient <span class="math notranslate nohighlight">\(\alpha\)</span>) reads</p>
+<div class="math notranslate nohighlight" id="equation-os-feddr-iter">
+<span class="eqno">(11)<a class="headerlink" href="#equation-os-feddr-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+\omega_k^{(t+1)} &amp; = \omega_k^{(t)} + \alpha \left( \overline{\theta}^{(t)} - \theta_k^{(t)} \right), &amp; k \in [K], \\
+\theta_k^{(t+1)} &amp; = \prox_{f_k, \mu} \left( \omega_k^{(t+1)} \right), &amp; k \in [K], \\
+\widehat{\theta}_k^{(t+1)} &amp; = 2\theta_k^{(t+1)} - \omega_k^{(t+1)}, &amp; k \in [K], \\
+\widetilde{\theta}^{(t+1)} &amp; = \frac{1}{K}\sum_{k=1}^K \widehat{\theta}_k^{(t+1)}, &amp; \\
+\omega^{(t+1)} &amp; = \omega^{(t)} + \alpha \left( \overline{\theta}^{(t)} - \omega^{(t)} \right), &amp; \\
+\overline{\theta}^{(t+1)} &amp; = \prox_{g, \frac{K+1}{Ks}} \left( \frac{K}{K+1} \widetilde{\theta}^{(t+1)} + \frac{1}{K+1} \omega^{(t+1)} \right). &amp;
+\end{aligned}\end{split}\]</div>
+<p>The first three lines are the clients’ local work; the last line is the server, which averages
+the reflected blocks and applies the proximal step of the regularizer <span class="math notranslate nohighlight">\(g\)</span>.</p>
+<p>As for convergence [Tran-Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-tran2021feddr" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>], assuming <span class="math notranslate nohighlight">\(L\)</span>-smooth <span class="math notranslate nohighlight">\(f_k\)</span> and
+letting <span class="math notranslate nohighlight">\(e_k^{(t)}\)</span> denote the error of the inexact client-side proximal solve at round
+<span class="math notranslate nohighlight">\(t\)</span>: (i) the gap between the (regularizer-corrected) global model and each local model is
+bounded by the consecutive local differences and the proximal errors
+<span class="math notranslate nohighlight">\(\lVert e_k^{(t)} \rVert\)</span>; (ii) the squared norm of the gradient mapping
+<span class="math notranslate nohighlight">\(\mathcal{G}_{\beta}(\theta) := \frac{1}{\beta} \left( \theta - \prox_{\beta g}\left( \theta - \beta \nabla f(\theta) \right) \right)\)</span>
+of the global objective at <span class="math notranslate nohighlight">\(\overline{\theta}^{(t)}\)</span> is bounded by the same quantities
+(and the drift of the auxiliary variable <span class="math notranslate nohighlight">\(\omega^{(t)}\)</span>); and (iii) the averaged
+gradient-mapping norm enjoys an <span class="math notranslate nohighlight">\(\mathcal{O}(1/T)\)</span> bound,</p>
+<div class="math notranslate nohighlight" id="equation-os-feddr-rate">
+<span class="eqno">(12)<a class="headerlink" href="#equation-os-feddr-rate" title="Link to this equation">#</a></span>\[\frac{1}{T} \sum_{t=0}^{T-1} \expectation \left[ \lVert \mathcal{G}_{\frac{Ks}{K+1}} \left( \overline{\theta}^{(t)} \right) \rVert^2 \right]
+\leqslant \frac{C_1 \left( F(\theta^{(0)}) - F^* \right)}{T}
++ \frac{1}{KT} \sum_{t=0}^{T-1} \sum_{k=1}^K \left( C_2 \varepsilon_{k,t}^2 + C_3 \varepsilon_{k,t+1}^2 \right),\]</div>
+<p>with <span class="math notranslate nohighlight">\(F^* = \inf_\theta F(\theta)\)</span>; in particular, after</p>
+<div class="math notranslate nohighlight" id="equation-os-feddr-t">
+<span class="eqno">(13)<a class="headerlink" href="#equation-os-feddr-t" title="Link to this equation">#</a></span>\[T = \left\lfloor \frac{C_1 \left[ F(\theta^{(0)}) - F^* \right] + (C_2 + C_3) M}{\varepsilon^2} \right\rfloor,
+\qquad
+M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,\]</div>
+<p>iterations the output <span class="math notranslate nohighlight">\(\overline{\theta}^{(T)}\)</span> is an <span class="math notranslate nohighlight">\(\varepsilon\)</span>-stationary
+point of <a class="reference internal" href="#equation-os-feddr-model">(9)</a>. The pseudocode is summarized below.</p>
 <div class="pseudocode-container docutils container" id="pcode-feddr">
-<pre class="scopeline-pseudocode" id="pseudocode-139818272545312" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139739951850704" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDR}}
 \begin{algorithmic}
 \REQUIRE step size $s = \frac{1}{\mu} &gt; 0$, $\alpha \in (0, 2)$, error bounds $\varepsilon_{k,0} \geqslant 0$
@@ -655,13 +794,43 @@ solution converges to the <em>correct</em> point, which is exactly the route tak
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}</pre></div>
+</section>
+<section id="summary">
+<span id="fl-alg-os-summary"></span><h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Splitting methods belong to the family of <em>decomposition algorithms</em>: they break a large
+problem into smaller subproblems handled separately (here, by the clients and the server), so
+that each subproblem is easier to solve and easier to parallelize. In theory, they bring many
+federated algorithms under one umbrella and – unlike <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>/<code class="docutils literal notranslate"><span class="pre">FedProx</span></code> – their limits are
+guaranteed to be correct (<a class="reference internal" href="#fl-alg-os-fedsplit"><span class="std std-ref">FedSplit</span></a>) or to approach a stationary
+point of the true objective (<a class="reference internal" href="#fl-alg-os-feddr"><span class="std std-ref">FedDR</span></a>). The price is bookkeeping: besides
+the model parameters, every node (server and clients) maintains auxiliary variables (the
+reflected blocks <span class="math notranslate nohighlight">\(z\)</span>, the blended copies <span class="math notranslate nohighlight">\(\omega\)</span>), which adds memory and
+computation overhead.</p>
 <p class="rubric">References</p>
-<div class="docutils container" id="id3">
+<div class="docutils container" id="id10">
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="footcite-pathak2020fedsplit" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id7">3</a>)</span>
 <p>Reese Pathak and Martin J Wainwright. FedSplit: An Algorithmic Framework for Fast Federated Optimization. In H. Larochelle, M. Ranzato, R. Hadsell, M.F. Balcan, and H. Lin, editors, <em>Advances in Neural Information Processing Systems</em>, volume 33, 7057–7066. Curran Associates, Inc., 2020.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-ryu2022large" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>Ernest K Ryu and Wotao Yin. <em>Large-Scale Convex Optimization: Algorithms &amp; Analyses via Monotone Operators</em>. Cambridge University Press, 11 2022. <a class="reference external" href="https://doi.org/10.1017/9781009160865">doi:10.1017/9781009160865</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-douglas-1956-drsm" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
+<p>Jim Douglas and H. H. Rachford. On the Numerical Solution of Heat Conduction Problems in Two and Three Space Variables. <em>Transactions of the American Mathematical Society</em>, 82(2):421–439, 1956. <a class="reference external" href="https://doi.org/10.1090/s0002-9947-1956-0084194-4">doi:10.1090/s0002-9947-1956-0084194-4</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-lions-1979-splitting" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">4</a><span class="fn-bracket">]</span></span>
+<p>P. L. Lions and B. Mercier. Splitting Algorithms for the Sum of Two Nonlinear Operators. <em>SIAM Journal on Numerical Analysis</em>, 16(6):964–979, 12 1979. <a class="reference external" href="https://doi.org/10.1137/0716071">doi:10.1137/0716071</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-tran2021feddr" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
+<p>Quoc Tran-Dinh, Nhan Pham, Dzung T. Phan, and Lam M. Nguyen. FedDR – Randomized Douglas-Rachford Splitting Algorithms for Nonconvex Federated Composite Optimization. In A. Beygelzimer, Y. Dauphin, P. Liang, and J. Wortman Vaughan, editors, <em>Advances in Neural Information Processing Systems</em>. 2021.</p>
 </aside>
 </aside>
 </div>
@@ -714,6 +883,10 @@ solution converges to the <em>correct</em> point, which is exactly the route tak
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-operator-splitting-the-correctness-of-the-limit">Why operator splitting? The correctness of the limit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-monotone-inclusions-to-splitting-methods">From monotone inclusions to splitting methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedsplit-federated-peaceman-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code>: Federated Peaceman–Rachford Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddr-federated-douglas-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedDR</span></code>: Federated Douglas–Rachford Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
   </nav></div>
 

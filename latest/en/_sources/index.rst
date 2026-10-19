@@ -28,6 +28,7 @@ Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gi
    api/optimizers
    api/regularizers
    api/utils
+   api/config_reference
 
 .. toctree::
    :caption: Advanced Topics

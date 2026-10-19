@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>fl_sim.messages &#8212; fl-sim 0.1.1.dev14+gc8c6afd80 文档</title>
+    <title>fl_sim.messages &#8212; fl-sim 0.1.1.dev17+gcdb91a0fc 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=d43d33e6"></script>
+    <script src="../_static/documentation_options.js?v=49dc4194"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -223,7 +223,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev14+gc8c6afd80 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev17+gcdb91a0fc 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -319,6 +319,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">fl_sim.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_reference.html">Algorithm Configuration Reference</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">进阶主题</span></p>
 <ul class="nav bd-sidenav">
@@ -550,10 +551,8 @@ document.write(`
                   
   <section id="fl-sim-messages">
 <span id="module-fl_sim.messages"></span><span id="messages"></span><h1>fl_sim.messages<a class="headerlink" href="#fl-sim-messages" title="Link to this heading">#</a></h1>
-<p>Typed messages exchanged between the <a class="reference internal" href="generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server" title="fl_sim.nodes.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a> and
-<a class="reference internal" href="generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client" title="fl_sim.nodes.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> nodes.</p>
-<p>The legacy protocol manipulates the (private) <code class="docutils literal notranslate"><span class="pre">_received_messages</span></code>
-containers directly with magic string keys, e.g.</p>
+<p>在 <a class="reference internal" href="generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server" title="fl_sim.nodes.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a> 与 <a class="reference internal" href="generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client" title="fl_sim.nodes.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> 节点之间交换的类型化消息。</p>
+<p>旧式协议直接用魔法字符串键操作（私有的）``_received_messages`` 容器，例如</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># server -&gt; client (legacy)</span>
 <span class="n">target</span><span class="o">.</span><span class="n">_received_messages</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"parameters"</span><span class="p">:</span> <span class="n">params</span><span class="p">,</span> <span class="s2">"alpha"</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">}</span>
 <span class="c1"># client -&gt; server (legacy)</span>
@@ -562,12 +561,7 @@ containers directly with magic string keys, e.g.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>The typed messages below are the recommended replacement: the message
-fields are explicit (hence IDE-discoverable and validated by construction),
-and the (private) legacy containers are populated automatically by
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">Client.receive()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Server.receive_one()</span></code>, so that the legacy
-consumption code (e.g. <code class="xref py py-meth docutils literal notranslate"><span class="pre">Client.accept_parameters()</span></code>) keeps working
-unchanged during the transition.</p>
+<p>下文的类型化消息是推荐的替代方案：消息字段是显式的（因而可被 IDE 发现并在构造时得到校验），且（私有的）旧式容器会由 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Client.receive()</span></code> 与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Server.receive_one()</span></code> 自动填充，因此旧式的消费代码（例如 <code class="xref py py-meth docutils literal notranslate"><span class="pre">Client.accept_parameters()</span></code>）在过渡期间无需修改即可继续工作。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># server -&gt; client (typed)</span>
 <span class="n">target</span><span class="o">.</span><span class="n">receive</span><span class="p">(</span><span class="n">ServerToClient</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">extras</span><span class="o">=</span><span class="p">{</span><span class="s2">"alpha"</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">}))</span>
 <span class="c1"># client -&gt; server (typed)</span>
