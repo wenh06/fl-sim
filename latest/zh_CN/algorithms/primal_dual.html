@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的原始对偶算法 &#8212; fl-sim 0.1.1.dev17+gcdb91a0fc 文档</title>
+    <title>联邦学习中的原始对偶算法 &#8212; fl-sim 0.1.1.dev18+gf6c3e33a6 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=49dc4194"></script>
+    <script src="../_static/documentation_options.js?v=9c6c6b09"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev17+gcdb91a0fc 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev18+gf6c3e33a6 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -549,7 +549,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedpd-federated-primal-dual-algorithm"><code class="docutils literal notranslate"><span class="pre">FedPD</span></code>：联邦原始对偶算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedpd-federated-primal-dual-algorithm"><code class="docutils literal notranslate"><span class="pre">FedPD</span></code> ：联邦原始对偶算法</a></li>
 </ul>
             </nav>
         </div>
@@ -573,12 +573,12 @@ document.write(`
 \minimize &amp; F(\Theta) := \sum\limits_{k=1}^K f_k(\theta_k), \\
 \text{subject to} &amp; \theta_k = \theta, ~ k = 1, \ldots, K,
 \end{array}\end{split}\end{aligned}\end{align} \]</div>
-<p>其中 <span class="math notranslate nohighlight">\(\Theta = \col(\theta_1, \cdots, \theta_K)\)</span>，<span class="math notranslate nohighlight">\(\theta, \theta_1, \ldots, \theta_K \in \R^d\)</span>。约束优化问题 <a class="reference internal" href="#equation-fedpd-constraint">(1)</a> 的*增广拉格朗日函数* (Augmented Lagrangian, AL) 为</p>
+<p>其中 <span class="math notranslate nohighlight">\(\Theta = \col(\theta_1, \cdots, \theta_K)\)</span> ，<span class="math notranslate nohighlight">\(\theta, \theta_1, \ldots, \theta_K \in \R^d\)</span> 。约束优化问题 <a class="reference internal" href="#equation-fedpd-constraint">(1)</a> 的* 增广拉格朗日函数* (Augmented Lagrangian, AL) 为</p>
 <div class="math notranslate nohighlight" id="equation-al">
 <span class="eqno">(2)<a class="headerlink" href="#equation-al" title="Link to this equation">#</a></span>\[\mathcal{L}(\theta, \Theta, \Lambda) = \sum\limits_{k=1}^K \mathcal{L}_k(\theta, \theta_k, \lambda_k),
 \qquad
 \mathcal{L}_k(\theta, \theta_k, \lambda_k) = f_k(\theta_k) + \langle \lambda_k, \theta_k - \theta \rangle + \frac{1}{2s} \lVert \theta_k - \theta \rVert^2,\]</div>
-<p>其中 <span class="math notranslate nohighlight">\(\Lambda = \col(\lambda_1, \ldots, \lambda_K)\)</span> 是*对偶变量* (Dual Variable)，亦称拉格朗日乘子 (Lagrangian Multiplier)，<span class="math notranslate nohighlight">\(s &gt; 0\)</span> 是罚参数。将梯度提升类的算法应用于对偶问题 <span class="math notranslate nohighlight">\(\maximize_\Lambda \ G(\Lambda) := \inf_{\theta, \Theta} \mathcal{L}(\theta, \Theta, \Lambda)\)</span>，即得到求解这类问题的一般迭代格式</p>
+<p>其中 <span class="math notranslate nohighlight">\(\Lambda = \col(\lambda_1, \ldots, \lambda_K)\)</span> 是* 对偶变量* (Dual Variable)，亦称拉格朗日乘子 (Lagrangian Multiplier)，<span class="math notranslate nohighlight">\(s &gt; 0\)</span> 是罚参数。将梯度提升类的算法应用于对偶问题 <span class="math notranslate nohighlight">\(\maximize_\Lambda \ G(\Lambda) := \inf_{\theta, \Theta} \mathcal{L}(\theta, \Theta, \Lambda)\)</span> ，即得到求解这类问题的一般迭代格式</p>
 <div class="math notranslate nohighlight" id="equation-al-iter">
 <span class="eqno">(3)<a class="headerlink" href="#equation-al-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
 \theta_k^{(t+1)} &amp; = \argmin_{\theta_k} \mathcal{L}_k\left( \theta^{(t)}, \theta_k, \lambda_k^{(t)} \right), \\
@@ -587,20 +587,20 @@ document.write(`
 = \frac{1}{K} \sum\limits_{k=1}^K \left( \theta_k^{(t+1)} + s\lambda_k^{(t+1)} \right).
 \end{aligned}\end{split}\]</div>
 <section id="fedpd-federated-primal-dual-algorithm">
-<span id="fl-alg-primal-dual-fedpd"></span><h2><code class="docutils literal notranslate"><span class="pre">FedPD</span></code>：联邦原始对偶算法<a class="headerlink" href="#fedpd-federated-primal-dual-algorithm" title="Link to this heading">#</a></h2>
-<p>基于这一迭代格式，文献 [Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 设计了联邦原始对偶算法 <code class="docutils literal notranslate"><span class="pre">FedPD</span></code>，其交替执行子节点侧的本地更新、子节点侧的对偶更新以及中心节点侧的全局平均。有两点设计值得特别注意。</p>
-<p><a href="#id1"><span class="problematic" id="id2">**</span></a>灵活的局部求解器。<a href="#id3"><span class="problematic" id="id4">**</span></a>对于 <a class="reference internal" href="#equation-al-iter">(3)</a> 中的本地更新（即局部增广拉格朗日函数 <span class="math notranslate nohighlight">\(\mathcal{L}_k\)</span> 的极小化），<code class="docutils literal notranslate"><span class="pre">FedPD</span></code> 允许子节点使用任意的求解器 <span class="math notranslate nohighlight">\(\operatorname{\mathbf{Oracle}}_k\)</span>——可以是普通的随机梯度下降，也可以如 <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> 那样结合方差缩减技术。这种灵活性是联邦优化的显著特点（与中心节点侧的 <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> 是同一思想）。在使用方差缩减时，还可以进一步将 <span class="math notranslate nohighlight">\(f_k\)</span> 在当前内循环迭代点 <span class="math notranslate nohighlight">\(\theta_k^{(t, r)}\)</span> 处*线性化*（记局部梯度为 <span class="math notranslate nohighlight">\(g_k^{(t, r)}\)</span>），此时局部增广拉格朗日函数成为二次函数，其极小点具有解析形式，</p>
+<span id="fl-alg-primal-dual-fedpd"></span><h2><code class="docutils literal notranslate"><span class="pre">FedPD</span></code> ：联邦原始对偶算法<a class="headerlink" href="#fedpd-federated-primal-dual-algorithm" title="Link to this heading">#</a></h2>
+<p>基于这一迭代格式，文献 [Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 设计了联邦原始对偶算法 <code class="docutils literal notranslate"><span class="pre">FedPD</span></code> ，其交替执行子节点侧的本地更新、子节点侧的对偶更新以及中心节点侧的全局平均。有两点设计值得特别注意。</p>
+<p>** 灵活的局部求解器。 ** 对于 <a class="reference internal" href="#equation-al-iter">(3)</a> 中的本地更新（即局部增广拉格朗日函数 <span class="math notranslate nohighlight">\(\mathcal{L}_k\)</span> 的极小化）， <code class="docutils literal notranslate"><span class="pre">FedPD</span></code> 允许子节点使用任意的求解器 <span class="math notranslate nohighlight">\(\operatorname{\mathbf{Oracle}}_k\)</span>——可以是普通的随机梯度下降，也可以如 <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> 那样结合方差缩减技术。这种灵活性是联邦优化的显著特点（与中心节点侧的 <code class="docutils literal notranslate"><span class="pre">FedOpt</span></code> 是同一思想）。在使用方差缩减时，还可以进一步将 <span class="math notranslate nohighlight">\(f_k\)</span> 在当前内循环迭代点 <span class="math notranslate nohighlight">\(\theta_k^{(t, r)}\)</span> 处* 线性化* （记局部梯度为 <span class="math notranslate nohighlight">\(g_k^{(t, r)}\)</span> ），此时局部增广拉格朗日函数成为二次函数，其极小点具有解析形式，</p>
 <div class="math notranslate nohighlight" id="equation-fedpd-linearize">
 <span class="eqno">(4)<a class="headerlink" href="#equation-fedpd-linearize" title="Link to this equation">#</a></span>\[\argmin \ \widetilde{\mathcal{L}}(\theta_{k})
 = \frac{s}{s+\gamma} \, \theta_k^{(t,r)} + \frac{\gamma}{s+\gamma} \, \theta_{k, 0}^{(t)} - \frac{s\gamma}{s+\gamma}\left( g_k^{(t,r)} + \lambda_k^{(t)} \right),\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(\gamma\)</span> 是线性化（临近）系数，<span class="math notranslate nohighlight">\(\theta_{k, 0}^{(t)}\)</span> 是本轮开始时局部模型的取值。</p>
-<p><strong>跳过全局步。</strong><a class="reference internal" href="#equation-al-iter">(3)</a> 中的外层（中心节点）步仅以概率 <span class="math notranslate nohighlight">\(1 - p\)</span> 执行。当它被跳过时，子节点用自身的 <span class="math notranslate nohighlight">\(\widetilde{\theta}^{(t)} = \theta_k^{(t-1)} + s \lambda_k^{(t-1)}\)</span> 代替全局模型，</p>
+<p><strong>跳过全局步。</strong> <a class="reference internal" href="#equation-al-iter">(3)</a> 中的外层（中心节点）步仅以概率 <span class="math notranslate nohighlight">\(1 - p\)</span> 执行。当它被跳过时，子节点用自身的 <span class="math notranslate nohighlight">\(\widetilde{\theta}^{(t)} = \theta_k^{(t-1)} + s \lambda_k^{(t-1)}\)</span> 代替全局模型，</p>
 <div class="math notranslate nohighlight" id="equation-fedpd-iter">
 <span class="eqno">(5)<a class="headerlink" href="#equation-fedpd-iter" title="Link to this equation">#</a></span>\[\begin{split}\theta^{(t+1)} = \begin{cases}
 \frac{1}{K} \sum\limits_{k=1}^K \left( \theta_k^{(t+1)} + s\lambda_k^{(t+1)} \right), &amp; \text{with probability } 1 - p, \\
 \theta^{(t)}, &amp; \text{with probability } p,
 \end{cases}\end{split}\]</div>
-<p>于是代价高昂的中心节点轮次——恰恰是通信瓶颈——以概率 <span class="math notranslate nohighlight">\(p\)</span> 被跳过。更进一步，跳步概率还可以做成*异质感知*的：[Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>]（TABLE III）给出了可达的 <span class="math notranslate nohighlight">\(p\)</span> 与子节点间数据分布异质程度 <span class="math notranslate nohighlight">\(G`（通过梯度差异有界性刻画）、(ε-)稳定点的目标精度 :math:\)</span>varepsilon` 以及 <span class="math notranslate nohighlight">\(f, f_k\)</span> 的 Lipschitz 常数 <span class="math notranslate nohighlight">\(L\)</span> 之间的关系，其中步长取 <span class="math notranslate nohighlight">\(s = \frac{\sqrt{5}-1}{8L}\)</span>：</p>
+<p>于是代价高昂的中心节点轮次——恰恰是通信瓶颈——以概率 <span class="math notranslate nohighlight">\(p\)</span> 被跳过。更进一步，跳步概率还可以做成* 异质感知* 的：[Zhang <em>et al.</em><a class="footnote-reference brackets" href="#footcite-zhang2020fedpd" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>]（TABLE III）给出了可达的 <span class="math notranslate nohighlight">\(p\)</span> 与子节点间数据分布异质程度 <span class="math notranslate nohighlight">\(G\)</span> （通过梯度差异有界性刻画）、(ε-)稳定点的目标精度 <span class="math notranslate nohighlight">\(\varepsilon\)</span> 以及 <span class="math notranslate nohighlight">\(f, f_k\)</span> 的 Lipschitz 常数 <span class="math notranslate nohighlight">\(L\)</span> 之间的关系，其中步长取 <span class="math notranslate nohighlight">\(s = \frac{\sqrt{5}-1}{8L}\)</span> ：</p>
 <div class="math notranslate nohighlight" id="equation-fedpd-skipping-prob">
 <span class="eqno">(6)<a class="headerlink" href="#equation-fedpd-skipping-prob" title="Link to this equation">#</a></span>\[\begin{split}p \approx \begin{cases}
 \sqrt{\frac{1}{36s} \cdot \frac{\varepsilon}{G^2}}, &amp; \text{if } 0 \leqslant p &lt; \frac{1-2Ls}{1+Ls}, \\
@@ -608,7 +608,7 @@ document.write(`
 \end{cases}\end{split}\]</div>
 <p>子节点间的数据分布越均匀（<span class="math notranslate nohighlight">\(G\)</span> 越小），通信轮就可以越激进地被跳过。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-fedpd">
-<pre class="scopeline-pseudocode" id="pseudocode-140298723716656" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899724945184" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedPD}}
 \begin{algorithmic}
 \REQUIRE step size $s = \frac{1}{\mu} &gt; 0,$ skip probability $p \in [0, 1)$
@@ -692,7 +692,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedpd-federated-primal-dual-algorithm"><code class="docutils literal notranslate"><span class="pre">FedPD</span></code>：联邦原始对偶算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedpd-federated-primal-dual-algorithm"><code class="docutils literal notranslate"><span class="pre">FedPD</span></code> ：联邦原始对偶算法</a></li>
 </ul>
   </nav></div>
 

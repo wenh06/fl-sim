@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的算子分裂算法 &#8212; fl-sim 0.1.1.dev17+gcdb91a0fc 文档</title>
+    <title>联邦学习中的算子分裂算法 &#8212; fl-sim 0.1.1.dev18+gf6c3e33a6 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=49dc4194"></script>
+    <script src="../_static/documentation_options.js?v=9c6c6b09"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev17+gcdb91a0fc 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev18+gf6c3e33a6 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -550,10 +550,10 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-operator-splitting-the-correctness-of-the-limit">为什么要算子分裂？收敛结果的正确性</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-monotone-inclusions-to-splitting-methods">From monotone inclusions to splitting methods</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedsplit-federated-peaceman-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code>: Federated Peaceman--Rachford Splitting</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddr-federated-douglas-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedDR</span></code>: Federated Douglas--Rachford Splitting</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-monotone-inclusions-to-splitting-methods">从单调包含问题到分裂方法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedsplit-federated-peaceman-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> ：联邦 Peaceman--Rachford 分裂算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddr-federated-douglas-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedDR</span></code> ：联邦 Douglas--Rachford 分裂算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">小结</a></li>
 </ul>
             </nav>
         </div>
@@ -569,18 +569,18 @@ document.write(`
 <span id="fl-alg-operator-splitting"></span><h1>联邦学习中的算子分裂算法<a class="headerlink" href="#operator-splitting-algorithms-in-federated-learning" title="Link to this heading">#</a></h1>
 <section id="why-operator-splitting-the-correctness-of-the-limit">
 <span id="fl-alg-os-correctness"></span><h2>为什么要算子分裂？收敛结果的正确性<a class="headerlink" href="#why-operator-splitting-the-correctness-of-the-limit" title="Link to this heading">#</a></h2>
-<p>已有的联邦学习算法大多处理非 I.I.D. 场景下的收敛率与稳定性问题，而它们收敛到的点的*正确性*却长期未被重视。一个简单的最小二乘例子表明，<code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 与 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的收敛结果一般不同于联邦问题的真解 [Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>]。</p>
-<p>考虑用最小二乘拟合线性模型 <span class="math notranslate nohighlight">\(y = mx`（:math:`m\)</span> 为待拟合变量），设有两个参与方：参与方 1 拥有数据 <span class="math notranslate nohighlight">\(\{(0, 2), (1, 2)\}\)</span>，相应的目标函数为</p>
+<p>已有的联邦学习算法大多处理非 I.I.D. 场景下的收敛率与稳定性问题，而它们收敛到的点的* 正确性* 却长期未被重视。一个简单的最小二乘例子表明， <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 与 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的收敛结果一般不同于联邦问题的真解 [Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>]。</p>
+<p>考虑用最小二乘拟合线性模型 <span class="math notranslate nohighlight">\(y = mx\)</span> （<span class="math notranslate nohighlight">\(m\)</span> 为待拟合变量），设有两个参与方：参与方 1 拥有数据 <span class="math notranslate nohighlight">\(\{(0, 2), (1, 2)\}\)</span> ，相应的目标函数为</p>
 <div class="math notranslate nohighlight">
 \[f_1(m_1) = \frac{1}{2} \left( 4 + (m_1 - 2)^2 \right);\]</div>
-<p>参与方 2 拥有数据 <span class="math notranslate nohighlight">\(\{(2, 0), (2, 1)\}\)</span>，相应的目标函数为</p>
+<p>参与方 2 拥有数据 <span class="math notranslate nohighlight">\(\{(2, 0), (2, 1)\}\)</span> ，相应的目标函数为</p>
 <div class="math notranslate nohighlight">
 \[f_2(m_2) = \frac{1}{2} \left( 4 m_2^2 + (2 m_2 - 1)^2 \right).\]</div>
-<p>两个参与方单独拟合的结果分别为 <span class="math notranslate nohighlight">\(m_1 = 2\)</span> 与 <span class="math notranslate nohighlight">\(m_2 = \frac{1}{4}\)</span>；<code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 的结果是平均值 <span class="math notranslate nohighlight">\(m = \frac{9}{8}\)</span>，而 <a href="#id1"><span class="problematic" id="id2">``</span></a>FedProx``（极小化带临近项的目标函数）的结果是</p>
+<p>两个参与方单独拟合的结果分别为 <span class="math notranslate nohighlight">\(m_1 = 2\)</span> 与 <span class="math notranslate nohighlight">\(m_2 = \frac{1}{4}\)</span> ； <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 的结果是平均值 <span class="math notranslate nohighlight">\(m = \frac{9}{8}\)</span> ，而 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> （极小化带临近项的目标函数）的结果是</p>
 <div class="math notranslate nohighlight" id="equation-eg-correctness-fedprox">
 <span class="eqno">(1)<a class="headerlink" href="#equation-eg-correctness-fedprox" title="Link to this equation">#</a></span>\[m = \frac{18 + 4\mu}{16 + 9\mu},\]</div>
-<p>其中 <span class="math notranslate nohighlight">\(\mu\)</span> 为临近项系数。然而，把所有数据放在一起拟合的结果是 <span class="math notranslate nohighlight">\(m = \frac{4}{9}\)</span>。差异的根源在于目标函数关于 <span class="math notranslate nohighlight">\(m\)</span> 是二次的：单独拟合结果的平均值一般不等于整体拟合的结果。</p>
-<p>更一般地，[Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 分析了 <code class="docutils literal notranslate"><span class="pre">FedAvg``（其简化形式，即子节点上做全量梯度下降，记作</span> <span class="pre">``FedGD</span></code>）与 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的收敛点：假设每个 <span class="math notranslate nohighlight">\(f_k\)</span> 是凸的且 <span class="math notranslate nohighlight">\(L\)</span>-光滑，并且算法生成的序列收敛，那么所有子节点的模型参数序列有公共极限 <span class="math notranslate nohighlight">\(\theta^*\)</span>，且该极限满足如下不动点条件</p>
+<p>其中 <span class="math notranslate nohighlight">\(\mu\)</span> 为临近项系数。然而，把所有数据放在一起拟合的结果是 <span class="math notranslate nohighlight">\(m = \frac{4}{9}\)</span> 。差异的根源在于目标函数关于 <span class="math notranslate nohighlight">\(m\)</span> 是二次的：单独拟合结果的平均值一般不等于整体拟合的结果。</p>
+<p>更一般地，[Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 分析了 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> （其简化形式，即子节点上做全量梯度下降，记作 <code class="docutils literal notranslate"><span class="pre">FedGD</span></code> ）与 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的收敛点：假设每个 <span class="math notranslate nohighlight">\(f_k\)</span> 是凸的且 <span class="math notranslate nohighlight">\(L\)</span>-光滑，并且算法生成的序列收敛，那么所有子节点的模型参数序列有公共极限 <span class="math notranslate nohighlight">\(\theta^*\)</span> ，且该极限满足如下不动点条件</p>
 <div class="math notranslate nohighlight" id="equation-fedgd-fixed-pt">
 <span class="eqno">(2)<a class="headerlink" href="#equation-fedgd-fixed-pt" title="Link to this equation">#</a></span>\[\sum\limits_{i=1}^R \sum\limits_{k=1}^K \nabla f_k\big( \mathcal{G}_k^{i-1}(\theta^*) \big) = 0,
 \qquad
@@ -589,18 +589,12 @@ document.write(`
 <div class="math notranslate nohighlight" id="equation-fedprox-fixed-pt">
 <span class="eqno">(3)<a class="headerlink" href="#equation-fedprox-fixed-pt" title="Link to this equation">#</a></span>\[\sum\limits_{k=1}^K \nabla \mathcal{M}_{f_k, \mu}(\theta^*) = 0, \qquad
 \mathcal{M}_{f_k, \mu}(\theta) := \inf_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta - \theta_k \rVert^2 \right\},\]</div>
-<p>对 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 而言，其中 <span class="math notranslate nohighlight">\(\mathcal{M}_{f_k, \mu}\)</span> 是 <span class="math notranslate nohighlight">\(f_k\)</span> 的 Moreau 包络。把它们应用到最小二乘问题 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \frac{1}{2} \lVert A_k \theta_k + b_k \rVert^2`（:math:`A_k\)</span> 列满秩），这些不动点有解析表达式，且一般不同于整体问题的真解 <span class="math notranslate nohighlight">\(\theta^* = \big( \sum_{k=1}^K A_k^{\mathrm{T}} A_k \big)^{-1} \sum_{k=1}^K A_k^{\mathrm{T}} b_k\)</span>。</p>
-<p>上述观察促使我们把联邦问题重新表述成一种等价形式，使其基于算子分裂的解收敛到*正确*的点——这正是下文 <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 与 <code class="docutils literal notranslate"><span class="pre">FedDR</span></code> 的出发点。</p>
+<p>对 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 而言，其中 <span class="math notranslate nohighlight">\(\mathcal{M}_{f_k, \mu}\)</span> 是 <span class="math notranslate nohighlight">\(f_k\)</span> 的 Moreau 包络。把它们应用到最小二乘问题 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \frac{1}{2} \lVert A_k \theta_k + b_k \rVert^2\)</span> （<span class="math notranslate nohighlight">\(A_k\)</span> 列满秩），这些不动点有解析表达式，且一般不同于整体问题的真解 <span class="math notranslate nohighlight">\(\theta^* = \big( \sum_{k=1}^K A_k^{\mathrm{T}} A_k \big)^{-1} \sum_{k=1}^K A_k^{\mathrm{T}} b_k\)</span> 。</p>
+<p>上述观察促使我们把联邦问题重新表述成一种等价形式，使其基于算子分裂的解收敛到 <em>正确</em> 的点——这正是下文 <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 与 <code class="docutils literal notranslate"><span class="pre">FedDR</span></code> 的出发点。</p>
 </section>
 <section id="from-monotone-inclusions-to-splitting-methods">
-<span id="fl-alg-os-splitting"></span><h2>From monotone inclusions to splitting methods<a class="headerlink" href="#from-monotone-inclusions-to-splitting-methods" title="Link to this heading">#</a></h2>
-<p>Start from the constrained form of the federated problem, <span class="math notranslate nohighlight">\(\minimize \ F(\Theta) := \frac{1}{K} \sum_{k=1}^K f_k(\theta_k)\)</span>
-subject to <span class="math notranslate nohighlight">\(\Theta = \col(\theta_1, \ldots, \theta_K) \in \mathcal{E}\)</span> with the consensus
-set <span class="math notranslate nohighlight">\(\mathcal{E} = \{ \Theta \mid \theta_1 = \cdots = \theta_K \}\)</span>, and penalize the
-constraint with its indicator function <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> (<span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}(\Theta) = 0\)</span>
-on <span class="math notranslate nohighlight">\(\mathcal{E}\)</span>, <span class="math notranslate nohighlight">\(+\infty\)</span> otherwise). The penalized problem
-<span class="math notranslate nohighlight">\(\minimize \ F(\Theta) + \iota_{\mathcal{E}}(\Theta)\)</span> has the first-order optimality
-condition</p>
+<span id="fl-alg-os-splitting"></span><h2>从单调包含问题到分裂方法<a class="headerlink" href="#from-monotone-inclusions-to-splitting-methods" title="Link to this heading">#</a></h2>
+<p>从联邦问题的约束形式出发，即 <span class="math notranslate nohighlight">\(\minimize \ F(\Theta) := \frac{1}{K} \sum_{k=1}^K f_k(\theta_k)\)</span> 、约束 <span class="math notranslate nohighlight">\(\Theta = \col(\theta_1, \ldots, \theta_K) \in \mathcal{E}\)</span> （共识集 <span class="math notranslate nohighlight">\(\mathcal{E} = \{ \Theta \mid \theta_1 = \cdots = \theta_K \}\)</span> ），并用示性函数 <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> （在 <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> 上取 0、否则取 <span class="math notranslate nohighlight">\(+\infty\)</span> ）作为罚函数把约束化为目标项。带罚问题 <span class="math notranslate nohighlight">\(\minimize \ F(\Theta) + \iota_{\mathcal{E}}(\Theta)\)</span> 的一阶最优性条件为</p>
 <div class="math notranslate nohighlight" id="equation-os-mono-incl">
 <span class="eqno">(4)<a class="headerlink" href="#equation-os-mono-incl" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\minimize}{minimize}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -608,26 +602,13 @@ condition</p>
 \newcommand{\col}{\operatorname{col}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\prox}{\mathbf{prox}}\\0 \in \nabla F(\Theta) + \partial \iota_{\mathcal{E}}(\Theta) = \nabla F(\Theta) + \mathcal{N}_{\mathcal{E}}(\Theta),\end{aligned}\end{align} \]</div>
-<p>a <em>monotone inclusion problem</em>: <span class="math notranslate nohighlight">\(\nabla F\)</span> and the normal cone
-<span class="math notranslate nohighlight">\(\mathcal{N}_{\mathcal{E}}\)</span> (here <span class="math notranslate nohighlight">\(\mathcal{E}^{\perp}\)</span> on <span class="math notranslate nohighlight">\(\mathcal{E}\)</span>,
-empty elsewhere) are both <em>maximal monotone operators</em> [Ryu and Yin<a class="footnote-reference brackets" href="#footcite-ryu2022large" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]. The workhorses
-for splitting such an inclusion <span class="math notranslate nohighlight">\(0 \in \mathcal{A}(x) + \mathcal{B}(x)\)</span> are the
-<em>resolvents</em> <span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{T}} := (\mathcal{I} + s\mathcal{T})^{-1}\)</span> and the
-<em>reflected resolvents</em> (Cayley operators) <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{T}} := 2\mathcal{R}_{s\mathcal{T}} - \mathcal{I}\)</span>.
-For a gradient or a subdifferential the resolvent is a proximal operator,
-<span class="math notranslate nohighlight">\(\mathcal{R}_{s\partial f} = \prox_{s f}\)</span>, and for the indicator function it is the
-projection, <span class="math notranslate nohighlight">\(\mathcal{R}_{s\partial\iota_{\mathcal{E}}} = \Pi_{\mathcal{E}}\)</span>. The key
-equivalence is that solving the inclusion is the same as finding a fixed point of the
-<em>nonexpansive</em> composition <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span>:</p>
+<p>这是一个* 单调包含问题* (Monotone Inclusion Problem, MIP)：<span class="math notranslate nohighlight">\(\nabla F\)</span> 与法锥 <span class="math notranslate nohighlight">\(\mathcal{N}_{\mathcal{E}}\)</span> （在 <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> 上为 <span class="math notranslate nohighlight">\(\mathcal{E}^{\perp}\)</span> 、其余为空）都是* 极大单调算子* (Maximal Monotone Operator) [Ryu and Yin<a class="footnote-reference brackets" href="#footcite-ryu2022large" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。分裂此类包含问题 <span class="math notranslate nohighlight">\(0 \in \mathcal{A}(x) + \mathcal{B}(x)\)</span> 的核心工具是* 预解式* (Resolvent) <span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{T}} := (\mathcal{I} + s\mathcal{T})^{-1}\)</span> 与* 反射预解式* （Cayley 算子）:math:<cite>mathcal{C}_{smathcal{T}} := 2mathcal{R}_{smathcal{T}} - mathcal{I}</cite> 。对梯度或次微分而言，预解式即临近算子 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\partial f} = \prox_{s f}\)</span> ；对示性函数则为投影 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\partial\iota_{\mathcal{E}}} = \Pi_{\mathcal{E}}\)</span> 。关键的等价关系是：求解该包含问题等价于求* 非扩张* 算子复合 <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span> 的不动点：</p>
 <div class="math notranslate nohighlight" id="equation-os-fixed-pt">
 <span class="eqno">(5)<a class="headerlink" href="#equation-os-fixed-pt" title="Link to this equation">#</a></span>\[0 \in \mathcal{A}(x) + \mathcal{B}(x)
 \quad \Longleftrightarrow \quad
 \mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}(z) = z,
 \quad x = \mathcal{R}_{s\mathcal{B}}(z).\]</div>
-<p>Since <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span> is merely nonexpansive, its
-averaged version <span class="math notranslate nohighlight">\((1 - \tau)\mathcal{I} + \tau\, \mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span>
-(<span class="math notranslate nohighlight">\(\tau \in (0, 1]\)</span>) is used for the fixed-point iteration, giving the family of
-splitting methods</p>
+<p>由于 <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span> 只具有非扩张性，不动点迭代实际使用其平均算子 <span class="math notranslate nohighlight">\((1 - \tau)\mathcal{I} + \tau\, \mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span> （<span class="math notranslate nohighlight">\(\tau \in (0, 1]\)</span> ），由此得到分裂方法族</p>
 <div class="math notranslate nohighlight" id="equation-os-splitting-iter">
 <span class="eqno">(6)<a class="headerlink" href="#equation-os-splitting-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
 x^{(t+1/2)} &amp; = \mathcal{R}_{s\mathcal{B}}\left( z^{(t)} \right), \\
@@ -635,46 +616,24 @@ z^{(t+1/2)} &amp; = 2 x^{(t+1/2)} - z^{(t)}, \\
 x^{(t+1)} &amp; = \mathcal{R}_{s\mathcal{A}}\left( z^{(t+1/2)} \right), \\
 z^{(t+1)} &amp; = z^{(t)} + 2\tau \left( x^{(t+1)} - x^{(t+1/2)} \right).
 \end{aligned}\end{split}\]</div>
-<p>The case <span class="math notranslate nohighlight">\(\tau = 1\)</span> is the <strong>Peaceman--Rachford splitting method</strong> (PRSM); the case
-<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span> is the <strong>Douglas--Rachford splitting method</strong> (DRSM)
-[Douglas and Rachford<a class="footnote-reference brackets" href="#footcite-douglas-1956-drsm" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Lions and Mercier<a class="footnote-reference brackets" href="#footcite-lions-1979-splitting" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>]. The two differ only in the last
-(relaxation) step -- precisely in the choice of <span class="math notranslate nohighlight">\(\tau\)</span> -- and this difference is decisive:
-unlike PRSM, DRSM converges for general maximal monotone operators without any additional
-assumptions beyond monotonicity [Ryu and Yin<a class="footnote-reference brackets" href="#footcite-ryu2022large" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>].</p>
+<p><span class="math notranslate nohighlight">\(\tau = 1\)</span> 对应 <strong>Peaceman--Rachford 分裂方法</strong> (PRSM)；<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span> 对应 <strong>Douglas--Rachford 分裂方法</strong> (DRSM) [Douglas and Rachford<a class="footnote-reference brackets" href="#footcite-douglas-1956-drsm" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Lions and Mercier<a class="footnote-reference brackets" href="#footcite-lions-1979-splitting" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>]。两者的区别只在最后一步（松弛步）——即 <span class="math notranslate nohighlight">\(\tau\)</span> 的选取——而这一区别是决定性的：与 PRSM 不同，DRSM 对一般的极大单调算子无需单调性之外的任何附加假设即有收敛性保证 [Ryu and Yin<a class="footnote-reference brackets" href="#footcite-ryu2022large" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。</p>
 </section>
 <section id="fedsplit-federated-peaceman-rachford-splitting">
-<span id="fl-alg-os-fedsplit"></span><h2><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code>: Federated Peaceman--Rachford Splitting<a class="headerlink" href="#fedsplit-federated-peaceman-rachford-splitting" title="Link to this heading">#</a></h2>
-<p>Apply the machinery above with
-<span class="math notranslate nohighlight">\(\mathcal{A} = \nabla F\)</span>, <span class="math notranslate nohighlight">\(\mathcal{B} = \partial\iota_{\mathcal{E}} = \mathcal{N}_{\mathcal{E}}\)</span>
-(and <span class="math notranslate nohighlight">\(s = \frac{1}{\mu}\)</span>). The two resolvents are
-<span class="math notranslate nohighlight">\(\mathcal{R}_{s\nabla F} = \prox_{F, \mu}\)</span> and
-<span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{N}_{\mathcal{E}}} = \Pi_{\mathcal{E}}\)</span>, and -- crucially for
-federated learning -- the proximal operator of the block-separable objective decomposes into
-client-local proximal steps,</p>
+<span id="fl-alg-os-fedsplit"></span><h2><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> ：联邦 Peaceman--Rachford 分裂算法<a class="headerlink" href="#fedsplit-federated-peaceman-rachford-splitting" title="Link to this heading">#</a></h2>
+<p>把上述机制应用于 <span class="math notranslate nohighlight">\(\mathcal{A} = \nabla F\)</span> 、<span class="math notranslate nohighlight">\(\mathcal{B} = \partial\iota_{\mathcal{E}} = \mathcal{N}_{\mathcal{E}}\)</span> （并取 <span class="math notranslate nohighlight">\(s = \frac{1}{\mu}\)</span> ）。两个预解式分别为 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\nabla F} = \prox_{F, \mu}\)</span> 与 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{N}_{\mathcal{E}}} = \Pi_{\mathcal{E}}\)</span> ，而且——对联邦学习至关重要的是——块可分目标函数的临近算子可分解为子节点本地的临近步，</p>
 <div class="math notranslate nohighlight" id="equation-os-blockwise-prox">
 <span class="eqno">(7)<a class="headerlink" href="#equation-os-blockwise-prox" title="Link to this equation">#</a></span>\[\prox_{F, \mu}(\Theta)
 = \argmin_{\omega} \left\{ \sum_{k=1}^K f_k(\omega_k) + \frac{\mu}{2} \sum_{k=1}^K \lVert \omega_k - \theta_k \rVert^2 \right\}
 = \left( \prox_{f_k, \mu}(\theta_k) \right)_{k=1}^K,\]</div>
-<p>while the projection <span class="math notranslate nohighlight">\(\Pi_{\mathcal{E}}\)</span> is exactly the averaging aggregation at the
-server. The splitting is thus fully decoupled across clients and fits the center--client
-communication pattern. Applying the PRSM (<span class="math notranslate nohighlight">\(\tau = 1\)</span>) yields the <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> algorithm
-[Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] -- the first application of splitting methods to federated
-learning -- whose <span class="math notranslate nohighlight">\(\texttt{prox\_update}_k\)</span> is an inexact client-side solver of
-<span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span> (e.g. stochastic gradient descent).</p>
-<p><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> fixes the correctness problem above: the fixed point of its iteration yields the
-genuine solution of the federated problem, not a shifted one as for <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>/<code class="docutils literal notranslate"><span class="pre">FedProx</span></code>.
-Its convergence, however, inherits the caveat of PRSM: for general nonexpansive Cayley
-operators PRSM carries no convergence guarantee, so additional assumptions (strong convexity
-and <span class="math notranslate nohighlight">\(L\)</span>-smoothness of <span class="math notranslate nohighlight">\(f_k\)</span>) are needed, under which the rate is</p>
+<p>而投影 <span class="math notranslate nohighlight">\(\Pi_{\mathcal{E}}\)</span> 恰是中心节点上的平均聚合。于是整个分裂在子节点间完全解耦合，天然契合中心节点--子节点的通信模式。将 PRSM（<span class="math notranslate nohighlight">\(\tau = 1\)</span> ）应用于此即得 <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 算法 [Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>]——分裂方法在联邦学习领域的首次应用——其中 <span class="math notranslate nohighlight">\(\texttt{prox\_update}_k\)</span> 是子节点上 <span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span> 的非精确求解方法（例如随机梯度下降）。</p>
+<p><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 解决了前文的正确性问题：其迭代的固定点给出联邦问题真正的解，而非 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>/<code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 那样的偏移解。不过它的收敛性继承了 PRSM 的短板：对一般的非扩张 Cayley 算子，PRSM 没有收敛性保证，需要附加假设（<span class="math notranslate nohighlight">\(f_k\)</span> 强凸且 <span class="math notranslate nohighlight">\(L\)</span>-光滑），此时收敛率为</p>
 <div class="math notranslate nohighlight" id="equation-os-fedsplit-rate">
 <span class="eqno">(8)<a class="headerlink" href="#equation-os-fedsplit-rate" title="Link to this equation">#</a></span>\[\lVert \theta^{(t+1)} - \theta^* \rVert \leqslant
 \left( 1 - \frac{2}{\sqrt{\kappa}+1} \right)^t \frac{\lVert \theta^{(1)} - \theta^* \rVert}{\sqrt{K}}
 + (\sqrt{\kappa}+1)\, b,\]</div>
-<p>with <span class="math notranslate nohighlight">\(\ell_* = \min_k \ell_k\)</span> the strong convexity modulus, <span class="math notranslate nohighlight">\(L^* = \max_k L_k\)</span>,
-<span class="math notranslate nohighlight">\(\kappa = L^* / \ell_*\)</span>, and <span class="math notranslate nohighlight">\(b\)</span> the uniform error bound of the inexact proximal
-solves. The pseudocode is summarized below.</p>
+<p>其中 <span class="math notranslate nohighlight">\(\ell_* = \min_k \ell_k\)</span> 为强凸模量，<span class="math notranslate nohighlight">\(L^* = \max_k L_k\)</span> ，<span class="math notranslate nohighlight">\(\kappa = L^* / \ell_*\)</span> ，<span class="math notranslate nohighlight">\(b\)</span> 为非精确临近求解的一致误差界。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-fedsplit">
-<pre class="scopeline-pseudocode" id="pseudocode-140298729047376" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899730238560" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedSplit}}
 \begin{algorithmic}
 \REQUIRE {\bfseries proximal solvers} $\texttt{prox\_update}_k: \mathbb{R}^d \to \mathbb{R}^d$
@@ -700,25 +659,14 @@ solves. The pseudocode is summarized below.</p>
 \end{algorithm}</pre></div>
 </section>
 <section id="feddr-federated-douglas-rachford-splitting">
-<span id="fl-alg-os-feddr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDR</span></code>: Federated Douglas--Rachford Splitting<a class="headerlink" href="#feddr-federated-douglas-rachford-splitting" title="Link to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">FedDR</span></code> algorithm [Tran-Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-tran2021feddr" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>] replaces PRSM by the convergent DRSM
-(<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span>) and, in doing so, enlarges the admissible problem class to
-<em>nonconvex</em> smooth objectives, with an explicit regularizer built into the model,</p>
+<span id="fl-alg-os-feddr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDR</span></code> ：联邦 Douglas--Rachford 分裂算法<a class="headerlink" href="#feddr-federated-douglas-rachford-splitting" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">FedDR</span></code> 算法 [Tran-Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-tran2021feddr" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>] 用具有收敛性保证的 DRSM（<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span> ）替换 PRSM，并借此把可处理的问题类扩大到* 非凸* 的光滑目标函数，同时在模型中显式引入正则项，</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-model">
 <span class="eqno">(9)<a class="headerlink" href="#equation-os-feddr-model" title="Link to this equation">#</a></span>\[\minimize \quad F(\theta) = f(\theta) + g(\theta) = \frac{1}{K} \sum_{k=1}^K f_k(\theta) + g(\theta),\]</div>
-<p>where <span class="math notranslate nohighlight">\(f_k\)</span> are <span class="math notranslate nohighlight">\(L\)</span>-smooth (possibly nonconvex) and <span class="math notranslate nohighlight">\(g\)</span> is a closed, proper,
-convex (CCP) regularizer. Introducing one more block <span class="math notranslate nohighlight">\(\theta_{K+1}\)</span> for <span class="math notranslate nohighlight">\(g\)</span> and
-penalizing the consensus constraint <span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_{K+1}\)</span> with
-<span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> as before, the first-order condition becomes the three-operator
-inclusion</p>
+<p>其中 <span class="math notranslate nohighlight">\(f_k\)</span> 是 <span class="math notranslate nohighlight">\(L\)</span>-光滑的（可以非凸），<span class="math notranslate nohighlight">\(g\)</span> 是闭的真是凸 (CCP) 正则项。为 <span class="math notranslate nohighlight">\(g\)</span> 再引入一个块 <span class="math notranslate nohighlight">\(\theta_{K+1}\)</span> ，并照旧用 <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> 罚化共识约束 <span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_{K+1}\)</span> ，一阶条件即成为三算子的单调包含</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-mono-incl">
 <span class="eqno">(10)<a class="headerlink" href="#equation-os-feddr-mono-incl" title="Link to this equation">#</a></span>\[0 \in \nabla f(\Theta) + \partial \left( g + \iota_{\mathcal{E}} \right)(\Theta),\]</div>
-<p>with <span class="math notranslate nohighlight">\(\mathcal{B} = \nabla f\)</span> and <span class="math notranslate nohighlight">\(\mathcal{A} = \partial (g + \iota_{\mathcal{E}})\)</span>.
-The resolvent of <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> is
-<span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{B}} = \prox_{K s f}\)</span> -- blockwise, the client-local proximal steps
--- and the resolvent of <span class="math notranslate nohighlight">\(\mathcal{A}\)</span> handles the regularizer <em>and</em> the consensus
-constraint jointly at the server. The DRSM iteration (<a class="reference internal" href="#equation-os-splitting-iter">(6)</a> with
-<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span>, written with relaxation coefficient <span class="math notranslate nohighlight">\(\alpha\)</span>) reads</p>
+<p>其中 <span class="math notranslate nohighlight">\(\mathcal{B} = \nabla f\)</span> ，<span class="math notranslate nohighlight">\(\mathcal{A} = \partial (g + \iota_{\mathcal{E}})\)</span> 。<span class="math notranslate nohighlight">\(\mathcal{B}\)</span> 的预解式为 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{B}} = \prox_{K s f}\)</span>——按块分解即子节点本地的临近步；<span class="math notranslate nohighlight">\(\mathcal{A}\)</span> 的预解式则在中心节点上一并处理正则项* 与* 共识约束。DRSM 迭代（<a class="reference internal" href="#equation-os-splitting-iter">(6)</a> 取 <span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span> ，松弛系数记作 <span class="math notranslate nohighlight">\(\alpha\)</span> ）为</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-iter">
 <span class="eqno">(11)<a class="headerlink" href="#equation-os-feddr-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
 \omega_k^{(t+1)} &amp; = \omega_k^{(t)} + \alpha \left( \overline{\theta}^{(t)} - \theta_k^{(t)} \right), &amp; k \in [K], \\
@@ -728,30 +676,20 @@ constraint jointly at the server. The DRSM iteration (<a class="reference intern
 \omega^{(t+1)} &amp; = \omega^{(t)} + \alpha \left( \overline{\theta}^{(t)} - \omega^{(t)} \right), &amp; \\
 \overline{\theta}^{(t+1)} &amp; = \prox_{g, \frac{K+1}{Ks}} \left( \frac{K}{K+1} \widetilde{\theta}^{(t+1)} + \frac{1}{K+1} \omega^{(t+1)} \right). &amp;
 \end{aligned}\end{split}\]</div>
-<p>The first three lines are the clients' local work; the last line is the server, which averages
-the reflected blocks and applies the proximal step of the regularizer <span class="math notranslate nohighlight">\(g\)</span>.</p>
-<p>As for convergence [Tran-Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-tran2021feddr" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>], assuming <span class="math notranslate nohighlight">\(L\)</span>-smooth <span class="math notranslate nohighlight">\(f_k\)</span> and
-letting <span class="math notranslate nohighlight">\(e_k^{(t)}\)</span> denote the error of the inexact client-side proximal solve at round
-<span class="math notranslate nohighlight">\(t\)</span>: (i) the gap between the (regularizer-corrected) global model and each local model is
-bounded by the consecutive local differences and the proximal errors
-<span class="math notranslate nohighlight">\(\lVert e_k^{(t)} \rVert\)</span>; (ii) the squared norm of the gradient mapping
-<span class="math notranslate nohighlight">\(\mathcal{G}_{\beta}(\theta) := \frac{1}{\beta} \left( \theta - \prox_{\beta g}\left( \theta - \beta \nabla f(\theta) \right) \right)\)</span>
-of the global objective at <span class="math notranslate nohighlight">\(\overline{\theta}^{(t)}\)</span> is bounded by the same quantities
-(and the drift of the auxiliary variable <span class="math notranslate nohighlight">\(\omega^{(t)}\)</span>); and (iii) the averaged
-gradient-mapping norm enjoys an <span class="math notranslate nohighlight">\(\mathcal{O}(1/T)\)</span> bound,</p>
+<p>前三行是子节点的本地工作；最后一行是中心节点——它平均反射块并对正则项 <span class="math notranslate nohighlight">\(g\)</span> 执行临近步。</p>
+<p>关于收敛性 [Tran-Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-tran2021feddr" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>]：设 <span class="math notranslate nohighlight">\(f_k\)</span> 都是 <span class="math notranslate nohighlight">\(L\)</span>-光滑的，记 <span class="math notranslate nohighlight">\(e_k^{(t)}\)</span> 为第 <span class="math notranslate nohighlight">\(t\)</span> 轮子节点非精确临近求解的误差：(i)（经正则项修正的）全局模型与各局部模型的差被局部模型相邻迭代步的差以及临近误差所控制；(ii) 全局目标函数的梯度映射 <span class="math notranslate nohighlight">\(\mathcal{G}_{\beta}(\theta) := \frac{1}{\beta} \left( \theta - \prox_{\beta g}\left( \theta - \beta \nabla f(\theta) \right) \right)\)</span> 在 <span class="math notranslate nohighlight">\(\overline{\theta}^{(t)}\)</span> 处的模长平方被同样的量（以及辅助变量 <span class="math notranslate nohighlight">\(\omega^{(t)}\)</span> 的漂移）所控制；(iii) 梯度映射模长平方的平均值具有 <span class="math notranslate nohighlight">\(\mathcal{O}(1/T)\)</span> 界，</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-rate">
 <span class="eqno">(12)<a class="headerlink" href="#equation-os-feddr-rate" title="Link to this equation">#</a></span>\[\frac{1}{T} \sum_{t=0}^{T-1} \expectation \left[ \lVert \mathcal{G}_{\frac{Ks}{K+1}} \left( \overline{\theta}^{(t)} \right) \rVert^2 \right]
 \leqslant \frac{C_1 \left( F(\theta^{(0)}) - F^* \right)}{T}
 + \frac{1}{KT} \sum_{t=0}^{T-1} \sum_{k=1}^K \left( C_2 \varepsilon_{k,t}^2 + C_3 \varepsilon_{k,t+1}^2 \right),\]</div>
-<p>with <span class="math notranslate nohighlight">\(F^* = \inf_\theta F(\theta)\)</span>; in particular, after</p>
+<p>其中 <span class="math notranslate nohighlight">\(F^* = \inf_\theta F(\theta)\)</span> ；特别地，经过</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-t">
 <span class="eqno">(13)<a class="headerlink" href="#equation-os-feddr-t" title="Link to this equation">#</a></span>\[T = \left\lfloor \frac{C_1 \left[ F(\theta^{(0)}) - F^* \right] + (C_2 + C_3) M}{\varepsilon^2} \right\rfloor,
 \qquad
 M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,\]</div>
-<p>iterations the output <span class="math notranslate nohighlight">\(\overline{\theta}^{(T)}\)</span> is an <span class="math notranslate nohighlight">\(\varepsilon\)</span>-stationary
-point of <a class="reference internal" href="#equation-os-feddr-model">(9)</a>. The pseudocode is summarized below.</p>
+<p>轮迭代后，输出 <span class="math notranslate nohighlight">\(\overline{\theta}^{(T)}\)</span> 即为 <a class="reference internal" href="#equation-os-feddr-model">(9)</a> 的 <span class="math notranslate nohighlight">\(\varepsilon\)</span>-稳定点。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-feddr">
-<pre class="scopeline-pseudocode" id="pseudocode-140298729053952" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899730305296" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDR}}
 \begin{algorithmic}
 \REQUIRE step size $s = \frac{1}{\mu} &gt; 0$, $\alpha \in (0, 2)$, error bounds $\varepsilon_{k,0} \geqslant 0$
@@ -779,16 +717,8 @@ point of <a class="reference internal" href="#equation-os-feddr-model">(9)</a>. 
 \end{algorithm}</pre></div>
 </section>
 <section id="summary">
-<span id="fl-alg-os-summary"></span><h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
-<p>Splitting methods belong to the family of <em>decomposition algorithms</em>: they break a large
-problem into smaller subproblems handled separately (here, by the clients and the server), so
-that each subproblem is easier to solve and easier to parallelize. In theory, they bring many
-federated algorithms under one umbrella and -- unlike <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>/<code class="docutils literal notranslate"><span class="pre">FedProx</span></code> -- their limits are
-guaranteed to be correct (<a class="reference internal" href="#fl-alg-os-fedsplit"><span class="std std-ref">FedSplit</span></a>) or to approach a stationary
-point of the true objective (<a class="reference internal" href="#fl-alg-os-feddr"><span class="std std-ref">FedDR</span></a>). The price is bookkeeping: besides
-the model parameters, every node (server and clients) maintains auxiliary variables (the
-reflected blocks <span class="math notranslate nohighlight">\(z\)</span>, the blended copies <span class="math notranslate nohighlight">\(\omega\)</span>), which adds memory and
-computation overhead.</p>
+<span id="fl-alg-os-summary"></span><h2>小结<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>算子分裂法是* 分解算法* (Decomposition Algorithms) 的一大类：把大规模问题拆成若干分别处理的小问题（在这里，由子节点与中心节点分别承担），使每个子问题更易求解、更易并行。在理论上，它把众多联邦算法纳入统一框架——并且与 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>/<code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 不同，其极限保证是正确的（<a class="reference internal" href="#fl-alg-os-fedsplit"><span class="std std-ref">FedSplit</span></a> ），或逼近真实目标的稳定点（<a class="reference internal" href="#fl-alg-os-feddr"><span class="std std-ref">FedDR</span></a> ）。代价是簿记：除模型参数外，每个节点（中心与子节点）还要维护辅助变量（反射块 <span class="math notranslate nohighlight">\(z\)</span> 、混合拷贝 <span class="math notranslate nohighlight">\(\omega\)</span> ），带来额外的存储与计算负担。</p>
 <p class="rubric">参考文献</p>
 <div class="docutils container" id="id10">
 <aside class="footnote-list brackets">
@@ -866,10 +796,10 @@ computation overhead.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-operator-splitting-the-correctness-of-the-limit">为什么要算子分裂？收敛结果的正确性</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-monotone-inclusions-to-splitting-methods">From monotone inclusions to splitting methods</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedsplit-federated-peaceman-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code>: Federated Peaceman--Rachford Splitting</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddr-federated-douglas-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedDR</span></code>: Federated Douglas--Rachford Splitting</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-monotone-inclusions-to-splitting-methods">从单调包含问题到分裂方法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedsplit-federated-peaceman-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> ：联邦 Peaceman--Rachford 分裂算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddr-federated-douglas-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedDR</span></code> ：联邦 Douglas--Rachford 分裂算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">小结</a></li>
 </ul>
   </nav></div>
 

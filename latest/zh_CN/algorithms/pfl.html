@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.1.dev17+gcdb91a0fc 文档</title>
+    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.1.dev18+gf6c3e33a6 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=49dc4194"></script>
+    <script src="../_static/documentation_options.js?v=9c6c6b09"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev17+gcdb91a0fc 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev18+gf6c3e33a6 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -549,14 +549,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedme-personalized-federated-mean"><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>：个性化联邦均值算法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ditto-fair-and-robust-personalized-models"><code class="docutils literal notranslate"><span class="pre">Ditto</span></code>：公平且鲁棒的个性化模型</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apfl-adaptive-personalized-federated-learning"><code class="docutils literal notranslate"><span class="pre">APFL</span></code>：自适应个性化联邦学习算法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddyn-dynamic-regularized-federated-learning"><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>：动态正则化联邦学习算法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedmac-personalized-fl-via-maximizing-correlation"><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code>：极大化相关性的个性化联邦学习算法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>：基于跨客户端共性表示的个性化联邦学习</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> ：无环局部随机梯度下降</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedme-personalized-federated-mean"><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> ：个性化联邦均值算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ditto-fair-and-robust-personalized-models"><code class="docutils literal notranslate"><span class="pre">Ditto</span></code> ：公平且鲁棒的个性化模型</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apfl-adaptive-personalized-federated-learning"><code class="docutils literal notranslate"><span class="pre">APFL</span></code> ：自适应个性化联邦学习算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddyn-dynamic-regularized-federated-learning"><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code> ：动态正则化联邦学习算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedmac-personalized-fl-via-maximizing-correlation"><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> ：极大化相关性的个性化联邦学习算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code> ：融合惩罚联邦聚类</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code> ：基于跨客户端共性表示的个性化联邦学习</a></li>
 </ul>
             </nav>
         </div>
@@ -570,10 +570,10 @@ document.write(`
                   
   <section id="personalized-federated-learning-algorithms">
 <span id="fl-alg-pfl"></span><h1>个性化联邦学习算法<a class="headerlink" href="#personalized-federated-learning-algorithms" title="Link to this heading">#</a></h1>
-<p>在个性化联邦学习 (Personalized Federated Learning, PFL) 中，每个子节点都寻求一个适合自身数据分布的模型，同时仍受益于其他子节点上的知识。对 PFL 进行建模的一种简单而通用的方式是*弱共识* (Weak Consensus)：不再强制完全共识 <span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_K\)</span>，而是添加一个惩罚子节点模型之间偏差的正则项 <span class="math notranslate nohighlight">\(\mathcal{R}\)</span>。本页收集各 PFL 算法（在 <code class="docutils literal notranslate"><span class="pre">fl_sim</span></code> 中实现的以及密切相关的），并给出它们的建模、理论与伪代码。</p>
+<p>在个性化联邦学习 (Personalized Federated Learning, PFL) 中，每个子节点都寻求一个适合自身数据分布的模型，同时仍受益于其他子节点上的知识。对 PFL 进行建模的一种简单而通用的方式是* 弱共识* (Weak Consensus)：不再强制完全共识 <span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_K\)</span> ，而是添加一个惩罚子节点模型之间偏差的正则项 <span class="math notranslate nohighlight">\(\mathcal{R}\)</span> 。本页收集各 PFL 算法（在 <code class="docutils literal notranslate"><span class="pre">fl_sim</span></code> 中实现的以及密切相关的），并给出它们的建模、理论与伪代码。</p>
 <section id="l2sgd-loopless-local-sgd">
-<span id="fl-alg-pfl-l2sgd"></span><h2><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降<a class="headerlink" href="#l2sgd-loopless-local-sgd" title="Link to this heading">#</a></h2>
-<p>这一族算法中最简单的是 [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 提出的无环随机梯度下降（Loopless Local SGD，<code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>）。它考虑如下弱共识问题</p>
+<span id="fl-alg-pfl-l2sgd"></span><h2><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> ：无环局部随机梯度下降<a class="headerlink" href="#l2sgd-loopless-local-sgd" title="Link to this heading">#</a></h2>
+<p>这一族算法中最简单的是 [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 提出的无环随机梯度下降（Loopless Local SGD， <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> ）。它考虑如下弱共识问题</p>
 <div class="math notranslate nohighlight" id="equation-l2sgd">
 <span class="eqno">(1)<a class="headerlink" href="#equation-l2sgd" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize &amp; F(\Theta) = f(\Theta) + \lambda \varphi(\Theta) \\
@@ -582,16 +582,16 @@ document.write(`
 = \frac{1}{2K} \sum\limits_{k=1}^K \left\lVert \theta_k - \frac{1}{K} \sum\limits_{j=1}^K \theta_j \right\rVert^2, \\
 &amp; \Theta = \col(\theta_1, \ldots, \theta_K),
 \end{array}\end{split}\]</div>
-<p>其中 <span class="math notranslate nohighlight">\(\lambda \geqslant 0\)</span> 为罚参数，<span class="math notranslate nohighlight">\(\bar{\theta} = \frac{1}{K} \sum_{k=1}^K \theta_k\)</span> 为全局平均模型。当 <span class="math notranslate nohighlight">\(0 &lt; \lambda &lt; \infty\)</span> 时，解 <span class="math notranslate nohighlight">\(\bar{\theta}, \theta_1, \ldots, \theta_K\)</span> 被称作一组*混合模型*（mixed models）。容易看出，上述问题与 <a class="reference internal" href="proximal.html#fl-alg-proximal"><span class="std std-ref">临近算法一节</span></a> 中 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 所考察的问题等价。</p>
-<p>[Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 没有在每次迭代都计算完整的梯度 <span class="math notranslate nohighlight">\(\nabla F = \nabla f + \lambda \nabla \varphi\)</span>，而是为 <span class="math notranslate nohighlight">\(F\)</span> 定义了如下无偏随机梯度</p>
+<p>其中 <span class="math notranslate nohighlight">\(\lambda \geqslant 0\)</span> 为罚参数，<span class="math notranslate nohighlight">\(\bar{\theta} = \frac{1}{K} \sum_{k=1}^K \theta_k\)</span> 为全局平均模型。当 <span class="math notranslate nohighlight">\(0 &lt; \lambda &lt; \infty\)</span> 时，解 <span class="math notranslate nohighlight">\(\bar{\theta}, \theta_1, \ldots, \theta_K\)</span> 被称作一组* 混合模型* （mixed models）。容易看出，上述问题与 <a class="reference internal" href="proximal.html#fl-alg-proximal"><span class="std std-ref">临近算法一节</span></a> 中 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 所考察的问题等价。</p>
+<p>[Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 没有在每次迭代都计算完整的梯度 <span class="math notranslate nohighlight">\(\nabla F = \nabla f + \lambda \nabla \varphi\)</span> ，而是为 <span class="math notranslate nohighlight">\(F\)</span> 定义了如下无偏随机梯度</p>
 <div class="math notranslate nohighlight" id="equation-l2sgd-grad">
 <span class="eqno">(2)<a class="headerlink" href="#equation-l2sgd-grad" title="Link to this equation">#</a></span>\[\begin{split}G(\Theta) := \begin{cases}
 \frac{\nabla f(\Theta)}{1 - p}, &amp; \text{with probability } 1 - p, \\
 \frac{\lambda \nabla \varphi(\Theta)}{p}, &amp; \text{with probability } p,
 \end{cases}\end{split}\]</div>
-<p>其中 <span class="math notranslate nohighlight">\(p \in (0, 1)\)</span>。注意，计算 <span class="math notranslate nohighlight">\(\nabla f(\Theta) = \col(\nabla f_1(\theta_1), \ldots, \nabla f_K(\theta_K))\)</span> 是完全块分离的：在联邦学习的场景下，这一步只需在客户端本地完成，不涉及与服务器的任何通信，这对以通信为主要瓶颈的联邦学习是巨大的优势。从这个意义上说，<code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> 已经融入了*无环*（跳步）的思想；参见 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a> 中的 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code>。在额外的有限和假设 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \sum_{j=1}^m f_{k,j}(\theta_k)\)</span> 下，还可以进一步把该随机梯度与随机 Kaczmarz 型（重要性采样）更新结合起来；关于无环方法的分析参见 [Kovalev <em>et al.</em><a class="footnote-reference brackets" href="#footcite-kovalev2020-loopless" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。由此得到的算法总结如下。</p>
+<p>其中 <span class="math notranslate nohighlight">\(p \in (0, 1)\)</span> 。注意，计算 <span class="math notranslate nohighlight">\(\nabla f(\Theta) = \col(\nabla f_1(\theta_1), \ldots, \nabla f_K(\theta_K))\)</span> 是完全块分离的：在联邦学习的场景下，这一步只需在客户端本地完成，不涉及与服务器的任何通信，这对以通信为主要瓶颈的联邦学习是巨大的优势。从这个意义上说， <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> 已经融入了 <em>无环</em> （跳步）的思想；参见 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a> 中的 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 。在额外的有限和假设 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \sum_{j=1}^m f_{k,j}(\theta_k)\)</span> 下，还可以进一步把该随机梯度与随机 Kaczmarz 型（重要性采样）更新结合起来；关于无环方法的分析参见 [Kovalev <em>et al.</em><a class="footnote-reference brackets" href="#footcite-kovalev2020-loopless" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。由此得到的算法总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-l2sgd">
-<pre class="scopeline-pseudocode" id="pseudocode-140298744244848" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899726597424" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{L2SGD}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ probability $p \in (0, 1)$
@@ -622,24 +622,24 @@ document.write(`
 \end{algorithm}</pre></div>
 </section>
 <section id="pfedme-personalized-federated-mean">
-<span id="fl-alg-pfl-pfedme"></span><h2><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>：个性化联邦均值算法<a class="headerlink" href="#pfedme-personalized-federated-mean" title="Link to this heading">#</a></h2>
+<span id="fl-alg-pfl-pfedme"></span><h2><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> ：个性化联邦均值算法<a class="headerlink" href="#pfedme-personalized-federated-mean" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> 算法 [Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-t2020pfedme" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>] 考虑了与 <a class="reference internal" href="#equation-l2sgd">(1)</a> 同一族的弱共识问题，其中全局模型作为单一变量 <span class="math notranslate nohighlight">\(\theta \in \R^d\)</span> 出现，</p>
 <div class="math notranslate nohighlight" id="equation-pfedme-obj">
 <span class="eqno">(3)<a class="headerlink" href="#equation-pfedme-obj" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\minimize}{minimize}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\prox}{\mathbf{prox}}\\\minimize_{\theta, \theta_1, \ldots, \theta_K} \quad \sum\limits_{k=1}^K \left\{ f_k(\theta_k) + \frac{\lambda}{2} \left\lVert \theta_k - \theta \right\rVert^2 \right\},\end{aligned}\end{align} \]</div>
-<p>其中 <span class="math notranslate nohighlight">\(\lambda \geqslant 0\)</span> 是罚参数。特别地，文献基于联邦学习中心节点--子节点这一二元结构，进一步将上述问题等价地转换为一个*双层优化问题* (Bi-level Optimization Problem)，</p>
+<p>其中 <span class="math notranslate nohighlight">\(\lambda \geqslant 0\)</span> 是罚参数。特别地，文献基于联邦学习中心节点--子节点这一二元结构，进一步将上述问题等价地转换为一个* 双层优化问题* (Bi-level Optimization Problem)，</p>
 <div class="math notranslate nohighlight" id="equation-pfedme-bilevel">
 <span class="eqno">(4)<a class="headerlink" href="#equation-pfedme-bilevel" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize &amp; F(\theta) := \frac{1}{K} \sum\limits_{k=1}^K F_k(\theta), \\
 \text{where} &amp; F_k(\theta) = \min\limits_{\theta_k \in \R^d} \left\{ f_k(\theta_k) + \frac{\lambda}{2} \left\lVert \theta_k - \theta \right\rVert^2 \right\},
 \end{array}\end{split}\]</div>
-<p>其内层目标函数 <span class="math notranslate nohighlight">\(F_k(\theta)\)</span> 恰为 <span class="math notranslate nohighlight">\(f_k\)</span> 的 <em>Moreau 包络</em> <span class="math notranslate nohighlight">\(\mathcal{M}_{f_k, \lambda}(\theta) := \inf_{\theta_k} \{ f_k(\theta_k) + \frac{\lambda}{2} \lVert \theta_k - \theta \rVert^2 \}\)</span>，而相应的内层极小点即临近算子 <span class="math notranslate nohighlight">\(\prox_{f_k, \lambda}(\theta) := \argmin_{\theta_k} \{ f_k(\theta_k) + \frac{\lambda}{2} \lVert \theta_k - \theta \rVert^2 \}\)</span> 在全局模型 <span class="math notranslate nohighlight">\(\theta\)</span> 处的取值——这个取值正是 <code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> 算法得到的子节点 <span class="math notranslate nohighlight">\(k\)</span> 上的个性化模型。通过 Moreau 包络与临近算子的关系式可知，外层目标函数的梯度为</p>
+<p>其内层目标函数 <span class="math notranslate nohighlight">\(F_k(\theta)\)</span> 恰为 <span class="math notranslate nohighlight">\(f_k\)</span> 的 <em>Moreau 包络</em> <span class="math notranslate nohighlight">\(\mathcal{M}_{f_k, \lambda}(\theta) := \inf_{\theta_k} \{ f_k(\theta_k) + \frac{\lambda}{2} \lVert \theta_k - \theta \rVert^2 \}\)</span> ，而相应的内层极小点即临近算子 <span class="math notranslate nohighlight">\(\prox_{f_k, \lambda}(\theta) := \argmin_{\theta_k} \{ f_k(\theta_k) + \frac{\lambda}{2} \lVert \theta_k - \theta \rVert^2 \}\)</span> 在全局模型 <span class="math notranslate nohighlight">\(\theta\)</span> 处的取值——这个取值正是 <code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> 算法得到的子节点 <span class="math notranslate nohighlight">\(k\)</span> 上的个性化模型。通过 Moreau 包络与临近算子的关系式可知，外层目标函数的梯度为</p>
 <div class="math notranslate nohighlight" id="equation-pfedme-grad">
 <span class="eqno">(5)<a class="headerlink" href="#equation-pfedme-grad" title="Link to this equation">#</a></span>\[\nabla F(\theta) = \frac{1}{K} \sum\limits_{k=1}^K \nabla \mathcal{M}_{f_k, \lambda} (\theta)
 = \frac{\lambda}{K} \sum\limits_{k=1}^K \left( \theta - \prox_{f_k, \lambda} (\theta) \right),\]</div>
-<p>如此，对 <span class="math notranslate nohighlight">\(F\)</span> 的一步（随机）梯度下降即分解为子节点侧部分更新 <span class="math notranslate nohighlight">\(\theta^{(t)} - \eta \lambda \left( \theta^{(t)} - \prox_{f_k, \lambda} (\theta^{(t)}) \right)\)</span> 的平均。具体执行时，每个子节点持有全局模型的一份拷贝 <span class="math notranslate nohighlight">\(\omega_k^{(t, r)}\)</span>，并在两次通信之间交替执行 <span class="math notranslate nohighlight">\(R\)</span> 轮</p>
+<p>如此，对 <span class="math notranslate nohighlight">\(F\)</span> 的一步（随机）梯度下降即分解为子节点侧部分更新 <span class="math notranslate nohighlight">\(\theta^{(t)} - \eta \lambda \left( \theta^{(t)} - \prox_{f_k, \lambda} (\theta^{(t)}) \right)\)</span> 的平均。具体执行时，每个子节点持有全局模型的一份拷贝 <span class="math notranslate nohighlight">\(\omega_k^{(t, r)}\)</span> ，并在两次通信之间交替执行 <span class="math notranslate nohighlight">\(R\)</span> 轮</p>
 <div class="math notranslate nohighlight" id="equation-pfedme-local">
 <span class="eqno">(6)<a class="headerlink" href="#equation-pfedme-local" title="Link to this equation">#</a></span>\[\theta_k^{(t, r)} \gets \prox_{f_k, \lambda} \left( \omega_k^{(t, r)}; \ b_r \right),
 \qquad
@@ -647,9 +647,9 @@ document.write(`
 <p>其中 <span class="math notranslate nohighlight">\(b_r\)</span> 是第 <span class="math notranslate nohighlight">\(r\)</span> 轮的小批量数据；随后中心节点进行聚合</p>
 <div class="math notranslate nohighlight" id="equation-pfedme-agg">
 <span class="eqno">(7)<a class="headerlink" href="#equation-pfedme-agg" title="Link to this equation">#</a></span>\[\theta^{(t+1)} \gets (1-\beta)\,\theta^{(t)} + \frac{\beta}{\# \mathcal{S}^{(t)}} \sum\limits_{k \in \mathcal{S}^{(t)}} \omega_{k}^{(t, R)}.\]</div>
-<p>值得特别注意的是，<a class="reference internal" href="#equation-pfedme-local">(6)</a> 的两部分并不是交替进行的，而是先在子节点上执行 <span class="math notranslate nohighlight">\(R\)</span> 轮本地迭代，之后才与中心节点通信——这是无环（跳步）思想的又一个实例；参见 <a class="reference internal" href="#fl-alg-pfl-l2sgd"><span class="std std-ref">L2SGD</span></a> 以及 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a>。伪代码总结如下。</p>
+<p>值得特别注意的是，<a class="reference internal" href="#equation-pfedme-local">(6)</a> 的两部分并不是交替进行的，而是先在子节点上执行 <span class="math notranslate nohighlight">\(R\)</span> 轮本地迭代，之后才与中心节点通信——这是无环（跳步）思想的又一个实例；参见 <a class="reference internal" href="#fl-alg-pfl-l2sgd"><span class="std std-ref">L2SGD</span></a> 以及 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a> 。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-pfedme">
-<pre class="scopeline-pseudocode" id="pseudocode-140298725621664" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899727157696" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMe}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ global update smoothing factor $\beta,$ {\bfseries proximal solvers} $\texttt{prox\_update}_k$
@@ -682,20 +682,20 @@ document.write(`
 \end{algorithm}</pre></div>
 </section>
 <section id="ditto-fair-and-robust-personalized-models">
-<span id="fl-alg-pfl-ditto"></span><h2><code class="docutils literal notranslate"><span class="pre">Ditto</span></code>：公平且鲁棒的个性化模型<a class="headerlink" href="#ditto-fair-and-robust-personalized-models" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">Ditto</span></code> 算法 [Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>] 进一步发展了 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 添加临近项求解子问题的思想，将其改造为从*子节点*视角出发的*双层*问题格式（稍早提出的 <code class="docutils literal notranslate"><span class="pre">APFL</span></code> 也采用了类似的视角，见下文），</p>
+<span id="fl-alg-pfl-ditto"></span><h2><code class="docutils literal notranslate"><span class="pre">Ditto</span></code> ：公平且鲁棒的个性化模型<a class="headerlink" href="#ditto-fair-and-robust-personalized-models" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Ditto</span></code> 算法 [Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>] 进一步发展了 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 添加临近项求解子问题的思想，将其改造为从* 子节点* 视角出发的* 双层* 问题格式（稍早提出的 <code class="docutils literal notranslate"><span class="pre">APFL</span></code> 也采用了类似的视角，见下文），</p>
 <div class="math notranslate nohighlight" id="equation-ditto-bilevel">
 <span class="eqno">(8)<a class="headerlink" href="#equation-ditto-bilevel" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize\limits_{\omega_k} &amp; h_k(\omega_k, \theta^*) := f_k(\omega_k) + \frac{\mu}{2} \lVert \omega_k - \theta^* \rVert^2, \\
 \text{subject to} &amp; \theta^* \in \argmin\limits_{\theta} G\left( f_1(\theta), \cdots, f_K(\theta) \right),
 \end{array}\end{split}\]</div>
-<p>其中 <span class="math notranslate nohighlight">\(G\)</span> 是中心节点上对子节点模型执行聚合的规则，例如 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 中的求均值。解读这一问题格式：内层问题即是仅关于全局模型 <span class="math notranslate nohighlight">\(\theta\)</span> 的一个普通联邦优化问题，而外层问题则为每个子节点附带一个用于个性化的临近任务——且个性化模型 <span class="math notranslate nohighlight">\(\omega_k\)</span> <a href="#id1"><span class="problematic" id="id2">*</span></a>不*参与全局模型的更新。全局模型与个性化模型由此解耦合，两者的迭代更新可以更灵活地进行。</p>
-<p>由此，每个子节点每轮求解两个问题：全局模型的更新 <span class="math notranslate nohighlight">\(\theta_k^{(t)} \gets \operatorname{\mathbf{UpdateGlobal}}(\theta^{(t)}, f_k)`（内层问题），以及解点追踪移动中心 :math:\)</span>theta^{(t)}` 的临近任务，</p>
+<p>其中 <span class="math notranslate nohighlight">\(G\)</span> 是中心节点上对子节点模型执行聚合的规则，例如 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 中的求均值。解读这一问题格式：内层问题即是仅关于全局模型 <span class="math notranslate nohighlight">\(\theta\)</span> 的一个普通联邦优化问题，而外层问题则为每个子节点附带一个用于个性化的临近任务——且个性化模型 <span class="math notranslate nohighlight">\(\omega_k\)</span> * 不* 参与全局模型的更新。全局模型与个性化模型由此解耦合，两者的迭代更新可以更灵活地进行。</p>
+<p>由此，每个子节点每轮求解两个问题：全局模型的更新 <span class="math notranslate nohighlight">\(\theta_k^{(t)} \gets \operatorname{\mathbf{UpdateGlobal}}(\theta^{(t)}, f_k)\)</span> （内层问题），以及解点追踪移动中心 <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> 的临近任务，</p>
 <div class="math notranslate nohighlight" id="equation-ditto-local">
 <span class="eqno">(9)<a class="headerlink" href="#equation-ditto-local" title="Link to this equation">#</a></span>\[\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta \left( \nabla f_k(\omega_k^{(t)}) + \mu \left( \omega_k^{(t)} - \theta^{(t)} \right) \right).\]</div>
-<p>与 <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 或 <code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> 在内循环中将临近算子求解至（近似）最优不同，<code class="docutils literal notranslate"><span class="pre">Ditto</span></code> 对外层问题每轮只执行*一步*（随机）梯度下降，让临近中心 <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> 随全局模型一起演化。伪代码总结如下。</p>
+<p>与 <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 或 <code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> 在内循环中将临近算子求解至（近似）最优不同， <code class="docutils literal notranslate"><span class="pre">Ditto</span></code> 对外层问题每轮只执行* 一步* （随机）梯度下降，让临近中心 <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> 随全局模型一起演化。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-ditto">
-<pre class="scopeline-pseudocode" id="pseudocode-140298725610000" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899725486624" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{Ditto}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\mu,$ learning rate $\eta,$ methods $\textbf{UpdateGlobal}, \textbf{Aggregate}$
@@ -721,21 +721,21 @@ document.write(`
 \end{algorithm}</pre></div>
 </section>
 <section id="apfl-adaptive-personalized-federated-learning">
-<span id="fl-alg-pfl-apfl"></span><h2><code class="docutils literal notranslate"><span class="pre">APFL</span></code>：自适应个性化联邦学习算法<a class="headerlink" href="#apfl-adaptive-personalized-federated-learning" title="Link to this heading">#</a></h2>
+<span id="fl-alg-pfl-apfl"></span><h2><code class="docutils literal notranslate"><span class="pre">APFL</span></code> ：自适应个性化联邦学习算法<a class="headerlink" href="#apfl-adaptive-personalized-federated-learning" title="Link to this heading">#</a></h2>
 <p>比 <code class="docutils literal notranslate"><span class="pre">Ditto</span></code> 稍早提出的 <code class="docutils literal notranslate"><span class="pre">APFL</span></code> [Deng <em>et al.</em><a class="footnote-reference brackets" href="#footcite-deng2020-apfl" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>] 考虑了如下的双层问题</p>
 <div class="math notranslate nohighlight" id="equation-apfl-bilevel">
 <span class="eqno">(10)<a class="headerlink" href="#equation-apfl-bilevel" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize\limits_{\omega_k \in \mathrm{dom} f_k} &amp; h_k(\omega_k, \theta^*) := f_k\left( \alpha_k \omega_k + (1 - \alpha_k) \theta^* \right), \\
 \text{subject to} &amp; \theta^* \in \argmin\limits_{\theta} \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta),
 \end{array}\end{split}\]</div>
-<p>其中 <span class="math notranslate nohighlight">\(\alpha_k \in (0, 1)\)</span> 被称作*混合权重* (Mixture Weights)。与 <a class="reference internal" href="#equation-ditto-bilevel">(8)</a> 最主要的区别在于个性化的机制：不再是二次临近项，而是将局部目标函数在辅助局部模型与全局模型的凸组合 <span class="math notranslate nohighlight">\(\alpha_k \omega_k + (1 - \alpha_k) \theta^*\)</span> 处取值；混合权重 <span class="math notranslate nohighlight">\(\alpha_k\)</span> 起到与临近项中罚参数 <span class="math notranslate nohighlight">\(\mu\)</span> 类似的调节子节点模型个性化程度的作用。最终得到的个性化模型为</p>
+<p>其中 <span class="math notranslate nohighlight">\(\alpha_k \in (0, 1)\)</span> 被称作* 混合权重* (Mixture Weights)。与 <a class="reference internal" href="#equation-ditto-bilevel">(8)</a> 最主要的区别在于个性化的机制：不再是二次临近项，而是将局部目标函数在辅助局部模型与全局模型的凸组合 <span class="math notranslate nohighlight">\(\alpha_k \omega_k + (1 - \alpha_k) \theta^*\)</span> 处取值；混合权重 <span class="math notranslate nohighlight">\(\alpha_k\)</span> 起到与临近项中罚参数 <span class="math notranslate nohighlight">\(\mu\)</span> 类似的调节子节点模型个性化程度的作用。最终得到的个性化模型为</p>
 <div class="math notranslate nohighlight" id="equation-apfl-model">
 <span class="eqno">(11)<a class="headerlink" href="#equation-apfl-model" title="Link to this equation">#</a></span>\[\hat{\omega}_k = \alpha_k \omega_k^* + (1 - \alpha_k) \theta^*,
 \qquad
 \omega_k^* = \argmin\limits_{\omega_k \in \mathrm{dom} f_k} f_k\left( \alpha_k \omega_k + (1 - \alpha_k) \theta^* \right).\]</div>
-<p>值得特别注意的是：当 <span class="math notranslate nohighlight">\(\mathrm{dom} f_k\)</span> 是 <span class="math notranslate nohighlight">\(\R^d\)</span> 的*真*子集时，<a class="reference internal" href="#equation-apfl-model">(11)</a> 中的凸组合可能无法取到 <span class="math notranslate nohighlight">\(f_k\)</span> 的极小点——凸组合 <span class="math notranslate nohighlight">\(\alpha_k \omega_k^* + (1 - \alpha_k) \theta^*\)</span> 能取到的区域可以只是搜索区域的一个真子集，且不包含极小点。扩大 <span class="math notranslate nohighlight">\(\omega_k\)</span> 的搜索区域固然可以恢复可达性，但此时 <span class="math notranslate nohighlight">\(\hat{\omega}_k\)</span> 完全可以通过直接极小化 :math:<a href="#id1"><span class="problematic" id="id2">`</span></a>f_k`（即仅使用节点自身的数据进行训练）获取——这与个性化联邦学习的目的是相违背的。伪代码总结如下。</p>
+<p>值得特别注意的是：当 <span class="math notranslate nohighlight">\(\mathrm{dom} f_k\)</span> 是 <span class="math notranslate nohighlight">\(\R^d\)</span> 的 <em>真</em> 子集时，<a class="reference internal" href="#equation-apfl-model">(11)</a> 中的凸组合可能无法取到 <span class="math notranslate nohighlight">\(f_k\)</span> 的极小点——凸组合 <span class="math notranslate nohighlight">\(\alpha_k \omega_k^* + (1 - \alpha_k) \theta^*\)</span> 能取到的区域可以只是搜索区域的一个真子集，且不包含极小点。扩大 <span class="math notranslate nohighlight">\(\omega_k\)</span> 的搜索区域固然可以恢复可达性，但此时 <span class="math notranslate nohighlight">\(\hat{\omega}_k\)</span> 完全可以通过直接极小化 <span class="math notranslate nohighlight">\(f_k\)</span> （即仅使用节点自身的数据进行训练）获取——这与个性化联邦学习的目的是相违背的。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-apfl">
-<pre class="scopeline-pseudocode" id="pseudocode-140298725612928" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899727157312" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{APFL}}
 \begin{algorithmic}
 \REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
@@ -773,23 +773,23 @@ document.write(`
 \end{algorithm}</pre></div>
 </section>
 <section id="feddyn-dynamic-regularized-federated-learning">
-<span id="fl-alg-pfl-feddyn"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>：动态正则化联邦学习算法<a class="headerlink" href="#feddyn-dynamic-regularized-federated-learning" title="Link to this heading">#</a></h2>
-<p>前文介绍的算法（以及 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 等）都是以*静态*的临近项正则化局部目标函数：在第 <span class="math notranslate nohighlight">\((t+1)\)</span> 轮，子节点 <span class="math notranslate nohighlight">\(k\)</span> 极小化 <span class="math notranslate nohighlight">\(f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2\)</span>。<code class="docutils literal notranslate"><span class="pre">FedDyn</span></code> 算法 [Acar <em>et al.</em><a class="footnote-reference brackets" href="#footcite-acar2021feddyn" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>] 对此进行改进，提出了*动态正则化*的目标函数，</p>
+<span id="fl-alg-pfl-feddyn"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code> ：动态正则化联邦学习算法<a class="headerlink" href="#feddyn-dynamic-regularized-federated-learning" title="Link to this heading">#</a></h2>
+<p>前文介绍的算法（以及 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 等）都是以 <em>静态</em> 的临近项正则化局部目标函数：在第 <span class="math notranslate nohighlight">\((t+1)\)</span> 轮，子节点 <span class="math notranslate nohighlight">\(k\)</span> 极小化 <span class="math notranslate nohighlight">\(f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2\)</span> 。 <code class="docutils literal notranslate"><span class="pre">FedDyn</span></code> 算法 [Acar <em>et al.</em><a class="footnote-reference brackets" href="#footcite-acar2021feddyn" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>] 对此进行改进，提出了* 动态正则化* 的目标函数，</p>
 <div class="math notranslate nohighlight" id="equation-feddyn-obj">
 <span class="eqno">(12)<a class="headerlink" href="#equation-feddyn-obj" title="Link to this equation">#</a></span>\[F_k(\theta_k) := f_k(\theta_k) - \left\langle \nabla f_k\left( \theta_k^{(t)} \right), \theta_k \right\rangle + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,\]</div>
 <p>其可以等价地写为</p>
 <div class="math notranslate nohighlight" id="equation-feddyn-adjusted">
 <span class="eqno">(13)<a class="headerlink" href="#equation-feddyn-adjusted" title="Link to this equation">#</a></span>\[F_k(\theta_k) = \left( f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right)
 - \left\langle \nabla f_k\left( \theta_k^{(t)} \right), \theta_k - \theta_k^{(t)} \right\rangle.\]</div>
-<p>换言之，对 <span class="math notranslate nohighlight">\(F_k\)</span> 的每一步（随机）迭代都沿着带临近项目标函数的下降方向进行，并用 <span class="math notranslate nohighlight">\(f_k\)</span> 在上一步局部迭代点 <span class="math notranslate nohighlight">\(\theta_k^{(t)}\)</span> 处的线性化（即 <span class="math notranslate nohighlight">\(\mathfrak{g}_k^{(t)} := \nabla f_k(\theta_k^{(t)})\)</span>）对其加以*修正*。动态正则化问题 <a class="reference internal" href="#equation-feddyn-obj">(12)</a> 另一个值得注意的性质是其一阶最优性条件</p>
+<p>换言之，对 <span class="math notranslate nohighlight">\(F_k\)</span> 的每一步（随机）迭代都沿着带临近项目标函数的下降方向进行，并用 <span class="math notranslate nohighlight">\(f_k\)</span> 在上一步局部迭代点 <span class="math notranslate nohighlight">\(\theta_k^{(t)}\)</span> 处的线性化（即 <span class="math notranslate nohighlight">\(\mathfrak{g}_k^{(t)} := \nabla f_k(\theta_k^{(t)})\)</span> ）对其加以* 修正* 。动态正则化问题 <a class="reference internal" href="#equation-feddyn-obj">(12)</a> 另一个值得注意的性质是其一阶最优性条件</p>
 <div class="math notranslate nohighlight" id="equation-feddyn-opt">
 <span class="eqno">(14)<a class="headerlink" href="#equation-feddyn-opt" title="Link to this equation">#</a></span>\[\nabla f_k\left( \theta_k^{(t+1)} \right) - \nabla f_k\left( \theta_k^{(t)} \right) + \mu \left( \theta_k^{(t+1)} - \theta^{(t)} \right) = 0,\]</div>
 <p>由此可得如下的递推格式</p>
 <div class="math notranslate nohighlight" id="equation-feddyn-grad-iter">
 <span class="eqno">(15)<a class="headerlink" href="#equation-feddyn-grad-iter" title="Link to this equation">#</a></span>\[\mathfrak{g}_k^{(t+1)} \gets \mathfrak{g}_k^{(t)} - \mu \left( \theta_k^{(t+1)} - \theta^{(t)} \right),\]</div>
-<p>即局部梯度估计*无需*额外的函数或梯度计算即可维护——这对计算与算法实现是巨大的便利。伪代码总结如下。</p>
+<p>即局部梯度估计* 无需* 额外的函数或梯度计算即可维护——这对计算与算法实现是巨大的便利。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-feddyn">
-<pre class="scopeline-pseudocode" id="pseudocode-140298725606544" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899725925824" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDyn}}
 \begin{algorithmic}
 \REQUIRE penalty coeffecient $\mu$
@@ -814,22 +814,22 @@ document.write(`
 \end{algorithm}</pre></div>
 </section>
 <section id="pfedmac-personalized-fl-via-maximizing-correlation">
-<span id="fl-alg-pfl-pfedmac"></span><h2><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code>：极大化相关性的个性化联邦学习算法<a class="headerlink" href="#pfedmac-personalized-fl-via-maximizing-correlation" title="Link to this heading">#</a></h2>
-<p>与 <code class="docutils literal notranslate"><span class="pre">FedDyn</span></code> 的“方向修正”思路相关，<code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> 算法 [Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li2021pfedmac" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>] 考虑了如下的双层问题</p>
+<span id="fl-alg-pfl-pfedmac"></span><h2><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> ：极大化相关性的个性化联邦学习算法<a class="headerlink" href="#pfedmac-personalized-fl-via-maximizing-correlation" title="Link to this heading">#</a></h2>
+<p>与 <code class="docutils literal notranslate"><span class="pre">FedDyn</span></code> 的“方向修正”思路相关， <code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> 算法 [Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li2021pfedmac" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>] 考虑了如下的双层问题</p>
 <div class="math notranslate nohighlight" id="equation-pfedmac-obj">
 <span class="eqno">(16)<a class="headerlink" href="#equation-pfedmac-obj" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize &amp; F(\theta) = \frac{1}{K} \sum\limits_{k=1}^K F_k(\theta), \\
 \text{where} &amp; F_k(\theta) := \min\limits_{\theta_k} \left\{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle + \frac{\mu}{2} \lVert \theta \rVert^2_2 \right\},
 \end{array}\end{split}\]</div>
-<p>其中内层问题利用全局模型 <span class="math notranslate nohighlight">\(\theta\)</span> 通过内积对个性化模型 <span class="math notranslate nohighlight">\(\theta_k\)</span> 进行修正。在概率与统计中，<span class="math notranslate nohighlight">\(\langle \theta_k, \theta \rangle\)</span> 量化了个性化模型与全局模型之间的*相关性*；因此该技术被称作*极大化相关性* (Maximizing Correlation)。两个初等的变形将其与上文的问题格式联系起来：把全局项从内层极小化中移出，得 <span class="math notranslate nohighlight">\(F_k(\theta) = F_k'(\theta) + \frac{\mu}{2} \lVert \theta \rVert^2_2\)</span>，其中 <span class="math notranslate nohighlight">\(F_k'(\theta) := \min_{\theta_k} \{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle \}\)</span>；而配方后可得</p>
+<p>其中内层问题利用全局模型 <span class="math notranslate nohighlight">\(\theta\)</span> 通过内积对个性化模型 <span class="math notranslate nohighlight">\(\theta_k\)</span> 进行修正。在概率与统计中，<span class="math notranslate nohighlight">\(\langle \theta_k, \theta \rangle\)</span> 量化了个性化模型与全局模型之间的* 相关性* ；因此该技术被称作* 极大化相关性* (Maximizing Correlation)。两个初等的变形将其与上文的问题格式联系起来：把全局项从内层极小化中移出，得 <span class="math notranslate nohighlight">\(F_k(\theta) = F_k'(\theta) + \frac{\mu}{2} \lVert \theta \rVert^2_2\)</span> ，其中 <span class="math notranslate nohighlight">\(F_k'(\theta) := \min_{\theta_k} \{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle \}\)</span> ；而配方后可得</p>
 <div class="math notranslate nohighlight" id="equation-pfedmac-adjusted">
 <span class="eqno">(17)<a class="headerlink" href="#equation-pfedmac-adjusted" title="Link to this equation">#</a></span>\[F_k(\theta) = \min\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta \rVert^2_2 - \frac{\mu}{2} \lVert \theta_k \rVert^2_2 \right\},\]</div>
-<p>即带临近项的目标函数再减去一个关于 <span class="math notranslate nohighlight">\(\theta_k\)</span> 自身的二次项——这正是 <a class="reference internal" href="#equation-feddyn-adjusted">(13)</a> 的味道，因此同样的单步方向修正更新在此适用。<code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> 进一步借助附加的 <span class="math notranslate nohighlight">\(\ell_1\)</span> 项研究了*稀疏*个性化模型，</p>
+<p>即带临近项的目标函数再减去一个关于 <span class="math notranslate nohighlight">\(\theta_k\)</span> 自身的二次项——这正是 <a class="reference internal" href="#equation-feddyn-adjusted">(13)</a> 的味道，因此同样的单步方向修正更新在此适用。 <code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> 进一步借助附加的 <span class="math notranslate nohighlight">\(\ell_1\)</span> 项研究了* 稀疏* 个性化模型，</p>
 <div class="math notranslate nohighlight" id="equation-pfedmac-sparse">
 <span class="eqno">(18)<a class="headerlink" href="#equation-pfedmac-sparse" title="Link to this equation">#</a></span>\[F_k(\theta) := \min\limits_{\theta_k} \left\{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle + \frac{\mu}{2} \lVert \theta \rVert^2_2 + \gamma \lVert \theta_k \rVert_1 \right\},\]</div>
-<p>此外，它还将中心节点--子节点的二元结构扩展为带次中心（边缘节点或枢纽）的*三层*结构：每个次中心先聚合一个集群 <span class="math notranslate nohighlight">\(\{ \theta_{k,1}, \ldots, \theta_{k, J_k} \}\)</span> 内的子节点模型，再与中心节点通信——随着联邦网络规模的扩大，这类结构预计会越来越常见，并与聚类联邦学习密切相关。伪代码总结如下。</p>
+<p>此外，它还将中心节点--子节点的二元结构扩展为带次中心（边缘节点或枢纽）的* 三层* 结构：每个次中心先聚合一个集群 <span class="math notranslate nohighlight">\(\{ \theta_{k,1}, \ldots, \theta_{k, J_k} \}\)</span> 内的子节点模型，再与中心节点通信——随着联邦网络规模的扩大，这类结构预计会越来越常见，并与聚类联邦学习密切相关。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-pfedmac">
-<pre class="scopeline-pseudocode" id="pseudocode-140298725605872" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899725495312" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMac}}
 \begin{algorithmic}
 \REQUIRE learning rate $\eta$, penalty coefficient $\lambda$, $\beta$
@@ -860,16 +860,16 @@ document.write(`
 \end{algorithm}</pre></div>
 </section>
 <section id="fpfc-fusion-penalized-federated-clustering">
-<span id="fl-alg-pfl-fpfc"></span><h2><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类<a class="headerlink" href="#fpfc-fusion-penalized-federated-clustering" title="Link to this heading">#</a></h2>
-<p>除了在每对*局部*模型之间的偏差（如 <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>）或局部模型与全局模型之间的偏差上做正则之外，还可以在*不预先知道簇结构*的情况下，鼓励客户端聚成若干簇、簇内共享同一模型。融合惩罚联邦聚类（<code class="docutils literal notranslate"><span class="pre">FPFC</span></code>）算法（见 <a class="reference external" href="https://arxiv.org/abs/2211.04218">arXiv:2211.04218</a>）通过在模型之差上施加非凸的*成对*融合惩罚来实现这一点。引入辅助变量 <span class="math notranslate nohighlight">\(\theta_{ij} \equiv \omega_i - \omega_j`（:math:`i, j \in [m]\)</span>），它考虑</p>
+<span id="fl-alg-pfl-fpfc"></span><h2><code class="docutils literal notranslate"><span class="pre">FPFC</span></code> ：融合惩罚联邦聚类<a class="headerlink" href="#fpfc-fusion-penalized-federated-clustering" title="Link to this heading">#</a></h2>
+<p>除了在每对 <em>局部</em> 模型之间的偏差（如 <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> ）或局部模型与全局模型之间的偏差上做正则之外，还可以在* 不预先知道簇结构* 的情况下，鼓励客户端聚成若干簇、簇内共享同一模型。融合惩罚联邦聚类（ <code class="docutils literal notranslate"><span class="pre">FPFC</span></code> ）算法（见 <a class="reference external" href="https://arxiv.org/abs/2211.04218">arXiv:2211.04218</a>）通过在模型之差上施加非凸的* 成对* 融合惩罚来实现这一点。引入辅助变量 <span class="math notranslate nohighlight">\(\theta_{ij} \equiv \omega_i - \omega_j\)</span> （<span class="math notranslate nohighlight">\(i, j \in [m]\)</span> ），它考虑</p>
 <div class="math notranslate nohighlight" id="equation-fpfc-obj">
 <span class="eqno">(19)<a class="headerlink" href="#equation-fpfc-obj" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
 \minimize\limits_{\omega, \theta} &amp; \sum\limits_{i=1}^m f_i(\omega_i) + \frac{1}{2m} \sum\limits_{i=1}^m \sum\limits_{j=1}^m \tilde{g}(\lVert \theta_{ij} \rVert) \\
 \text{subject to} &amp; \omega_i - \omega_j = \theta_{ij}, \qquad i, j \in [m],
 \end{array}\end{split}\]</div>
-<p>其中 <span class="math notranslate nohighlight">\(\tilde{g}(\cdot)\)</span> 是平滑的 SCAD 型罚函数（由 <span class="math notranslate nohighlight">\(\xi, \lambda, a\)</span> 参数化），其近端算子把较小的成对差收缩到零（同簇的客户端），而几乎不动较大的差（不同簇的客户端）。该问题用 ADMM 式（Douglas--Rachford）分裂求解：增广拉格朗日罚参数为 <span class="math notranslate nohighlight">\(\rho\)</span>，对偶变量为 <span class="math notranslate nohighlight">\(v_{ij}\)</span>；每一轮，随机选中的一部分设备在 <span class="math notranslate nohighlight">\(f_i(\omega) + \frac{\rho}{2} \lVert \omega - \zeta_i \rVert^2\)</span> 上做 <span class="math notranslate nohighlight">\(T_i\)</span> 个 epoch 的本地梯度下降，服务器对活跃设备的成对变量 <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> 施加分段近端更新并做对偶上升。训练结束后，<span class="math notranslate nohighlight">\(\lVert \theta_{ij} \rVert\)</span> （近乎）为零的设备 <span class="math notranslate nohighlight">\(i\)</span> 与 <span class="math notranslate nohighlight">\(j\)</span> 被分到同一个簇。伪代码总结如下；注意，无论簇的个数还是簇的成员关系都不需要事先指定。</p>
+<p>其中 <span class="math notranslate nohighlight">\(\tilde{g}(\cdot)\)</span> 是平滑的 SCAD 型罚函数（由 <span class="math notranslate nohighlight">\(\xi, \lambda, a\)</span> 参数化），其近端算子把较小的成对差收缩到零（同簇的客户端），而几乎不动较大的差（不同簇的客户端）。该问题用 ADMM 式（Douglas--Rachford）分裂求解：增广拉格朗日罚参数为 <span class="math notranslate nohighlight">\(\rho\)</span> ，对偶变量为 <span class="math notranslate nohighlight">\(v_{ij}\)</span> ；每一轮，随机选中的一部分设备在 <span class="math notranslate nohighlight">\(f_i(\omega) + \frac{\rho}{2} \lVert \omega - \zeta_i \rVert^2\)</span> 上做 <span class="math notranslate nohighlight">\(T_i\)</span> 个 epoch 的本地梯度下降，服务器对活跃设备的成对变量 <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> 施加分段近端更新并做对偶上升。训练结束后，<span class="math notranslate nohighlight">\(\lVert \theta_{ij} \rVert\)</span> （近乎）为零的设备 <span class="math notranslate nohighlight">\(i\)</span> 与 <span class="math notranslate nohighlight">\(j\)</span> 被分到同一个簇。伪代码总结如下；注意，无论簇的个数还是簇的成员关系都不需要事先指定。</p>
 <div class="pseudocode-container docutils container" id="pcode-fpfc">
-<pre class="scopeline-pseudocode" id="pseudocode-140298725933264" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899725933216" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FPFC}}
 \begin{algorithmic}
 \REQUIRE number of devices $m,$ number of rounds $K,$ local epochs $T_i,$ stepsize $\alpha,$ penalty parameters $\xi, \lambda, a,$ and $\rho$
@@ -903,24 +903,24 @@ document.write(`
 \end{algorithm}</pre></div>
 </section>
 <section id="fedcr-personalized-federated-learning-based-on-across-client-common-representation">
-<span id="fl-alg-pfl-fedcr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>：基于跨客户端共性表示的个性化联邦学习<a class="headerlink" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation" title="Link to this heading">#</a></h2>
-<p>上述方法个性化的是整个局部模型。<a href="#id1"><span class="problematic" id="id2">``</span></a>FedCR``（见 <a class="reference external" href="https://proceedings.mlr.press/v202/zhang23w.html">ICML 2023</a>）则将每个局部模型 <span class="math notranslate nohighlight">\(w_i = [w_i^f, w_i^p]\)</span> 解耦为跨客户端共享、在服务器端聚合的特征提取器（主体）:math:<cite>w_i^f</cite>，以及保持个性化的预测器（头部）:math:<cite>w_i^p</cite>。特征提取器经由共性表示进行对齐：对每个类别 <span class="math notranslate nohighlight">\(c\)</span>，局部的类条件互信息被约束为接近全局的类条件互信息；借由马尔可夫链 <span class="math notranslate nohighlight">\(y \to x \to z\)</span>，这等价于类别级的特征对齐</p>
+<span id="fl-alg-pfl-fedcr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedCR</span></code> ：基于跨客户端共性表示的个性化联邦学习<a class="headerlink" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation" title="Link to this heading">#</a></h2>
+<p>上述方法个性化的是整个局部模型。 <code class="docutils literal notranslate"><span class="pre">FedCR</span></code> （见 <a class="reference external" href="https://proceedings.mlr.press/v202/zhang23w.html">ICML 2023</a>）则将每个局部模型 <span class="math notranslate nohighlight">\(w_i = [w_i^f, w_i^p]\)</span> 解耦为跨客户端共享、在服务器端聚合的特征提取器（主体）:math:<cite>w_i^f</cite> ，以及保持个性化的预测器（头部）:math:<cite>w_i^p</cite> 。特征提取器经由共性表示进行对齐：对每个类别 <span class="math notranslate nohighlight">\(c\)</span> ，局部的类条件互信息被约束为接近全局的类条件互信息；借由马尔可夫链 <span class="math notranslate nohighlight">\(y \to x \to z\)</span> ，这等价于类别级的特征对齐</p>
 <div class="math notranslate nohighlight" id="equation-fedcr-cmi">
 <span class="eqno">(20)<a class="headerlink" href="#equation-fedcr-cmi" title="Link to this equation">#</a></span>\[I(z; x \mid y_i) - I_i(z; x_i \mid y_i) = \mathbb{E}_{p(x_i, y_i)} \mathbb{E}_{p(x \mid x_i, y_i)} \left[ \mathrm{KL}\left[ p(z \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
-<p>对齐项由拉格朗日乘子 <span class="math notranslate nohighlight">\(\beta \geqslant 0\)</span> 加权（即 CMI 正则项）。表示映射建模为对角高斯分布 <span class="math notranslate nohighlight">\(p(z \mid x_i) = \mathcal{N}\left(z \,\middle|\, \mu(x_i), \Sigma(x_i)\right)\)</span>；在此之下，难以直接求解的全局后验由活跃客户端集合 <span class="math notranslate nohighlight">\(\mathcal{P}_t\)</span> 的类别级局部后验的专家乘积（PoE）来估计，先验取 <span class="math notranslate nohighlight">\(p(z) = \mathcal{N}(0, 1)\)</span>：</p>
+<p>对齐项由拉格朗日乘子 <span class="math notranslate nohighlight">\(\beta \geqslant 0\)</span> 加权（即 CMI 正则项）。表示映射建模为对角高斯分布 <span class="math notranslate nohighlight">\(p(z \mid x_i) = \mathcal{N}\left(z \,\middle|\, \mu(x_i), \Sigma(x_i)\right)\)</span> ；在此之下，难以直接求解的全局后验由活跃客户端集合 <span class="math notranslate nohighlight">\(\mathcal{P}_t\)</span> 的类别级局部后验的专家乘积（PoE）来估计，先验取 <span class="math notranslate nohighlight">\(p(z) = \mathcal{N}(0, 1)\)</span> ：</p>
 <div class="math notranslate nohighlight" id="equation-fedcr-poe">
 <span class="eqno">(21)<a class="headerlink" href="#equation-fedcr-poe" title="Link to this equation">#</a></span>\[p(z^c \mid x) \propto p(z) \prod_{i \in \mathcal{P}_t} p^c(z \mid x_i), \qquad
 p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)^{1 / N_i^{c}},\]</div>
-<p>其中 <span class="math notranslate nohighlight">\(p^c(z \mid x_i)\)</span> 为客户端 <span class="math notranslate nohighlight">\(i\)</span> 上类别 <span class="math notranslate nohighlight">\(c\)</span> 的 <span class="math notranslate nohighlight">\(N_i^{c}\)</span> 个样本的（几何平均）局部专家乘积，直接取自本地训练中最新一轮前向传播的结果。高斯分布的乘积仍为高斯分布，故两个 PoE 都可化为类别级的均值与协方差：每个客户端只需上传其拥有的类别的 <span class="math notranslate nohighlight">\((\mu_i^c, \Sigma_i^c)\)</span>，服务器经由精度（协方差之逆）解析地合并，</p>
+<p>其中 <span class="math notranslate nohighlight">\(p^c(z \mid x_i)\)</span> 为客户端 <span class="math notranslate nohighlight">\(i\)</span> 上类别 <span class="math notranslate nohighlight">\(c\)</span> 的 <span class="math notranslate nohighlight">\(N_i^{c}\)</span> 个样本的（几何平均）局部专家乘积，直接取自本地训练中最新一轮前向传播的结果。高斯分布的乘积仍为高斯分布，故两个 PoE 都可化为类别级的均值与协方差：每个客户端只需上传其拥有的类别的 <span class="math notranslate nohighlight">\((\mu_i^c, \Sigma_i^c)\)</span> ，服务器经由精度（协方差之逆）解析地合并，</p>
 <div class="math notranslate nohighlight" id="equation-fedcr-poe-closed">
 <span class="eqno">(22)<a class="headerlink" href="#equation-fedcr-poe-closed" title="Link to this equation">#</a></span>\[\Sigma^c = \left( I + \sum_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}, \qquad
 \mu^c = \Sigma^c \sum_{i \in \mathcal{P}_t} \mu_i^c \left( \Sigma_i^c \right)^{-1},\]</div>
-<p>同时对特征提取器做平均：<span class="math notranslate nohighlight">\(w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum_{i \in \mathcal{P}_t} w_i^f\)</span>。所有活跃客户端都不具备的类别沿用上一轮的统计量。客户端 <span class="math notranslate nohighlight">\(i\)</span> 的局部目标即其经验损失加上上述对齐项，</p>
+<p>同时对特征提取器做平均：<span class="math notranslate nohighlight">\(w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum_{i \in \mathcal{P}_t} w_i^f\)</span> 。所有活跃客户端都不具备的类别沿用上一轮的统计量。客户端 <span class="math notranslate nohighlight">\(i\)</span> 的局部目标即其经验损失加上上述对齐项，</p>
 <div class="math notranslate nohighlight" id="equation-fedcr-obj">
 <span class="eqno">(23)<a class="headerlink" href="#equation-fedcr-obj" title="Link to this equation">#</a></span>\[L_i = f_i(w_i) + \beta \, \mathbb{E}_{p(x_i, y_i)} \left[ \mathrm{KL}\left[ p(z^{c = y_i} \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
-<p>对随机特征采用重参数化技巧进行优化。由于专家乘积的后验可以比任何单一专家更尖锐，共性表示不仅承载客户端之间的共性信息，也承载互补信息；对齐项同时起到向局部特征注入噪声的作用，可改善泛化与不确定性校准。注意当 <span class="math notranslate nohighlight">\(\beta = 0\)</span> 且 <span class="math notranslate nohighlight">\(\Sigma(x_i) = 0`（确定性特征）时，该方法退化为 ``FedPer`\)</span>。伪代码总结如下。</p>
+<p>对随机特征采用重参数化技巧进行优化。由于专家乘积的后验可以比任何单一专家更尖锐，共性表示不仅承载客户端之间的共性信息，也承载互补信息；对齐项同时起到向局部特征注入噪声的作用，可改善泛化与不确定性校准。注意当 <span class="math notranslate nohighlight">\(\beta = 0\)</span> 且 <span class="math notranslate nohighlight">\(\Sigma(x_i) = 0\)</span> （确定性特征）时，该方法退化为 <code class="docutils literal notranslate"><span class="pre">FedPer</span></code> 。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-fedcr">
-<pre class="scopeline-pseudocode" id="pseudocode-140298725612976" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899725496032" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedCR}}
 \begin{algorithmic}
 \REQUIRE number of clients $m,$ number of rounds $T,$ local steps $K,$ learning rate $\eta,$ CMI coefficient $\beta$; class-wise initialization $\mu_0^c = 0,$ $\Sigma_0^c = I$ for all classes $c$
@@ -1029,14 +1029,14 @@ p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>：无环局部随机梯度下降</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedme-personalized-federated-mean"><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>：个性化联邦均值算法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ditto-fair-and-robust-personalized-models"><code class="docutils literal notranslate"><span class="pre">Ditto</span></code>：公平且鲁棒的个性化模型</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apfl-adaptive-personalized-federated-learning"><code class="docutils literal notranslate"><span class="pre">APFL</span></code>：自适应个性化联邦学习算法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddyn-dynamic-regularized-federated-learning"><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>：动态正则化联邦学习算法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedmac-personalized-fl-via-maximizing-correlation"><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code>：极大化相关性的个性化联邦学习算法</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>：融合惩罚联邦聚类</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>：基于跨客户端共性表示的个性化联邦学习</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> ：无环局部随机梯度下降</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedme-personalized-federated-mean"><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> ：个性化联邦均值算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ditto-fair-and-robust-personalized-models"><code class="docutils literal notranslate"><span class="pre">Ditto</span></code> ：公平且鲁棒的个性化模型</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apfl-adaptive-personalized-federated-learning"><code class="docutils literal notranslate"><span class="pre">APFL</span></code> ：自适应个性化联邦学习算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddyn-dynamic-regularized-federated-learning"><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code> ：动态正则化联邦学习算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedmac-personalized-fl-via-maximizing-correlation"><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> ：极大化相关性的个性化联邦学习算法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code> ：融合惩罚联邦聚类</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code> ：基于跨客户端共性表示的个性化联邦学习</a></li>
 </ul>
   </nav></div>
 

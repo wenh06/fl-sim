@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的跳步算法 &#8212; fl-sim 0.1.1.dev17+gcdb91a0fc 文档</title>
+    <title>联邦学习中的跳步算法 &#8212; fl-sim 0.1.1.dev18+gf6c3e33a6 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=49dc4194"></script>
+    <script src="../_static/documentation_options.js?v=9c6c6b09"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev17+gcdb91a0fc 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev18+gf6c3e33a6 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -563,7 +563,7 @@ document.write(`
                   
   <section id="skipping-algorithms-in-federated-learning">
 <span id="fl-alg-skipping"></span><h1>联邦学习中的跳步算法<a class="headerlink" href="#skipping-algorithms-in-federated-learning" title="Link to this heading">#</a></h1>
-<p>最早的联邦学习算法 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> [McMahan <em>et al.</em><a class="footnote-reference brackets" href="#footcite-mcmahan2017fed-avg" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 在子节点的内循环中执行多步梯度下降——从某种意义上说，这已经是一种*跳步* (Skipping) 更新：通信轮以概率 <span class="math notranslate nohighlight">\(1 - p = 0\)</span> 被跳过。<code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 算法 [Mishchenko <em>et al.</em><a class="footnote-reference brackets" href="#footcite-proxskip" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, Zhang and Loizou<a class="footnote-reference brackets" href="#footcite-proxskip-vr" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>]（原文献中命名为 <code class="docutils literal notranslate"><span class="pre">Scaffnew</span></code>）系统地研究了跳步技术在联邦学习优化算法中的应用，使通信轮以*非零*的概率被跳过。将 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 视作 <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> 结合跳步更新技术的改进算法，是不无启发的。</p>
+<p>最早的联邦学习算法 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> [McMahan <em>et al.</em><a class="footnote-reference brackets" href="#footcite-mcmahan2017fed-avg" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 在子节点的内循环中执行多步梯度下降——从某种意义上说，这已经是一种* 跳步* (Skipping) 更新：通信轮以概率 <span class="math notranslate nohighlight">\(1 - p = 0\)</span> 被跳过。 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 算法 [Mishchenko <em>et al.</em><a class="footnote-reference brackets" href="#footcite-proxskip" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, Zhang and Loizou<a class="footnote-reference brackets" href="#footcite-proxskip-vr" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>]（原文献中命名为 <code class="docutils literal notranslate"><span class="pre">Scaffnew</span></code> ）系统地研究了跳步技术在联邦学习优化算法中的应用，使通信轮以* 非零* 的概率被跳过。将 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 视作 <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> 结合跳步更新技术的改进算法，是不无启发的。</p>
 <section id="proxskip-scaffnew">
 <span id="fl-alg-skipping-proxskip"></span><h2><code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code>/<code class="docutils literal notranslate"><span class="pre">Scaffnew</span></code><a class="headerlink" href="#proxskip-scaffnew" title="Link to this heading">#</a></h2>
 <p>从最优化的视角出发，将联邦学习问题建模为共识集 <span class="math notranslate nohighlight">\(\mathcal{E} = \{ \Theta \mid \theta_1 = \cdots = \theta_K \}\)</span> 上的共识优化问题</p>
@@ -576,13 +576,13 @@ document.write(`
 \text{subject to} &amp; \Theta \in \mathcal{E}, \\
 \text{where} &amp; \Theta = \col(\theta_1, \cdots, \theta_K) \in \R^{Kd}.
 \end{array}\end{split}\end{aligned}\end{align} \]</div>
-<p>正如 <a class="reference internal" href="operator_splitting.html#fl-alg-operator-splitting"><span class="std std-ref">算子分裂一节</span></a> 所述，可以借助共识集的示性函数 <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> 将该约束问题转化为无约束问题，并对其一阶最优性条件 <span class="math notranslate nohighlight">\(0 \in \nabla F(\Theta) + \partial \iota_{\mathcal{E}}(\Theta)\)</span> 进行分裂。更一般地，把 <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> 换成任意 CCP 函数 <span class="math notranslate nohighlight">\(g\)</span>，相应的不动点求解方法即*临近梯度下降* (Proximal Gradient Descent, ProxGD)</p>
+<p>正如 <a class="reference internal" href="operator_splitting.html#fl-alg-operator-splitting"><span class="std std-ref">算子分裂一节</span></a> 所述，可以借助共识集的示性函数 <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> 将该约束问题转化为无约束问题，并对其一阶最优性条件 <span class="math notranslate nohighlight">\(0 \in \nabla F(\Theta) + \partial \iota_{\mathcal{E}}(\Theta)\)</span> 进行分裂。更一般地，把 <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> 换成任意 CCP 函数 <span class="math notranslate nohighlight">\(g\)</span> ，相应的不动点求解方法即* 临近梯度下降* (Proximal Gradient Descent, ProxGD)</p>
 <div class="math notranslate nohighlight" id="equation-skipping-proxgd">
 <span class="eqno">(2)<a class="headerlink" href="#equation-skipping-proxgd" title="Link to this equation">#</a></span>\[\Theta^{(t+1)} = \prox_{s g}\left( \Theta^{(t)} - s \nabla F(\Theta^{(t)}) \right),\]</div>
-<p>对问题 <span class="math notranslate nohighlight">\(\minimize \ F(\Theta) + g(\Theta)\)</span> 而言，ProxGD 的实际困难在于 CCP 函数 <span class="math notranslate nohighlight">\(g\)</span> 的临近算子 <span class="math notranslate nohighlight">\(\prox_{s g}\)</span> 通常求解代价高昂 [Friedlander and Goh<a class="footnote-reference brackets" href="#footcite-friedlander2017efficient" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>]。对应到联邦学习中，这一临近步*正是*通信本身：先由子节点向中心节点聚合模型参数，再由中心节点向子节点广播。以一定概率跳过这一性能瓶颈步骤便是一种自然的想法——这正是 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 所做的事情。</p>
-<p>关于控制变量 (Control Variates) 的说明：与 <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> 不同，<code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 并未（显式地）使用梯度方差缩减技术。控制变量 <span class="math notranslate nohighlight">\(c_k\)</span> 的首要作用是保证整体迭代的*正确收敛性*：可以证明在原问题的解点 <span class="math notranslate nohighlight">\(\theta^*\)</span> 处 <span class="math notranslate nohighlight">\(c_k \to \nabla f_k(\theta^*)\)</span>，从而迭代的稳定点即为原问题的解点——这是 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 的关键所在。<code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 整体上并不维护一个在中心节点与子节点之间通信的全局控制变量；相反，每当通信发生时，子节点上的局部控制变量 <span class="math notranslate nohighlight">\(c_k\)</span> 会由 <span class="math notranslate nohighlight">\(\frac{p}{\gamma} \left( \theta^{(t+1)} - \theta_k^{(t + \frac{1}{2})} \right)\)</span> <a href="#id1"><span class="problematic" id="id2">*</span></a>隐式*地更新，后者起到了全局控制变量的作用。这一点类似于 <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> 中局部控制变量的 Option II 更新规则：好处是省去了中心节点与子节点之间额外的参数传递，代价是损失了控制变量更新方法的灵活性。伪代码总结如下。</p>
+<p>对问题 <span class="math notranslate nohighlight">\(\minimize \ F(\Theta) + g(\Theta)\)</span> 而言，ProxGD 的实际困难在于 CCP 函数 <span class="math notranslate nohighlight">\(g\)</span> 的临近算子 <span class="math notranslate nohighlight">\(\prox_{s g}\)</span> 通常求解代价高昂 [Friedlander and Goh<a class="footnote-reference brackets" href="#footcite-friedlander2017efficient" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>]。对应到联邦学习中，这一临近步* 正是* 通信本身：先由子节点向中心节点聚合模型参数，再由中心节点向子节点广播。以一定概率跳过这一性能瓶颈步骤便是一种自然的想法——这正是 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 所做的事情。</p>
+<p>关于控制变量 (Control Variates) 的说明：与 <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> 不同， <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 并未（显式地）使用梯度方差缩减技术。控制变量 <span class="math notranslate nohighlight">\(c_k\)</span> 的首要作用是保证整体迭代的* 正确收敛性* ：可以证明在原问题的解点 <span class="math notranslate nohighlight">\(\theta^*\)</span> 处 <span class="math notranslate nohighlight">\(c_k \to \nabla f_k(\theta^*)\)</span> ，从而迭代的稳定点即为原问题的解点——这是 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 的关键所在。 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 整体上并不维护一个在中心节点与子节点之间通信的全局控制变量；相反，每当通信发生时，子节点上的局部控制变量 <span class="math notranslate nohighlight">\(c_k\)</span> 会由 <span class="math notranslate nohighlight">\(\frac{p}{\gamma} \left( \theta^{(t+1)} - \theta_k^{(t + \frac{1}{2})} \right)\)</span> * 隐式* 地更新，后者起到了全局控制变量的作用。这一点类似于 <code class="docutils literal notranslate"><span class="pre">SCAFFOLD</span></code> 中局部控制变量的 Option II 更新规则：好处是省去了中心节点与子节点之间额外的参数传递，代价是损失了控制变量更新方法的灵活性。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-proxskip">
-<pre class="scopeline-pseudocode" id="pseudocode-140298721421024" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139899721671552" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{ProxSkip}}
 \begin{algorithmic}
 \REQUIRE learning rate $\gamma,$ probability $p \in [0, 1)$
