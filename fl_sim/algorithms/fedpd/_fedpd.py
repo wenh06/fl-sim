@@ -13,7 +13,7 @@ from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...data_processing.fed_dataset import FedDataset
-from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from ...nodes import Client, ClientConfig, ClientToServer, Server, ServerConfig
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 
@@ -221,16 +221,18 @@ class FedPDClient(Client):
             if (target.n_iter + 1) % self.config.comm_freq != 0:
                 target._num_communications -= 1
                 return
-        message = {
-            "client_id": self.client_id,
-            # "parameters": self.get_detached_model_parameters(),
-            "parameters": self._cached_parameters,
-            "train_samples": len(self.train_loader.dataset),
-            "metrics": self._metrics,
-        }
+        extras = {}
         if self.config.vr:
-            message["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
-        target._received_messages.append(ClientMessage(**message))
+            extras["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                parameters=self._cached_parameters,
+                extras=extras,
+            )
+        )
 
     def update(self) -> None:
         # x_i^r: self.model.parameters()

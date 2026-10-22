@@ -8,7 +8,7 @@ from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...data_processing.fed_dataset import FedDataset
-from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from ...nodes import Client, ClientConfig, ClientToServer, Server, ServerConfig
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 
@@ -168,19 +168,22 @@ class APFLClient(Client):
 
     def communicate(self, target: "APFLServer") -> None:
         self._sync_counter += 1
-        message = {
-            "client_id": self.client_id,
-            "train_samples": len(self.train_loader.dataset),
-            "metrics": self._metrics,
-        }
+        parameters = None
         if self._sync_counter == self.config.sync_gap:
             # if the current iteration reaches the synchronization gap,
             # transmit the local model parameters to the server
             # otherwise, only transmit the metrics
-            message["parameters"] = self.get_detached_model_parameters()
+            parameters = self.get_detached_model_parameters()
             # reset the synchronization counter
             self._sync_counter = 0
-        target._received_messages.append(ClientMessage(**message))
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                parameters=parameters,
+            )
+        )
 
     def update(self) -> None:
         if self._sync_counter == 0:

@@ -8,7 +8,7 @@ import torch
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from ...nodes import Client, ClientConfig, ClientToServer, Server, ServerConfig
 from ...regularizers import get_regularizer
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
@@ -171,14 +171,12 @@ class FedDRClient(Client):
         else:
             x_hat_delta = [p.data - hp.data for p, hp in zip(self._x_hat_parameters, self._x_hat_buffer)]
         self._x_hat_buffer = [p.clone() for p in self._x_hat_parameters]
-        target._received_messages.append(
-            ClientMessage(
-                **{
-                    "client_id": self.client_id,
-                    "x_hat_delta": x_hat_delta,
-                    "train_samples": len(self.train_loader.dataset),
-                    "metrics": self._metrics,
-                }
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                extras={"x_hat_delta": x_hat_delta},
             )
         )
 

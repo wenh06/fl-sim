@@ -15,7 +15,7 @@ import torch
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import ClientMessage
+from ...nodes import ClientToServer
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 from ..fedopt import FedAvgClient as BaseClient
@@ -163,16 +163,17 @@ class FedDCClient(BaseClient):
         self._alpha = 0.01
 
     def communicate(self, target: "FedDCServer") -> None:
-        message = {
-            "client_id": self.client_id,
-            # drift-corrected local model parameters (theta_i + h_i)
-            "parameters": self.get_detached_model_parameters(),
-            # this round's local update value (gradient drift) delta_theta_i = theta_i^+ - w
-            "local_update": self._local_update,
-            "train_samples": len(self.train_loader.dataset),
-            "metrics": self._metrics,
-        }
-        target._received_messages.append(ClientMessage(**message))
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                # drift-corrected local model parameters (theta_i + h_i)
+                parameters=self.get_detached_model_parameters(),
+                # this round's local update value (gradient drift) delta_theta_i = theta_i^+ - w
+                extras={"local_update": self._local_update},
+            )
+        )
 
     def update(self) -> None:
         w = self._received_messages["parameters"]
