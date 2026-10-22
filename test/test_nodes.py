@@ -356,10 +356,15 @@ def test_server_four_phase_hooks():
     s._broadcast(client)
     assert "parameters" in client._received_messages
 
-    # local step with evaluation: metrics logged and cached on the client
-    s._local_step(client, evaluate=True)
-    assert len(s._received_messages) == 1
+    # local step (split into the task and the main-thread accept since the
+    # parallel-execution refactor): the task runs client-side only and hands
+    # back the reply; the accept consumes it and keeps the counter semantics
+    reply, train_metrics = s._client_task(client, evaluate=True, allow_legacy_server_access=True)
+    assert train_metrics is not None
     assert len(client._cached_metrics) == 1
+    s._accept_reply(client, reply)
+    assert len(s._received_messages) == 1
+    assert s._num_communications > 0
 
     # aggregate + global step
     s._aggregate_metrics(evaluate=True)
