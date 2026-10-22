@@ -7,7 +7,7 @@ Configs for the server and client nodes.
 import re
 import warnings
 from pathlib import Path
-from typing import Any, List, Optional, Union
+from typing import Any, ClassVar, List, Literal, Optional, Union
 
 import torch
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -62,6 +62,21 @@ class ServerConfig(BaseModel):
         The proportion of clients to use GPU.
         Used to similate the system heterogeneity of the clients.
         Not used in the current version, reserved for future use.
+    executor : str, default "sequential"
+        The client-executor backend of the parallel execution layer:
+        ``"sequential"`` (the default; exactly the pre-parallel behavior)
+        or ``"threads"`` (client tasks run on a thread pool).
+        Keyword-only: it is a pure execution-layer knob and never enters
+        algorithm reproduction configs, so it is excluded from the
+        (backward-compatibility) positional-argument mapping.
+    num_workers : int, default 0
+        The maximum number of client tasks running concurrently
+        (threads-backend only); ``0`` means auto (the usable CPU count).
+        Keyword-only, like `executor`.
+    torch_num_threads : int, optional
+        The torch intra-op thread budget set while the threads executor is
+        active; ``None`` means auto (``usable cores // num_workers``).
+        Keyword-only, like `executor`.
     **kwargs : dict, optional
         The other arguments,
         will be set as attributes of the class.
@@ -95,6 +110,16 @@ class ServerConfig(BaseModel):
     verbose: int = 1
     gpu_proportion: float = 0.2
     algorithm: str = ""
+    executor: Literal["sequential", "threads"] = "sequential"
+    num_workers: int = 0
+    torch_num_threads: Optional[int] = None
+
+    # the execution-layer knobs are keyword-only: appending them to the base
+    # class would otherwise shift every algorithm subclass's own fields in
+    # the (backward-compatibility) positional-argument mapping by the number
+    # of appended fields, silently misassigning old positional calls.
+    # ClassVar: a plain class attribute, NOT a pydantic (private) field.
+    _keyword_only_fields: ClassVar[frozenset] = frozenset({"executor", "num_workers", "torch_num_threads"})
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         # map positional arguments onto the fields in their declaration order,
@@ -111,7 +136,7 @@ class ServerConfig(BaseModel):
                     "(it is now auto-derived from the class name); "
                     "use keyword arguments, or drop the leading algorithm name."
                 )
-            fields = list(type(self).model_fields)
+            fields = [f for f in type(self).model_fields if f not in self._keyword_only_fields]
             if len(args) > len(fields):
                 raise TypeError(
                     f"{type(self).__name__} takes at most {len(fields)} positional arguments "
