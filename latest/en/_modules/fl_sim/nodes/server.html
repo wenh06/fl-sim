@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.nodes.server &#8212; fl-sim 0.1.1.dev22+gb90636260 documentation</title>
+    <title>fl_sim.nodes.server &#8212; fl-sim 0.1.1.dev23+ge12b2ced8 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=0bf19fd6"></script>
+    <script src="../../../_static/documentation_options.js?v=06571b4a"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -221,7 +221,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev22+gb90636260 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev23+ge12b2ced8 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -511,6 +511,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.auto</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">..data_processing.fed_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">FedDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientExecutor</span><span class="p">,</span> <span class="n">SequentialExecutor</span><span class="p">,</span> <span class="n">ThreadsExecutor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientMessage</span><span class="p">,</span> <span class="n">ClientToServer</span><span class="p">,</span> <span class="n">ServerToClient</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..models</span><span class="w"> </span><span class="kn">import</span> <span class="n">reset_parameters</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.loggers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoggerManager</span>
@@ -551,7 +552,8 @@ document.write(`
 
 <span class="sd">    TODO</span>
 <span class="sd">    ----</span>
-<span class="sd">    1. Run clients training in parallel.</span>
+<span class="sd">    1. (done) Clients train through the pluggable</span>
+<span class="sd">       :mod:`~fl_sim.executors` backends (``ServerConfig.executor``).</span>
 <span class="sd">    2. Use the attribute `_is_convergent` to control the termination of the training.</span>
 <span class="sd">       This perhaps can be achieved by comparing part of the items in `self._cached_models`</span>
 
@@ -970,11 +972,14 @@ document.write(`
 
 <span class="sd">        TODO</span>
 <span class="sd">        ----</span>
-<span class="sd">        Run clients training in parallel.</span>
+<span class="sd">        (done) Clients now train through the pluggable</span>
+<span class="sd">        :mod:`~fl_sim.executors` backends (``ServerConfig.executor``).</span>
 
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_clients</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_config</span><span class="p">)</span>
+            <span class="c1"># NOTE: _setup_clients sets self._clients in place (and returns</span>
+            <span class="c1"># None); assigning its return value here would wipe the list</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_setup_clients</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_config</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_complete_experiment</span><span class="p">:</span>
             <span class="c1"># reset before training if a previous experiment is completed</span>
@@ -1001,57 +1006,145 @@ document.write(`
             <span class="n">unit</span><span class="o">=</span><span class="s2">"iter"</span><span class="p">,</span>
             <span class="n">mininterval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># usually useless since a full iteration takes a very long time</span>
         <span class="p">)</span> <span class="k">as</span> <span class="n">outer_pbar</span><span class="p">:</span>
-            <span class="k">for</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="ow">in</span> <span class="n">outer_pbar</span><span class="p">:</span>
-                <span class="n">selected_clients</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_clients</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">selected_clients</span> <span class="o">=</span> <span class="n">selected_clients</span>
-                <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span>
-                    <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_clients</span><span class="p">),</span>
-                    <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Iter </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_iters</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-                    <span class="n">unit</span><span class="o">=</span><span class="s2">"client"</span><span class="p">,</span>
-                    <span class="n">mininterval</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_clients</span><span class="p">)</span> <span class="o">//</span> <span class="mi">50</span><span class="p">),</span>
-                    <span class="n">disable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span>
-                    <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
-                    <span class="c1"># count for client training progress for multi-processing</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subprocess</span><span class="p">:</span>
-                        <span class="n">count_client</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="c1"># NOTE: evaluate centralized model on server val loader</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_val_loader</span><span class="p">:</span>
-                        <span class="c1"># TODO: reimplement evaluate logic</span>
-                        <span class="n">metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_centralized</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server_val_loader</span><span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span>
-                            <span class="kc">None</span><span class="p">,</span>
-                            <span class="n">metrics</span><span class="p">,</span>
-                            <span class="n">step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_communications</span><span class="p">,</span>  <span class="c1"># NOTE: use number of communications as step for now</span>
-                            <span class="n">epoch</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="p">,</span>
-                            <span class="n">part</span><span class="o">=</span><span class="s2">"val"</span><span class="p">,</span>
-                        <span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">pre_iter</span><span class="p">()</span>
-                    <span class="n">evaluate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_should_evaluate</span><span class="p">()</span>
-                    <span class="k">for</span> <span class="n">client_id</span> <span class="ow">in</span> <span class="n">selected_clients</span><span class="p">:</span>
-                        <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span><span class="p">[</span><span class="n">client_id</span><span class="p">]</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_broadcast</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_local_step</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="n">evaluate</span><span class="p">)</span>
-                        <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                        <span class="c1"># report progress for multi-processing</span>
-                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subprocess</span><span class="p">:</span>
-                            <span class="n">count_client</span> <span class="o">+=</span> <span class="mi">1</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">_report_progress</span><span class="p">(</span>
-                                <span class="n">n_iter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                                <span class="n">num_iters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_iters</span><span class="p">,</span>
-                                <span class="n">current_client_progress</span><span class="o">=</span><span class="n">count_client</span><span class="p">,</span>
-                                <span class="n">selected_clients_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_clients</span><span class="p">),</span>
-                                <span class="n">training_phase</span><span class="o">=</span><span class="s2">"training"</span><span class="p">,</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_executor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+                <span class="k">for</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="ow">in</span> <span class="n">outer_pbar</span><span class="p">:</span>
+                    <span class="n">selected_clients</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_clients</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">selected_clients</span> <span class="o">=</span> <span class="n">selected_clients</span>
+                    <span class="n">clients</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_clients</span><span class="p">[</span><span class="n">client_id</span><span class="p">]</span> <span class="k">for</span> <span class="n">client_id</span> <span class="ow">in</span> <span class="n">selected_clients</span><span class="p">]</span>
+                    <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span>
+                        <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">clients</span><span class="p">),</span>
+                        <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Iter </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_iters</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                        <span class="n">unit</span><span class="o">=</span><span class="s2">"client"</span><span class="p">,</span>
+                        <span class="n">mininterval</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">clients</span><span class="p">)</span> <span class="o">//</span> <span class="mi">50</span><span class="p">),</span>
+                        <span class="n">disable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+                        <span class="c1"># NOTE: evaluate centralized model on server val loader</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_val_loader</span><span class="p">:</span>
+                            <span class="c1"># TODO: reimplement evaluate logic</span>
+                            <span class="n">metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_centralized</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server_val_loader</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span>
+                                <span class="kc">None</span><span class="p">,</span>
+                                <span class="n">metrics</span><span class="p">,</span>
+                                <span class="n">step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_communications</span><span class="p">,</span>  <span class="c1"># NOTE: use number of communications as step for now</span>
+                                <span class="n">epoch</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="p">,</span>
+                                <span class="n">part</span><span class="o">=</span><span class="s2">"val"</span><span class="p">,</span>
                             <span class="p">)</span>
-                            <span class="c1"># DEBUG message</span>
-                            <span class="c1"># print("DEBUG: report progress for multi-processing")</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_metrics</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="n">evaluate</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">pre_iter</span><span class="p">()</span>
+                        <span class="n">evaluate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_should_evaluate</span><span class="p">()</span>
+                        <span class="c1"># main thread: uplink decision + downlink broadcast,</span>
+                        <span class="c1"># then the (possibly parallel) client local steps</span>
+                        <span class="k">for</span> <span class="n">client</span> <span class="ow">in</span> <span class="n">clients</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_broadcast</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+                        <span class="k">def</span><span class="w"> </span><span class="nf">on_complete</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ClientToServer</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]],</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="c1"># main-thread progress feedback, driven by task</span>
+                            <span class="c1"># completion (NOT by the receive loop, which runs</span>
+                            <span class="c1"># only after the whole batch is done)</span>
+                            <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subprocess</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_report_progress</span><span class="p">(</span>
+                                    <span class="n">n_iter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                    <span class="n">num_iters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_iters</span><span class="p">,</span>
+                                    <span class="n">current_client_progress</span><span class="o">=</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                    <span class="n">selected_clients_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">clients</span><span class="p">),</span>
+                                    <span class="n">training_phase</span><span class="o">=</span><span class="s2">"training"</span><span class="p">,</span>
+                                <span class="p">)</span>
+
+                        <span class="n">allow_legacy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">executor</span> <span class="o">==</span> <span class="s2">"sequential"</span>
+                        <span class="n">results</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                            <span class="k">lambda</span> <span class="n">client</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_task</span><span class="p">(</span>
+                                <span class="n">client</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="n">evaluate</span><span class="p">,</span> <span class="n">allow_legacy_server_access</span><span class="o">=</span><span class="n">allow_legacy</span>
+                            <span class="p">),</span>
+                            <span class="n">clients</span><span class="p">,</span>
+                            <span class="n">on_complete</span><span class="o">=</span><span class="n">on_complete</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="c1"># main thread: consume the replies in the sampled</span>
+                        <span class="c1"># order — all server-side state mutations stay here,</span>
+                        <span class="c1"># so the aggregation arithmetic is backend-independent</span>
+                        <span class="k">for</span> <span class="n">client</span><span class="p">,</span> <span class="p">(</span><span class="n">reply</span><span class="p">,</span> <span class="n">train_metrics</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">clients</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_accept_reply</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">reply</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">train_metrics</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">(</span>
+                                    <span class="n">client</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+                                    <span class="n">train_metrics</span><span class="p">,</span>
+                                    <span class="n">step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="p">,</span>
+                                    <span class="n">epoch</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="p">,</span>
+                                    <span class="n">part</span><span class="o">=</span><span class="s2">"train"</span><span class="p">,</span>
+                                <span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_metrics</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="n">evaluate</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span><span class="s2">"Federated training finished..."</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_complete_experiment</span> <span class="o">=</span> <span class="kc">True</span></div>
 
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_executor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ClientExecutor"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Build the client executor from the config, and apply the</span>
+<span class="sd">        backend-specific setup (client-internal progress bars must not run</span>
+<span class="sd">        concurrently)."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">executor</span> <span class="o">==</span> <span class="s2">"threads"</span><span class="p">:</span>
+            <span class="c1"># client `train()` internals draw their own tqdm bars when</span>
+            <span class="c1"># verbose &gt;= 2; interleaved writes from worker threads would be</span>
+            <span class="c1"># garbage, so cap the effective verbosity under this backend</span>
+            <span class="k">for</span> <span class="n">client</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span> <span class="ow">or</span> <span class="p">[]:</span>
+                <span class="k">if</span> <span class="n">client</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">client</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">executor</span> <span class="o">=</span> <span class="n">ThreadsExecutor</span><span class="p">(</span><span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span> <span class="n">torch_num_threads</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">torch_num_threads</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">log_message</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Parallel execution: threads backend with up to </span><span class="si">{</span><span class="n">executor</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s2"> concurrent clients."</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">executor</span>
+        <span class="k">return</span> <span class="n">SequentialExecutor</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_client_task</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="s2">"Client"</span><span class="p">,</span>
+        <span class="n">evaluate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">allow_legacy_server_access</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ClientToServer</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""The per-client local step, run inside the (possibly parallel)</span>
+<span class="sd">        region: evaluate (optional) → update → build the reply.</span>
+
+<span class="sd">        The task only reads/writes THIS client's state (invariant I1): the</span>
+<span class="sd">        broadcast has already happened on the main thread, and the reply is</span>
+<span class="sd">        handed back instead of being pushed into the server, whose state is</span>
+<span class="sd">        mutated by :meth:`_accept_reply` on the main thread only (I2).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        allow_legacy_server_access : bool</span>
+<span class="sd">            Pass the server reference into deprecated legacy-style</span>
+<span class="sd">            ``communicate(self, target)`` overrides. Only ``True`` on the</span>
+<span class="sd">            sequential backend (single-threaded, so reading server state in</span>
+<span class="sd">            the hook is merely deprecated, not racy); the threads backend</span>
+<span class="sd">            rejects such hooks.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        reply : ClientToServer or None</span>
+<span class="sd">            The message to upload; ``None`` if the client does not</span>
+<span class="sd">            communicate this round.</span>
+<span class="sd">        train_metrics : dict or None</span>
+<span class="sd">            The train-part metrics, when this is an evaluation round.</span>
+
+<span class="sd">        """</span>
+        <span class="n">train_metrics</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"train"</span><span class="p">)</span> <span class="k">if</span> <span class="n">evaluate</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">build_reply</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span> <span class="k">if</span> <span class="n">allow_legacy_server_access</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">reply</span><span class="p">,</span> <span class="n">train_metrics</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_accept_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s2">"Client"</span><span class="p">,</span> <span class="n">reply</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ClientToServer</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Main-thread counterpart of :meth:`_client_task`: consume one</span>
+<span class="sd">        client's reply, keeping the per-algorithm counter semantics</span>
+<span class="sd">        (skipped clients count unless their ``_count_if_skipped`` is False —</span>
+<span class="sd">        FedPD skips are not counted, ProxSkip skips still are)."""</span>
+        <span class="k">if</span> <span class="n">reply</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">receive_one</span><span class="p">(</span><span class="n">reply</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_num_communications</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">client</span><span class="o">.</span><span class="n">_count_if_skipped</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_num_communications</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_should_evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Whether to evaluate the (train-part) metrics on the clients in this iteration."""</span>
@@ -1166,7 +1259,9 @@ document.write(`
 
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_clients</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_config</span><span class="p">)</span>
+            <span class="c1"># NOTE: _setup_clients sets self._clients in place (and returns</span>
+            <span class="c1"># None); assigning its return value here would wipe the list</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_setup_clients</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client_config</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_complete_experiment</span><span class="p">:</span>
             <span class="c1"># reset before training if a previous experiment is completed</span>

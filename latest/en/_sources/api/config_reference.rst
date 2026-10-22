@@ -72,6 +72,15 @@ APFL
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``tau``
      - int
      - 1
@@ -189,6 +198,32 @@ APFL
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "tau": {
           "default": 1,
@@ -377,6 +412,15 @@ Ditto
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
 
 .. dropdown:: ``DittoServerConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -491,6 +535,32 @@ Ditto
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         }
       },
       "required": [
@@ -697,6 +767,15 @@ FPFC
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -823,6 +902,32 @@ FPFC
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "optimizer": {
           "default": "Avg",
@@ -1031,6 +1136,15 @@ FedAdagrad
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Adagrad"
@@ -1157,6 +1271,32 @@ FedAdagrad
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "optimizer": {
           "default": "Adagrad",
@@ -1365,6 +1505,15 @@ FedAdam
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Adam"
@@ -1491,6 +1640,32 @@ FedAdam
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "optimizer": {
           "default": "Adam",
@@ -1699,6 +1874,15 @@ FedAvg
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -1825,6 +2009,32 @@ FedAvg
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "optimizer": {
           "default": "Avg",
@@ -2033,6 +2243,15 @@ FedCR
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -2163,6 +2382,32 @@ FedCR
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "optimizer": {
           "default": "Avg",
@@ -2375,6 +2620,15 @@ FedDC
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -2505,6 +2759,32 @@ FedDC
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "optimizer": {
           "default": "Avg",
@@ -2717,6 +2997,15 @@ FedDR
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``eta``
      - float
      - 1.0
@@ -2840,6 +3129,32 @@ FedDR
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "eta": {
           "default": 1.0,
@@ -3046,6 +3361,15 @@ FedDyn
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``mu``
      - float
      - 0.1
@@ -3163,6 +3487,32 @@ FedDyn
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "mu": {
           "default": 0.1,
@@ -3343,6 +3693,15 @@ FedOpt
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Adam"
@@ -3469,6 +3828,32 @@ FedOpt
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "optimizer": {
           "default": "Adam",
@@ -3677,6 +4062,15 @@ FedPD
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``p``
      - float
      - *
@@ -3801,6 +4195,32 @@ FedPD
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "p": {
           "title": "P",
@@ -4014,6 +4434,15 @@ FedProx
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``vr``
      - bool
      - False
@@ -4131,6 +4560,32 @@ FedProx
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "vr": {
           "default": false,
@@ -4327,6 +4782,15 @@ FedSplit
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
 
 .. dropdown:: ``FedSplitServerConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -4441,6 +4905,32 @@ FedSplit
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         }
       },
       "required": [
@@ -4624,6 +5114,15 @@ FedYogi
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Yogi"
@@ -4750,6 +5249,32 @@ FedYogi
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "optimizer": {
           "default": "Yogi",
@@ -4958,6 +5483,15 @@ IFCA
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -5088,6 +5622,32 @@ IFCA
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "optimizer": {
           "default": "Avg",
@@ -5300,6 +5860,15 @@ ProxSkip
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``p``
      - float
      - *
@@ -5421,6 +5990,32 @@ ProxSkip
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "p": {
           "title": "P",
@@ -5613,6 +6208,15 @@ SCAFFOLD
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``lr``
      - float
      - *
@@ -5730,6 +6334,32 @@ SCAFFOLD
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "lr": {
           "title": "Lr",
@@ -5918,6 +6548,15 @@ pFedMac
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``beta``
      - float
      - 1.0
@@ -6038,6 +6677,32 @@ pFedMac
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "beta": {
           "default": 1.0,
@@ -6239,6 +6904,15 @@ pFedMe
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``beta``
      - float
      - 1.0
@@ -6356,6 +7030,32 @@ pFedMe
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         },
         "beta": {
           "default": 1.0,

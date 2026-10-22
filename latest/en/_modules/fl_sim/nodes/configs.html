@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.nodes.configs &#8212; fl-sim 0.1.1.dev22+gb90636260 documentation</title>
+    <title>fl_sim.nodes.configs &#8212; fl-sim 0.1.1.dev23+ge12b2ced8 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=0bf19fd6"></script>
+    <script src="../../../_static/documentation_options.js?v=06571b4a"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -221,7 +221,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev22+gb90636260 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev23+ge12b2ced8 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -492,7 +492,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
@@ -549,6 +549,21 @@ document.write(`
 <span class="sd">        The proportion of clients to use GPU.</span>
 <span class="sd">        Used to similate the system heterogeneity of the clients.</span>
 <span class="sd">        Not used in the current version, reserved for future use.</span>
+<span class="sd">    executor : str, default "sequential"</span>
+<span class="sd">        The client-executor backend of the parallel execution layer:</span>
+<span class="sd">        ``"sequential"`` (the default; exactly the pre-parallel behavior)</span>
+<span class="sd">        or ``"threads"`` (client tasks run on a thread pool).</span>
+<span class="sd">        Keyword-only: it is a pure execution-layer knob and never enters</span>
+<span class="sd">        algorithm reproduction configs, so it is excluded from the</span>
+<span class="sd">        (backward-compatibility) positional-argument mapping.</span>
+<span class="sd">    num_workers : int, default 0</span>
+<span class="sd">        The maximum number of client tasks running concurrently</span>
+<span class="sd">        (threads-backend only); ``0`` means auto (the usable CPU count).</span>
+<span class="sd">        Keyword-only, like `executor`.</span>
+<span class="sd">    torch_num_threads : int, optional</span>
+<span class="sd">        The torch intra-op thread budget set while the threads executor is</span>
+<span class="sd">        active; ``None`` means auto (``usable cores // num_workers``).</span>
+<span class="sd">        Keyword-only, like `executor`.</span>
 <span class="sd">    **kwargs : dict, optional</span>
 <span class="sd">        The other arguments,</span>
 <span class="sd">        will be set as attributes of the class.</span>
@@ -582,6 +597,16 @@ document.write(`
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">gpu_proportion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>
     <span class="n">algorithm</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">executor</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"sequential"</span><span class="p">,</span> <span class="s2">"threads"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"sequential"</span>
+    <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">torch_num_threads</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># the execution-layer knobs are keyword-only: appending them to the base</span>
+    <span class="c1"># class would otherwise shift every algorithm subclass's own fields in</span>
+    <span class="c1"># the (backward-compatibility) positional-argument mapping by the number</span>
+    <span class="c1"># of appended fields, silently misassigning old positional calls.</span>
+    <span class="c1"># ClassVar: a plain class attribute, NOT a pydantic (private) field.</span>
+    <span class="n">_keyword_only_fields</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s2">"executor"</span><span class="p">,</span> <span class="s2">"num_workers"</span><span class="p">,</span> <span class="s2">"torch_num_threads"</span><span class="p">})</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># map positional arguments onto the fields in their declaration order,</span>
@@ -598,7 +623,7 @@ document.write(`
                     <span class="s2">"(it is now auto-derived from the class name); "</span>
                     <span class="s2">"use keyword arguments, or drop the leading algorithm name."</span>
                 <span class="p">)</span>
-            <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">model_fields</span><span class="p">)</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">model_fields</span> <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keyword_only_fields</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> takes at most </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span><span class="si">}</span><span class="s2"> positional arguments "</span>
