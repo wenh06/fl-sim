@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.nodes.client &#8212; fl-sim 0.1.1.dev20+gae6e28bd1 文档</title>
+    <title>fl_sim.nodes.client &#8212; fl-sim 0.1.1.dev22+gb90636260 文档</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=35c375e6"></script>
+    <script src="../../../_static/documentation_options.js?v=e3bdd3d6"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev20+gae6e28bd1 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev22+gb90636260 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -490,9 +490,11 @@ document.write(`
 
 <span class="sd">"""</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">signature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
@@ -513,6 +515,24 @@ document.write(`
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"Client"</span><span class="p">,</span>
 <span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_communicate_accepts_target</span><span class="p">(</span><span class="n">communicate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Whether a ``communicate`` hook is written in the deprecated legacy</span>
+<span class="sd">    style ``communicate(self, target)`` (as opposed to the current</span>
+<span class="sd">    ``communicate(self)``)."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">positional</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">param</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">signature</span><span class="p">(</span><span class="n">communicate</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">POSITIONAL_ONLY</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">POSITIONAL_OR_KEYWORD</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>  <span class="c1"># builtins etc. — treat as new-style</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="c1"># NOTE: ``communicate`` is a bound method here, so ``self`` is already</span>
+    <span class="c1"># excluded from the signature: any remaining positional parameter is the</span>
+    <span class="c1"># (legacy) server argument.</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">positional</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span>
 
 
 <div class="viewcode-block" id="Client">
@@ -588,9 +608,78 @@ document.write(`
         <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extra_observes</span><span class="p">:</span>
             <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">),</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> should have attribute </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2"> for extra observes."</span>
 
+    <span class="c1"># round flags written by ``Server._decide_uplink`` (read-only for the</span>
+    <span class="c1"># client's own hooks); default: every selected client communicates and</span>
+    <span class="c1"># is counted (the historical behavior of all algorithms except</span>
+    <span class="c1"># FedPD/ProxSkip, whose servers override ``_decide_uplink``).</span>
+    <span class="n">_communicate_this_round</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">_count_if_skipped</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">_round_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Client.build_reply">
+<a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.build_reply">[文档]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"Server"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ClientToServer</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Build the (typed) reply message to be uploaded to the server.</span>
+
+<span class="sd">        This is the pure-client part of the former ``_communicate``: validate</span>
+<span class="sd">        the metrics, let the (algorithm-overridable) :meth:`communicate` hook</span>
+<span class="sd">        build the message, and archive the metrics. It does NOT touch the</span>
+<span class="sd">        server (the invariant of the parallel execution layer), so it can run</span>
+<span class="sd">        inside a worker task.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        target : Server, optional</span>
+<span class="sd">            The server, required only by legacy-style (deprecated)</span>
+<span class="sd">            ``communicate(self, target)`` overrides that upload by</span>
+<span class="sd">            themselves. New-style hooks ignore it.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ClientToServer or None</span>
+<span class="sd">            The reply message; ``None`` if the client does not communicate</span>
+<span class="sd">            this round (decided by ``_communicate_this_round``).</span>
+
+<span class="sd">        """</span>
+        <span class="c1"># check validity of self._metrics</span>
+        <span class="k">for</span> <span class="n">part</span><span class="p">,</span> <span class="n">metrics</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="sa">f</span><span class="s2">"metrics for </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> should be a dict, "</span> <span class="sa">f</span><span class="s2">"but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">assert</span> <span class="s2">"num_samples"</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">,</span> <span class="p">(</span>
+                <span class="s2">"In order to let the server aggregate the metrics, "</span>
+                <span class="sa">f</span><span class="s2">"metrics for </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> should have key `num_samples`, "</span>
+                <span class="sa">f</span><span class="s2">"but got </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="n">reply</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ClientToServer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_communicate_this_round</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_communicate_accepts_target</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">communicate</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.communicate still accepts the server argument; "</span>
+                        <span class="s2">"legacy-style communicate overrides only support the sequential backend "</span>
+                        <span class="s2">"(they can read server state, which no parallel backend allows)."</span>
+                    <span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.communicate(self, target) is deprecated; "</span>
+                    <span class="s2">"override communicate(self) and return the ClientToServer message instead."</span><span class="p">,</span>
+                    <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="c1"># move self._metrics to self._cached_metrics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># clear the metrics</span>
+        <span class="k">return</span> <span class="n">reply</span></div>
+
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_communicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">"Server"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Check validity and send messages to the server,</span>
-<span class="sd">        and maintain state variables.</span>
+<span class="w">        </span><span class="sd">"""Build the reply via :meth:`build_reply` and upload it to the server,</span>
+<span class="sd">        maintaining the communication counter.</span>
+
+<span class="sd">        A client that does not communicate this round still counts, unless</span>
+<span class="sd">        its ``_count_if_skipped`` flag is set to ``False`` by the server's</span>
+<span class="sd">        ``_decide_uplink`` (FedPD is the only such algorithm).</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -602,19 +691,12 @@ document.write(`
 <span class="sd">        None</span>
 
 <span class="sd">        """</span>
-        <span class="c1"># check validity of self._metrics</span>
-        <span class="k">for</span> <span class="n">part</span><span class="p">,</span> <span class="n">metrics</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="sa">f</span><span class="s2">"metrics for </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> should be a dict, "</span> <span class="sa">f</span><span class="s2">"but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
-            <span class="k">assert</span> <span class="s2">"num_samples"</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">,</span> <span class="p">(</span>
-                <span class="s2">"In order to let the server aggregate the metrics, "</span>
-                <span class="sa">f</span><span class="s2">"metrics for </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2"> should have key `num_samples`, "</span>
-                <span class="sa">f</span><span class="s2">"but got </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span>
-            <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-        <span class="n">target</span><span class="o">.</span><span class="n">_num_communications</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="c1"># move self._metrics to self._cached_metrics</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># clear the metrics</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_reply</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reply</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">target</span><span class="o">.</span><span class="n">receive_one</span><span class="p">(</span><span class="n">reply</span><span class="p">)</span>
+            <span class="n">target</span><span class="o">.</span><span class="n">_num_communications</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count_if_skipped</span><span class="p">:</span>
+            <span class="n">target</span><span class="o">.</span><span class="n">_num_communications</span> <span class="o">+=</span> <span class="mi">1</span>
 
 <div class="viewcode-block" id="Client.accept_parameters">
 <a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.accept_parameters">[文档]</a>
@@ -665,34 +747,27 @@ document.write(`
 
 <div class="viewcode-block" id="Client.communicate">
 <a class="viewcode-back" href="../../../api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client.communicate">[文档]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">communicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">"Server"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Upload the local model parameters and metrics to the target server.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">communicate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClientToServer</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Build the local model parameters and metrics as the reply message.</span>
 
 <span class="sd">        This is the default (typed-API) implementation; subclasses override it</span>
 <span class="sd">        for algorithm-specific payloads (deltas, gradients, control variates,</span>
-<span class="sd">        etc.). The typed-API way to send additional data is building a</span>
-<span class="sd">        :class:`~fl_sim.messages.ClientToServer` and calling</span>
-<span class="sd">        :meth:`Server.receive_one` on the target; the legacy way (overriding</span>
-<span class="sd">        `communicate` and appending to ``target._received_messages`` directly)</span>
-<span class="sd">        keeps working.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        target : Server</span>
-<span class="sd">            The server to upload to.</span>
+<span class="sd">        etc.). The hook must NOT touch the server: it builds and returns the</span>
+<span class="sd">        :class:`~fl_sim.messages.ClientToServer`; the upload (and the</span>
+<span class="sd">        communication counter) is handled by :meth:`_communicate`. This</span>
+<span class="sd">        purity is what lets the hook run inside a parallel worker task.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        None</span>
+<span class="sd">        ClientToServer</span>
+<span class="sd">            The reply message to upload.</span>
 
 <span class="sd">        """</span>
-        <span class="n">target</span><span class="o">.</span><span class="n">receive_one</span><span class="p">(</span>
-            <span class="n">ClientToServer</span><span class="p">(</span>
-                <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
-                <span class="n">train_samples</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">),</span>
-                <span class="n">metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">,</span>
-                <span class="n">parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_detached_model_parameters</span><span class="p">(),</span>
-            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ClientToServer</span><span class="p">(</span>
+            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+            <span class="n">train_samples</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">),</span>
+            <span class="n">metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_metrics</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_detached_model_parameters</span><span class="p">(),</span>
         <span class="p">)</span></div>
 
 

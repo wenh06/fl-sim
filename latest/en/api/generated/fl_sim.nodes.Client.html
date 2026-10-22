@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Client &#8212; fl-sim 0.1.1.dev20+gae6e28bd1 documentation</title>
+    <title>Client &#8212; fl-sim 0.1.1.dev22+gb90636260 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=d119ed8a"></script>
+    <script src="../../_static/documentation_options.js?v=0bf19fd6"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev20+gae6e28bd1 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev22+gb90636260 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -548,6 +548,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.accept_parameters"><code class="docutils literal notranslate"><span class="pre">Client.accept_parameters()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.build_reply"><code class="docutils literal notranslate"><span class="pre">Client.build_reply()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.communicate"><code class="docutils literal notranslate"><span class="pre">Client.communicate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.evaluate"><code class="docutils literal notranslate"><span class="pre">Client.evaluate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">Client.extra_repr_keys()</span></code></a></li>
@@ -606,22 +607,46 @@ accepted in the client’s <code class="xref py py-meth docutils literal notrans
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="fl_sim.nodes.Client.communicate">
-<span class="sig-name descname"><span class="pre">communicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fl_sim.nodes.Server.html#fl_sim.nodes.Server" title="fl_sim.nodes.Server"><span class="pre">Server</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/fl_sim/nodes/client.html#Client.communicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.nodes.Client.communicate" title="Link to this definition">#</a></dt>
-<dd><p>Upload the local model parameters and metrics to the target server.</p>
-<p>This is the default (typed-API) implementation; subclasses override it
-for algorithm-specific payloads (deltas, gradients, control variates,
-etc.). The typed-API way to send additional data is building a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ClientToServer</span></code> and calling
-<a class="reference internal" href="fl_sim.nodes.Server.html#fl_sim.nodes.Server.receive_one" title="fl_sim.nodes.Server.receive_one"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Server.receive_one()</span></code></a> on the target; the legacy way (overriding
-<cite>communicate</cite> and appending to <code class="docutils literal notranslate"><span class="pre">target._received_messages</span></code> directly)
-keeps working.</p>
+<dt class="sig sig-object py" id="fl_sim.nodes.Client.build_reply">
+<span class="sig-name descname"><span class="pre">build_reply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fl_sim.nodes.Server.html#fl_sim.nodes.Server" title="fl_sim.nodes.Server"><span class="pre">Server</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ClientToServer</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/fl_sim/nodes/client.html#Client.build_reply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.nodes.Client.build_reply" title="Link to this definition">#</a></dt>
+<dd><p>Build the (typed) reply message to be uploaded to the server.</p>
+<p>This is the pure-client part of the former <code class="docutils literal notranslate"><span class="pre">_communicate</span></code>: validate
+the metrics, let the (algorithm-overridable) <a class="reference internal" href="#fl_sim.nodes.Client.communicate" title="fl_sim.nodes.Client.communicate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">communicate()</span></code></a> hook
+build the message, and archive the metrics. It does NOT touch the
+server (the invariant of the parallel execution layer), so it can run
+inside a worker task.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>target</strong> (<a class="reference internal" href="fl_sim.nodes.Server.html#fl_sim.nodes.Server" title="fl_sim.nodes.Server"><em>Server</em></a>) – The server to upload to.</p>
+<dd class="field-odd"><p><strong>target</strong> (<a class="reference internal" href="fl_sim.nodes.Server.html#fl_sim.nodes.Server" title="fl_sim.nodes.Server"><em>Server</em></a><em>, </em><em>optional</em>) – The server, required only by legacy-style (deprecated)
+<code class="docutils literal notranslate"><span class="pre">communicate(self,</span> <span class="pre">target)</span></code> overrides that upload by
+themselves. New-style hooks ignore it.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The reply message; <code class="docutils literal notranslate"><span class="pre">None</span></code> if the client does not communicate
+this round (decided by <code class="docutils literal notranslate"><span class="pre">_communicate_this_round</span></code>).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ClientToServer or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fl_sim.nodes.Client.communicate">
+<span class="sig-name descname"><span class="pre">communicate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ClientToServer</span></span></span><a class="reference internal" href="../../_modules/fl_sim/nodes/client.html#Client.communicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.nodes.Client.communicate" title="Link to this definition">#</a></dt>
+<dd><p>Build the local model parameters and metrics as the reply message.</p>
+<p>This is the default (typed-API) implementation; subclasses override it
+for algorithm-specific payloads (deltas, gradients, control variates,
+etc.). The hook must NOT touch the server: it builds and returns the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ClientToServer</span></code>; the upload (and the
+communication counter) is handled by <code class="xref py py-meth docutils literal notranslate"><span class="pre">_communicate()</span></code>. This
+purity is what lets the hook run inside a parallel worker task.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The reply message to upload.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>ClientToServer</p>
 </dd>
 </dl>
 </dd></dl>
@@ -786,6 +811,7 @@ dict (for legacy consumers, e.g. <a class="reference internal" href="#fl_sim.nod
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client"><code class="docutils literal notranslate"><span class="pre">Client</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.accept_parameters"><code class="docutils literal notranslate"><span class="pre">Client.accept_parameters()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.build_reply"><code class="docutils literal notranslate"><span class="pre">Client.build_reply()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.communicate"><code class="docutils literal notranslate"><span class="pre">Client.communicate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.evaluate"><code class="docutils literal notranslate"><span class="pre">Client.evaluate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fl_sim.nodes.Client.extra_repr_keys"><code class="docutils literal notranslate"><span class="pre">Client.extra_repr_keys()</span></code></a></li>

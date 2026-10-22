@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.nodes.server &#8212; fl-sim 0.1.1.dev20+gae6e28bd1 文档</title>
+    <title>fl_sim.nodes.server &#8212; fl-sim 0.1.1.dev22+gb90636260 文档</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=35c375e6"></script>
+    <script src="../../../_static/documentation_options.js?v=e3bdd3d6"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev20+gae6e28bd1 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev22+gb90636260 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -1058,6 +1058,30 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Whether to evaluate the (train-part) metrics on the clients in this iteration."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">eval_every</span> <span class="o">==</span> <span class="mi">0</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decide_uplink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s2">"Client"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Decide (before the client's local step) whether the client uploads</span>
+<span class="sd">        this round, and snapshot the round index onto it.</span>
+
+<span class="sd">        Sets the client's read-only round flags (``_round_idx``,</span>
+<span class="sd">        ``_communicate_this_round``, ``_count_if_skipped``) so that the</span>
+<span class="sd">        client's hooks never need to read server state (the invariant of the</span>
+<span class="sd">        parallel execution layer). The default: every selected client</span>
+<span class="sd">        communicates. Algorithms with communication skipping (FedPD,</span>
+<span class="sd">        ProxSkip) override this; the decision RNG is consumed HERE, on the</span>
+<span class="sd">        main thread, in the same order as the pre-refactor sequential loop.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        client : Client</span>
+<span class="sd">            The client about to run its local step.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        """</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">_round_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_broadcast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s2">"Client"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Downlink phase: broadcast to the client, and let it accept the parameters.</span>
 
@@ -1065,6 +1089,9 @@ document.write(`
 <span class="sd">        and the client applies the received parameters via</span>
 <span class="sd">        :meth:`Client.accept_parameters` (also overridable per algorithm).</span>
 <span class="sd">        """</span>
+        <span class="c1"># NOTE: the uplink decision must be made before the client's local</span>
+        <span class="c1"># step, on the main thread (see _decide_uplink).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_decide_uplink</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
         <span class="c1"># server communicates with client, typically broadcasting the global model to the client</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_communicate</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
         <span class="c1"># NOTE: before evaluating (and updating), the client should accept parameters;</span>
