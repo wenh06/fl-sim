@@ -180,14 +180,12 @@ class FedDynClient(Client):
         super()._post_init()
         self.gradients = [torch.zeros_like(p) for p in self.model.parameters()]
 
-    def communicate(self, target: "FedDynServer") -> None:
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                parameters=self.get_detached_model_parameters(),
-            )
+    def communicate(self) -> ClientToServer:
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            parameters=self.get_detached_model_parameters(),
         )
 
     def update(self) -> None:

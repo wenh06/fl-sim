@@ -245,17 +245,15 @@ class FedOptClient(Client):
 
     __name__ = "FedOptClient"
 
-    def communicate(self, target: "FedOptServer") -> None:
+    def communicate(self) -> ClientToServer:
         delta_parameters = self.get_detached_model_parameters()
         for dp, rp in zip(delta_parameters, self._cached_parameters):
             dp.data.add_(rp.data, alpha=-1)
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                extras={"delta_parameters": delta_parameters},
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            extras={"delta_parameters": delta_parameters},
         )
 
     def update(self) -> None:

@@ -164,20 +164,18 @@ class FedDRClient(Client):
         self._x_hat_parameters = None  # x_hat
         self._x_hat_buffer = None  # x_hat_buffer
 
-    def communicate(self, target: "FedDRServer") -> None:
+    def communicate(self) -> ClientToServer:
         if self._x_hat_buffer is None:
             # outter iteration step -1, no need to communicate
             x_hat_delta = [torch.zeros_like(p) for p in self._x_hat_parameters]
         else:
             x_hat_delta = [p.data - hp.data for p, hp in zip(self._x_hat_parameters, self._x_hat_buffer)]
         self._x_hat_buffer = [p.clone() for p in self._x_hat_parameters]
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                extras={"x_hat_delta": x_hat_delta},
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            extras={"x_hat_delta": x_hat_delta},
         )
 
     def update(self) -> None:

@@ -162,17 +162,15 @@ class FedDCClient(BaseClient):
         # the coefficient of the parameter correction term, sent by the server
         self._alpha = 0.01
 
-    def communicate(self, target: "FedDCServer") -> None:
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                # drift-corrected local model parameters (theta_i + h_i)
-                parameters=self.get_detached_model_parameters(),
-                # this round's local update value (gradient drift) delta_theta_i = theta_i^+ - w
-                extras={"local_update": self._local_update},
-            )
+    def communicate(self) -> ClientToServer:
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            # drift-corrected local model parameters (theta_i + h_i)
+            parameters=self.get_detached_model_parameters(),
+            # this round's local update value (gradient drift) delta_theta_i = theta_i^+ - w
+            extras={"local_update": self._local_update},
         )
 
     def update(self) -> None:

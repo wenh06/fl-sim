@@ -152,21 +152,19 @@ class SCAFFOLDClient(Client):
         self._server_control_variates = [torch.zeros_like(p) for p in self.model.parameters()]
         self._updated_control_variates = None  # c_i^+ in the paper
 
-    def communicate(self, target: "SCAFFOLDServer") -> None:
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                extras={
-                    "parameters_delta": [
-                        mp.sub(cp) for mp, cp in zip(self.get_detached_model_parameters(), self._cached_parameters)
-                    ],
-                    "control_variates_delta": [
-                        ucv.sub(cv) for ucv, cv in zip(self._updated_control_variates, self._control_variates)
-                    ],
-                },
-            )
+    def communicate(self) -> ClientToServer:
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            extras={
+                "parameters_delta": [
+                    mp.sub(cp) for mp, cp in zip(self.get_detached_model_parameters(), self._cached_parameters)
+                ],
+                "control_variates_delta": [
+                    ucv.sub(cv) for ucv, cv in zip(self._updated_control_variates, self._control_variates)
+                ],
+            },
         )
         for cv, ucv in zip(self._control_variates, self._updated_control_variates):
             cv.copy_(ucv)

@@ -4,9 +4,11 @@ The base Client class.
 
 """
 
+import warnings
 from abc import abstractmethod
 from copy import deepcopy
-from typing import TYPE_CHECKING, Dict, List, Tuple
+from inspect import signature
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
 
 import torch
 import torch.nn as nn
@@ -27,6 +29,24 @@ if TYPE_CHECKING:
 __all__ = [
     "Client",
 ]
+
+
+def _communicate_accepts_target(communicate) -> bool:
+    """Whether a ``communicate`` hook is written in the deprecated legacy
+    style ``communicate(self, target)`` (as opposed to the current
+    ``communicate(self)``)."""
+    try:
+        positional = [
+            param
+            for param in signature(communicate).parameters.values()
+            if param.kind in (param.POSITIONAL_ONLY, param.POSITIONAL_OR_KEYWORD)
+        ]
+    except (TypeError, ValueError):  # builtins etc. — treat as new-style
+        return False
+    # NOTE: ``communicate`` is a bound method here, so ``self`` is already
+    # excluded from the signature: any remaining positional parameter is the
+    # (legacy) server argument.
+    return len(positional) >= 1
 
 
 class Client(Node):
@@ -100,9 +120,75 @@ class Client(Node):
         for attr in self.config.extra_observes:
             assert hasattr(self, attr), f"{self.__name__} should have attribute {attr} for extra observes."
 
+    # round flags written by ``Server._decide_uplink`` (read-only for the
+    # client's own hooks); default: every selected client communicates and
+    # is counted (the historical behavior of all algorithms except
+    # FedPD/ProxSkip, whose servers override ``_decide_uplink``).
+    _communicate_this_round: bool = True
+    _count_if_skipped: bool = True
+    _round_idx: Optional[int] = None
+
+    def build_reply(self, target: Optional["Server"] = None) -> Optional[ClientToServer]:
+        """Build the (typed) reply message to be uploaded to the server.
+
+        This is the pure-client part of the former ``_communicate``: validate
+        the metrics, let the (algorithm-overridable) :meth:`communicate` hook
+        build the message, and archive the metrics. It does NOT touch the
+        server (the invariant of the parallel execution layer), so it can run
+        inside a worker task.
+
+        Parameters
+        ----------
+        target : Server, optional
+            The server, required only by legacy-style (deprecated)
+            ``communicate(self, target)`` overrides that upload by
+            themselves. New-style hooks ignore it.
+
+        Returns
+        -------
+        ClientToServer or None
+            The reply message; ``None`` if the client does not communicate
+            this round (decided by ``_communicate_this_round``).
+
+        """
+        # check validity of self._metrics
+        for part, metrics in self._metrics.items():
+            assert isinstance(metrics, dict), f"metrics for {part} should be a dict, " f"but got {type(metrics).__name__}"
+            assert "num_samples" in metrics, (
+                "In order to let the server aggregate the metrics, "
+                f"metrics for {part} should have key `num_samples`, "
+                f"but got {metrics.keys()}"
+            )
+        reply: Optional[ClientToServer] = None
+        if self._communicate_this_round:
+            if _communicate_accepts_target(self.communicate):
+                if target is None:
+                    raise TypeError(
+                        f"{type(self).__name__}.communicate still accepts the server argument; "
+                        "legacy-style communicate overrides only support the sequential backend "
+                        "(they can read server state, which no parallel backend allows)."
+                    )
+                warnings.warn(
+                    f"{type(self).__name__}.communicate(self, target) is deprecated; "
+                    "override communicate(self) and return the ClientToServer message instead.",
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
+                reply = self.communicate(target)
+            else:
+                reply = self.communicate()
+        # move self._metrics to self._cached_metrics
+        self._cached_metrics.append(self._metrics.copy())
+        self._metrics = {}  # clear the metrics
+        return reply
+
     def _communicate(self, target: "Server") -> None:
-        """Check validity and send messages to the server,
-        and maintain state variables.
+        """Build the reply via :meth:`build_reply` and upload it to the server,
+        maintaining the communication counter.
+
+        A client that does not communicate this round still counts, unless
+        its ``_count_if_skipped`` flag is set to ``False`` by the server's
+        ``_decide_uplink`` (FedPD is the only such algorithm).
 
         Parameters
         ----------
@@ -114,19 +200,12 @@ class Client(Node):
         None
 
         """
-        # check validity of self._metrics
-        for part, metrics in self._metrics.items():
-            assert isinstance(metrics, dict), f"metrics for {part} should be a dict, " f"but got {type(metrics).__name__}"
-            assert "num_samples" in metrics, (
-                "In order to let the server aggregate the metrics, "
-                f"metrics for {part} should have key `num_samples`, "
-                f"but got {metrics.keys()}"
-            )
-        self.communicate(target)
-        target._num_communications += 1
-        # move self._metrics to self._cached_metrics
-        self._cached_metrics.append(self._metrics.copy())
-        self._metrics = {}  # clear the metrics
+        reply = self.build_reply(target)
+        if reply is not None:
+            target.receive_one(reply)
+            target._num_communications += 1
+        elif self._count_if_skipped:
+            target._num_communications += 1
 
     def accept_parameters(self) -> None:
         """
@@ -169,34 +248,27 @@ class Client(Node):
         self._latest_message = message
         self._received_messages = message.to_legacy_dict()
 
-    def communicate(self, target: "Server") -> None:
-        """Upload the local model parameters and metrics to the target server.
+    def communicate(self) -> ClientToServer:
+        """Build the local model parameters and metrics as the reply message.
 
         This is the default (typed-API) implementation; subclasses override it
         for algorithm-specific payloads (deltas, gradients, control variates,
-        etc.). The typed-API way to send additional data is building a
-        :class:`~fl_sim.messages.ClientToServer` and calling
-        :meth:`Server.receive_one` on the target; the legacy way (overriding
-        `communicate` and appending to ``target._received_messages`` directly)
-        keeps working.
-
-        Parameters
-        ----------
-        target : Server
-            The server to upload to.
+        etc.). The hook must NOT touch the server: it builds and returns the
+        :class:`~fl_sim.messages.ClientToServer`; the upload (and the
+        communication counter) is handled by :meth:`_communicate`. This
+        purity is what lets the hook run inside a parallel worker task.
 
         Returns
         -------
-        None
+        ClientToServer
+            The reply message to upload.
 
         """
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                parameters=self.get_detached_model_parameters(),
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            parameters=self.get_detached_model_parameters(),
         )
 
     def _update(self) -> None:

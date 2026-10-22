@@ -163,18 +163,16 @@ class FedProxClient(Client):
         else:
             self._gradient_buffer = None
 
-    def communicate(self, target: "FedProxServer") -> None:
+    def communicate(self) -> ClientToServer:
         extras = {}
         if self.config.vr:
             extras["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                parameters=self.get_detached_model_parameters(),
-                extras=extras,
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            parameters=self.get_detached_model_parameters(),
+            extras=extras,
         )
 
     def update(self) -> None:

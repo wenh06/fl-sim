@@ -155,14 +155,12 @@ class pFedMeClient(Client):
 
     __name__ = "pFedMeClient"
 
-    def communicate(self, target: "pFedMeServer") -> None:
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=self.config.num_epochs * self.config.batch_size,
-                metrics=self._metrics,
-                parameters=self.get_detached_model_parameters(),
-            )
+    def communicate(self) -> ClientToServer:
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=self.config.num_epochs * self.config.batch_size,
+            metrics=self._metrics,
+            parameters=self.get_detached_model_parameters(),
         )
 
     def update(self) -> None:

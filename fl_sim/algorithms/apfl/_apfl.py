@@ -166,7 +166,7 @@ class APFLClient(Client):
         self.mixture_parameters = [torch.zeros_like(p) for p in self.model.parameters()]
         self._sync_counter = 0
 
-    def communicate(self, target: "APFLServer") -> None:
+    def communicate(self) -> ClientToServer:
         self._sync_counter += 1
         parameters = None
         if self._sync_counter == self.config.sync_gap:
@@ -176,13 +176,11 @@ class APFLClient(Client):
             parameters = self.get_detached_model_parameters()
             # reset the synchronization counter
             self._sync_counter = 0
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                parameters=parameters,
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            parameters=parameters,
         )
 
     def update(self) -> None:

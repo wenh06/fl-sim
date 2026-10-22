@@ -138,9 +138,17 @@ class ProxSkipServer(Server):
         super()._setup_clients(dataset, client_config, force)
         # ProxSkip does not have control variates on the server side
         # self._control_variates = [torch.zeros_like(p) for p in self.model.parameters()]
-        communication_pattern = (np.random.rand(self.config.num_iters) < self.config.p).astype(int)
-        for c in self._clients:
-            c.communication_pattern = communication_pattern
+        # the pre-generated communication pattern now lives on the server
+        # (consumed by `_decide_uplink`); the single draw is unchanged
+        self.communication_pattern = (np.random.rand(self.config.num_iters) < self.config.p).astype(int)
+
+    def _decide_uplink(self, client: "ProxSkipClient") -> None:
+        """Decide whether the client uploads this round, BEFORE its local step,
+        via the pre-generated communication pattern. Skipped clients are
+        still counted (``_count_if_skipped = True``, the default), matching
+        the historical counter semantics."""
+        super()._decide_uplink(client)
+        client._communicate_this_round = bool(self.communication_pattern[self.n_iter])
 
     @property
     def client_cls(self) -> type:
@@ -202,22 +210,21 @@ class ProxSkipClient(Client):
             self._gradient_buffer = [torch.zeros_like(p) for p in self.model.parameters()]
         else:
             self._gradient_buffer = None
-        self.communication_pattern = None  # would be set by the server in its `_post_init` method
 
-    def communicate(self, target: "ProxSkipServer") -> None:
-        if self.communication_pattern[target.n_iter] == 0:
-            return  # skip communication
+    def communicate(self) -> ClientToServer:
+        # whether to communicate was decided by the server's `_decide_uplink`
+        # (before this client's local step, via the pre-generated pattern);
+        # `build_reply` returns None when `self._communicate_this_round` is
+        # False, so this hook only builds the message.
         extras = {}
         if self.config.vr:
             extras["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                parameters=self.get_detached_model_parameters(),
-                extras=extras,
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            parameters=self.get_detached_model_parameters(),
+            extras=extras,
         )
 
     def update(self) -> None:

@@ -46,29 +46,23 @@ SCAN_PATHS += sorted((REPO_ROOT / "fl_sim" / "algorithms").rglob("_*.py"))
 
 CLIENT_HOOKS = ("communicate", "update", "accept_parameters", "train")
 
-# I1-①: the upload channels, allowed until P1a-1/P1a-2 turn the client's
-# upload into "build and return a message" (then this whitelist shrinks).
-UPLOAD_CHANNELS = frozenset({"_received_messages", "receive_one"})
+# I1-①: the upload channels used to be whitelisted during the P1a-1/P1a-2
+# transition; since P1a-2 the client hooks build and RETURN the message and
+# never reference the server, so nothing is whitelisted any more.
+UPLOAD_CHANNELS = frozenset()
 
 # I1-①: the exact set of (class, hook, attribute) server-state touches that
-# exist today, all scheduled for removal by P1a-2's decision hoisting
-# (design §6.2). Only ever shrink this set; it must be empty after P1a-2.
-KNOWN_TARGET_TOUCHES = frozenset(
-    {
-        ("FedPDClient", "communicate", "_num_communications"),  # skip-communication counter compensation
-        ("FedPDClient", "communicate", "n_iter"),  # periodic-skip round lookup
-        ("ProxSkipClient", "communicate", "n_iter"),  # communication-pattern round lookup
-    }
-)
+# exist today — empty since P1a-2 hoisted FedPD/ProxSkip's uplink decisions
+# onto the server (design §6.2). Must stay empty.
+KNOWN_TARGET_TOUCHES = frozenset()
 
 # I1-② (static): exact attribute names that must never appear as
 # ``self.<name>`` in client classes. Exact matching only — no substrings.
 FORBIDDEN_ATTRS = frozenset({"server", "_server", "target", "_target", "peer", "_peer"})
 
-# I1-③ (ratchet): 16 algorithm clients' ``communicate(self, target: "XxxServer")``
-# plus the base ``Client.communicate(target: "Server")``. Lower the baseline
-# in the same PR that removes annotations; tighten to 0 by P1a-2.
-SERVER_ANNOTATION_BASELINE = 17
+# I1-③ (ratchet): tightened to 0 by P1a-2 — client hooks no longer take a
+# server argument at all. May only decrease (i.e. stay 0).
+SERVER_ANNOTATION_BASELINE = 0
 
 # conditional downlink (audit N1/N4): exactly these algorithm servers
 # conditionally skip the downlink inside their ``Server.communicate``.
