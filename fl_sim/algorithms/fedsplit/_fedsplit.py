@@ -9,7 +9,7 @@ from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...data_processing.fed_dataset import FedDataset
-from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from ...nodes import Client, ClientConfig, ClientToServer, Server, ServerConfig
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 
@@ -158,14 +158,12 @@ class FedSplitClient(Client):
         # self._z_half_parameters = None  # self.model.parameters() holds this
 
     def communicate(self, target: "FedSplitServer") -> None:
-        target._received_messages.append(
-            ClientMessage(
-                **{
-                    "client_id": self.client_id,
-                    "parameters": [p.clone() for p in self._z_parameters],
-                    "train_samples": len(self.train_loader.dataset),
-                    "metrics": self._metrics,
-                }
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                parameters=[p.clone() for p in self._z_parameters],
             )
         )
 

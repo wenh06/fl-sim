@@ -9,7 +9,7 @@ from pydantic import field_validator, model_validator
 from torch_ecg.utils.misc import add_docstring, remove_parameters_returns_from_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from ...nodes import Client, ClientConfig, ClientToServer, Server, ServerConfig
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 
@@ -249,14 +249,12 @@ class FedOptClient(Client):
         delta_parameters = self.get_detached_model_parameters()
         for dp, rp in zip(delta_parameters, self._cached_parameters):
             dp.data.add_(rp.data, alpha=-1)
-        target._received_messages.append(
-            ClientMessage(
-                **{
-                    "client_id": self.client_id,
-                    "delta_parameters": delta_parameters,
-                    "train_samples": len(self.train_loader.dataset),
-                    "metrics": self._metrics,
-                }
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                extras={"delta_parameters": delta_parameters},
             )
         )
 

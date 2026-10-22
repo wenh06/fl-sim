@@ -12,7 +12,7 @@ from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...data_processing.fed_dataset import FedDataset
-from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from ...nodes import Client, ClientConfig, ClientToServer, Server, ServerConfig
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 
@@ -181,13 +181,14 @@ class FedDynClient(Client):
         self.gradients = [torch.zeros_like(p) for p in self.model.parameters()]
 
     def communicate(self, target: "FedDynServer") -> None:
-        message = {
-            "client_id": self.client_id,
-            "parameters": self.get_detached_model_parameters(),
-            "train_samples": len(self.train_loader.dataset),
-            "metrics": self._metrics,
-        }
-        target._received_messages.append(ClientMessage(**message))
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                parameters=self.get_detached_model_parameters(),
+            )
+        )
 
     def update(self) -> None:
         try:

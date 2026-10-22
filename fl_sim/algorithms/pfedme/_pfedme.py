@@ -9,7 +9,7 @@ from typing import Dict, List
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from ...nodes import Client, ClientConfig, ClientToServer, Server, ServerConfig
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 
@@ -156,14 +156,12 @@ class pFedMeClient(Client):
     __name__ = "pFedMeClient"
 
     def communicate(self, target: "pFedMeServer") -> None:
-        target._received_messages.append(
-            ClientMessage(
-                **{
-                    "client_id": self.client_id,
-                    "parameters": self.get_detached_model_parameters(),
-                    "train_samples": self.config.num_epochs * self.config.batch_size,
-                    "metrics": self._metrics,
-                }
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=self.config.num_epochs * self.config.batch_size,
+                metrics=self._metrics,
+                parameters=self.get_detached_model_parameters(),
             )
         )
 

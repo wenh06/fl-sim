@@ -9,7 +9,7 @@ from pydantic import model_validator
 from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
-from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from ...nodes import Client, ClientConfig, ClientToServer, Server, ServerConfig
 from ...optimizers import get_optimizer
 from ...utils.misc import get_scheduler
 from .._misc import client_config_kw_doc, server_config_kw_doc
@@ -156,13 +156,14 @@ class DittoClient(Client):
         )
 
     def communicate(self, target: "DittoServer") -> None:
-        message = {
-            "client_id": self.client_id,
-            "parameters": self.get_detached_model_parameters(),
-            "train_samples": len(self.train_loader.dataset),
-            "metrics": self._metrics,
-        }
-        target._received_messages.append(ClientMessage(**message))
+        target.receive_one(
+            ClientToServer(
+                client_id=self.client_id,
+                train_samples=len(self.train_loader.dataset),
+                metrics=self._metrics,
+                parameters=self.get_detached_model_parameters(),
+            )
+        )
 
     def update(self) -> None:
         try:
