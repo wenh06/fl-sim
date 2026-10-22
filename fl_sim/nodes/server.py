@@ -555,6 +555,30 @@ class Server(Node, CitationMixin):
         """Whether to evaluate the (train-part) metrics on the clients in this iteration."""
         return self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0
 
+    def _decide_uplink(self, client: "Client") -> None:
+        """Decide (before the client's local step) whether the client uploads
+        this round, and snapshot the round index onto it.
+
+        Sets the client's read-only round flags (``_round_idx``,
+        ``_communicate_this_round``, ``_count_if_skipped``) so that the
+        client's hooks never need to read server state (the invariant of the
+        parallel execution layer). The default: every selected client
+        communicates. Algorithms with communication skipping (FedPD,
+        ProxSkip) override this; the decision RNG is consumed HERE, on the
+        main thread, in the same order as the pre-refactor sequential loop.
+
+        Parameters
+        ----------
+        client : Client
+            The client about to run its local step.
+
+        Returns
+        -------
+        None
+
+        """
+        client._round_idx = self.n_iter
+
     def _broadcast(self, client: "Client") -> None:
         """Downlink phase: broadcast to the client, and let it accept the parameters.
 
@@ -562,6 +586,9 @@ class Server(Node, CitationMixin):
         and the client applies the received parameters via
         :meth:`Client.accept_parameters` (also overridable per algorithm).
         """
+        # NOTE: the uplink decision must be made before the client's local
+        # step, on the main thread (see _decide_uplink).
+        self._decide_uplink(client)
         # server communicates with client, typically broadcasting the global model to the client
         self._communicate(client)
         # NOTE: before evaluating (and updating), the client should accept parameters;

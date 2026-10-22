@@ -195,19 +195,20 @@ class CustomClient(Client):
             for n, p in self.model.named_parameters():
                 p.data.copy_(state[n].data.to(p.device))
 
-    def communicate(self, target: "CustomServer") -> None:
-        # named exchange: upload the local model state by parameter names
+    def communicate(self) -> ClientToServer:
+        # named exchange: upload the local model state by parameter names.
+        # New-style hook: build and RETURN the typed message; the upload and
+        # the communication counter are handled by the framework (the hook
+        # itself never touches the server, so it can run in a worker task).
         extras = {}
         if self.config.vr:
             extras["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                model_state=self._named_params_state(),
-                extras=extras,
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            model_state=self._named_params_state(),
+            extras=extras,
         )
 
     def update(self) -> None:

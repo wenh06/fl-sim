@@ -248,7 +248,7 @@ class FedCRClient(BaseClient):
             )
             p.data.copy_(state[n].data.to(p.device))
 
-    def communicate(self, target: "FedCRServer") -> None:
+    def communicate(self) -> ClientToServer:
         # named exchange: upload the feature extractor state (the personal head never leaves);
         # the round-level class-wise local feature statistics go as extras:
         # mu = sum / count, var = sum_sq / count - mu^2
@@ -257,14 +257,12 @@ class FedCRClient(BaseClient):
             mu = sum_ / count
             var = sum_sq / count - mu**2
             class_stats[class_id] = (mu, var.clamp_min(1e-6), count)
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                model_state=self._encoder_state(self.model),
-                extras={"class_stats": class_stats},
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            model_state=self._encoder_state(self.model),
+            extras={"class_stats": class_stats},
         )
 
     def update(self) -> None:

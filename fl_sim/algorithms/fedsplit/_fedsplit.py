@@ -157,14 +157,12 @@ class FedSplitClient(Client):
         self._z_parameters = None
         # self._z_half_parameters = None  # self.model.parameters() holds this
 
-    def communicate(self, target: "FedSplitServer") -> None:
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                parameters=[p.clone() for p in self._z_parameters],
-            )
+    def communicate(self) -> ClientToServer:
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            parameters=[p.clone() for p in self._z_parameters],
         )
 
     def update(self) -> None:

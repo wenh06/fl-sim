@@ -267,14 +267,12 @@ class FPFCClient(BaseClient):
         super()._post_init()
         self._rho = 1.0
 
-    def communicate(self, target: "FPFCServer") -> None:
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                parameters=self.get_detached_model_parameters(),
-            )
+    def communicate(self) -> ClientToServer:
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            parameters=self.get_detached_model_parameters(),
         )
 
     def update(self) -> None:

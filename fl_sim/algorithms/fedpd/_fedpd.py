@@ -141,6 +141,24 @@ class FedPDServer(Server):
         assert self.config.vr == self._client_config.vr
         self._communicated_clients = []
 
+    def _decide_uplink(self, client: "FedPDClient") -> None:
+        """Decide whether the client uploads this round, BEFORE its local step.
+
+        Moved from ``FedPDClient.communicate`` (which used to draw the
+        random number and compensate the communication counter itself) so
+        that the decision RNG is consumed on the main thread in the same
+        order as the pre-refactor sequential loop, and the client hooks
+        never touch server state. Skipped clients are NOT counted
+        (``_count_if_skipped = False`` replaces the former ``-= 1``
+        compensation).
+        """
+        super()._decide_uplink(client)
+        if self.config.stochastic:
+            client._communicate_this_round = np.random.rand() < self.config.p
+        else:
+            client._communicate_this_round = (self.n_iter + 1) % self.config.comm_freq == 0
+        client._count_if_skipped = False
+
     @property
     def client_cls(self) -> type:
         return FedPDClient
@@ -207,31 +225,21 @@ class FedPDClient(Client):
         else:
             self._dual_weights = [torch.zeros_like(p) for p in self.model.parameters()]
 
-    def communicate(self, target: "FedPDServer") -> None:
-        # determine if communication happens
-        # the probability of communication is controlled by `config.p`
-        # the pattern (stochastic or every n iters) is controlled by `config.stochastic`
-        if self.config.stochastic:
-            if np.random.rand() >= self.config.p:
-                # self._communicate will automatically augment
-                # target._num_communications by 1
-                target._num_communications -= 1
-                return
-        else:
-            if (target.n_iter + 1) % self.config.comm_freq != 0:
-                target._num_communications -= 1
-                return
+    def communicate(self) -> ClientToServer:
+        # whether to communicate was decided by the server's `_decide_uplink`
+        # (before this client's local step): `build_reply` returns None when
+        # `self._communicate_this_round` is False, so this hook only builds
+        # the message. The skip decision RNG is consumed on the main thread,
+        # in the same order as the pre-refactor sequential loop.
         extras = {}
         if self.config.vr:
             extras["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                parameters=self._cached_parameters,
-                extras=extras,
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            parameters=self._cached_parameters,
+            extras=extras,
         )
 
     def update(self) -> None:
