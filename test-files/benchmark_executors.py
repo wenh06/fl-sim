@@ -55,9 +55,9 @@ def main() -> None:
     baseline = results["sequential"]
     for name, seconds in results.items():
         print(f"{name:16s} {seconds:8.2f} s   speedup {baseline / seconds:5.2f}x")
-    with open(Path(__file__).parent / "benchmark_executors_results.json", "w") as f:
+    with open(Path(__file__).parent / "benchmark_executors_results.data", "w") as f:
         json.dump({"args": vars(args), "seconds": results, "baseline": baseline}, f, indent=1)
-    print("results written to test-files/benchmark_executors_results.json")
+    print("results written to test-files/benchmark_executors_results.data")
 
 
 if __name__ == "__main__":
