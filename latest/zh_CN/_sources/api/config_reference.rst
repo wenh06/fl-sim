@@ -275,6 +275,9 @@ APFL
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``mixture_weight``
      - float
      - 0.5
@@ -339,6 +342,15 @@ APFL
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "mixture_weight": {
@@ -607,6 +619,9 @@ Ditto
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``optimizer_per``
      - str
      - "ProxSGD"
@@ -677,6 +692,15 @@ Ditto
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "optimizer_per": {
@@ -1007,6 +1031,9 @@ FPFC
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FPFCClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -1068,6 +1095,15 @@ FPFC
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -1376,6 +1412,9 @@ FedAdagrad
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedAdagradClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -1437,6 +1476,15 @@ FedAdagrad
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -1745,6 +1793,9 @@ FedAdam
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedAdamClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -1806,6 +1857,15 @@ FedAdam
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -2114,6 +2174,9 @@ FedAvg
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedAvgClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -2175,6 +2238,15 @@ FedAvg
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -2491,6 +2563,9 @@ FedCR
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedCRClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -2552,6 +2627,15 @@ FedCR
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -2868,6 +2952,9 @@ FedDC
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedDCClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -2929,6 +3016,15 @@ FedDC
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -3216,6 +3312,9 @@ FedDR
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``eta``
      - float
      - 1.0
@@ -3283,6 +3382,15 @@ FedDR
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "eta": {
@@ -3564,6 +3672,9 @@ FedDyn
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedDynClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -3625,6 +3736,15 @@ FedDyn
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -3933,6 +4053,9 @@ FedOpt
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedOptClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -3994,6 +4117,15 @@ FedOpt
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -4281,6 +4413,9 @@ FedPD
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``mu``
      - float
      - 0.1
@@ -4351,6 +4486,15 @@ FedPD
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "mu": {
@@ -4637,6 +4781,9 @@ FedProx
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``mu``
      - float
      - 0.01
@@ -4704,6 +4851,15 @@ FedProx
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "mu": {
@@ -4977,6 +5133,9 @@ FedSplit
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``s``
      - float
      - 10.0
@@ -5041,6 +5200,15 @@ FedSplit
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "s": {
@@ -5354,6 +5522,9 @@ FedYogi
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedYogiClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -5415,6 +5586,15 @@ FedYogi
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -5731,6 +5911,9 @@ IFCA
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``IFCAClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -5792,6 +5975,15 @@ IFCA
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -6071,6 +6263,9 @@ ProxSkip
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``vr``
      - bool
      - False
@@ -6135,6 +6330,15 @@ ProxSkip
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "vr": {
@@ -6411,6 +6615,9 @@ SCAFFOLD
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``control_variate_update_rule``
      - int
      - 1
@@ -6475,6 +6682,15 @@ SCAFFOLD
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "control_variate_update_rule": {
@@ -6759,6 +6975,9 @@ pFedMac
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``lam``
      - float
      - 15.0
@@ -6826,6 +7045,15 @@ pFedMac
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "lam": {
@@ -7107,6 +7335,9 @@ pFedMe
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``num_steps``
      - int
      - 30
@@ -7180,6 +7411,15 @@ pFedMe
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "num_steps": {

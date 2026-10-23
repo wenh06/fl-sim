@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Algorithm Configuration Reference &#8212; fl-sim 0.1.1.dev23+ge12b2ced8 documentation</title>
+    <title>Algorithm Configuration Reference &#8212; fl-sim 0.1.1.dev24+g97d32f671 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=06571b4a"></script>
+    <script src="../_static/documentation_options.js?v=8df337c4"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev23+ge12b2ced8 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev24+g97d32f671 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -332,6 +332,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../algorithms/pfl.html">Personalized Federated Learning Algorithms</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel_execution.html">Parallel execution layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../viz.html">Visualization subsystem</a></li>
 </ul>
@@ -897,7 +898,11 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mixture_weight</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mixture_weight</span></code></p></td>
 <td><p>float</p></td>
 <td><p>0.5</p></td>
 </tr>
@@ -962,6 +967,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"mixture_weight"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -1279,15 +1293,19 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">optimizer_per</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">optimizer_per</span></code></p></td>
 <td><p>str</p></td>
 <td><p>“ProxSGD”</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">prox</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">prox</span></code></p></td>
 <td><p>float</p></td>
 <td><p>0.01</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lr_per</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lr_per</span></code></p></td>
 <td><p>Optional[float]</p></td>
 <td><p>None</p></td>
 </tr>
@@ -1352,6 +1370,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"optimizer_per"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -1735,6 +1762,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1796,6 +1827,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -2157,6 +2197,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2218,6 +2262,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -2579,6 +2632,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2640,6 +2697,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -3001,6 +3067,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3062,6 +3132,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -3429,6 +3508,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3490,6 +3573,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -3857,6 +3949,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -3918,6 +4014,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -4257,11 +4362,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
 <td><p>float</p></td>
 <td><p>1.0</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code></p></td>
 <td><p>float</p></td>
 <td><p>1.9</p></td>
 </tr>
@@ -4326,6 +4435,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"eta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -4657,6 +4775,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -4718,6 +4840,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -5079,6 +5210,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -5140,6 +5275,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -5479,15 +5623,19 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mu</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mu</span></code></p></td>
 <td><p>float</p></td>
 <td><p>0.1</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vr</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vr</span></code></p></td>
 <td><p>bool</p></td>
 <td><p>False</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dual_rand_init</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dual_rand_init</span></code></p></td>
 <td><p>bool</p></td>
 <td><p>False</p></td>
 </tr>
@@ -5552,6 +5700,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"mu"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -5888,11 +6045,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mu</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mu</span></code></p></td>
 <td><p>float</p></td>
 <td><p>0.01</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vr</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vr</span></code></p></td>
 <td><p>bool</p></td>
 <td><p>False</p></td>
 </tr>
@@ -5957,6 +6118,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"mu"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -6279,7 +6449,11 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">s</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">s</span></code></p></td>
 <td><p>float</p></td>
 <td><p>10.0</p></td>
 </tr>
@@ -6344,6 +6518,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"s"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -6710,6 +6893,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -6771,6 +6958,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -7141,6 +7337,10 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -7202,6 +7402,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">},</span>
@@ -7532,7 +7741,11 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vr</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vr</span></code></p></td>
 <td><p>bool</p></td>
 <td><p>False</p></td>
 </tr>
@@ -7597,6 +7810,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"vr"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -7926,7 +8148,11 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">control_variate_update_rule</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">control_variate_update_rule</span></code></p></td>
 <td><p>int</p></td>
 <td><p>1</p></td>
 </tr>
@@ -7991,6 +8217,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"control_variate_update_rule"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -8326,11 +8561,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lam</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lam</span></code></p></td>
 <td><p>float</p></td>
 <td><p>15.0</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vr</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vr</span></code></p></td>
 <td><p>bool</p></td>
 <td><p>False</p></td>
 </tr>
@@ -8395,6 +8634,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"lam"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -8726,19 +8974,23 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <td><p>str</p></td>
 <td><p>“”</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">num_steps</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rng_mode</span></code></p></td>
+<td><p>str</p></td>
+<td><p>“global”</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">num_steps</span></code></p></td>
 <td><p>int</p></td>
 <td><p>30</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lamda</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lamda</span></code></p></td>
 <td><p>float</p></td>
 <td><p>15.0</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">eta</span></code></p></td>
 <td><p>float</p></td>
 <td><p>0.001</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mu</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mu</span></code></p></td>
 <td><p>float</p></td>
 <td><p>0.001</p></td>
 </tr>
@@ -8803,6 +9055,15 @@ tables below; a <code class="docutils literal notranslate"><span class="pre">*</
 <span class="w">    </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Algorithm"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"rng_mode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"global"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"per_client"</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rng Mode"</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">"num_steps"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>

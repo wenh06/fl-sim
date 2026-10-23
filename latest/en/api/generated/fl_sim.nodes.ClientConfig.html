@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>ClientConfig &#8212; fl-sim 0.1.1.dev23+ge12b2ced8 documentation</title>
+    <title>ClientConfig &#8212; fl-sim 0.1.1.dev24+g97d32f671 documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=06571b4a"></script>
+    <script src="../../_static/documentation_options.js?v=8df337c4"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev23+ge12b2ced8 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev24+g97d32f671 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -332,6 +332,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../algorithms/pfl.html">Personalized Federated Learning Algorithms</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../parallel_execution.html">Parallel execution layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../viz.html">Visualization subsystem</a></li>
 </ul>
@@ -566,7 +567,7 @@ document.write(`
 <h1>ClientConfig<a class="headerlink" href="#clientconfig" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="fl_sim.nodes.ClientConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fl_sim.nodes.</span></span><span class="sig-name descname"><span class="pre">ClientConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*args:</span> <span class="pre">~typing.Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_epochs:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduler:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_observes:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">~typing.Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/fl_sim/nodes/configs.html#ClientConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.nodes.ClientConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fl_sim.nodes.</span></span><span class="sig-name descname"><span class="pre">ClientConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*args:</span> <span class="pre">~typing.Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_epochs:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduler:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_observes:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng_mode:</span> <span class="pre">~typing.Literal['global'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'per_client']</span> <span class="pre">=</span> <span class="pre">'global'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">~typing.Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/fl_sim/nodes/configs.html#ClientConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fl_sim.nodes.ClientConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>Configs for the Client.</p>
 <dl class="field-list simple">
