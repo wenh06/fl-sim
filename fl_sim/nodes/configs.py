@@ -235,6 +235,10 @@ class ClientConfig(BaseModel):
     verbose: int = 1
     latency: float = 0.0
     algorithm: str = ""
+    rng_mode: Literal["global", "per_client"] = "global"
+
+    # keyword-only knob, see ServerConfig._keyword_only_fields
+    _keyword_only_fields: ClassVar[frozenset] = frozenset({"rng_mode"})
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         # map positional arguments onto the fields in their declaration order,
@@ -251,7 +255,7 @@ class ClientConfig(BaseModel):
                     "(it is now auto-derived from the class name); "
                     "use keyword arguments, or drop the leading algorithm name."
                 )
-            fields = list(type(self).model_fields)
+            fields = [f for f in type(self).model_fields if f not in self._keyword_only_fields]
             if len(args) > len(fields):
                 raise TypeError(
                     f"{type(self).__name__} takes at most {len(fields)} positional arguments "

@@ -128,3 +128,75 @@ def test_threads_backend_same_seeded_run_completes_with_same_counts():
     seen_a, counter_a, weights_a = _train_messages(num_workers=1)
     seen_b, counter_b, weights_b = _train_messages(num_workers=4)
     assert len(seen_a) == len(seen_b) and counter_a == counter_b
+
+
+# ---------------------------------------------------------------------------
+# L1 reproducibility: per-client DataLoader generators (rng_mode="per_client")
+# ---------------------------------------------------------------------------
+
+
+def _run_fedavg(keyed_orders: dict, executor: str, rng_mode: str, num_iters: int = 3):
+    import fl_sim.algorithms as algorithms
+
+    reg = algorithms.get_algorithm("FedAvg")
+    dataset = FedSynthetic(1, 1, False, 30)
+    server = reg["server"](
+        dataset.candidate_models["mlp_d1"],
+        dataset,
+        reg["server_config"](num_iters, 6, clients_sample_ratio=1.0),
+        reg["client_config"](32, 1, rng_mode=rng_mode),
+    )
+    server.config.executor = executor
+    server.config.num_workers = 4
+    original = type(server._clients[0]).update
+
+    def update_with_order(self):
+        keyed_orders.setdefault(self._round_idx, {})[self.client_id] = tuple(
+            tensor[0].sum().item() for tensor, _ in self.train_loader
+        )
+        original(self)
+
+    type(server._clients[0]).update = update_with_order
+    try:
+        server.train_federated()
+        weight = float(list(server.model.parameters())[0].sum())
+    finally:
+        type(server._clients[0]).update = original
+    return weight
+
+
+def test_per_client_rng_shuffle_sequence_backend_and_repeat_invariant():
+    """L1: with rng_mode=per_client, the per-(round, client) shuffle stream is
+    bitwise identical across backends and across same-seed repeats, and the
+    final model weights match bitwise (review N3's per-client-Generator
+    mechanism)."""
+    run_a: dict = {}
+    run_b: dict = {}
+    run_c: dict = {}
+    weight_a = _run_fedavg(run_a, "threads", "per_client")
+    weight_b = _run_fedavg(run_b, "threads", "per_client")
+    weight_c = _run_fedavg(run_c, "sequential", "per_client")
+    assert run_a == run_b  # same-seed repeat
+    assert run_a == run_c  # backend-invariant
+    assert weight_a == weight_b == weight_c  # bitwise
+
+
+def test_global_rng_mode_has_no_per_client_generator():
+    """Default rng_mode=global keeps the loaders untouched (global RNG)."""
+    server = _make(num_workers=4)
+    for client in server._clients:
+        assert client.train_loader.generator is None
+        assert client.val_loader.generator is None
+
+
+def test_rng_mode_rejects_typos():
+    from pydantic import ValidationError
+
+    from fl_sim.nodes import ClientConfig, ServerConfig
+
+    # the shared hand-written test fixtures take explicit kwargs only; use
+    # the real (pydantic) configs to assert the Literal guards
+    with pytest.raises(ValidationError):
+        ClientConfig(32, 1, 1e-3, "SGD", rng_mode="per-clients")
+    with pytest.raises(ValidationError):
+        ServerConfig(1, 6, 1.0, executor="threadz")

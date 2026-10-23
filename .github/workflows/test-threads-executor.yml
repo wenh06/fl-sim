@@ -1,0 +1,52 @@
+# Runs the representative per-algorithm test functions under the threads
+# execution backend, guarding the parallel execution layer end-to-end:
+# FedAvg (plain), FedPD (uplink decisions + conditional downlink),
+# APFL (conditional downlink payload). The per-algorithm test functions
+# read the backend from the FL_SIM_EXECUTOR environment variable.
+
+name: Test Algorithms with Threads Executor
+
+on:
+  push:
+    branches: [ test-alg ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  TEST_EXECUTOR: threads
+
+jobs:
+  build:
+    # Don't run on forked repos.
+    if: contains(fromJson('["wenh06"]'), github.repository_owner)
+
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+        algorithm: [fedopt, fedpd, apfl]
+
+    steps:
+    - uses: actions/checkout@v7
+    - name: Clear unnecessary system components
+      run: |
+        sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/share/boost "$AGENT_TOOLSDIRECTORY"
+    - name: Install system libraries
+      run: |
+        sudo apt update
+        sudo apt install build-essential ffmpeg libsm6 libxext6 libsndfile1 -y
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v7
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install .
+        python -m pip install pytest pytest-cov
+    - name: Run test with pytest (threads executor)
+      env:
+        FL_SIM_EXECUTOR: threads
+        FL_SIM_NUM_WORKERS: "4"
+      run: |
+        pytest -vv -s "test/test-algorithms/test_${{ matrix.algorithm }}.py"
