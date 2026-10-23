@@ -5,6 +5,7 @@ The base Server class.
 """
 
 import json
+import os
 import warnings
 from abc import abstractmethod
 from collections import defaultdict
@@ -193,17 +194,18 @@ class Server(Node, CitationMixin):
         self._logger_manager.log_message("Setup clients...")
         dataset = dataset or self.dataset
         client_config = client_config or self._client_config
-        self._clients = [
-            self.client_cls(client_id, device, deepcopy(self.model), dataset, client_config)
-            for client_id, device in tqdm(
-                zip(range(self.config.num_clients), self._allocate_devices()),
-                desc="Allocating devices",
-                total=self.config.num_clients,
-                unit="client",
-                mininterval=1,
-                leave=False,
-            )
-        ]
+        self._clients = []
+        for client_id, device in tqdm(
+            zip(range(self.config.num_clients), self._allocate_devices()),
+            desc="Allocating devices",
+            total=self.config.num_clients,
+            unit="client",
+            mininterval=1,
+            leave=False,
+        ):
+            client = self.client_cls(client_id, device, deepcopy(self.model), dataset, client_config)
+            client._rng_seed = self.config.seed
+            self._clients.append(client)
 
     def _allocate_devices(self) -> List[torch.device]:
         """Allocate devices for clients, can be used in :meth:`_setup_clients`."""
@@ -579,17 +581,23 @@ class Server(Node, CitationMixin):
         self._complete_experiment = True
 
     def _make_executor(self) -> "ClientExecutor":
-        """Build the client executor from the config, and apply the
-        backend-specific setup (client-internal progress bars must not run
-        concurrently)."""
-        if self.config.executor == "threads":
+        """Build the client executor, and apply the backend-specific setup
+        (client-internal progress bars must not run concurrently).
+
+        The ``FL_SIM_EXECUTOR`` / ``FL_SIM_NUM_WORKERS`` environment variables
+        override the config values (used by CI to run the per-algorithm test
+        functions under a parallel backend without touching their configs).
+        """
+        executor_name = os.environ.get("FL_SIM_EXECUTOR", self.config.executor)
+        if executor_name == "threads":
             # client `train()` internals draw their own tqdm bars when
             # verbose >= 2; interleaved writes from worker threads would be
             # garbage, so cap the effective verbosity under this backend
             for client in self._clients or []:
                 if client.config.verbose > 1:
                     client.config.verbose = 1
-            executor = ThreadsExecutor(num_workers=self.config.num_workers, torch_num_threads=self.config.torch_num_threads)
+            num_workers = os.environ.get("FL_SIM_NUM_WORKERS", str(self.config.num_workers))
+            executor = ThreadsExecutor(num_workers=int(num_workers), torch_num_threads=self.config.torch_num_threads)
             self._logger_manager.log_message(
                 f"Parallel execution: threads backend with up to {executor.num_workers} concurrent clients."
             )

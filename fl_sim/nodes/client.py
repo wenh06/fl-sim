@@ -4,6 +4,7 @@ The base Client class.
 
 """
 
+import hashlib
 import warnings
 from abc import abstractmethod
 from copy import deepcopy
@@ -12,6 +13,7 @@ from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
 
 import torch
 import torch.nn as nn
+import torch.utils.data as torchdata
 from torch import Tensor
 from torch_ecg.utils import add_docstring
 
@@ -47,6 +49,14 @@ def _communicate_accepts_target(communicate) -> bool:
     # excluded from the signature: any remaining positional parameter is the
     # (legacy) server argument.
     return len(positional) >= 1
+
+
+def _derive_generator_seed(seed: int, client_id: int, channel: str, round_idx: Optional[int] = None) -> int:
+    """Deterministically derive a (stable, 63-bit) generator seed from
+    ``(seed, client_id, channel[, round_idx])``, so per-client random streams
+    are decoupled from the scheduling."""
+    payload = f"{seed}:{client_id}:{channel}:{round_idx if round_idx is not None else 'init'}"
+    return int.from_bytes(hashlib.sha256(payload.encode()).digest()[:8], "big") & 0x7FFF_FFFF_FFFF_FFFF
 
 
 class Client(Node):
@@ -87,10 +97,15 @@ class Client(Node):
         self.criterion = deepcopy(dataset.criterion)
         self.dataset = dataset
         self.config = config
+        # the experiment seed, injected by the server right after construction
+        # (see Server._setup_clients); the L1 per-client generators derive
+        # from it. Must exist BEFORE _apply_per_client_generator() runs below.
+        self._rng_seed: int = 0
 
         self.train_loader, self.val_loader = self.dataset.get_dataloader(
             self.config.batch_size, self.config.batch_size, self.client_id
         )
+        self._apply_per_client_generator()
 
         self.optimizer = get_optimizer(
             optimizer_name=self.config.optimizer,
@@ -181,6 +196,60 @@ class Client(Node):
         self._cached_metrics.append(self._metrics.copy())
         self._metrics = {}  # clear the metrics
         return reply
+
+    def _apply_per_client_generator(self) -> None:
+        """L1 reproducibility (``rng_mode == "per_client"``): re-arm the
+        (train and val) dataloaders with per-client ``torch.Generator``s
+        seeded from ``(seed, round hint, client_id)``.
+
+        The shuffle sequence then no longer depends on the shared global RNG,
+        so it is bitwise identical across execution backends and parallelism
+        degrees. Scope (deliberately narrow, per the design): ONLY the loader
+        shuffling is isolated; dropout and other model-internal randomness
+        still draw from the process-global torch RNG. The generator is
+        re-seeded at the start of every round in :meth:`_reseed_generator`
+        (called by :meth:`update`), so the sequence is also round-indexed.
+
+        """
+        if not getattr(self.config, "rng_mode", "global") == "per_client":
+            return
+        for loader_attr in ("train_loader", "val_loader"):
+            loader = getattr(self, loader_attr, None)
+            if loader is None or not isinstance(loader, torchdata.DataLoader):
+                continue
+            generator = torch.Generator()
+            generator.manual_seed(_derive_generator_seed(self._rng_seed, self.client_id, loader_attr))
+            setattr(
+                self,
+                loader_attr,
+                torchdata.DataLoader(
+                    dataset=loader.dataset,
+                    batch_size=loader.batch_size,
+                    shuffle=loader.sampler.__class__ is torchdata.RandomSampler,
+                    sampler=None if loader.sampler.__class__ is torchdata.RandomSampler else loader.sampler,
+                    batch_sampler=loader.batch_sampler if loader.sampler is None else None,
+                    num_workers=loader.num_workers,
+                    collate_fn=loader.collate_fn,
+                    pin_memory=loader.pin_memory,
+                    drop_last=loader.drop_last,
+                    timeout=loader.timeout,
+                    worker_init_fn=loader.worker_init_fn,
+                    generator=generator,
+                    prefetch_factor=loader.prefetch_factor if loader.num_workers > 0 else None,
+                    persistent_workers=loader.persistent_workers if loader.num_workers > 0 else False,
+                ),
+            )
+
+    def _reseed_generator(self) -> None:
+        """Re-seed the per-client generators with the current round index,
+        so the shuffle sequence is reproducible per (round, client)."""
+        if not getattr(self.config, "rng_mode", "global") == "per_client":
+            return
+        for loader_attr in ("train_loader", "val_loader"):
+            loader = getattr(self, loader_attr, None)
+            generator = getattr(loader, "generator", None) if loader is not None else None
+            if generator is not None:
+                generator.manual_seed(_derive_generator_seed(self._rng_seed, self.client_id, loader_attr, self._round_idx))
 
     def _communicate(self, target: "Server") -> None:
         """Build the reply via :meth:`build_reply` and upload it to the server,
@@ -275,6 +344,7 @@ class Client(Node):
         """Client update, and clear cached messages
         from the server of the previous iteration.
         """
+        self._reseed_generator()
         self.update()
         # free the memory in received_messages
         del self._received_messages
