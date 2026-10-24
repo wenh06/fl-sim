@@ -22,14 +22,14 @@ import fl_sim.algorithms as algorithms  # noqa: E402
 from fl_sim.data_processing.fed_synthetic import FedSynthetic  # noqa: E402
 
 
-def run_once(executor: str, num_workers: int, num_iters: int, num_clients: int) -> float:
+def run_once(executor: str, num_workers: int, num_iters: int, num_clients: int, num_epochs: int = 2) -> float:
     reg = algorithms.get_algorithm("FedAvg")
-    dataset = FedSynthetic(1, 1, False, 30)
+    dataset = FedSynthetic(1, 1, False, max(30, num_clients))
     server = reg["server"](
         dataset.candidate_models["mlp_d1"],
         dataset,
         reg["server_config"](num_iters, num_clients, clients_sample_ratio=1.0, verbose=0),
-        reg["client_config"](32, 2),
+        reg["client_config"](32, num_epochs),
     )
     server.config.executor = executor
     server.config.num_workers = num_workers

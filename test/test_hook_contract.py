@@ -198,6 +198,29 @@ def test_client_hook_server_annotation_ratchet():
     )
 
 
+def test_client_task_body_touches_no_server_state():
+    """F5: ``Server._client_task`` runs INSIDE the worker threads, so its
+    body must not write any server state (``self.<attr> = ...`` and friends).
+    The client-hook AST guard cannot see this method -- it lives on the
+    server -- yet it is exactly where a future edit could quietly break I2."""
+    import fl_sim.nodes.server as server_module
+
+    tree = ast.parse(server_module.__file__ and Path(server_module.__file__).read_text())
+    fn = next(node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name == "_client_task")
+    violations = []
+    for node in ast.walk(fn):
+        if isinstance(node, ast.Assign):
+            targets = node.targets
+        elif isinstance(node, (ast.AugAssign, ast.AnnAssign)):
+            targets = [node.target]
+        else:
+            continue
+        for target in targets:
+            if isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name) and target.value.id == "self":
+                violations.append(f"self.{target.attr} (line {target.lineno})")
+    assert not violations, "Server._client_task runs in worker threads; it must not write server " f"state: {violations}"
+
+
 def test_conditional_downlink_servers():
     """Audit N1/N4: exactly {APFLServer, FedPDServer} broadcast conditionally."""
     conditional = set()
