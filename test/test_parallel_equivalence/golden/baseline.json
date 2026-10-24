@@ -1,0 +1,5952 @@
+{
+ "scenarios": {
+  "apfl-tau1": {
+   "algorithm": "APFL",
+   "decisions": [
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "3343893705f68167",
+   "messages": [
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:c469eb0aa3656a2f",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:83d45029927095f2",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:f3cf36b9c8954cff",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:9d3890f691bc6d9e",
+     "train_samples": 93
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:c231b7abbba8bf0d",
+     "parameters": "l:d185c0eb2db35cc9",
+     "train_samples": 93
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:1acba6d8af0ea1d3",
+     "parameters": "l:540f65447f4f6f04",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:05f2d37f9e985613",
+     "parameters": "l:907cd70b16517b12",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:bb0a404dddb91526",
+     "parameters": "l:e4ca25333cbe1217",
+     "train_samples": 72
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:6b61f9ce3fb989ac",
+     8
+    ],
+    [
+     3,
+     "train",
+     "d:bc0c8af4616c8cb0",
+     1
+    ],
+    [
+     0,
+     "train",
+     "d:d598bd33ffcb26a3",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:a66e00fd657a25a6",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:49797456496f40a9",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:e8e06909777874a9",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "apfl-tau1",
+   "updates": [
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "e161c6f955a950a6"
+    ],
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "a6c245d1e9b78955"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "356bf32a4f9316c4"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "523b2a59be440f8b"
+    ],
+    [
+     1,
+     3,
+     "892006bec02c517b",
+     "a89aa4b67e7a7b40"
+    ],
+    [
+     1,
+     0,
+     "892006bec02c517b",
+     "66dec1ccb0214dcb"
+    ],
+    [
+     1,
+     2,
+     "892006bec02c517b",
+     "fea83f7bde04eac4"
+    ],
+    [
+     1,
+     1,
+     "892006bec02c517b",
+     "8df94143ca47e8bb"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "apfl-tau2": {
+   "algorithm": "APFL",
+   "decisions": [
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "72482a28f65442df",
+   "messages": [
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 93
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:a2712580b99871b9",
+     "parameters": "l:ee23453ef9630399",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:d4eeaaa8804d3df9",
+     "parameters": "l:380f6184e87e1f9f",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:b252892fe8f7f052",
+     "parameters": "l:09c3e42425ce38be",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:bfdb4aca42a81a89",
+     "parameters": "l:6d869287cd781d6c",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:4ce313d29d162a6d",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:7174c6f37569cb37",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:80b9b78b631ea5bb",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:543c77a6c22e7544",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:ae3f9ca3f3787d23",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:1138fde849ab4445",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "apfl-tau2",
+   "updates": [
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "e161c6f955a950a6"
+    ],
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "a6c245d1e9b78955"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "356bf32a4f9316c4"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "523b2a59be440f8b"
+    ],
+    [
+     1,
+     0,
+     "e161c6f955a950a6",
+     "0f4b878fa3ae43a0"
+    ],
+    [
+     1,
+     2,
+     "a6c245d1e9b78955",
+     "d002939d3d621168"
+    ],
+    [
+     1,
+     1,
+     "356bf32a4f9316c4",
+     "33df55453b0632c6"
+    ],
+    [
+     1,
+     3,
+     "523b2a59be440f8b",
+     "c75d961749f73164"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "ditto": {
+   "algorithm": "Ditto",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "c232a61d73309b8a",
+   "messages": [
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:8bc777aafc3daf0f",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:0f907911efb202a9",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:f3cf36b9c8954cff",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:7ad53defe608108b",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:7be58f70b076bfbd",
+     "parameters": "l:600c223575f69e4d",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:6450f437f3fa1938",
+     "parameters": "l:0320fa793e2848ab",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:a8ce18e888897ee0",
+     "parameters": "l:a67cae955e568e58",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:1c7a49ba009bc5fd",
+     "parameters": "l:d98b360766533f42",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:274a5b22805a79aa",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:ba63089212139526",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:d71d612190e90cd0",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:a0cd9882b89dbf11",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:680be827050324da",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:77cc615925b22bc1",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "ditto",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "f3a7fb99379da6ee"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "f6bf90efa53c898c"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "356bf32a4f9316c4"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "b2c026927407010c"
+    ],
+    [
+     1,
+     0,
+     "f452b890347994f7",
+     "d98b5cd69d475f5d"
+    ],
+    [
+     1,
+     2,
+     "f452b890347994f7",
+     "856aca2fb40b1862"
+    ],
+    [
+     1,
+     1,
+     "f452b890347994f7",
+     "a1d975001fa91eab"
+    ],
+    [
+     1,
+     3,
+     "f452b890347994f7",
+     "6a3a2b3aca6d6a41"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fedadagrad": {
+   "algorithm": "FedAdagrad",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "ba46a130be8c1900",
+   "messages": [
+    {
+     "client_id": 2,
+     "delta_parameters": "l:2d06ba11811e8085",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:56f6c6752169ba9a",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:a6c8ef6bac514566",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:a93deb05398d3305",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:3ca0c44fcdb347ac",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:1c687e6663b5d75a",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "delta_parameters": "l:e0a0d43fcad17091",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:3bf2a1cd251996a2",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:8e25d16a04c2121b",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:81479d5face9bd13",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:ae10d8d44a62eeb2",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e1ead055a7718994",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:8900f5eb46a9c40b",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:4bc644d72458b087",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:f6088754fd84a181",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:91273f6ad97dc00a",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:413967a5b28e9321",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:fc0805ea98c38bab",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:139f9425b873fd91",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedadagrad",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "1d7134009f31e755"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "698d88b2a6bb5bf7"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "d96a23dffaaa7d73"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "5f6d5938622a39fc"
+    ],
+    [
+     1,
+     0,
+     "c9a557cccabb2d2d",
+     "d99ee8308bc297e7"
+    ],
+    [
+     1,
+     2,
+     "c9a557cccabb2d2d",
+     "ace7635a075bb36f"
+    ],
+    [
+     1,
+     1,
+     "c9a557cccabb2d2d",
+     "e1cc831a26cc4462"
+    ],
+    [
+     1,
+     3,
+     "c9a557cccabb2d2d",
+     "129232bbd8a8a464"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fedadam": {
+   "algorithm": "FedAdam",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "b697f1db59698372",
+   "messages": [
+    {
+     "client_id": 2,
+     "delta_parameters": "l:2d06ba11811e8085",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:56f6c6752169ba9a",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:a6c8ef6bac514566",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:a93deb05398d3305",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:eefc9904db49fd29",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:810fcfcd5e3ff040",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "delta_parameters": "l:63fe617688147697",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:d05450fb9f96ea15",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:8c4d188e12cb4f13",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:c9ee2ce39d286383",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:1604d112ed526da3",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:45a31d41f47681e0",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:8900f5eb46a9c40b",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:44e828bc511e1f8b",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:8b8e14db0170c374",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:9ea5df08ff6a334a",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:f3855016e8848cf4",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:76f656bd871694d8",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:61fcda5a59de7419",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedadam",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "1d7134009f31e755"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "698d88b2a6bb5bf7"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "d96a23dffaaa7d73"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "5f6d5938622a39fc"
+    ],
+    [
+     1,
+     0,
+     "659870483f992ba4",
+     "fdd32d88f47ee353"
+    ],
+    [
+     1,
+     2,
+     "659870483f992ba4",
+     "74c7c8fc3525de60"
+    ],
+    [
+     1,
+     1,
+     "659870483f992ba4",
+     "5a60bfcad846a9cf"
+    ],
+    [
+     1,
+     3,
+     "659870483f992ba4",
+     "cc82b6c9c0b1d812"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fedavg": {
+   "algorithm": "FedAvg",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "c5e8a59e318dee34",
+   "messages": [
+    {
+     "client_id": 2,
+     "delta_parameters": "l:5eb90071adf417c8",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:6dde98f02b3b24bc",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:1c898e5d1a52bff5",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:5652a576d50ce63e",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:4ba7b7847cc247fd",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:11428ea467adaf1c",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "delta_parameters": "l:41294462f75d928c",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:5bbbe26bf8d93856",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:baa17cd01e75c0d4",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:5008805754848165",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:c68240b7c72b9b86",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:4e580c8a5d2886bc",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:601aa4e12adc9041",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:f2db6c214f272045",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:8364bea42df1056a",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:7708e7f143bbc231",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:c7a02a56c4aa7bfa",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:d26ad5c3fb460450",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedavg",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "f3a7fb99379da6ee"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "03e472c5fb596150"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "98435df63bd34f22"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "699ebc6557f37d2c"
+    ],
+    [
+     1,
+     0,
+     "f702e88c8e146d65",
+     "b9667746f8bc55da"
+    ],
+    [
+     1,
+     2,
+     "f702e88c8e146d65",
+     "58a052608e756183"
+    ],
+    [
+     1,
+     1,
+     "f702e88c8e146d65",
+     "7b14f3ca795f39cf"
+    ],
+    [
+     1,
+     3,
+     "f702e88c8e146d65",
+     "7bbab0ddfa8158a7"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fedcr": {
+   "algorithm": "FedCR",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "a8688560c2002ca9",
+   "messages": [
+    {
+     "class_stats": "d:8d205ef325ab0a73",
+     "client_id": 2,
+     "keys": [
+      "class_stats",
+      "client_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "model_state": "d:e3b0c44298fc1c14",
+     "train_samples": 196
+    },
+    {
+     "class_stats": "d:752ec70a54c097bc",
+     "client_id": 3,
+     "keys": [
+      "class_stats",
+      "client_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "model_state": "d:e3b0c44298fc1c14",
+     "train_samples": 93
+    },
+    {
+     "class_stats": "d:6e205f56cd8dc500",
+     "client_id": 1,
+     "keys": [
+      "class_stats",
+      "client_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "model_state": "d:e3b0c44298fc1c14",
+     "train_samples": 72
+    },
+    {
+     "class_stats": "d:ad9be5556b3a4723",
+     "client_id": 0,
+     "keys": [
+      "class_stats",
+      "client_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "model_state": "d:e3b0c44298fc1c14",
+     "train_samples": 96
+    },
+    {
+     "class_stats": "d:0af19044fc565008",
+     "client_id": 0,
+     "keys": [
+      "class_stats",
+      "client_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:fe18544eca1d3452",
+     "model_state": "d:e3b0c44298fc1c14",
+     "train_samples": 96
+    },
+    {
+     "class_stats": "d:b4fd54e0cdcaf7a4",
+     "client_id": 2,
+     "keys": [
+      "class_stats",
+      "client_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:e12d6b559bc9a39d",
+     "model_state": "d:e3b0c44298fc1c14",
+     "train_samples": 196
+    },
+    {
+     "class_stats": "d:c58da3d8e5408bc4",
+     "client_id": 1,
+     "keys": [
+      "class_stats",
+      "client_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:981db64c5f331f18",
+     "model_state": "d:e3b0c44298fc1c14",
+     "train_samples": 72
+    },
+    {
+     "class_stats": "d:b349da85c9e7dae6",
+     "client_id": 3,
+     "keys": [
+      "class_stats",
+      "client_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:a119b2a57958279f",
+     "model_state": "d:e3b0c44298fc1c14",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:4c1c67338b033d50",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:68da7b4c5aa4ee48",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:7ea3f24238cb92e4",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:bf2b6c601a6de6d1",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:4cf09dc94ea0f8a2",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:9812855772a3e2a6",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedcr",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "f3a7fb99379da6ee"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "03e472c5fb596150"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "98435df63bd34f22"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "699ebc6557f37d2c"
+    ],
+    [
+     1,
+     0,
+     "699ebc6557f37d2c",
+     "cac7896f6ff33980"
+    ],
+    [
+     1,
+     2,
+     "f3a7fb99379da6ee",
+     "f0b972a36d5436b3"
+    ],
+    [
+     1,
+     1,
+     "98435df63bd34f22",
+     "96ebbadea568255a"
+    ],
+    [
+     1,
+     3,
+     "03e472c5fb596150",
+     "b3c2f043c104471b"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "feddc": {
+   "algorithm": "FedDC",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "574041413215263f",
+   "messages": [
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "local_update",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "local_update": "l:2c639e98be24a9dc",
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:16d150f9df020841",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "local_update",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "local_update": "l:27f7d55230fd21d3",
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:2f344fb0234ceb85",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "local_update",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "local_update": "l:81bcf11b815ab259",
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:3b28d4d39203e0d1",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "local_update",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "local_update": "l:958a9f64bffe6528",
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:0c5afe12301345d3",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "local_update",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "local_update": "l:1497a69788c3e3ff",
+     "metrics": "d:92885a9e2bbb825e",
+     "parameters": "l:6f33454a1e96f04f",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "local_update",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "local_update": "l:29e17b904d5b3d91",
+     "metrics": "d:e44dbb52e201dad7",
+     "parameters": "l:66c8c7d251e1298c",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "local_update",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "local_update": "l:ea492f01124e9334",
+     "metrics": "d:4c5803f27bae69fb",
+     "parameters": "l:7c91023aa080dd75",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "local_update",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "local_update": "l:17d1609e6663dd8f",
+     "metrics": "d:d7d572ca9fa0b4a8",
+     "parameters": "l:413de51ce554ac63",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:034069177e29d082",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:bcd841b77530338c",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:4228c9a18be3d2ce",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:7d570fe04700a113",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:4f183e4680305e3c",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:223873b583330d53",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "feddc",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "2330f6bb5bdde229"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "5b23c4b21b237fbd"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "10b38824ceb5d540"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "742df4d99bc9562c"
+    ],
+    [
+     1,
+     0,
+     "89a9c07f55d277e6",
+     "8217bf88a4289580"
+    ],
+    [
+     1,
+     2,
+     "89a9c07f55d277e6",
+     "083a54c579346dad"
+    ],
+    [
+     1,
+     1,
+     "89a9c07f55d277e6",
+     "af6f75cde203d225"
+    ],
+    [
+     1,
+     3,
+     "89a9c07f55d277e6",
+     "cc70cdfebcd47f72"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "feddr": {
+   "algorithm": "FedDR",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "0ebc80861e462815",
+   "messages": [
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples",
+      "x_hat_delta"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 196,
+     "x_hat_delta": "l:f137aa00c9938da7"
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples",
+      "x_hat_delta"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 93,
+     "x_hat_delta": "l:f137aa00c9938da7"
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples",
+      "x_hat_delta"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 72,
+     "x_hat_delta": "l:f137aa00c9938da7"
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples",
+      "x_hat_delta"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 96,
+     "x_hat_delta": "l:f137aa00c9938da7"
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples",
+      "x_hat_delta"
+     ],
+     "metrics": "d:a81c8300cf30f07d",
+     "train_samples": 96,
+     "x_hat_delta": "l:ab71d9be82cff3c5"
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples",
+      "x_hat_delta"
+     ],
+     "metrics": "d:2661606517e4a479",
+     "train_samples": 196,
+     "x_hat_delta": "l:fb2f5b6df3653903"
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples",
+      "x_hat_delta"
+     ],
+     "metrics": "d:8858da38e14864b3",
+     "train_samples": 72,
+     "x_hat_delta": "l:77b3e583a508215d"
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "train_samples",
+      "x_hat_delta"
+     ],
+     "metrics": "d:de32c588bb77a273",
+     "train_samples": 93,
+     "x_hat_delta": "l:038993eb881cad41"
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:74852df555d5db00",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:cd82545b0e1834dd",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:05ade0642085177e",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:4d1a760e488b24e4",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:6822168a297654f0",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:ae4e5fa79e5084af",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "feddr",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "bcae42bb1bb6dc35"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "5d833c95060082fc"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "bd6e8eeb81e932c6"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "97b1dfe7901b9ddc"
+    ],
+    [
+     1,
+     0,
+     "8a6ec176055d3316",
+     "64d98a70da603eac"
+    ],
+    [
+     1,
+     2,
+     "8a6ec176055d3316",
+     "1ffdb320a3edd848"
+    ],
+    [
+     1,
+     1,
+     "8a6ec176055d3316",
+     "8e3abdfabe2e5730"
+    ],
+    [
+     1,
+     3,
+     "8a6ec176055d3316",
+     "c1778f1c60dd711f"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "feddyn": {
+   "algorithm": "FedDyn",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "7461340e4719f13f",
+   "messages": [
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:d401b575f43462b6",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:74dea8e89c707287",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:761c38b8228e93a9",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:c8c9415b9596fdba",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:1a1c67e93016e322",
+     "parameters": "l:08762e86c84e6fe8",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:86f96c6ef8adcdf5",
+     "parameters": "l:06217d16d8d30d32",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:3a02e42a1b1a354e",
+     "parameters": "l:fec395739242a2f2",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:3330128fadd1543a",
+     "parameters": "l:ad6b79e209ddc7dd",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:273a6c7114c938b3",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:0497d4a0c16f7ccd",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:3b3c7394ed794983",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:9f0ae7df70009028",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:545f8e42a889a873",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:6df4eefcb7c193f5",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "feddyn",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "e9073364fe4b2af1"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "b827d1accd6e564f"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "df929c269c276607"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "cc0a00fa516c45a9"
+    ],
+    [
+     1,
+     0,
+     "c0f53574ab1b44e4",
+     "dfe542185854bcf3"
+    ],
+    [
+     1,
+     2,
+     "c0f53574ab1b44e4",
+     "ef2ac30eb130cb26"
+    ],
+    [
+     1,
+     1,
+     "c0f53574ab1b44e4",
+     "df02e49eacefda7c"
+    ],
+    [
+     1,
+     3,
+     "c0f53574ab1b44e4",
+     "7b9fa31be0a82621"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fedopt": {
+   "algorithm": "FedOpt",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "b697f1db59698372",
+   "messages": [
+    {
+     "client_id": 2,
+     "delta_parameters": "l:2d06ba11811e8085",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:56f6c6752169ba9a",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:a6c8ef6bac514566",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:a93deb05398d3305",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:eefc9904db49fd29",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:810fcfcd5e3ff040",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "delta_parameters": "l:63fe617688147697",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:d05450fb9f96ea15",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:8c4d188e12cb4f13",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:c9ee2ce39d286383",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:1604d112ed526da3",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:45a31d41f47681e0",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:8900f5eb46a9c40b",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:44e828bc511e1f8b",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:8b8e14db0170c374",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:9ea5df08ff6a334a",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:f3855016e8848cf4",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:76f656bd871694d8",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:61fcda5a59de7419",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedopt",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "1d7134009f31e755"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "698d88b2a6bb5bf7"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "d96a23dffaaa7d73"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "5f6d5938622a39fc"
+    ],
+    [
+     1,
+     0,
+     "659870483f992ba4",
+     "fdd32d88f47ee353"
+    ],
+    [
+     1,
+     2,
+     "659870483f992ba4",
+     "74c7c8fc3525de60"
+    ],
+    [
+     1,
+     1,
+     "659870483f992ba4",
+     "5a60bfcad846a9cf"
+    ],
+    [
+     1,
+     3,
+     "659870483f992ba4",
+     "cc82b6c9c0b1d812"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fedpd-periodic": {
+   "algorithm": "FedPD",
+   "decisions": [
+    [
+     0,
+     2,
+     false
+    ],
+    [
+     0,
+     3,
+     false
+    ],
+    [
+     0,
+     1,
+     false
+    ],
+    [
+     0,
+     0,
+     false
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "4a2779b80f21b50f",
+   "messages": [
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:9b5317105af316ab",
+     "parameters": "l:c5acd558daa03050",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:94c4f0d1bffa5242",
+     "parameters": "l:883dfe35e29d09c0",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:f1a4e3db4739e526",
+     "parameters": "l:af33da8fb3c9e727",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:da49eb826040eed6",
+     "parameters": "l:344cf2ff032ef6c5",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:4c1c67338b033d50",
+     4
+    ],
+    [
+     0,
+     "train",
+     "d:f17b735a8935bde3",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:4e06b1e67a2a3842",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:723a55aad25a4927",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:dadbb82e55ff7a39",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:81ae8fcb29326cb0",
+     2
+    ]
+   ],
+   "num_communications": 12,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedpd-periodic",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "96a3af629dbb0415"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "9fbe3d1ad5290425"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "95fd59ee37a1e9a0"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "35d84a36aec83c88"
+    ],
+    [
+     1,
+     0,
+     "35d84a36aec83c88",
+     "5b9bed9fb573579e"
+    ],
+    [
+     1,
+     2,
+     "96a3af629dbb0415",
+     "8e001ddcb79b5a43"
+    ],
+    [
+     1,
+     1,
+     "95fd59ee37a1e9a0",
+     "3d01de2b583447e7"
+    ],
+    [
+     1,
+     3,
+     "9fbe3d1ad5290425",
+     "4336586238e1ea3f"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     []
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fedpd-stochastic": {
+   "algorithm": "FedPD",
+   "decisions": [
+    [
+     0,
+     2,
+     false
+    ],
+    [
+     0,
+     3,
+     false
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     false
+    ],
+    [
+     1,
+     1,
+     false
+    ],
+    [
+     1,
+     3,
+     true
+    ],
+    [
+     1,
+     2,
+     false
+    ],
+    [
+     1,
+     0,
+     false
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "818efb9a7475f4f2",
+   "messages": [
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:8bed509afef84f64",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:da49eb826040eed6",
+     "parameters": "l:c186ab9f556dcb6d",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:887ed1aaf4e18a25",
+     5
+    ],
+    [
+     1,
+     "train",
+     "d:731ecfcf4daea9cb",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:dadbb82e55ff7a39",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:4e06b1e67a2a3842",
+     1
+    ],
+    [
+     0,
+     "train",
+     "d:f17b735a8935bde3",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:462c4cd148029fd8",
+     2
+    ]
+   ],
+   "num_communications": 10,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedpd-stochastic",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "96a3af629dbb0415"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "9fbe3d1ad5290425"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "95fd59ee37a1e9a0"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "35d84a36aec83c88"
+    ],
+    [
+     1,
+     1,
+     "709afd652e451c87",
+     "350e5f32d8052c4b"
+    ],
+    [
+     1,
+     3,
+     "9fbe3d1ad5290425",
+     "8c30808f29ff06e9"
+    ],
+    [
+     1,
+     2,
+     "96a3af629dbb0415",
+     "6576073f2cc5cb80"
+    ],
+    [
+     1,
+     0,
+     "35d84a36aec83c88",
+     "fe06e41ade6f2738"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      1
+     ]
+    ],
+    [
+     1,
+     [
+      3
+     ]
+    ]
+   ]
+  },
+  "fedprox": {
+   "algorithm": "FedProx",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "34165261bbb29e45",
+   "messages": [
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:fb008be03a0d30d2",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:2f344fb0234ceb85",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:3b28d4d39203e0d1",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:0c5afe12301345d3",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:629cb38ee319e37f",
+     "parameters": "l:8e270f2b5607a5c7",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:aa23a03fd1931b0e",
+     "parameters": "l:575f2ab16734591c",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:58cc6692ea4c9984",
+     "parameters": "l:c26a0c17af35c49d",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:0c45caaf69607028",
+     "parameters": "l:8289390d46a45cb7",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:5d998e0568903747",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:12bd55f32cfdbc2f",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:cbddbae5b0ad1a15",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:a1e8cc2d4b12c711",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:a672ffe715a669c0",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:d68a83843d7889cc",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedprox",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "657cc973e3fc7db7"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "5b23c4b21b237fbd"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "10b38824ceb5d540"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "742df4d99bc9562c"
+    ],
+    [
+     1,
+     0,
+     "548a88e43b548864",
+     "a4b55b9f2254bb4d"
+    ],
+    [
+     1,
+     2,
+     "548a88e43b548864",
+     "1702b97b24b3202e"
+    ],
+    [
+     1,
+     1,
+     "548a88e43b548864",
+     "2363ff7c64e56f9e"
+    ],
+    [
+     1,
+     3,
+     "548a88e43b548864",
+     "0c6c2efff0291371"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fedsplit": {
+   "algorithm": "FedSplit",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "00419cee3b168945",
+   "messages": [
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:cf831b43c17aeeba",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:28e35650fa53b0dd",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:600560ddfe570903",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:d32ff4bd7db4010b",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:2dd7ad2f37eb722f",
+     "parameters": "l:c98f6d51d90144d3",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:429a1faeb95b2ed9",
+     "parameters": "l:de260a05e87a3e6e",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:8c9a300d7e964edf",
+     "parameters": "l:bcbdb129aab7784d",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:2a5d8cf09b94743e",
+     "parameters": "l:4a451954eff333b0",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:18ca3f6ca61a8915",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:5b5a76355cc706c0",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:1f24bc251c928240",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:7ad95907cafae175",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:91359c685ea5ca66",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:632f8c0956faed14",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedsplit",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "e9073364fe4b2af1"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "b827d1accd6e564f"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "df929c269c276607"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "cc0a00fa516c45a9"
+    ],
+    [
+     1,
+     0,
+     "26acea2a37059006",
+     "3c1765e34761c021"
+    ],
+    [
+     1,
+     2,
+     "26acea2a37059006",
+     "2f28984f249fe193"
+    ],
+    [
+     1,
+     1,
+     "26acea2a37059006",
+     "e168b51e63aa6151"
+    ],
+    [
+     1,
+     3,
+     "26acea2a37059006",
+     "7aee6c14d755dd86"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fedyogi": {
+   "algorithm": "FedYogi",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "e0e693005d29f6eb",
+   "messages": [
+    {
+     "client_id": 2,
+     "delta_parameters": "l:2d06ba11811e8085",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:56f6c6752169ba9a",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:a6c8ef6bac514566",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:a93deb05398d3305",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "delta_parameters": "l:f45429b3d65f25d0",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:1393013d77f5d1c5",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "delta_parameters": "l:f5b507bb78d6e156",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:43bae7ba8705ba03",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "delta_parameters": "l:216b19258637def6",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:b5937db7f39e2b13",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "delta_parameters": "l:a6a129325bf4d159",
+     "keys": [
+      "client_id",
+      "delta_parameters",
+      "metrics",
+      "train_samples"
+     ],
+     "metrics": "d:5b8d5c8f07ceb4b1",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:8900f5eb46a9c40b",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:57bcaaf2f2cd16f9",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:be1ab9590312a3c0",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:912e6ece9d5201f9",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:e0a14edb7e367d6f",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:a9163ee1f63b8f8f",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:fc35d26b63acc438",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fedyogi",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "1d7134009f31e755"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "698d88b2a6bb5bf7"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "d96a23dffaaa7d73"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "5f6d5938622a39fc"
+    ],
+    [
+     1,
+     0,
+     "293d8ef2cfd21998",
+     "b93be070d44e2226"
+    ],
+    [
+     1,
+     2,
+     "293d8ef2cfd21998",
+     "3c935516022cda28"
+    ],
+    [
+     1,
+     1,
+     "293d8ef2cfd21998",
+     "812106c2823d798a"
+    ],
+    [
+     1,
+     3,
+     "293d8ef2cfd21998",
+     "1122b814ac3415a4"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "fpfc": {
+   "algorithm": "FPFC",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "adb3aeb1ce65d138",
+   "messages": [
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:db98fb0b252f0c75",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:781124d1c178a448",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:a5418b65a8b85020",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:dab0ec5d2f54c5f1",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:a97a62d7aa8c84f5",
+     "parameters": "l:6f34ed8e9d0d0f41",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:af9cda95645b8405",
+     "parameters": "l:df97dd31100f957f",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e1289d98b10277ef",
+     "parameters": "l:ace1e514d8ae2c86",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:545b1ee6ecf08ada",
+     "parameters": "l:302fcac3b546a353",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:6a87207225be4246",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:41dd56182d5c5b1b",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:096adbed5e35744f",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:7c483d83b2b78e1b",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:c63fb3cb39d75652",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:6020bd31fe3468ab",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "fpfc",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "bcae42bb1bb6dc35"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "5d833c95060082fc"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "bd6e8eeb81e932c6"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "97b1dfe7901b9ddc"
+    ],
+    [
+     1,
+     0,
+     "7a1c91d7d7151e78",
+     "ee3d709c9cbde85e"
+    ],
+    [
+     1,
+     2,
+     "4f99e963654c24f8",
+     "4061f5fe7e54be4c"
+    ],
+    [
+     1,
+     1,
+     "90c1db31c6ffc889",
+     "fbc12acd830340a4"
+    ],
+    [
+     1,
+     3,
+     "1201a246a625cbb7",
+     "9e44f6dfbceed96a"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "ifca": {
+   "algorithm": "IFCA",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "a8688560c2002ca9",
+   "messages": [
+    {
+     "client_id": 2,
+     "cluster_id": "i:0",
+     "keys": [
+      "client_id",
+      "cluster_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "model_state": "d:11669e9cb71079dd",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "cluster_id": "i:0",
+     "keys": [
+      "client_id",
+      "cluster_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "model_state": "d:3e45e4b3f9d3c93d",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "cluster_id": "i:1",
+     "keys": [
+      "client_id",
+      "cluster_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "model_state": "d:459c89e529f581d9",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "cluster_id": "i:0",
+     "keys": [
+      "client_id",
+      "cluster_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "model_state": "d:d5a5298ea22a47bc",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "cluster_id": "i:0",
+     "keys": [
+      "client_id",
+      "cluster_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:424eb79385aef57d",
+     "model_state": "d:504b10f42c534bc3",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "cluster_id": "i:0",
+     "keys": [
+      "client_id",
+      "cluster_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:b3091edbf568a51d",
+     "model_state": "d:a8fb0e35c6fc4827",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "cluster_id": "i:1",
+     "keys": [
+      "client_id",
+      "cluster_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:8a03ee9b660ba72a",
+     "model_state": "d:658da1ca92a49fcd",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "cluster_id": "i:0",
+     "keys": [
+      "client_id",
+      "cluster_id",
+      "metrics",
+      "model_state",
+      "train_samples"
+     ],
+     "metrics": "d:0ee0e51446343906",
+     "model_state": "d:bd3aaf95f436839c",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:e0ec1017833de602",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:4329ebad72045d13",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:b4282b167938dbf2",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:1d3e35f2bfabc655",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:0bf533ba7e2dda7c",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:787b2d5a8749f784",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "ifca",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "a6c245d1e9b78955"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "82bf577fbca52e60"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "43ca9b15884e1773"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "ddeb79123e445a67"
+    ],
+    [
+     1,
+     0,
+     "ddeb79123e445a67",
+     "a4003d47ed40e332"
+    ],
+    [
+     1,
+     2,
+     "a6c245d1e9b78955",
+     "a984226a9405890a"
+    ],
+    [
+     1,
+     1,
+     "43ca9b15884e1773",
+     "36578ef539d48253"
+    ],
+    [
+     1,
+     3,
+     "82bf577fbca52e60",
+     "e712ab435af2dc67"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "pfedmac": {
+   "algorithm": "pFedMac",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "87070645df07272a",
+   "messages": [
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:688734913c76486c",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:f0cf5e075e080bc8",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:f36db3bdca70007e",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:8cc23fb60f247496",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:31e2058dd3490e7d",
+     "parameters": "l:68be4bb7043bf5e9",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:20bea4a77ac75dc8",
+     "parameters": "l:d171339fc2641a36",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:427fdbbca3fad7a2",
+     "parameters": "l:c641f4d5ac1f4263",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:ce66f528be1b4956",
+     "parameters": "l:6392b166de0ee145",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:eefa9949e101fa25",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:4e2fbaa5b1d9ae20",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:032d657c6d9499c4",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:92e82785dd9e84fb",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:fd8bda5a279b1bc7",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:e696a216a53d6dd6",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "pfedmac",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "bd391a52f45ff711"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "5e74682c3bc2c195"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "031ca71963a67717"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "e2bbea303741e88b"
+    ],
+    [
+     1,
+     0,
+     "0b616b20595a7ac9",
+     "da54fe22a4d09217"
+    ],
+    [
+     1,
+     2,
+     "0b616b20595a7ac9",
+     "a510cc77330ec106"
+    ],
+    [
+     1,
+     1,
+     "0b616b20595a7ac9",
+     "9035aa9feb07d07f"
+    ],
+    [
+     1,
+     3,
+     "0b616b20595a7ac9",
+     "12892368f082595d"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "pfedme": {
+   "algorithm": "pFedMe",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "c524647958ce1fb9",
+   "messages": [
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:78e4a0a508b3a556",
+     "train_samples": 32
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:d6f196734f3b4cf3",
+     "train_samples": 32
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:ece72e8b74accec9",
+     "train_samples": 32
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:222655ca7f7322ab",
+     "train_samples": 32
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:09fc7347e8a9e8cc",
+     "parameters": "l:e0d8b13663a0d3c8",
+     "train_samples": 32
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:963405a3edb55836",
+     "parameters": "l:940903fb2cf0ec3b",
+     "train_samples": 32
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:cf129cd95dc7e40b",
+     "parameters": "l:b0e48c6ef33a3f1a",
+     "train_samples": 32
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e1c78eb8b004a7d9",
+     "parameters": "l:aefb6e267408a11e",
+     "train_samples": 32
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:5e83cc49f208fdd8",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:a6877bdbb843e34a",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:b5c95ab00474e7a4",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:f1679518820fae21",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:dd6591e631c9a049",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:a73abfd7d5dbe526",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "pfedme",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "a6aefabfbf09baad"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "251064644c1b705c"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "f1bed2cc94cc1ee5"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "e0db373d766b5c33"
+    ],
+    [
+     1,
+     0,
+     "9112e67a090dbf00",
+     "83ed79aa02f4829c"
+    ],
+    [
+     1,
+     2,
+     "9112e67a090dbf00",
+     "ce78c7e342d88115"
+    ],
+    [
+     1,
+     1,
+     "9112e67a090dbf00",
+     "412ec349e4f56034"
+    ],
+    [
+     1,
+     3,
+     "9112e67a090dbf00",
+     "3a50d3ebb7187450"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "proxskip": {
+   "algorithm": "ProxSkip",
+   "decisions": [
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     1,
+     2,
+     false
+    ],
+    [
+     1,
+     3,
+     false
+    ],
+    [
+     1,
+     0,
+     false
+    ],
+    [
+     1,
+     1,
+     false
+    ],
+    [
+     2,
+     3,
+     true
+    ],
+    [
+     2,
+     2,
+     true
+    ],
+    [
+     2,
+     0,
+     true
+    ],
+    [
+     2,
+     1,
+     true
+    ],
+    [
+     3,
+     3,
+     true
+    ],
+    [
+     3,
+     0,
+     true
+    ],
+    [
+     3,
+     2,
+     true
+    ],
+    [
+     3,
+     1,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "1a5de042682e0fdd",
+   "messages": [
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:8f15dc9b3acc6ba6",
+     "train_samples": 72
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:919cff11749c662d",
+     "train_samples": 196
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:fc24318644c66213",
+     "train_samples": 96
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters": "l:98a76c57015ada50",
+     "train_samples": 93
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:b49ccdf2ca220d0e",
+     "parameters": "l:baf5115fa0291f5f",
+     "train_samples": 93
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:e9892c38687adb50",
+     "parameters": "l:e7edbee2da379ac3",
+     "train_samples": 196
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:995e347715f45c4a",
+     "parameters": "l:72b4f88288c81f14",
+     "train_samples": 96
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:abda68e35408dbb9",
+     "parameters": "l:457f1f334adb6223",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:76c72fa2c56453f7",
+     "parameters": "l:1a9cfe91f8f7cad6",
+     "train_samples": 93
+    },
+    {
+     "client_id": 0,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:7e65f7fea9b06616",
+     "parameters": "l:69ba30fb18699469",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:16c4a87d818cbf06",
+     "parameters": "l:7d4ab90a46b0a474",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "keys": [
+      "client_id",
+      "metrics",
+      "parameters",
+      "train_samples"
+     ],
+     "metrics": "d:d14b1f1138e27a06",
+     "parameters": "l:3222b12f9667cd73",
+     "train_samples": 72
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:8900f5eb46a9c40b",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:dbddff21659acfa7",
+     8
+    ],
+    [
+     2,
+     "train",
+     "d:01f3b6946b281a5e",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:ea97a1971a7dfd48",
+     1
+    ],
+    [
+     0,
+     "train",
+     "d:b0087109d2742f1f",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:06852c6894997f4d",
+     1
+    ],
+    [
+     null,
+     "val",
+     "d:21baa7caea9aced9",
+     16
+    ],
+    [
+     3,
+     "train",
+     "d:db55248738194218",
+     2
+    ],
+    [
+     2,
+     "train",
+     "d:af3a7b14705106b3",
+     2
+    ],
+    [
+     0,
+     "train",
+     "d:b1b885f64fdaf34b",
+     2
+    ],
+    [
+     1,
+     "train",
+     "d:eb849a5f868b1ff5",
+     2
+    ],
+    [
+     null,
+     "train",
+     "d:2d664e1c59257772",
+     3
+    ],
+    [
+     null,
+     "val",
+     "d:1b0fbb6dfa2e625a",
+     24
+    ],
+    [
+     3,
+     "train",
+     "d:351b19c2c6732a77",
+     3
+    ],
+    [
+     0,
+     "train",
+     "d:c6758bc6af8a7824",
+     3
+    ],
+    [
+     2,
+     "train",
+     "d:4d6fc89aad1b0c11",
+     3
+    ],
+    [
+     1,
+     "train",
+     "d:c2d9b3a1004c3616",
+     3
+    ],
+    [
+     null,
+     "train",
+     "d:b7e8a9235deaa619",
+     4
+    ]
+   ],
+   "num_communications": 32,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "proxskip",
+   "updates": [
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "2b869d6c34c70187"
+    ],
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "f0d3611533478709"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "e9c0fb99677216ef"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "7004a13bd1c271fa"
+    ],
+    [
+     1,
+     2,
+     "302ad2d95d5569ae",
+     "3f8adffda29b36df"
+    ],
+    [
+     1,
+     3,
+     "302ad2d95d5569ae",
+     "f9e04f7819a26dac"
+    ],
+    [
+     1,
+     0,
+     "302ad2d95d5569ae",
+     "4c5a897389cec132"
+    ],
+    [
+     1,
+     1,
+     "302ad2d95d5569ae",
+     "85f4d35d58fd9f08"
+    ],
+    [
+     2,
+     3,
+     "302ad2d95d5569ae",
+     "5109997491f425d0"
+    ],
+    [
+     2,
+     2,
+     "302ad2d95d5569ae",
+     "4c98f2888b54a940"
+    ],
+    [
+     2,
+     0,
+     "302ad2d95d5569ae",
+     "f74ffa0ab19cf853"
+    ],
+    [
+     2,
+     1,
+     "302ad2d95d5569ae",
+     "6fc9b52a33fa2130"
+    ],
+    [
+     3,
+     3,
+     "62ebf75a06325664",
+     "0a1c1e6ad517a5ff"
+    ],
+    [
+     3,
+     0,
+     "62ebf75a06325664",
+     "ea2450bc61aa7cac"
+    ],
+    [
+     3,
+     2,
+     "62ebf75a06325664",
+     "66beeaec41859adc"
+    ],
+    [
+     3,
+     1,
+     "62ebf75a06325664",
+     "2fcceb477b638b00"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     []
+    ],
+    [
+     2,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     3,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  },
+  "scaffold": {
+   "algorithm": "SCAFFOLD",
+   "decisions": [
+    [
+     0,
+     2,
+     true
+    ],
+    [
+     0,
+     3,
+     true
+    ],
+    [
+     0,
+     1,
+     true
+    ],
+    [
+     0,
+     0,
+     true
+    ],
+    [
+     1,
+     0,
+     true
+    ],
+    [
+     1,
+     2,
+     true
+    ],
+    [
+     1,
+     1,
+     true
+    ],
+    [
+     1,
+     3,
+     true
+    ]
+   ],
+   "expect_raise": false,
+   "final_weights": "f9633d4060f78587",
+   "messages": [
+    {
+     "client_id": 2,
+     "control_variates_delta": "l:1bd964f030e0d2e3",
+     "keys": [
+      "client_id",
+      "control_variates_delta",
+      "metrics",
+      "parameters_delta",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters_delta": "l:5eb90071adf417c8",
+     "train_samples": 196
+    },
+    {
+     "client_id": 3,
+     "control_variates_delta": "l:9dc52823a5963d10",
+     "keys": [
+      "client_id",
+      "control_variates_delta",
+      "metrics",
+      "parameters_delta",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters_delta": "l:51caf95cb030a354",
+     "train_samples": 93
+    },
+    {
+     "client_id": 1,
+     "control_variates_delta": "l:b301fceb1fafe699",
+     "keys": [
+      "client_id",
+      "control_variates_delta",
+      "metrics",
+      "parameters_delta",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters_delta": "l:2b16611ff60df633",
+     "train_samples": 72
+    },
+    {
+     "client_id": 0,
+     "control_variates_delta": "l:9f24a82b5409cba4",
+     "keys": [
+      "client_id",
+      "control_variates_delta",
+      "metrics",
+      "parameters_delta",
+      "train_samples"
+     ],
+     "metrics": "d:e3b0c44298fc1c14",
+     "parameters_delta": "l:168dc66f1ca317d7",
+     "train_samples": 96
+    },
+    {
+     "client_id": 0,
+     "control_variates_delta": "l:8b31daf29b0f7854",
+     "keys": [
+      "client_id",
+      "control_variates_delta",
+      "metrics",
+      "parameters_delta",
+      "train_samples"
+     ],
+     "metrics": "d:4c4509ff8108b020",
+     "parameters_delta": "l:80b69668287272fa",
+     "train_samples": 96
+    },
+    {
+     "client_id": 2,
+     "control_variates_delta": "l:d1d4464ce950694f",
+     "keys": [
+      "client_id",
+      "control_variates_delta",
+      "metrics",
+      "parameters_delta",
+      "train_samples"
+     ],
+     "metrics": "d:91ff7c359e47e8d5",
+     "parameters_delta": "l:4f1b06c1bf1fd2e8",
+     "train_samples": 196
+    },
+    {
+     "client_id": 1,
+     "control_variates_delta": "l:bbee9cb0eb913baa",
+     "keys": [
+      "client_id",
+      "control_variates_delta",
+      "metrics",
+      "parameters_delta",
+      "train_samples"
+     ],
+     "metrics": "d:dce3fd54bddc8895",
+     "parameters_delta": "l:e3bcc055cf0188fb",
+     "train_samples": 72
+    },
+    {
+     "client_id": 3,
+     "control_variates_delta": "l:262b48d4890c96df",
+     "keys": [
+      "client_id",
+      "control_variates_delta",
+      "metrics",
+      "parameters_delta",
+      "train_samples"
+     ],
+     "metrics": "d:69bc590ff655d3a2",
+     "parameters_delta": "l:f0e173d5a7966281",
+     "train_samples": 93
+    }
+   ],
+   "metrics_log": [
+    [
+     null,
+     "val",
+     "d:2ac959761c6fae69",
+     0
+    ],
+    [
+     null,
+     "val",
+     "d:6b6177f050af39aa",
+     8
+    ],
+    [
+     0,
+     "train",
+     "d:db6951e994d6e6ee",
+     1
+    ],
+    [
+     2,
+     "train",
+     "d:eb5272d3b2a89c0f",
+     1
+    ],
+    [
+     1,
+     "train",
+     "d:3dcc9a3d0b98dff3",
+     1
+    ],
+    [
+     3,
+     "train",
+     "d:a62ae8f60cb0da0c",
+     1
+    ],
+    [
+     null,
+     "train",
+     "d:3509c2fa6ddce556",
+     2
+    ]
+   ],
+   "num_communications": 16,
+   "outcome": {
+    "status": "ok"
+   },
+   "scenario": "scaffold",
+   "updates": [
+    [
+     0,
+     2,
+     "a8688560c2002ca9",
+     "f3a7fb99379da6ee"
+    ],
+    [
+     0,
+     3,
+     "a8688560c2002ca9",
+     "f6bf90efa53c898c"
+    ],
+    [
+     0,
+     1,
+     "a8688560c2002ca9",
+     "356bf32a4f9316c4"
+    ],
+    [
+     0,
+     0,
+     "a8688560c2002ca9",
+     "b2c026927407010c"
+    ],
+    [
+     1,
+     0,
+     "90c6d74fdcc7791e",
+     "945277f52cbc2fb6"
+    ],
+    [
+     1,
+     2,
+     "90c6d74fdcc7791e",
+     "dc88c6d215d6d926"
+    ],
+    [
+     1,
+     1,
+     "90c6d74fdcc7791e",
+     "4229ef45cd6f73a1"
+    ],
+    [
+     1,
+     3,
+     "90c6d74fdcc7791e",
+     "06e755e06c448d92"
+    ]
+   ],
+   "uploads_per_round": [
+    [
+     0,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ],
+    [
+     1,
+     [
+      0,
+      1,
+      2,
+      3
+     ]
+    ]
+   ]
+  }
+ }
+}

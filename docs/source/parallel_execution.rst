@@ -59,15 +59,17 @@ Backends
        ``torch_num_threads`` overrides this explicitly.
 
 Measured speedups (12-core CPU, FedAvg on FedSynthetic, 64 clients, 3
-iterations, best of 3 runs; see ``test-files/benchmark_executors.py`` to
-reproduce): about **1.2×** at 2–4 workers on this tiny-model workload
-(MLP, 1–8 local epochs; single-threaded local steps take only ~15–140 ms),
-degrading slightly beyond that as GIL contention dominates. For tiny
-models the Python glue code (batch loops, optimizer stepping) holds the
-GIL most of the time, so the honest ceiling is near 1.2× — parallel
-execution pays off with **compute-heavier local training** (larger models,
-more/bigger batches, GPU offload) or the (planned) process-based backend.
-The per-backend arithmetic guarantees (fixed aggregation order, identical
+iterations, 2 local epochs, best of 3 runs; see
+``test-files/benchmark_executors.py`` and the committed
+``benchmark_executors_results.data`` to reproduce): about **1.2×** at 2–4
+workers, degrading slightly beyond that as GIL contention dominates. This
+is an observation **on this light configuration** (tiny MLP; single-threaded
+local steps take only tens of milliseconds, so the Python glue code — batch
+loops, optimizer stepping — holds the GIL most of the time), **not** a
+ceiling for the backend in general: with compute-heavier local training
+(larger models, more/bigger batches, GPU offload) or the (planned)
+process-based backend the balance shifts toward parallel execution. The
+per-backend arithmetic guarantees (fixed aggregation order, identical
 participation sets) hold regardless of the achieved speedup.
 
 How it works
