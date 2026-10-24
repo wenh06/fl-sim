@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Parallel execution layer &#8212; fl-sim 0.1.1.dev24+g97d32f671 文档</title>
+    <title>Parallel execution layer &#8212; fl-sim 0.1.1.dev25+g967b45bdd 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=74cff383"></script>
+    <script src="_static/documentation_options.js?v=649af89a"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -223,7 +223,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev24+g97d32f671 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev25+g967b45bdd 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -635,15 +635,17 @@ despite the GIL. The torch intra-op thread budget is automatically reduced to
 </table>
 </div>
 <p>Measured speedups (12-core CPU, FedAvg on FedSynthetic, 64 clients, 3
-iterations, best of 3 runs; see <code class="docutils literal notranslate"><span class="pre">test-files/benchmark_executors.py</span></code> to
-reproduce): about <strong>1.2×</strong> at 2–4 workers on this tiny-model workload
-(MLP, 1–8 local epochs; single-threaded local steps take only ~15–140 ms),
-degrading slightly beyond that as GIL contention dominates. For tiny
-models the Python glue code (batch loops, optimizer stepping) holds the
-GIL most of the time, so the honest ceiling is near 1.2× — parallel
-execution pays off with <strong>compute-heavier local training</strong> (larger models,
-more/bigger batches, GPU offload) or the (planned) process-based backend.
-The per-backend arithmetic guarantees (fixed aggregation order, identical
+iterations, 2 local epochs, best of 3 runs; see
+<code class="docutils literal notranslate"><span class="pre">test-files/benchmark_executors.py</span></code> and the committed
+<code class="docutils literal notranslate"><span class="pre">benchmark_executors_results.data</span></code> to reproduce): about <strong>1.2×</strong> at 2–4
+workers, degrading slightly beyond that as GIL contention dominates. This
+is an observation <strong>on this light configuration</strong> (tiny MLP; single-threaded
+local steps take only tens of milliseconds, so the Python glue code — batch
+loops, optimizer stepping — holds the GIL most of the time), <strong>not</strong> a
+ceiling for the backend in general: with compute-heavier local training
+(larger models, more/bigger batches, GPU offload) or the (planned)
+process-based backend the balance shifts toward parallel execution. The
+per-backend arithmetic guarantees (fixed aggregation order, identical
 participation sets) hold regardless of the achieved speedup.</p>
 </section>
 <section id="how-it-works">

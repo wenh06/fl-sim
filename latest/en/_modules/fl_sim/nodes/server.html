@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fl_sim.nodes.server &#8212; fl-sim 0.1.1.dev24+g97d32f671 documentation</title>
+    <title>fl_sim.nodes.server &#8212; fl-sim 0.1.1.dev25+g967b45bdd documentation</title>
   
   
   
@@ -44,7 +44,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=8df337c4"></script>
+    <script src="../../../_static/documentation_options.js?v=51caa4d8"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -221,7 +221,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev24+g97d32f671 documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev25+g967b45bdd documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -693,6 +693,10 @@ document.write(`
         <span class="p">):</span>
             <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_cls</span><span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">),</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">client_config</span><span class="p">)</span>
             <span class="n">client</span><span class="o">.</span><span class="n">_rng_seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">seed</span>
+            <span class="c1"># the client's __init__ built its per-client generators BEFORE the</span>
+            <span class="c1"># experiment seed was injected (constructor order), so re-arm them</span>
+            <span class="c1"># with the true seed (no-op unless rng_mode == "per_client")</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">_apply_per_client_generator</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_clients</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_allocate_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]:</span>
