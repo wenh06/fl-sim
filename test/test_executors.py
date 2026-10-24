@@ -128,6 +128,11 @@ def test_threads_backend_same_seeded_run_completes_with_same_counts():
     seen_a, counter_a, weights_a = _train_messages(num_workers=1)
     seen_b, counter_b, weights_b = _train_messages(num_workers=4)
     assert len(seen_a) == len(seen_b) and counter_a == counter_b
+    # the dummy clients do NOT train (update() is a no-op), so the weights
+    # are identical across backends: this pins that the executor layer itself
+    # leaves the model untouched. Shuffle divergence under global rng_mode
+    # (which needs real training) is pinned separately below.
+    assert weights_a == weights_b
 
 
 # ---------------------------------------------------------------------------
@@ -179,6 +184,19 @@ def test_per_client_rng_shuffle_sequence_backend_and_repeat_invariant():
     assert run_a == run_b  # same-seed repeat
     assert run_a == run_c  # backend-invariant
     assert weight_a == weight_b == weight_c  # bitwise
+
+
+def test_global_rng_mode_weights_differ_across_backends():
+    """With the default rng_mode=global, the loaders shuffle from the
+    process-global RNG whose consumption order interleaves across worker
+    threads -- so with REAL training the weights differ between the serial
+    and the parallel run. (Under rng_mode=per_client they are pinned equal;
+    see test_per_client_rng_shuffle_sequence_... above.)"""
+    run_a: dict = {}
+    run_b: dict = {}
+    weight_a = _run_fedavg(run_a, "sequential", "global")
+    weight_b = _run_fedavg(run_b, "threads", "global")
+    assert weight_a != weight_b
 
 
 def test_global_rng_mode_has_no_per_client_generator():

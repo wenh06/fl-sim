@@ -125,8 +125,18 @@ class APFLServer(Server):
 
     @add_docstring(Server.update)
     def update(self) -> None:
-        if self.n_iter % self.config.tau == 0:
-            # if the current iteration divides the synchronization gap,
+        # NOTE: the clients upload their local models at the END of each
+        # synchronization period (when their `_sync_counter` reaches
+        # `sync_gap`, i.e. rounds tau-1, 2*tau-1, ...), while the global
+        # model is (re)broadcast at the period starts (rounds 0, tau, ...).
+        # The aggregation must therefore happen one round BEFORE the
+        # broadcast rounds, so that the just-uploaded local models are
+        # averaged into the global model before it is broadcast again.
+        # (Previously this read `self.n_iter % tau == 0`, which aggregated
+        # on the broadcast rounds themselves -- where no client had uploaded
+        # yet -- and crashed with KeyError for any tau > 1.)
+        if (self.n_iter + 1) % self.config.tau == 0:
+            # if the current iteration ends a synchronization period,
             # update the global model parameters via averaging
             # otherwise, do nothing
             # NOTE that the re-sampling of clients is done

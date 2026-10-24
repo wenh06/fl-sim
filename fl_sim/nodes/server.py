@@ -205,6 +205,10 @@ class Server(Node, CitationMixin):
         ):
             client = self.client_cls(client_id, device, deepcopy(self.model), dataset, client_config)
             client._rng_seed = self.config.seed
+            # the client's __init__ built its per-client generators BEFORE the
+            # experiment seed was injected (constructor order), so re-arm them
+            # with the true seed (no-op unless rng_mode == "per_client")
+            client._apply_per_client_generator()
             self._clients.append(client)
 
     def _allocate_devices(self) -> List[torch.device]:
