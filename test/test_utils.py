@@ -367,7 +367,9 @@ def test_compute_clustering_metrics():
 def test_aggregate_results_from_json_log():
     from fl_sim.utils.misc import aggregate_results_from_json_log
 
-    json_log_file = list((Path(__file__).parents[1].resolve() / "test-files").glob("*.json"))[0]
+    json_log_file = (
+        Path(__file__).parents[1].resolve() / "test-files" / "FedAvg-FedProxFEMNIST-CNNFEMnist_Tiny_06-04_23-25.json"
+    )
 
     # dict input
     d = json.loads(json_log_file.read_text())
