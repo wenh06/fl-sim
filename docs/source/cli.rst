@@ -9,56 +9,8 @@ For example, in the `all-alg-fedprox-femnist.yml <https://github.com/wenh06/fl-s
 .. dropdown:: [example-configs/all-alg-fedprox-femnist.yml]
     :animate: fade-in-slide-down
 
-    .. code-block:: yaml
-
-        # Example config file for fl-sim command line interface
-
-        strategy:
-        matrix:
-            algorithm:
-            - Ditto
-            - FedDR
-            - FedAvg
-            - FedAdam
-            - FedProx
-            - FedPD
-            - FedSplit
-            - IFCA
-            - pFedMac
-            - pFedMe
-            - ProxSkip
-            - SCAFFOLD
-            clients_sample_ratio:
-            - 0.1
-            - 0.3
-            - 0.7
-            - 1.0
-
-        algorithm:
-        name: ${{ matrix.algorithm }}
-        server:
-            num_clients: null
-            clients_sample_ratio: ${{ matrix.clients_sample_ratio }}
-            num_iters: 100
-            p: 0.3  # for FedPD, ProxSkip
-            lr: 0.03  # for SCAFFOLD
-            num_clusters: 10  # for IFCA
-            log_dir: all-alg-fedprox-femnist
-        client:
-            lr: 0.03
-            num_epochs: 10
-            batch_size: null  # null for default batch size
-            scheduler:
-            name: step  # StepLR
-            step_size: 1
-            gamma: 0.99
-        dataset:
-        name: FedProxFEMNIST
-        datadir: null  # default dir
-        transform: none  # none for static transform (only normalization, no augmentation)
-        model:
-        name: cnn_femmist_tiny
-        seed: 0
+    .. literalinclude:: ../../example-configs/all-alg-fedprox-femnist.yml
+        :language: yaml
 
 |
 

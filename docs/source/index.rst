@@ -15,7 +15,8 @@ Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gi
    :maxdepth: 1
 
    install
-   examples
+   quickstart
+   concepts
 
 .. toctree::
    :caption: API Reference
