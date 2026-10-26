@@ -94,7 +94,9 @@ class DummyClient(Client):
 
 
 def test_aggregate_results_from_json_log():
-    json_log_file = list((Path(__file__).parents[1].resolve() / "test-files").glob("*.json"))[0]
+    json_log_file = (
+        Path(__file__).parents[1].resolve() / "test-files" / "FedAvg-FedProxFEMNIST-CNNFEMnist_Tiny_06-04_23-25.json"
+    )
     for part, metric in product(["train", "val"], ["acc", "loss"]):
         curve = Server.aggregate_results_from_json_log(json_log_file, part=part, metric=metric)
         assert len(curve) > 0

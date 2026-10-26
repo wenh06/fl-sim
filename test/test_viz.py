@@ -33,7 +33,7 @@ def test_find_log_files():
 def test_get_config_from_log():
     from fl_sim.utils.viz import get_config_from_log
 
-    json_log = list(logdir.glob("*.json"))[0]
+    json_log = logdir / "FedAvg-FedProxFEMNIST-CNNFEMnist_Tiny_06-04_23-25.json"
     config = get_config_from_log(json_log)
     assert isinstance(config, dict) and len(config) > 0
 
@@ -47,7 +47,7 @@ def test_get_curves_and_labels_from_log():
 
     from fl_sim.utils.viz import get_curves_and_labels_from_log
 
-    json_log = list(logdir.glob("*.json"))[0]
+    json_log = logdir / "FedAvg-FedProxFEMNIST-CNNFEMnist_Tiny_06-04_23-25.json"
     curves, stems = get_curves_and_labels_from_log(json_log, part="train", x_metric="step", y_metric="acc")
     assert len(curves) == len(stems) == 1
     assert set(curves[0].keys()) == {"x", "y"}
@@ -67,7 +67,7 @@ def test_plot_curves_and_mean_curve():
 
     from fl_sim.utils.viz import get_curves_and_labels_from_log, plot_curves, plot_mean_curve_with_error_bounds
 
-    json_log = list(logdir.glob("*.json"))[0]
+    json_log = logdir / "FedAvg-FedProxFEMNIST-CNNFEMnist_Tiny_06-04_23-25.json"
 
     fig, ax = plot_curves(json_log, part="train", x_metric="step", y_metric="acc")
     assert ax.get_ylabel() == "train acc"
