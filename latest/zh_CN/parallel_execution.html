@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Parallel execution layer &#8212; fl-sim 0.1.1.dev25+g967b45bdd 文档</title>
+    <title>Parallel execution layer &#8212; fl-sim 0.1.1.dev26+ga21cbb4ca 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=649af89a"></script>
+    <script src="_static/documentation_options.js?v=db90bb26"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -223,7 +223,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev25+g967b45bdd 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev26+ga21cbb4ca 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -634,19 +634,30 @@ despite the GIL. The torch intra-op thread budget is automatically reduced to
 </tbody>
 </table>
 </div>
-<p>Measured speedups (12-core CPU, FedAvg on FedSynthetic, 64 clients, 3
-iterations, 2 local epochs, best of 3 runs; see
-<code class="docutils literal notranslate"><span class="pre">test-files/benchmark_executors.py</span></code> and the committed
-<code class="docutils literal notranslate"><span class="pre">benchmark_executors_results.data</span></code> to reproduce): about <strong>1.2×</strong> at 2–4
-workers, degrading slightly beyond that as GIL contention dominates. This
-is an observation <strong>on this light configuration</strong> (tiny MLP; single-threaded
-local steps take only tens of milliseconds, so the Python glue code — batch
-loops, optimizer stepping — holds the GIL most of the time), <strong>not</strong> a
-ceiling for the backend in general: with compute-heavier local training
-(larger models, more/bigger batches, GPU offload) or the (planned)
-process-based backend the balance shifts toward parallel execution. The
+<p>Measured speedups (best of 3 runs; see <code class="docutils literal notranslate"><span class="pre">test-files/benchmark_executors.py</span></code>
+and <code class="docutils literal notranslate"><span class="pre">test-files/benchmark_gpu.py</span></code> to reproduce; the committed
+<code class="docutils literal notranslate"><span class="pre">benchmark_executors_results.data</span></code> holds the CPU run):</p>
+<ul class="simple">
+<li><p><strong>CPU, tiny model</strong> (MLP, tens of ms per client task; 64 clients, 3
+iterations): about <strong>1.2×</strong> at 2–4 workers, degrading slightly beyond that
+as GIL contention dominates. The Python glue code (batch loops, optimizer
+stepping) holds the GIL most of the time on such workloads.</p></li>
+<li><p><strong>CPU, compute-heavier model</strong> (1.19M-parameter MLP, 5 local epochs, batch
+256, 12-core host): <strong>1.40×</strong> at 8 workers — the torch kernels release the
+GIL, so the benefit grows with the compute share of each client task.</p></li>
+<li><p><strong>single GPU</strong>: <strong>no benefit from the threads backend</strong> (sequential and
+threads measure the same within noise): all clients submit kernels to the
+same device, where they execute serially anyway — the sequential loop
+already keeps a single GPU fed. (The measured GPU run was itself ~3×
+faster than the CPU run for this workload.) Scaling beyond one GPU comes
+from multi-GPU client placement (<code class="docutils literal notranslate"><span class="pre">ServerConfig.visiable_gpus</span></code>) or CUDA
+streams, not from concurrent submission to one device.</p></li>
+</ul>
+<p>These are observations on the measured configurations, not ceilings: the
 per-backend arithmetic guarantees (fixed aggregation order, identical
-participation sets) hold regardless of the achieved speedup.</p>
+participation sets) hold regardless of the achieved speedup, and the
+(planned) process-based backend targets the CPU workloads where the GIL
+bounds the threads backend.</p>
 </section>
 <section id="how-it-works">
 <h2>How it works<a class="headerlink" href="#how-it-works" title="Link to this heading">#</a></h2>

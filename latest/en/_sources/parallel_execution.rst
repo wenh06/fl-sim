@@ -58,19 +58,30 @@ Backends
        ``cores // num_workers`` while active and restored afterwards;
        ``torch_num_threads`` overrides this explicitly.
 
-Measured speedups (12-core CPU, FedAvg on FedSynthetic, 64 clients, 3
-iterations, 2 local epochs, best of 3 runs; see
-``test-files/benchmark_executors.py`` and the committed
-``benchmark_executors_results.data`` to reproduce): about **1.2×** at 2–4
-workers, degrading slightly beyond that as GIL contention dominates. This
-is an observation **on this light configuration** (tiny MLP; single-threaded
-local steps take only tens of milliseconds, so the Python glue code — batch
-loops, optimizer stepping — holds the GIL most of the time), **not** a
-ceiling for the backend in general: with compute-heavier local training
-(larger models, more/bigger batches, GPU offload) or the (planned)
-process-based backend the balance shifts toward parallel execution. The
+Measured speedups (best of 3 runs; see ``test-files/benchmark_executors.py``
+and ``test-files/benchmark_gpu.py`` to reproduce; the committed
+``benchmark_executors_results.data`` holds the CPU run):
+
+- **CPU, tiny model** (MLP, tens of ms per client task; 64 clients, 3
+  iterations): about **1.2×** at 2–4 workers, degrading slightly beyond that
+  as GIL contention dominates. The Python glue code (batch loops, optimizer
+  stepping) holds the GIL most of the time on such workloads.
+- **CPU, compute-heavier model** (1.19M-parameter MLP, 5 local epochs, batch
+  256, 12-core host): **1.40×** at 8 workers — the torch kernels release the
+  GIL, so the benefit grows with the compute share of each client task.
+- **single GPU**: **no benefit from the threads backend** (sequential and
+  threads measure the same within noise): all clients submit kernels to the
+  same device, where they execute serially anyway — the sequential loop
+  already keeps a single GPU fed. (The measured GPU run was itself ~3×
+  faster than the CPU run for this workload.) Scaling beyond one GPU comes
+  from multi-GPU client placement (``ServerConfig.visiable_gpus``) or CUDA
+  streams, not from concurrent submission to one device.
+
+These are observations on the measured configurations, not ceilings: the
 per-backend arithmetic guarantees (fixed aggregation order, identical
-participation sets) hold regardless of the achieved speedup.
+participation sets) hold regardless of the achieved speedup, and the
+(planned) process-based backend targets the CPU workloads where the GIL
+bounds the threads backend.
 
 How it works
 ------------

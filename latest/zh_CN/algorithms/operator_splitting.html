@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的算子分裂算法 &#8212; fl-sim 0.1.1.dev25+g967b45bdd 文档</title>
+    <title>联邦学习中的算子分裂算法 &#8212; fl-sim 0.1.1.dev26+ga21cbb4ca 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=649af89a"></script>
+    <script src="../_static/documentation_options.js?v=db90bb26"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev25+g967b45bdd 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev26+ga21cbb4ca 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -634,7 +634,7 @@ z^{(t+1)} &amp; = z^{(t)} + 2\tau \left( x^{(t+1)} - x^{(t+1/2)} \right).
 + (\sqrt{\kappa}+1)\, b,\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(\ell_* = \min_k \ell_k\)</span> 为强凸模量，<span class="math notranslate nohighlight">\(L^* = \max_k L_k\)</span> ，<span class="math notranslate nohighlight">\(\kappa = L^* / \ell_*\)</span> ，<span class="math notranslate nohighlight">\(b\)</span> 为非精确临近求解的一致误差界。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-fedsplit">
-<pre class="scopeline-pseudocode" id="pseudocode-140588035297808" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140244767974944" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedSplit}}
 \begin{algorithmic}
 \REQUIRE {\bfseries proximal solvers} $\texttt{prox\_update}_k: \mathbb{R}^d \to \mathbb{R}^d$
@@ -690,7 +690,7 @@ z^{(t+1)} &amp; = z^{(t)} + 2\tau \left( x^{(t+1)} - x^{(t+1/2)} \right).
 M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,\]</div>
 <p>轮迭代后，输出 <span class="math notranslate nohighlight">\(\overline{\theta}^{(T)}\)</span> 即为 <a class="reference internal" href="#equation-os-feddr-model">(9)</a> 的 <span class="math notranslate nohighlight">\(\varepsilon\)</span>-稳定点。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-feddr">
-<pre class="scopeline-pseudocode" id="pseudocode-140588035402736" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140244768661632" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDR}}
 \begin{algorithmic}
 \REQUIRE step size $s = \frac{1}{\mu} &gt; 0$, $\alpha \in (0, 2)$, error bounds $\varepsilon_{k,0} \geqslant 0$
