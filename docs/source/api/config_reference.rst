@@ -72,6 +72,15 @@ APFL
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``tau``
      - int
      - 1
@@ -190,6 +199,32 @@ APFL
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "tau": {
           "default": 1,
           "title": "Tau",
@@ -240,6 +275,9 @@ APFL
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``mixture_weight``
      - float
      - 0.5
@@ -304,6 +342,15 @@ APFL
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "mixture_weight": {
@@ -377,6 +424,15 @@ Ditto
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
 
 .. dropdown:: ``DittoServerConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -491,6 +547,32 @@ Ditto
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         }
       },
       "required": [
@@ -537,6 +619,9 @@ Ditto
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``optimizer_per``
      - str
      - "ProxSGD"
@@ -607,6 +692,15 @@ Ditto
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "optimizer_per": {
@@ -697,6 +791,15 @@ FPFC
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -824,6 +927,32 @@ FPFC
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "optimizer": {
           "default": "Avg",
           "title": "Optimizer",
@@ -902,6 +1031,9 @@ FPFC
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FPFCClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -963,6 +1095,15 @@ FPFC
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -1031,6 +1172,15 @@ FedAdagrad
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Adagrad"
@@ -1158,6 +1308,32 @@ FedAdagrad
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "optimizer": {
           "default": "Adagrad",
           "title": "Optimizer",
@@ -1236,6 +1412,9 @@ FedAdagrad
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedAdagradClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -1297,6 +1476,15 @@ FedAdagrad
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -1365,6 +1553,15 @@ FedAdam
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Adam"
@@ -1492,6 +1689,32 @@ FedAdam
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "optimizer": {
           "default": "Adam",
           "title": "Optimizer",
@@ -1570,6 +1793,9 @@ FedAdam
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedAdamClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -1631,6 +1857,15 @@ FedAdam
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -1699,6 +1934,15 @@ FedAvg
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -1826,6 +2070,32 @@ FedAvg
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "optimizer": {
           "default": "Avg",
           "title": "Optimizer",
@@ -1904,6 +2174,9 @@ FedAvg
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedAvgClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -1965,6 +2238,15 @@ FedAvg
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -2033,6 +2315,15 @@ FedCR
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -2164,6 +2455,32 @@ FedCR
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "optimizer": {
           "default": "Avg",
           "title": "Optimizer",
@@ -2246,6 +2563,9 @@ FedCR
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedCRClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -2307,6 +2627,15 @@ FedCR
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -2375,6 +2704,15 @@ FedDC
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -2506,6 +2844,32 @@ FedDC
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "optimizer": {
           "default": "Avg",
           "title": "Optimizer",
@@ -2588,6 +2952,9 @@ FedDC
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedDCClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -2649,6 +3016,15 @@ FedDC
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -2717,6 +3093,15 @@ FedDR
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``eta``
      - float
      - 1.0
@@ -2841,6 +3226,32 @@ FedDR
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "eta": {
           "default": 1.0,
           "title": "Eta",
@@ -2901,6 +3312,9 @@ FedDR
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``eta``
      - float
      - 1.0
@@ -2968,6 +3382,15 @@ FedDR
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "eta": {
@@ -3046,6 +3469,15 @@ FedDyn
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``mu``
      - float
      - 0.1
@@ -3164,6 +3596,32 @@ FedDyn
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "mu": {
           "default": 0.1,
           "title": "Mu",
@@ -3214,6 +3672,9 @@ FedDyn
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedDynClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -3275,6 +3736,15 @@ FedDyn
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -3343,6 +3813,15 @@ FedOpt
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Adam"
@@ -3470,6 +3949,32 @@ FedOpt
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "optimizer": {
           "default": "Adam",
           "title": "Optimizer",
@@ -3548,6 +4053,9 @@ FedOpt
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedOptClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -3609,6 +4117,15 @@ FedOpt
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -3677,6 +4194,15 @@ FedPD
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``p``
      - float
      - *
@@ -3802,6 +4328,32 @@ FedPD
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "p": {
           "title": "P",
           "type": "number"
@@ -3861,6 +4413,9 @@ FedPD
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``mu``
      - float
      - 0.1
@@ -3931,6 +4486,15 @@ FedPD
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "mu": {
@@ -4014,6 +4578,15 @@ FedProx
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``vr``
      - bool
      - False
@@ -4132,6 +4705,32 @@ FedProx
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "vr": {
           "default": false,
           "title": "Vr",
@@ -4182,6 +4781,9 @@ FedProx
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``mu``
      - float
      - 0.01
@@ -4249,6 +4851,15 @@ FedProx
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "mu": {
@@ -4327,6 +4938,15 @@ FedSplit
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
 
 .. dropdown:: ``FedSplitServerConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -4441,6 +5061,32 @@ FedSplit
           "default": "",
           "title": "Algorithm",
           "type": "string"
+        },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
         }
       },
       "required": [
@@ -4487,6 +5133,9 @@ FedSplit
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``s``
      - float
      - 10.0
@@ -4551,6 +5200,15 @@ FedSplit
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "s": {
@@ -4624,6 +5282,15 @@ FedYogi
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Yogi"
@@ -4751,6 +5418,32 @@ FedYogi
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "optimizer": {
           "default": "Yogi",
           "title": "Optimizer",
@@ -4829,6 +5522,9 @@ FedYogi
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``FedYogiClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -4890,6 +5586,15 @@ FedYogi
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -4958,6 +5663,15 @@ IFCA
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``optimizer``
      - str
      - "Avg"
@@ -5089,6 +5803,32 @@ IFCA
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "optimizer": {
           "default": "Avg",
           "title": "Optimizer",
@@ -5171,6 +5911,9 @@ IFCA
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
 
 .. dropdown:: ``IFCAClientConfig`` JSON schema
    :animate: fade-in-slide-down
@@ -5232,6 +5975,15 @@ IFCA
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         }
       },
@@ -5300,6 +6052,15 @@ ProxSkip
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``p``
      - float
      - *
@@ -5422,6 +6183,32 @@ ProxSkip
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "p": {
           "title": "P",
           "type": "number"
@@ -5476,6 +6263,9 @@ ProxSkip
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``vr``
      - bool
      - False
@@ -5540,6 +6330,15 @@ ProxSkip
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "vr": {
@@ -5613,6 +6412,15 @@ SCAFFOLD
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``lr``
      - float
      - *
@@ -5731,6 +6539,32 @@ SCAFFOLD
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "lr": {
           "title": "Lr",
           "type": "number"
@@ -5781,6 +6615,9 @@ SCAFFOLD
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``control_variate_update_rule``
      - int
      - 1
@@ -5845,6 +6682,15 @@ SCAFFOLD
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "control_variate_update_rule": {
@@ -5918,6 +6764,15 @@ pFedMac
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``beta``
      - float
      - 1.0
@@ -6039,6 +6894,32 @@ pFedMac
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "beta": {
           "default": 1.0,
           "title": "Beta",
@@ -6094,6 +6975,9 @@ pFedMac
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``lam``
      - float
      - 15.0
@@ -6161,6 +7045,15 @@ pFedMac
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "lam": {
@@ -6239,6 +7132,15 @@ pFedMe
    * - ``algorithm``
      - str
      - ""
+   * - ``executor``
+     - str
+     - "sequential"
+   * - ``num_workers``
+     - int
+     - 0
+   * - ``torch_num_threads``
+     - Optional[int]
+     - None
    * - ``beta``
      - float
      - 1.0
@@ -6357,6 +7259,32 @@ pFedMe
           "title": "Algorithm",
           "type": "string"
         },
+        "executor": {
+          "default": "sequential",
+          "enum": [
+            "sequential",
+            "threads"
+          ],
+          "title": "Executor",
+          "type": "string"
+        },
+        "num_workers": {
+          "default": 0,
+          "title": "Num Workers",
+          "type": "integer"
+        },
+        "torch_num_threads": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Torch Num Threads"
+        },
         "beta": {
           "default": 1.0,
           "title": "Beta",
@@ -6407,6 +7335,9 @@ pFedMe
    * - ``algorithm``
      - str
      - ""
+   * - ``rng_mode``
+     - str
+     - "global"
    * - ``num_steps``
      - int
      - 30
@@ -6480,6 +7411,15 @@ pFedMe
         "algorithm": {
           "default": "",
           "title": "Algorithm",
+          "type": "string"
+        },
+        "rng_mode": {
+          "default": "global",
+          "enum": [
+            "global",
+            "per_client"
+          ],
+          "title": "Rng Mode",
           "type": "string"
         },
         "num_steps": {
