@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.1.dev26+ga21cbb4ca 文档</title>
+    <title>个性化联邦学习算法 &#8212; fl-sim 0.1.1.dev29+gb31a5db26 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=db90bb26"></script>
+    <script src="../_static/documentation_options.js?v=4e7037f5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev26+ga21cbb4ca 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev29+gb31a5db26 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -244,7 +244,13 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">快速开始</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">安装说明</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples.html">使用示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">快速上手</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">核心概念</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial-first-experiment.html">教程：你的第一个对照实验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial-cli-matrix.html">教程：用 CLI 跑实验矩阵</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API 参考</span></p>
 <ul class="nav bd-sidenav">
@@ -592,7 +598,7 @@ document.write(`
 \end{cases}\end{split}\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(p \in (0, 1)\)</span> 。注意，计算 <span class="math notranslate nohighlight">\(\nabla f(\Theta) = \col(\nabla f_1(\theta_1), \ldots, \nabla f_K(\theta_K))\)</span> 是完全块分离的：在联邦学习的场景下，这一步只需在客户端本地完成，不涉及与服务器的任何通信，这对以通信为主要瓶颈的联邦学习是巨大的优势。从这个意义上说， <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> 已经融入了 <em>无环</em> （跳步）的思想；参见 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a> 中的 <code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> 。在额外的有限和假设 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \sum_{j=1}^m f_{k,j}(\theta_k)\)</span> 下，还可以进一步把该随机梯度与随机 Kaczmarz 型（重要性采样）更新结合起来；关于无环方法的分析参见 [Kovalev <em>et al.</em><a class="footnote-reference brackets" href="#footcite-kovalev2020-loopless" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。由此得到的算法总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-l2sgd">
-<pre class="scopeline-pseudocode" id="pseudocode-140244766866352" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140184115057792" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{L2SGD}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ probability $p \in (0, 1)$
@@ -650,7 +656,7 @@ document.write(`
 <span class="eqno">(7)<a class="headerlink" href="#equation-pfedme-agg" title="Link to this equation">#</a></span>\[\theta^{(t+1)} \gets (1-\beta)\,\theta^{(t)} + \frac{\beta}{\# \mathcal{S}^{(t)}} \sum\limits_{k \in \mathcal{S}^{(t)}} \omega_{k}^{(t, R)}.\]</div>
 <p>值得特别注意的是，<a class="reference internal" href="#equation-pfedme-local">(6)</a> 的两部分并不是交替进行的，而是先在子节点上执行 <span class="math notranslate nohighlight">\(R\)</span> 轮本地迭代，之后才与中心节点通信——这是无环（跳步）思想的又一个实例；参见 <a class="reference internal" href="#fl-alg-pfl-l2sgd"><span class="std std-ref">L2SGD</span></a> 以及 <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">跳步算法一节</span></a> 。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-pfedme">
-<pre class="scopeline-pseudocode" id="pseudocode-140244763834448" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140184115056256" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMe}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ global update smoothing factor $\beta,$ {\bfseries proximal solvers} $\texttt{prox\_update}_k$
@@ -696,7 +702,7 @@ document.write(`
 <span class="eqno">(9)<a class="headerlink" href="#equation-ditto-local" title="Link to this equation">#</a></span>\[\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta \left( \nabla f_k(\omega_k^{(t)}) + \mu \left( \omega_k^{(t)} - \theta^{(t)} \right) \right).\]</div>
 <p>与 <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 或 <code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> 在内循环中将临近算子求解至（近似）最优不同， <code class="docutils literal notranslate"><span class="pre">Ditto</span></code> 对外层问题每轮只执行* 一步* （随机）梯度下降，让临近中心 <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> 随全局模型一起演化。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-ditto">
-<pre class="scopeline-pseudocode" id="pseudocode-140244763827920" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140184115060432" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{Ditto}}
 \begin{algorithmic}
 \REQUIRE penalty coefficient $\mu,$ learning rate $\eta,$ methods $\textbf{UpdateGlobal}, \textbf{Aggregate}$
@@ -736,7 +742,7 @@ document.write(`
 \omega_k^* = \argmin\limits_{\omega_k \in \mathrm{dom} f_k} f_k\left( \alpha_k \omega_k + (1 - \alpha_k) \theta^* \right).\]</div>
 <p>值得特别注意的是：当 <span class="math notranslate nohighlight">\(\mathrm{dom} f_k\)</span> 是 <span class="math notranslate nohighlight">\(\R^d\)</span> 的 <em>真</em> 子集时，<a class="reference internal" href="#equation-apfl-model">(11)</a> 中的凸组合可能无法取到 <span class="math notranslate nohighlight">\(f_k\)</span> 的极小点——凸组合 <span class="math notranslate nohighlight">\(\alpha_k \omega_k^* + (1 - \alpha_k) \theta^*\)</span> 能取到的区域可以只是搜索区域的一个真子集，且不包含极小点。扩大 <span class="math notranslate nohighlight">\(\omega_k\)</span> 的搜索区域固然可以恢复可达性，但此时 <span class="math notranslate nohighlight">\(\hat{\omega}_k\)</span> 完全可以通过直接极小化 <span class="math notranslate nohighlight">\(f_k\)</span> （即仅使用节点自身的数据进行训练）获取——这与个性化联邦学习的目的是相违背的。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-apfl">
-<pre class="scopeline-pseudocode" id="pseudocode-140244763833248" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140184115068688" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{APFL}}
 \begin{algorithmic}
 \REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
@@ -790,7 +796,7 @@ document.write(`
 <span class="eqno">(15)<a class="headerlink" href="#equation-feddyn-grad-iter" title="Link to this equation">#</a></span>\[\mathfrak{g}_k^{(t+1)} \gets \mathfrak{g}_k^{(t)} - \mu \left( \theta_k^{(t+1)} - \theta^{(t)} \right),\]</div>
 <p>即局部梯度估计* 无需* 额外的函数或梯度计算即可维护——这对计算与算法实现是巨大的便利。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-feddyn">
-<pre class="scopeline-pseudocode" id="pseudocode-140244764265536" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140184115060528" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDyn}}
 \begin{algorithmic}
 \REQUIRE penalty coeffecient $\mu$
@@ -830,7 +836,7 @@ document.write(`
 <span class="eqno">(18)<a class="headerlink" href="#equation-pfedmac-sparse" title="Link to this equation">#</a></span>\[F_k(\theta) := \min\limits_{\theta_k} \left\{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle + \frac{\mu}{2} \lVert \theta \rVert^2_2 + \gamma \lVert \theta_k \rVert_1 \right\},\]</div>
 <p>此外，它还将中心节点--子节点的二元结构扩展为带次中心（边缘节点或枢纽）的* 三层* 结构：每个次中心先聚合一个集群 <span class="math notranslate nohighlight">\(\{ \theta_{k,1}, \ldots, \theta_{k, J_k} \}\)</span> 内的子节点模型，再与中心节点通信——随着联邦网络规模的扩大，这类结构预计会越来越常见，并与聚类联邦学习密切相关。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-pfedmac">
-<pre class="scopeline-pseudocode" id="pseudocode-140244763835408" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140184119166432" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{pFedMac}}
 \begin{algorithmic}
 \REQUIRE learning rate $\eta$, penalty coefficient $\lambda$, $\beta$
@@ -870,7 +876,7 @@ document.write(`
 \end{array}\end{split}\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(\tilde{g}(\cdot)\)</span> 是平滑的 SCAD 型罚函数（由 <span class="math notranslate nohighlight">\(\xi, \lambda, a\)</span> 参数化），其近端算子把较小的成对差收缩到零（同簇的客户端），而几乎不动较大的差（不同簇的客户端）。该问题用 ADMM 式（Douglas--Rachford）分裂求解：增广拉格朗日罚参数为 <span class="math notranslate nohighlight">\(\rho\)</span> ，对偶变量为 <span class="math notranslate nohighlight">\(v_{ij}\)</span> ；每一轮，随机选中的一部分设备在 <span class="math notranslate nohighlight">\(f_i(\omega) + \frac{\rho}{2} \lVert \omega - \zeta_i \rVert^2\)</span> 上做 <span class="math notranslate nohighlight">\(T_i\)</span> 个 epoch 的本地梯度下降，服务器对活跃设备的成对变量 <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> 施加分段近端更新并做对偶上升。训练结束后，<span class="math notranslate nohighlight">\(\lVert \theta_{ij} \rVert\)</span> （近乎）为零的设备 <span class="math notranslate nohighlight">\(i\)</span> 与 <span class="math notranslate nohighlight">\(j\)</span> 被分到同一个簇。伪代码总结如下；注意，无论簇的个数还是簇的成员关系都不需要事先指定。</p>
 <div class="pseudocode-container docutils container" id="pcode-fpfc">
-<pre class="scopeline-pseudocode" id="pseudocode-140244764269904" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140184115439088" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FPFC}}
 \begin{algorithmic}
 \REQUIRE number of devices $m,$ number of rounds $K,$ local epochs $T_i,$ stepsize $\alpha,$ penalty parameters $\xi, \lambda, a,$ and $\rho$
@@ -921,7 +927,7 @@ p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)
 <span class="eqno">(23)<a class="headerlink" href="#equation-fedcr-obj" title="Link to this equation">#</a></span>\[L_i = f_i(w_i) + \beta \, \mathbb{E}_{p(x_i, y_i)} \left[ \mathrm{KL}\left[ p(z^{c = y_i} \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
 <p>对随机特征采用重参数化技巧进行优化。由于专家乘积的后验可以比任何单一专家更尖锐，共性表示不仅承载客户端之间的共性信息，也承载互补信息；对齐项同时起到向局部特征注入噪声的作用，可改善泛化与不确定性校准。注意当 <span class="math notranslate nohighlight">\(\beta = 0\)</span> 且 <span class="math notranslate nohighlight">\(\Sigma(x_i) = 0\)</span> （确定性特征）时，该方法退化为 <code class="docutils literal notranslate"><span class="pre">FedPer</span></code> 。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-fedcr">
-<pre class="scopeline-pseudocode" id="pseudocode-140244764272688" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140184115442112" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedCR}}
 \begin{algorithmic}
 \REQUIRE number of clients $m,$ number of rounds $T,$ local steps $K,$ learning rate $\eta,$ CMI coefficient $\beta$; class-wise initialization $\mu_0^c = 0,$ $\Sigma_0^c = I$ for all classes $c$

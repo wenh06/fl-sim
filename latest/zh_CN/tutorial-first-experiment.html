@@ -1,0 +1,884 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
+    <title>教程：你的第一个对照实验 &#8212; fl-sim 0.1.1.dev29+gb31a5db26 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="_static/css/codeblock.css?v=d29e50c4" />
+    <link rel="stylesheet" type="text/css" href="_static/css/versions.css?v=b1c81d98" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=4e7037f5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/proof.js"></script>
+    <script src="_static/js/codeblock.js?v=82bf629b"></script>
+    <script src="_static/js/versions.js?v=6609812c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+    <script>
+            if (window.pseudocode && !window.pseudocode.mathRenderer) {
+                window.pseudocode.mathRenderer = 'katex';
+            }
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.js"></script>
+    <script>
+        async function renderPseudocodeWithMath() {
+            try {
+                if (window.MathJax) {
+                    await MathJax.startup.promise;
+                    console.log("pseudocode2: MathJax is ready");
+                }
+
+                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
+                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
+                console.log("pseudocode2: Pseudocode rendered");
+
+                if (window.MathJax) {
+                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
+                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
+                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
+                    }).catch(err => {
+                        console.warn("pseudocode2: MathJax typeset failed:", err);
+                    });
+                }
+            } catch (err) {
+                console.error("pseudocode2: Render failed:", err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
+        } else {
+            renderPseudocodeWithMath();
+        }
+    </script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>
+            if (window.pseudocode && !window.pseudocode.mathRenderer) {
+                window.pseudocode.mathRenderer = 'katex';
+            }
+        </script>
+    <script>
+        async function renderPseudocodeWithMath() {
+            try {
+                if (window.MathJax) {
+                    await MathJax.startup.promise;
+                    console.log("pseudocode2: MathJax is ready");
+                }
+
+                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
+                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
+                console.log("pseudocode2: Pseudocode rendered");
+
+                if (window.MathJax) {
+                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
+                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
+                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
+                    }).catch(err => {
+                        console.warn("pseudocode2: MathJax typeset failed:", err);
+                    });
+                }
+            } catch (err) {
+                console.error("pseudocode2: Render failed:", err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
+        } else {
+            renderPseudocodeWithMath();
+        }
+    </script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml-full.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial-first-experiment';</script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="教程：用 CLI 跑实验矩阵" href="tutorial-cli-matrix.html" />
+    <link rel="prev" title="核心概念" href="concepts.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">fl-sim 0.1.1.dev29+gb31a5db26 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">搜索</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">快速开始</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="install.html">安装说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速上手</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">核心概念</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">教程：你的第一个对照实验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-cli-matrix.html">教程：用 CLI 跑实验矩阵</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API 参考</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/nodes.html">fl_sim.nodes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Server.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="api/messages.html">fl_sim.messages</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/datasets.html">fl_sim.data_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/models.html">fl_sim.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ResNet18.html">ResNet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ResNet10.html">ResNet10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ShrinkedResNet.html">ShrinkedResNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.MLP.html">MLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.SVC.html">SVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.SVR.html">SVR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.REGMixin.html">REGMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/optimizers.html">fl_sim.optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/regularizers.html">fl_sim.regularizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="api/utils.html">fl_sim.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/config_reference.html">Algorithm Configuration Reference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">进阶主题</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="algorithms.html">联邦学习算法</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/notation.html">符号说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/overview.html">联邦学习中的优化算法概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/proximal.html">联邦学习中的临近算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/primal_dual.html">联邦学习中的原始对偶算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/operator_splitting.html">联邦学习中的算子分裂算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/skipping.html">联邦学习中的跳步算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/pfl.html">个性化联邦学习算法</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_execution.html">Parallel execution layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行接口</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viz.html">可视化子系统</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="源码库"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/edit/master/docs/source/tutorial-first-experiment.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/issues/new?title=Issue%20on%20page%20%2Ftutorial-first-experiment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="创建议题"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/tutorial-first-experiment.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>教程：你的第一个对照实验</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-comparison">搭建对照</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-read-the-results">运行并读取结果</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-num-communications-counts"><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 数的是什么</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-is-not-communicating">被采样不等于在通信</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">下一步</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="tutorial-your-first-controlled-experiment">
+<span id="tutorial-first-experiment"></span><h1>教程：你的第一个对照实验<a class="headerlink" href="#tutorial-your-first-controlled-experiment" title="Link to this heading">#</a></h1>
+<p><a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> 只跑了一次训练。真正的实验要在相同条件下比较不同配置，并把结果读回来。本教程将比较三个算法在两种采样比例下的表现，然后剖析 fl-sim 中&quot;通信开销&quot;究竟指什么。</p>
+<p>全部运行基于 <code class="xref py py-class docutils literal notranslate"><span class="pre">FedSynthetic</span></code>——无需下载，每次运行只需几秒。下文展示的完整脚本位于 <code class="docutils literal notranslate"><span class="pre">test-files/tutorial_first_experiment.py</span></code>，并在 CI 中被执行。</p>
+<p>前置阅读： <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> （三对象模型：数据集、模型、服务器）与  <a class="reference internal" href="concepts.html"><span class="doc">核心概念</span></a> （一轮训练做了什么）。</p>
+<section id="set-up-the-comparison">
+<h2>搭建对照<a class="headerlink" href="#set-up-the-comparison" title="Link to this heading">#</a></h2>
+<p>六次运行： <strong>FedAvg</strong> （朴素平均）、 <strong>FedProx</strong> （近端正则的本地目标）与  <strong>SCAFFOLD</strong> （控制变量）——梯度、近端、方差缩减三条经典轴线——各自在  <strong>采样比例 0.5 与 1.0</strong> 下运行。</p>
+<p>一个刻意的选择：数据集 <strong>只构造一次，且先于任何配置或服务器</strong> 。配置类的构造器在构建时会重置全局 RNG，谁最后构造谁生效，其后的采样流都会被移动。按 <em>数据集 → 配置 → 服务器</em> 的顺序构造，每次运行都可复现：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">fl_sim.algorithms.fedopt</span><span class="w"> </span><span class="kn">import</span> <span class="n">FedAvgClientConfig</span><span class="p">,</span> <span class="n">FedAvgServer</span><span class="p">,</span> <span class="n">FedAvgServerConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fl_sim.algorithms.fedpd</span><span class="w"> </span><span class="kn">import</span> <span class="n">FedPDClientConfig</span><span class="p">,</span> <span class="n">FedPDServer</span><span class="p">,</span> <span class="n">FedPDServerConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fl_sim.algorithms.fedprox</span><span class="w"> </span><span class="kn">import</span> <span class="n">FedProxClientConfig</span><span class="p">,</span> <span class="n">FedProxServer</span><span class="p">,</span> <span class="n">FedProxServerConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fl_sim.algorithms.scaffold</span><span class="w"> </span><span class="kn">import</span> <span class="n">SCAFFOLDClientConfig</span><span class="p">,</span> <span class="n">SCAFFOLDServer</span><span class="p">,</span> <span class="n">SCAFFOLDServerConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fl_sim.data_processing.fed_synthetic</span><span class="w"> </span><span class="kn">import</span> <span class="n">FedSynthetic</span>
+
+<span class="n">ALGORITHMS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"FedAvg"</span><span class="p">:</span> <span class="p">(</span><span class="n">FedAvgServer</span><span class="p">,</span> <span class="n">FedAvgServerConfig</span><span class="p">,</span> <span class="n">FedAvgClientConfig</span><span class="p">),</span>
+    <span class="s2">"FedProx"</span><span class="p">:</span> <span class="p">(</span><span class="n">FedProxServer</span><span class="p">,</span> <span class="n">FedProxServerConfig</span><span class="p">,</span> <span class="n">FedProxClientConfig</span><span class="p">),</span>
+    <span class="s2">"SCAFFOLD"</span><span class="p">:</span> <span class="p">(</span><span class="n">SCAFFOLDServer</span><span class="p">,</span> <span class="n">SCAFFOLDServerConfig</span><span class="p">,</span> <span class="n">SCAFFOLDClientConfig</span><span class="p">),</span>
+    <span class="s2">"FedPD"</span><span class="p">:</span> <span class="p">(</span><span class="n">FedPDServer</span><span class="p">,</span> <span class="n">FedPDServerConfig</span><span class="p">,</span> <span class="n">FedPDClientConfig</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="c1"># SCAFFOLD's server config requires its global step size, and FedPD's</span>
+<span class="c1"># upload frequency is 0 &lt; p &lt; 1 (it uploads once every int(1/p) rounds);</span>
+<span class="c1"># the others use their defaults.</span>
+<span class="n">SERVER_KW</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"FedAvg"</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">"FedProx"</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">"SCAFFOLD"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"lr"</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">},</span> <span class="s2">"FedPD"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"p"</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">}}</span>
+
+<span class="c1"># one synthetic dataset, split across 30 clients, shared by every run below</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">FedSynthetic</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">[</span><span class="s2">"mlp_d1"</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">sample_ratio</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_kw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Train one algorithm and return the server.</span>
+
+<span class="sd">    Algorithm-specific server keywords (SCAFFOLD's global step size,</span>
+<span class="sd">    FedPD's upload frequency ``p``) come from ``SERVER_KW``; anything</span>
+<span class="sd">    passed as ``extra_kw`` is merged on top.</span>
+<span class="sd">    """</span>
+    <span class="n">server_cls</span><span class="p">,</span> <span class="n">server_config_cls</span><span class="p">,</span> <span class="n">client_config_cls</span> <span class="o">=</span> <span class="n">ALGORITHMS</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span>
+    <span class="n">server_kw</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">SERVER_KW</span><span class="p">[</span><span class="n">algorithm</span><span class="p">],</span> <span class="o">**</span><span class="n">extra_kw</span><span class="p">}</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">server_cls</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span>
+        <span class="n">dataset</span><span class="p">,</span>
+        <span class="n">server_config_cls</span><span class="p">(</span>
+            <span class="n">num_iters</span><span class="o">=</span><span class="n">num_iters</span><span class="p">,</span>
+            <span class="n">num_clients</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+            <span class="n">clients_sample_ratio</span><span class="o">=</span><span class="n">sample_ratio</span><span class="p">,</span>
+            <span class="n">log_dir</span><span class="o">=</span><span class="sa">f</span><span class="s2">"t1_</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">server_kw</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">client_config_cls</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">server</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">final_accuracy</span><span class="p">(</span><span class="n">server</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Read the last logged server-side validation accuracy of a run.</span>
+
+<span class="sd">    The JSON logger buffers in memory; flush it to materialize the file.</span>
+<span class="sd">    """</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    <span class="n">log_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">_logger_manager</span><span class="o">.</span><span class="n">log_dir</span><span class="p">)</span>
+    <span class="n">metrics_file</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">log_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"*.json"</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s2">"config.json"</span><span class="p">)</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">metrics_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">metrics</span><span class="p">[</span><span class="s2">"val"</span><span class="p">][</span><span class="s2">"Server"</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">"acc"</span><span class="p">]</span>
+
+
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">final_accuracy</span></code> 读取一次运行的 JSON 日志——与 <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> 中相同的文件格式。SCAFFOLD 需要显式传入全局步长 <code class="docutils literal notranslate"><span class="pre">lr``（它的配置没有默认值）；FedPD</span> <span class="pre">稍后也需要一个频率参数。两者都是算法各自的服务器关键字，统一收在</span> <span class="pre">``SERVER_KW</span></code> 里。</p>
+</section>
+<section id="run-and-read-the-results">
+<h2>运行并读取结果<a class="headerlink" href="#run-and-read-the-results" title="Link to this heading">#</a></h2>
+<p>对照本身就是一个循环，结果落入 <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="（在 pandas v3.1）"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> ：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">algorithm</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"FedAvg"</span><span class="p">,</span> <span class="s2">"FedProx"</span><span class="p">,</span> <span class="s2">"SCAFFOLD"</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">sample_ratio</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">sample_ratio</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">algorithm</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">sample_ratio</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">"algorithm"</span><span class="p">:</span> <span class="n">algorithm</span><span class="p">,</span>
+                <span class="s2">"sample_ratio"</span><span class="p">:</span> <span class="n">sample_ratio</span><span class="p">,</span>
+                <span class="s2">"num_communications"</span><span class="p">:</span> <span class="n">server</span><span class="o">.</span><span class="n">_num_communications</span><span class="p">,</span>
+                <span class="s2">"final_acc"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">final_accuracy</span><span class="p">(</span><span class="n">server</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>在一种机器上的输出（你的数字可能因包版本略有差异）：</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>algorithm  sample_ratio  num_communications  final_acc
+   FedAvg           0.5                  90     0.8114
+   FedAvg           1.0                 180     0.8767
+  FedProx           0.5                  90     0.8776
+  FedProx           1.0                 180     0.8776
+ SCAFFOLD           0.5                  90     0.8767
+ SCAFFOLD           1.0                 180     0.8767
+</pre></div>
+</div>
+<p>对这张表的两点如实观察：</p>
+<ul class="simple">
+<li><p>这个合成任务 <em>太容易</em> ——全采样下 FedProx 与 SCAFFOLD 达到了和 FedAvg 相同的精度天花板。它们的优势要在更难、异质性更强的任务上才显现（何时用哪个，见 <a class="reference internal" href="algorithms/overview.html"><span class="doc">算法理论页</span></a> ）。</p></li>
+<li><p>精度的故事饱和了， <strong>通信</strong> 的故事没有：比例 0.5 的每次运行都恰好用了 90 次通信，比例 1.0 的都恰好 180 次——与算法无关。这个数字值得细看，因为它很容易被误读。</p></li>
+</ul>
+</section>
+<section id="what-num-communications-counts">
+<h2><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 数的是什么<a class="headerlink" href="#what-num-communications-counts" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 统计的是 <strong>消息数，不是轮数</strong> ：每轮对 <em>每个被采样客户端</em> 加一次下行广播，再加一次上行回复。30 个客户端、比例 0.5 时，每轮是 15 下行 + 15 上行 = 30 条消息，3 轮 = 90；比例 1.0 时翻倍为 180。</p>
+<p>判别性的检验： <strong>3 轮全采样与 6 轮半采样都恰好是 180。</strong> 计数随 <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">采样数</span> <span class="pre">×</span> <span class="pre">轮数</span></code> 缩放，而不是随轮数。把它读成&quot;通信轮数&quot;，90 就会被当成&quot;90 轮&quot;——差了 30 倍。</p>
+<p>值得记住的分解式：</p>
+<div class="math notranslate nohighlight">
+\[\text{FedAvg} = 2 \times \text{sampled} \times \text{rounds}\]</div>
+<p>（另注：JSON 日志里记录的 <code class="docutils literal notranslate"><span class="pre">step</span></code> 是 <em>每轮开始时</em> 的快照：它比最终计数少最后一轮的全部开销——最终值请从服务器读取，正如本页脚本的做法。）</p>
+</section>
+<section id="sampling-is-not-communicating">
+<h2>被采样不等于在通信<a class="headerlink" href="#sampling-is-not-communicating" title="Link to this heading">#</a></h2>
+<p>上面三个算法每一轮都在通信。fl-sim 还内置 <strong>可跳过通信</strong> 的算法，它们会以很有启发性的方式打破 <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">采样数</span> <span class="pre">×</span> <span class="pre">轮数</span></code> 的恒等式。让 FedPD（每 <code class="docutils literal notranslate"><span class="pre">int(1/p)</span></code> 轮才上传一次）与五轮 FedAvg 并排各跑五轮：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fedavg</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="s2">"FedAvg"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"FedAvg_5it"</span><span class="p">)</span>
+<span class="n">fedpd</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="s2">"FedPD"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"FedPD_5it"</span><span class="p">)</span>
+
+<span class="c1"># The skipped rounds emit expected RuntimeWarnings on both the server</span>
+<span class="c1"># and the client side -- see the tutorial page for what they mean.</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">server</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"FedAvg"</span><span class="p">,</span> <span class="n">fedavg</span><span class="p">),</span> <span class="p">(</span><span class="s2">"FedPD"</span><span class="p">,</span> <span class="n">fedpd</span><span class="p">)]:</span>
+    <span class="n">sampled</span> <span class="o">=</span> <span class="mi">15</span>  <span class="c1"># 30 clients x 0.5</span>
+    <span class="n">downlink</span> <span class="o">=</span> <span class="n">sampled</span> <span class="o">*</span> <span class="mi">5</span>  <span class="c1"># every round broadcasts to every sampled client</span>
+    <span class="n">uplink</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">_num_communications</span> <span class="o">-</span> <span class="n">downlink</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">server</span><span class="o">.</span><span class="n">_num_communications</span><span class="si">}</span><span class="s2"> communications = "</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">downlink</span><span class="si">}</span><span class="s2"> downlink + </span><span class="si">{</span><span class="n">uplink</span><span class="si">}</span><span class="s2"> uplink (</span><span class="si">{</span><span class="n">uplink</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">sampled</span><span class="si">}</span><span class="s2"> of 5 rounds uploaded)"</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>在一种机器上的输出：</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>FedAvg: 150 communications = 75 downlink + 75 uplink (5 of 5 rounds uploaded)
+FedPD: 90 communications = 75 downlink + 15 uplink (1 of 5 rounds uploaded)
+</pre></div>
+</div>
+<p>分解式把话说得非常准： <strong>下行完全相同</strong> （75 = 5 轮 × 15 客户端——对被采样集合的广播从不跳过）；FedPD 省下的 <em>全是上行</em> 。五轮 FedPD 花费的 90 条消息与三轮 FedAvg 相同——同样的通信预算换来了多两轮的本地迭代。</p>
+<p>自己动手跑时的三个实用细节：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">p</span></code> 必须满足 <strong>0 &lt; p &lt; 1</strong> 。p = 1 时 FedPD 每轮都上传（退化为 FedAvg）；p &gt; 1 时上传频率变为零，运行直接崩溃。配置暴露的是 <code class="docutils literal notranslate"><span class="pre">p</span></code> ，派生的上传频率 <code class="docutils literal notranslate"><span class="pre">int(1/p)</span></code> 始终说了算——自己传 <code class="docutils literal notranslate"><span class="pre">comm_freq</span></code> 会被静默覆写。</p></li>
+<li><p><strong>You will see RuntimeWarnings — they are expected, not errors.</strong> The
+server logs <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">message</span> <span class="pre">received</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">clients...</span></code> once per
+skipped round (&quot;nobody uploaded this round, so the global model did
+not move&quot;), and each skipping client logs <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">parameters</span> <span class="pre">received</span>
+<span class="pre">from</span> <span class="pre">server...</span></code> (&quot;I was not given a new global model this round, so I
+keep working from my current parameters&quot;). At tutorial scale the
+client-side message appears once per (skipped client × skipped round),
+so it dominates the console. Both are how FedPD is designed to behave.</p></li>
+<li><p>JSON 的 <code class="docutils literal notranslate"><span class="pre">step</span></code> 快照落后多少因算法而异：五轮 FedAvg 终于 120（最后一轮的 30 条消息未入日志），FedPD 终于 75（它的最后一轮从不上传）。最终计数请以 <code class="docutils literal notranslate"><span class="pre">server._num_communications</span></code> 为准。</p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h2>下一步<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="tutorial-cli-matrix.html"><span class="doc">教程：用 CLI 跑实验矩阵</span></a>——用 YAML 实验矩阵从命令行跑同样的对照。</p></li>
+<li><p><a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a>——用并行执行后端加速这些运行，且不改变结果。</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="concepts.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">核心概念</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tutorial-cli-matrix.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">教程：用 CLI 跑实验矩阵</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-comparison">搭建对照</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-read-the-results">运行并读取结果</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-num-communications-counts"><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 数的是什么</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-is-not-communicating">被采样不等于在通信</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">下一步</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： WEN Hao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, WEN Hao.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  
+  <footer class="bd-footer">
+  </footer>
+  
+<div class="rst-versions" id="versions-flyout" role="note" aria-label="versions and languages">
+  <span class="rst-current-version" data-toggle="rst-versions" title="切换版本或语言">
+    <span>latest</span>
+    <span class="rst-caret">▾</span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>语言</dt>
+      
+        <dd>
+          <a href="./../en/tutorial-first-experiment.html"
+             >English</a>
+        </dd>
+      
+        <dd>
+          <a href="./../zh_CN/tutorial-first-experiment.html"
+             class="rst-current-item">简体中文</a>
+        </dd>
+      
+    </dl>
+    
+      <dl>
+        <dt>版本</dt>
+        
+          <dd>
+            <a href="./../../zh_CN/tutorial-first-experiment.html"
+               class="rst-current-item">latest</a>
+          </dd>
+        
+      </dl>
+    
+  </div>
+</div>
+
+  </body>
+</html>

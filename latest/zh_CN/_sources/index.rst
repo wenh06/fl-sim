@@ -15,7 +15,15 @@ Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gi
    :maxdepth: 1
 
    install
-   examples
+   quickstart
+   concepts
+
+.. toctree::
+   :caption: Tutorials
+   :maxdepth: 1
+
+   tutorial-first-experiment
+   tutorial-cli-matrix
 
 .. toctree::
    :caption: API Reference
