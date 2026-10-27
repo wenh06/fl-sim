@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fl-sim \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 13:08+0800\n"
+"POT-Creation-Date: 2026-10-27 08:46+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -31,8 +31,8 @@ msgid ""
 "takes seconds on a laptop — no dataset download, no GPU required."
 msgstr ""
 "本页面带你完成第一次联邦训练：安装 fl-sim，在合成数据集上训练 "
-":class:`~fl_sim.algorithms.fedopt.FedAvg`，并查看产出的日志。整个过程在笔记本电脑上"
-"几秒即可完成——无需下载数据集，也无需 GPU。"
+":class:`~fl_sim.algorithms.fedopt.FedAvg`，并查看产出的日志。整个过程在笔记本电脑上几秒即可完成——无需下载数据集，也无需"
+" GPU。"
 
 #: ../../source/quickstart.rst:11
 msgid ""
@@ -50,8 +50,8 @@ msgid ""
 "git+https://github.com/wenh06/fl-sim.git``). Python 3.10+ with PyTorch is"
 " all you need."
 msgstr ""
-"按照 :doc:`install` 安装 fl-sim（``pip install "
-"git+https://github.com/wenh06/fl-sim.git``）。只需 Python 3.10+ 与 PyTorch。"
+"按照 :doc:`install` 安装 fl-sim（``pip install git+https://github.com/wenh06"
+"/fl-sim.git``）。只需 Python 3.10+ 与 PyTorch。"
 
 #: ../../source/quickstart.rst:21
 msgid "Train your first model"
@@ -67,10 +67,9 @@ msgid ""
 "client count, sampling ratio); the client config carries the local "
 "training recipe."
 msgstr ""
-"fl-sim 中的每次联邦训练都由三个对象构成： **数据集** （数据本身以及在客户端之间的"
-"划分方式）、 **模型** （一个 PyTorch 模块，这里取自数据集内置的候选模型）和"
-" **服务器** （持有全局模型，负责采样客户端与聚合）。服务器配置承载联邦训练的调度"
-"（轮数、客户端数量、采样比例）；客户端配置承载本地训练方案。"
+"fl-sim 中的每次联邦训练都由三个对象构成： **数据集** （数据本身以及在客户端之间的划分方式）、 **模型** （一个 PyTorch "
+"模块，这里取自数据集内置的候选模型）和 **服务器** "
+"（持有全局模型，负责采样客户端与聚合）。服务器配置承载联邦训练的调度（轮数、客户端数量、采样比例）；客户端配置承载本地训练方案。"
 
 #: ../../source/quickstart.rst:35
 msgid ""
@@ -82,11 +81,10 @@ msgid ""
 "full federated loop; you will see per-round progress and metrics in the "
 "console."
 msgstr ""
-"把这段代码粘贴到脚本（或 REPL）里运行。``FedSynthetic`` 会在本地生成一个划分给 "
-"30 个客户端的合成分类数据集——不下载任何东西。"
-"``FedAvgServerConfig(num_iters=5, num_clients=10, clients_sample_ratio=1.0)`` "
-"运行 **5 轮**，每轮从 30 个客户端中采样 **10 个**，且全部参与。"
-"``server.train()`` 运行完整的联邦循环；你会在控制台看到每轮的进度与指标。"
+"把这段代码粘贴到脚本（或 REPL）里运行。``FedSynthetic`` 会在本地生成一个划分给 30 "
+"个客户端的合成分类数据集——不下载任何东西。``FedAvgServerConfig(num_iters=5, num_clients=10, "
+"clients_sample_ratio=1.0)`` 运行 **5 轮**，每轮从 30 个客户端中采样 **10 "
+"个**，且全部参与。``server.train()`` 运行完整的联邦循环；你会在控制台看到每轮的进度与指标。"
 
 #: ../../source/quickstart.rst:44
 msgid ""
@@ -95,7 +93,8 @@ msgid ""
 " — see the :meth:`~fl_sim.nodes.Server.train` API."
 msgstr ""
 "``server.train()`` 即 ``server.train(\"federated\")``。fl-sim 也可以用同样的对象运行 "
-"``\"centralized\"`` 与 ``\"local\"`` 基线——参见 :meth:`~fl_sim.nodes.Server.train` API。"
+"``\"centralized\"`` 与 ``\"local\"`` 基线——参见 "
+":meth:`~fl_sim.nodes.Server.train` API。"
 
 #: ../../source/quickstart.rst:49
 msgid "Where do the logs go?"
@@ -107,8 +106,8 @@ msgid ""
 "subdirectory with ``log_dir=`` in the server config, as done here). The "
 "script above reads the metrics back and prints the result:"
 msgstr ""
-"每次运行都会把日志写入 ``~/.cache/fl-sim/.logs/`` （可通过服务器配置里的 "
-"``log_dir=`` 指定子目录，如本例所示）。上面的脚本会把指标读回来并打印结果："
+"每次运行都会把日志写入 ``~/.cache/fl-sim/.logs/`` （可通过服务器配置里的 ``log_dir=`` "
+"指定子目录，如本例所示）。上面的脚本会把指标读回来并打印结果："
 
 #: ../../source/quickstart.rst:62
 msgid "Three files per run:"
@@ -125,17 +124,15 @@ msgid ""
 "...}}`` — one dict per evaluation, holding ``step``, ``acc``, ``loss``, "
 "etc. This is the file you will plot when visualizing results;"
 msgstr ""
-"一个 ``.json`` 日志，保存完整的指标历史，结构为 "
-"``{\"train\": {...}, \"val\": {\"Server\": [...], \"Client0\": [...], "
-"...}}``——每次评估对应一个字典，包含 ``step``、``acc``、``loss`` 等字段。"
-"可视化结果时用的就是这个文件；"
+"一个 ``.json`` 日志，保存完整的指标历史，结构为 ``{\"train\": {...}, \"val\": {\"Server\": "
+"[...], \"Client0\": [...], ...}}``——每次评估对应一个字典，包含 "
+"``step``、``acc``、``loss`` 等字段。可视化结果时用的就是这个文件；"
 
 #: ../../source/quickstart.rst:69
 msgid ""
 "``config.json`` — the exact server and client configs of the run, so "
 "every experiment can be reproduced later."
-msgstr ""
-"``config.json``——本次运行的确切服务器与客户端配置，便于日后复现每个实验。"
+msgstr "``config.json``——本次运行的确切服务器与客户端配置，便于日后复现每个实验。"
 
 #: ../../source/quickstart.rst:74
 msgid ""
@@ -145,39 +142,41 @@ msgid ""
 "json snapshot is taken at the start of each round, so the final "
 "communication count is higher than the last logged step."
 msgstr ""
-"日志中的 ``step`` 统计的是**通信次数**，而不是轮数：每轮对每个被采样客户端包含一次"
-"下行广播与一次上行回复（这里每轮采样 10 个客户端，因此 step 每轮前进 20）。json "
-"中的快照记录于每轮开始时，因此最终通信次数会大于最后一条日志的 step。"
+"日志中的 ``step`` 统计的是**通信次数**，而不是轮数：每轮对每个被采样客户端包含一次下行广播与一次上行回复（这里每轮采样 10 "
+"个客户端，因此 step 每轮前进 20）。json 中的快照记录于每轮开始时，因此最终通信次数会大于最后一条日志的 step。"
 
 #: ../../source/quickstart.rst:80
 msgid ""
 "(The exact accuracy value may differ across machines and package "
-"versions; on one machine this run ends at 0.8767, up from 0.16 at "
-"initialization.)"
-msgstr ""
-"（具体精度数值可能因机器与包版本而异；在一种机器上，该运行的最终精度为 0.8767，"
-"初始时为 0.16。）"
+"versions; on one machine this run ends at 0.8767, up from 0.011 — chance "
+"level for 10 classes — at initialization.)"
+msgstr "（具体精度数值可能因机器与包版本而异；在一种机器上，该运行的最终精度为 0.8767，初始时为 0.011——即 10 类任务的随机水平。）"
 
-#: ../../source/quickstart.rst:84
+#: ../../source/quickstart.rst:85
 msgid "Next steps"
 msgstr "下一步"
 
-#: ../../source/quickstart.rst:86
+#: ../../source/quickstart.rst:87
 msgid ""
 ":doc:`concepts` — what actually happens in each round: sampling, "
 "broadcast, local updates, aggregation."
 msgstr ":doc:`concepts`——每一轮实际发生了什么：采样、广播、本地更新、聚合。"
 
-#: ../../source/quickstart.rst:88
+#: ../../source/quickstart.rst:89
 msgid ""
-":doc:`cli` — run experiments from the command line with YAML config files"
-" (a full tutorial on experiment batches is on the way)."
+":doc:`tutorial-first-experiment` — turn this single run into a controlled"
+" comparison across algorithms and sampling ratios."
 msgstr ""
-":doc:`cli`——用 YAML 配置文件从命令行运行实验（关于实验批次的完整教程也在准备中）。"
+":doc:`tutorial-first-experiment`——把这个单次运行变成跨算法、跨采样比例的对照实验。"
 
-#: ../../source/quickstart.rst:90
+#: ../../source/quickstart.rst:91
+msgid ""
+":doc:`tutorial-cli-matrix` — run experiment batches from the CLI with "
+"YAML config files."
+msgstr ":doc:`tutorial-cli-matrix`——用 YAML 配置文件从命令行跑实验批次。"
+
+#: ../../source/quickstart.rst:93
 msgid ""
 ":doc:`parallel_execution` — speed training up with a parallel executor "
 "backend while keeping results reproducible."
-msgstr ""
-":doc:`parallel_execution`——用并行执行后端加速训练，同时保持结果可复现。"
+msgstr ":doc:`parallel_execution`——用并行执行后端加速训练，同时保持结果可复现。"

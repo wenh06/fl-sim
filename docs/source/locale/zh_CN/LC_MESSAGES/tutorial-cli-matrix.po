@@ -1,0 +1,176 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 08:46+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: ../../source/tutorial-cli-matrix.rst:4
+msgid "Tutorial: experiment matrices from the CLI"
+msgstr "教程：用 CLI 跑实验矩阵"
+
+#: ../../source/tutorial-cli-matrix.rst:6
+msgid ""
+"Writing one Python script per experiment does not scale. fl-sim's command"
+" line interface runs a whole **experiment matrix** from a single YAML "
+"file: you describe the grid of configurations once, and the CLI expands "
+"and executes every combination. This tutorial builds a four-run matrix on"
+" synthetic data and shows where the results land."
+msgstr ""
+"每个实验写一个 Python 脚本是无法扩展的。fl-sim 的命令行接口能用单个 YAML 文件跑起"
+"一整个 **实验矩阵** ：你把配置网格描述一次，CLI 负责展开并执行每个组合。本教程在"
+"合成数据上构建一个四次运行的矩阵，并展示结果落在哪里。"
+
+#: ../../source/tutorial-cli-matrix.rst:12
+msgid ""
+"The YAML syntax reference lives in :doc:`cli`; this page is the workflow "
+"narrative. Prerequisites: :doc:`tutorial-first-experiment`."
+msgstr ""
+"YAML 语法参考见 :doc:`cli` ；本页讲的是工作流程。前置阅读："
+":doc:`tutorial-first-experiment` 。"
+
+#: ../../source/tutorial-cli-matrix.rst:16
+msgid "The matrix file"
+msgstr "矩阵文件"
+
+#: ../../source/tutorial-cli-matrix.rst:18
+msgid ""
+"Here is the complete config for this tutorial (``example-configs"
+"/fedsynthetic-demo.yml``):"
+msgstr "本教程的完整配置如下（``example-configs/fedsynthetic-demo.yml`` ）："
+
+#: ../../source/tutorial-cli-matrix.rst:24
+msgid "Three sections matter:"
+msgstr "三个关键部分："
+
+#: ../../source/tutorial-cli-matrix.rst:26
+msgid ""
+"``strategy.matrix`` — the grid. Every combination of the listed values is"
+" run once: 2 sampling ratios × 2 seeds = 4 experiments."
+msgstr ""
+"``strategy.matrix``——网格。列出的值每个组合各跑一次：2 个采样比例 × 2 个种子"
+"= 4 个实验。"
+
+#: ../../source/tutorial-cli-matrix.rst:28
+msgid ""
+"``${{ matrix.<key> }}`` — interpolation. Wherever this pattern appears, "
+"the CLI substitutes the current combination's value. ``seed`` sits at the"
+" top level, so it seeds the dataset *and* the server config of that run."
+msgstr ""
+"``${{ matrix.<key> }}``——插值。该模式出现之处，CLI 都会代入当前组合的值。"
+"``seed`` 位于顶层，因此它同时为该次运行的数据集 *和* 服务器配置设定种子。"
+
+#: ../../source/tutorial-cli-matrix.rst:32
+msgid ""
+"everything else — ``algorithm`` (name plus server/client configs), "
+"``dataset``, ``model`` — is exactly the config you would pass in Python, "
+"per :doc:`quickstart`, just spelled as YAML. Dataset-specific constructor"
+" arguments (``alpha``, ``beta``, ``iid``, ``num_clients`` for "
+":class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic`) are passed "
+"straight through."
+msgstr ""
+"其余部分—— ``algorithm`` （名字加服务器/客户端配置）、 ``dataset`` 、 ``model`` ——"
+"与你在 Python 里传入的配置（见 :doc:`quickstart` ）完全一致，只是改写成 YAML。"
+"数据集各自的构造参数（ :class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic` "
+"的 ``alpha`` 、 ``beta`` 、 ``iid`` 、 ``num_clients`` ）原样透传。"
+
+#: ../../source/tutorial-cli-matrix.rst:40
+msgid "Run it"
+msgstr "运行"
+
+#: ../../source/tutorial-cli-matrix.rst:46
+msgid ""
+"You will see the four runs execute in sequence, each logging its "
+"combination (``ratio=0.5 seed=0``, ...). Total time: seconds — no "
+"downloads."
+msgstr ""
+"你会看到四次运行依次执行，每次都会记录自己的组合（``ratio=0.5 seed=0`` 等）。"
+"总耗时：几秒——无下载。"
+
+#: ../../source/tutorial-cli-matrix.rst:51
+msgid "Where the results land"
+msgstr "结果落在哪里"
+
+#: ../../source/tutorial-cli-matrix.rst:53
+msgid ""
+"All runs write into ``~/.cache/fl-sim/.logs/fedsynthetic-demo/`` (the "
+"``log_dir`` of this config). Per run you get one ``.txt`` and one "
+"``.json`` log — the same files :doc:`quickstart` described — plus one "
+"``config.json`` holding the exact server/client configs of the most "
+"recent run (a previous ``config.json`` is rotated to "
+"``config.json.bak``)."
+msgstr ""
+"所有运行都写入 ``~/.cache/fl-sim/.logs/fedsynthetic-demo/``（本配置的 ``log_dir`` ）。"
+"每次运行各有一份 ``.txt`` 与一份 ``.json`` 日志——即 :doc:`quickstart` 描述过的"
+"那些文件——另有一份 ``config.json`` 保存最近一次运行的确切服务器/客户端配置"
+"（已有的 ``config.json`` 会被轮转为 ``config.json.bak`` ）。"
+
+#: ../../source/tutorial-cli-matrix.rst:60
+msgid ""
+"One detail that matters as soon as runs finish within the same minute: "
+"log file names carry a timestamp **plus the run's ``tag``**. Without a "
+"distinct tag per matrix combination, same-named logs overwrite each "
+"other. That is what the ``tag: ratio_${{ ... }}_seed_${{ ... }}`` line in"
+" the config above is for — give every matrix arm its own tag."
+msgstr ""
+"一个在多次运行同一分钟内结束时就会生效的细节：日志文件名带有时间戳 **加上运行的 "
+"``tag``** 。若每个矩阵组合没有独特的 tag，同名的日志会互相覆盖。上面配置里的 "
+"``tag: ratio_${{ ... }}_seed_${{ ... }}`` 正是为此——给矩阵的每个分支一个专属 tag。"
+
+#: ../../source/tutorial-cli-matrix.rst:67
+msgid "Beyond serial execution"
+msgstr "超越串行执行"
+
+#: ../../source/tutorial-cli-matrix.rst:69
+msgid ""
+"A matrix of long experiments wants more than one process. The "
+"``strategy`` section also accepts parallel options (``n_parallel``, or a "
+"``parallel: {mode: parallel_task, num_workers: N}`` block) that dispatch "
+"matrix arms to worker processes — see ``example-configs/multiprocessing-"
+"demo.yml`` for a complete example, and :doc:`parallel_execution` for the "
+"in-process executor backend that parallelizes *within* a single run. The "
+"two are orthogonal: process-level parallelism across matrix arms, "
+"executor-level parallelism across clients."
+msgstr ""
+"长实验组成的矩阵需要不止一个进程。 ``strategy`` 节还接受并行选项（``n_parallel``，"
+"或 ``parallel: {mode: parallel_task, num_workers: N}`` 块），把矩阵分支派发给工作"
+"进程——完整示例见 ``example-configs/multiprocessing-demo.yml``；进程内把 *单次运行* "
+"的客户端并行化的执行器后端见 :doc:`parallel_execution` 。两者正交：进程级并行作用于"
+"矩阵分支之间，执行器级并行作用于客户端之间。"
+
+#: ../../source/tutorial-cli-matrix.rst:79
+msgid "Next steps"
+msgstr "下一步"
+
+#: ../../source/tutorial-cli-matrix.rst:81
+msgid ":doc:`cli` — the full YAML syntax reference and CLI options."
+msgstr ":doc:`cli`——完整的 YAML 语法参考与 CLI 选项。"
+
+#: ../../source/tutorial-cli-matrix.rst:82
+msgid ":doc:`parallel_execution` — speed up each individual run."
+msgstr ":doc:`parallel_execution`——加速每一次单独的运行。"
+
+#: ../../source/tutorial-cli-matrix.rst:83
+msgid ""
+"How-to guides on custom algorithms, datasets and optimizers are on the "
+"way; until then, ``test-files/custom_alg.py``, ``test-"
+"files/custom_dataset.py`` and ``test-files/custom_optimizer.py`` are "
+"complete, runnable examples."
+msgstr ""
+"自定义算法、数据集与优化器的 how-to 指南正在准备中；在那之前，"
+"``test-files/custom_alg.py``、``test-files/custom_dataset.py`` 与 "
+"``test-files/custom_optimizer.py`` 就是完整可运行的例子。"

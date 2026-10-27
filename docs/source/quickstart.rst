@@ -78,14 +78,17 @@ Three files per run:
    communication count is higher than the last logged step.
 
 (The exact accuracy value may differ across machines and package versions;
-on one machine this run ends at 0.8767, up from 0.16 at initialization.)
+on one machine this run ends at 0.8767, up from 0.011 — chance level for
+10 classes — at initialization.)
 
 Next steps
 ----------
 
 - :doc:`concepts` — what actually happens in each round: sampling,
   broadcast, local updates, aggregation.
-- :doc:`cli` — run experiments from the command line with YAML config
-  files (a full tutorial on experiment batches is on the way).
+- :doc:`tutorial-first-experiment` — turn this single run into a
+  controlled comparison across algorithms and sampling ratios.
+- :doc:`tutorial-cli-matrix` — run experiment batches from the CLI with
+  YAML config files.
 - :doc:`parallel_execution` — speed training up with a parallel executor
   backend while keeping results reproducible.
