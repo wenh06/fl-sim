@@ -6,17 +6,17 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 08:06+0800\n"
+"POT-Creation-Date: 2026-10-29 00:10+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh_CN <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.16.0\n"
 
 #: ../../source/howto-custom-optimizer.rst:4
@@ -25,15 +25,9 @@ msgstr "操作指南：添加自定义优化器"
 
 #: ../../source/howto-custom-optimizer.rst:6
 msgid ""
-"The local training step is pluggable: fl-sim keeps its own optimizer "
-"registry, and any optimizer registered there can be selected by name in "
-"the client config. This is the lightest of the three how-tos — the "
-"complete example is 48 lines (``test-files/custom_optimizer.py``, "
-"exercised in CI via ``test-files/custom_conf.yml``)."
-msgstr ""
-"本地训练步是可插拔的：fl-sim 维护自己的优化器注册表，任何注册过的优化器都能在客户端"
-"配置里按名字选用。这是三篇操作指南里最轻的一篇——完整示例只有 48 行"
-"（``test-files/custom_optimizer.py``，经 ``test-files/custom_conf.yml`` 在 CI 中执行）。"
+"The local training step is pluggable: fl-sim keeps its own optimizer registry, and any optimizer registered there can be selected by name in the client config. This is the shortest of the three "
+"guides; the complete example is 48 lines (``test-files/custom_optimizer.py``, exercised in CI via ``test-files/custom_conf.yml``)."
+msgstr "本地训练步是可插拔的：fl-sim 维护自己的优化器注册表，任何注册过的优化器都能在客户端配置里按名字选用。这是三篇指南里最短的一篇——完整示例只有 48 行（ ``test-files/custom_optimizer.py`` ，经 ``test-files/custom_conf.yml`` 在 CI 中执行）。"
 
 #: ../../source/howto-custom-optimizer.rst:13
 msgid "Where optimizers plug in"
@@ -41,41 +35,26 @@ msgstr "优化器接在哪里"
 
 #: ../../source/howto-custom-optimizer.rst:15
 msgid ""
-"fl-sim's local optimizers live in :mod:`fl_sim.optimizers` and subclass "
-":class:`~fl_sim.optimizers.base.ProxSGD` — the proximal SGD base that "
-"supports the extra local-training knobs federated algorithms need "
-"(proximal terms, variance-reduction buffers passed by "
-"``optimizer.step(...)``, per the custom algorithm in :ref:`howto-custom-"
-"algorithm`)."
+"fl-sim's local optimizers live in :mod:`fl_sim.optimizers` and subclass :class:`~fl_sim.optimizers.base.ProxSGD` — the proximal SGD base that supports the extra local-training knobs federated "
+"algorithms need (proximal terms, variance-reduction buffers passed by ``optimizer.step(...)``, per the custom algorithm in :ref:`howto-custom-algorithm`)."
 msgstr ""
-"fl-sim 的本地优化器都在 :mod:`fl_sim.optimizers` 里，继承 "
-":class:`~fl_sim.optimizers.base.ProxSGD`——这个近端 SGD 基类支持联邦算法需要的额外本地"
-"训练旋钮（近端项、由 ``optimizer.step(...)`` 传入的方差削减缓冲区，用法见 "
-":ref:`howto-custom-algorithm` 的自定义算法）。"
+"fl-sim 的本地优化器都在 :mod:`fl_sim.optimizers` 里，继承 :class:`~fl_sim.optimizers.base.ProxSGD`——这个近端 SGD 基类支持联邦算法需要的额外本地训练旋钮（近端项、由 ``optimizer.step(...)`` 传入的方差削减缓冲区，用法见 :ref:`howto-custom-algorithm` "
+"的自定义算法）。"
 
 #: ../../source/howto-custom-optimizer.rst:22
-msgid ""
-"Registration makes the optimizer discoverable by name — the same pattern "
-"as algorithms and datasets:"
+msgid "Registration makes the optimizer discoverable by name — the same pattern as algorithms and datasets:"
 msgstr "注册让优化器可按名字发现——与算法、数据集是同一模式："
 
 #: ../../source/howto-custom-optimizer.rst:30
-msgid ""
-"This example wraps ``FedProxOptimizer``'s behavior under a new name; a "
-"genuinely new optimizer overrides the ``ProxSGD`` step methods instead of"
-" the constructor."
-msgstr ""
-"这个例子把 ``FedProxOptimizer`` 的行为换了个名字；真正全新的优化器应覆写 ``ProxSGD`` "
-"的 step 方法而不是构造器。"
+msgid "This example wraps ``FedProxOptimizer``'s behavior under a new name; a genuinely new optimizer overrides the ``ProxSGD`` step methods instead of the constructor."
+msgstr "这个例子把 ``FedProxOptimizer`` 的行为换了个名字；真正全新的优化器应覆写 ``ProxSGD`` 的 step 方法而不是构造器。"
 
 #: ../../source/howto-custom-optimizer.rst:35
-msgid "Use it"
+msgid "Usage"
 msgstr "使用"
 
 #: ../../source/howto-custom-optimizer.rst:37
-msgid ""
-"Registered optimizers are referenced by name in the client config — "
-"programmatically:"
+msgid "Registered optimizers are referenced by name in the client config — programmatically:"
 msgstr "注册过的优化器在客户端配置里按名字引用——编程方式："
 
 #: ../../source/howto-custom-optimizer.rst:44
@@ -84,52 +63,41 @@ msgstr "或在 YAML 实验矩阵里："
 
 #: ../../source/howto-custom-optimizer.rst:52
 msgid ""
-"The name is resolved through :func:`~fl_sim.optimizers.get_optimizer` at "
-"client setup (a trailing ``Optimizer`` suffix is optional); an "
-"unregistered name fails there with ``Optimizer ... is not registered``."
-msgstr ""
-"名字在客户端初始化时经 :func:`~fl_sim.optimizers.get_optimizer` 解析（结尾的 "
-"``Optimizer`` 后缀可省略）；未注册的名字会在此报错 ``Optimizer ... is not registered`` 。"
+"The name is resolved through :func:`~fl_sim.optimizers.get_optimizer` at client setup (a trailing ``Optimizer`` suffix is optional); an unregistered name fails there with ``Optimizer ... is not "
+"registered``."
+msgstr "名字在客户端初始化时经 :func:`~fl_sim.optimizers.get_optimizer` 解析（结尾的 ``Optimizer`` 后缀可省略）；未注册的名字会在此报错 ``Optimizer ... is not registered`` 。"
 
 #: ../../source/howto-custom-optimizer.rst:57
 msgid "Caveats"
 msgstr "注意事项"
 
 #: ../../source/howto-custom-optimizer.rst:59
-msgid ""
-"the optimizer is constructed **once per client per run**; anything "
-"stateful it keeps lives for the whole federated run;"
+msgid "the optimizer is constructed **once per client per run**; anything stateful it keeps lives for the whole federated run;"
 msgstr "优化器 **每次运行中每个客户端只构造一次** ；它保存的任何状态会贯穿整个联邦运行；"
 
 #: ../../source/howto-custom-optimizer.rst:61
 msgid ""
-"some algorithms fix the client optimizer in their client-config "
-"validators (e.g. the FedProx family selects ``FedProx`` / ``FedProx_VR`` "
-"from its ``vr`` flag) — for those algorithms the ``optimizer`` config "
-"field is ignored by design;"
-msgstr ""
-"某些算法在客户端配置的 validator 里固定了本地优化器（如 FedProx 家族由 ``vr`` 标志选择 "
-"``FedProx`` / ``FedProx_VR`` ）——对这些算法， ``optimizer`` 配置字段被设计性地忽略；"
+"some algorithms fix the client optimizer in their client-config validators (e.g. the FedProx family selects ``FedProx`` / ``FedProx_VR`` from its ``vr`` flag) — for those algorithms the "
+"``optimizer`` config field is ignored by design;"
+msgstr "某些算法在客户端配置的 validator 里固定了本地优化器（如 FedProx 家族由 ``vr`` 标志选择 ``FedProx`` / ``FedProx_VR`` ）——对这些算法， ``optimizer`` 配置字段被设计性地忽略；"
 
 #: ../../source/howto-custom-optimizer.rst:65
 msgid ""
-"the server-side optimizers (FedAdam, FedYogi, … in the FedOpt family) are"
-" a different mechanism — those are selected through the server config's "
-"``optimizer`` field and are not part of this registry."
-msgstr ""
-"服务器侧优化器（FedOpt 家族的 FedAdam、FedYogi 等）是另一套机制——经服务器配置的 "
-"``optimizer`` 字段选择，不在本注册表内。"
+"the server-side optimizers (FedAdam, FedYogi, … in the FedOpt family) are a different mechanism — those are selected through the server config's ``optimizer`` field and are not part of this "
+"registry."
+msgstr "服务器侧优化器（FedOpt 家族的 FedAdam、FedYogi 等）是另一套机制——经服务器配置的 ``optimizer`` 字段选择，不在本注册表内。"
 
 #: ../../source/howto-custom-optimizer.rst:71
 msgid "Next steps"
 msgstr "下一步"
 
 #: ../../source/howto-custom-optimizer.rst:73
-msgid ""
-":ref:`howto-custom-algorithm` — when the *algorithm*, not just the "
-"optimizer, is what's new."
+msgid ":ref:`howto-custom-algorithm` — when the *algorithm*, not just the optimizer, is what's new."
 msgstr ":ref:`howto-custom-algorithm`——如果新的不只是优化器，而是 *算法本身* 。"
 
 #: ../../source/howto-custom-optimizer.rst:75
 msgid ":doc:`api/optimizers` — the optimizer API reference."
 msgstr ":doc:`api/optimizers`——优化器 API 参考。"
+
+#~ msgid "Use it"
+#~ msgstr "使用"

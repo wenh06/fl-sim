@@ -3,8 +3,8 @@
 How to: implement a custom algorithm
 ====================================
 
-Built-in algorithms cover the classics, but research lives in the
-variations. This guide implements a complete algorithm — a FedProx
+Built-in algorithms cover the classical methods; research often requires
+variants. This guide implements a complete algorithm — a FedProx
 variant with named parameter exchange and optional variance reduction —
 walking through every file you need and every hook you can override.
 The running example is ``test-files/custom_alg.py``; the code shown
@@ -16,8 +16,8 @@ overrides on the Server and Client classes** — the training loop, the
 communication schedule scaffolding, logging, evaluation and the parallel
 executors all stay untouched (:doc:`concepts` explains why).
 
-When do you need this?
-----------------------
+When is a custom algorithm needed?
+----------------------------------
 
 - your algorithm changes **what clients compute** locally (new local
   objective, extra local state) → override client hooks;
@@ -125,10 +125,10 @@ The same four classes work programmatically, exactly like
     )
     server.train()
 
-How your algorithm is kept honest
----------------------------------
+Safeguards for registered algorithms
+------------------------------------
 
-Two layers protect a registered algorithm:
+Two layers guard a registered algorithm:
 
 - the **golden regression** suite (``test/test_parallel_equivalence/``)
   pins each algorithm's observable trajectory (messages, decisions,
