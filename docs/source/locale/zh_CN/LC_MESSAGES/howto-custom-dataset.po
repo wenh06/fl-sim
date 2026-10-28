@@ -1,0 +1,201 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 08:06+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: ../../source/howto-custom-dataset.rst:4
+msgid "How to: add a custom dataset"
+msgstr "操作指南：添加自定义数据集"
+
+#: ../../source/howto-custom-dataset.rst:6
+msgid ""
+"A federated dataset in fl-sim is two things bundled together: the **raw "
+"data** and a **partitioning scheme** that spreads it across simulated "
+"clients. This guide walks through the complete example in ``test-"
+"files/custom_dataset.py`` (a re-implementation of the FedProx paper's "
+"FEMNIST variant, exercised in CI via ``test-files/custom_conf.yml``) and "
+"then distills the minimal template for \"I have NumPy arrays and want "
+"them federated\"."
+msgstr ""
+"fl-sim 中的联邦数据集是两样东西的打包： **原始数据** 与把它分散到各模拟客户端的"
+" **划分方案** 。本指南先走完 ``test-files/custom_dataset.py`` 的完整示例"
+"（FedProx 论文所用 FEMNIST 变体的复刻，经 ``test-files/custom_conf.yml`` 在 CI 中"
+"执行），再提炼出\"我有 NumPy 数组，想联邦起来\"的最小模板。"
+
+#: ../../source/howto-custom-dataset.rst:15
+msgid "Choose the base class"
+msgstr "选择基类"
+
+#: ../../source/howto-custom-dataset.rst:17
+msgid ""
+":class:`~fl_sim.data_processing.fed_dataset.FedVisionDataset` — image "
+"data with the usual ``TensorDataset`` plumbing; what the example uses;"
+msgstr ""
+":class:`~fl_sim.data_processing.fed_dataset.FedVisionDataset`——图像数据，"
+"带常规的 ``TensorDataset`` 管线；示例用的就是它；"
+
+#: ../../source/howto-custom-dataset.rst:19
+msgid ""
+":class:`~fl_sim.data_processing.fed_dataset.FedDataset` — the fully "
+"abstract base, for anything non-vision."
+msgstr ""
+":class:`~fl_sim.data_processing.fed_dataset.FedDataset`——完全抽象的基类，"
+"适合一切非视觉数据。"
+
+#: ../../source/howto-custom-dataset.rst:22
+msgid ""
+"The required interface is small: load data in ``_preload``, hand out "
+"dataloaders per client in ``get_dataloader``, and score predictions in "
+"``evaluate``."
+msgstr ""
+"必需接口很小：在 ``_preload`` 里加载数据，在 ``get_dataloader`` 里按客户端分发"
+"dataloader，在 ``evaluate`` 里为预测打分。"
+
+#: ../../source/howto-custom-dataset.rst:27
+msgid "The full example"
+msgstr "完整示例"
+
+#: ../../source/howto-custom-dataset.rst:34
+msgid ""
+"``_preload`` runs once at construction: resolve the data directory, "
+"declare the defaults the framework queries (client counts, batch size, "
+"the file layout), set the ``criterion``, download if needed, and read the"
+" raw files into memory. fl-sim datasets are **immutable after "
+"construction** — partitioning happens here, once."
+msgstr ""
+"``_preload`` 在构造时只跑一次：解析数据目录、声明框架会查询的默认值（客户端数、"
+"批大小、文件布局）、设置 ``criterion``、按需下载，并把原始文件读入内存。fl-sim "
+"数据集 **构造后不可变** ——划分就在这里做，且只做一次。"
+
+#: ../../source/howto-custom-dataset.rst:45
+msgid ""
+"The contract of ``get_dataloader``: given a client index (or ``None`` for"
+" \"everything\"), return a **pair** of dataloaders ``(train, test)`` with"
+" shuffling enabled — the framework re-requests them every round, and "
+"under ``rng_mode=\"per_client\"`` (:doc:`tutorial-parallel-reproducible`)"
+" their shuffling is what gets re-seeded per client."
+msgstr ""
+"``get_dataloader`` 的契约：给定客户端索引（或 ``None`` 表示\"全部\"），返回一对开启"
+"洗牌的 dataloader ``(train, test)`` —— 框架每轮都会重新请求它们；在 "
+"``rng_mode=\"per_client\"`` （ :doc:`tutorial-parallel-reproducible` ）下，被按客户端"
+"重新播种的正是这里的洗牌。"
+
+#: ../../source/howto-custom-dataset.rst:56
+msgid ""
+"``evaluate`` turns a batch of predictions and labels into the metric "
+"dictionary that lands in the logs (``acc``, ``loss``, ``num_samples``, "
+"... — the same keys :doc:`quickstart` read back)."
+msgstr ""
+"``evaluate`` 把一批预测与标签变成写进日志的指标字典（ ``acc`` 、 ``loss`` 、 "
+"``num_samples`` 等——正是 :doc:`quickstart` 读回的那些键）。"
+
+#: ../../source/howto-custom-dataset.rst:65
+msgid ""
+"The remaining properties are conventions rather than requirements: "
+"``mirrors`` / ``url`` feed the download mechanism (fallback URLs tried in"
+" order — see the "
+":meth:`~fl_sim.data_processing.fed_dataset.FedDataset.mirrors` API for "
+"the protocol), ``candidate_models`` declares the models that fit this "
+"data (the CLI's ``model: name:`` picks from here), ``label_map`` names "
+"the classes, ``doi`` carries citations."
+msgstr ""
+"其余 property 是惯例而非硬性要求： ``mirrors`` / ``url`` 供下载机制使用（备选 URL "
+"按序尝试——协议见 :meth:`~fl_sim.data_processing.fed_dataset.FedDataset.mirrors` "
+"API）； ``candidate_models`` 声明适合本数据的模型（CLI 的 ``model: name:`` 从这里"
+"选取）； ``label_map`` 给类别命名； ``doi`` 携带引用。"
+
+#: ../../source/howto-custom-dataset.rst:73
+msgid "The minimal template"
+msgstr "最小模板"
+
+#: ../../source/howto-custom-dataset.rst:75
+msgid ""
+"From NumPy arrays to a usable federated dataset. This template is "
+"executed verbatim in CI-style verification — three conventions it encodes"
+" are easy to miss and expensive to debug:"
+msgstr ""
+"从 NumPy 数组到可用的联邦数据集。这个模板经过 CI 式验证原样执行——它编码的三个约定"
+"容易漏掉、调起来又贵："
+
+#: ../../source/howto-custom-dataset.rst:79
+msgid ""
+"**define your own ``__init__``**: the abstract "
+":class:`~fl_sim.data_processing.fed_dataset.FedDataset` base has no "
+"constructor of its own (the vision subclass supplies one); accept "
+"``(datadir, transform, seed, **extra_config)`` and re-seed via "
+"``set_seed`` so every constructor re-seeds the global RNG exactly like "
+"the built-ins do;"
+msgstr ""
+" **自己定义 ``__init__``** ：抽象基类 :class:`~fl_sim.data_processing.fed_dataset.FedDataset` "
+"本身没有构造器（视觉子类提供了一个）；接受 ``(datadir, transform, seed, **extra_config)`` "
+"并经 ``set_seed`` 重新播种，让每个构造器都和内置数据集一样重置全局 RNG；"
+
+#: ../../source/howto-custom-dataset.rst:85
+msgid ""
+"**the framework requests global loaders too**: ``get_dataloader`` must "
+"handle ``client_idx=None`` (\"all clients\"), not just per-client "
+"indices;"
+msgstr ""
+" **框架也会请求全局 loader** ： ``get_dataloader`` 必须处理 ``client_idx=None`` "
+"（\"全部客户端\"），不能只处理逐客户端的索引；"
+
+#: ../../source/howto-custom-dataset.rst:88
+msgid ""
+"**``candidate_models`` should return fl-sim models** (they carry the "
+"``.device`` attribute the device-allocation step relies on)."
+msgstr ""
+" **``candidate_models`` 应返回 fl-sim 模型** （它们带有设备分配步骤依赖的 "
+"``.device`` 属性）。"
+
+#: ../../source/howto-custom-dataset.rst:91
+msgid ""
+"Two ``load_partition_data*`` methods look intimidating but are a legacy "
+"tff-style bulk-loading API the training loop never calls — a stub "
+"satisfies the abstract interface:"
+msgstr ""
+"两个 ``load_partition_data*`` 方法看着吓人，其实是训练循环从不调用的遗留 tff 风格"
+"批量加载 API——一个桩就满足抽象接口："
+
+#: ../../source/howto-custom-dataset.rst:172
+msgid "Use it"
+msgstr "使用"
+
+#: ../../source/howto-custom-dataset.rst:174
+msgid ""
+"With the ``@register_fed_dataset()`` decorator applied, the dataset is "
+"constructible by name once its module has been imported (or via the "
+"module *path* as the dataset ``name`` — see "
+":class:`~fl_sim.data_processing.fed_data_args.FedDataArgs`), and every "
+"built-in works on it unchanged:"
+msgstr ""
+"应用 ``@register_fed_dataset()`` 装饰器后，只要模块被导入过，数据集即可按名字构造"
+"（或以模块 *路径* 作为数据集 ``name`` ——见 "
+":class:`~fl_sim.data_processing.fed_data_args.FedDataArgs`），且所有内置组件原样可用："
+
+#: ../../source/howto-custom-dataset.rst:197
+msgid "Next steps"
+msgstr "下一步"
+
+#: ../../source/howto-custom-dataset.rst:199
+msgid ":ref:`howto-custom-algorithm` — the algorithm side of the contract."
+msgstr ":ref:`howto-custom-algorithm`——契约的算法一侧。"
+
+#: ../../source/howto-custom-dataset.rst:200
+msgid ":doc:`api/datasets` — the full FedDataset API reference."
+msgstr ":doc:`api/datasets`——完整的 FedDataset API 参考。"
