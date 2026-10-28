@@ -5,7 +5,7 @@ How to: add a custom optimizer
 
 The local training step is pluggable: fl-sim keeps its own optimizer
 registry, and any optimizer registered there can be selected by name in
-the client config. This is the lightest of the three how-tos — the
+the client config. This is the shortest of the three guides; the
 complete example is 48 lines (``test-files/custom_optimizer.py``,
 exercised in CI via ``test-files/custom_conf.yml``).
 
@@ -31,8 +31,8 @@ This example wraps ``FedProxOptimizer``'s behavior under a new name;
 a genuinely new optimizer overrides the ``ProxSGD`` step methods
 instead of the constructor.
 
-Use it
-------
+Usage
+-----
 
 Registered optimizers are referenced by name in the client config —
 programmatically:

@@ -3,13 +3,13 @@
 How to: add a custom dataset
 ============================
 
-A federated dataset in fl-sim is two things bundled together: the **raw
-data** and a **partitioning scheme** that spreads it across simulated
-clients. This guide walks through the complete example in
+A federated dataset in fl-sim combines two components: the **raw data**
+and a **partitioning scheme** that spreads it across the simulated
+clients. This guide covers the complete example in
 ``test-files/custom_dataset.py`` (a re-implementation of the FedProx
 paper's FEMNIST variant, exercised in CI via
-``test-files/custom_conf.yml``) and then distills the minimal template
-for "I have NumPy arrays and want them federated".
+``test-files/custom_conf.yml``) and then derives a minimal template
+starting from NumPy arrays.
 
 Choose the base class
 ---------------------
@@ -72,9 +72,9 @@ fit this data (the CLI's ``model: name:`` picks from here),
 The minimal template
 --------------------
 
-From NumPy arrays to a usable federated dataset. This template is
-executed verbatim in CI-style verification — three conventions it
-encodes are easy to miss and expensive to debug:
+From NumPy arrays to a usable federated dataset. The template below has
+been verified by end-to-end execution; three conventions it encodes are
+easy to miss and costly to debug:
 
 - **define your own ``__init__``**: the abstract
   :class:`~fl_sim.data_processing.fed_dataset.FedDataset` base has no
@@ -88,9 +88,9 @@ encodes are easy to miss and expensive to debug:
 - **``candidate_models`` should return fl-sim models** (they carry the
   ``.device`` attribute the device-allocation step relies on).
 
-Two ``load_partition_data*`` methods look intimidating but are a legacy
-tff-style bulk-loading API the training loop never calls — a stub
-satisfies the abstract interface:
+Two ``load_partition_data*`` methods appear required but are a legacy
+tff-style bulk-loading API that the training loop never calls — stub
+implementations satisfy the abstract interface:
 
 .. code-block:: python
 
@@ -168,8 +168,8 @@ satisfies the abstract interface:
         def doi(self):
             return []
 
-Use it
-------
+Usage
+-----
 
 With the ``@register_fed_dataset()`` decorator applied, the dataset is
 constructible by name once its module has been imported (or via the
