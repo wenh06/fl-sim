@@ -3,10 +3,9 @@
 Core concepts
 =============
 
-This page is the map of fl-sim: the four building blocks of every
-experiment and what happens during one round of federated training. It
-explains *how the framework thinks* — for a hands-on walk-through, start
-with :doc:`quickstart`.
+This page summarizes the four building blocks of every experiment and the
+sequence of events within one round of federated training. For a hands-on
+introduction, start with :doc:`quickstart`.
 
 Four building blocks
 ----------------------
@@ -16,11 +15,11 @@ FedDataset — the data and how it is split
 
 A :class:`~fl_sim.data_processing.fed_dataset.FedDataset` bundles a raw
 dataset with a **partitioning scheme**: it decides how the data is spread
-across the simulated clients and hands each client its own dataloaders
-through ``get_dataloader(client_idx)``. Built-in datasets (FEMNIST,
+across the simulated clients and provides each client with its own
+dataloaders through ``get_dataloader(client_idx)``. Built-in datasets (FEMNIST,
 CIFAR10, …) download on first use; :class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic`
-generates synthetic data locally, which is why every tutorial here runs in
-seconds. Each dataset also declares ``candidate_models`` — the models it
+generates synthetic data locally, so the tutorials in this documentation
+complete in seconds. Each dataset also declares ``candidate_models`` — the models it
 is meant to be paired with (``dataset.candidate_models["mlp_d1"]``, as in
 the quickstart). Datasets are **immutable during training**: partitioning
 happens once, up front. Custom datasets are covered in a how-to guide.
@@ -29,8 +28,8 @@ Model — a plain PyTorch module
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Models are ordinary :class:`torch.nn.Module` objects; fl-sim does not
-wrap them. Whatever ``candidate_models`` offers or you bring yourself
-works. The server holds the *global* copy; every sampled client gets its
+wrap them. Any module from ``candidate_models`` — or any user-provided
+module — can be used. The server holds the *global* copy; every sampled client gets its
 own copy each round, trains it on its local data slice, and sends the
 result back.
 
@@ -39,7 +38,7 @@ Server — the orchestrator
 
 The :class:`~fl_sim.nodes.Server` owns the global model and the
 federated schedule (how many rounds, how many clients, how they are
-sampled), and drives the loop you will see below. It never touches
+sampled), and drives the training loop described below. It never touches
 client-local data. Algorithm-specific behavior lives in subclasses:
 :class:`~fl_sim.algorithms.fedopt.FedAvgServer`,
 :class:`~fl_sim.algorithms.fedprox.FedProxServer`, and 15+ others — each
@@ -54,7 +53,7 @@ Client — one participant's local state
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Each :class:`~fl_sim.nodes.Client` holds its own model copy, its data
-slice, and its training state. Its hooks are the mirror image of the
+slice, and its training state. The client-side hooks correspond to the
 server's:
 
 - ``update()`` — the **local training**: fit the received model on local
@@ -71,9 +70,9 @@ FedPD, ProxSkip, Ditto, … — and they all run in the *same* loop. An
 algorithm is only a pair of config classes plus hook overrides: FedProx
 changes the client's local objective; SCAFFOLD adds control variates to
 the uplink; FedPD lets clients *skip* some uplinks entirely. The
-framework calls the hooks in a fixed order (below), so algorithms compose
-with the infrastructure — logging, evaluation, reproducibility, parallel
-execution — without any of them knowing about each other.
+framework calls the hooks in a fixed order (below), so algorithms remain
+independent of the infrastructure — logging, evaluation, reproducibility,
+parallel execution.
 
 Registering your own makes it usable from the CLI and experiment
 matrices by name:
@@ -118,19 +117,19 @@ fixed order:
 Because steps 1–2 and 5 happen on the main thread in fixed order, the
 *aggregation arithmetic* is identical no matter how the local steps of
 step 4 are executed — sequentially, or concurrently on a thread pool
-(:doc:`parallel_execution`). That invariant is what makes parallel runs
-trustworthy.
+(:doc:`parallel_execution`). This invariant underlies the reproducibility
+guarantees of parallel execution.
 
-The cast in one table
----------------------
+The four objects at a glance
+----------------------------
 
 .. list-table::
    :header-rows: 1
 
    * - Object
      - Configured by
-     - Knows about
-     - Never touches
+     - Responsible for
+     - Does not access
    * - :class:`~fl_sim.data_processing.fed_dataset.FedDataset`
      - constructor args
      - raw data, partitioning, dataloaders
@@ -151,4 +150,4 @@ Where to go next
 - :doc:`api/nodes` — the full Server/Client API reference.
 - :ref:`config reference <config_reference>` — every config field
   of every algorithm.
-- :doc:`viz` — explore the produced logs interactively.
+- :doc:`viz` — interactive exploration of the produced logs.
