@@ -27,6 +27,7 @@ CUSTOM_FEMNIST_DATA_DIR.mkdir(parents=True, exist_ok=True)
 _label_mapping = {i: c for i, c in enumerate("abcdefghijklmnopqrstuvwxyz"[:10])}
 
 
+# --- begin: dataset ---
 @register_fed_dataset()
 class CustomFEMNIST(FedVisionDataset):
     """
@@ -62,6 +63,7 @@ class CustomFEMNIST(FedVisionDataset):
 
     __name__ = "CustomFEMNIST"
 
+    # --- begin: preload ---
     def _preload(self, datadir: Optional[Union[str, Path]] = None) -> None:
         self.datadir = Path(datadir or CUSTOM_FEMNIST_DATA_DIR).expanduser().resolve()
 
@@ -105,6 +107,9 @@ class CustomFEMNIST(FedVisionDataset):
             )
         )
 
+    # --- end: preload ---
+
+    # --- begin: dataloader ---
     def get_dataloader(
         self,
         train_bs: Optional[int] = None,
@@ -152,11 +157,14 @@ class CustomFEMNIST(FedVisionDataset):
 
         return train_dl, test_dl
 
+    # --- end: dataloader ---
+
     def extra_repr_keys(self) -> List[str]:
         return [
             "n_class",
         ] + super().extra_repr_keys()
 
+    # --- begin: evaluate ---
     def evaluate(self, probs: torch.Tensor, truths: torch.Tensor) -> Dict[str, float]:
         return {
             "acc": top_n_accuracy(probs, truths, 1),
@@ -166,6 +174,9 @@ class CustomFEMNIST(FedVisionDataset):
             "num_samples": probs.shape[0],
         }
 
+    # --- end: evaluate ---
+
+    # --- begin: mirrors-and-models ---
     @property
     def url(self) -> str:
         # https://drive.google.com/file/d/1tCEcJgRJ8NdRo11UJZR6WSKMNdmox4GC/view?usp=sharing
@@ -205,3 +216,8 @@ class CustomFEMNIST(FedVisionDataset):
     @property
     def label_map(self) -> dict:
         return _label_mapping
+
+    # --- end: mirrors-and-models ---
+
+
+# --- end: dataset ---

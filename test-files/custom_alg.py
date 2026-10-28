@@ -28,6 +28,7 @@ __all__ = [
 ]
 
 
+# --- begin: configs ---
 @register_algorithm()
 @add_docstring(server_config_kw_doc, "append")
 class CustomServerConfig(ServerConfig):
@@ -93,6 +94,10 @@ class CustomClientConfig(ClientConfig):
         return self
 
 
+# --- end: configs ---
+
+
+# --- begin: server ---
 @register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
@@ -156,6 +161,10 @@ class CustomServer(Server):
         return ["10.48550/ARXIV.1812.06127"]
 
 
+# --- end: server ---
+
+
+# --- begin: client ---
 @register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
@@ -251,3 +260,6 @@ class CustomClient(Client):
                     # free memory
                     del X, y, output, loss
         self.lr_scheduler.step()
+
+
+# --- end: client ---

@@ -1,0 +1,274 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 08:06+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: ../../source/howto-custom-algorithm.rst:4
+msgid "How to: implement a custom algorithm"
+msgstr "操作指南：实现一个自定义算法"
+
+#: ../../source/howto-custom-algorithm.rst:6
+msgid ""
+"Built-in algorithms cover the classics, but research lives in the "
+"variations. This guide implements a complete algorithm — a FedProx "
+"variant with named parameter exchange and optional variance reduction — "
+"walking through every file you need and every hook you can override. The "
+"running example is ``test-files/custom_alg.py``; the code shown below is "
+"included from that file, so it is exercised in CI (the CLI runs it via "
+"``test-files/custom_conf.yml``)."
+msgstr ""
+"内置算法覆盖了经典方法，但研究的天地在变体里。本指南实现一个完整算法——带按名参数"
+"交换与可选方差削减的 FedProx 变体——走遍你需要的每个文件与每个可覆写的钩子。贯穿示例是 "
+"``test-files/custom_alg.py``；下文展示的代码都从该文件引入，因此在 CI 中真实执行"
+"（CLI 经 ``test-files/custom_conf.yml`` 运行它）。"
+
+#: ../../source/howto-custom-algorithm.rst:14
+msgid ""
+"The one-sentence model: **an algorithm is two config classes plus hook "
+"overrides on the Server and Client classes** — the training loop, the "
+"communication schedule scaffolding, logging, evaluation and the parallel "
+"executors all stay untouched (:doc:`concepts` explains why)."
+msgstr ""
+"一句话模型： **算法 = 一对配置类 + Server/Client 类上的钩子覆写** ——训练循环、"
+"通信调度脚手架、日志、评估、并行执行器全部原样（ :doc:`concepts` 解释了为什么）。"
+
+#: ../../source/howto-custom-algorithm.rst:20
+msgid "When do you need this?"
+msgstr "什么时候需要它？"
+
+#: ../../source/howto-custom-algorithm.rst:22
+msgid ""
+"your algorithm changes **what clients compute** locally (new local "
+"objective, extra local state) → override client hooks;"
+msgstr "算法改变了客户端 **本地计算的内容** （新的本地目标、额外的本地状态）→ 覆写客户端钩子；"
+
+#: ../../source/howto-custom-algorithm.rst:24
+msgid ""
+"it changes **what is exchanged or how replies are aggregated** → override"
+" server hooks;"
+msgstr "算法改变了 **交换的内容或回复的聚合方式** → 覆写服务器钩子；"
+
+#: ../../source/howto-custom-algorithm.rst:26
+msgid "it needs **new hyperparameters** → add config fields."
+msgstr "算法需要 **新的超参数** → 添加配置字段。"
+
+#: ../../source/howto-custom-algorithm.rst:28
+msgid ""
+"If you only need different *values* for existing hyperparameters, no code"
+" is needed — use the built-in algorithm's config."
+msgstr "如果只是想给既有超参数设不同的 *值* ，不需要写任何代码——直接用内置算法的配置。"
+
+#: ../../source/howto-custom-algorithm.rst:32
+msgid "The config classes"
+msgstr "配置类"
+
+#: ../../source/howto-custom-algorithm.rst:34
+msgid ""
+"Two pydantic models, one for each side. New fields become CLI/CLI-YAML "
+"options automatically; ``server_config_kw_doc`` / "
+"``client_config_kw_doc`` append the inherited fields' docs so the API "
+"reference stays complete:"
+msgstr ""
+"两个 pydantic 模型，各管一侧。新字段自动成为 CLI/YAML 选项； ``server_config_kw_doc`` / "
+"``client_config_kw_doc`` 把继承字段的文档追加进来，API 参考得以保持完整："
+
+#: ../../source/howto-custom-algorithm.rst:43
+msgid ""
+"The ``model_validator`` here fixes the local optimizer from the ``vr`` "
+"flag — config-level invariants belong in validators, so invalid "
+"combinations fail at construction, not mid-run."
+msgstr ""
+"这里的 ``model_validator`` 由 ``vr`` 标志固定本地优化器——配置级不变式就该放在 "
+"validator 里，让非法组合在构造时失败，而不是跑到一半。"
+
+#: ../../source/howto-custom-algorithm.rst:48
+msgid "The server hooks"
+msgstr "服务器钩子"
+
+#: ../../source/howto-custom-algorithm.rst:50
+msgid ""
+"The server customizes the **downlink** (``communicate``) and the "
+"**aggregation** (``update``). Everything else — sampling, the round loop,"
+" metrics — is inherited:"
+msgstr ""
+"服务器定制 **下行** （ ``communicate`` ）与 **聚合** （ ``update`` ）。其余一切——"
+"采样、轮循环、指标——全部继承："
+
+#: ../../source/howto-custom-algorithm.rst:59
+msgid "Points worth noting:"
+msgstr "值得注意的点："
+
+#: ../../source/howto-custom-algorithm.rst:61
+msgid ""
+"``communicate(target)`` builds a typed "
+":class:`~fl_sim.messages.ServerToClient` message; ``extras`` carries "
+"algorithm-specific payloads (here, server-side gradients for variance "
+"reduction) alongside the model."
+msgstr ""
+"``communicate(target)`` 构建带类型的 :class:`~fl_sim.messages.ServerToClient` 消息；"
+"``extras`` 携带算法特有载荷（此处是方差削减用的服务器侧梯度），与模型并列。"
+
+#: ../../source/howto-custom-algorithm.rst:64
+msgid ""
+"``update()`` runs on the main thread after the sampled clients' replies "
+"arrive in ``self._received_messages`` — in sampled-client order, which is"
+" what keeps aggregation bitwise identical across "
+":doc:`parallel_execution` backends."
+msgstr ""
+"``update()`` 在主线程上运行，此时被采样客户端的回复已进入 ``self._received_messages``"
+"——按被采样客户端顺序排列，这正是聚合在所有 :doc:`parallel_execution` 后端上逐位一致的"
+"原因。"
+
+#: ../../source/howto-custom-algorithm.rst:68
+msgid ""
+"``client_cls`` and ``config_cls`` wire the custom classes together; "
+"``@register_algorithm()`` (shown above each class) makes the algorithm "
+"usable by name."
+msgstr ""
+"``client_cls`` 与 ``config_cls`` 把自定义类互相接起来； ``@register_algorithm()`` "
+"（见各类上方）让算法可按名字使用。"
+
+#: ../../source/howto-custom-algorithm.rst:73
+msgid "The client hooks"
+msgstr "客户端钩子"
+
+#: ../../source/howto-custom-algorithm.rst:75
+msgid ""
+"The client customizes the **local training** (``update``) and the "
+"**uplink** (``communicate``):"
+msgstr "客户端定制 **本地训练** （ ``update`` ）与 **上行** （ ``communicate`` ）："
+
+#: ../../source/howto-custom-algorithm.rst:83
+msgid ""
+"The most important contract on this page is in ``communicate``: it "
+"**builds and returns** a :class:`~fl_sim.messages.ClientToServer` and "
+"touches nothing but the client's own state. The framework sends the "
+"message and maintains the communication counters. That is what makes the "
+"hook safe to run inside a worker thread when :doc:`parallel execution "
+"<parallel_execution>` is on — a hook that reached into server state would"
+" only work sequentially."
+msgstr ""
+"本页最重要的契约在 ``communicate`` 里：它 **构建并返回** 一个 "
+":class:`~fl_sim.messages.ClientToServer`，除客户端自身状态外不碰任何东西。消息的发送"
+"与通信计数由框架维护。正因如此，开启 :doc:`并行执行 <parallel_execution>` 时该钩子才能"
+"安全地跑在工作线程里——一个伸手去碰服务器状态的钩子只能在串行模式下工作。"
+
+#: ../../source/howto-custom-algorithm.rst:92
+msgid "Named exchange, by the way"
+msgstr "顺带说一句：按名交换"
+
+#: ../../source/howto-custom-algorithm.rst:94
+msgid ""
+"This example exchanges parameters **by name** (a ``model_state`` mapping "
+"from parameter name to tensor, i.e. :data:`~fl_sim.messages.ModelState`) "
+"instead of the legacy flat positional list. Names survive reordering and "
+"partial modules, and the loading side (``accept_parameters``, ``update``)"
+" looks parameters up by name. The flat-list style still works everywhere;"
+" prefer names for new algorithms."
+msgstr ""
+"本示例按 **参数名** 交换参数（ ``model_state`` 映射：参数名 → 张量，即 "
+":data:`~fl_sim.messages.ModelState` ），而不是遗留的扁平位置列表。名字能扛住重排序与"
+"部分模块，加载侧（ ``accept_parameters`` 、 ``update`` ）按名查找。扁平列表写法依然处处"
+"可用；但新算法请优先用名字。"
+
+#: ../../source/howto-custom-algorithm.rst:102
+msgid "Register and run"
+msgstr "注册与运行"
+
+#: ../../source/howto-custom-algorithm.rst:104
+msgid ""
+"``@register_algorithm()`` (applied to all four classes above) puts the "
+"algorithm into the registry; from then on the CLI and YAML matrices "
+"accept it like any built-in:"
+msgstr ""
+"``@register_algorithm()`` （上面四个类都应用了）把算法送进注册表；此后 CLI 与 YAML "
+"矩阵像对待内置算法一样接受它："
+
+#: ../../source/howto-custom-algorithm.rst:118
+msgid ""
+"The same four classes work programmatically, exactly like "
+":doc:`quickstart`:"
+msgstr "同样这四个类也可以编程方式使用，与 :doc:`quickstart` 完全一致："
+
+#: ../../source/howto-custom-algorithm.rst:129
+msgid "How your algorithm is kept honest"
+msgstr "你的算法如何被守护"
+
+#: ../../source/howto-custom-algorithm.rst:131
+msgid "Two layers protect a registered algorithm:"
+msgstr "两层机制守护一个注册算法："
+
+#: ../../source/howto-custom-algorithm.rst:133
+msgid ""
+"the **golden regression** suite (``test/test_parallel_equivalence/``) "
+"pins each algorithm's observable trajectory (messages, decisions, "
+"counters, metrics positions) so refactors cannot silently change "
+"behavior;"
+msgstr ""
+" **golden 回归** 套件（ ``test/test_parallel_equivalence/`` ）钉住每个算法的可观测轨迹"
+"（消息、决策、计数器、指标位置），重构无法悄悄改变行为；"
+
+#: ../../source/howto-custom-algorithm.rst:137
+msgid ""
+"the **hook contract test** (``test/test_hook_contract.py``) asserts that "
+"client hooks touch no server state — the parallel-safety property "
+"``communicate`` above was written for."
+msgstr ""
+" **钩子契约测试** （ ``test/test_hook_contract.py`` ）断言客户端钩子不触碰服务器状态"
+"——上面 ``communicate`` 的并行安全性质正是为此而写。"
+
+#: ../../source/howto-custom-algorithm.rst:141
+msgid "When you add an algorithm to the repository itself, add it to both."
+msgstr "把算法合入本仓库时，两层都要接入。"
+
+#: ../../source/howto-custom-algorithm.rst:144
+msgid "Legacy hook style"
+msgstr "遗留钩子写法"
+
+#: ../../source/howto-custom-algorithm.rst:146
+msgid ""
+"Older code overrides ``communicate(self, target)`` on the *client* and "
+"mutates server state directly. It still works under the sequential "
+"backend (with a ``DeprecationWarning``), but it is incompatible with "
+"parallel backends and will be removed; new algorithms should build and "
+"return the typed message as shown above."
+msgstr ""
+"更老的代码在 *客户端* 上覆写 ``communicate(self, target)`` 并直接改动服务器状态。它在"
+"串行后端下仍然可用（会带 ``DeprecationWarning`` ），但与并行后端不兼容，终将移除；"
+"新算法请按上文所示构建并返回带类型的消息。"
+
+#: ../../source/howto-custom-algorithm.rst:153
+msgid "Next steps"
+msgstr "下一步"
+
+#: ../../source/howto-custom-algorithm.rst:155
+msgid ":ref:`howto-custom-dataset` — bring your own data partitioning."
+msgstr ":ref:`howto-custom-dataset`——带上你自己的数据划分。"
+
+#: ../../source/howto-custom-algorithm.rst:156
+msgid ":ref:`howto-custom-optimizer` — add a local optimizer."
+msgstr ":ref:`howto-custom-optimizer`——添加一个本地优化器。"
+
+#: ../../source/howto-custom-algorithm.rst:157
+msgid ":doc:`parallel_execution` — the full hook contract and backends."
+msgstr ":doc:`parallel_execution`——完整的钩子契约与各后端。"
+
+#: ../../source/howto-custom-algorithm.rst:158
+msgid ":doc:`api/nodes` — the complete Server/Client API."
+msgstr ":doc:`api/nodes`——完整的 Server/Client API。"
