@@ -9,9 +9,9 @@ and this script can never drift apart. The training runs below are
 pinned to the tutorial budget (``num_iters <= 5``, ``num_clients <= 30``,
 one local epoch), enforced by ``test/test_tutorial_scripts.py``.
 
-The two runs at the top stand in for the experiment logs produced by
-the earlier tutorials (or your own experiments): everything after them
-works the same on any log directory.
+The two runs at the top produce the experiment logs used below; the same
+code works on any log directory, including those from the earlier
+tutorials.
 
 The interactive part of the tutorial (the ``Panel`` dashboard) needs a
 Jupyter notebook and is therefore only constructed, not rendered, here.
@@ -23,7 +23,7 @@ from fl_sim.data_processing.fed_synthetic import FedSynthetic
 
 dataset = FedSynthetic(1.0, 1.0, True, 30)
 
-# two seeds of the same experiment: exactly what "multi-seed" means
+# two seeds of the same experiment: the minimal multi-seed setup
 for seed in (0, 1):
     server = FedAvgServer(
         # a fresh model per run: the server trains the model it is given

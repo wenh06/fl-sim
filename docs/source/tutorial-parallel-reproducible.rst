@@ -3,11 +3,11 @@
 Tutorial: parallel and reproducible runs
 ========================================
 
-Experiments grow; wall-clock time should not. fl-sim can execute the
-clients' local steps concurrently on a thread pool — with a one-line
-config change — and this tutorial shows how to keep the run
-*reproducible* while doing so: at the end, two different backends
-produce **bitwise identical final model weights**.
+Larger experiments take longer to train. fl-sim can execute the clients'
+local steps concurrently on a thread pool — with a one-line config change
+— and this tutorial shows how to keep the run *reproducible* while doing
+so: at the end, two different backends produce **bitwise identical final
+model weights**.
 
 The full script lives at ``test-files/tutorial_parallel_check.py`` and
 is exercised in CI. Prerequisites: :doc:`tutorial-first-experiment`.
@@ -16,8 +16,8 @@ The mechanics behind this are documented in
 :doc:`parallel_execution` (backends, guarantees, and how custom
 algorithms stay compatible); this page is the hands-on version.
 
-One line of parallelism
------------------------
+Enabling parallel execution
+---------------------------
 
 Add ``executor="threads"`` to the server config. Nothing else changes —
 algorithms, datasets, logging and the participation schedule all behave
@@ -33,8 +33,8 @@ The helpers capture what we will compare: the final model weights
 (``weights_of``) and an exact equality check over them
 (``bitwise_equal`` — ``torch.equal``, not ``allclose``).
 
-The two backends agree exactly
-------------------------------
+The two backends produce identical results
+------------------------------------------
 
 Run the same experiment on both backends with the client config's
 ``rng_mode="per_client"`` — each client's dataloaders get their own
@@ -51,12 +51,12 @@ Output:
 
     per-client RNG:  communications equal: True, final weights bitwise equal: True
 
-Bitwise identical — not "close", not "same accuracy": the same tensors.
-This holds regardless of how many workers ran or how the operating
-system scheduled them.
+The results are bitwise identical — not merely close, but the same
+tensors. This holds regardless of how many workers ran or how the
+operating system scheduled them.
 
-What the global RNG mode buys (and costs)
------------------------------------------
+Behavior of the global RNG mode
+-------------------------------
 
 ``rng_mode`` defaults to ``"global"``: clients share the process-global
 torch RNG. The script runs the same comparison in that mode too:
@@ -78,13 +78,13 @@ backends and between repeats:
 
     global RNG:      communications equal: True, final weights bitwise equal: True (may be False by design)
 
-(On a small run like this one the tasks often serialize and even the
-weights match — treat that as luck, not a guarantee.)
+(On a small run like this one, the tasks often serialize and even the
+weights may match; this is incidental rather than guaranteed.)
 
-The rule of thumb:
+Practical guidance:
 
-- **exploring**: global mode is fine; run-to-run variation is part of
-  the measurement (average over seeds, as in
+- **exploring**: global mode is acceptable; run-to-run variation is part
+  of the measurement (average over seeds, as in
   :doc:`tutorial-visualization`).
 - **paper-grade seed alignment**: either stay on ``"sequential"``, or
   set ``rng_mode="per_client"`` — then every backend, every parallelism

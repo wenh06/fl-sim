@@ -5,14 +5,14 @@ This script is the source of the code blocks shown in the
 ``tutorial-first-experiment`` page of the documentation
 (``docs/source/tutorial-first-experiment.rst``): the marked sections are
 included verbatim via Sphinx ``literalinclude`` directives, so the docs
-and this script can never drift apart. The size is pinned to the tutorial
+and this script cannot drift apart. The size is pinned to the tutorial
 budget (``num_iters <= 5``, ``num_clients <= 30``, one local epoch),
 enforced by ``test/test_tutorial_scripts.py``.
 
-The dataset is built ONCE, before any config/server, on purpose: config
+The dataset is built once, before any config or server: config
 constructors re-seed the global RNG when they run, so whatever was built
-last would otherwise shift the results. Construct in the order
-dataset -> config -> server and the numbers are stable.
+last would otherwise shift the results. Constructing in the order
+dataset -> config -> server keeps the results reproducible.
 """
 
 # --- begin: setup ---

@@ -6,17 +6,17 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 07:53+0800\n"
+"POT-Creation-Date: 2026-10-29 00:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh_CN <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.16.0\n"
 
 #: ../../source/tutorial-visualization.rst:4
@@ -25,121 +25,84 @@ msgstr "教程：可视化与导出结果"
 
 #: ../../source/tutorial-visualization.rst:6
 msgid ""
-"Every run writes ``.json`` logs (see :doc:`quickstart`); fl-sim ships a "
-"visualization layer that turns them into publication-ready curves — "
-"interactively in Jupyter, or programmatically from plain Python. This "
-"tutorial does both: merge a multi-seed experiment into one mean curve "
-"with error bounds, export it to PDF, and open the interactive dashboard."
-msgstr ""
-"每次运行都会写 ``.json`` 日志（见 :doc:`quickstart` ）；fl-sim 自带的可视化层能把它们变成"
-"可直接发表的曲线——在 Jupyter 里交互式操作，或在纯 Python 里以编程方式处理。本教程两者"
-"都做：把多 seed 实验合并成一条带误差带的均值曲线，导出 PDF，再打开交互式仪表盘。"
+"Every run writes ``.json`` logs (see :doc:`quickstart`); fl-sim provides a visualization layer that turns them into publication-ready curves, both interactively in Jupyter and programmatically from "
+"plain Python. This tutorial covers both: merging a multi-seed experiment into one mean curve with error bounds, exporting it to PDF, and opening the interactive dashboard."
+msgstr "每次运行都会写 ``.json`` 日志（见 :doc:`quickstart` ）；fl-sim 提供一个可视化层，把它们变成可直接发表的曲线——既可在 Jupyter 中交互操作，也可在纯 Python 中以编程方式处理。本教程两者都讲：把多 seed 实验合并成一条带误差带的均值曲线，导出 PDF，再打开交互式仪表盘。"
 
-#: ../../source/tutorial-visualization.rst:12
+#: ../../source/tutorial-visualization.rst:13
 msgid ""
-"The full script lives at ``test-files/tutorial_visualization.py`` and is "
-"exercised in CI (everything except the dashboard rendering, which needs "
-"Jupyter). Prerequisites: :doc:`tutorial-first-experiment`."
-msgstr ""
-"完整脚本位于 ``test-files/tutorial_visualization.py``，并在 CI 中被执行（仪表盘渲染除外，"
-"它需要 Jupyter）。前置阅读： :doc:`tutorial-first-experiment` 。"
+"The full script lives at ``test-files/tutorial_visualization.py`` and is exercised in CI (everything except the dashboard rendering, which needs Jupyter). Prerequisites: :doc:`tutorial-first-"
+"experiment`."
+msgstr "完整脚本位于 ``test-files/tutorial_visualization.py``，并在 CI 中被执行（仪表盘渲染除外，它需要 Jupyter）。前置阅读： :doc:`tutorial-first-experiment` 。"
 
-#: ../../source/tutorial-visualization.rst:16
-msgid ""
-"The reference for all knobs (fonts, smoothing, widgets) is :doc:`viz`; "
-"this page is the workflow."
+#: ../../source/tutorial-visualization.rst:17
+msgid "The reference for all knobs (fonts, smoothing, widgets) is :doc:`viz`; this page is the workflow."
 msgstr "所有可调项（字体、平滑、控件）的参考见 :doc:`viz` ；本页讲的是工作流程。"
 
-#: ../../source/tutorial-visualization.rst:20
-msgid "Get some logs"
+#: ../../source/tutorial-visualization.rst:21
+msgid "Preparing the logs"
 msgstr "准备日志"
 
-#: ../../source/tutorial-visualization.rst:22
+#: ../../source/tutorial-visualization.rst:23
 msgid ""
-"The script trains the same FedAvg experiment under two seeds — the "
-"minimal \"multi-seed\" setup. Note the per-run ``tag``: log file names "
-"carry it, so the two runs cannot overwrite each other (the same reasoning"
-" as in :doc:`tutorial-cli-matrix`):"
-msgstr ""
-"脚本用两个种子训练同一个 FedAvg 实验——最小的\"多 seed\"设置。注意每次运行的 "
-"``tag`` ：日志文件名携带它，两次运行不会互相覆盖（道理同 :doc:`tutorial-cli-matrix` ）："
+"The script trains the same FedAvg experiment under two seeds — the minimal \"multi-seed\" setup. Note the per-run ``tag``: log file names carry it, so the two runs cannot overwrite each other (the "
+"same reasoning as in :doc:`tutorial-cli-matrix`):"
+msgstr "脚本用两个种子训练同一个 FedAvg 实验——最小的\"多 seed\"设置。注意每次运行的 ``tag`` ：日志文件名携带它，两次运行不会互相覆盖（道理同 :doc:`tutorial-cli-matrix` ）："
 
-#: ../../source/tutorial-visualization.rst:33
-msgid "Merge seeds into one curve"
+#: ../../source/tutorial-visualization.rst:34
+msgid "Merging seeds into one curve"
 msgstr "把多个 seed 合并成一条曲线"
 
-#: ../../source/tutorial-visualization.rst:35
+#: ../../source/tutorial-visualization.rst:36
 msgid ""
-"``find_log_files`` collects the JSON logs; "
-"``aggregate_results_from_json_log_with_custom_axis`` extracts a curve "
-"(``step`` on x, ``acc`` on y here — any recorded metric works); "
-"``plot_mean_curve_with_error_bounds`` merges the curves into a mean with "
-"an uncertainty band (``\"sem\"``, ``\"std\"``, ``\"quartile\"`` or "
-"``\"iqr\"``). Saving the figure is plain matplotlib:"
+"``find_log_files`` collects the JSON logs; ``aggregate_results_from_json_log_with_custom_axis`` extracts a curve (``step`` on x, ``acc`` on y here — any recorded metric works); "
+"``plot_mean_curve_with_error_bounds`` merges the curves into a mean with an uncertainty band (``\"sem\"``, ``\"std\"``, ``\"quartile\"`` or ``\"iqr\"``). Saving the figure is plain matplotlib:"
 msgstr ""
-"``find_log_files`` 收集 JSON 日志； ``aggregate_results_from_json_log_with_custom_axis`` "
-"抽取曲线（这里 x 轴 ``step``、y 轴 ``acc``——任何记录过的指标都行）； "
-"``plot_mean_curve_with_error_bounds`` 把曲线合并成带不确定度带的均值（ ``\"sem\"`` 、 "
-"``\"std\"`` 、 ``\"quartile\"`` 或 ``\"iqr\"`` ）。存图就是普通的 matplotlib："
+"``find_log_files`` 收集 JSON 日志； ``aggregate_results_from_json_log_with_custom_axis`` 抽取曲线（这里 x 轴 ``step``、y 轴 ``acc``——任何记录过的指标都行）； ``plot_mean_curve_with_error_bounds`` 把曲线合并成带不确定度带的均值（ ``\"sem\"`` "
+"、 ``\"std\"`` 、 ``\"quartile\"`` 或 ``\"iqr\"`` ）。存图就是普通的 matplotlib："
 
-#: ../../source/tutorial-visualization.rst:46
+#: ../../source/tutorial-visualization.rst:47
+msgid "This writes ``fedavg-multi-seed.pdf`` next to the working directory. Two remarks:"
+msgstr "这会在工作目录旁写出 ``fedavg-multi-seed.pdf`` 。两点说明："
+
+#: ../../source/tutorial-visualization.rst:50
 msgid ""
-"This writes ``fedavg-multi-seed.pdf`` next to your working directory. Two"
-" things worth noticing:"
-msgstr "这会在工作目录旁写出 ``fedavg-multi-seed.pdf`` 。两点值得注意："
+"The x axis is the **cumulative communication count** — the metric :doc:`tutorial-first-experiment` dissected. Plotting against communications (rather than rounds) is what makes different "
+"communication-efficiency algorithms comparable in one figure."
+msgstr "x 轴是 **累计通信次数** ——即 :doc:`tutorial-first-experiment` 剖析过的那个量。以通信（而不是轮数）为横轴，才能把通信效率不同的算法放进同一张图里比较。"
 
-#: ../../source/tutorial-visualization.rst:49
-msgid ""
-"The x axis is the **cumulative communication count** — the metric :doc"
-":`tutorial-first-experiment` dissected. Plotting against communications "
-"(rather than rounds) is what makes different communication-efficiency "
-"algorithms comparable in one figure."
-msgstr ""
-"x 轴是 **累计通信次数** ——即 :doc:`tutorial-first-experiment` 剖析过的那个量。"
-"以通信（而不是轮数）为横轴，才能把通信效率不同的算法放进同一张图里比较。"
+#: ../../source/tutorial-visualization.rst:54
+msgid "With only two seeds the band is a range, not a statistic — use more seeds (just add more ``seed=`` runs; the merging code does not change)."
+msgstr "只有两个 seed 时，带子只是一个范围，还不是统计量——多加几个 ``seed=`` 运行即可（合并代码一行都不用改）。"
 
-#: ../../source/tutorial-visualization.rst:53
-msgid ""
-"With only two seeds the band is a range, not a statistic — use more seeds"
-" (just add more ``seed=`` runs; the merging code does not change)."
-msgstr ""
-"只有两个 seed 时，带子只是一个范围，还不是统计量——多加几个 ``seed=`` 运行即可"
-"（合并代码一行都不用改）。"
-
-#: ../../source/tutorial-visualization.rst:58
-msgid "Explore interactively"
+#: ../../source/tutorial-visualization.rst:59
+msgid "Interactive exploration"
 msgstr "交互式探索"
 
-#: ../../source/tutorial-visualization.rst:60
+#: ../../source/tutorial-visualization.rst:61
 msgid ""
-"In a Jupyter notebook, the ``Panel`` dashboard does all of the above "
-"interactively: it lists the log files it finds, plots selectable metrics,"
-" and gives you sliders for smoothing, fonts and figure size, plus one-"
-"click export to PDF/SVG/PNG:"
-msgstr ""
-"在 Jupyter notebook 里， ``Panel`` 仪表盘把上面的所有事都变成交互式的：列出找到的日志"
-"文件、绘制可选的指标，提供平滑、字体与图幅的滑块，以及一键导出 PDF/SVG/PNG："
+"In a Jupyter notebook, the ``Panel`` dashboard performs all of the above interactively: it lists the log files it finds, plots selectable metrics, and provides sliders for smoothing, fonts and "
+"figure size, plus export to PDF/SVG/PNG:"
+msgstr "在 Jupyter notebook 里， ``Panel`` 仪表盘以上全部可交互完成：列出找到的日志文件、绘制可选指标，提供平滑、字体与图幅的滑块，并可导出 PDF/SVG/PNG："
 
-#: ../../source/tutorial-visualization.rst:70
-msgid ""
-"Run this cell in a notebook (JupyterLab, Colab, SageMaker, …) and the "
-"dashboard renders inline; see :doc:`viz` for a demo animation and the "
-"full feature list."
-msgstr ""
-"在 notebook（JupyterLab、Colab、SageMaker 等）里运行这个单元格，仪表盘就会内嵌渲染；"
-"演示动画与完整功能列表见 :doc:`viz` 。"
+#: ../../source/tutorial-visualization.rst:71
+msgid "Run this cell in a notebook (JupyterLab, Colab, SageMaker, …) and the dashboard renders inline; see :doc:`viz` for a demo animation and the full feature list."
+msgstr "在 notebook（JupyterLab、Colab、SageMaker 等）里运行这个单元格，仪表盘就会内嵌渲染；演示动画与完整功能列表见 :doc:`viz` 。"
 
-#: ../../source/tutorial-visualization.rst:75
+#: ../../source/tutorial-visualization.rst:76
 msgid "Next steps"
 msgstr "下一步"
 
-#: ../../source/tutorial-visualization.rst:77
-msgid ""
-":doc:`tutorial-parallel-reproducible` — make these runs faster (parallel "
-"executor) without giving up reproducibility."
-msgstr ""
-":doc:`tutorial-parallel-reproducible`——让这些运行更快（并行执行器），且不放弃可复现性。"
+#: ../../source/tutorial-visualization.rst:78
+msgid ":doc:`tutorial-parallel-reproducible` — make these runs faster (parallel executor) without giving up reproducibility."
+msgstr ":doc:`tutorial-parallel-reproducible`——让这些运行更快（并行执行器），且不放弃可复现性。"
 
-#: ../../source/tutorial-visualization.rst:79
+#: ../../source/tutorial-visualization.rst:80
 msgid ":doc:`viz` — the reference for every visualization option."
 msgstr ":doc:`viz`——所有可视化选项的参考。"
+
+#~ msgid "Get some logs"
+#~ msgstr "准备日志"
+
+#~ msgid "Explore interactively"
+#~ msgstr "交互式探索"

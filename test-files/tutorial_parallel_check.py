@@ -5,7 +5,7 @@ This script is the source of the code blocks shown in the
 ``tutorial-parallel-reproducible`` page of the documentation
 (``docs/source/tutorial-parallel-reproducible.rst``): the marked sections
 are included verbatim via Sphinx ``literalinclude`` directives, so the
-docs and this script can never drift apart. The runs are pinned to the
+docs and this script cannot drift apart. The runs are pinned to the
 tutorial budget (``num_iters <= 5``, ``num_clients <= 30``, one local
 epoch), enforced by ``test/test_tutorial_scripts.py``.
 """
