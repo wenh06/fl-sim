@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Tutorial: your first controlled experiment &#8212; fl-sim 0.1.1.dev31+gca84c9bcc documentation</title>
+    <title>Tutorial: a first controlled experiment &#8212; fl-sim 0.1.1.dev32+gdead1850c documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=43a12870"></script>
+    <script src="_static/documentation_options.js?v=8958b0c8"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -224,7 +224,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -248,7 +248,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tutorial: your first controlled experiment</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tutorial: a first controlled experiment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-cli-matrix.html">Tutorial: experiment matrices from the CLI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">Tutorial: visualize and export results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">Tutorial: parallel and reproducible runs</a></li>
@@ -553,7 +553,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Tutorial: your first controlled experiment</h1>
+    <h1>Tutorial: a first controlled experiment</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -579,12 +579,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="tutorial-your-first-controlled-experiment">
-<span id="tutorial-first-experiment"></span><h1>Tutorial: your first controlled experiment<a class="headerlink" href="#tutorial-your-first-controlled-experiment" title="Link to this heading">#</a></h1>
-<p><a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> ran one training once. A real experiment
-compares configurations under identical conditions and reads the results
-back. In this tutorial you will compare three algorithms at two sampling
-ratios, then dissect what “communication cost” actually means in fl-sim.</p>
+  <section id="tutorial-a-first-controlled-experiment">
+<span id="tutorial-first-experiment"></span><h1>Tutorial: a first controlled experiment<a class="headerlink" href="#tutorial-a-first-controlled-experiment" title="Link to this heading">#</a></h1>
+<p><a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> executes a single training run. A complete
+experiment compares configurations under identical conditions and reads
+the results back. This tutorial compares three algorithms at two sampling
+ratios, then examines what “communication cost” denotes in fl-sim.</p>
 <p>Everything runs on <code class="xref py py-class docutils literal notranslate"><span class="pre">FedSynthetic</span></code>
 — no downloads, seconds per run. The full script shown below lives at
 <code class="docutils literal notranslate"><span class="pre">test-files/tutorial_first_experiment.py</span></code> and is exercised in CI.</p>
@@ -708,17 +708,17 @@ version):</p>
  SCAFFOLD           1.0                 180     0.8767
 </pre></div>
 </div>
-<p>Two honest observations about this table:</p>
+<p>Two observations about this table:</p>
 <ul class="simple">
 <li><p>This synthetic task is <em>easy</em> — FedProx and SCAFFOLD reach the same
-accuracy ceiling as FedAvg at full sampling. Their advantages show up
-on harder, more heterogeneous tasks (see the
+accuracy ceiling as FedAvg at full sampling. Their advantages appear on
+harder, more heterogeneous tasks (see the
 <a class="reference internal" href="algorithms/overview.html"><span class="doc">algorithm theory pages</span></a> for when each
 helps).</p></li>
-<li><p>The accuracy story saturates; the <strong>communication</strong> story does not.
+<li><p>Accuracy saturates on this task; the <strong>communication</strong> cost does not.
 Every run at ratio 0.5 used exactly 90 communications and every run at
-ratio 1.0 used exactly 180 — regardless of the algorithm. That number
-deserves a closer look, because it is easy to misread.</p></li>
+ratio 1.0 used exactly 180 — regardless of the algorithm. This number
+warrants a closer look, because it is easy to misread.</p></li>
 </ul>
 </section>
 <section id="what-num-communications-counts">
@@ -728,8 +728,8 @@ one downlink broadcast <em>per sampled client</em> plus one uplink reply <em>per
 sampled client</em>. With 30 clients at ratio 0.5, every round is
 15 downlinks + 15 uplinks = 30 messages, so 3 rounds = 90; at ratio 1.0
 that doubles to 180.</p>
-<p>The discriminating check: <strong>3 rounds at full sampling and 6 rounds at
-half sampling both land on 180.</strong> The counter scales with
+<p>A discriminating check: <strong>3 rounds at full sampling and 6 rounds at half
+sampling both give 180.</strong> The counter scales with
 <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">sampled_clients</span> <span class="pre">×</span> <span class="pre">rounds</span></code>, not with rounds. Reading it as
 “communication rounds” would make 90 look like “90 rounds” — off by a
 factor of 30.</p>
@@ -743,11 +743,11 @@ scripts here do.)</p>
 </section>
 <section id="sampling-is-not-communicating">
 <h2>Sampling is not communicating<a class="headerlink" href="#sampling-is-not-communicating" title="Link to this heading">#</a></h2>
-<p>All three algorithms above communicate every round. fl-sim also ships
-<strong>communication-skipping</strong> algorithms, and they break the
-<code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">sampled</span> <span class="pre">×</span> <span class="pre">rounds</span></code> identity in an instructive way. Run FedPD —
-which uploads only every <code class="docutils literal notranslate"><span class="pre">int(1/p)</span></code>-th round — for five rounds next to
-a five-round FedAvg:</p>
+<p>All three algorithms above communicate every round. fl-sim also provides
+<strong>communication-skipping</strong> algorithms, which modify the
+<code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">sampled</span> <span class="pre">×</span> <span class="pre">rounds</span></code> identity in a way that clarifies its two terms.
+Run FedPD — which uploads only every <code class="docutils literal notranslate"><span class="pre">int(1/p)</span></code>-th round — for five
+rounds next to a five-round FedAvg:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fedavg</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="s2">"FedAvg"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"FedAvg_5it"</span><span class="p">)</span>
 <span class="n">fedpd</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="s2">"FedPD"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"FedPD_5it"</span><span class="p">)</span>
 
@@ -768,12 +768,12 @@ a five-round FedAvg:</p>
 FedPD: 90 communications = 75 downlink + 15 uplink (1 of 5 rounds uploaded)
 </pre></div>
 </div>
-<p>The decomposition says it precisely: <strong>the downlink is identical</strong> (75 =
-5 rounds × 15 clients — broadcasting to the sampled set is never
-skipped); FedPD saves <em>uplinks only</em>. Five FedPD rounds cost the same
-90 messages as three FedAvg rounds — the same communication budget
-buys two extra local iterations.</p>
-<p>Three practical details when you run this yourself:</p>
+<p>The decomposition is precise: <strong>the downlink is identical</strong> (75 = 5
+rounds × 15 clients — broadcasting to the sampled set is never skipped);
+FedPD saves <em>uplinks only</em>. Five FedPD rounds cost the same 90 messages as
+three FedAvg rounds: at equal communication cost, FedPD performs two more
+local iterations.</p>
+<p>Three practical details for running this example:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">p</span></code> must satisfy <strong>0 &lt; p &lt; 1</strong>. With p = 1 FedPD uploads every round
 (degenerating to FedAvg); with p &gt; 1 the upload frequency becomes zero
@@ -787,7 +787,8 @@ not move”), and each skipping client logs <code class="docutils literal notran
 <span class="pre">from</span> <span class="pre">server...</span></code> (“I was not given a new global model this round, so I
 keep working from my current parameters”). At tutorial scale the
 client-side message appears once per (skipped client × skipped round),
-so it dominates the console. Both are how FedPD is designed to behave.</p></li>
+so it accounts for most of the console output. Both are how FedPD is
+designed to behave.</p></li>
 <li><p>The JSON <code class="docutils literal notranslate"><span class="pre">step</span></code> snapshot trails differently per algorithm: for the
 five-round FedAvg it ends at 120 (the last round’s 30 messages are
 unlogged), for FedPD at 75 (its last round never uploads). The final

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>核心概念 &#8212; fl-sim 0.1.1.dev31+gca84c9bcc 文档</title>
+    <title>核心概念 &#8212; fl-sim 0.1.1.dev32+gdead1850c 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=fea79bc7"></script>
+    <script src="_static/documentation_options.js?v=48137e0f"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -134,7 +134,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'concepts';</script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="教程：你的第一个对照实验" href="tutorial-first-experiment.html" />
+    <link rel="next" title="教程：第一个对照实验" href="tutorial-first-experiment.html" />
     <link rel="prev" title="快速上手" href="quickstart.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-CN"/>
@@ -223,7 +223,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -247,7 +247,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：你的第一个对照实验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：第一个对照实验</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-cli-matrix.html">教程：用 CLI 跑实验矩阵</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">教程：可视化与导出结果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">教程：并行与可复现的运行</a></li>
@@ -571,7 +571,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-customize-the-hooks-not-the-loop">算法定制钩子，而不是循环</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-round-of-training">一轮训练</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cast-in-one-table">一张表看全所有角色</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-four-objects-at-a-glance">四个对象一览</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-go-next">接下来去哪里</a></li>
 </ul>
             </nav>
@@ -586,20 +586,20 @@ document.write(`
                   
   <section id="core-concepts">
 <span id="concepts"></span><h1>核心概念<a class="headerlink" href="#core-concepts" title="Link to this heading">#</a></h1>
-<p>本页面是 fl-sim 的地图：每次实验的四个构件，以及一轮联邦训练中发生的事。它解释的是框架的*思考方式*——若想先动手体验，请从 <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> 开始。</p>
+<p>本页面概述每次实验的四个构件，以及一轮联邦训练中的事件顺序。若希望先动手实践，可从 <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> 开始。</p>
 <section id="four-building-blocks">
 <h2>四个构件<a class="headerlink" href="#four-building-blocks" title="Link to this heading">#</a></h2>
 <section id="feddataset-the-data-and-how-it-is-split">
 <h3>FedDataset——数据及其划分方式<a class="headerlink" href="#feddataset-the-data-and-how-it-is-split" title="Link to this heading">#</a></h3>
-<p><a class="reference internal" href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset" title="fl_sim.data_processing.fed_dataset.FedDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">FedDataset</span></code></a> 把原始数据集与 <strong>划分方案</strong> 打包在一起：它决定数据如何在模拟的客户端之间分布，并通过 <code class="docutils literal notranslate"><span class="pre">get_dataloader(client_idx)</span></code> 为每个客户端提供专属的 dataloader。内置数据集（FEMNIST、CIFAR10 等）在首次使用时下载； <code class="xref py py-class docutils literal notranslate"><span class="pre">FedSynthetic</span></code> 在本地生成合成数据，这也是本教程都能在几秒内跑完的原因。每个数据集还声明了 <code class="docutils literal notranslate"><span class="pre">candidate_models</span></code>——适合与它搭配的模型（如 quickstart 中的 <code class="docutils literal notranslate"><span class="pre">dataset.candidate_models[&quot;mlp_d1&quot;]</span></code>）。数据集在 <strong>训练期间不可变</strong> ：划分只做一次，且在训练开始前完成。自定义数据集见相应的 how-to 指南。</p>
+<p><a class="reference internal" href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset" title="fl_sim.data_processing.fed_dataset.FedDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">FedDataset</span></code></a> 将原始数据集与 <strong>划分方案</strong> 打包在一起：它决定数据如何在模拟的客户端之间分布，并通过 <code class="docutils literal notranslate"><span class="pre">get_dataloader(client_idx)</span></code> 为每个客户端提供专属的 dataloader。内置数据集（FEMNIST、CIFAR10 等）在首次使用时下载； <code class="xref py py-class docutils literal notranslate"><span class="pre">FedSynthetic</span></code> 在本地生成合成数据，因此本文档中的教程数秒内即可完成。每个数据集还声明了 <code class="docutils literal notranslate"><span class="pre">candidate_models</span></code>——适合与它搭配的模型（如 quickstart 中的 <code class="docutils literal notranslate"><span class="pre">dataset.candidate_models[&quot;mlp_d1&quot;]</span></code>）。数据集在 <strong>训练期间不可变</strong> ：划分只做一次，且在训练开始前完成。自定义数据集见相应的 how-to 指南。</p>
 </section>
 <section id="model-a-plain-pytorch-module">
 <h3>模型——普通的 PyTorch 模块<a class="headerlink" href="#model-a-plain-pytorch-module" title="Link to this heading">#</a></h3>
-<p>模型就是普通的 <a class="reference external" href="https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module" title="（在 PyTorch v2.15）"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code></a> 对象，fl-sim 不做任何包装。<code class="docutils literal notranslate"><span class="pre">candidate_models</span></code> 提供的或你自己带来的模型都可以用。服务器持有 <em>全局</em> 副本；每轮每个被采样的客户端拿到自己的副本，在本地数据切片上训练，再把结果发回。</p>
+<p>模型就是普通的 <a class="reference external" href="https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module" title="（在 PyTorch v2.15）"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code></a> 对象，fl-sim 不做任何包装。 <code class="docutils literal notranslate"><span class="pre">candidate_models</span></code> 提供的模块或用户自带的模块均可使用。服务器持有 <em>全局</em> 副本；每轮每个被采样的客户端拿到自己的副本，在本地数据切片上训练，再把结果发回。</p>
 </section>
 <section id="server-the-orchestrator">
 <h3>服务器——调度者<a class="headerlink" href="#server-the-orchestrator" title="Link to this heading">#</a></h3>
-<p><a class="reference internal" href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server" title="fl_sim.nodes.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a> 持有全局模型与联邦调度（多少轮、多少客户端、如何采样），并驱动下文所示的循环。它从不触碰客户端本地数据。算法特定的行为都在子类里：<code class="xref py py-class docutils literal notranslate"><span class="pre">FedAvgServer</span></code>、<code class="xref py py-class docutils literal notranslate"><span class="pre">FedProxServer</span></code> 等 15 个以上——每个算法只定制少数几个定义良好的钩子：</p>
+<p><a class="reference internal" href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server" title="fl_sim.nodes.Server"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></a> 持有全局模型与联邦调度（多少轮、多少客户端、如何采样），并驱动下文所述的训练循环。它从不触碰客户端本地数据。算法特定的行为都在子类里： <code class="xref py py-class docutils literal notranslate"><span class="pre">FedAvgServer</span></code> 、 <code class="xref py py-class docutils literal notranslate"><span class="pre">FedProxServer</span></code> 等 15 个以上——每个算法只定制少数几个定义良好的钩子：</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">communicate(target)</span></code>——<strong>下行</strong>：服务器发给被采样客户端的内容（通常是当前全局模型）；</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">update()</span></code>——<strong>聚合</strong>：客户端回复如何变成新的全局模型。</p></li>
@@ -607,7 +607,7 @@ document.write(`
 </section>
 <section id="client-one-participant-s-local-state">
 <h3>客户端——单个参与方的本地状态<a class="headerlink" href="#client-one-participant-s-local-state" title="Link to this heading">#</a></h3>
-<p>每个 <a class="reference internal" href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client" title="fl_sim.nodes.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> 持有自己的模型副本、数据切片与训练状态。它的钩子与服务器互为镜像：</p>
+<p>每个 <a class="reference internal" href="api/generated/fl_sim.nodes.Client.html#fl_sim.nodes.Client" title="fl_sim.nodes.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> 持有自己的模型副本、数据切片与训练状态。客户端侧的钩子与服务器侧相对应：</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">update()</span></code>——<strong>本地训练</strong>：在本地数据上拟合收到的模型（本地 epoch 数、本地优化器——全部来自客户端配置）；</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">communicate()</span></code>——<strong>上行</strong>：构建发回服务器的消息。消息是带类型的对象（<code class="xref py py-class docutils literal notranslate"><span class="pre">ClientToServer</span></code>），携带更新后的模型状态与算法特有的附加内容。</p></li>
@@ -616,7 +616,7 @@ document.write(`
 </section>
 <section id="algorithms-customize-the-hooks-not-the-loop">
 <h2>算法定制钩子，而不是循环<a class="headerlink" href="#algorithms-customize-the-hooks-not-the-loop" title="Link to this heading">#</a></h2>
-<p>fl-sim 内置 20 个注册算法——FedAvg、FedProx、SCAFFOLD、FedPD、ProxSkip、Ditto 等——它们全部运行在*同一个*循环里。一个算法只是一对配置类加上若干钩子覆写：FedProx 改动客户端的本地目标函数；SCAFFOLD 在上行里加入控制变量；FedPD 允许客户端*完全跳过*某些上行。框架按固定顺序（见下）调用这些钩子，因此算法与基础设施——日志、评估、可复现性、并行执行——正交组合，互不知晓。</p>
+<p>fl-sim 内置 20 个注册算法——FedAvg、FedProx、SCAFFOLD、FedPD、ProxSkip、Ditto 等——它们全部运行在 <em>同一个</em> 循环里。一个算法只是一对配置类加上若干钩子覆写：FedProx 改动客户端的本地目标函数；SCAFFOLD 在上行里加入控制变量；FedPD 允许客户端 <em>完全跳过</em> 某些上行。框架按固定顺序（见下）调用这些钩子，因此算法与基础设施——日志、评估、可复现性、并行执行——保持相互独立。</p>
 <p>注册自己的算法后，就能在 CLI 与实验矩阵中按名字使用它：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fl_sim.algorithms._register</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_algorithm</span>
 
@@ -641,16 +641,16 @@ document.write(`
 <li><p><strong>上行与聚合</strong>——回复 <strong>按被采样客户端的顺序</strong> 被消费，算法的 <code class="docutils literal notranslate"><span class="pre">update()</span></code> 产出新的全局模型。指标（服务器侧与每个客户端的）也在这里记录。</p></li>
 <li><p><strong>重复</strong>——共 <code class="docutils literal notranslate"><span class="pre">num_iters</span></code> 轮；日志与指标写入 <code class="docutils literal notranslate"><span class="pre">~/.cache/fl-sim/.logs/</span></code> （参见 <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a>）。</p></li>
 </ol>
-<p>由于第 1–2 步与第 5 步在主线程上按固定顺序执行，无论第 4 步的本地步是串行执行还是在线程池上并发执行（<a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a>）， <em>聚合算术</em> 都完全一致。正是这条不变式让并行运行值得信赖。</p>
+<p>由于第 1–2 步与第 5 步在主线程上按固定顺序执行，无论第 4 步的本地步是串行执行还是在线程池上并发执行（ <a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a> ）， <em>聚合算术</em> 都完全一致。这一不变式是并行执行可复现性保证的基础。</p>
 </section>
-<section id="the-cast-in-one-table">
-<h2>一张表看全所有角色<a class="headerlink" href="#the-cast-in-one-table" title="Link to this heading">#</a></h2>
+<section id="the-four-objects-at-a-glance">
+<h2>四个对象一览<a class="headerlink" href="#the-four-objects-at-a-glance" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>对象</p></th>
 <th class="head"><p>由谁配置</p></th>
-<th class="head"><p>知晓什么</p></th>
-<th class="head"><p>绝不触碰</p></th>
+<th class="head"><p>负责什么</p></th>
+<th class="head"><p>不访问</p></th>
 </tr>
 </thead>
 <tbody>
@@ -709,7 +709,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一页</p>
-        <p class="prev-next-title">教程：你的第一个对照实验</p>
+        <p class="prev-next-title">教程：第一个对照实验</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -738,7 +738,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-customize-the-hooks-not-the-loop">算法定制钩子，而不是循环</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-round-of-training">一轮训练</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cast-in-one-table">一张表看全所有角色</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-four-objects-at-a-glance">四个对象一览</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-go-next">接下来去哪里</a></li>
 </ul>
   </nav></div>

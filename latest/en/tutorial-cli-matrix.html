@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Tutorial: experiment matrices from the CLI &#8212; fl-sim 0.1.1.dev31+gca84c9bcc documentation</title>
+    <title>Tutorial: experiment matrices from the CLI &#8212; fl-sim 0.1.1.dev32+gdead1850c documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=43a12870"></script>
+    <script src="_static/documentation_options.js?v=8958b0c8"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -134,7 +134,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Tutorial: visualize and export results" href="tutorial-visualization.html" />
-    <link rel="prev" title="Tutorial: your first controlled experiment" href="tutorial-first-experiment.html" />
+    <link rel="prev" title="Tutorial: a first controlled experiment" href="tutorial-first-experiment.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -246,7 +246,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">Tutorial: your first controlled experiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">Tutorial: a first controlled experiment</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Tutorial: experiment matrices from the CLI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">Tutorial: visualize and export results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">Tutorial: parallel and reproducible runs</a></li>
@@ -562,8 +562,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-matrix-file">The matrix file</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-it">Run it</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-the-results-land">Where the results land</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-matrix">Running the matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-location">Results location</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beyond-serial-execution">Beyond serial execution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
 </ul>
@@ -579,13 +579,14 @@ document.write(`
                   
   <section id="tutorial-experiment-matrices-from-the-cli">
 <span id="tutorial-cli-matrix"></span><h1>Tutorial: experiment matrices from the CLI<a class="headerlink" href="#tutorial-experiment-matrices-from-the-cli" title="Link to this heading">#</a></h1>
-<p>Writing one Python script per experiment does not scale. fl-sim’s command
-line interface runs a whole <strong>experiment matrix</strong> from a single YAML file:
-you describe the grid of configurations once, and the CLI expands and
-executes every combination. This tutorial builds a four-run matrix on
-synthetic data and shows where the results land.</p>
+<p>Managing one Python script per experiment becomes impractical as the
+number of experiments grows. The fl-sim command line interface runs a
+whole <strong>experiment matrix</strong> from a single YAML file: the grid of
+configurations is described once, and the CLI expands and executes every
+combination. This tutorial builds a four-run matrix on synthetic data and
+shows where the results are written.</p>
 <p>The YAML syntax reference lives in <a class="reference internal" href="cli.html"><span class="doc">Command line interface</span></a>; this page is the workflow
-narrative. Prerequisites: <a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">Tutorial: your first controlled experiment</span></a>.</p>
+narrative. Prerequisites: <a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">Tutorial: a first controlled experiment</span></a>.</p>
 <section id="the-matrix-file">
 <h2>The matrix file<a class="headerlink" href="#the-matrix-file" title="Link to this heading">#</a></h2>
 <p>Here is the complete config for this tutorial
@@ -648,33 +649,33 @@ for <code class="xref py py-class docutils literal notranslate"><span class="pre
 passed straight through.</p></li>
 </ul>
 </section>
-<section id="run-it">
-<h2>Run it<a class="headerlink" href="#run-it" title="Link to this heading">#</a></h2>
+<section id="running-the-matrix">
+<h2>Running the matrix<a class="headerlink" href="#running-the-matrix" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>fl-sim<span class="w"> </span>example-configs/fedsynthetic-demo.yml
 </pre></div>
 </div>
-<p>You will see the four runs execute in sequence, each logging its
-combination (<code class="docutils literal notranslate"><span class="pre">ratio=0.5</span> <span class="pre">seed=0</span></code>, …). Total time: seconds — no
-downloads.</p>
+<p>The four runs execute in sequence, each logging its combination
+(<code class="docutils literal notranslate"><span class="pre">ratio=0.5</span> <span class="pre">seed=0</span></code>, …). The total time is a few seconds; nothing is
+downloaded.</p>
 </section>
-<section id="where-the-results-land">
-<h2>Where the results land<a class="headerlink" href="#where-the-results-land" title="Link to this heading">#</a></h2>
+<section id="results-location">
+<h2>Results location<a class="headerlink" href="#results-location" title="Link to this heading">#</a></h2>
 <p>All runs write into <code class="docutils literal notranslate"><span class="pre">~/.cache/fl-sim/.logs/fedsynthetic-demo/</span></code> (the
 <code class="docutils literal notranslate"><span class="pre">log_dir</span></code> of this config). Per run you get one <code class="docutils literal notranslate"><span class="pre">.txt</span></code> and one
 <code class="docutils literal notranslate"><span class="pre">.json</span></code> log — the same files <a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> described — plus one
 <code class="docutils literal notranslate"><span class="pre">config.json</span></code> holding the exact server/client configs of the most
 recent run (a previous <code class="docutils literal notranslate"><span class="pre">config.json</span></code> is rotated to
 <code class="docutils literal notranslate"><span class="pre">config.json.bak</span></code>).</p>
-<p>One detail that matters as soon as runs finish within the same minute:
+<p>One detail matters as soon as several runs finish within the same minute:
 log file names carry a timestamp <strong>plus the run’s ``tag``</strong>. Without a
-distinct tag per matrix combination, same-named logs overwrite each
-other. That is what the <code class="docutils literal notranslate"><span class="pre">tag:</span> <span class="pre">ratio_${{</span> <span class="pre">...</span> <span class="pre">}}_seed_${{</span> <span class="pre">...</span> <span class="pre">}}</span></code> line
-in the config above is for — give every matrix arm its own tag.</p>
+distinct tag per matrix combination, identically named logs overwrite one
+another. This is the purpose of the <code class="docutils literal notranslate"><span class="pre">tag:</span> <span class="pre">ratio_${{</span> <span class="pre">...</span> <span class="pre">}}_seed_${{</span> <span class="pre">...</span> <span class="pre">}}</span></code>
+line in the config above: every matrix arm receives its own tag.</p>
 </section>
 <section id="beyond-serial-execution">
 <h2>Beyond serial execution<a class="headerlink" href="#beyond-serial-execution" title="Link to this heading">#</a></h2>
-<p>A matrix of long experiments wants more than one process. The <code class="docutils literal notranslate"><span class="pre">strategy</span></code>
-section also accepts parallel options (<code class="docutils literal notranslate"><span class="pre">n_parallel</span></code>, or a
+<p>Long experiment matrices benefit from more than one process. The
+<code class="docutils literal notranslate"><span class="pre">strategy</span></code> section also accepts parallel options (<code class="docutils literal notranslate"><span class="pre">n_parallel</span></code>, or a
 <code class="docutils literal notranslate"><span class="pre">parallel:</span> <span class="pre">{mode:</span> <span class="pre">parallel_task,</span> <span class="pre">num_workers:</span> <span class="pre">N}</span></code> block) that dispatch
 matrix arms to worker processes — see <code class="docutils literal notranslate"><span class="pre">example-configs/multiprocessing-demo.yml</span></code>
 for a complete example, and <a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a> for the in-process
@@ -712,7 +713,7 @@ runnable examples that the CLI accepts as algorithm/dataset paths.</p></li>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Tutorial: your first controlled experiment</p>
+        <p class="prev-next-title">Tutorial: a first controlled experiment</p>
       </div>
     </a>
     <a class="right-next"
@@ -741,8 +742,8 @@ runnable examples that the CLI accepts as algorithm/dataset paths.</p></li>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-matrix-file">The matrix file</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-it">Run it</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-the-results-land">Where the results land</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-matrix">Running the matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-location">Results location</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beyond-serial-execution">Beyond serial execution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
 </ul>

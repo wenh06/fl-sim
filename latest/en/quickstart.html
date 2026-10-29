@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>Quickstart &#8212; fl-sim 0.1.1.dev31+gca84c9bcc documentation</title>
+    <title>Quickstart &#8212; fl-sim 0.1.1.dev32+gdead1850c documentation</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=43a12870"></script>
+    <script src="_static/documentation_options.js?v=8958b0c8"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -222,7 +222,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc documentation</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -246,7 +246,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">Tutorial: your first controlled experiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">Tutorial: a first controlled experiment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-cli-matrix.html">Tutorial: experiment matrices from the CLI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">Tutorial: visualize and export results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">Tutorial: parallel and reproducible runs</a></li>
@@ -563,7 +563,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-your-first-model">Train your first model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-do-the-logs-go">Where do the logs go?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-files">Log files</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
 </ul>
             </nav>
@@ -578,16 +578,16 @@ document.write(`
                   
   <section id="quickstart">
 <span id="id1"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">#</a></h1>
-<p>This page walks you through your first federated training run with fl-sim:
-install the package, train <code class="xref py py-class docutils literal notranslate"><span class="pre">FedAvg</span></code> on a
-synthetic dataset, and look at the logs it produces. The whole run takes
-seconds on a laptop — no dataset download, no GPU required.</p>
-<p>If you prefer understanding the concepts first, read <a class="reference internal" href="concepts.html"><span class="doc">Core concepts</span></a> and
-come back.</p>
+<p>This page describes a first federated training run with fl-sim: install
+the package, train <code class="xref py py-class docutils literal notranslate"><span class="pre">FedAvg</span></code> on a synthetic
+dataset, and inspect the logs it produces. The run completes in seconds on
+a laptop and requires neither a dataset download nor a GPU.</p>
+<p>The core concepts are described in <a class="reference internal" href="concepts.html"><span class="doc">Core concepts</span></a>; readers who prefer a
+conceptual overview first may start there.</p>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
 <p>Install fl-sim following <a class="reference internal" href="install.html"><span class="doc">Installation instructions</span></a> (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">git+https://github.com/wenh06/fl-sim.git</span></code>).
-Python 3.10+ with PyTorch is all you need.</p>
+Python 3.10+ with PyTorch is required.</p>
 </section>
 <section id="train-your-first-model">
 <h2>Train your first model<a class="headerlink" href="#train-your-first-model" title="Link to this heading">#</a></h2>
@@ -611,19 +611,19 @@ sampling ratio); the client config carries the local training recipe.</p>
         <span class="n">num_iters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
         <span class="n">num_clients</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">clients_sample_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">log_dir</span><span class="o">=</span><span class="s2">"quickstart"</span><span class="p">,</span>  <span class="c1"># logs land in ~/.cache/fl-sim/.logs/quickstart/</span>
+        <span class="n">log_dir</span><span class="o">=</span><span class="s2">"quickstart"</span><span class="p">,</span>  <span class="c1"># logs are written to ~/.cache/fl-sim/.logs/quickstart/</span>
     <span class="p">),</span>
     <span class="n">FedAvgClientConfig</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">server</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Paste this into a script (or a REPL) and run it. <code class="docutils literal notranslate"><span class="pre">FedSynthetic</span></code> generates
-a synthetic classification dataset split across 30 clients — nothing is
+<p>The code runs as a script or in a REPL. <code class="docutils literal notranslate"><span class="pre">FedSynthetic</span></code> generates a
+synthetic classification dataset split across 30 clients; nothing is
 downloaded. <code class="docutils literal notranslate"><span class="pre">FedAvgServerConfig(num_iters=5,</span> <span class="pre">num_clients=10,</span>
 <span class="pre">clients_sample_ratio=1.0)</span></code> runs <strong>5 rounds</strong>, each sampling <strong>10 of the 30
-clients</strong> with all of them responding. <code class="docutils literal notranslate"><span class="pre">server.train()</span></code> runs the full
-federated loop; you will see per-round progress and metrics in the console.</p>
+clients</strong> with all of them responding. <code class="docutils literal notranslate"><span class="pre">server.train()</span></code> executes the full
+federated loop; per-round progress and metrics are printed to the console.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">server.train()</span></code> is <code class="docutils literal notranslate"><span class="pre">server.train(&quot;federated&quot;)</span></code>. fl-sim can also run
@@ -631,11 +631,11 @@ federated loop; you will see per-round progress and metrics in the console.</p>
 the <a class="reference internal" href="api/generated/fl_sim.nodes.Server.html#fl_sim.nodes.Server.train" title="fl_sim.nodes.Server.train"><code class="xref py py-meth docutils literal notranslate"><span class="pre">train()</span></code></a> API.</p>
 </div>
 </section>
-<section id="where-do-the-logs-go">
-<h2>Where do the logs go?<a class="headerlink" href="#where-do-the-logs-go" title="Link to this heading">#</a></h2>
-<p>Every run writes its logs to <code class="docutils literal notranslate"><span class="pre">~/.cache/fl-sim/.logs/</span></code> (override the
-subdirectory with <code class="docutils literal notranslate"><span class="pre">log_dir=</span></code> in the server config, as done here). The
-script above reads the metrics back and prints the result:</p>
+<section id="log-files">
+<h2>Log files<a class="headerlink" href="#log-files" title="Link to this heading">#</a></h2>
+<p>Every run writes its logs to <code class="docutils literal notranslate"><span class="pre">~/.cache/fl-sim/.logs/</span></code> (the subdirectory
+can be overridden with <code class="docutils literal notranslate"><span class="pre">log_dir=</span></code> in the server config, as done here).
+The script above reads the metrics back and prints the result:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>log file: FedAvg-FedSynthetic-MLP_10-26_12-52.json
 log file: FedAvg-FedSynthetic-MLP_10-26_12-52.txt
 log file: config.json
@@ -648,7 +648,7 @@ Latest logged val/acc: 0.8767 (step 80)
 <li><p>a <code class="docutils literal notranslate"><span class="pre">.json</span></code> log with the full metrics history, structured as
 <code class="docutils literal notranslate"><span class="pre">{&quot;train&quot;:</span> <span class="pre">{...},</span> <span class="pre">&quot;val&quot;:</span> <span class="pre">{&quot;Server&quot;:</span> <span class="pre">[...],</span> <span class="pre">&quot;Client0&quot;:</span> <span class="pre">[...],</span> <span class="pre">...}}</span></code>
 — one dict per evaluation, holding <code class="docutils literal notranslate"><span class="pre">step</span></code>, <code class="docutils literal notranslate"><span class="pre">acc</span></code>, <code class="docutils literal notranslate"><span class="pre">loss</span></code>, etc.
-This is the file you will plot when visualizing results;</p></li>
+This file is the input for visualization;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">config.json</span></code> — the exact server and client configs of the run, so
 every experiment can be reproduced later.</p></li>
 </ul>
@@ -669,11 +669,11 @@ on one machine this run ends at 0.8767, up from 0.011 — chance level for
 <ul class="simple">
 <li><p><a class="reference internal" href="concepts.html"><span class="doc">Core concepts</span></a> — what actually happens in each round: sampling,
 broadcast, local updates, aggregation.</p></li>
-<li><p><a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">Tutorial: your first controlled experiment</span></a> — turn this single run into a
+<li><p><a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">Tutorial: a first controlled experiment</span></a> — turn this single run into a
 controlled comparison across algorithms and sampling ratios.</p></li>
 <li><p><a class="reference internal" href="tutorial-cli-matrix.html"><span class="doc">Tutorial: experiment matrices from the CLI</span></a> — run experiment batches from the CLI with
 YAML config files.</p></li>
-<li><p><a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a> — speed training up with a parallel executor
+<li><p><a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a> — accelerate training with a parallel executor
 backend while keeping results reproducible.</p></li>
 </ul>
 </section>
@@ -726,7 +726,7 @@ backend while keeping results reproducible.</p></li>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-your-first-model">Train your first model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-do-the-logs-go">Where do the logs go?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-files">Log files</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
 </ul>
   </nav></div>

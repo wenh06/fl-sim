@@ -3,11 +3,12 @@
 Tutorial: experiment matrices from the CLI
 ==========================================
 
-Writing one Python script per experiment does not scale. fl-sim's command
-line interface runs a whole **experiment matrix** from a single YAML file:
-you describe the grid of configurations once, and the CLI expands and
-executes every combination. This tutorial builds a four-run matrix on
-synthetic data and shows where the results land.
+Managing one Python script per experiment becomes impractical as the
+number of experiments grows. The fl-sim command line interface runs a
+whole **experiment matrix** from a single YAML file: the grid of
+configurations is described once, and the CLI expands and executes every
+combination. This tutorial builds a four-run matrix on synthetic data and
+shows where the results are written.
 
 The YAML syntax reference lives in :doc:`cli`; this page is the workflow
 narrative. Prerequisites: :doc:`tutorial-first-experiment`.
@@ -36,19 +37,19 @@ Three sections matter:
   for :class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic`) are
   passed straight through.
 
-Run it
-------
+Running the matrix
+------------------
 
 .. code-block:: bash
 
     fl-sim example-configs/fedsynthetic-demo.yml
 
-You will see the four runs execute in sequence, each logging its
-combination (``ratio=0.5 seed=0``, ...). Total time: seconds — no
-downloads.
+The four runs execute in sequence, each logging its combination
+(``ratio=0.5 seed=0``, ...). The total time is a few seconds; nothing is
+downloaded.
 
-Where the results land
-----------------------
+Results location
+----------------
 
 All runs write into ``~/.cache/fl-sim/.logs/fedsynthetic-demo/`` (the
 ``log_dir`` of this config). Per run you get one ``.txt`` and one
@@ -57,17 +58,17 @@ All runs write into ``~/.cache/fl-sim/.logs/fedsynthetic-demo/`` (the
 recent run (a previous ``config.json`` is rotated to
 ``config.json.bak``).
 
-One detail that matters as soon as runs finish within the same minute:
+One detail matters as soon as several runs finish within the same minute:
 log file names carry a timestamp **plus the run's ``tag``**. Without a
-distinct tag per matrix combination, same-named logs overwrite each
-other. That is what the ``tag: ratio_${{ ... }}_seed_${{ ... }}`` line
-in the config above is for — give every matrix arm its own tag.
+distinct tag per matrix combination, identically named logs overwrite one
+another. This is the purpose of the ``tag: ratio_${{ ... }}_seed_${{ ... }}``
+line in the config above: every matrix arm receives its own tag.
 
 Beyond serial execution
 -----------------------
 
-A matrix of long experiments wants more than one process. The ``strategy``
-section also accepts parallel options (``n_parallel``, or a
+Long experiment matrices benefit from more than one process. The
+``strategy`` section also accepts parallel options (``n_parallel``, or a
 ``parallel: {mode: parallel_task, num_workers: N}`` block) that dispatch
 matrix arms to worker processes — see ``example-configs/multiprocessing-demo.yml``
 for a complete example, and :doc:`parallel_execution` for the in-process

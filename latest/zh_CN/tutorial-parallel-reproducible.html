@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>教程：并行与可复现的运行 &#8212; fl-sim 0.1.1.dev31+gca84c9bcc 文档</title>
+    <title>教程：并行与可复现的运行 &#8212; fl-sim 0.1.1.dev32+gdead1850c 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=fea79bc7"></script>
+    <script src="_static/documentation_options.js?v=48137e0f"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -223,7 +223,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -247,7 +247,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：你的第一个对照实验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：第一个对照实验</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-cli-matrix.html">教程：用 CLI 跑实验矩阵</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">教程：可视化与导出结果</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">教程：并行与可复现的运行</a></li>
@@ -580,7 +580,7 @@ document.write(`
   <section id="tutorial-parallel-and-reproducible-runs">
 <span id="tutorial-parallel-reproducible"></span><h1>教程：并行与可复现的运行<a class="headerlink" href="#tutorial-parallel-and-reproducible-runs" title="Link to this heading">#</a></h1>
 <p>实验规模越大，训练耗时越长。fl-sim 可以在线程池上并发执行客户端的本地步——只需一行配置——本教程展示这样做的同时如何保持运行 <em>可复现</em> ：最后，两个不同的后端产出 <strong>逐位一致的最终模型权重</strong> 。</p>
-<p>完整脚本位于 <code class="docutils literal notranslate"><span class="pre">test-files/tutorial_parallel_check.py</span></code>，并在 CI 中被执行。前置阅读： <a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">教程：你的第一个对照实验</span></a> 。</p>
+<p>完整脚本位于 <code class="docutils literal notranslate"><span class="pre">test-files/tutorial_parallel_check.py</span></code>，并在 CI 中被执行。前置阅读： <a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">教程：第一个对照实验</span></a> 。</p>
 <p>背后的机制见 <a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a> （后端、保证、自定义算法如何保持兼容）；本页是动手版。</p>
 <section id="enabling-parallel-execution">
 <h2>开启并行执行<a class="headerlink" href="#enabling-parallel-execution" title="Link to this heading">#</a></h2>

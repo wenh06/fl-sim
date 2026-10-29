@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>教程：用 CLI 跑实验矩阵 &#8212; fl-sim 0.1.1.dev31+gca84c9bcc 文档</title>
+    <title>教程：用 CLI 跑实验矩阵 &#8212; fl-sim 0.1.1.dev32+gdead1850c 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=fea79bc7"></script>
+    <script src="_static/documentation_options.js?v=48137e0f"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="教程：可视化与导出结果" href="tutorial-visualization.html" />
-    <link rel="prev" title="教程：你的第一个对照实验" href="tutorial-first-experiment.html" />
+    <link rel="prev" title="教程：第一个对照实验" href="tutorial-first-experiment.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-CN"/>
   </head>
@@ -223,7 +223,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -247,7 +247,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：你的第一个对照实验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：第一个对照实验</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">教程：用 CLI 跑实验矩阵</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">教程：可视化与导出结果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">教程：并行与可复现的运行</a></li>
@@ -563,8 +563,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-matrix-file">矩阵文件</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-it">运行</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-the-results-land">结果落在哪里</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-matrix">运行矩阵</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-location">结果位置</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beyond-serial-execution">超越串行执行</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">下一步</a></li>
 </ul>
@@ -580,8 +580,8 @@ document.write(`
                   
   <section id="tutorial-experiment-matrices-from-the-cli">
 <span id="tutorial-cli-matrix"></span><h1>教程：用 CLI 跑实验矩阵<a class="headerlink" href="#tutorial-experiment-matrices-from-the-cli" title="Link to this heading">#</a></h1>
-<p>每个实验写一个 Python 脚本是无法扩展的。fl-sim 的命令行接口能用单个 YAML 文件跑起一整个 <strong>实验矩阵</strong> ：你把配置网格描述一次，CLI 负责展开并执行每个组合。本教程在合成数据上构建一个四次运行的矩阵，并展示结果落在哪里。</p>
-<p>YAML 语法参考见 <a class="reference internal" href="cli.html"><span class="doc">命令行接口</span></a> ；本页讲的是工作流程。前置阅读：<a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">教程：你的第一个对照实验</span></a> 。</p>
+<p>随着实验数量增长，为每个实验单独编写 Python 脚本将变得难以管理。fl-sim 命令行接口能用单个 YAML 文件运行一整个 <strong>实验矩阵</strong> ：配置网格只需描述一次，CLI 负责展开并执行每个组合。本教程在合成数据上构建一个四次运行的矩阵，并展示结果的写入位置。</p>
+<p>YAML 语法参考见 <a class="reference internal" href="cli.html"><span class="doc">命令行接口</span></a> ；本页讲的是工作流程。前置阅读：<a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">教程：第一个对照实验</span></a> 。</p>
 <section id="the-matrix-file">
 <h2>矩阵文件<a class="headerlink" href="#the-matrix-file" title="Link to this heading">#</a></h2>
 <p>本教程的完整配置如下（<code class="docutils literal notranslate"><span class="pre">example-configs/fedsynthetic-demo.yml</span></code> ）：</p>
@@ -634,28 +634,31 @@ document.write(`
 <li><p>其余部分—— <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> （名字加服务器/客户端配置）、 <code class="docutils literal notranslate"><span class="pre">dataset</span></code> 、 <code class="docutils literal notranslate"><span class="pre">model</span></code> ——与你在 Python 里传入的配置（见 <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> ）完全一致，只是改写成 YAML。数据集各自的构造参数（ <code class="xref py py-class docutils literal notranslate"><span class="pre">FedSynthetic</span></code> 的 <code class="docutils literal notranslate"><span class="pre">alpha</span></code> 、 <code class="docutils literal notranslate"><span class="pre">beta</span></code> 、 <code class="docutils literal notranslate"><span class="pre">iid</span></code> 、 <code class="docutils literal notranslate"><span class="pre">num_clients</span></code> ）原样透传。</p></li>
 </ul>
 </section>
-<section id="run-it">
-<h2>运行<a class="headerlink" href="#run-it" title="Link to this heading">#</a></h2>
+<section id="running-the-matrix">
+<h2>运行矩阵<a class="headerlink" href="#running-the-matrix" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>fl-sim<span class="w"> </span>example-configs/fedsynthetic-demo.yml
 </pre></div>
 </div>
-<p>你会看到四次运行依次执行，每次都会记录自己的组合（<code class="docutils literal notranslate"><span class="pre">ratio=0.5</span> <span class="pre">seed=0</span></code> 等）。总耗时：几秒——无下载。</p>
+<p>四次运行依次执行，各自记录自己的组合（ <code class="docutils literal notranslate"><span class="pre">ratio=0.5</span> <span class="pre">seed=0</span></code> 等）。总耗时数秒，无下载。</p>
 </section>
-<section id="where-the-results-land">
-<h2>结果落在哪里<a class="headerlink" href="#where-the-results-land" title="Link to this heading">#</a></h2>
+<section id="results-location">
+<h2>结果位置<a class="headerlink" href="#results-location" title="Link to this heading">#</a></h2>
 <p>所有运行都写入 <code class="docutils literal notranslate"><span class="pre">~/.cache/fl-sim/.logs/fedsynthetic-demo/``（本配置的</span> <span class="pre">``log_dir</span></code> ）。每次运行各有一份 <code class="docutils literal notranslate"><span class="pre">.txt</span></code> 与一份 <code class="docutils literal notranslate"><span class="pre">.json</span></code> 日志——即 <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> 描述过的那些文件——另有一份 <code class="docutils literal notranslate"><span class="pre">config.json</span></code> 保存最近一次运行的确切服务器/客户端配置（已有的 <code class="docutils literal notranslate"><span class="pre">config.json</span></code> 会被轮转为 <code class="docutils literal notranslate"><span class="pre">config.json.bak</span></code> ）。</p>
-<p>一个在多次运行同一分钟内结束时就会生效的细节：日志文件名带有时间戳 <strong>加上运行的 ``tag``</strong> 。若每个矩阵组合没有独特的 tag，同名的日志会互相覆盖。上面配置里的 <code class="docutils literal notranslate"><span class="pre">tag:</span> <span class="pre">ratio_${{</span> <span class="pre">...</span> <span class="pre">}}_seed_${{</span> <span class="pre">...</span> <span class="pre">}}</span></code> 正是为此——给矩阵的每个分支一个专属 tag。</p>
+<p>当多次运行在同一分钟内结束时，一个细节便变得重要：日志文件名带有时间戳 <strong>以及该运行的 ``tag``</strong> 。若每个矩阵组合没有独特的 tag，同名的日志会互相覆盖。上面配置中的 <code class="docutils literal notranslate"><span class="pre">tag:</span> <span class="pre">ratio_${{</span> <span class="pre">...</span> <span class="pre">}}_seed_${{</span> <span class="pre">...</span> <span class="pre">}}</span></code> 一行正是为此：每个矩阵分支都有自己的 tag。</p>
 </section>
 <section id="beyond-serial-execution">
 <h2>超越串行执行<a class="headerlink" href="#beyond-serial-execution" title="Link to this heading">#</a></h2>
-<p>长实验组成的矩阵需要不止一个进程。 <code class="docutils literal notranslate"><span class="pre">strategy</span></code> 节还接受并行选项（<code class="docutils literal notranslate"><span class="pre">n_parallel</span></code>，或 <code class="docutils literal notranslate"><span class="pre">parallel:</span> <span class="pre">{mode:</span> <span class="pre">parallel_task,</span> <span class="pre">num_workers:</span> <span class="pre">N}</span></code> 块），把矩阵分支派发给工作进程——完整示例见 <code class="docutils literal notranslate"><span class="pre">example-configs/multiprocessing-demo.yml</span></code>；进程内把 <em>单次运行</em> 的客户端并行化的执行器后端见 <a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a> 。两者正交：进程级并行作用于矩阵分支之间，执行器级并行作用于客户端之间。</p>
+<p>由长时间实验组成的矩阵需要不止一个进程。 <code class="docutils literal notranslate"><span class="pre">strategy</span></code> 节还接受并行选项（ <code class="docutils literal notranslate"><span class="pre">n_parallel</span></code>，或 <code class="docutils literal notranslate"><span class="pre">parallel:</span> <span class="pre">{mode:</span> <span class="pre">parallel_task,</span> <span class="pre">num_workers:</span> <span class="pre">N}</span></code> 块），把矩阵分支派发给工作进程——完整示例见 <code class="docutils literal notranslate"><span class="pre">example-configs/multiprocessing-demo.yml</span></code>；进程内把 <em>单次运行</em> 的客户端并行化的执行器后端见 <a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a> 。两者正交：进程级并行作用于矩阵分支之间，执行器级并行作用于客户端之间。</p>
 </section>
 <section id="next-steps">
 <h2>下一步<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="cli.html"><span class="doc">命令行接口</span></a>——完整的 YAML 语法参考与 CLI 选项。</p></li>
 <li><p><a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a>——加速每一次单独的运行。</p></li>
-<li><p><a class="reference internal" href="howto-custom-algorithm.html#howto-custom-algorithm"><span class="std std-ref">操作指南：实现一个自定义算法</span></a> 、 <a class="reference internal" href="howto-custom-dataset.html#howto-custom-dataset"><span class="std std-ref">操作指南：添加自定义数据集</span></a> 与 <a class="reference internal" href="howto-custom-optimizer.html#howto-custom-optimizer"><span class="std std-ref">操作指南：添加自定义优化器</span></a> ——扩展框架本身；它们讲解的 <code class="docutils literal notranslate"><span class="pre">test-files/custom_*.py</span></code> 就是完整可运行的例子，CLI 可直接接受为算法/数据集路径。</p></li>
+<li><p><a class="reference internal" href="howto-custom-algorithm.html#howto-custom-algorithm"><span class="std std-ref">操作指南：实现一个自定义算法</span></a>, <a class="reference internal" href="howto-custom-dataset.html#howto-custom-dataset"><span class="std std-ref">操作指南：添加自定义数据集</span></a> and
+<a class="reference internal" href="howto-custom-optimizer.html#howto-custom-optimizer"><span class="std std-ref">操作指南：添加自定义优化器</span></a> — extend the framework itself; the
+<code class="docutils literal notranslate"><span class="pre">test-files/custom_*.py</span></code> files they walk through are complete,
+runnable examples that the CLI accepts as algorithm/dataset paths.</p></li>
 </ul>
 </section>
 </section>
@@ -677,7 +680,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">上一页</p>
-        <p class="prev-next-title">教程：你的第一个对照实验</p>
+        <p class="prev-next-title">教程：第一个对照实验</p>
       </div>
     </a>
     <a class="right-next"
@@ -706,8 +709,8 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-matrix-file">矩阵文件</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-it">运行</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-the-results-land">结果落在哪里</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-matrix">运行矩阵</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-location">结果位置</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beyond-serial-execution">超越串行执行</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">下一步</a></li>
 </ul>

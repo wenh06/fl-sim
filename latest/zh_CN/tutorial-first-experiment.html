@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>教程：你的第一个对照实验 &#8212; fl-sim 0.1.1.dev31+gca84c9bcc 文档</title>
+    <title>教程：第一个对照实验 &#8212; fl-sim 0.1.1.dev32+gdead1850c 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=fea79bc7"></script>
+    <script src="_static/documentation_options.js?v=48137e0f"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -249,7 +249,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">教程：你的第一个对照实验</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">教程：第一个对照实验</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-cli-matrix.html">教程：用 CLI 跑实验矩阵</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">教程：可视化与导出结果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">教程：并行与可复现的运行</a></li>
@@ -554,7 +554,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>教程：你的第一个对照实验</h1>
+    <h1>教程：第一个对照实验</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -580,9 +580,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="tutorial-your-first-controlled-experiment">
-<span id="tutorial-first-experiment"></span><h1>教程：你的第一个对照实验<a class="headerlink" href="#tutorial-your-first-controlled-experiment" title="Link to this heading">#</a></h1>
-<p><a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> 只跑了一次训练。真正的实验要在相同条件下比较不同配置，并把结果读回来。本教程将比较三个算法在两种采样比例下的表现，然后剖析 fl-sim 中&quot;通信开销&quot;究竟指什么。</p>
+  <section id="tutorial-a-first-controlled-experiment">
+<span id="tutorial-first-experiment"></span><h1>教程：第一个对照实验<a class="headerlink" href="#tutorial-a-first-controlled-experiment" title="Link to this heading">#</a></h1>
+<p><a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> 执行单次训练。完整的实验在相同条件下比较不同配置，并把结果读回。本教程比较三个算法在两种采样比例下的表现，然后考察 fl-sim 中&quot;通信开销&quot;的确切含义。</p>
 <p>全部运行基于 <code class="xref py py-class docutils literal notranslate"><span class="pre">FedSynthetic</span></code>——无需下载，每次运行只需几秒。下文展示的完整脚本位于 <code class="docutils literal notranslate"><span class="pre">test-files/tutorial_first_experiment.py</span></code>，并在 CI 中被执行。</p>
 <p>前置阅读： <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> （三对象模型：数据集、模型、服务器）与  <a class="reference internal" href="concepts.html"><span class="doc">核心概念</span></a> （一轮训练做了什么）。</p>
 <section id="set-up-the-comparison">
@@ -690,16 +690,16 @@ document.write(`
  SCAFFOLD           1.0                 180     0.8767
 </pre></div>
 </div>
-<p>对这张表的两点如实观察：</p>
+<p>关于这张表的两点观察：</p>
 <ul class="simple">
-<li><p>这个合成任务 <em>太容易</em> ——全采样下 FedProx 与 SCAFFOLD 达到了和 FedAvg 相同的精度天花板。它们的优势要在更难、异质性更强的任务上才显现（何时用哪个，见 <a class="reference internal" href="algorithms/overview.html"><span class="doc">算法理论页</span></a> ）。</p></li>
-<li><p>精度的故事饱和了， <strong>通信</strong> 的故事没有：比例 0.5 的每次运行都恰好用了 90 次通信，比例 1.0 的都恰好 180 次——与算法无关。这个数字值得细看，因为它很容易被误读。</p></li>
+<li><p>这个合成任务 <em>过于简单</em> ——全采样下 FedProx 与 SCAFFOLD 达到了与 FedAvg 相同的精度上限。它们的优势在更难、异质性更强的任务上才会显现（何时用哪个算法，见 <a class="reference internal" href="algorithms/overview.html"><span class="doc">算法理论页</span></a> ）。</p></li>
+<li><p>该任务上精度已饱和， <strong>通信</strong> 开销则没有：比例 0.5 的每次运行都恰好使用 90 次通信，比例 1.0 的都恰好 180 次——与算法无关。这个数字值得仔细考察，因为它很容易被误读。</p></li>
 </ul>
 </section>
 <section id="what-num-communications-counts">
 <h2><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 数的是什么<a class="headerlink" href="#what-num-communications-counts" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 统计的是 <strong>消息数，不是轮数</strong> ：每轮对 <em>每个被采样客户端</em> 加一次下行广播，再加一次上行回复。30 个客户端、比例 0.5 时，每轮是 15 下行 + 15 上行 = 30 条消息，3 轮 = 90；比例 1.0 时翻倍为 180。</p>
-<p>判别性的检验： <strong>3 轮全采样与 6 轮半采样都恰好是 180。</strong> 计数随 <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">采样数</span> <span class="pre">×</span> <span class="pre">轮数</span></code> 缩放，而不是随轮数。把它读成&quot;通信轮数&quot;，90 就会被当成&quot;90 轮&quot;——差了 30 倍。</p>
+<p>一个判别性检验： <strong>3 轮全采样与 6 轮半采样都恰好得到 180。</strong> 计数随 <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">采样数</span> <span class="pre">×</span> <span class="pre">轮数</span></code> 缩放，而不是随轮数。把它读成&quot;通信轮数&quot;，90 就会被当成&quot;90 轮&quot;——差了 30 倍。</p>
 <p>值得记住的分解式：</p>
 <div class="math notranslate nohighlight">
 \[\text{FedAvg} = 2 \times \text{sampled} \times \text{rounds}\]</div>
@@ -707,7 +707,7 @@ document.write(`
 </section>
 <section id="sampling-is-not-communicating">
 <h2>被采样不等于在通信<a class="headerlink" href="#sampling-is-not-communicating" title="Link to this heading">#</a></h2>
-<p>上面三个算法每一轮都在通信。fl-sim 还内置 <strong>可跳过通信</strong> 的算法，它们会以很有启发性的方式打破 <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">采样数</span> <span class="pre">×</span> <span class="pre">轮数</span></code> 的恒等式。让 FedPD（每 <code class="docutils literal notranslate"><span class="pre">int(1/p)</span></code> 轮才上传一次）与五轮 FedAvg 并排各跑五轮：</p>
+<p>上面三个算法每一轮都在通信。fl-sim 还提供 <strong>可跳过通信</strong> 的算法，它们以能澄清该恒等式两个乘子的方式修改它。让 FedPD（每 <code class="docutils literal notranslate"><span class="pre">int(1/p)</span></code> 轮上传一次）与五轮 FedAvg 并排各跑五轮：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fedavg</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="s2">"FedAvg"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"FedAvg_5it"</span><span class="p">)</span>
 <span class="n">fedpd</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="s2">"FedPD"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"FedPD_5it"</span><span class="p">)</span>
 
@@ -728,8 +728,8 @@ document.write(`
 FedPD: 90 communications = 75 downlink + 15 uplink (1 of 5 rounds uploaded)
 </pre></div>
 </div>
-<p>分解式把话说得非常准： <strong>下行完全相同</strong> （75 = 5 轮 × 15 客户端——对被采样集合的广播从不跳过）；FedPD 省下的 <em>全是上行</em> 。五轮 FedPD 花费的 90 条消息与三轮 FedAvg 相同——同样的通信预算换来了多两轮的本地迭代。</p>
-<p>自己动手跑时的三个实用细节：</p>
+<p>分解式给出了准确的表述： <strong>下行完全相同</strong> （75 = 5 轮 × 15 客户端——对被采样集合的广播从不跳过）；FedPD 节省的 <em>全部是上行</em> 。五轮 FedPD 花费的 90 条消息与三轮 FedAvg 相同：在相同通信开销下，FedPD 多执行两轮本地迭代。</p>
+<p>运行本例的三个实用细节：</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">p</span></code> 必须满足 <strong>0 &lt; p &lt; 1</strong> 。p = 1 时 FedPD 每轮都上传（退化为 FedAvg）；p &gt; 1 时上传频率变为零，运行直接崩溃。配置暴露的是 <code class="docutils literal notranslate"><span class="pre">p</span></code> ，派生的上传频率 <code class="docutils literal notranslate"><span class="pre">int(1/p)</span></code> 始终说了算——自己传 <code class="docutils literal notranslate"><span class="pre">comm_freq</span></code> 会被静默覆写。</p></li>
 <li><p><strong>You will see RuntimeWarnings — they are expected, not errors.</strong> The
@@ -739,7 +739,8 @@ not move&quot;), and each skipping client logs <code class="docutils literal not
 <span class="pre">from</span> <span class="pre">server...</span></code> (&quot;I was not given a new global model this round, so I
 keep working from my current parameters&quot;). At tutorial scale the
 client-side message appears once per (skipped client × skipped round),
-so it dominates the console. Both are how FedPD is designed to behave.</p></li>
+so it accounts for most of the console output. Both are how FedPD is
+designed to behave.</p></li>
 <li><p>JSON 的 <code class="docutils literal notranslate"><span class="pre">step</span></code> 快照落后多少因算法而异：五轮 FedAvg 终于 120（最后一轮的 30 条消息未入日志），FedPD 终于 75（它的最后一轮从不上传）。最终计数请以 <code class="docutils literal notranslate"><span class="pre">server._num_communications</span></code> 为准。</p></li>
 </ul>
 </section>
@@ -747,7 +748,8 @@ so it dominates the console. Both are how FedPD is designed to behave.</p></li>
 <h2>下一步<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="tutorial-cli-matrix.html"><span class="doc">教程：用 CLI 跑实验矩阵</span></a>——用 YAML 实验矩阵从命令行跑同样的对照。</p></li>
-<li><p><a class="reference internal" href="tutorial-visualization.html"><span class="doc">教程：可视化与导出结果</span></a>——把本次对照的多 seed 运行合并成带误差带的均值曲线。</p></li>
+<li><p><a class="reference internal" href="tutorial-visualization.html"><span class="doc">教程：可视化与导出结果</span></a> — merge multi-seed runs of this
+comparison into mean curves with error bounds.</p></li>
 <li><p><a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a>——用并行执行后端加速这些运行，且不改变结果。</p></li>
 </ul>
 </section>

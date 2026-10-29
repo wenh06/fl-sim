@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>教程：可视化与导出结果 &#8212; fl-sim 0.1.1.dev31+gca84c9bcc 文档</title>
+    <title>教程：可视化与导出结果 &#8212; fl-sim 0.1.1.dev32+gdead1850c 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=fea79bc7"></script>
+    <script src="_static/documentation_options.js?v=48137e0f"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -223,7 +223,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -247,7 +247,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：你的第一个对照实验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：第一个对照实验</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-cli-matrix.html">教程：用 CLI 跑实验矩阵</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">教程：可视化与导出结果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">教程：并行与可复现的运行</a></li>
@@ -580,7 +580,7 @@ document.write(`
   <section id="tutorial-visualize-and-export-results">
 <span id="tutorial-visualization"></span><h1>教程：可视化与导出结果<a class="headerlink" href="#tutorial-visualize-and-export-results" title="Link to this heading">#</a></h1>
 <p>每次运行都会写 <code class="docutils literal notranslate"><span class="pre">.json</span></code> 日志（见 <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> ）；fl-sim 提供一个可视化层，把它们变成可直接发表的曲线——既可在 Jupyter 中交互操作，也可在纯 Python 中以编程方式处理。本教程两者都讲：把多 seed 实验合并成一条带误差带的均值曲线，导出 PDF，再打开交互式仪表盘。</p>
-<p>完整脚本位于 <code class="docutils literal notranslate"><span class="pre">test-files/tutorial_visualization.py</span></code>，并在 CI 中被执行（仪表盘渲染除外，它需要 Jupyter）。前置阅读： <a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">教程：你的第一个对照实验</span></a> 。</p>
+<p>完整脚本位于 <code class="docutils literal notranslate"><span class="pre">test-files/tutorial_visualization.py</span></code>，并在 CI 中被执行（仪表盘渲染除外，它需要 Jupyter）。前置阅读： <a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">教程：第一个对照实验</span></a> 。</p>
 <p>所有可调项（字体、平滑、控件）的参考见 <a class="reference internal" href="viz.html"><span class="doc">可视化子系统</span></a> ；本页讲的是工作流程。</p>
 <section id="preparing-the-logs">
 <h2>准备日志<a class="headerlink" href="#preparing-the-logs" title="Link to this heading">#</a></h2>
@@ -634,7 +634,7 @@ document.write(`
 </div>
 <p>这会在工作目录旁写出 <code class="docutils literal notranslate"><span class="pre">fedavg-multi-seed.pdf</span></code> 。两点说明：</p>
 <ul class="simple">
-<li><p>x 轴是 <strong>累计通信次数</strong> ——即 <a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">教程：你的第一个对照实验</span></a> 剖析过的那个量。以通信（而不是轮数）为横轴，才能把通信效率不同的算法放进同一张图里比较。</p></li>
+<li><p>x 轴是 <strong>累计通信次数</strong> ——即 <a class="reference internal" href="tutorial-first-experiment.html"><span class="doc">教程：第一个对照实验</span></a> 剖析过的那个量。以通信（而不是轮数）为横轴，才能把通信效率不同的算法放进同一张图里比较。</p></li>
 <li><p>只有两个 seed 时，带子只是一个范围，还不是统计量——多加几个 <code class="docutils literal notranslate"><span class="pre">seed=</span></code> 运行即可（合并代码一行都不用改）。</p></li>
 </ul>
 </section>

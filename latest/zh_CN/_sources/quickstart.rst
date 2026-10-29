@@ -3,19 +3,19 @@
 Quickstart
 ==========
 
-This page walks you through your first federated training run with fl-sim:
-install the package, train :class:`~fl_sim.algorithms.fedopt.FedAvg` on a
-synthetic dataset, and look at the logs it produces. The whole run takes
-seconds on a laptop — no dataset download, no GPU required.
+This page describes a first federated training run with fl-sim: install
+the package, train :class:`~fl_sim.algorithms.fedopt.FedAvg` on a synthetic
+dataset, and inspect the logs it produces. The run completes in seconds on
+a laptop and requires neither a dataset download nor a GPU.
 
-If you prefer understanding the concepts first, read :doc:`concepts` and
-come back.
+The core concepts are described in :doc:`concepts`; readers who prefer a
+conceptual overview first may start there.
 
 Prerequisites
 -------------
 
 Install fl-sim following :doc:`install` (``pip install git+https://github.com/wenh06/fl-sim.git``).
-Python 3.10+ with PyTorch is all you need.
+Python 3.10+ with PyTorch is required.
 
 Train your first model
 ----------------------
@@ -32,12 +32,12 @@ sampling ratio); the client config carries the local training recipe.
    :start-after: # --- begin: core ---
    :end-before: # --- end: core ---
 
-Paste this into a script (or a REPL) and run it. ``FedSynthetic`` generates
-a synthetic classification dataset split across 30 clients — nothing is
+The code runs as a script or in a REPL. ``FedSynthetic`` generates a
+synthetic classification dataset split across 30 clients; nothing is
 downloaded. ``FedAvgServerConfig(num_iters=5, num_clients=10,
 clients_sample_ratio=1.0)`` runs **5 rounds**, each sampling **10 of the 30
-clients** with all of them responding. ``server.train()`` runs the full
-federated loop; you will see per-round progress and metrics in the console.
+clients** with all of them responding. ``server.train()`` executes the full
+federated loop; per-round progress and metrics are printed to the console.
 
 .. note::
 
@@ -45,12 +45,12 @@ federated loop; you will see per-round progress and metrics in the console.
    ``"centralized"`` and ``"local"`` baselines with the same objects — see
    the :meth:`~fl_sim.nodes.Server.train` API.
 
-Where do the logs go?
----------------------
+Log files
+---------
 
-Every run writes its logs to ``~/.cache/fl-sim/.logs/`` (override the
-subdirectory with ``log_dir=`` in the server config, as done here). The
-script above reads the metrics back and prints the result:
+Every run writes its logs to ``~/.cache/fl-sim/.logs/`` (the subdirectory
+can be overridden with ``log_dir=`` in the server config, as done here).
+The script above reads the metrics back and prints the result:
 
 .. code-block:: text
 
@@ -65,7 +65,7 @@ Three files per run:
 - a ``.json`` log with the full metrics history, structured as
   ``{"train": {...}, "val": {"Server": [...], "Client0": [...], ...}}``
   — one dict per evaluation, holding ``step``, ``acc``, ``loss``, etc.
-  This is the file you will plot when visualizing results;
+  This file is the input for visualization;
 - ``config.json`` — the exact server and client configs of the run, so
   every experiment can be reproduced later.
 
@@ -90,5 +90,5 @@ Next steps
   controlled comparison across algorithms and sampling ratios.
 - :doc:`tutorial-cli-matrix` — run experiment batches from the CLI with
   YAML config files.
-- :doc:`parallel_execution` — speed training up with a parallel executor
+- :doc:`parallel_execution` — accelerate training with a parallel executor
   backend while keeping results reproducible.
