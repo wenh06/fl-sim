@@ -33,6 +33,8 @@ DOCS_SOURCE = REPO_ROOT / "docs" / "source"
 TUTORIAL_SCRIPTS = {
     "quickstart": REPO_ROOT / "test-files" / "quickstart.py",
     "tutorial_first_experiment": REPO_ROOT / "test-files" / "tutorial_first_experiment.py",
+    "tutorial_visualization": REPO_ROOT / "test-files" / "tutorial_visualization.py",
+    "tutorial_parallel_check": REPO_ROOT / "test-files" / "tutorial_parallel_check.py",
 }
 CLI_MATRIX_DEMO = REPO_ROOT / "example-configs" / "fedsynthetic-demo.yml"
 
@@ -41,6 +43,14 @@ CLI_MATRIX_DEMO = REPO_ROOT / "example-configs" / "fedsynthetic-demo.yml"
 def isolated_log_dir(tmp_path, monkeypatch):
     """Redirect fl-sim's default log directory into a temporary directory."""
     monkeypatch.setattr(loggers_mod, "DEFAULT_LOG_DIR", tmp_path)
+    yield tmp_path
+
+
+@pytest.fixture()
+def in_tmp_cwd(tmp_path, monkeypatch):
+    """Run scripts from a temporary working directory, so any file they
+    write relative to the CWD (e.g. an exported PDF) stays contained."""
+    monkeypatch.chdir(tmp_path)
     yield tmp_path
 
 
@@ -146,6 +156,49 @@ def test_cli_matrix_demo_expands_and_runs(isolated_log_dir):
     assert len(jsons) == len(configs), "each matrix arm should produce its own json log"
     assert len(txts) == len(configs)
     _check_tutorial_budget(run_dir)
+
+
+def test_visualization_script_merges_seeds_and_exports(isolated_log_dir, in_tmp_cwd):
+    namespace = _run_script(TUTORIAL_SCRIPTS["tutorial_visualization"])
+
+    # two tagged runs, both within the tutorial budget
+    run_dir = isolated_log_dir / "t3_seeds"
+    jsons = [p for p in run_dir.glob("*.json") if p.name != "config.json"]
+    assert len(jsons) == 2, "the two seeds must not overwrite each other's logs"
+    _check_tutorial_budget(run_dir)
+
+    # the merge produced one non-empty curve per seed, and the PDF export
+    # landed in the (temporary) working directory
+    curves = namespace["curves"]
+    assert len(curves) == 2
+    for curve in curves:
+        assert len(curve["x"]) > 0 and len(curve["y"]) > 0
+    assert (in_tmp_cwd / "fedavg-multi-seed.pdf").exists(), "the mean curve should be exported to PDF"
+
+    # the dashboard object is constructible outside Jupyter (it prints a
+    # note and stays inert there; rendering is covered by manual use)
+    assert namespace["panel"] is not None
+
+
+def test_parallel_check_script_verifies_bitwise_reproducibility(isolated_log_dir):
+    namespace = _run_script(TUTORIAL_SCRIPTS["tutorial_parallel_check"])
+
+    # the L1 guarantee, demonstrated end to end: same seed, per-client RNG,
+    # two different executor backends -> bitwise identical final weights
+    sequential, threads = namespace["sequential"], namespace["threads"]
+    assert sequential._num_communications == threads._num_communications
+    assert namespace["bitwise_equal"](
+        sequential, threads
+    ), "sequential and threads with rng_mode='per_client' must agree bitwise"
+
+    # global mode: participation stays backend-independent; local
+    # trajectories may interleave by design, so only the counts are asserted
+    sequential_g, threads_g = namespace["sequential_g"], namespace["threads_g"]
+    assert sequential_g._num_communications == threads_g._num_communications
+
+    for sub in isolated_log_dir.iterdir():
+        if sub.name.startswith("t4_") and sub.is_dir():
+            _check_tutorial_budget(sub)
 
 
 def test_tutorial_scripts_keep_literalinclude_markers():

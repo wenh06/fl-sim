@@ -5,14 +5,14 @@ This script is the source of the code blocks shown in the
 ``tutorial-first-experiment`` page of the documentation
 (``docs/source/tutorial-first-experiment.rst``): the marked sections are
 included verbatim via Sphinx ``literalinclude`` directives, so the docs
-and this script can never drift apart. The size is pinned to the tutorial
+and this script cannot drift apart. The size is pinned to the tutorial
 budget (``num_iters <= 5``, ``num_clients <= 30``, one local epoch),
 enforced by ``test/test_tutorial_scripts.py``.
 
-The dataset is built ONCE, before any config/server, on purpose: config
+The dataset is built once, before any config or server: config
 constructors re-seed the global RNG when they run, so whatever was built
-last would otherwise shift the results. Construct in the order
-dataset -> config -> server and the numbers are stable.
+last would otherwise shift the results. Constructing in the order
+dataset -> config -> server keeps the results reproducible.
 """
 
 # --- begin: setup ---
@@ -41,20 +41,23 @@ SERVER_KW = {"FedAvg": {}, "FedProx": {}, "SCAFFOLD": {"lr": 0.03}, "FedPD": {"p
 
 # one synthetic dataset, split across 30 clients, shared by every run below
 dataset = FedSynthetic(1.0, 1.0, True, 30)
-model = dataset.candidate_models["mlp_d1"]
 
 
 def run(algorithm, sample_ratio, num_iters, tag, **extra_kw):
     """Train one algorithm and return the server.
 
-    Algorithm-specific server keywords (SCAFFOLD's global step size,
-    FedPD's upload frequency ``p``) come from ``SERVER_KW``; anything
-    passed as ``extra_kw`` is merged on top.
+    Every run takes a FRESH model from ``dataset.candidate_models``
+    (a property building a new module on each access): the server trains
+    the model it is given in place, so sharing one model across runs
+    would warm-start every run after the first and contaminate the
+    comparison. Algorithm-specific server keywords (SCAFFOLD's global
+    step size, FedPD's upload frequency ``p``) come from ``SERVER_KW``;
+    anything passed as ``extra_kw`` is merged on top.
     """
     server_cls, server_config_cls, client_config_cls = ALGORITHMS[algorithm]
     server_kw = {**SERVER_KW[algorithm], **extra_kw}
     server = server_cls(
-        model,
+        dataset.candidate_models["mlp_d1"],
         dataset,
         server_config_cls(
             num_iters=num_iters,

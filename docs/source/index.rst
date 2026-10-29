@@ -24,6 +24,8 @@ Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gi
 
    tutorial-first-experiment
    tutorial-cli-matrix
+   tutorial-visualization
+   tutorial-parallel-reproducible
 
 .. toctree::
    :caption: API Reference
