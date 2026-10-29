@@ -22,9 +22,17 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
+# Allow one concurrent deployment: runs that may publish to GitHub Pages
+# (pushes to doc/master, manual dispatch) share one lock; pull-request
+# builds never publish and each get their own group, so they neither
+# cancel nor get cancelled by deploys or by other pull requests
 concurrency:
-  group: "pages"
+  group: >-
+    ${{
+      (github.event_name == 'push' && contains(fromJson('["refs/heads/doc", "refs/heads/master"]'), github.ref)) || github.event_name == 'workflow_dispatch'
+        && 'pages-deploy'
+      || format('docs-build-{0}', github.event.pull_request.number)
+    }}
   cancel-in-progress: true
 
 jobs:
