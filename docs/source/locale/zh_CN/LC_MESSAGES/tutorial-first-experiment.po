@@ -6,50 +6,37 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 07:53+0800\n"
+"POT-Creation-Date: 2026-10-29 23:49+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh_CN <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.16.0\n"
 
 #: ../../source/tutorial-first-experiment.rst:4
-msgid "Tutorial: your first controlled experiment"
-msgstr "教程：你的第一个对照实验"
+msgid "Tutorial: a first controlled experiment"
+msgstr "教程：第一个对照实验"
 
 #: ../../source/tutorial-first-experiment.rst:6
 msgid ""
-":doc:`Quickstart <quickstart>` ran one training once. A real experiment "
-"compares configurations under identical conditions and reads the results "
-"back. In this tutorial you will compare three algorithms at two sampling "
-"ratios, then dissect what \"communication cost\" actually means in fl-"
-"sim."
-msgstr ""
-":doc:`Quickstart <quickstart>` "
-"只跑了一次训练。真正的实验要在相同条件下比较不同配置，并把结果读回来。本教程将比较三个算法在两种采样比例下的表现，然后剖析 fl-sim "
-"中\"通信开销\"究竟指什么。"
+":doc:`Quickstart <quickstart>` executes a single training run. A complete experiment compares configurations under identical conditions and reads the results back. This tutorial compares three "
+"algorithms at two sampling ratios, then examines what \"communication cost\" denotes in fl-sim."
+msgstr ":doc:`Quickstart <quickstart>` 执行单次训练。完整的实验在相同条件下比较不同配置，并把结果读回。本教程比较三个算法在两种采样比例下的表现，然后考察 fl-sim 中\"通信开销\"的确切含义。"
 
 #: ../../source/tutorial-first-experiment.rst:11
 msgid ""
-"Everything runs on "
-":class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic` — no "
-"downloads, seconds per run. The full script shown below lives at ``test-"
-"files/tutorial_first_experiment.py`` and is exercised in CI."
-msgstr ""
-"全部运行基于 "
-":class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic`——无需下载，每次运行只需几秒。下文展示的完整脚本位于"
-" ``test-files/tutorial_first_experiment.py``，并在 CI 中被执行。"
+"Everything runs on :class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic` — no downloads, seconds per run. The full script shown below lives at ``test-files/tutorial_first_experiment.py`` and "
+"is exercised in CI."
+msgstr "全部运行基于 :class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic`——无需下载，每次运行只需几秒。下文展示的完整脚本位于 ``test-files/tutorial_first_experiment.py``，并在 CI 中被执行。"
 
 #: ../../source/tutorial-first-experiment.rst:15
-msgid ""
-"Prerequisites: :doc:`quickstart` (the three-object model: dataset, model,"
-" server) and :doc:`concepts` (what a round does)."
+msgid "Prerequisites: :doc:`quickstart` (the three-object model: dataset, model, server) and :doc:`concepts` (what a round does)."
 msgstr "前置阅读： :doc:`quickstart` （三对象模型：数据集、模型、服务器）与  :doc:`concepts` （一轮训练做了什么）。"
 
 #: ../../source/tutorial-first-experiment.rst:19
@@ -58,77 +45,49 @@ msgstr "搭建对照"
 
 #: ../../source/tutorial-first-experiment.rst:21
 msgid ""
-"Six runs: **FedAvg** (plain averaging), **FedProx** (proximal-regularized"
-" local objectives) and **SCAFFOLD** (control variates) — the classic "
-"gradient, proximal and variance-reduction axes — each at **sampling "
-"ratios 0.5 and 1.0**."
-msgstr ""
-"六次运行： **FedAvg** （朴素平均）、 **FedProx** （近端正则的本地目标）与  **SCAFFOLD** "
-"（控制变量）——梯度、近端、方差缩减三条经典轴线——各自在  **采样比例 0.5 与 1.0** 下运行。"
+"Six runs: **FedAvg** (plain averaging), **FedProx** (proximal-regularized local objectives) and **SCAFFOLD** (control variates) — the classic gradient, proximal and variance-reduction axes — each at"
+" **sampling ratios 0.5 and 1.0**."
+msgstr "六次运行： **FedAvg** （朴素平均）、 **FedProx** （近端正则的本地目标）与  **SCAFFOLD** （控制变量）——梯度、近端、方差缩减三条经典轴线——各自在  **采样比例 0.5 与 1.0** 下运行。"
 
 #: ../../source/tutorial-first-experiment.rst:26
 msgid ""
-"One deliberate choice: the dataset is constructed **once, before any "
-"config or server**. Config constructors re-seed the global RNG as they "
-"are built, so whatever was constructed last would otherwise shift the "
-"sampling stream of everything after it. The order *dataset → config → "
-"server* keeps every run reproducible:"
-msgstr ""
-"一个刻意的选择：数据集 **只构造一次，且先于任何配置或服务器** 。配置类的构造器在构建时会重置全局 "
-"RNG，谁最后构造谁生效，其后的采样流都会被移动。按 *数据集 → 配置 → 服务器* 的顺序构造，每次运行都可复现："
+"One deliberate choice: the dataset is constructed **once, before any config or server**. Config constructors re-seed the global RNG as they are built, so whatever was constructed last would "
+"otherwise shift the sampling stream of everything after it. The order *dataset → config → server* keeps every run reproducible:"
+msgstr "一个刻意的选择：数据集 **只构造一次，且先于任何配置或服务器** 。配置类的构造器在构建时会重置全局 RNG，谁最后构造谁生效，其后的采样流都会被移动。按 *数据集 → 配置 → 服务器* 的顺序构造，每次运行都可复现："
 
 #: ../../source/tutorial-first-experiment.rst:37
 msgid ""
-"``final_accuracy`` reads a run's JSON log — the same file format you saw "
-"in :doc:`quickstart`. SCAFFOLD needs its global step size ``lr`` passed "
-"explicitly (its config has no default for it); FedPD will need a "
-"frequency parameter later. Both are per-algorithm server keywords, "
-"collected in ``SERVER_KW``."
-msgstr ""
-"``final_accuracy`` 读取一次运行的 JSON 日志——与 :doc:`quickstart` 中相同的文件格式。SCAFFOLD"
-" 需要显式传入全局步长 ``lr``（它的配置没有默认值）；FedPD 稍后也需要一个频率参数。两者都是算法各自的服务器关键字，统一收在 "
-"``SERVER_KW`` 里。"
+"``final_accuracy`` reads a run's JSON log — the same file format you saw in :doc:`quickstart`. SCAFFOLD needs its global step size ``lr`` passed explicitly (its config has no default for it); FedPD "
+"will need a frequency parameter later. Both are per-algorithm server keywords, collected in ``SERVER_KW``."
+msgstr "``final_accuracy`` 读取一次运行的 JSON 日志——与 :doc:`quickstart` 中相同的文件格式。SCAFFOLD 需要显式传入全局步长 ``lr``（它的配置没有默认值）；FedPD 稍后也需要一个频率参数。两者都是算法各自的服务器关键字，统一收在 ``SERVER_KW`` 里。"
 
 #: ../../source/tutorial-first-experiment.rst:44
 msgid "Run and read the results"
 msgstr "运行并读取结果"
 
 #: ../../source/tutorial-first-experiment.rst:46
-msgid ""
-"The comparison itself is a loop, and the results land in a "
-":class:`pandas.DataFrame`:"
+msgid "The comparison itself is a loop, and the results land in a :class:`pandas.DataFrame`:"
 msgstr "对照本身就是一个循环，结果落入 :class:`pandas.DataFrame` ："
 
 #: ../../source/tutorial-first-experiment.rst:54
-msgid ""
-"Output on one machine (your numbers may differ slightly by package "
-"version):"
+msgid "Output on one machine (your numbers may differ slightly by package version):"
 msgstr "在一种机器上的输出（你的数字可能因包版本略有差异）："
 
 #: ../../source/tutorial-first-experiment.rst:67
-msgid "Two honest observations about this table:"
-msgstr "对这张表的两点如实观察："
+msgid "Two observations about this table:"
+msgstr "关于这张表的两点观察："
 
 #: ../../source/tutorial-first-experiment.rst:69
 msgid ""
-"This synthetic task is *easy* — FedProx and SCAFFOLD reach the same "
-"accuracy ceiling as FedAvg at full sampling. Their advantages show up on "
-"harder, more heterogeneous tasks (see the :doc:`algorithm theory pages "
-"<algorithms/overview>` for when each helps)."
-msgstr ""
-"这个合成任务 *太容易* ——全采样下 FedProx 与 SCAFFOLD 达到了和 FedAvg "
-"相同的精度天花板。它们的优势要在更难、异质性更强的任务上才显现（何时用哪个，见 :doc:`算法理论页 "
-"<algorithms/overview>` ）。"
+"This synthetic task is *easy* — FedProx and SCAFFOLD reach the same accuracy ceiling as FedAvg at full sampling. Their advantages appear on harder, more heterogeneous tasks (see the :doc:`algorithm "
+"theory pages <algorithms/overview>` for when each helps)."
+msgstr "这个合成任务 *过于简单* ——全采样下 FedProx 与 SCAFFOLD 达到了与 FedAvg 相同的精度上限。它们的优势在更难、异质性更强的任务上才会显现（何时用哪个算法，见 :doc:`算法理论页 <algorithms/overview>` ）。"
 
 #: ../../source/tutorial-first-experiment.rst:74
 msgid ""
-"The accuracy story saturates; the **communication** story does not. Every"
-" run at ratio 0.5 used exactly 90 communications and every run at ratio "
-"1.0 used exactly 180 — regardless of the algorithm. That number deserves "
-"a closer look, because it is easy to misread."
-msgstr ""
-"精度的故事饱和了， **通信** 的故事没有：比例 0.5 的每次运行都恰好用了 90 次通信，比例 1.0 的都恰好 180 "
-"次——与算法无关。这个数字值得细看，因为它很容易被误读。"
+"Accuracy saturates on this task; the **communication** cost does not. Every run at ratio 0.5 used exactly 90 communications and every run at ratio 1.0 used exactly 180 — regardless of the algorithm."
+" This number warrants a closer look, because it is easy to misread."
+msgstr "该任务上精度已饱和， **通信** 开销则没有：比例 0.5 的每次运行都恰好使用 90 次通信，比例 1.0 的都恰好 180 次——与算法无关。这个数字值得仔细考察，因为它很容易被误读。"
 
 #: ../../source/tutorial-first-experiment.rst:80
 msgid "What ``num_communications`` counts"
@@ -136,26 +95,15 @@ msgstr "``num_communications`` 数的是什么"
 
 #: ../../source/tutorial-first-experiment.rst:82
 msgid ""
-"``num_communications`` counts **messages, not rounds**: each round adds "
-"one downlink broadcast *per sampled client* plus one uplink reply *per "
-"sampled client*. With 30 clients at ratio 0.5, every round is 15 "
-"downlinks + 15 uplinks = 30 messages, so 3 rounds = 90; at ratio 1.0 that"
-" doubles to 180."
-msgstr ""
-"``num_communications`` 统计的是 **消息数，不是轮数** ：每轮对 *每个被采样客户端* "
-"加一次下行广播，再加一次上行回复。30 个客户端、比例 0.5 时，每轮是 15 下行 + 15 上行 = 30 条消息，3 轮 = 90；比例 "
-"1.0 时翻倍为 180。"
+"``num_communications`` counts **messages, not rounds**: each round adds one downlink broadcast *per sampled client* plus one uplink reply *per sampled client*. With 30 clients at ratio 0.5, every "
+"round is 15 downlinks + 15 uplinks = 30 messages, so 3 rounds = 90; at ratio 1.0 that doubles to 180."
+msgstr "``num_communications`` 统计的是 **消息数，不是轮数** ：每轮对 *每个被采样客户端* 加一次下行广播，再加一次上行回复。30 个客户端、比例 0.5 时，每轮是 15 下行 + 15 上行 = 30 条消息，3 轮 = 90；比例 1.0 时翻倍为 180。"
 
 #: ../../source/tutorial-first-experiment.rst:88
 msgid ""
-"The discriminating check: **3 rounds at full sampling and 6 rounds at "
-"half sampling both land on 180.** The counter scales with ``2 × "
-"sampled_clients × rounds``, not with rounds. Reading it as "
-"\"communication rounds\" would make 90 look like \"90 rounds\" — off by a"
-" factor of 30."
-msgstr ""
-"判别性的检验： **3 轮全采样与 6 轮半采样都恰好是 180。** 计数随 ``2 × 采样数 × 轮数`` "
-"缩放，而不是随轮数。把它读成\"通信轮数\"，90 就会被当成\"90 轮\"——差了 30 倍。"
+"A discriminating check: **3 rounds at full sampling and 6 rounds at half sampling both give 180.** The counter scales with ``2 × sampled_clients × rounds``, not with rounds. Reading it as "
+"\"communication rounds\" would make 90 look like \"90 rounds\" — off by a factor of 30."
+msgstr "一个判别性检验： **3 轮全采样与 6 轮半采样都恰好得到 180。** 计数随 ``2 × 采样数 × 轮数`` 缩放，而不是随轮数。把它读成\"通信轮数\"，90 就会被当成\"90 轮\"——差了 30 倍。"
 
 #: ../../source/tutorial-first-experiment.rst:94
 msgid "The decomposition to keep in mind:"
@@ -167,13 +115,9 @@ msgstr "\\text{FedAvg} = 2 \\times \\text{sampled} \\times \\text{rounds}"
 
 #: ../../source/tutorial-first-experiment.rst:100
 msgid ""
-"(Note also that the ``step`` recorded in the JSON log is a snapshot taken"
-" at the *start* of each round: it trails the final counter by the last "
-"round's full cost — read the final count from the server, as the scripts "
-"here do.)"
-msgstr ""
-"（另注：JSON 日志里记录的 ``step`` 是 *每轮开始时* "
-"的快照：它比最终计数少最后一轮的全部开销——最终值请从服务器读取，正如本页脚本的做法。）"
+"(Note also that the ``step`` recorded in the JSON log is a snapshot taken at the *start* of each round: it trails the final counter by the last round's full cost — read the final count from the "
+"server, as the scripts here do.)"
+msgstr "（另注：JSON 日志里记录的 ``step`` 是 *每轮开始时* 的快照：它比最终计数少最后一轮的全部开销——最终值请从服务器读取，正如本页脚本的做法。）"
 
 #: ../../source/tutorial-first-experiment.rst:106
 msgid "Sampling is not communicating"
@@ -181,14 +125,9 @@ msgstr "被采样不等于在通信"
 
 #: ../../source/tutorial-first-experiment.rst:108
 msgid ""
-"All three algorithms above communicate every round. fl-sim also ships "
-"**communication-skipping** algorithms, and they break the ``2 × sampled ×"
-" rounds`` identity in an instructive way. Run FedPD — which uploads only "
-"every ``int(1/p)``-th round — for five rounds next to a five-round "
-"FedAvg:"
-msgstr ""
-"上面三个算法每一轮都在通信。fl-sim 还内置 **可跳过通信** 的算法，它们会以很有启发性的方式打破 ``2 × 采样数 × 轮数`` "
-"的恒等式。让 FedPD（每 ``int(1/p)`` 轮才上传一次）与五轮 FedAvg 并排各跑五轮："
+"All three algorithms above communicate every round. fl-sim also provides **communication-skipping** algorithms, which modify the ``2 × sampled × rounds`` identity in a way that clarifies its two "
+"terms. Run FedPD — which uploads only every ``int(1/p)``-th round — for five rounds next to a five-round FedAvg:"
+msgstr "上面三个算法每一轮都在通信。fl-sim 还提供 **可跳过通信** 的算法，它们以能澄清该恒等式两个乘子的方式修改它。让 FedPD（每 ``int(1/p)`` 轮上传一次）与五轮 FedAvg 并排各跑五轮："
 
 #: ../../source/tutorial-first-experiment.rst:119
 msgid "Output on one machine:"
@@ -196,77 +135,47 @@ msgstr "在一种机器上的输出："
 
 #: ../../source/tutorial-first-experiment.rst:126
 msgid ""
-"The decomposition says it precisely: **the downlink is identical** (75 = "
-"5 rounds × 15 clients — broadcasting to the sampled set is never "
-"skipped); FedPD saves *uplinks only*. Five FedPD rounds cost the same 90 "
-"messages as three FedAvg rounds — the same communication budget buys two "
-"extra local iterations."
-msgstr ""
-"分解式把话说得非常准： **下行完全相同** （75 = 5 轮 × 15 客户端——对被采样集合的广播从不跳过）；FedPD 省下的 "
-"*全是上行* 。五轮 FedPD 花费的 90 条消息与三轮 FedAvg 相同——同样的通信预算换来了多两轮的本地迭代。"
+"The decomposition is precise: **the downlink is identical** (75 = 5 rounds × 15 clients — broadcasting to the sampled set is never skipped); FedPD saves *uplinks only*. Five FedPD rounds cost the "
+"same 90 messages as three FedAvg rounds: at equal communication cost, FedPD performs two more local iterations."
+msgstr "分解式给出了准确的表述： **下行完全相同** （75 = 5 轮 × 15 客户端——对被采样集合的广播从不跳过）；FedPD 节省的 *全部是上行* 。五轮 FedPD 花费的 90 条消息与三轮 FedAvg 相同：在相同通信开销下，FedPD 多执行两轮本地迭代。"
 
 #: ../../source/tutorial-first-experiment.rst:132
-msgid "Three practical details when you run this yourself:"
-msgstr "自己动手跑时的三个实用细节："
+msgid "Three practical details for running this example:"
+msgstr "运行本例的三个实用细节："
 
 #: ../../source/tutorial-first-experiment.rst:134
 msgid ""
-"``p`` must satisfy **0 < p < 1**. With p = 1 FedPD uploads every round "
-"(degenerating to FedAvg); with p > 1 the upload frequency becomes zero "
-"and the run crashes. The config exposes ``p`` but the derived upload "
-"frequency ``int(1/p)`` always wins — passing a ``comm_freq`` yourself is "
-"silently overwritten."
-msgstr ""
-"``p`` 必须满足 **0 < p < 1** 。p = 1 时 FedPD 每轮都上传（退化为 FedAvg）；p > 1 "
-"时上传频率变为零，运行直接崩溃。配置暴露的是 ``p`` ，派生的上传频率 ``int(1/p)`` 始终说了算——自己传 "
-"``comm_freq`` 会被静默覆写。"
+"``p`` must satisfy **0 < p < 1**. With p = 1 FedPD uploads every round (degenerating to FedAvg); with p > 1 the upload frequency becomes zero and the run crashes. The config exposes ``p`` but the "
+"derived upload frequency ``int(1/p)`` always wins — passing a ``comm_freq`` yourself is silently overwritten."
+msgstr "``p`` 必须满足 **0 < p < 1** 。p = 1 时 FedPD 每轮都上传（退化为 FedAvg）；p > 1 时上传频率变为零，运行直接崩溃。配置暴露的是 ``p`` ，派生的上传频率 ``int(1/p)`` 始终说了算——自己传 ``comm_freq`` 会被静默覆写。"
 
 #: ../../source/tutorial-first-experiment.rst:139
 msgid ""
-"**You will see RuntimeWarnings — they are expected, not errors.** The "
-"server logs ``No message received from the clients...`` once per skipped "
-"round (\"nobody uploaded this round, so the global model did not move\"),"
-" and each skipping client logs ``No parameters received from server...`` "
-"(\"I was not given a new global model this round, so I keep working from "
-"my current parameters\"). At tutorial scale the client-side message "
-"appears once per (skipped client × skipped round), so it dominates the "
-"console. Both are how FedPD is designed to behave."
+"**You will see RuntimeWarnings — they are expected, not errors.** The server logs ``No message received from the clients...`` once per skipped round (\"nobody uploaded this round, so the global "
+"model did not move\"), and each skipping client logs ``No parameters received from server...`` (\"I was not given a new global model this round, so I keep working from my current parameters\"). At "
+"tutorial scale the client-side message appears once per (skipped client × skipped round), so it accounts for most of the console output. Both are how FedPD is designed to behave."
 msgstr ""
-" **你会看到 RuntimeWarning——那是预期行为，不是错误。** 服务器对每个跳过的轮次记录 ``No message "
-"received from the clients...`` （\"这轮没人上传，全局模型没有动\"）；每个跳过的客户端记录 ``No "
-"parameters received from server...`` "
-"（\"这轮没收到新的全局模型，我继续用当前参数\"）。教程规模下，客户端侧的消息每个（跳过客户端 × 跳过轮次）出现一次，会刷满控制台。两者都是 "
-"FedPD 的设计行为。"
+" **你会看到 RuntimeWarning——那是预期行为，不是错误。** 服务器对每个跳过的轮次记录 ``No message received from the clients...`` （\"这轮没人上传，全局模型没有动\"）；每个跳过的客户端记录 ``No parameters received from server...`` "
+"（\"这轮没收到新的全局模型，我继续用当前参数\"）。教程规模下，客户端侧的消息每个（跳过客户端 × 跳过轮次）出现一次，因此它占据了控制台输出的大部分。两者都是 FedPD 的设计行为。"
 
-#: ../../source/tutorial-first-experiment.rst:147
+#: ../../source/tutorial-first-experiment.rst:148
 msgid ""
-"The JSON ``step`` snapshot trails differently per algorithm: for the "
-"five-round FedAvg it ends at 120 (the last round's 30 messages are "
-"unlogged), for FedPD at 75 (its last round never uploads). The final "
-"counts come from ``server._num_communications``."
-msgstr ""
-"JSON 的 ``step`` 快照落后多少因算法而异：五轮 FedAvg 终于 120（最后一轮的 30 条消息未入日志），FedPD 终于 "
-"75（它的最后一轮从不上传）。最终计数请以 ``server._num_communications`` 为准。"
+"The JSON ``step`` snapshot trails differently per algorithm: for the five-round FedAvg it ends at 120 (the last round's 30 messages are unlogged), for FedPD at 75 (its last round never uploads). The"
+" final counts come from ``server._num_communications``."
+msgstr "JSON 的 ``step`` 快照落后多少因算法而异：五轮 FedAvg 终于 120（最后一轮的 30 条消息未入日志），FedPD 终于 75（它的最后一轮从不上传）。最终计数请以 ``server._num_communications`` 为准。"
 
-#: ../../source/tutorial-first-experiment.rst:153
+#: ../../source/tutorial-first-experiment.rst:154
 msgid "Next steps"
 msgstr "下一步"
 
-#: ../../source/tutorial-first-experiment.rst:155
-msgid ""
-":doc:`tutorial-cli-matrix` — run the same kind of comparison from the "
-"command line, as a YAML-driven experiment matrix."
+#: ../../source/tutorial-first-experiment.rst:156
+msgid ":doc:`tutorial-cli-matrix` — run the same kind of comparison from the command line, as a YAML-driven experiment matrix."
 msgstr ":doc:`tutorial-cli-matrix`——用 YAML 实验矩阵从命令行跑同样的对照。"
 
-#: ../../source/tutorial-first-experiment.rst:157
-msgid ""
-":doc:`tutorial-visualization` — merge multi-seed runs of this comparison "
-"into mean curves with error bounds."
-msgstr ""
-":doc:`tutorial-visualization`——把本次对照的多 seed 运行合并成带误差带的均值曲线。"
+#: ../../source/tutorial-first-experiment.rst:158
+msgid ":doc:`tutorial-visualization` — merge multi-seed runs of this comparison into mean curves with error bounds."
+msgstr " :doc:`tutorial-visualization` ——把本次对照的多 seed 运行合并成带误差带的均值曲线。"
 
-#: ../../source/tutorial-first-experiment.rst:159
-msgid ""
-":doc:`parallel_execution` — speed these runs up with a parallel executor "
-"without changing the results."
+#: ../../source/tutorial-first-experiment.rst:160
+msgid ":doc:`parallel_execution` — speed these runs up with a parallel executor without changing the results."
 msgstr ":doc:`parallel_execution`——用并行执行后端加速这些运行，且不改变结果。"

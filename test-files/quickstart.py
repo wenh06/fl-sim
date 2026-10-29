@@ -4,7 +4,7 @@ Minimal federated training run: FedAvg on synthetic data.
 This script is the source of the code blocks shown in the Quickstart
 page of the documentation (``docs/source/quickstart.rst``): the marked
 sections are included verbatim via Sphinx ``literalinclude`` directives,
-so the docs and this script can never drift apart. The size is pinned to
+so the docs and this script cannot drift apart. The size is pinned to
 the tutorial budget (``num_iters <= 5``, ``num_clients <= 30``, one local
 epoch), enforced by ``test/test_tutorial_scripts.py``.
 """
@@ -24,7 +24,7 @@ server = FedAvgServer(
         num_iters=5,
         num_clients=10,
         clients_sample_ratio=1.0,
-        log_dir="quickstart",  # logs land in ~/.cache/fl-sim/.logs/quickstart/
+        log_dir="quickstart",  # logs are written to ~/.cache/fl-sim/.logs/quickstart/
     ),
     FedAvgClientConfig(batch_size=32, num_epochs=1),
 )

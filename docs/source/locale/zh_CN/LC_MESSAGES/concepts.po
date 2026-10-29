@@ -6,17 +6,17 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 13:08+0800\n"
+"POT-Creation-Date: 2026-10-28 23:45+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_CN\n"
 "Language-Team: zh_CN <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.16.0\n"
 
 #: ../../source/concepts.rst:4
@@ -24,320 +24,233 @@ msgid "Core concepts"
 msgstr "核心概念"
 
 #: ../../source/concepts.rst:6
-msgid ""
-"This page is the map of fl-sim: the four building blocks of every "
-"experiment and what happens during one round of federated training. It "
-"explains *how the framework thinks* — for a hands-on walk-through, start "
-"with :doc:`quickstart`."
-msgstr ""
-"本页面是 fl-sim 的地图：每次实验的四个构件，以及一轮联邦训练中发生的事。它解释的是"
-"框架的*思考方式*——若想先动手体验，请从 :doc:`quickstart` 开始。"
+msgid "This page summarizes the four building blocks of every experiment and the sequence of events within one round of federated training. For a hands-on introduction, start with :doc:`quickstart`."
+msgstr "本页面概述每次实验的四个构件，以及一轮联邦训练中的事件顺序。若希望先动手实践，可从 :doc:`quickstart` 开始。"
 
-#: ../../source/concepts.rst:12
+#: ../../source/concepts.rst:11
 msgid "Four building blocks"
 msgstr "四个构件"
 
-#: ../../source/concepts.rst:15
+#: ../../source/concepts.rst:14
 msgid "FedDataset — the data and how it is split"
 msgstr "FedDataset——数据及其划分方式"
 
-#: ../../source/concepts.rst:17
+#: ../../source/concepts.rst:16
 msgid ""
-"A :class:`~fl_sim.data_processing.fed_dataset.FedDataset` bundles a raw "
-"dataset with a **partitioning scheme**: it decides how the data is spread"
-" across the simulated clients and hands each client its own dataloaders "
-"through ``get_dataloader(client_idx)``. Built-in datasets (FEMNIST, "
-"CIFAR10, …) download on first use; "
-":class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic` generates "
-"synthetic data locally, which is why every tutorial here runs in seconds."
-" Each dataset also declares ``candidate_models`` — the models it is meant"
-" to be paired with (``dataset.candidate_models[\"mlp_d1\"]``, as in the "
-"quickstart). Datasets are **immutable during training**: partitioning "
-"happens once, up front. Custom datasets are covered in a how-to guide."
+"A :class:`~fl_sim.data_processing.fed_dataset.FedDataset` bundles a raw dataset with a **partitioning scheme**: it decides how the data is spread across the simulated clients and provides each "
+"client with its own dataloaders through ``get_dataloader(client_idx)``. Built-in datasets (FEMNIST, CIFAR10, …) download on first use; :class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic` "
+"generates synthetic data locally, so the tutorials in this documentation complete in seconds. Each dataset also declares ``candidate_models`` — the models it is meant to be paired with "
+"(``dataset.candidate_models[\"mlp_d1\"]``, as in the quickstart). Datasets are **immutable during training**: partitioning happens once, up front. Custom datasets are covered in a how-to guide."
 msgstr ""
-":class:`~fl_sim.data_processing.fed_dataset.FedDataset` 把原始数据集与 **划分方案** "
-"打包在一起：它决定数据如何在模拟的客户端之间分布，并通过 ``get_dataloader(client_idx)`` "
-"为每个客户端提供专属的 dataloader。内置数据集（FEMNIST、CIFAR10 等）在首次使用时下载；"
-" :class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic` 在本地生成合成数据，"
-"这也是本教程都能在几秒内跑完的原因。每个数据集还声明了 ``candidate_models``——"
-"适合与它搭配的模型（如 quickstart 中的 ``dataset.candidate_models[\"mlp_d1\"]``）。"
-"数据集在 **训练期间不可变** ：划分只做一次，且在训练开始前完成。自定义数据集见相应的"
-" how-to 指南。"
+":class:`~fl_sim.data_processing.fed_dataset.FedDataset` 将原始数据集与 **划分方案** 打包在一起：它决定数据如何在模拟的客户端之间分布，并通过 ``get_dataloader(client_idx)`` 为每个客户端提供专属的 dataloader。内置数据集（FEMNIST、CIFAR10 等）在首次使用时下载； "
+":class:`~fl_sim.data_processing.fed_synthetic.FedSynthetic` 在本地生成合成数据，因此本文档中的教程数秒内即可完成。每个数据集还声明了 ``candidate_models``——适合与它搭配的模型（如 quickstart 中的 ``dataset.candidate_models[\"mlp_d1\"]``）。数据集在 "
+"**训练期间不可变** ：划分只做一次，且在训练开始前完成。自定义数据集见相应的 how-to 指南。"
 
-#: ../../source/concepts.rst:29
+#: ../../source/concepts.rst:28
 msgid "Model — a plain PyTorch module"
 msgstr "模型——普通的 PyTorch 模块"
 
-#: ../../source/concepts.rst:31
+#: ../../source/concepts.rst:30
 msgid ""
-"Models are ordinary :class:`torch.nn.Module` objects; fl-sim does not "
-"wrap them. Whatever ``candidate_models`` offers or you bring yourself "
-"works. The server holds the *global* copy; every sampled client gets its "
-"own copy each round, trains it on its local data slice, and sends the "
-"result back."
-msgstr ""
-"模型就是普通的 :class:`torch.nn.Module` 对象，fl-sim 不做任何包装。"
-"``candidate_models`` 提供的或你自己带来的模型都可以用。服务器持有 *全局* 副本；"
-"每轮每个被采样的客户端拿到自己的副本，在本地数据切片上训练，再把结果发回。"
+"Models are ordinary :class:`torch.nn.Module` objects; fl-sim does not wrap them. Any module from ``candidate_models`` — or any user-provided module — can be used. The server holds the *global* copy;"
+" every sampled client gets its own copy each round, trains it on its local data slice, and sends the result back."
+msgstr "模型就是普通的 :class:`torch.nn.Module` 对象，fl-sim 不做任何包装。 ``candidate_models`` 提供的模块或用户自带的模块均可使用。服务器持有 *全局* 副本；每轮每个被采样的客户端拿到自己的副本，在本地数据切片上训练，再把结果发回。"
 
-#: ../../source/concepts.rst:38
+#: ../../source/concepts.rst:37
 msgid "Server — the orchestrator"
 msgstr "服务器——调度者"
 
-#: ../../source/concepts.rst:40
+#: ../../source/concepts.rst:39
 msgid ""
-"The :class:`~fl_sim.nodes.Server` owns the global model and the federated"
-" schedule (how many rounds, how many clients, how they are sampled), and "
-"drives the loop you will see below. It never touches client-local data. "
-"Algorithm-specific behavior lives in subclasses: "
-":class:`~fl_sim.algorithms.fedopt.FedAvgServer`, "
-":class:`~fl_sim.algorithms.fedprox.FedProxServer`, and 15+ others — each "
+"The :class:`~fl_sim.nodes.Server` owns the global model and the federated schedule (how many rounds, how many clients, how they are sampled), and drives the training loop described below. It never "
+"touches client-local data. Algorithm-specific behavior lives in subclasses: :class:`~fl_sim.algorithms.fedopt.FedAvgServer`, :class:`~fl_sim.algorithms.fedprox.FedProxServer`, and 15+ others — each "
 "customizes a handful of well-defined hooks:"
 msgstr ""
-":class:`~fl_sim.nodes.Server` 持有全局模型与联邦调度（多少轮、多少客户端、如何采样），"
-"并驱动下文所示的循环。它从不触碰客户端本地数据。算法特定的行为都在子类里："
-":class:`~fl_sim.algorithms.fedopt.FedAvgServer`、"
-":class:`~fl_sim.algorithms.fedprox.FedProxServer` 等 15 个以上——每个算法只定制"
-"少数几个定义良好的钩子："
+":class:`~fl_sim.nodes.Server` 持有全局模型与联邦调度（多少轮、多少客户端、如何采样），并驱动下文所述的训练循环。它从不触碰客户端本地数据。算法特定的行为都在子类里： :class:`~fl_sim.algorithms.fedopt.FedAvgServer` 、 :class:`~fl_sim.algorithms.fedprox.FedProxServer` "
+"等 15 个以上——每个算法只定制少数几个定义良好的钩子："
 
-#: ../../source/concepts.rst:48
-msgid ""
-"``communicate(target)`` — the **downlink**: what the server sends to a "
-"sampled client (typically the current global model);"
-msgstr ""
-"``communicate(target)``——**下行**：服务器发给被采样客户端的内容（通常是当前全局模型）；"
+#: ../../source/concepts.rst:47
+msgid "``communicate(target)`` — the **downlink**: what the server sends to a sampled client (typically the current global model);"
+msgstr "``communicate(target)``——**下行**：服务器发给被采样客户端的内容（通常是当前全局模型）；"
 
-#: ../../source/concepts.rst:50
-msgid ""
-"``update()`` — the **aggregation**: how client replies are turned into "
-"the new global model."
+#: ../../source/concepts.rst:49
+msgid "``update()`` — the **aggregation**: how client replies are turned into the new global model."
 msgstr "``update()``——**聚合**：客户端回复如何变成新的全局模型。"
 
-#: ../../source/concepts.rst:54
+#: ../../source/concepts.rst:53
 msgid "Client — one participant's local state"
 msgstr "客户端——单个参与方的本地状态"
 
-#: ../../source/concepts.rst:56
-msgid ""
-"Each :class:`~fl_sim.nodes.Client` holds its own model copy, its data "
-"slice, and its training state. Its hooks are the mirror image of the "
-"server's:"
-msgstr ""
-"每个 :class:`~fl_sim.nodes.Client` 持有自己的模型副本、数据切片与训练状态。"
-"它的钩子与服务器互为镜像："
+#: ../../source/concepts.rst:55
+msgid "Each :class:`~fl_sim.nodes.Client` holds its own model copy, its data slice, and its training state. The client-side hooks correspond to the server's:"
+msgstr "每个 :class:`~fl_sim.nodes.Client` 持有自己的模型副本、数据切片与训练状态。客户端侧的钩子与服务器侧相对应："
 
-#: ../../source/concepts.rst:60
-msgid ""
-"``update()`` — the **local training**: fit the received model on local "
-"data (local epochs, local optimizer — all from the client config);"
-msgstr ""
-"``update()``——**本地训练**：在本地数据上拟合收到的模型（本地 epoch 数、本地优化器"
-"——全部来自客户端配置）；"
+#: ../../source/concepts.rst:59
+msgid "``update()`` — the **local training**: fit the received model on local data (local epochs, local optimizer — all from the client config);"
+msgstr "``update()``——**本地训练**：在本地数据上拟合收到的模型（本地 epoch 数、本地优化器——全部来自客户端配置）；"
 
-#: ../../source/concepts.rst:62
+#: ../../source/concepts.rst:61
 msgid ""
-"``communicate()`` — the **uplink**: build the message sent back to the "
-"server. Messages are typed objects "
-"(:class:`~fl_sim.messages.ClientToServer`) carrying the updated model "
-"state plus algorithm-specific extras."
-msgstr ""
-"``communicate()``——**上行**：构建发回服务器的消息。消息是带类型的对象"
-"（:class:`~fl_sim.messages.ClientToServer`），携带更新后的模型状态与算法特有的附加内容。"
+"``communicate()`` — the **uplink**: build the message sent back to the server. Messages are typed objects (:class:`~fl_sim.messages.ClientToServer`) carrying the updated model state plus algorithm-"
+"specific extras."
+msgstr "``communicate()``——**上行**：构建发回服务器的消息。消息是带类型的对象（:class:`~fl_sim.messages.ClientToServer`），携带更新后的模型状态与算法特有的附加内容。"
 
-#: ../../source/concepts.rst:67
+#: ../../source/concepts.rst:66
 msgid "Algorithms customize the hooks, not the loop"
 msgstr "算法定制钩子，而不是循环"
 
-#: ../../source/concepts.rst:69
+#: ../../source/concepts.rst:68
 msgid ""
-"fl-sim ships 20 registered algorithms — FedAvg, FedProx, SCAFFOLD, FedPD,"
-" ProxSkip, Ditto, … — and they all run in the *same* loop. An algorithm "
-"is only a pair of config classes plus hook overrides: FedProx changes the"
-" client's local objective; SCAFFOLD adds control variates to the uplink; "
-"FedPD lets clients *skip* some uplinks entirely. The framework calls the "
-"hooks in a fixed order (below), so algorithms compose with the "
-"infrastructure — logging, evaluation, reproducibility, parallel execution"
-" — without any of them knowing about each other."
+"fl-sim ships 20 registered algorithms — FedAvg, FedProx, SCAFFOLD, FedPD, ProxSkip, Ditto, … — and they all run in the *same* loop. An algorithm is only a pair of config classes plus hook overrides:"
+" FedProx changes the client's local objective; SCAFFOLD adds control variates to the uplink; FedPD lets clients *skip* some uplinks entirely. The framework calls the hooks in a fixed order (below), "
+"so algorithms remain independent of the infrastructure — logging, evaluation, reproducibility, parallel execution."
 msgstr ""
-"fl-sim 内置 20 个注册算法——FedAvg、FedProx、SCAFFOLD、FedPD、ProxSkip、Ditto 等——"
-"它们全部运行在*同一个*循环里。一个算法只是一对配置类加上若干钩子覆写：FedProx 改动"
-"客户端的本地目标函数；SCAFFOLD 在上行里加入控制变量；FedPD 允许客户端*完全跳过*某些"
-"上行。框架按固定顺序（见下）调用这些钩子，因此算法与基础设施——日志、评估、可复现性、"
-"并行执行——正交组合，互不知晓。"
+"fl-sim 内置 20 个注册算法——FedAvg、FedProx、SCAFFOLD、FedPD、ProxSkip、Ditto 等——它们全部运行在 *同一个* 循环里。一个算法只是一对配置类加上若干钩子覆写：FedProx 改动客户端的本地目标函数；SCAFFOLD 在上行里加入控制变量；FedPD 允许客户端 *完全跳过* "
+"某些上行。框架按固定顺序（见下）调用这些钩子，因此算法与基础设施——日志、评估、可复现性、并行执行——保持相互独立。"
 
-#: ../../source/concepts.rst:78
-msgid ""
-"Registering your own makes it usable from the CLI and experiment matrices"
-" by name:"
+#: ../../source/concepts.rst:77
+msgid "Registering your own makes it usable from the CLI and experiment matrices by name:"
 msgstr "注册自己的算法后，就能在 CLI 与实验矩阵中按名字使用它："
 
-#: ../../source/concepts.rst:91
+#: ../../source/concepts.rst:90
 msgid ""
-"The how-to guide on custom algorithms walks through a complete, runnable "
-"example; :doc:`parallel_execution` documents the hook contract that keeps"
-" custom algorithms compatible with every executor."
-msgstr ""
-"自定义算法的 how-to 指南给出了完整可运行的例子；:doc:`parallel_execution` 记录了"
-"钩子契约，保证自定义算法与所有执行后端兼容。"
+"The how-to guide on custom algorithms walks through a complete, runnable example; :doc:`parallel_execution` documents the hook contract that keeps custom algorithms compatible with every executor."
+msgstr "自定义算法的 how-to 指南给出了完整可运行的例子；:doc:`parallel_execution` 记录了钩子契约，保证自定义算法与所有执行后端兼容。"
 
-#: ../../source/concepts.rst:96
+#: ../../source/concepts.rst:95
 msgid "One round of training"
 msgstr "一轮训练"
 
-#: ../../source/concepts.rst:98
-msgid ""
-"``server.train()`` runs ``num_iters`` rounds. Every round proceeds in a "
-"fixed order:"
+#: ../../source/concepts.rst:97
+msgid "``server.train()`` runs ``num_iters`` rounds. Every round proceeds in a fixed order:"
 msgstr "``server.train()`` 运行 ``num_iters`` 轮。每轮按固定顺序进行："
 
-#: ../../source/concepts.rst:101
+#: ../../source/concepts.rst:100
+msgid "**Sampling** — the server picks this round's participants (the ``clients_sample_ratio`` fraction of ``num_clients``)."
+msgstr "**采样**——服务器选出本轮的参与方（``num_clients`` 中按 ``clients_sample_ratio`` 比例抽取）。"
+
+#: ../../source/concepts.rst:102
 msgid ""
-"**Sampling** — the server picks this round's participants (the "
-"``clients_sample_ratio`` fraction of ``num_clients``)."
-msgstr ""
-"**采样**——服务器选出本轮的参与方（``num_clients`` 中按 ``clients_sample_ratio`` "
-"比例抽取）。"
+"**Uplink decision** — per algorithm: most algorithms have every sampled client respond; communication-skipping algorithms (FedPD, ProxSkip) decide *now*, on the main thread, which clients will "
+"upload this round."
+msgstr "**上行决策**——因算法而异：多数算法让每个被采样客户端都响应；通信跳过型算法（FedPD、ProxSkip）在 *此刻* 于主线程上决定哪些客户端本轮上传。"
 
-#: ../../source/concepts.rst:103
+#: ../../source/concepts.rst:106
+msgid "**Downlink broadcast** — the server sends the global model to each sampled client (``server.communicate(target)``)."
+msgstr "**下行广播**——服务器把全局模型发给每个被采样客户端（``server.communicate(target)``）。"
+
+#: ../../source/concepts.rst:108
+msgid "**Local steps** — each selected client runs evaluate → local training → build the uplink message. Clients never see each other or the global state; they touch only their own slice."
+msgstr "**本地步**——每个被选中的客户端依次执行评估 → 本地训练 → 构建上行消息。客户端之间互不可见，也看不到全局状态；它们只触碰自己的数据切片。"
+
+#: ../../source/concepts.rst:111
 msgid ""
-"**Uplink decision** — per algorithm: most algorithms have every sampled "
-"client respond; communication-skipping algorithms (FedPD, ProxSkip) "
-"decide *now*, on the main thread, which clients will upload this round."
-msgstr ""
-"**上行决策**——因算法而异：多数算法让每个被采样客户端都响应；通信跳过型算法"
-"（FedPD、ProxSkip）在 *此刻* 于主线程上决定哪些客户端本轮上传。"
+"**Uplink + aggregation** — replies are consumed **in sampled-client order** and the algorithm's ``update()`` produces the new global model. Metrics (server-side and per-client) are logged here."
+msgstr "**上行与聚合**——回复 **按被采样客户端的顺序** 被消费，算法的 ``update()`` 产出新的全局模型。指标（服务器侧与每个客户端的）也在这里记录。"
 
-#: ../../source/concepts.rst:107
+#: ../../source/concepts.rst:114
+msgid "**Repeat** — for ``num_iters`` rounds; logs and metrics land in ``~/.cache/fl-sim/.logs/`` (see :doc:`quickstart`)."
+msgstr "**重复**——共 ``num_iters`` 轮；日志与指标写入 ``~/.cache/fl-sim/.logs/`` （参见 :doc:`quickstart`）。"
+
+#: ../../source/concepts.rst:117
 msgid ""
-"**Downlink broadcast** — the server sends the global model to each "
-"sampled client (``server.communicate(target)``)."
-msgstr ""
-"**下行广播**——服务器把全局模型发给每个被采样客户端（``server.communicate(target)``）。"
+"Because steps 1–2 and 5 happen on the main thread in fixed order, the *aggregation arithmetic* is identical no matter how the local steps of step 4 are executed — sequentially, or concurrently on a "
+"thread pool (:doc:`parallel_execution`). This invariant underlies the reproducibility guarantees of parallel execution."
+msgstr "由于第 1–2 步与第 5 步在主线程上按固定顺序执行，无论第 4 步的本地步是串行执行还是在线程池上并发执行（ :doc:`parallel_execution` ）， *聚合算术* 都完全一致。这一不变式是并行执行可复现性保证的基础。"
 
-#: ../../source/concepts.rst:109
-msgid ""
-"**Local steps** — each selected client runs evaluate → local training → "
-"build the uplink message. Clients never see each other or the global "
-"state; they touch only their own slice."
-msgstr ""
-"**本地步**——每个被选中的客户端依次执行评估 → 本地训练 → 构建上行消息。"
-"客户端之间互不可见，也看不到全局状态；它们只触碰自己的数据切片。"
+#: ../../source/concepts.rst:124
+msgid "The four objects at a glance"
+msgstr "四个对象一览"
 
-#: ../../source/concepts.rst:112
-msgid ""
-"**Uplink + aggregation** — replies are consumed **in sampled-client "
-"order** and the algorithm's ``update()`` produces the new global model. "
-"Metrics (server-side and per-client) are logged here."
-msgstr ""
-"**上行与聚合**——回复 **按被采样客户端的顺序** 被消费，算法的 ``update()`` 产出新的"
-"全局模型。指标（服务器侧与每个客户端的）也在这里记录。"
-
-#: ../../source/concepts.rst:115
-msgid ""
-"**Repeat** — for ``num_iters`` rounds; logs and metrics land in "
-"``~/.cache/fl-sim/.logs/`` (see :doc:`quickstart`)."
-msgstr ""
-"**重复**——共 ``num_iters`` 轮；日志与指标写入 ``~/.cache/fl-sim/.logs/`` "
-"（参见 :doc:`quickstart`）。"
-
-#: ../../source/concepts.rst:118
-msgid ""
-"Because steps 1–2 and 5 happen on the main thread in fixed order, the "
-"*aggregation arithmetic* is identical no matter how the local steps of "
-"step 4 are executed — sequentially, or concurrently on a thread pool "
-"(:doc:`parallel_execution`). That invariant is what makes parallel runs "
-"trustworthy."
-msgstr ""
-"由于第 1–2 步与第 5 步在主线程上按固定顺序执行，无论第 4 步的本地步是串行执行还是"
-"在线程池上并发执行（:doc:`parallel_execution`）， *聚合算术* 都完全一致。"
-"正是这条不变式让并行运行值得信赖。"
-
-#: ../../source/concepts.rst:125
-msgid "The cast in one table"
-msgstr "一张表看全所有角色"
-
-#: ../../source/concepts.rst:130
+#: ../../source/concepts.rst:129
 msgid "Object"
 msgstr "对象"
 
-#: ../../source/concepts.rst:131
+#: ../../source/concepts.rst:130
 msgid "Configured by"
 msgstr "由谁配置"
 
+#: ../../source/concepts.rst:131
+msgid "Responsible for"
+msgstr "负责什么"
+
 #: ../../source/concepts.rst:132
-msgid "Knows about"
-msgstr "知晓什么"
+msgid "Does not access"
+msgstr "不访问"
 
 #: ../../source/concepts.rst:133
-msgid "Never touches"
-msgstr "绝不触碰"
-
-#: ../../source/concepts.rst:134
 msgid ":class:`~fl_sim.data_processing.fed_dataset.FedDataset`"
 msgstr ""
 
-#: ../../source/concepts.rst:135
+#: ../../source/concepts.rst:134
 msgid "constructor args"
 msgstr "构造参数"
 
-#: ../../source/concepts.rst:136
+#: ../../source/concepts.rst:135
 msgid "raw data, partitioning, dataloaders"
 msgstr "原始数据、划分、dataloader"
 
-#: ../../source/concepts.rst:137
+#: ../../source/concepts.rst:136
 msgid "training state"
 msgstr "训练状态"
 
-#: ../../source/concepts.rst:138
+#: ../../source/concepts.rst:137
 msgid ":class:`~fl_sim.nodes.Client`"
 msgstr ""
 
-#: ../../source/concepts.rst:139
+#: ../../source/concepts.rst:138
 msgid "``ClientConfig`` subclass"
 msgstr "``ClientConfig`` 子类"
 
-#: ../../source/concepts.rst:140
+#: ../../source/concepts.rst:139
 msgid "its own data slice and model copy"
 msgstr "自己的数据切片与模型副本"
 
-#: ../../source/concepts.rst:141
+#: ../../source/concepts.rst:140
 msgid "other clients, the global model's evolution"
 msgstr "其他客户端、全局模型的演化"
 
-#: ../../source/concepts.rst:142
+#: ../../source/concepts.rst:141
 msgid ":class:`~fl_sim.nodes.Server`"
 msgstr ""
 
-#: ../../source/concepts.rst:143
+#: ../../source/concepts.rst:142
 msgid "``ServerConfig`` subclass"
 msgstr "``ServerConfig`` 子类"
 
-#: ../../source/concepts.rst:144
+#: ../../source/concepts.rst:143
 msgid "global model, sampling, aggregation, logging"
 msgstr "全局模型、采样、聚合、日志"
 
-#: ../../source/concepts.rst:145
+#: ../../source/concepts.rst:144
 msgid "client-local data"
 msgstr "客户端本地数据"
 
-#: ../../source/concepts.rst:148
+#: ../../source/concepts.rst:147
 msgid "Where to go next"
 msgstr "接下来去哪里"
 
-#: ../../source/concepts.rst:150
+#: ../../source/concepts.rst:149
 msgid ":doc:`quickstart` — run all of this in five rounds on synthetic data."
 msgstr ":doc:`quickstart`——在合成数据上用五轮跑通以上全部。"
 
-#: ../../source/concepts.rst:151
+#: ../../source/concepts.rst:150
 msgid ":doc:`api/nodes` — the full Server/Client API reference."
 msgstr ":doc:`api/nodes`——完整的 Server/Client API 参考。"
 
-#: ../../source/concepts.rst:152
-msgid ""
-":ref:`config reference <config_reference>` — every config field of every "
-"algorithm."
+#: ../../source/concepts.rst:151
+msgid ":ref:`config reference <config_reference>` — every config field of every algorithm."
 msgstr ":ref:`config reference <config_reference>`——每个算法的全部配置字段。"
 
-#: ../../source/concepts.rst:154
-msgid ":doc:`viz` — explore the produced logs interactively."
+#: ../../source/concepts.rst:153
+msgid ":doc:`viz` — interactive exploration of the produced logs."
 msgstr ":doc:`viz`——交互式地探索产出的日志。"
+
+#~ msgid "The cast in one table"
+#~ msgstr "一张表看全所有角色"
+
+#~ msgid "Knows about"
+#~ msgstr "知晓什么"
+
+#~ msgid "Never touches"
+#~ msgstr "绝不触碰"
