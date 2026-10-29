@@ -154,5 +154,7 @@ Next steps
 
 - :doc:`tutorial-cli-matrix` — run the same kind of comparison from the
   command line, as a YAML-driven experiment matrix.
+- :doc:`tutorial-visualization` — merge multi-seed runs of this
+  comparison into mean curves with error bounds.
 - :doc:`parallel_execution` — speed these runs up with a parallel
   executor without changing the results.

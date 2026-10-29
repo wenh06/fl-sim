@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>教程：用 CLI 跑实验矩阵 &#8212; fl-sim 0.1.1.dev29+gb31a5db26 文档</title>
+    <title>教程：用 CLI 跑实验矩阵 &#8212; fl-sim 0.1.1.dev31+gca84c9bcc 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=4e7037f5"></script>
+    <script src="_static/documentation_options.js?v=fea79bc7"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -134,7 +134,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial-cli-matrix';</script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="fl_sim.nodes" href="api/nodes.html" />
+    <link rel="next" title="教程：可视化与导出结果" href="tutorial-visualization.html" />
     <link rel="prev" title="教程：你的第一个对照实验" href="tutorial-first-experiment.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-CN"/>
@@ -223,7 +223,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev29+gb31a5db26 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -249,6 +249,14 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：你的第一个对照实验</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">教程：用 CLI 跑实验矩阵</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">教程：可视化与导出结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">教程：并行与可复现的运行</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">操作指南</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="howto-custom-algorithm.html">操作指南：实现一个自定义算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto-custom-dataset.html">操作指南：添加自定义数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto-custom-optimizer.html">操作指南：添加自定义优化器</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API 参考</span></p>
 <ul class="nav bd-sidenav">
@@ -647,7 +655,7 @@ document.write(`
 <ul class="simple">
 <li><p><a class="reference internal" href="cli.html"><span class="doc">命令行接口</span></a>——完整的 YAML 语法参考与 CLI 选项。</p></li>
 <li><p><a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a>——加速每一次单独的运行。</p></li>
-<li><p>自定义算法、数据集与优化器的 how-to 指南正在准备中；在那之前，<code class="docutils literal notranslate"><span class="pre">test-files/custom_alg.py</span></code>、<code class="docutils literal notranslate"><span class="pre">test-files/custom_dataset.py</span></code> 与 <code class="docutils literal notranslate"><span class="pre">test-files/custom_optimizer.py</span></code> 就是完整可运行的例子。</p></li>
+<li><p><a class="reference internal" href="howto-custom-algorithm.html#howto-custom-algorithm"><span class="std std-ref">操作指南：实现一个自定义算法</span></a> 、 <a class="reference internal" href="howto-custom-dataset.html#howto-custom-dataset"><span class="std std-ref">操作指南：添加自定义数据集</span></a> 与 <a class="reference internal" href="howto-custom-optimizer.html#howto-custom-optimizer"><span class="std std-ref">操作指南：添加自定义优化器</span></a> ——扩展框架本身；它们讲解的 <code class="docutils literal notranslate"><span class="pre">test-files/custom_*.py</span></code> 就是完整可运行的例子，CLI 可直接接受为算法/数据集路径。</p></li>
 </ul>
 </section>
 </section>
@@ -673,11 +681,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="api/nodes.html"
+       href="tutorial-visualization.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一页</p>
-        <p class="prev-next-title">fl_sim.nodes</p>
+        <p class="prev-next-title">教程：可视化与导出结果</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

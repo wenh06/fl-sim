@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>教程：你的第一个对照实验 &#8212; fl-sim 0.1.1.dev29+gb31a5db26 文档</title>
+    <title>教程：你的第一个对照实验 &#8212; fl-sim 0.1.1.dev31+gca84c9bcc 文档</title>
   
   
   
@@ -45,7 +45,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=4e7037f5"></script>
+    <script src="_static/documentation_options.js?v=fea79bc7"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,7 +225,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev29+gb31a5db26 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev31+gca84c9bcc 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -251,6 +251,14 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">教程：你的第一个对照实验</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial-cli-matrix.html">教程：用 CLI 跑实验矩阵</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">教程：可视化与导出结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">教程：并行与可复现的运行</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">操作指南</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="howto-custom-algorithm.html">操作指南：实现一个自定义算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto-custom-dataset.html">操作指南：添加自定义数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto-custom-optimizer.html">操作指南：添加自定义优化器</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API 参考</span></p>
 <ul class="nav bd-sidenav">
@@ -606,20 +614,23 @@ document.write(`
 
 <span class="c1"># one synthetic dataset, split across 30 clients, shared by every run below</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">FedSynthetic</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">[</span><span class="s2">"mlp_d1"</span><span class="p">]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">sample_ratio</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_kw</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Train one algorithm and return the server.</span>
 
-<span class="sd">    Algorithm-specific server keywords (SCAFFOLD's global step size,</span>
-<span class="sd">    FedPD's upload frequency ``p``) come from ``SERVER_KW``; anything</span>
-<span class="sd">    passed as ``extra_kw`` is merged on top.</span>
+<span class="sd">    Every run takes a FRESH model from ``dataset.candidate_models``</span>
+<span class="sd">    (a property building a new module on each access): the server trains</span>
+<span class="sd">    the model it is given in place, so sharing one model across runs</span>
+<span class="sd">    would warm-start every run after the first and contaminate the</span>
+<span class="sd">    comparison. Algorithm-specific server keywords (SCAFFOLD's global</span>
+<span class="sd">    step size, FedPD's upload frequency ``p``) come from ``SERVER_KW``;</span>
+<span class="sd">    anything passed as ``extra_kw`` is merged on top.</span>
 <span class="sd">    """</span>
     <span class="n">server_cls</span><span class="p">,</span> <span class="n">server_config_cls</span><span class="p">,</span> <span class="n">client_config_cls</span> <span class="o">=</span> <span class="n">ALGORITHMS</span><span class="p">[</span><span class="n">algorithm</span><span class="p">]</span>
     <span class="n">server_kw</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">SERVER_KW</span><span class="p">[</span><span class="n">algorithm</span><span class="p">],</span> <span class="o">**</span><span class="n">extra_kw</span><span class="p">}</span>
     <span class="n">server</span> <span class="o">=</span> <span class="n">server_cls</span><span class="p">(</span>
-        <span class="n">model</span><span class="p">,</span>
+        <span class="n">dataset</span><span class="o">.</span><span class="n">candidate_models</span><span class="p">[</span><span class="s2">"mlp_d1"</span><span class="p">],</span>
         <span class="n">dataset</span><span class="p">,</span>
         <span class="n">server_config_cls</span><span class="p">(</span>
             <span class="n">num_iters</span><span class="o">=</span><span class="n">num_iters</span><span class="p">,</span>
@@ -736,6 +747,7 @@ so it dominates the console. Both are how FedPD is designed to behave.</p></li>
 <h2>下一步<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="tutorial-cli-matrix.html"><span class="doc">教程：用 CLI 跑实验矩阵</span></a>——用 YAML 实验矩阵从命令行跑同样的对照。</p></li>
+<li><p><a class="reference internal" href="tutorial-visualization.html"><span class="doc">教程：可视化与导出结果</span></a>——把本次对照的多 seed 运行合并成带误差带的均值曲线。</p></li>
 <li><p><a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a>——用并行执行后端加速这些运行，且不改变结果。</p></li>
 </ul>
 </section>

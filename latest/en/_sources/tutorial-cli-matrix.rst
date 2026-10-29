@@ -80,7 +80,7 @@ Next steps
 
 - :doc:`cli` — the full YAML syntax reference and CLI options.
 - :doc:`parallel_execution` — speed up each individual run.
-- How-to guides on custom algorithms, datasets and optimizers are on
-  the way; until then, ``test-files/custom_alg.py``,
-  ``test-files/custom_dataset.py`` and ``test-files/custom_optimizer.py``
-  are complete, runnable examples.
+- :ref:`howto-custom-algorithm`, :ref:`howto-custom-dataset` and
+  :ref:`howto-custom-optimizer` — extend the framework itself; the
+  ``test-files/custom_*.py`` files they walk through are complete,
+  runnable examples that the CLI accepts as algorithm/dataset paths.
