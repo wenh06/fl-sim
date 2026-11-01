@@ -195,19 +195,17 @@ class IFCAClient(BaseClient):
         for n, p in self.model.named_parameters():
             p.data.copy_(state[n].data.to(p.device))
 
-    def communicate(self, target: "IFCAServer") -> None:
+    def communicate(self) -> ClientToServer:
         # the delta (model) state: current parameters minus the chosen cluster center, by name
         delta_state = _named_params(self.model)
         for n, v in delta_state.items():
             v.data.add_(self._cached_parameters[n].data.to(v.device), alpha=-1)
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                model_state=delta_state,
-                extras={"cluster_id": self.cluster_id},
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            model_state=delta_state,
+            extras={"cluster_id": self.cluster_id},
         )
 
     def update(self) -> None:

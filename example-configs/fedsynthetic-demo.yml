@@ -1,0 +1,40 @@
+# Demo config for the CLI tutorial: a 4-run experiment matrix on
+# synthetic data. Every combination of `clients_sample_ratio` and `seed`
+# in `strategy.matrix` is run once. Runs in seconds, no downloads.
+
+strategy:
+  matrix:
+    clients_sample_ratio:
+    - 0.5
+    - 1.0
+    seed:
+    - 0
+    - 1
+  n_parallel: 1  # number of parallel jobs, not supported yet but kept for future use
+
+algorithm:
+  name: FedAvg
+  server:
+    num_clients: 30
+    clients_sample_ratio: ${{ matrix.clients_sample_ratio }}
+    num_iters: 3
+    log_dir: fedsynthetic-demo
+    # a distinct tag per matrix combination: log file names carry the
+    # tag, so runs finishing within the same minute never overwrite
+    # each other's json/txt logs
+    tag: ratio_${{ matrix.clients_sample_ratio }}_seed_${{ matrix.seed }}
+  client:
+    num_epochs: 1
+    batch_size: 32
+
+dataset:
+  name: FedSynthetic  # synthetic data: no download, seconds per run
+  alpha: 1.0
+  beta: 1.0
+  iid: true
+  num_clients: 30
+
+model:
+  name: mlp_d1
+
+seed: ${{ matrix.seed }}

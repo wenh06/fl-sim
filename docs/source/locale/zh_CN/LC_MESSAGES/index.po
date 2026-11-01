@@ -6,28 +6,36 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim\n"
+"Project-Id-Version:  fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"POT-Creation-Date: 2026-10-28 08:06+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: zh <LL@li.org>\n"
 "Language: zh_CN\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"Generated-By: Babel 2.12.1\n"
+"Generated-By: Babel 2.16.0\n"
 
 #: ../../source/index.rst:13
 msgid "Getting started"
 msgstr "快速开始"
 
-#: ../../source/index.rst:20
+#: ../../source/index.rst:21
+msgid "Tutorials"
+msgstr "教程"
+
+#: ../../source/index.rst:30
+msgid "How-to guides"
+msgstr "操作指南"
+
+#: ../../source/index.rst:38
 msgid "API Reference"
 msgstr "API 参考"
 
-#: ../../source/index.rst:31
+#: ../../source/index.rst:51
 msgid "Advanced Topics"
 msgstr "进阶主题"
 
@@ -44,21 +52,21 @@ msgid ""
 "Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee "
 "<https://gitee.com/wenh06/fl-sim/>`_"
 msgstr ""
-"项目链接：`GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee "
+"项目链接： `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee "
 "<https://gitee.com/wenh06/fl-sim/>`_"
 
-#: ../../source/index.rst:40
+#: ../../source/index.rst:61
 msgid "Indices and tables"
 msgstr "索引和表格"
 
-#: ../../source/index.rst:42
+#: ../../source/index.rst:63
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../source/index.rst:43
+#: ../../source/index.rst:64
 msgid ":ref:`modindex`"
 msgstr ""
 
-#: ../../source/index.rst:44
+#: ../../source/index.rst:65
 msgid ":ref:`search`"
 msgstr ""

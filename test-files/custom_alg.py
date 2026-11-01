@@ -28,6 +28,7 @@ __all__ = [
 ]
 
 
+# --- begin: configs ---
 @register_algorithm()
 @add_docstring(server_config_kw_doc, "append")
 class CustomServerConfig(ServerConfig):
@@ -93,6 +94,10 @@ class CustomClientConfig(ClientConfig):
         return self
 
 
+# --- end: configs ---
+
+
+# --- begin: server ---
 @register_algorithm()
 @add_docstring(
     Server.__doc__.replace(
@@ -156,6 +161,10 @@ class CustomServer(Server):
         return ["10.48550/ARXIV.1812.06127"]
 
 
+# --- end: server ---
+
+
+# --- begin: client ---
 @register_algorithm()
 @add_docstring(
     Client.__doc__.replace(
@@ -195,19 +204,20 @@ class CustomClient(Client):
             for n, p in self.model.named_parameters():
                 p.data.copy_(state[n].data.to(p.device))
 
-    def communicate(self, target: "CustomServer") -> None:
-        # named exchange: upload the local model state by parameter names
+    def communicate(self) -> ClientToServer:
+        # named exchange: upload the local model state by parameter names.
+        # New-style hook: build and RETURN the typed message; the upload and
+        # the communication counter are handled by the framework (the hook
+        # itself never touches the server, so it can run in a worker task).
         extras = {}
         if self.config.vr:
             extras["gradients"] = [p.grad.detach().clone() for p in self.model.parameters()]
-        target.receive_one(
-            ClientToServer(
-                client_id=self.client_id,
-                train_samples=len(self.train_loader.dataset),
-                metrics=self._metrics,
-                model_state=self._named_params_state(),
-                extras=extras,
-            )
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            model_state=self._named_params_state(),
+            extras=extras,
         )
 
     def update(self) -> None:
@@ -250,3 +260,6 @@ class CustomClient(Client):
                     # free memory
                     del X, y, output, loss
         self.lr_scheduler.step()
+
+
+# --- end: client ---

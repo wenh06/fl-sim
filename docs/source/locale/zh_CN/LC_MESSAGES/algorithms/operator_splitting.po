@@ -5,17 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim \n"
+"Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-05 20:57+0800\n"
+"POT-Creation-Date: 2026-10-19 22:20+0800\n"
 "PO-Revision-Date: 2026-10-05 21:15+0800\n"
 "Last-Translator: WEN Hao <wenh06@gmail.com>\n"
-"Language: zh_CN\n"
 "Language-Team: zh <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.16.0\n"
 
 #: ../../source/algorithms/operator_splitting.rst:4
@@ -27,26 +27,12 @@ msgid "Why operator splitting? The correctness of the limit"
 msgstr "为什么要算子分裂？收敛结果的正确性"
 
 #: ../../source/algorithms/operator_splitting.rst:11
-msgid ""
-"Most existing federated learning algorithms deal with the convergence "
-"rate and stability in non-I.I.D. scenarios, while the *correctness* of "
-"the point they converge to has long been overlooked. A simple least-"
-"squares example shows that the limits of ``FedAvg`` and ``FedProx`` "
-"generally differ from the true solution of the federated problem "
-"[:footcite:ct:`pathak2020fedsplit`]."
-msgstr ""
-"已有的联邦学习算法大多处理非 I.I.D. 场景下的收敛率与稳定性问题，而它们收敛到的点的"
-"*正确性*却长期未被重视。一个简单的最小二乘例子表明，``FedAvg`` 与 ``FedProx`` 的"
-"收敛结果一般不同于联邦问题的真解 [:footcite:ct:`pathak2020fedsplit`]。"
+msgid "Most existing federated learning algorithms deal with the convergence rate and stability in non-I.I.D. scenarios, while the *correctness* of the point they converge to has long been overlooked. A simple least-squares example shows that the limits of ``FedAvg`` and ``FedProx`` generally differ from the true solution of the federated problem [:footcite:ct:`pathak2020fedsplit`]."
+msgstr "已有的联邦学习算法大多处理非 I.I.D. 场景下的收敛率与稳定性问题，而它们收敛到的点的* 正确性* 却长期未被重视。一个简单的最小二乘例子表明， ``FedAvg`` 与 ``FedProx`` 的收敛结果一般不同于联邦问题的真解 [:footcite:ct:`pathak2020fedsplit`]。"
 
 #: ../../source/algorithms/operator_splitting.rst:17
-msgid ""
-"Consider fitting a linear model :math:`y = mx` (with :math:`m` the "
-"unknown) by least squares, with two clients: client 1 holds the data "
-":math:`\\{(0, 2), (1, 2)\\}`, hence"
-msgstr ""
-"考虑用最小二乘拟合线性模型 :math:`y = mx`（:math:`m` 为待拟合变量），设有两个"
-"参与方：参与方 1 拥有数据 :math:`\\{(0, 2), (1, 2)\\}`，相应的目标函数为"
+msgid "Consider fitting a linear model :math:`y = mx` (with :math:`m` the unknown) by least squares, with two clients: client 1 holds the data :math:`\\{(0, 2), (1, 2)\\}`, hence"
+msgstr "考虑用最小二乘拟合线性模型 :math:`y = mx` （:math:`m` 为待拟合变量），设有两个参与方：参与方 1 拥有数据 :math:`\\{(0, 2), (1, 2)\\}` ，相应的目标函数为"
 
 #: ../../source/algorithms/operator_splitting.rst:20
 msgid "f_1(m_1) = \\frac{1}{2} \\left( 4 + (m_1 - 2)^2 \\right);"
@@ -54,57 +40,31 @@ msgstr ""
 
 #: ../../source/algorithms/operator_splitting.rst:24
 msgid "client 2 holds the data :math:`\\{(2, 0), (2, 1)\\}`, hence"
-msgstr "参与方 2 拥有数据 :math:`\\{(2, 0), (2, 1)\\}`，相应的目标函数为"
+msgstr "参与方 2 拥有数据 :math:`\\{(2, 0), (2, 1)\\}` ，相应的目标函数为"
 
 #: ../../source/algorithms/operator_splitting.rst:26
 msgid "f_2(m_2) = \\frac{1}{2} \\left( 4 m_2^2 + (2 m_2 - 1)^2 \\right)."
 msgstr ""
 
 #: ../../source/algorithms/operator_splitting.rst:30
-msgid ""
-"Fitting on each client separately yields :math:`m_1 = 2` and :math:`m_2 ="
-" \\frac{1}{4}`; ``FedAvg`` returns the average :math:`m = \\frac{9}{8}`, "
-"while ``FedProx`` (minimizing the objective with the proximal term) "
-"returns"
-msgstr ""
-"两个参与方单独拟合的结果分别为 :math:`m_1 = 2` 与 :math:`m_2 = \\frac{1}{4}`；"
-"``FedAvg`` 的结果是平均值 :math:`m = \\frac{9}{8}`，而 ``FedProx``（极小化带"
-"临近项的目标函数）的结果是"
+msgid "Fitting on each client separately yields :math:`m_1 = 2` and :math:`m_2 = \\frac{1}{4}`; ``FedAvg`` returns the average :math:`m = \\frac{9}{8}`, while ``FedProx`` (minimizing the objective with the proximal term) returns"
+msgstr "两个参与方单独拟合的结果分别为 :math:`m_1 = 2` 与 :math:`m_2 = \\frac{1}{4}` ； ``FedAvg`` 的结果是平均值 :math:`m = \\frac{9}{8}` ，而 ``FedProx`` （极小化带临近项的目标函数）的结果是"
 
 #: ../../source/algorithms/operator_splitting.rst:34
 msgid "m = \\frac{18 + 4\\mu}{16 + 9\\mu},"
 msgstr ""
 
 #: ../../source/algorithms/operator_splitting.rst:39
-msgid ""
-"where :math:`\\mu` is the proximal coefficient. However, fitting all the "
-"data jointly gives :math:`m = \\frac{4}{9}`. The discrepancy arises "
-"because the objective is quadratic in :math:`m`: the average of the "
-"individually fitted models generally differs from the jointly fitted "
-"model."
-msgstr ""
-"其中 :math:`\\mu` 为临近项系数。然而，把所有数据放在一起拟合的结果是 "
-":math:`m = \\frac{4}{9}`。差异的根源在于目标函数关于 :math:`m` 是二次的：单独"
-"拟合结果的平均值一般不等于整体拟合的结果。"
+msgid "where :math:`\\mu` is the proximal coefficient. However, fitting all the data jointly gives :math:`m = \\frac{4}{9}`. The discrepancy arises because the objective is quadratic in :math:`m`: the average of the individually fitted models generally differs from the jointly fitted model."
+msgstr "其中 :math:`\\mu` 为临近项系数。然而，把所有数据放在一起拟合的结果是 :math:`m = \\frac{4}{9}` 。差异的根源在于目标函数关于 :math:`m` 是二次的：单独拟合结果的平均值一般不等于整体拟合的结果。"
 
 #: ../../source/algorithms/operator_splitting.rst:43
-msgid ""
-"More generally, [:footcite:ct:`pathak2020fedsplit`] analyzed the limit "
-"points of ``FedAvg`` (in its simplified full-gradient form, termed "
-"``FedGD``) and ``FedProx``: assuming each :math:`f_k` is convex and "
-":math:`L`-smooth, and that the sequences generated by the algorithm "
-"converge, then all clients share a common limit :math:`\\theta^*` "
-"characterized by the fixed-point conditions"
-msgstr ""
-"更一般地，[:footcite:ct:`pathak2020fedsplit`] 分析了 ``FedAvg``（其简化形式，"
-"即子节点上做全量梯度下降，记作 ``FedGD``）与 ``FedProx`` 的收敛点：假设每个 "
-":math:`f_k` 是凸的且 :math:`L`-光滑，并且算法生成的序列收敛，那么所有子节点的"
-"模型参数序列有公共极限 :math:`\\theta^*`，且该极限满足如下不动点条件"
+msgid "More generally, [:footcite:ct:`pathak2020fedsplit`] analyzed the limit points of ``FedAvg`` (in its simplified full-gradient form, termed ``FedGD``) and ``FedProx``: assuming each :math:`f_k` is convex and :math:`L`-smooth, and that the sequences generated by the algorithm converge, then all clients share a common limit :math:`\\theta^*` characterized by the fixed-point conditions"
+msgstr "更一般地，[:footcite:ct:`pathak2020fedsplit`] 分析了 ``FedAvg`` （其简化形式，即子节点上做全量梯度下降，记作 ``FedGD`` ）与 ``FedProx`` 的收敛点：假设每个 :math:`f_k` 是凸的且 :math:`L`-光滑，并且算法生成的序列收敛，那么所有子节点的模型参数序列有公共极限 :math:`\\theta^*` ，且该极限满足如下不动点条件"
 
 #: ../../source/algorithms/operator_splitting.rst:48
 msgid ""
-"\\sum\\limits_{i=1}^R \\sum\\limits_{k=1}^K \\nabla f_k\\big( "
-"\\mathcal{G}_k^{i-1}(\\theta^*) \\big) = 0,\n"
+"\\sum\\limits_{i=1}^R \\sum\\limits_{k=1}^K \\nabla f_k\\big( \\mathcal{G}_k^{i-1}(\\theta^*) \\big) = 0,\n"
 "\\qquad\n"
 "\\mathcal{G}_k(\\theta_k) := \\theta_k - \\eta \\nabla f_k(\\theta_k),"
 msgstr ""
@@ -115,38 +75,175 @@ msgstr "对 ``FedGD`` 而言（:math:`R` 为本地步数）；"
 
 #: ../../source/algorithms/operator_splitting.rst:57
 msgid ""
-"\\sum\\limits_{k=1}^K \\nabla \\mathcal{M}_{f_k, \\mu}(\\theta^*) = 0, "
-"\\qquad\n"
-"\\mathcal{M}_{f_k, \\mu}(\\theta) := \\inf_{\\theta_k} \\left\\{ "
-"f_k(\\theta_k) + \\frac{\\mu}{2} \\lVert \\theta - \\theta_k \\rVert^2 "
-"\\right\\},"
+"\\sum\\limits_{k=1}^K \\nabla \\mathcal{M}_{f_k, \\mu}(\\theta^*) = 0, \\qquad\n"
+"\\mathcal{M}_{f_k, \\mu}(\\theta) := \\inf_{\\theta_k} \\left\\{ f_k(\\theta_k) + \\frac{\\mu}{2} \\lVert \\theta - \\theta_k \\rVert^2 \\right\\},"
 msgstr ""
 
 #: ../../source/algorithms/operator_splitting.rst:63
-msgid ""
-"for ``FedProx``, where :math:`\\mathcal{M}_{f_k, \\mu}` is the Moreau "
-"envelope of :math:`f_k`. Applied to a least-squares problem "
-":math:`f_k(\\theta_k) = \\frac{1}{2} \\lVert A_k \\theta_k + b_k "
-"\\rVert^2` (with :math:`A_k` of full column rank), these fixed points "
-"admit closed forms that generally differ from the true solution "
-":math:`\\theta^* = \\big( \\sum_{k=1}^K A_k^{\\mathrm{T}} A_k \\big)^{-1}"
-" \\sum_{k=1}^K A_k^{\\mathrm{T}} b_k` of the joint problem."
-msgstr ""
-"对 ``FedProx`` 而言，其中 :math:`\\mathcal{M}_{f_k, \\mu}` 是 :math:`f_k` "
-"的 Moreau 包络。把它们应用到最小二乘问题 :math:`f_k(\\theta_k) = "
-"\\frac{1}{2} \\lVert A_k \\theta_k + b_k \\rVert^2`（:math:`A_k` 列满秩），"
-"这些不动点有解析表达式，且一般不同于整体问题的真解 :math:`\\theta^* = "
-"\\big( \\sum_{k=1}^K A_k^{\\mathrm{T}} A_k \\big)^{-1} \\sum_{k=1}^K "
-"A_k^{\\mathrm{T}} b_k`。"
+msgid "for ``FedProx``, where :math:`\\mathcal{M}_{f_k, \\mu}` is the Moreau envelope of :math:`f_k`. Applied to a least-squares problem :math:`f_k(\\theta_k) = \\frac{1}{2} \\lVert A_k \\theta_k + b_k \\rVert^2` (with :math:`A_k` of full column rank), these fixed points admit closed forms that generally differ from the true solution :math:`\\theta^* = \\big( \\sum_{k=1}^K A_k^{\\mathrm{T}} A_k \\big)^{-1} \\sum_{k=1}^K A_k^{\\mathrm{T}} b_k` of the joint problem."
+msgstr "对 ``FedProx`` 而言，其中 :math:`\\mathcal{M}_{f_k, \\mu}` 是 :math:`f_k` 的 Moreau 包络。把它们应用到最小二乘问题 :math:`f_k(\\theta_k) = \\frac{1}{2} \\lVert A_k \\theta_k + b_k \\rVert^2` （:math:`A_k` 列满秩），这些不动点有解析表达式，且一般不同于整体问题的真解 :math:`\\theta^* = \\big( \\sum_{k=1}^K A_k^{\\mathrm{T}} A_k \\big)^{-1} \\sum_{k=1}^K A_k^{\\mathrm{T}} b_k` 。"
 
 #: ../../source/algorithms/operator_splitting.rst:69
+msgid "This observation motivates reformulating the federated problem in a form whose splitting-based solution converges to the *correct* point, which is exactly the route taken by ``FedSplit`` and ``FedDR`` below."
+msgstr "上述观察促使我们把联邦问题重新表述成一种等价形式，使其基于算子分裂的解收敛到 *正确* 的点——这正是下文 ``FedSplit`` 与 ``FedDR`` 的出发点。"
+
+#: ../../source/algorithms/operator_splitting.rst:76
+msgid "From monotone inclusions to splitting methods"
+msgstr "从单调包含问题到分裂方法"
+
+#: ../../source/algorithms/operator_splitting.rst:78
+msgid "Start from the constrained form of the federated problem, :math:`\\minimize \\ F(\\Theta) := \\frac{1}{K} \\sum_{k=1}^K f_k(\\theta_k)` subject to :math:`\\Theta = \\col(\\theta_1, \\ldots, \\theta_K) \\in \\mathcal{E}` with the consensus set :math:`\\mathcal{E} = \\{ \\Theta \\mid \\theta_1 = \\cdots = \\theta_K \\}`, and penalize the constraint with its indicator function :math:`\\iota_{\\mathcal{E}}` (:math:`\\iota_{\\mathcal{E}}(\\Theta) = 0` on :math:`\\mathcal{E}`, :math:`+\\infty` otherwise). The penalized problem :math:`\\minimize \\ F(\\Theta) + \\iota_{\\mathcal{E}}(\\Theta)` has the first-order optimality condition"
+msgstr "从联邦问题的约束形式出发，即 :math:`\\minimize \\ F(\\Theta) := \\frac{1}{K} \\sum_{k=1}^K f_k(\\theta_k)` 、约束 :math:`\\Theta = \\col(\\theta_1, \\ldots, \\theta_K) \\in \\mathcal{E}` （共识集 :math:`\\mathcal{E} = \\{ \\Theta \\mid \\theta_1 = \\cdots = \\theta_K \\}` ），并用示性函数 :math:`\\iota_{\\mathcal{E}}` （在 :math:`\\mathcal{E}` 上取 0、否则取 :math:`+\\infty` ）作为罚函数把约束化为目标项。带罚问题 :math:`\\minimize \\ F(\\Theta) + \\iota_{\\mathcal{E}}(\\Theta)` 的一阶最优性条件为"
+
+#: ../../source/algorithms/operator_splitting.rst:86
 msgid ""
-"This observation motivates reformulating the federated problem in a form "
-"whose splitting-based solution converges to the *correct* point, which is"
-" exactly the route taken by ``FedSplit`` and ``FedDR`` below."
+"\\DeclareMathOperator*{\\minimize}{minimize}\n"
+"\\DeclareMathOperator*{\\argmin}{arg\\,min}\n"
+"\\DeclareMathOperator*{\\expectation}{\\mathbb{E}}\n"
+"\\newcommand{\\col}{\\operatorname{col}}\n"
+"\\newcommand{\\R}{\\mathbb{R}}\n"
+"\\newcommand{\\prox}{\\mathbf{prox}}\n"
+"\n"
+"0 \\in \\nabla F(\\Theta) + \\partial \\iota_{\\mathcal{E}}(\\Theta) = \\nabla F(\\Theta) + \\mathcal{N}_{\\mathcal{E}}(\\Theta),"
 msgstr ""
-"上述观察促使我们把联邦问题重新表述成一种等价形式，使其基于算子分裂的解收敛到"
-"*正确*的点——这正是下文 ``FedSplit`` 与 ``FedDR`` 的出发点。"
+
+#: ../../source/algorithms/operator_splitting.rst:98
+msgid "a *monotone inclusion problem*: :math:`\\nabla F` and the normal cone :math:`\\mathcal{N}_{\\mathcal{E}}` (here :math:`\\mathcal{E}^{\\perp}` on :math:`\\mathcal{E}`, empty elsewhere) are both *maximal monotone operators* [:footcite:ct:`ryu2022large`]. The workhorses for splitting such an inclusion :math:`0 \\in \\mathcal{A}(x) + \\mathcal{B}(x)` are the *resolvents* :math:`\\mathcal{R}_{s\\mathcal{T}} := (\\mathcal{I} + s\\mathcal{T})^{-1}` and the *reflected resolvents* (Cayley operators) :math:`\\mathcal{C}_{s\\mathcal{T}} := 2\\mathcal{R}_{s\\mathcal{T}} - \\mathcal{I}`. For a gradient or a subdifferential the resolvent is a proximal operator, :math:`\\mathcal{R}_{s\\partial f} = \\prox_{s f}`, and for the indicator function it is the projection, :math:`\\mathcal{R}_{s\\partial\\iota_{\\mathcal{E}}} = \\Pi_{\\mathcal{E}}`. The key equivalence is that solving the inclusion is the same as finding a fixed point of the *nonexpansive* composition :math:`\\mathcal{C}_{s\\mathcal{A}} \\mathcal{C}_{s\\mathcal{B}}`:"
+msgstr "这是一个* 单调包含问题* (Monotone Inclusion Problem, MIP)：:math:`\\nabla F` 与法锥 :math:`\\mathcal{N}_{\\mathcal{E}}` （在 :math:`\\mathcal{E}` 上为 :math:`\\mathcal{E}^{\\perp}` 、其余为空）都是* 极大单调算子* (Maximal Monotone Operator) [:footcite:ct:`ryu2022large`]。分裂此类包含问题 :math:`0 \\in \\mathcal{A}(x) + \\mathcal{B}(x)` 的核心工具是* 预解式* (Resolvent) :math:`\\mathcal{R}_{s\\mathcal{T}} := (\\mathcal{I} + s\\mathcal{T})^{-1}` 与* 反射预解式* （Cayley 算子）:math:`\\mathcal{C}_{s\\mathcal{T}} := 2\\mathcal{R}_{s\\mathcal{T}} - \\mathcal{I}` 。对梯度或次微分而言，预解式即临近算子 :math:`\\mathcal{R}_{s\\partial f} = \\prox_{s f}` ；对示性函数则为投影 :math:`\\mathcal{R}_{s\\partial\\iota_{\\mathcal{E}}} = \\Pi_{\\mathcal{E}}` 。关键的等价关系是：求解该包含问题等价于求* 非扩张* 算子复合 :math:`\\mathcal{C}_{s\\mathcal{A}} \\mathcal{C}_{s\\mathcal{B}}` 的不动点："
+
+#: ../../source/algorithms/operator_splitting.rst:110
+msgid ""
+"0 \\in \\mathcal{A}(x) + \\mathcal{B}(x)\n"
+"\\quad \\Longleftrightarrow \\quad\n"
+"\\mathcal{C}_{s\\mathcal{A}} \\mathcal{C}_{s\\mathcal{B}}(z) = z,\n"
+"\\quad x = \\mathcal{R}_{s\\mathcal{B}}(z)."
+msgstr ""
+
+#: ../../source/algorithms/operator_splitting.rst:118
+msgid "Since :math:`\\mathcal{C}_{s\\mathcal{A}} \\mathcal{C}_{s\\mathcal{B}}` is merely nonexpansive, its averaged version :math:`(1 - \\tau)\\mathcal{I} + \\tau\\, \\mathcal{C}_{s\\mathcal{A}} \\mathcal{C}_{s\\mathcal{B}}` (:math:`\\tau \\in (0, 1]`) is used for the fixed-point iteration, giving the family of splitting methods"
+msgstr "由于 :math:`\\mathcal{C}_{s\\mathcal{A}} \\mathcal{C}_{s\\mathcal{B}}` 只具有非扩张性，不动点迭代实际使用其平均算子 :math:`(1 - \\tau)\\mathcal{I} + \\tau\\, \\mathcal{C}_{s\\mathcal{A}} \\mathcal{C}_{s\\mathcal{B}}` （:math:`\\tau \\in (0, 1]` ），由此得到分裂方法族"
+
+#: ../../source/algorithms/operator_splitting.rst:123
+msgid ""
+"\\begin{aligned}\n"
+"x^{(t+1/2)} & = \\mathcal{R}_{s\\mathcal{B}}\\left( z^{(t)} \\right), \\\\\n"
+"z^{(t+1/2)} & = 2 x^{(t+1/2)} - z^{(t)}, \\\\\n"
+"x^{(t+1)} & = \\mathcal{R}_{s\\mathcal{A}}\\left( z^{(t+1/2)} \\right), \\\\\n"
+"z^{(t+1)} & = z^{(t)} + 2\\tau \\left( x^{(t+1)} - x^{(t+1/2)} \\right).\n"
+"\\end{aligned}"
+msgstr ""
+
+#: ../../source/algorithms/operator_splitting.rst:133
+msgid "The case :math:`\\tau = 1` is the **Peaceman--Rachford splitting method** (PRSM); the case :math:`\\tau = \\frac{1}{2}` is the **Douglas--Rachford splitting method** (DRSM) [:footcite:ct:`Douglas_1956_drsm, Lions_1979_splitting`]. The two differ only in the last (relaxation) step -- precisely in the choice of :math:`\\tau` -- and this difference is decisive: unlike PRSM, DRSM converges for general maximal monotone operators without any additional assumptions beyond monotonicity [:footcite:ct:`ryu2022large`]."
+msgstr ":math:`\\tau = 1` 对应 **Peaceman--Rachford 分裂方法** (PRSM)；:math:`\\tau = \\frac{1}{2}` 对应 **Douglas--Rachford 分裂方法** (DRSM) [:footcite:ct:`Douglas_1956_drsm, Lions_1979_splitting`]。两者的区别只在最后一步（松弛步）——即 :math:`\\tau` 的选取——而这一区别是决定性的：与 PRSM 不同，DRSM 对一般的极大单调算子无需单调性之外的任何附加假设即有收敛性保证 [:footcite:ct:`ryu2022large`]。"
+
+#: ../../source/algorithms/operator_splitting.rst:143
+msgid "``FedSplit``: Federated Peaceman--Rachford Splitting"
+msgstr "``FedSplit`` ：联邦 Peaceman--Rachford 分裂算法"
+
+#: ../../source/algorithms/operator_splitting.rst:145
+msgid "Apply the machinery above with :math:`\\mathcal{A} = \\nabla F`, :math:`\\mathcal{B} = \\partial\\iota_{\\mathcal{E}} = \\mathcal{N}_{\\mathcal{E}}` (and :math:`s = \\frac{1}{\\mu}`). The two resolvents are :math:`\\mathcal{R}_{s\\nabla F} = \\prox_{F, \\mu}` and :math:`\\mathcal{R}_{s\\mathcal{N}_{\\mathcal{E}}} = \\Pi_{\\mathcal{E}}`, and -- crucially for federated learning -- the proximal operator of the block-separable objective decomposes into client-local proximal steps,"
+msgstr "把上述机制应用于 :math:`\\mathcal{A} = \\nabla F` 、:math:`\\mathcal{B} = \\partial\\iota_{\\mathcal{E}} = \\mathcal{N}_{\\mathcal{E}}` （并取 :math:`s = \\frac{1}{\\mu}` ）。两个预解式分别为 :math:`\\mathcal{R}_{s\\nabla F} = \\prox_{F, \\mu}` 与 :math:`\\mathcal{R}_{s\\mathcal{N}_{\\mathcal{E}}} = \\Pi_{\\mathcal{E}}` ，而且——对联邦学习至关重要的是——块可分目标函数的临近算子可分解为子节点本地的临近步，"
+
+#: ../../source/algorithms/operator_splitting.rst:153
+msgid ""
+"\\prox_{F, \\mu}(\\Theta)\n"
+"= \\argmin_{\\omega} \\left\\{ \\sum_{k=1}^K f_k(\\omega_k) + \\frac{\\mu}{2} \\sum_{k=1}^K \\lVert \\omega_k - \\theta_k \\rVert^2 \\right\\}\n"
+"= \\left( \\prox_{f_k, \\mu}(\\theta_k) \\right)_{k=1}^K,"
+msgstr ""
+
+#: ../../source/algorithms/operator_splitting.rst:160
+msgid "while the projection :math:`\\Pi_{\\mathcal{E}}` is exactly the averaging aggregation at the server. The splitting is thus fully decoupled across clients and fits the center--client communication pattern. Applying the PRSM (:math:`\\tau = 1`) yields the ``FedSplit`` algorithm [:footcite:ct:`pathak2020fedsplit`] -- the first application of splitting methods to federated learning -- whose :math:`\\texttt{prox\\_update}_k` is an inexact client-side solver of :math:`\\prox_{f_k, \\mu}` (e.g. stochastic gradient descent)."
+msgstr "而投影 :math:`\\Pi_{\\mathcal{E}}` 恰是中心节点上的平均聚合。于是整个分裂在子节点间完全解耦合，天然契合中心节点--子节点的通信模式。将 PRSM（:math:`\\tau = 1` ）应用于此即得 ``FedSplit`` 算法 [:footcite:ct:`pathak2020fedsplit`]——分裂方法在联邦学习领域的首次应用——其中 :math:`\\texttt{prox\\_update}_k` 是子节点上 :math:`\\prox_{f_k, \\mu}` 的非精确求解方法（例如随机梯度下降）。"
+
+#: ../../source/algorithms/operator_splitting.rst:167
+msgid "``FedSplit`` fixes the correctness problem above: the fixed point of its iteration yields the genuine solution of the federated problem, not a shifted one as for ``FedAvg``/``FedProx``. Its convergence, however, inherits the caveat of PRSM: for general nonexpansive Cayley operators PRSM carries no convergence guarantee, so additional assumptions (strong convexity and :math:`L`-smoothness of :math:`f_k`) are needed, under which the rate is"
+msgstr "``FedSplit`` 解决了前文的正确性问题：其迭代的固定点给出联邦问题真正的解，而非 ``FedAvg``/``FedProx`` 那样的偏移解。不过它的收敛性继承了 PRSM 的短板：对一般的非扩张 Cayley 算子，PRSM 没有收敛性保证，需要附加假设（:math:`f_k` 强凸且 :math:`L`-光滑），此时收敛率为"
+
+#: ../../source/algorithms/operator_splitting.rst:173
+msgid ""
+"\\lVert \\theta^{(t+1)} - \\theta^* \\rVert \\leqslant\n"
+"\\left( 1 - \\frac{2}{\\sqrt{\\kappa}+1} \\right)^t \\frac{\\lVert \\theta^{(1)} - \\theta^* \\rVert}{\\sqrt{K}}\n"
+"+ (\\sqrt{\\kappa}+1)\\, b,"
+msgstr ""
+
+#: ../../source/algorithms/operator_splitting.rst:180
+msgid "with :math:`\\ell_* = \\min_k \\ell_k` the strong convexity modulus, :math:`L^* = \\max_k L_k`, :math:`\\kappa = L^* / \\ell_*`, and :math:`b` the uniform error bound of the inexact proximal solves. The pseudocode is summarized below."
+msgstr "其中 :math:`\\ell_* = \\min_k \\ell_k` 为强凸模量，:math:`L^* = \\max_k L_k` ，:math:`\\kappa = L^* / \\ell_*` ，:math:`b` 为非精确临近求解的一致误差界。伪代码总结如下。"
+
+#: ../../source/algorithms/operator_splitting.rst:191
+msgid "``FedDR``: Federated Douglas--Rachford Splitting"
+msgstr "``FedDR`` ：联邦 Douglas--Rachford 分裂算法"
+
+#: ../../source/algorithms/operator_splitting.rst:193
+msgid "The ``FedDR`` algorithm [:footcite:ct:`tran2021feddr`] replaces PRSM by the convergent DRSM (:math:`\\tau = \\frac{1}{2}`) and, in doing so, enlarges the admissible problem class to *nonconvex* smooth objectives, with an explicit regularizer built into the model,"
+msgstr "``FedDR`` 算法 [:footcite:ct:`tran2021feddr`] 用具有收敛性保证的 DRSM（:math:`\\tau = \\frac{1}{2}` ）替换 PRSM，并借此把可处理的问题类扩大到* 非凸* 的光滑目标函数，同时在模型中显式引入正则项，"
+
+#: ../../source/algorithms/operator_splitting.rst:197
+msgid "\\minimize \\quad F(\\theta) = f(\\theta) + g(\\theta) = \\frac{1}{K} \\sum_{k=1}^K f_k(\\theta) + g(\\theta),"
+msgstr ""
+
+#: ../../source/algorithms/operator_splitting.rst:202
+msgid "where :math:`f_k` are :math:`L`-smooth (possibly nonconvex) and :math:`g` is a closed, proper, convex (CCP) regularizer. Introducing one more block :math:`\\theta_{K+1}` for :math:`g` and penalizing the consensus constraint :math:`\\theta_1 = \\cdots = \\theta_{K+1}` with :math:`\\iota_{\\mathcal{E}}` as before, the first-order condition becomes the three-operator inclusion"
+msgstr "其中 :math:`f_k` 是 :math:`L`-光滑的（可以非凸），:math:`g` 是闭的真是凸 (CCP) 正则项。为 :math:`g` 再引入一个块 :math:`\\theta_{K+1}` ，并照旧用 :math:`\\iota_{\\mathcal{E}}` 罚化共识约束 :math:`\\theta_1 = \\cdots = \\theta_{K+1}` ，一阶条件即成为三算子的单调包含"
+
+#: ../../source/algorithms/operator_splitting.rst:208
+msgid "0 \\in \\nabla f(\\Theta) + \\partial \\left( g + \\iota_{\\mathcal{E}} \\right)(\\Theta),"
+msgstr ""
+
+#: ../../source/algorithms/operator_splitting.rst:213
+msgid "with :math:`\\mathcal{B} = \\nabla f` and :math:`\\mathcal{A} = \\partial (g + \\iota_{\\mathcal{E}})`. The resolvent of :math:`\\mathcal{B}` is :math:`\\mathcal{R}_{s\\mathcal{B}} = \\prox_{K s f}` -- blockwise, the client-local proximal steps -- and the resolvent of :math:`\\mathcal{A}` handles the regularizer *and* the consensus constraint jointly at the server. The DRSM iteration (:eq:`os-splitting-iter` with :math:`\\tau = \\frac{1}{2}`, written with relaxation coefficient :math:`\\alpha`) reads"
+msgstr "其中 :math:`\\mathcal{B} = \\nabla f` ，:math:`\\mathcal{A} = \\partial (g + \\iota_{\\mathcal{E}})` 。:math:`\\mathcal{B}` 的预解式为 :math:`\\mathcal{R}_{s\\mathcal{B}} = \\prox_{K s f}`——按块分解即子节点本地的临近步；:math:`\\mathcal{A}` 的预解式则在中心节点上一并处理正则项* 与* 共识约束。DRSM 迭代（:eq:`os-splitting-iter` 取 :math:`\\tau = \\frac{1}{2}` ，松弛系数记作 :math:`\\alpha` ）为"
+
+#: ../../source/algorithms/operator_splitting.rst:220
+msgid ""
+"\\begin{aligned}\n"
+"\\omega_k^{(t+1)} & = \\omega_k^{(t)} + \\alpha \\left( \\overline{\\theta}^{(t)} - \\theta_k^{(t)} \\right), & k \\in [K], \\\\\n"
+"\\theta_k^{(t+1)} & = \\prox_{f_k, \\mu} \\left( \\omega_k^{(t+1)} \\right), & k \\in [K], \\\\\n"
+"\\widehat{\\theta}_k^{(t+1)} & = 2\\theta_k^{(t+1)} - \\omega_k^{(t+1)}, & k \\in [K], \\\\\n"
+"\\widetilde{\\theta}^{(t+1)} & = \\frac{1}{K}\\sum_{k=1}^K \\widehat{\\theta}_k^{(t+1)}, & \\\\\n"
+"\\omega^{(t+1)} & = \\omega^{(t)} + \\alpha \\left( \\overline{\\theta}^{(t)} - \\omega^{(t)} \\right), & \\\\\n"
+"\\overline{\\theta}^{(t+1)} & = \\prox_{g, \\frac{K+1}{Ks}} \\left( \\frac{K}{K+1} \\widetilde{\\theta}^{(t+1)} + \\frac{1}{K+1} \\omega^{(t+1)} \\right). &\n"
+"\\end{aligned}"
+msgstr ""
+
+#: ../../source/algorithms/operator_splitting.rst:232
+msgid "The first three lines are the clients' local work; the last line is the server, which averages the reflected blocks and applies the proximal step of the regularizer :math:`g`."
+msgstr "前三行是子节点的本地工作；最后一行是中心节点——它平均反射块并对正则项 :math:`g` 执行临近步。"
+
+#: ../../source/algorithms/operator_splitting.rst:235
+msgid "As for convergence [:footcite:ct:`tran2021feddr`], assuming :math:`L`-smooth :math:`f_k` and letting :math:`e_k^{(t)}` denote the error of the inexact client-side proximal solve at round :math:`t`: (i) the gap between the (regularizer-corrected) global model and each local model is bounded by the consecutive local differences and the proximal errors :math:`\\lVert e_k^{(t)} \\rVert`; (ii) the squared norm of the gradient mapping :math:`\\mathcal{G}_{\\beta}(\\theta) := \\frac{1}{\\beta} \\left( \\theta - \\prox_{\\beta g}\\left( \\theta - \\beta \\nabla f(\\theta) \\right) \\right)` of the global objective at :math:`\\overline{\\theta}^{(t)}` is bounded by the same quantities (and the drift of the auxiliary variable :math:`\\omega^{(t)}`); and (iii) the averaged gradient-mapping norm enjoys an :math:`\\mathcal{O}(1/T)` bound,"
+msgstr "关于收敛性 [:footcite:ct:`tran2021feddr`]：设 :math:`f_k` 都是 :math:`L`-光滑的，记 :math:`e_k^{(t)}` 为第 :math:`t` 轮子节点非精确临近求解的误差：(i)（经正则项修正的）全局模型与各局部模型的差被局部模型相邻迭代步的差以及临近误差所控制；(ii) 全局目标函数的梯度映射 :math:`\\mathcal{G}_{\\beta}(\\theta) := \\frac{1}{\\beta} \\left( \\theta - \\prox_{\\beta g}\\left( \\theta - \\beta \\nabla f(\\theta) \\right) \\right)` 在 :math:`\\overline{\\theta}^{(t)}` 处的模长平方被同样的量（以及辅助变量 :math:`\\omega^{(t)}` 的漂移）所控制；(iii) 梯度映射模长平方的平均值具有 :math:`\\mathcal{O}(1/T)` 界，"
+
+#: ../../source/algorithms/operator_splitting.rst:245
+msgid ""
+"\\frac{1}{T} \\sum_{t=0}^{T-1} \\expectation \\left[ \\lVert \\mathcal{G}_{\\frac{Ks}{K+1}} \\left( \\overline{\\theta}^{(t)} \\right) \\rVert^2 \\right]\n"
+"\\leqslant \\frac{C_1 \\left( F(\\theta^{(0)}) - F^* \\right)}{T}\n"
+"+ \\frac{1}{KT} \\sum_{t=0}^{T-1} \\sum_{k=1}^K \\left( C_2 \\varepsilon_{k,t}^2 + C_3 \\varepsilon_{k,t+1}^2 \\right),"
+msgstr ""
+
+#: ../../source/algorithms/operator_splitting.rst:252
+msgid "with :math:`F^* = \\inf_\\theta F(\\theta)`; in particular, after"
+msgstr "其中 :math:`F^* = \\inf_\\theta F(\\theta)` ；特别地，经过"
+
+#: ../../source/algorithms/operator_splitting.rst:254
+msgid ""
+"T = \\left\\lfloor \\frac{C_1 \\left[ F(\\theta^{(0)}) - F^* \\right] + (C_2 + C_3) M}{\\varepsilon^2} \\right\\rfloor,\n"
+"\\qquad\n"
+"M \\geqslant \\frac{1}{K} \\sum_{t=0}^{T-1} \\sum_{k=1}^K \\varepsilon_{k,t}^2,"
+msgstr ""
+
+#: ../../source/algorithms/operator_splitting.rst:261
+msgid "iterations the output :math:`\\overline{\\theta}^{(T)}` is an :math:`\\varepsilon`-stationary point of :eq:`os-feddr-model`. The pseudocode is summarized below."
+msgstr "轮迭代后，输出 :math:`\\overline{\\theta}^{(T)}` 即为 :eq:`os-feddr-model` 的 :math:`\\varepsilon`-稳定点。伪代码总结如下。"
+
+#: ../../source/algorithms/operator_splitting.rst:271
+msgid "Summary"
+msgstr "小结"
+
+#: ../../source/algorithms/operator_splitting.rst:273
+msgid "Splitting methods belong to the family of *decomposition algorithms*: they break a large problem into smaller subproblems handled separately (here, by the clients and the server), so that each subproblem is easier to solve and easier to parallelize. In theory, they bring many federated algorithms under one umbrella and -- unlike ``FedAvg``/``FedProx`` -- their limits are guaranteed to be correct (:ref:`FedSplit <fl_alg_os_fedsplit>`) or to approach a stationary point of the true objective (:ref:`FedDR <fl_alg_os_feddr>`). The price is bookkeeping: besides the model parameters, every node (server and clients) maintains auxiliary variables (the reflected blocks :math:`z`, the blended copies :math:`\\omega`), which adds memory and computation overhead."
+msgstr "算子分裂法是* 分解算法* (Decomposition Algorithms) 的一大类：把大规模问题拆成若干分别处理的小问题（在这里，由子节点与中心节点分别承担），使每个子问题更易求解、更易并行。在理论上，它把众多联邦算法纳入统一框架——并且与 ``FedAvg``/``FedProx`` 不同，其极限保证是正确的（:ref:`FedSplit <fl_alg_os_fedsplit>` ），或逼近真实目标的稳定点（:ref:`FedDR <fl_alg_os_feddr>` ）。代价是簿记：除模型参数外，每个节点（中心与子节点）还要维护辅助变量（反射块 :math:`z` 、混合拷贝 :math:`\\omega` ），带来额外的存储与计算负担。"
 
 #: ../../foot_bibliography_header:1
 msgid "References"

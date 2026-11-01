@@ -204,6 +204,9 @@ linkcheck_ignore = [
     r"https://gitee.com/*",  # often times out from GitHub Actions runners
     r"https://docs.pytorch.org/*",  # anchor checks fail after the pytorch docs migration
     r"https://openreview.net/*",  # 403 Client Error for bots
+    # HTTP-only legacy site, times out from GitHub Actions runners
+    # (cited by the FedTinyImageNet docstring; also its dataset download URL)
+    r"http://cs231n.stanford.edu*",
 ]
 
 

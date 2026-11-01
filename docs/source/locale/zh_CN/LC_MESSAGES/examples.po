@@ -6,23 +6,30 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fl-sim\n"
+"Project-Id-Version:  fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-01 02:12+0800\n"
+"POT-Creation-Date: 2026-10-26 13:08+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: zh <LL@li.org>\n"
 "Language: zh_CN\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"Generated-By: Babel 2.12.1\n"
+"Generated-By: Babel 2.16.0\n"
 
-#: ../../source/examples.rst:2
+#: ../../source/examples.rst:4
 msgid "Usage examples"
 msgstr "使用示例"
 
-#: ../../source/examples.rst:4
-msgid "to write...."
-msgstr "待补充……"
+#: ../../source/examples.rst:8
+msgid ""
+"The usage examples now live in :doc:`quickstart`, with :doc:`concepts` as"
+" the conceptual map and task-oriented tutorials building on both."
+msgstr ""
+"使用示例现在位于 :doc:`quickstart`，:doc:`concepts` 是概念地图，"
+"任务导向的教程在两者基础上展开。"
+
+#~ msgid "to write...."
+#~ msgstr "待补充……"

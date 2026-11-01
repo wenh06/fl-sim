@@ -43,7 +43,7 @@ msgstr ""
 
 #: ../../source/algorithms/primal_dual.rst:26
 msgid "with :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K)` and :math:`\\theta, \\theta_1, \\ldots, \\theta_K \\in \\R^d`. The *augmented Lagrangian* (AL) of :eq:`fedpd-constraint` is"
-msgstr "其中 :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K)`，:math:`\\theta, \\theta_1, \\ldots, \\theta_K \\in \\R^d`。约束优化问题 :eq:`fedpd-constraint` 的*增广拉格朗日函数* (Augmented Lagrangian, AL) 为"
+msgstr "其中 :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K)` ，:math:`\\theta, \\theta_1, \\ldots, \\theta_K \\in \\R^d` 。约束优化问题 :eq:`fedpd-constraint` 的* 增广拉格朗日函数* (Augmented Lagrangian, AL) 为"
 
 #: ../../source/algorithms/primal_dual.rst:30
 msgid ""
@@ -54,7 +54,7 @@ msgstr ""
 
 #: ../../source/algorithms/primal_dual.rst:37
 msgid "where :math:`\\Lambda = \\col(\\lambda_1, \\ldots, \\lambda_K)` collects the *dual variables* (the Lagrangian multipliers) and :math:`s > 0` is the penalty parameter. Applying a gradient ascent-type method to the dual problem :math:`\\maximize_\\Lambda \\ G(\\Lambda) := \\inf_{\\theta, \\Theta} \\mathcal{L}(\\theta, \\Theta, \\Lambda)` yields the generic iteration scheme for this class of problems,"
-msgstr "其中 :math:`\\Lambda = \\col(\\lambda_1, \\ldots, \\lambda_K)` 是*对偶变量* (Dual Variable)，亦称拉格朗日乘子 (Lagrangian Multiplier)，:math:`s > 0` 是罚参数。将梯度提升类的算法应用于对偶问题 :math:`\\maximize_\\Lambda \\ G(\\Lambda) := \\inf_{\\theta, \\Theta} \\mathcal{L}(\\theta, \\Theta, \\Lambda)`，即得到求解这类问题的一般迭代格式"
+msgstr "其中 :math:`\\Lambda = \\col(\\lambda_1, \\ldots, \\lambda_K)` 是* 对偶变量* (Dual Variable)，亦称拉格朗日乘子 (Lagrangian Multiplier)，:math:`s > 0` 是罚参数。将梯度提升类的算法应用于对偶问题 :math:`\\maximize_\\Lambda \\ G(\\Lambda) := \\inf_{\\theta, \\Theta} \\mathcal{L}(\\theta, \\Theta, \\Lambda)` ，即得到求解这类问题的一般迭代格式"
 
 #: ../../source/algorithms/primal_dual.rst:43
 msgid ""
@@ -68,15 +68,15 @@ msgstr ""
 
 #: ../../source/algorithms/primal_dual.rst:56
 msgid "``FedPD``: Federated Primal-Dual Algorithm"
-msgstr "``FedPD``：联邦原始对偶算法"
+msgstr "``FedPD`` ：联邦原始对偶算法"
 
 #: ../../source/algorithms/primal_dual.rst:58
 msgid "Based on this scheme, the ``FedPD`` algorithm [:footcite:ct:`zhang2020fedpd`] alternates the client-side local updates, the client-side dual updates, and the server-side global averaging. Two design choices are worth highlighting."
-msgstr "基于这一迭代格式，文献 [:footcite:ct:`zhang2020fedpd`] 设计了联邦原始对偶算法 ``FedPD``，其交替执行子节点侧的本地更新、子节点侧的对偶更新以及中心节点侧的全局平均。有两点设计值得特别注意。"
+msgstr "基于这一迭代格式，文献 [:footcite:ct:`zhang2020fedpd`] 设计了联邦原始对偶算法 ``FedPD`` ，其交替执行子节点侧的本地更新、子节点侧的对偶更新以及中心节点侧的全局平均。有两点设计值得特别注意。"
 
 #: ../../source/algorithms/primal_dual.rst:62
 msgid "**A flexible local solver.** For the local update in :eq:`al-iter` (the minimization of the local AL :math:`\\mathcal{L}_k`), ``FedPD`` allows an arbitrary client-side solver :math:`\\operatorname{\\mathbf{Oracle}}_k` -- plain SGD, or combined with variance-reduction techniques as in ``SCAFFOLD``. This flexibility is a hallmark of federated optimization (the same idea as the server-side ``FedOpt``). In the variance-reduced case, one can further *linearize* :math:`f_k` at the current inner iterate :math:`\\theta_k^{(t, r)}` (with local gradient :math:`g_k^{(t, r)}`), under which the local AL becomes a quadratic whose minimizer has a closed form,"
-msgstr "**灵活的局部求解器。**对于 :eq:`al-iter` 中的本地更新（即局部增广拉格朗日函数 :math:`\\mathcal{L}_k` 的极小化），``FedPD`` 允许子节点使用任意的求解器 :math:`\\operatorname{\\mathbf{Oracle}}_k`——可以是普通的随机梯度下降，也可以如 ``SCAFFOLD`` 那样结合方差缩减技术。这种灵活性是联邦优化的显著特点（与中心节点侧的 ``FedOpt`` 是同一思想）。在使用方差缩减时，还可以进一步将 :math:`f_k` 在当前内循环迭代点 :math:`\\theta_k^{(t, r)}` 处*线性化*（记局部梯度为 :math:`g_k^{(t, r)}`），此时局部增广拉格朗日函数成为二次函数，其极小点具有解析形式，"
+msgstr "** 灵活的局部求解器。 ** 对于 :eq:`al-iter` 中的本地更新（即局部增广拉格朗日函数 :math:`\\mathcal{L}_k` 的极小化）， ``FedPD`` 允许子节点使用任意的求解器 :math:`\\operatorname{\\mathbf{Oracle}}_k`——可以是普通的随机梯度下降，也可以如 ``SCAFFOLD`` 那样结合方差缩减技术。这种灵活性是联邦优化的显著特点（与中心节点侧的 ``FedOpt`` 是同一思想）。在使用方差缩减时，还可以进一步将 :math:`f_k` 在当前内循环迭代点 :math:`\\theta_k^{(t, r)}` 处* 线性化* （记局部梯度为 :math:`g_k^{(t, r)}` ），此时局部增广拉格朗日函数成为二次函数，其极小点具有解析形式，"
 
 #: ../../source/algorithms/primal_dual.rst:71
 msgid ""
@@ -90,7 +90,7 @@ msgstr "其中 :math:`\\gamma` 是线性化（临近）系数，:math:`\\theta_{
 
 #: ../../source/algorithms/primal_dual.rst:80
 msgid "**Skipping the global step.** The outer (server) step in :eq:`al-iter` is executed only with probability :math:`1 - p`. When it is skipped, the clients use their own :math:`\\widetilde{\\theta}^{(t)} = \\theta_k^{(t-1)} + s \\lambda_k^{(t-1)}` in place of the global model,"
-msgstr "**跳过全局步。**:eq:`al-iter` 中的外层（中心节点）步仅以概率 :math:`1 - p` 执行。当它被跳过时，子节点用自身的 :math:`\\widetilde{\\theta}^{(t)} = \\theta_k^{(t-1)} + s \\lambda_k^{(t-1)}` 代替全局模型，"
+msgstr "**跳过全局步。** :eq:`al-iter` 中的外层（中心节点）步仅以概率 :math:`1 - p` 执行。当它被跳过时，子节点用自身的 :math:`\\widetilde{\\theta}^{(t)} = \\theta_k^{(t-1)} + s \\lambda_k^{(t-1)}` 代替全局模型，"
 
 #: ../../source/algorithms/primal_dual.rst:85
 msgid ""
@@ -102,7 +102,7 @@ msgstr ""
 
 #: ../../source/algorithms/primal_dual.rst:93
 msgid "so the expensive server round -- exactly the communication bottleneck -- is skipped with probability :math:`p`. Moreover, the skipping probability can be made *heterogeneity-aware*: [:footcite:ct:`zhang2020fedpd`] (TABLE III) relates the achievable :math:`p` to the degree of data heterogeneity across clients :math:`G` (quantified via the bounded gradient dissimilarity), the target accuracy :math:`\\varepsilon` of the (epsilon-)stationary point, and the Lipschitz constant :math:`L` of :math:`f, f_k`, with the step size :math:`s = \\frac{\\sqrt{5}-1}{8L}`:"
-msgstr "于是代价高昂的中心节点轮次——恰恰是通信瓶颈——以概率 :math:`p` 被跳过。更进一步，跳步概率还可以做成*异质感知*的：[:footcite:ct:`zhang2020fedpd`]（TABLE III）给出了可达的 :math:`p` 与子节点间数据分布异质程度 :math:`G`（通过梯度差异有界性刻画）、(ε-)稳定点的目标精度 :math:`\\varepsilon` 以及 :math:`f, f_k` 的 Lipschitz 常数 :math:`L` 之间的关系，其中步长取 :math:`s = \\frac{\\sqrt{5}-1}{8L}`："
+msgstr "于是代价高昂的中心节点轮次——恰恰是通信瓶颈——以概率 :math:`p` 被跳过。更进一步，跳步概率还可以做成* 异质感知* 的：[:footcite:ct:`zhang2020fedpd`]（TABLE III）给出了可达的 :math:`p` 与子节点间数据分布异质程度 :math:`G` （通过梯度差异有界性刻画）、(ε-)稳定点的目标精度 :math:`\\varepsilon` 以及 :math:`f, f_k` 的 Lipschitz 常数 :math:`L` 之间的关系，其中步长取 :math:`s = \\frac{\\sqrt{5}-1}{8L}` ："
 
 #: ../../source/algorithms/primal_dual.rst:100
 msgid ""

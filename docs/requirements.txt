@@ -7,7 +7,7 @@ sphinx-design
 sphinx-emoji-favicon
 sphinx-intl
 sphinxcontrib-napoleon
-sphinxcontrib-tikz
+sphinxcontrib-tikz @ git+https://github.com/wenh06/tikz2
 sphinxcontrib-bibtex
 sphinxcontrib-proof
 sphinxcontrib-pseudocode2

@@ -5,6 +5,7 @@ The base Server class.
 """
 
 import json
+import os
 import warnings
 from abc import abstractmethod
 from collections import defaultdict
@@ -26,6 +27,7 @@ from torch_ecg.cfg import CFG
 from tqdm.auto import tqdm
 
 from ..data_processing.fed_dataset import FedDataset
+from ..executors import ClientExecutor, SequentialExecutor, ThreadsExecutor
 from ..messages import ClientMessage, ClientToServer, ServerToClient
 from ..models import reset_parameters
 from ..utils.loggers import LoggerManager
@@ -64,7 +66,8 @@ class Server(Node, CitationMixin):
 
     TODO
     ----
-    1. Run clients training in parallel.
+    1. (done) Clients train through the pluggable
+       :mod:`~fl_sim.executors` backends (``ServerConfig.executor``).
     2. Use the attribute `_is_convergent` to control the termination of the training.
        This perhaps can be achieved by comparing part of the items in `self._cached_models`
 
@@ -191,17 +194,22 @@ class Server(Node, CitationMixin):
         self._logger_manager.log_message("Setup clients...")
         dataset = dataset or self.dataset
         client_config = client_config or self._client_config
-        self._clients = [
-            self.client_cls(client_id, device, deepcopy(self.model), dataset, client_config)
-            for client_id, device in tqdm(
-                zip(range(self.config.num_clients), self._allocate_devices()),
-                desc="Allocating devices",
-                total=self.config.num_clients,
-                unit="client",
-                mininterval=1,
-                leave=False,
-            )
-        ]
+        self._clients = []
+        for client_id, device in tqdm(
+            zip(range(self.config.num_clients), self._allocate_devices()),
+            desc="Allocating devices",
+            total=self.config.num_clients,
+            unit="client",
+            mininterval=1,
+            leave=False,
+        ):
+            client = self.client_cls(client_id, device, deepcopy(self.model), dataset, client_config)
+            client._rng_seed = self.config.seed
+            # the client's __init__ built its per-client generators BEFORE the
+            # experiment seed was injected (constructor order), so re-arm them
+            # with the true seed (no-op unless rng_mode == "per_client")
+            client._apply_per_client_generator()
+            self._clients.append(client)
 
     def _allocate_devices(self) -> List[torch.device]:
         """Allocate devices for clients, can be used in :meth:`_setup_clients`."""
@@ -469,11 +477,14 @@ class Server(Node, CitationMixin):
 
         TODO
         ----
-        Run clients training in parallel.
+        (done) Clients now train through the pluggable
+        :mod:`~fl_sim.executors` backends (``ServerConfig.executor``).
 
         """
         if self._clients is None:
-            self._clients = self._setup_clients(self.dataset, self._client_config)
+            # NOTE: _setup_clients sets self._clients in place (and returns
+            # None); assigning its return value here would wipe the list
+            self._setup_clients(self.dataset, self._client_config)
 
         if self._complete_experiment:
             # reset before training if a previous experiment is completed
@@ -500,60 +511,178 @@ class Server(Node, CitationMixin):
             unit="iter",
             mininterval=1,  # usually useless since a full iteration takes a very long time
         ) as outer_pbar:
-            for self.n_iter in outer_pbar:
-                selected_clients = self._sample_clients()
-                self.selected_clients = selected_clients
-                with tqdm(
-                    total=len(selected_clients),
-                    desc=f"Iter {self.n_iter+1}/{self.config.num_iters}",
-                    unit="client",
-                    mininterval=max(1, len(selected_clients) // 50),
-                    disable=self.config.verbose < 1,
-                    leave=False,
-                ) as pbar:
-                    # count for client training progress for multi-processing
-                    if self._subprocess:
-                        count_client = 0
-                    # NOTE: evaluate centralized model on server val loader
-                    if self.server_val_loader:
-                        # TODO: reimplement evaluate logic
-                        metrics = self.evaluate_centralized(self.server_val_loader)
-                        self._logger_manager.log_metrics(
-                            None,
-                            metrics,
-                            step=self._num_communications,  # NOTE: use number of communications as step for now
-                            epoch=self.n_iter,
-                            part="val",
-                        )
-                    self.pre_iter()
-                    evaluate = self._should_evaluate()
-                    for client_id in selected_clients:
-                        client = self._clients[client_id]
-                        self._broadcast(client)
-                        self._local_step(client, evaluate=evaluate)
-                        pbar.update(1)
-                        # report progress for multi-processing
-                        if self._subprocess:
-                            count_client += 1
-                            self._report_progress(
-                                n_iter=self.n_iter + 1,
-                                num_iters=self.config.num_iters,
-                                current_client_progress=count_client,
-                                selected_clients_count=len(selected_clients),
-                                training_phase="training",
+            with self._make_executor() as executor:
+                for self.n_iter in outer_pbar:
+                    selected_clients = self._sample_clients()
+                    self.selected_clients = selected_clients
+                    clients = [self._clients[client_id] for client_id in selected_clients]
+                    with tqdm(
+                        total=len(clients),
+                        desc=f"Iter {self.n_iter+1}/{self.config.num_iters}",
+                        unit="client",
+                        mininterval=max(1, len(clients) // 50),
+                        disable=self.config.verbose < 1,
+                        leave=False,
+                    ) as pbar:
+                        # NOTE: evaluate centralized model on server val loader
+                        if self.server_val_loader:
+                            # TODO: reimplement evaluate logic
+                            metrics = self.evaluate_centralized(self.server_val_loader)
+                            self._logger_manager.log_metrics(
+                                None,
+                                metrics,
+                                step=self._num_communications,  # NOTE: use number of communications as step for now
+                                epoch=self.n_iter,
+                                part="val",
                             )
-                            # DEBUG message
-                            # print("DEBUG: report progress for multi-processing")
-                    self._aggregate_metrics(evaluate=evaluate)
-                    self._global_step()
+                        self.pre_iter()
+                        evaluate = self._should_evaluate()
+                        # main thread: uplink decision + downlink broadcast,
+                        # then the (possibly parallel) client local steps
+                        for client in clients:
+                            self._broadcast(client)
+
+                        def on_complete(result: Tuple[Optional[ClientToServer], Optional[dict]], index: int) -> None:
+                            # main-thread progress feedback, driven by task
+                            # completion (NOT by the receive loop, which runs
+                            # only after the whole batch is done)
+                            pbar.update(1)
+                            if self._subprocess:
+                                self._report_progress(
+                                    n_iter=self.n_iter + 1,
+                                    num_iters=self.config.num_iters,
+                                    current_client_progress=index + 1,
+                                    selected_clients_count=len(clients),
+                                    training_phase="training",
+                                )
+
+                        allow_legacy = self.config.executor == "sequential"
+                        results = executor.map(
+                            lambda client: self._client_task(
+                                client, evaluate=evaluate, allow_legacy_server_access=allow_legacy
+                            ),
+                            clients,
+                            on_complete=on_complete,
+                        )
+                        # main thread: consume the replies in the sampled
+                        # order — all server-side state mutations stay here,
+                        # so the aggregation arithmetic is backend-independent
+                        for client, (reply, train_metrics) in zip(clients, results):
+                            self._accept_reply(client, reply)
+                            if train_metrics is not None:
+                                self._logger_manager.log_metrics(
+                                    client.client_id,
+                                    train_metrics,
+                                    step=self.n_iter,
+                                    epoch=self.n_iter,
+                                    part="train",
+                                )
+                        self._aggregate_metrics(evaluate=evaluate)
+                        self._global_step()
         self._logger_manager.log_message("Federated training finished...")
         self._logger_manager.flush()
 
         self._complete_experiment = True
 
+    def _make_executor(self) -> "ClientExecutor":
+        """Build the client executor, and apply the backend-specific setup
+        (client-internal progress bars must not run concurrently).
+
+        The ``FL_SIM_EXECUTOR`` / ``FL_SIM_NUM_WORKERS`` environment variables
+        override the config values (used by CI to run the per-algorithm test
+        functions under a parallel backend without touching their configs).
+        """
+        executor_name = os.environ.get("FL_SIM_EXECUTOR", self.config.executor)
+        if executor_name == "threads":
+            # client `train()` internals draw their own tqdm bars when
+            # verbose >= 2; interleaved writes from worker threads would be
+            # garbage, so cap the effective verbosity under this backend
+            for client in self._clients or []:
+                if client.config.verbose > 1:
+                    client.config.verbose = 1
+            num_workers = os.environ.get("FL_SIM_NUM_WORKERS", str(self.config.num_workers))
+            executor = ThreadsExecutor(num_workers=int(num_workers), torch_num_threads=self.config.torch_num_threads)
+            self._logger_manager.log_message(
+                f"Parallel execution: threads backend with up to {executor.num_workers} concurrent clients."
+            )
+            return executor
+        return SequentialExecutor()
+
+    def _client_task(
+        self,
+        client: "Client",
+        evaluate: bool = False,
+        allow_legacy_server_access: bool = False,
+    ) -> Tuple[Optional[ClientToServer], Optional[dict]]:
+        """The per-client local step, run inside the (possibly parallel)
+        region: evaluate (optional) → update → build the reply.
+
+        The task only reads/writes THIS client's state (invariant I1): the
+        broadcast has already happened on the main thread, and the reply is
+        handed back instead of being pushed into the server, whose state is
+        mutated by :meth:`_accept_reply` on the main thread only (I2).
+
+        Parameters
+        ----------
+        allow_legacy_server_access : bool
+            Pass the server reference into deprecated legacy-style
+            ``communicate(self, target)`` overrides. Only ``True`` on the
+            sequential backend (single-threaded, so reading server state in
+            the hook is merely deprecated, not racy); the threads backend
+            rejects such hooks.
+
+        Returns
+        -------
+        reply : ClientToServer or None
+            The message to upload; ``None`` if the client does not
+            communicate this round.
+        train_metrics : dict or None
+            The train-part metrics, when this is an evaluation round.
+
+        """
+        train_metrics = client.evaluate("train") if evaluate else None
+        client._update()
+        reply = client.build_reply(target=self if allow_legacy_server_access else None)
+        return reply, train_metrics
+
+    def _accept_reply(self, client: "Client", reply: Optional[ClientToServer]) -> None:
+        """Main-thread counterpart of :meth:`_client_task`: consume one
+        client's reply, keeping the per-algorithm counter semantics
+        (skipped clients count unless their ``_count_if_skipped`` is False —
+        FedPD skips are not counted, ProxSkip skips still are)."""
+        if reply is not None:
+            self.receive_one(reply)
+            self._num_communications += 1
+        elif client._count_if_skipped:
+            self._num_communications += 1
+
     def _should_evaluate(self) -> bool:
         """Whether to evaluate the (train-part) metrics on the clients in this iteration."""
         return self.n_iter > 0 and (self.n_iter + 1) % self.config.eval_every == 0
+
+    def _decide_uplink(self, client: "Client") -> None:
+        """Decide (before the client's local step) whether the client uploads
+        this round, and snapshot the round index onto it.
+
+        Sets the client's read-only round flags (``_round_idx``,
+        ``_communicate_this_round``, ``_count_if_skipped``) so that the
+        client's hooks never need to read server state (the invariant of the
+        parallel execution layer). The default: every selected client
+        communicates. Algorithms with communication skipping (FedPD,
+        ProxSkip) override this; the decision RNG is consumed HERE, on the
+        main thread, in the same order as the pre-refactor sequential loop.
+
+        Parameters
+        ----------
+        client : Client
+            The client about to run its local step.
+
+        Returns
+        -------
+        None
+
+        """
+        client._round_idx = self.n_iter
 
     def _broadcast(self, client: "Client") -> None:
         """Downlink phase: broadcast to the client, and let it accept the parameters.
@@ -562,6 +691,9 @@ class Server(Node, CitationMixin):
         and the client applies the received parameters via
         :meth:`Client.accept_parameters` (also overridable per algorithm).
         """
+        # NOTE: the uplink decision must be made before the client's local
+        # step, on the main thread (see _decide_uplink).
+        self._decide_uplink(client)
         # server communicates with client, typically broadcasting the global model to the client
         self._communicate(client)
         # NOTE: before evaluating (and updating), the client should accept parameters;
@@ -635,7 +767,9 @@ class Server(Node, CitationMixin):
 
         """
         if self._clients is None:
-            self._clients = self._setup_clients(self.dataset, self._client_config)
+            # NOTE: _setup_clients sets self._clients in place (and returns
+            # None); assigning its return value here would wipe the list
+            self._setup_clients(self.dataset, self._client_config)
 
         if self._complete_experiment:
             # reset before training if a previous experiment is completed

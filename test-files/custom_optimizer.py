@@ -10,6 +10,7 @@ __all__ = [
 ]
 
 
+# --- begin: optimizer ---
 @register_optimizer()
 class CustomOptimizer(ProxSGD):
     """Local optimizer for ``CustomOptimizer`` using ``ProxSGD``.
@@ -46,3 +47,6 @@ class CustomOptimizer(ProxSGD):
     ) -> None:
         self.mu = mu
         super().__init__(params, lr=lr, prox=mu, momentum=0)
+
+
+# --- end: optimizer ---

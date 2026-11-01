@@ -8,7 +8,7 @@ from torch_ecg.utils.misc import add_docstring
 from tqdm.auto import tqdm
 
 from ...data_processing.fed_dataset import FedDataset
-from ...nodes import Client, ClientConfig, ClientMessage, Server, ServerConfig
+from ...nodes import Client, ClientConfig, ClientToServer, Server, ServerConfig
 from .._misc import client_config_kw_doc, server_config_kw_doc
 from .._register import register_algorithm
 
@@ -125,8 +125,18 @@ class APFLServer(Server):
 
     @add_docstring(Server.update)
     def update(self) -> None:
-        if self.n_iter % self.config.tau == 0:
-            # if the current iteration divides the synchronization gap,
+        # NOTE: the clients upload their local models at the END of each
+        # synchronization period (when their `_sync_counter` reaches
+        # `sync_gap`, i.e. rounds tau-1, 2*tau-1, ...), while the global
+        # model is (re)broadcast at the period starts (rounds 0, tau, ...).
+        # The aggregation must therefore happen one round BEFORE the
+        # broadcast rounds, so that the just-uploaded local models are
+        # averaged into the global model before it is broadcast again.
+        # (Previously this read `self.n_iter % tau == 0`, which aggregated
+        # on the broadcast rounds themselves -- where no client had uploaded
+        # yet -- and crashed with KeyError for any tau > 1.)
+        if (self.n_iter + 1) % self.config.tau == 0:
+            # if the current iteration ends a synchronization period,
             # update the global model parameters via averaging
             # otherwise, do nothing
             # NOTE that the re-sampling of clients is done
@@ -166,21 +176,22 @@ class APFLClient(Client):
         self.mixture_parameters = [torch.zeros_like(p) for p in self.model.parameters()]
         self._sync_counter = 0
 
-    def communicate(self, target: "APFLServer") -> None:
+    def communicate(self) -> ClientToServer:
         self._sync_counter += 1
-        message = {
-            "client_id": self.client_id,
-            "train_samples": len(self.train_loader.dataset),
-            "metrics": self._metrics,
-        }
+        parameters = None
         if self._sync_counter == self.config.sync_gap:
             # if the current iteration reaches the synchronization gap,
             # transmit the local model parameters to the server
             # otherwise, only transmit the metrics
-            message["parameters"] = self.get_detached_model_parameters()
+            parameters = self.get_detached_model_parameters()
             # reset the synchronization counter
             self._sync_counter = 0
-        target._received_messages.append(ClientMessage(**message))
+        return ClientToServer(
+            client_id=self.client_id,
+            train_samples=len(self.train_loader.dataset),
+            metrics=self._metrics,
+            parameters=parameters,
+        )
 
     def update(self) -> None:
         if self._sync_counter == 0:
