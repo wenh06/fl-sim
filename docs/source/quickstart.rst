@@ -15,7 +15,7 @@ Prerequisites
 -------------
 
 Install fl-sim following :doc:`install` (``pip install git+https://github.com/wenh06/fl-sim.git``).
-Python 3.10+ with PyTorch is required.
+Python 3.11+ with PyTorch is required.
 
 Train your first model
 ----------------------
