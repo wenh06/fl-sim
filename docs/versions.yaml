@@ -10,3 +10,6 @@
 #   languages: [en, zh_CN]
 #
 # Available languages for every version: en, zh_CN.
+
+v0.2.0:
+  tag: v0.2.0
