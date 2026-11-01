@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的算子分裂算法 &#8212; fl-sim 0.1.1.dev32+gdead1850c 文档</title>
+    <title>联邦学习中的算子分裂算法 &#8212; fl-sim 0.1.1.dev33+gdd6130064 文档</title>
   
   
   
@@ -16,20 +16,22 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=4418a689" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=da4407d3" />
@@ -40,21 +42,22 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=48137e0f"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=1302c7a8"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/proof.js"></script>
     <script src="../_static/js/codeblock.js?v=82bf629b"></script>
     <script src="../_static/js/versions.js?v=6609812c"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/translations.js?v=540d3cec"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
     <script>
@@ -95,79 +98,40 @@
         }
     </script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>
-            if (window.pseudocode && !window.pseudocode.mathRenderer) {
-                window.pseudocode.mathRenderer = 'katex';
-            }
-        </script>
-    <script>
-        async function renderPseudocodeWithMath() {
-            try {
-                if (window.MathJax) {
-                    await MathJax.startup.promise;
-                    console.log("pseudocode2: MathJax is ready");
-                }
-
-                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
-                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
-                console.log("pseudocode2: Pseudocode rendered");
-
-                if (window.MathJax) {
-                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
-                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
-                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
-                    }).catch(err => {
-                        console.warn("pseudocode2: MathJax typeset failed:", err);
-                    });
-                }
-            } catch (err) {
-                console.error("pseudocode2: Render failed:", err);
-            }
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
-        } else {
-            renderPseudocodeWithMath();
-        }
-    </script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml-full.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms/operator_splitting';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
     <link rel="next" title="联邦学习中的跳步算法" href="skipping.html" />
     <link rel="prev" title="联邦学习中的原始对偶算法" href="primal_dual.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-CN"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
 
-  
-  
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -175,7 +139,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -183,15 +146,59 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
     </header>
   
 
@@ -200,7 +207,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -225,20 +233,16 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev33+gdd6130064 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">搜索</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">快速开始</span></p>
@@ -360,9 +364,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -509,7 +518,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="全屏模式"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -523,25 +532,24 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -563,7 +571,7 @@ document.write(`
                 <h2> 目录 </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-operator-splitting-the-correctness-of-the-limit">为什么要算子分裂？收敛结果的正确性</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-monotone-inclusions-to-splitting-methods">从单调包含问题到分裂方法</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedsplit-federated-peaceman-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> ：联邦 Peaceman--Rachford 分裂算法</a></li>
@@ -581,9 +589,9 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="operator-splitting-algorithms-in-federated-learning">
-<span id="fl-alg-operator-splitting"></span><h1>联邦学习中的算子分裂算法<a class="headerlink" href="#operator-splitting-algorithms-in-federated-learning" title="Link to this heading">#</a></h1>
+<span id="fl-alg-operator-splitting"></span><h1>联邦学习中的算子分裂算法<a class="headerlink" href="#operator-splitting-algorithms-in-federated-learning" title="链接到此标题。">#</a></h1>
 <section id="why-operator-splitting-the-correctness-of-the-limit">
-<span id="fl-alg-os-correctness"></span><h2>为什么要算子分裂？收敛结果的正确性<a class="headerlink" href="#why-operator-splitting-the-correctness-of-the-limit" title="Link to this heading">#</a></h2>
+<span id="fl-alg-os-correctness"></span><h2>为什么要算子分裂？收敛结果的正确性<a class="headerlink" href="#why-operator-splitting-the-correctness-of-the-limit" title="链接到此标题。">#</a></h2>
 <p>已有的联邦学习算法大多处理非 I.I.D. 场景下的收敛率与稳定性问题，而它们收敛到的点的* 正确性* 却长期未被重视。一个简单的最小二乘例子表明， <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 与 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的收敛结果一般不同于联邦问题的真解 [Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>]。</p>
 <p>考虑用最小二乘拟合线性模型 <span class="math notranslate nohighlight">\(y = mx\)</span> （<span class="math notranslate nohighlight">\(m\)</span> 为待拟合变量），设有两个参与方：参与方 1 拥有数据 <span class="math notranslate nohighlight">\(\{(0, 2), (1, 2)\}\)</span> ，相应的目标函数为</p>
 <div class="math notranslate nohighlight">
@@ -593,25 +601,25 @@ document.write(`
 \[f_2(m_2) = \frac{1}{2} \left( 4 m_2^2 + (2 m_2 - 1)^2 \right).\]</div>
 <p>两个参与方单独拟合的结果分别为 <span class="math notranslate nohighlight">\(m_1 = 2\)</span> 与 <span class="math notranslate nohighlight">\(m_2 = \frac{1}{4}\)</span> ； <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> 的结果是平均值 <span class="math notranslate nohighlight">\(m = \frac{9}{8}\)</span> ，而 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> （极小化带临近项的目标函数）的结果是</p>
 <div class="math notranslate nohighlight" id="equation-eg-correctness-fedprox">
-<span class="eqno">(1)<a class="headerlink" href="#equation-eg-correctness-fedprox" title="Link to this equation">#</a></span>\[m = \frac{18 + 4\mu}{16 + 9\mu},\]</div>
+<span class="eqno">(1)<a class="headerlink" href="#equation-eg-correctness-fedprox" title="链接到此公式">#</a></span>\[m = \frac{18 + 4\mu}{16 + 9\mu},\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(\mu\)</span> 为临近项系数。然而，把所有数据放在一起拟合的结果是 <span class="math notranslate nohighlight">\(m = \frac{4}{9}\)</span> 。差异的根源在于目标函数关于 <span class="math notranslate nohighlight">\(m\)</span> 是二次的：单独拟合结果的平均值一般不等于整体拟合的结果。</p>
 <p>更一般地，[Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] 分析了 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code> （其简化形式，即子节点上做全量梯度下降，记作 <code class="docutils literal notranslate"><span class="pre">FedGD</span></code> ）与 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的收敛点：假设每个 <span class="math notranslate nohighlight">\(f_k\)</span> 是凸的且 <span class="math notranslate nohighlight">\(L\)</span>-光滑，并且算法生成的序列收敛，那么所有子节点的模型参数序列有公共极限 <span class="math notranslate nohighlight">\(\theta^*\)</span> ，且该极限满足如下不动点条件</p>
 <div class="math notranslate nohighlight" id="equation-fedgd-fixed-pt">
-<span class="eqno">(2)<a class="headerlink" href="#equation-fedgd-fixed-pt" title="Link to this equation">#</a></span>\[\sum\limits_{i=1}^R \sum\limits_{k=1}^K \nabla f_k\big( \mathcal{G}_k^{i-1}(\theta^*) \big) = 0,
+<span class="eqno">(2)<a class="headerlink" href="#equation-fedgd-fixed-pt" title="链接到此公式">#</a></span>\[\sum\limits_{i=1}^R \sum\limits_{k=1}^K \nabla f_k\big( \mathcal{G}_k^{i-1}(\theta^*) \big) = 0,
 \qquad
 \mathcal{G}_k(\theta_k) := \theta_k - \eta \nabla f_k(\theta_k),\]</div>
 <p>对 <code class="docutils literal notranslate"><span class="pre">FedGD</span></code> 而言（<span class="math notranslate nohighlight">\(R\)</span> 为本地步数）；</p>
 <div class="math notranslate nohighlight" id="equation-fedprox-fixed-pt">
-<span class="eqno">(3)<a class="headerlink" href="#equation-fedprox-fixed-pt" title="Link to this equation">#</a></span>\[\sum\limits_{k=1}^K \nabla \mathcal{M}_{f_k, \mu}(\theta^*) = 0, \qquad
+<span class="eqno">(3)<a class="headerlink" href="#equation-fedprox-fixed-pt" title="链接到此公式">#</a></span>\[\sum\limits_{k=1}^K \nabla \mathcal{M}_{f_k, \mu}(\theta^*) = 0, \qquad
 \mathcal{M}_{f_k, \mu}(\theta) := \inf_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta - \theta_k \rVert^2 \right\},\]</div>
 <p>对 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 而言，其中 <span class="math notranslate nohighlight">\(\mathcal{M}_{f_k, \mu}\)</span> 是 <span class="math notranslate nohighlight">\(f_k\)</span> 的 Moreau 包络。把它们应用到最小二乘问题 <span class="math notranslate nohighlight">\(f_k(\theta_k) = \frac{1}{2} \lVert A_k \theta_k + b_k \rVert^2\)</span> （<span class="math notranslate nohighlight">\(A_k\)</span> 列满秩），这些不动点有解析表达式，且一般不同于整体问题的真解 <span class="math notranslate nohighlight">\(\theta^* = \big( \sum_{k=1}^K A_k^{\mathrm{T}} A_k \big)^{-1} \sum_{k=1}^K A_k^{\mathrm{T}} b_k\)</span> 。</p>
 <p>上述观察促使我们把联邦问题重新表述成一种等价形式，使其基于算子分裂的解收敛到 <em>正确</em> 的点——这正是下文 <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 与 <code class="docutils literal notranslate"><span class="pre">FedDR</span></code> 的出发点。</p>
 </section>
 <section id="from-monotone-inclusions-to-splitting-methods">
-<span id="fl-alg-os-splitting"></span><h2>从单调包含问题到分裂方法<a class="headerlink" href="#from-monotone-inclusions-to-splitting-methods" title="Link to this heading">#</a></h2>
+<span id="fl-alg-os-splitting"></span><h2>从单调包含问题到分裂方法<a class="headerlink" href="#from-monotone-inclusions-to-splitting-methods" title="链接到此标题。">#</a></h2>
 <p>从联邦问题的约束形式出发，即 <span class="math notranslate nohighlight">\(\minimize \ F(\Theta) := \frac{1}{K} \sum_{k=1}^K f_k(\theta_k)\)</span> 、约束 <span class="math notranslate nohighlight">\(\Theta = \col(\theta_1, \ldots, \theta_K) \in \mathcal{E}\)</span> （共识集 <span class="math notranslate nohighlight">\(\mathcal{E} = \{ \Theta \mid \theta_1 = \cdots = \theta_K \}\)</span> ），并用示性函数 <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> （在 <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> 上取 0、否则取 <span class="math notranslate nohighlight">\(+\infty\)</span> ）作为罚函数把约束化为目标项。带罚问题 <span class="math notranslate nohighlight">\(\minimize \ F(\Theta) + \iota_{\mathcal{E}}(\Theta)\)</span> 的一阶最优性条件为</p>
 <div class="math notranslate nohighlight" id="equation-os-mono-incl">
-<span class="eqno">(4)<a class="headerlink" href="#equation-os-mono-incl" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\minimize}{minimize}
+<span class="eqno">(4)<a class="headerlink" href="#equation-os-mono-incl" title="链接到此公式">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\minimize}{minimize}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\expectation}{\mathbb{E}}
 \newcommand{\col}{\operatorname{col}}
@@ -619,13 +627,13 @@ document.write(`
 \newcommand{\prox}{\mathbf{prox}}\\0 \in \nabla F(\Theta) + \partial \iota_{\mathcal{E}}(\Theta) = \nabla F(\Theta) + \mathcal{N}_{\mathcal{E}}(\Theta),\end{aligned}\end{align} \]</div>
 <p>这是一个* 单调包含问题* (Monotone Inclusion Problem, MIP)：<span class="math notranslate nohighlight">\(\nabla F\)</span> 与法锥 <span class="math notranslate nohighlight">\(\mathcal{N}_{\mathcal{E}}\)</span> （在 <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> 上为 <span class="math notranslate nohighlight">\(\mathcal{E}^{\perp}\)</span> 、其余为空）都是* 极大单调算子* (Maximal Monotone Operator) [Ryu and Yin<a class="footnote-reference brackets" href="#footcite-ryu2022large" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。分裂此类包含问题 <span class="math notranslate nohighlight">\(0 \in \mathcal{A}(x) + \mathcal{B}(x)\)</span> 的核心工具是* 预解式* (Resolvent) <span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{T}} := (\mathcal{I} + s\mathcal{T})^{-1}\)</span> 与* 反射预解式* （Cayley 算子）:math:<cite>mathcal{C}_{smathcal{T}} := 2mathcal{R}_{smathcal{T}} - mathcal{I}</cite> 。对梯度或次微分而言，预解式即临近算子 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\partial f} = \prox_{s f}\)</span> ；对示性函数则为投影 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\partial\iota_{\mathcal{E}}} = \Pi_{\mathcal{E}}\)</span> 。关键的等价关系是：求解该包含问题等价于求* 非扩张* 算子复合 <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span> 的不动点：</p>
 <div class="math notranslate nohighlight" id="equation-os-fixed-pt">
-<span class="eqno">(5)<a class="headerlink" href="#equation-os-fixed-pt" title="Link to this equation">#</a></span>\[0 \in \mathcal{A}(x) + \mathcal{B}(x)
+<span class="eqno">(5)<a class="headerlink" href="#equation-os-fixed-pt" title="链接到此公式">#</a></span>\[0 \in \mathcal{A}(x) + \mathcal{B}(x)
 \quad \Longleftrightarrow \quad
 \mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}(z) = z,
 \quad x = \mathcal{R}_{s\mathcal{B}}(z).\]</div>
 <p>由于 <span class="math notranslate nohighlight">\(\mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span> 只具有非扩张性，不动点迭代实际使用其平均算子 <span class="math notranslate nohighlight">\((1 - \tau)\mathcal{I} + \tau\, \mathcal{C}_{s\mathcal{A}} \mathcal{C}_{s\mathcal{B}}\)</span> （<span class="math notranslate nohighlight">\(\tau \in (0, 1]\)</span> ），由此得到分裂方法族</p>
 <div class="math notranslate nohighlight" id="equation-os-splitting-iter">
-<span class="eqno">(6)<a class="headerlink" href="#equation-os-splitting-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+<span class="eqno">(6)<a class="headerlink" href="#equation-os-splitting-iter" title="链接到此公式">#</a></span>\[\begin{split}\begin{aligned}
 x^{(t+1/2)} &amp; = \mathcal{R}_{s\mathcal{B}}\left( z^{(t)} \right), \\
 z^{(t+1/2)} &amp; = 2 x^{(t+1/2)} - z^{(t)}, \\
 x^{(t+1)} &amp; = \mathcal{R}_{s\mathcal{A}}\left( z^{(t+1/2)} \right), \\
@@ -634,21 +642,21 @@ z^{(t+1)} &amp; = z^{(t)} + 2\tau \left( x^{(t+1)} - x^{(t+1/2)} \right).
 <p><span class="math notranslate nohighlight">\(\tau = 1\)</span> 对应 <strong>Peaceman--Rachford 分裂方法</strong> (PRSM)；<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span> 对应 <strong>Douglas--Rachford 分裂方法</strong> (DRSM) [Douglas and Rachford<a class="footnote-reference brackets" href="#footcite-douglas-1956-drsm" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Lions and Mercier<a class="footnote-reference brackets" href="#footcite-lions-1979-splitting" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>]。两者的区别只在最后一步（松弛步）——即 <span class="math notranslate nohighlight">\(\tau\)</span> 的选取——而这一区别是决定性的：与 PRSM 不同，DRSM 对一般的极大单调算子无需单调性之外的任何附加假设即有收敛性保证 [Ryu and Yin<a class="footnote-reference brackets" href="#footcite-ryu2022large" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>]。</p>
 </section>
 <section id="fedsplit-federated-peaceman-rachford-splitting">
-<span id="fl-alg-os-fedsplit"></span><h2><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> ：联邦 Peaceman--Rachford 分裂算法<a class="headerlink" href="#fedsplit-federated-peaceman-rachford-splitting" title="Link to this heading">#</a></h2>
+<span id="fl-alg-os-fedsplit"></span><h2><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> ：联邦 Peaceman--Rachford 分裂算法<a class="headerlink" href="#fedsplit-federated-peaceman-rachford-splitting" title="链接到此标题。">#</a></h2>
 <p>把上述机制应用于 <span class="math notranslate nohighlight">\(\mathcal{A} = \nabla F\)</span> 、<span class="math notranslate nohighlight">\(\mathcal{B} = \partial\iota_{\mathcal{E}} = \mathcal{N}_{\mathcal{E}}\)</span> （并取 <span class="math notranslate nohighlight">\(s = \frac{1}{\mu}\)</span> ）。两个预解式分别为 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\nabla F} = \prox_{F, \mu}\)</span> 与 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{N}_{\mathcal{E}}} = \Pi_{\mathcal{E}}\)</span> ，而且——对联邦学习至关重要的是——块可分目标函数的临近算子可分解为子节点本地的临近步，</p>
 <div class="math notranslate nohighlight" id="equation-os-blockwise-prox">
-<span class="eqno">(7)<a class="headerlink" href="#equation-os-blockwise-prox" title="Link to this equation">#</a></span>\[\prox_{F, \mu}(\Theta)
+<span class="eqno">(7)<a class="headerlink" href="#equation-os-blockwise-prox" title="链接到此公式">#</a></span>\[\prox_{F, \mu}(\Theta)
 = \argmin_{\omega} \left\{ \sum_{k=1}^K f_k(\omega_k) + \frac{\mu}{2} \sum_{k=1}^K \lVert \omega_k - \theta_k \rVert^2 \right\}
 = \left( \prox_{f_k, \mu}(\theta_k) \right)_{k=1}^K,\]</div>
 <p>而投影 <span class="math notranslate nohighlight">\(\Pi_{\mathcal{E}}\)</span> 恰是中心节点上的平均聚合。于是整个分裂在子节点间完全解耦合，天然契合中心节点--子节点的通信模式。将 PRSM（<span class="math notranslate nohighlight">\(\tau = 1\)</span> ）应用于此即得 <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 算法 [Pathak and Wainwright<a class="footnote-reference brackets" href="#footcite-pathak2020fedsplit" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>]——分裂方法在联邦学习领域的首次应用——其中 <span class="math notranslate nohighlight">\(\texttt{prox\_update}_k\)</span> 是子节点上 <span class="math notranslate nohighlight">\(\prox_{f_k, \mu}\)</span> 的非精确求解方法（例如随机梯度下降）。</p>
 <p><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> 解决了前文的正确性问题：其迭代的固定点给出联邦问题真正的解，而非 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>/<code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 那样的偏移解。不过它的收敛性继承了 PRSM 的短板：对一般的非扩张 Cayley 算子，PRSM 没有收敛性保证，需要附加假设（<span class="math notranslate nohighlight">\(f_k\)</span> 强凸且 <span class="math notranslate nohighlight">\(L\)</span>-光滑），此时收敛率为</p>
 <div class="math notranslate nohighlight" id="equation-os-fedsplit-rate">
-<span class="eqno">(8)<a class="headerlink" href="#equation-os-fedsplit-rate" title="Link to this equation">#</a></span>\[\lVert \theta^{(t+1)} - \theta^* \rVert \leqslant
+<span class="eqno">(8)<a class="headerlink" href="#equation-os-fedsplit-rate" title="链接到此公式">#</a></span>\[\lVert \theta^{(t+1)} - \theta^* \rVert \leqslant
 \left( 1 - \frac{2}{\sqrt{\kappa}+1} \right)^t \frac{\lVert \theta^{(1)} - \theta^* \rVert}{\sqrt{K}}
 + (\sqrt{\kappa}+1)\, b,\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(\ell_* = \min_k \ell_k\)</span> 为强凸模量，<span class="math notranslate nohighlight">\(L^* = \max_k L_k\)</span> ，<span class="math notranslate nohighlight">\(\kappa = L^* / \ell_*\)</span> ，<span class="math notranslate nohighlight">\(b\)</span> 为非精确临近求解的一致误差界。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-fedsplit">
-<pre class="scopeline-pseudocode" id="pseudocode-140487746068800" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140038284501680" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedSplit}}
 \begin{algorithmic}
 \REQUIRE {\bfseries proximal solvers} $\texttt{prox\_update}_k: \mathbb{R}^d \to \mathbb{R}^d$
@@ -674,16 +682,16 @@ z^{(t+1)} &amp; = z^{(t)} + 2\tau \left( x^{(t+1)} - x^{(t+1/2)} \right).
 \end{algorithm}</pre></div>
 </section>
 <section id="feddr-federated-douglas-rachford-splitting">
-<span id="fl-alg-os-feddr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDR</span></code> ：联邦 Douglas--Rachford 分裂算法<a class="headerlink" href="#feddr-federated-douglas-rachford-splitting" title="Link to this heading">#</a></h2>
+<span id="fl-alg-os-feddr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDR</span></code> ：联邦 Douglas--Rachford 分裂算法<a class="headerlink" href="#feddr-federated-douglas-rachford-splitting" title="链接到此标题。">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">FedDR</span></code> 算法 [Tran-Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-tran2021feddr" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>] 用具有收敛性保证的 DRSM（<span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span> ）替换 PRSM，并借此把可处理的问题类扩大到* 非凸* 的光滑目标函数，同时在模型中显式引入正则项，</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-model">
-<span class="eqno">(9)<a class="headerlink" href="#equation-os-feddr-model" title="Link to this equation">#</a></span>\[\minimize \quad F(\theta) = f(\theta) + g(\theta) = \frac{1}{K} \sum_{k=1}^K f_k(\theta) + g(\theta),\]</div>
+<span class="eqno">(9)<a class="headerlink" href="#equation-os-feddr-model" title="链接到此公式">#</a></span>\[\minimize \quad F(\theta) = f(\theta) + g(\theta) = \frac{1}{K} \sum_{k=1}^K f_k(\theta) + g(\theta),\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(f_k\)</span> 是 <span class="math notranslate nohighlight">\(L\)</span>-光滑的（可以非凸），<span class="math notranslate nohighlight">\(g\)</span> 是闭的真是凸 (CCP) 正则项。为 <span class="math notranslate nohighlight">\(g\)</span> 再引入一个块 <span class="math notranslate nohighlight">\(\theta_{K+1}\)</span> ，并照旧用 <span class="math notranslate nohighlight">\(\iota_{\mathcal{E}}\)</span> 罚化共识约束 <span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_{K+1}\)</span> ，一阶条件即成为三算子的单调包含</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-mono-incl">
-<span class="eqno">(10)<a class="headerlink" href="#equation-os-feddr-mono-incl" title="Link to this equation">#</a></span>\[0 \in \nabla f(\Theta) + \partial \left( g + \iota_{\mathcal{E}} \right)(\Theta),\]</div>
+<span class="eqno">(10)<a class="headerlink" href="#equation-os-feddr-mono-incl" title="链接到此公式">#</a></span>\[0 \in \nabla f(\Theta) + \partial \left( g + \iota_{\mathcal{E}} \right)(\Theta),\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(\mathcal{B} = \nabla f\)</span> ，<span class="math notranslate nohighlight">\(\mathcal{A} = \partial (g + \iota_{\mathcal{E}})\)</span> 。<span class="math notranslate nohighlight">\(\mathcal{B}\)</span> 的预解式为 <span class="math notranslate nohighlight">\(\mathcal{R}_{s\mathcal{B}} = \prox_{K s f}\)</span>——按块分解即子节点本地的临近步；<span class="math notranslate nohighlight">\(\mathcal{A}\)</span> 的预解式则在中心节点上一并处理正则项* 与* 共识约束。DRSM 迭代（<a class="reference internal" href="#equation-os-splitting-iter">(6)</a> 取 <span class="math notranslate nohighlight">\(\tau = \frac{1}{2}\)</span> ，松弛系数记作 <span class="math notranslate nohighlight">\(\alpha\)</span> ）为</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-iter">
-<span class="eqno">(11)<a class="headerlink" href="#equation-os-feddr-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+<span class="eqno">(11)<a class="headerlink" href="#equation-os-feddr-iter" title="链接到此公式">#</a></span>\[\begin{split}\begin{aligned}
 \omega_k^{(t+1)} &amp; = \omega_k^{(t)} + \alpha \left( \overline{\theta}^{(t)} - \theta_k^{(t)} \right), &amp; k \in [K], \\
 \theta_k^{(t+1)} &amp; = \prox_{f_k, \mu} \left( \omega_k^{(t+1)} \right), &amp; k \in [K], \\
 \widehat{\theta}_k^{(t+1)} &amp; = 2\theta_k^{(t+1)} - \omega_k^{(t+1)}, &amp; k \in [K], \\
@@ -694,17 +702,17 @@ z^{(t+1)} &amp; = z^{(t)} + 2\tau \left( x^{(t+1)} - x^{(t+1/2)} \right).
 <p>前三行是子节点的本地工作；最后一行是中心节点——它平均反射块并对正则项 <span class="math notranslate nohighlight">\(g\)</span> 执行临近步。</p>
 <p>关于收敛性 [Tran-Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-tran2021feddr" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>]：设 <span class="math notranslate nohighlight">\(f_k\)</span> 都是 <span class="math notranslate nohighlight">\(L\)</span>-光滑的，记 <span class="math notranslate nohighlight">\(e_k^{(t)}\)</span> 为第 <span class="math notranslate nohighlight">\(t\)</span> 轮子节点非精确临近求解的误差：(i)（经正则项修正的）全局模型与各局部模型的差被局部模型相邻迭代步的差以及临近误差所控制；(ii) 全局目标函数的梯度映射 <span class="math notranslate nohighlight">\(\mathcal{G}_{\beta}(\theta) := \frac{1}{\beta} \left( \theta - \prox_{\beta g}\left( \theta - \beta \nabla f(\theta) \right) \right)\)</span> 在 <span class="math notranslate nohighlight">\(\overline{\theta}^{(t)}\)</span> 处的模长平方被同样的量（以及辅助变量 <span class="math notranslate nohighlight">\(\omega^{(t)}\)</span> 的漂移）所控制；(iii) 梯度映射模长平方的平均值具有 <span class="math notranslate nohighlight">\(\mathcal{O}(1/T)\)</span> 界，</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-rate">
-<span class="eqno">(12)<a class="headerlink" href="#equation-os-feddr-rate" title="Link to this equation">#</a></span>\[\frac{1}{T} \sum_{t=0}^{T-1} \expectation \left[ \lVert \mathcal{G}_{\frac{Ks}{K+1}} \left( \overline{\theta}^{(t)} \right) \rVert^2 \right]
+<span class="eqno">(12)<a class="headerlink" href="#equation-os-feddr-rate" title="链接到此公式">#</a></span>\[\frac{1}{T} \sum_{t=0}^{T-1} \expectation \left[ \lVert \mathcal{G}_{\frac{Ks}{K+1}} \left( \overline{\theta}^{(t)} \right) \rVert^2 \right]
 \leqslant \frac{C_1 \left( F(\theta^{(0)}) - F^* \right)}{T}
 + \frac{1}{KT} \sum_{t=0}^{T-1} \sum_{k=1}^K \left( C_2 \varepsilon_{k,t}^2 + C_3 \varepsilon_{k,t+1}^2 \right),\]</div>
 <p>其中 <span class="math notranslate nohighlight">\(F^* = \inf_\theta F(\theta)\)</span> ；特别地，经过</p>
 <div class="math notranslate nohighlight" id="equation-os-feddr-t">
-<span class="eqno">(13)<a class="headerlink" href="#equation-os-feddr-t" title="Link to this equation">#</a></span>\[T = \left\lfloor \frac{C_1 \left[ F(\theta^{(0)}) - F^* \right] + (C_2 + C_3) M}{\varepsilon^2} \right\rfloor,
+<span class="eqno">(13)<a class="headerlink" href="#equation-os-feddr-t" title="链接到此公式">#</a></span>\[T = \left\lfloor \frac{C_1 \left[ F(\theta^{(0)}) - F^* \right] + (C_2 + C_3) M}{\varepsilon^2} \right\rfloor,
 \qquad
 M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,\]</div>
 <p>轮迭代后，输出 <span class="math notranslate nohighlight">\(\overline{\theta}^{(T)}\)</span> 即为 <a class="reference internal" href="#equation-os-feddr-model">(9)</a> 的 <span class="math notranslate nohighlight">\(\varepsilon\)</span>-稳定点。伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-feddr">
-<pre class="scopeline-pseudocode" id="pseudocode-140487746016624" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-140038284409712" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDR}}
 \begin{algorithmic}
 \REQUIRE step size $s = \frac{1}{\mu} &gt; 0$, $\alpha \in (0, 2)$, error bounds $\varepsilon_{k,0} \geqslant 0$
@@ -732,7 +740,7 @@ M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,\]</di
 \end{algorithm}</pre></div>
 </section>
 <section id="summary">
-<span id="fl-alg-os-summary"></span><h2>小结<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<span id="fl-alg-os-summary"></span><h2>小结<a class="headerlink" href="#summary" title="链接到此标题。">#</a></h2>
 <p>算子分裂法是* 分解算法* (Decomposition Algorithms) 的一大类：把大规模问题拆成若干分别处理的小问题（在这里，由子节点与中心节点分别承担），使每个子问题更易求解、更易并行。在理论上，它把众多联邦算法纳入统一框架——并且与 <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>/<code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 不同，其极限保证是正确的（<a class="reference internal" href="#fl-alg-os-fedsplit"><span class="std std-ref">FedSplit</span></a> ），或逼近真实目标的稳定点（<a class="reference internal" href="#fl-alg-os-feddr"><span class="std std-ref">FedDR</span></a> ）。代价是簿记：除模型参数外，每个节点（中心与子节点）还要维护辅助变量（反射块 <span class="math notranslate nohighlight">\(z\)</span> 、混合拷贝 <span class="math notranslate nohighlight">\(\omega\)</span> ），带来额外的存储与计算负担。</p>
 <p class="rubric">参考文献</p>
 <div class="docutils container" id="id10">
@@ -778,7 +786,7 @@ M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,\]</di
 <div class="prev-next-area">
     <a class="left-prev"
        href="primal_dual.html"
-       title="previous page">
+       title="上一页">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">上一页</p>
@@ -787,7 +795,7 @@ M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,\]</di
     </a>
     <a class="right-next"
        href="skipping.html"
-       title="next page">
+       title="下一页">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一页</p>
         <p class="prev-next-title">联邦学习中的跳步算法</p>
@@ -801,15 +809,17 @@ M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,\]</di
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> 目录
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-operator-splitting-the-correctness-of-the-limit">为什么要算子分裂？收敛结果的正确性</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-monotone-inclusions-to-splitting-methods">从单调包含问题到分裂方法</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedsplit-federated-peaceman-rachford-splitting"><code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> ：联邦 Peaceman--Rachford 分裂算法</a></li>
@@ -863,8 +873,8 @@ M \geqslant \frac{1}{K} \sum_{t=0}^{T-1} \sum_{k=1}^K \varepsilon_{k,t}^2,\]</di
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   
   <footer class="bd-footer">

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>操作指南：实现一个自定义算法 &#8212; fl-sim 0.1.1.dev32+gdead1850c 文档</title>
+    <title>操作指南：实现一个自定义算法 &#8212; fl-sim 0.1.1.dev33+gdd6130064 文档</title>
   
   
   
@@ -16,20 +16,22 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=4418a689" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=da4407d3" />
@@ -40,21 +42,22 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="_static/documentation_options.js?v=48137e0f"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/documentation_options.js?v=1302c7a8"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/proof.js"></script>
     <script src="_static/js/codeblock.js?v=82bf629b"></script>
     <script src="_static/js/versions.js?v=6609812c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/translations.js?v=540d3cec"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
     <script>
@@ -95,77 +98,38 @@
         }
     </script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>
-            if (window.pseudocode && !window.pseudocode.mathRenderer) {
-                window.pseudocode.mathRenderer = 'katex';
-            }
-        </script>
-    <script>
-        async function renderPseudocodeWithMath() {
-            try {
-                if (window.MathJax) {
-                    await MathJax.startup.promise;
-                    console.log("pseudocode2: MathJax is ready");
-                }
-
-                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
-                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
-                console.log("pseudocode2: Pseudocode rendered");
-
-                if (window.MathJax) {
-                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
-                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
-                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
-                    }).catch(err => {
-                        console.warn("pseudocode2: MathJax typeset failed:", err);
-                    });
-                }
-            } catch (err) {
-                console.error("pseudocode2: Render failed:", err);
-            }
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
-        } else {
-            renderPseudocodeWithMath();
-        }
-    </script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'howto-custom-algorithm';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="操作指南：添加自定义数据集" href="howto-custom-dataset.html" />
     <link rel="prev" title="教程：并行与可复现的运行" href="tutorial-parallel-reproducible.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-CN"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
 
-  
-  
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -173,7 +137,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -181,15 +144,59 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
     </header>
   
 
@@ -198,7 +205,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -223,20 +231,16 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev33+gdd6130064 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">搜索</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">快速开始</span></p>
@@ -358,9 +362,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -507,7 +516,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="全屏模式"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -521,25 +530,24 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -561,7 +569,7 @@ document.write(`
                 <h2> 目录 </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-a-custom-algorithm-needed">何时需要自定义算法</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-config-classes">配置类</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-server-hooks">服务器钩子</a></li>
@@ -585,11 +593,11 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="how-to-implement-a-custom-algorithm">
-<span id="howto-custom-algorithm"></span><h1>操作指南：实现一个自定义算法<a class="headerlink" href="#how-to-implement-a-custom-algorithm" title="Link to this heading">#</a></h1>
+<span id="howto-custom-algorithm"></span><h1>操作指南：实现一个自定义算法<a class="headerlink" href="#how-to-implement-a-custom-algorithm" title="链接到此标题。">#</a></h1>
 <p>内置算法覆盖了经典方法，而研究往往需要变体。本指南实现一个完整算法——带按名参数交换与可选方差削减的 FedProx 变体——走遍你需要的每个文件与每个可覆写的钩子。贯穿示例是 <code class="docutils literal notranslate"><span class="pre">test-files/custom_alg.py</span></code>；下文展示的代码都从该文件引入，因此在 CI 中真实执行（CLI 经 <code class="docutils literal notranslate"><span class="pre">test-files/custom_conf.yml</span></code> 运行它）。</p>
 <p>一句话模型： <strong>算法 = 一对配置类 + Server/Client 类上的钩子覆写</strong> ——训练循环、通信调度脚手架、日志、评估、并行执行器全部原样（ <a class="reference internal" href="concepts.html"><span class="doc">核心概念</span></a> 解释了为什么）。</p>
 <section id="when-is-a-custom-algorithm-needed">
-<h2>何时需要自定义算法<a class="headerlink" href="#when-is-a-custom-algorithm-needed" title="Link to this heading">#</a></h2>
+<h2>何时需要自定义算法<a class="headerlink" href="#when-is-a-custom-algorithm-needed" title="链接到此标题。">#</a></h2>
 <ul class="simple">
 <li><p>算法改变了客户端 <strong>本地计算的内容</strong> （新的本地目标、额外的本地状态）→ 覆写客户端钩子；</p></li>
 <li><p>算法改变了 <strong>交换的内容或回复的聚合方式</strong> → 覆写服务器钩子；</p></li>
@@ -598,7 +606,7 @@ document.write(`
 <p>如果只是想给既有超参数设不同的 <em>值</em> ，不需要写任何代码——直接用内置算法的配置。</p>
 </section>
 <section id="the-config-classes">
-<h2>配置类<a class="headerlink" href="#the-config-classes" title="Link to this heading">#</a></h2>
+<h2>配置类<a class="headerlink" href="#the-config-classes" title="链接到此标题。">#</a></h2>
 <p>两个 pydantic 模型，各管一侧。新字段自动成为 CLI/YAML 选项； <code class="docutils literal notranslate"><span class="pre">server_config_kw_doc</span></code> / <code class="docutils literal notranslate"><span class="pre">client_config_kw_doc</span></code> 把继承字段的文档追加进来，API 参考得以保持完整：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@register_algorithm</span><span class="p">()</span>
 <span class="nd">@add_docstring</span><span class="p">(</span><span class="n">server_config_kw_doc</span><span class="p">,</span> <span class="s2">"append"</span><span class="p">)</span>
@@ -670,7 +678,7 @@ document.write(`
 <p>这里的 <code class="docutils literal notranslate"><span class="pre">model_validator</span></code> 由 <code class="docutils literal notranslate"><span class="pre">vr</span></code> 标志固定本地优化器——配置级不变式就该放在 validator 里，让非法组合在构造时失败，而不是跑到一半。</p>
 </section>
 <section id="the-server-hooks">
-<h2>服务器钩子<a class="headerlink" href="#the-server-hooks" title="Link to this heading">#</a></h2>
+<h2>服务器钩子<a class="headerlink" href="#the-server-hooks" title="链接到此标题。">#</a></h2>
 <p>服务器定制 <strong>下行</strong> （ <code class="docutils literal notranslate"><span class="pre">communicate</span></code> ）与 <strong>聚合</strong> （ <code class="docutils literal notranslate"><span class="pre">update</span></code> ）。其余一切——采样、轮循环、指标——全部继承：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@register_algorithm</span><span class="p">()</span>
 <span class="nd">@add_docstring</span><span class="p">(</span>
@@ -745,7 +753,7 @@ document.write(`
 </ul>
 </section>
 <section id="the-client-hooks">
-<h2>客户端钩子<a class="headerlink" href="#the-client-hooks" title="Link to this heading">#</a></h2>
+<h2>客户端钩子<a class="headerlink" href="#the-client-hooks" title="链接到此标题。">#</a></h2>
 <p>客户端定制 <strong>本地训练</strong> （ <code class="docutils literal notranslate"><span class="pre">update</span></code> ）与 <strong>上行</strong> （ <code class="docutils literal notranslate"><span class="pre">communicate</span></code> ）：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@register_algorithm</span><span class="p">()</span>
 <span class="nd">@add_docstring</span><span class="p">(</span>
@@ -848,12 +856,12 @@ document.write(`
 </div>
 <p>本页最重要的契约在 <code class="docutils literal notranslate"><span class="pre">communicate</span></code> 里：它 <strong>构建并返回</strong> 一个 <code class="xref py py-class docutils literal notranslate"><span class="pre">ClientToServer</span></code>，除客户端自身状态外不碰任何东西。消息的发送与通信计数由框架维护。正因如此，开启 <a class="reference internal" href="parallel_execution.html"><span class="doc">并行执行</span></a> 时该钩子才能安全地跑在工作线程里——一个伸手去碰服务器状态的钩子只能在串行模式下工作。</p>
 <section id="named-exchange-by-the-way">
-<h3>顺带说一句：按名交换<a class="headerlink" href="#named-exchange-by-the-way" title="Link to this heading">#</a></h3>
+<h3>顺带说一句：按名交换<a class="headerlink" href="#named-exchange-by-the-way" title="链接到此标题。">#</a></h3>
 <p>本示例按 <strong>参数名</strong> 交换参数（ <code class="docutils literal notranslate"><span class="pre">model_state</span></code> 映射：参数名 → 张量，即 <code class="xref py py-data docutils literal notranslate"><span class="pre">ModelState</span></code> ），而不是遗留的扁平位置列表。名字能扛住重排序与部分模块，加载侧（ <code class="docutils literal notranslate"><span class="pre">accept_parameters</span></code> 、 <code class="docutils literal notranslate"><span class="pre">update</span></code> ）按名查找。扁平列表写法依然处处可用；但新算法请优先用名字。</p>
 </section>
 </section>
 <section id="register-and-run">
-<h2>注册与运行<a class="headerlink" href="#register-and-run" title="Link to this heading">#</a></h2>
+<h2>注册与运行<a class="headerlink" href="#register-and-run" title="链接到此标题。">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">&#64;register_algorithm()</span></code> （上面四个类都应用了）把算法送进注册表；此后 CLI 与 YAML 矩阵像对待内置算法一样接受它：</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">algorithm</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Custom</span>
@@ -873,7 +881,7 @@ document.write(`
 </div>
 </section>
 <section id="safeguards-for-registered-algorithms">
-<h2>注册算法的行为保障<a class="headerlink" href="#safeguards-for-registered-algorithms" title="Link to this heading">#</a></h2>
+<h2>注册算法的行为保障<a class="headerlink" href="#safeguards-for-registered-algorithms" title="链接到此标题。">#</a></h2>
 <p>两层机制守护一个注册算法：</p>
 <ul class="simple">
 <li><p>the <strong>golden regression</strong> suite (<code class="docutils literal notranslate"><span class="pre">test/test_parallel_equivalence/</span></code>)
@@ -887,11 +895,11 @@ property <code class="docutils literal notranslate"><span class="pre">communicat
 <p>把算法合入本仓库时，两层都要接入。</p>
 </section>
 <section id="legacy-hook-style">
-<h2>遗留钩子写法<a class="headerlink" href="#legacy-hook-style" title="Link to this heading">#</a></h2>
+<h2>遗留钩子写法<a class="headerlink" href="#legacy-hook-style" title="链接到此标题。">#</a></h2>
 <p>更老的代码在 <em>客户端</em> 上覆写 <code class="docutils literal notranslate"><span class="pre">communicate(self,</span> <span class="pre">target)</span></code> 并直接改动服务器状态。它在串行后端下仍然可用（会带 <code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code> ），但与并行后端不兼容，终将移除；新算法请按上文所示构建并返回带类型的消息。</p>
 </section>
 <section id="next-steps">
-<h2>下一步<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<h2>下一步<a class="headerlink" href="#next-steps" title="链接到此标题。">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="howto-custom-dataset.html#howto-custom-dataset"><span class="std std-ref">操作指南：添加自定义数据集</span></a>——带上你自己的数据划分。</p></li>
 <li><p><a class="reference internal" href="howto-custom-optimizer.html#howto-custom-optimizer"><span class="std std-ref">操作指南：添加自定义优化器</span></a>——添加一个本地优化器。</p></li>
@@ -914,7 +922,7 @@ property <code class="docutils literal notranslate"><span class="pre">communicat
 <div class="prev-next-area">
     <a class="left-prev"
        href="tutorial-parallel-reproducible.html"
-       title="previous page">
+       title="上一页">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">上一页</p>
@@ -923,7 +931,7 @@ property <code class="docutils literal notranslate"><span class="pre">communicat
     </a>
     <a class="right-next"
        href="howto-custom-dataset.html"
-       title="next page">
+       title="下一页">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一页</p>
         <p class="prev-next-title">操作指南：添加自定义数据集</p>
@@ -937,15 +945,17 @@ property <code class="docutils literal notranslate"><span class="pre">communicat
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> 目录
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-a-custom-algorithm-needed">何时需要自定义算法</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-config-classes">配置类</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-server-hooks">服务器钩子</a></li>
@@ -1005,8 +1015,8 @@ property <code class="docutils literal notranslate"><span class="pre">communicat
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   
   <footer class="bd-footer">

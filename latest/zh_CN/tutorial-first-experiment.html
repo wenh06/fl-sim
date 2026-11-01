@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>教程：第一个对照实验 &#8212; fl-sim 0.1.1.dev32+gdead1850c 文档</title>
+    <title>教程：第一个对照实验 &#8212; fl-sim 0.1.1.dev33+gdd6130064 文档</title>
   
   
   
@@ -16,20 +16,22 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=4418a689" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=da4407d3" />
@@ -40,21 +42,22 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="_static/documentation_options.js?v=48137e0f"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/documentation_options.js?v=1302c7a8"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/proof.js"></script>
     <script src="_static/js/codeblock.js?v=82bf629b"></script>
     <script src="_static/js/versions.js?v=6609812c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/translations.js?v=540d3cec"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
     <script>
@@ -95,79 +98,40 @@
         }
     </script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>
-            if (window.pseudocode && !window.pseudocode.mathRenderer) {
-                window.pseudocode.mathRenderer = 'katex';
-            }
-        </script>
-    <script>
-        async function renderPseudocodeWithMath() {
-            try {
-                if (window.MathJax) {
-                    await MathJax.startup.promise;
-                    console.log("pseudocode2: MathJax is ready");
-                }
-
-                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
-                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
-                console.log("pseudocode2: Pseudocode rendered");
-
-                if (window.MathJax) {
-                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
-                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
-                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
-                    }).catch(err => {
-                        console.warn("pseudocode2: MathJax typeset failed:", err);
-                    });
-                }
-            } catch (err) {
-                console.error("pseudocode2: Render failed:", err);
-            }
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
-        } else {
-            renderPseudocodeWithMath();
-        }
-    </script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml-full.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial-first-experiment';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="教程：用 CLI 跑实验矩阵" href="tutorial-cli-matrix.html" />
     <link rel="prev" title="核心概念" href="concepts.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-CN"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
 
-  
-  
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -175,7 +139,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -183,15 +146,59 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
     </header>
   
 
@@ -200,7 +207,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -225,20 +233,16 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev33+gdd6130064 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">搜索</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">快速开始</span></p>
@@ -360,9 +364,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -509,7 +518,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="全屏模式"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -523,25 +532,24 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -563,7 +571,7 @@ document.write(`
                 <h2> 目录 </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-comparison">搭建对照</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-read-the-results">运行并读取结果</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-num-communications-counts"><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 数的是什么</a></li>
@@ -581,12 +589,12 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="tutorial-a-first-controlled-experiment">
-<span id="tutorial-first-experiment"></span><h1>教程：第一个对照实验<a class="headerlink" href="#tutorial-a-first-controlled-experiment" title="Link to this heading">#</a></h1>
+<span id="tutorial-first-experiment"></span><h1>教程：第一个对照实验<a class="headerlink" href="#tutorial-a-first-controlled-experiment" title="链接到此标题。">#</a></h1>
 <p><a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> 执行单次训练。完整的实验在相同条件下比较不同配置，并把结果读回。本教程比较三个算法在两种采样比例下的表现，然后考察 fl-sim 中&quot;通信开销&quot;的确切含义。</p>
 <p>全部运行基于 <code class="xref py py-class docutils literal notranslate"><span class="pre">FedSynthetic</span></code>——无需下载，每次运行只需几秒。下文展示的完整脚本位于 <code class="docutils literal notranslate"><span class="pre">test-files/tutorial_first_experiment.py</span></code>，并在 CI 中被执行。</p>
 <p>前置阅读： <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> （三对象模型：数据集、模型、服务器）与  <a class="reference internal" href="concepts.html"><span class="doc">核心概念</span></a> （一轮训练做了什么）。</p>
 <section id="set-up-the-comparison">
-<h2>搭建对照<a class="headerlink" href="#set-up-the-comparison" title="Link to this heading">#</a></h2>
+<h2>搭建对照<a class="headerlink" href="#set-up-the-comparison" title="链接到此标题。">#</a></h2>
 <p>六次运行： <strong>FedAvg</strong> （朴素平均）、 <strong>FedProx</strong> （近端正则的本地目标）与  <strong>SCAFFOLD</strong> （控制变量）——梯度、近端、方差缩减三条经典轴线——各自在  <strong>采样比例 0.5 与 1.0</strong> 下运行。</p>
 <p>一个刻意的选择：数据集 <strong>只构造一次，且先于任何配置或服务器</strong> 。配置类的构造器在构建时会重置全局 RNG，谁最后构造谁生效，其后的采样流都会被移动。按 <em>数据集 → 配置 → 服务器</em> 的顺序构造，每次运行都可复现：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -662,8 +670,8 @@ document.write(`
 <p><code class="docutils literal notranslate"><span class="pre">final_accuracy</span></code> 读取一次运行的 JSON 日志——与 <a class="reference internal" href="quickstart.html"><span class="doc">快速上手</span></a> 中相同的文件格式。SCAFFOLD 需要显式传入全局步长 <code class="docutils literal notranslate"><span class="pre">lr``（它的配置没有默认值）；FedPD</span> <span class="pre">稍后也需要一个频率参数。两者都是算法各自的服务器关键字，统一收在</span> <span class="pre">``SERVER_KW</span></code> 里。</p>
 </section>
 <section id="run-and-read-the-results">
-<h2>运行并读取结果<a class="headerlink" href="#run-and-read-the-results" title="Link to this heading">#</a></h2>
-<p>对照本身就是一个循环，结果落入 <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="（在 pandas v3.1）"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> ：</p>
+<h2>运行并读取结果<a class="headerlink" href="#run-and-read-the-results" title="链接到此标题。">#</a></h2>
+<p>对照本身就是一个循环，结果落入 <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(位于 pandas v3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> ：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">algorithm</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"FedAvg"</span><span class="p">,</span> <span class="s2">"FedProx"</span><span class="p">,</span> <span class="s2">"SCAFFOLD"</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">sample_ratio</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
@@ -697,7 +705,7 @@ document.write(`
 </ul>
 </section>
 <section id="what-num-communications-counts">
-<h2><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 数的是什么<a class="headerlink" href="#what-num-communications-counts" title="Link to this heading">#</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 数的是什么<a class="headerlink" href="#what-num-communications-counts" title="链接到此标题。">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 统计的是 <strong>消息数，不是轮数</strong> ：每轮对 <em>每个被采样客户端</em> 加一次下行广播，再加一次上行回复。30 个客户端、比例 0.5 时，每轮是 15 下行 + 15 上行 = 30 条消息，3 轮 = 90；比例 1.0 时翻倍为 180。</p>
 <p>一个判别性检验： <strong>3 轮全采样与 6 轮半采样都恰好得到 180。</strong> 计数随 <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">×</span> <span class="pre">采样数</span> <span class="pre">×</span> <span class="pre">轮数</span></code> 缩放，而不是随轮数。把它读成&quot;通信轮数&quot;，90 就会被当成&quot;90 轮&quot;——差了 30 倍。</p>
 <p>值得记住的分解式：</p>
@@ -706,7 +714,7 @@ document.write(`
 <p>（另注：JSON 日志里记录的 <code class="docutils literal notranslate"><span class="pre">step</span></code> 是 <em>每轮开始时</em> 的快照：它比最终计数少最后一轮的全部开销——最终值请从服务器读取，正如本页脚本的做法。）</p>
 </section>
 <section id="sampling-is-not-communicating">
-<h2>被采样不等于在通信<a class="headerlink" href="#sampling-is-not-communicating" title="Link to this heading">#</a></h2>
+<h2>被采样不等于在通信<a class="headerlink" href="#sampling-is-not-communicating" title="链接到此标题。">#</a></h2>
 <p>上面三个算法每一轮都在通信。fl-sim 还提供 <strong>可跳过通信</strong> 的算法，它们以能澄清该恒等式两个乘子的方式修改它。让 FedPD（每 <code class="docutils literal notranslate"><span class="pre">int(1/p)</span></code> 轮上传一次）与五轮 FedAvg 并排各跑五轮：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fedavg</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="s2">"FedAvg"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"FedAvg_5it"</span><span class="p">)</span>
 <span class="n">fedpd</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="s2">"FedPD"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"FedPD_5it"</span><span class="p">)</span>
@@ -745,7 +753,7 @@ designed to behave.</p></li>
 </ul>
 </section>
 <section id="next-steps">
-<h2>下一步<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<h2>下一步<a class="headerlink" href="#next-steps" title="链接到此标题。">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="tutorial-cli-matrix.html"><span class="doc">教程：用 CLI 跑实验矩阵</span></a>——用 YAML 实验矩阵从命令行跑同样的对照。</p></li>
 <li><p><a class="reference internal" href="tutorial-visualization.html"><span class="doc">教程：可视化与导出结果</span></a> — merge multi-seed runs of this
@@ -768,7 +776,7 @@ comparison into mean curves with error bounds.</p></li>
 <div class="prev-next-area">
     <a class="left-prev"
        href="concepts.html"
-       title="previous page">
+       title="上一页">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">上一页</p>
@@ -777,7 +785,7 @@ comparison into mean curves with error bounds.</p></li>
     </a>
     <a class="right-next"
        href="tutorial-cli-matrix.html"
-       title="next page">
+       title="下一页">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一页</p>
         <p class="prev-next-title">教程：用 CLI 跑实验矩阵</p>
@@ -791,15 +799,17 @@ comparison into mean curves with error bounds.</p></li>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> 目录
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-comparison">搭建对照</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-and-read-the-results">运行并读取结果</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-num-communications-counts"><code class="docutils literal notranslate"><span class="pre">num_communications</span></code> 数的是什么</a></li>
@@ -853,8 +863,8 @@ comparison into mean curves with error bounds.</p></li>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   
   <footer class="bd-footer">

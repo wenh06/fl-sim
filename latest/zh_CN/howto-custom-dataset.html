@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>操作指南：添加自定义数据集 &#8212; fl-sim 0.1.1.dev32+gdead1850c 文档</title>
+    <title>操作指南：添加自定义数据集 &#8212; fl-sim 0.1.1.dev33+gdd6130064 文档</title>
   
   
   
@@ -16,20 +16,22 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=4418a689" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=da4407d3" />
@@ -40,21 +42,22 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="_static/documentation_options.js?v=48137e0f"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/documentation_options.js?v=1302c7a8"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/proof.js"></script>
     <script src="_static/js/codeblock.js?v=82bf629b"></script>
     <script src="_static/js/versions.js?v=6609812c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/translations.js?v=540d3cec"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
     <script>
@@ -95,77 +98,38 @@
         }
     </script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>
-            if (window.pseudocode && !window.pseudocode.mathRenderer) {
-                window.pseudocode.mathRenderer = 'katex';
-            }
-        </script>
-    <script>
-        async function renderPseudocodeWithMath() {
-            try {
-                if (window.MathJax) {
-                    await MathJax.startup.promise;
-                    console.log("pseudocode2: MathJax is ready");
-                }
-
-                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
-                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
-                console.log("pseudocode2: Pseudocode rendered");
-
-                if (window.MathJax) {
-                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
-                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
-                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
-                    }).catch(err => {
-                        console.warn("pseudocode2: MathJax typeset failed:", err);
-                    });
-                }
-            } catch (err) {
-                console.error("pseudocode2: Render failed:", err);
-            }
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
-        } else {
-            renderPseudocodeWithMath();
-        }
-    </script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'howto-custom-dataset';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="操作指南：添加自定义优化器" href="howto-custom-optimizer.html" />
     <link rel="prev" title="操作指南：实现一个自定义算法" href="howto-custom-algorithm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-CN"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
 
-  
-  
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -173,7 +137,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -181,15 +144,59 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
     </header>
   
 
@@ -198,7 +205,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -223,20 +231,16 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.1.1.dev32+gdead1850c 文档</p>
+    <p class="title logo__title">fl-sim 0.1.1.dev33+gdd6130064 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">搜索</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">快速开始</span></p>
@@ -358,9 +362,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -507,7 +516,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="全屏模式"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -521,25 +530,24 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -561,7 +569,7 @@ document.write(`
                 <h2> 目录 </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-base-class">选择基类</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-example">完整示例</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-minimal-template">最小模板</a></li>
@@ -579,10 +587,10 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="how-to-add-a-custom-dataset">
-<span id="howto-custom-dataset"></span><h1>操作指南：添加自定义数据集<a class="headerlink" href="#how-to-add-a-custom-dataset" title="Link to this heading">#</a></h1>
+<span id="howto-custom-dataset"></span><h1>操作指南：添加自定义数据集<a class="headerlink" href="#how-to-add-a-custom-dataset" title="链接到此标题。">#</a></h1>
 <p>fl-sim 中的联邦数据集由两部分组成： <strong>原始数据</strong> 与把它分散到各模拟客户端的 <strong>划分方案</strong> 。本指南先走完 <code class="docutils literal notranslate"><span class="pre">test-files/custom_dataset.py</span></code> 的完整示例（FedProx 论文所用 FEMNIST 变体的复刻，经 <code class="docutils literal notranslate"><span class="pre">test-files/custom_conf.yml</span></code> 在 CI 中执行），再从 NumPy 数组出发给出最小模板。</p>
 <section id="choose-the-base-class">
-<h2>选择基类<a class="headerlink" href="#choose-the-base-class" title="Link to this heading">#</a></h2>
+<h2>选择基类<a class="headerlink" href="#choose-the-base-class" title="链接到此标题。">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="api/generated/fl_sim.data_processing.FedVisionDataset.html#fl_sim.data_processing.FedVisionDataset" title="fl_sim.data_processing.fed_dataset.FedVisionDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">FedVisionDataset</span></code></a>——图像数据，带常规的 <code class="docutils literal notranslate"><span class="pre">TensorDataset</span></code> 管线；示例用的就是它；</p></li>
 <li><p><a class="reference internal" href="api/generated/fl_sim.data_processing.FedDataset.html#fl_sim.data_processing.FedDataset" title="fl_sim.data_processing.fed_dataset.FedDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">FedDataset</span></code></a>——完全抽象的基类，适合一切非视觉数据。</p></li>
@@ -590,7 +598,7 @@ document.write(`
 <p>必需接口很小：在 <code class="docutils literal notranslate"><span class="pre">_preload</span></code> 里加载数据，在 <code class="docutils literal notranslate"><span class="pre">get_dataloader</span></code> 里按客户端分发dataloader，在 <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> 里为预测打分。</p>
 </section>
 <section id="the-full-example">
-<h2>完整示例<a class="headerlink" href="#the-full-example" title="Link to this heading">#</a></h2>
+<h2>完整示例<a class="headerlink" href="#the-full-example" title="链接到此标题。">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@register_fed_dataset</span><span class="p">()</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">CustomFEMNIST</span><span class="p">(</span><span class="n">FedVisionDataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
@@ -780,7 +788,7 @@ document.write(`
 <p>其余 property 是惯例而非硬性要求： <code class="docutils literal notranslate"><span class="pre">mirrors</span></code> / <code class="docutils literal notranslate"><span class="pre">url</span></code> 供下载机制使用（备选 URL 按序尝试——协议见 <code class="xref py py-meth docutils literal notranslate"><span class="pre">mirrors()</span></code> API）； <code class="docutils literal notranslate"><span class="pre">candidate_models</span></code> 声明适合本数据的模型（CLI 的 <code class="docutils literal notranslate"><span class="pre">model:</span> <span class="pre">name:</span></code> 从这里选取）； <code class="docutils literal notranslate"><span class="pre">label_map</span></code> 给类别命名； <code class="docutils literal notranslate"><span class="pre">doi</span></code> 携带引用。</p>
 </section>
 <section id="the-minimal-template">
-<h2>最小模板<a class="headerlink" href="#the-minimal-template" title="Link to this heading">#</a></h2>
+<h2>最小模板<a class="headerlink" href="#the-minimal-template" title="链接到此标题。">#</a></h2>
 <p>从 NumPy 数组到可用的联邦数据集。下述模板已通过端到端执行验证；它编码的三个约定容易漏掉、调起来又贵：</p>
 <ul class="simple">
 <li><p><strong>define your own ``__init__``</strong>: the abstract
@@ -873,7 +881,7 @@ indices;</p></li>
 </div>
 </section>
 <section id="usage">
-<h2>使用<a class="headerlink" href="#usage" title="Link to this heading">#</a></h2>
+<h2>使用<a class="headerlink" href="#usage" title="链接到此标题。">#</a></h2>
 <p>应用 <code class="docutils literal notranslate"><span class="pre">&#64;register_fed_dataset()</span></code> 装饰器后，只要模块被导入过，数据集即可按名字构造（或以模块 <em>路径</em> 作为数据集 <code class="docutils literal notranslate"><span class="pre">name</span></code> ——见 <code class="xref py py-class docutils literal notranslate"><span class="pre">FedDataArgs</span></code>），且所有内置组件原样可用：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">my_arrays</span>  <span class="c1"># the module above; registers the dataset</span>
 
@@ -892,7 +900,7 @@ indices;</p></li>
 </div>
 </section>
 <section id="next-steps">
-<h2>下一步<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<h2>下一步<a class="headerlink" href="#next-steps" title="链接到此标题。">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="howto-custom-algorithm.html#howto-custom-algorithm"><span class="std std-ref">操作指南：实现一个自定义算法</span></a>——契约的算法一侧。</p></li>
 <li><p><a class="reference internal" href="api/datasets.html"><span class="doc">fl_sim.data_processing</span></a>——完整的 FedDataset API 参考。</p></li>
@@ -913,7 +921,7 @@ indices;</p></li>
 <div class="prev-next-area">
     <a class="left-prev"
        href="howto-custom-algorithm.html"
-       title="previous page">
+       title="上一页">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">上一页</p>
@@ -922,7 +930,7 @@ indices;</p></li>
     </a>
     <a class="right-next"
        href="howto-custom-optimizer.html"
-       title="next page">
+       title="下一页">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一页</p>
         <p class="prev-next-title">操作指南：添加自定义优化器</p>
@@ -936,15 +944,17 @@ indices;</p></li>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> 目录
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-base-class">选择基类</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-example">完整示例</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-minimal-template">最小模板</a></li>
@@ -998,8 +1008,8 @@ indices;</p></li>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   
   <footer class="bd-footer">
