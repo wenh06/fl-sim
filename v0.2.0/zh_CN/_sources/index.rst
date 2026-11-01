@@ -1,0 +1,65 @@
+.. fl-sim documentation master file, created by
+   sphinx-quickstart on Tue Jul 18 22:53:23 2023.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to fl-sim's documentation!
+==================================
+
+A Simple Simulation Framework for Federated Learning Based on PyTorch.
+
+Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gitee.com/wenh06/fl-sim/>`_
+
+.. toctree::
+   :caption: Getting started
+   :maxdepth: 1
+
+   install
+   quickstart
+   concepts
+
+.. toctree::
+   :caption: Tutorials
+   :maxdepth: 1
+
+   tutorial-first-experiment
+   tutorial-cli-matrix
+   tutorial-visualization
+   tutorial-parallel-reproducible
+
+.. toctree::
+   :caption: How-to guides
+   :maxdepth: 1
+
+   howto-custom-algorithm
+   howto-custom-dataset
+   howto-custom-optimizer
+
+.. toctree::
+   :caption: API Reference
+   :maxdepth: 1
+
+   api/nodes
+   api/messages
+   api/datasets
+   api/models
+   api/optimizers
+   api/regularizers
+   api/utils
+   api/config_reference
+
+.. toctree::
+   :caption: Advanced Topics
+   :maxdepth: 1
+
+   algorithms
+   parallel_execution
+   cli
+   viz
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

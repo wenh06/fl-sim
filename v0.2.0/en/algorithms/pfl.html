@@ -1,0 +1,1283 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
+    <title>Personalized Federated Learning Algorithms &#8212; fl-sim 0.2.1.dev1+gacf7915e7 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=4418a689" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/codeblock.css?v=d29e50c4" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/versions.css?v=b1c81d98" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+
+    <script src="../_static/documentation_options.js?v=2b94dd1c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/proof.js"></script>
+    <script src="../_static/js/codeblock.js?v=82bf629b"></script>
+    <script src="../_static/js/versions.js?v=6609812c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+    <script>
+            if (window.pseudocode && !window.pseudocode.mathRenderer) {
+                window.pseudocode.mathRenderer = 'katex';
+            }
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.js"></script>
+    <script>
+        async function renderPseudocodeWithMath() {
+            try {
+                if (window.MathJax) {
+                    await MathJax.startup.promise;
+                    console.log("pseudocode2: MathJax is ready");
+                }
+
+                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
+                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
+                console.log("pseudocode2: Pseudocode rendered");
+
+                if (window.MathJax) {
+                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
+                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
+                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
+                    }).catch(err => {
+                        console.warn("pseudocode2: MathJax typeset failed:", err);
+                    });
+                }
+            } catch (err) {
+                console.error("pseudocode2: Render failed:", err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
+        } else {
+            renderPseudocodeWithMath();
+        }
+    </script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml-full.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms/pfl';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parallel execution layer" href="../parallel_execution.html" />
+    <link rel="prev" title="Skipping Algorithms in Federated Learning" href="skipping.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">fl-sim 0.2.1.dev1+gacf7915e7 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Core concepts</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial-first-experiment.html">Tutorial: a first controlled experiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial-cli-matrix.html">Tutorial: experiment matrices from the CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial-visualization.html">Tutorial: visualize and export results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial-parallel-reproducible.html">Tutorial: parallel and reproducible runs</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to guides</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../howto-custom-algorithm.html">How to: implement a custom algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto-custom-dataset.html">How to: add a custom dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto-custom-optimizer.html">How to: add a custom optimizer</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/nodes.html">fl_sim.nodes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.Node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.Server.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.Client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/messages.html">fl_sim.messages</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/datasets.html">fl_sim.data_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/models.html">fl_sim.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.ResNet18.html">ResNet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.ResNet10.html">ResNet10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.ShrinkedResNet.html">ShrinkedResNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.MLP.html">MLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.SVC.html">SVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.SVR.html">SVR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.REGMixin.html">REGMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/optimizers.html">fl_sim.optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/regularizers.html">fl_sim.regularizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/utils.html">fl_sim.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/config_reference.html">Algorithm Configuration Reference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../algorithms.html">Federated learning algorithms</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="notation.html">Notation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview of Optimization Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proximal.html">Proximal Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="primal_dual.html">Primal-Dual Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operator_splitting.html">Operator Splitting Algorithms in Federated Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skipping.html">Skipping Algorithms in Federated Learning</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Personalized Federated Learning Algorithms</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel_execution.html">Parallel execution layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../viz.html">Visualization subsystem</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/edit/master/docs/source/algorithms/pfl.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/issues/new?title=Issue%20on%20page%20%2Falgorithms/pfl.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/algorithms/pfl.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Personalized Federated Learning Algorithms</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>: Loopless Local SGD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedme-personalized-federated-mean"><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>: Personalized Federated Mean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ditto-fair-and-robust-personalized-models"><code class="docutils literal notranslate"><span class="pre">Ditto</span></code>: Fair and Robust Personalized Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apfl-adaptive-personalized-federated-learning"><code class="docutils literal notranslate"><span class="pre">APFL</span></code>: Adaptive Personalized Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddyn-dynamic-regularized-federated-learning"><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>: Dynamic Regularized Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedmac-personalized-fl-via-maximizing-correlation"><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code>: Personalized FL via Maximizing Correlation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>: Fusion Penalized Federated Clustering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>: Personalized Federated Learning Based on Across-Client Common Representation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="personalized-federated-learning-algorithms">
+<span id="fl-alg-pfl"></span><h1>Personalized Federated Learning Algorithms<a class="headerlink" href="#personalized-federated-learning-algorithms" title="Link to this heading">#</a></h1>
+<p>In personalized federated learning (PFL), each client seeks a model tailored to its own data
+distribution while still benefiting from the knowledge of the other clients. A simple and general
+way to formulate PFL is via <em>weak consensus</em>: instead of enforcing full consensus
+<span class="math notranslate nohighlight">\(\theta_1 = \cdots = \theta_K\)</span>, one adds a regularizer <span class="math notranslate nohighlight">\(\mathcal{R}\)</span> that penalizes the
+deviation between the local models. This page collects the PFL algorithms (implemented in
+<code class="docutils literal notranslate"><span class="pre">fl_sim</span></code> or closely related) together with their modeling, theory, and pseudocodes.</p>
+<section id="l2sgd-loopless-local-sgd">
+<span id="fl-alg-pfl-l2sgd"></span><h2><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>: Loopless Local SGD<a class="headerlink" href="#l2sgd-loopless-local-sgd" title="Link to this heading">#</a></h2>
+<p>The simplest algorithm of this family is the loopless stochastic gradient descent
+(Loopless Local SGD, <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>) introduced in [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>].
+It considers the following weak-consensus problem</p>
+<div class="math notranslate nohighlight" id="equation-l2sgd">
+<span class="eqno">(1)<a class="headerlink" href="#equation-l2sgd" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize &amp; F(\Theta) = f(\Theta) + \lambda \varphi(\Theta) \\
+\text{where} &amp; f(\Theta) = \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta_k), \\
+&amp; \varphi(\Theta) = \frac{1}{2K} \sum\limits_{k=1}^K \left\lVert \theta_k - \bar{\theta} \right\rVert^2
+= \frac{1}{2K} \sum\limits_{k=1}^K \left\lVert \theta_k - \frac{1}{K} \sum\limits_{j=1}^K \theta_j \right\rVert^2, \\
+&amp; \Theta = \col(\theta_1, \ldots, \theta_K),
+\end{array}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda \geqslant 0\)</span> is the penalty coefficient and
+<span class="math notranslate nohighlight">\(\bar{\theta} = \frac{1}{K} \sum_{k=1}^K \theta_k\)</span> is the global average model.
+For <span class="math notranslate nohighlight">\(0 &lt; \lambda &lt; \infty\)</span>, the solution <span class="math notranslate nohighlight">\(\bar{\theta}, \theta_1, \ldots, \theta_K\)</span> is
+called a set of <em>mixed models</em>. It is easy to see that this problem is equivalent to the problem
+considered by <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> (cf. the constrained problem in the
+<a class="reference internal" href="proximal.html#fl-alg-proximal"><span class="std std-ref">proximal algorithms section</span></a>).</p>
+<p>Instead of evaluating the full gradient <span class="math notranslate nohighlight">\(\nabla F = \nabla f + \lambda \nabla \varphi\)</span> at
+every iteration, [Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>] defines an unbiased stochastic gradient of
+<span class="math notranslate nohighlight">\(F\)</span></p>
+<div class="math notranslate nohighlight" id="equation-l2sgd-grad">
+<span class="eqno">(2)<a class="headerlink" href="#equation-l2sgd-grad" title="Link to this equation">#</a></span>\[\begin{split}G(\Theta) := \begin{cases}
+\frac{\nabla f(\Theta)}{1 - p}, &amp; \text{with probability } 1 - p, \\
+\frac{\lambda \nabla \varphi(\Theta)}{p}, &amp; \text{with probability } p,
+\end{cases}\end{split}\]</div>
+<p>with <span class="math notranslate nohighlight">\(p \in (0, 1)\)</span>. Note that computing
+<span class="math notranslate nohighlight">\(\nabla f(\Theta) = \col(\nabla f_1(\theta_1), \ldots, \nabla f_K(\theta_K))\)</span> is completely
+block-separable: in the federated setting, this step is carried out locally on the clients without
+any communication with the server, which is a significant advantage in communication-constrained
+scenarios. In this sense, <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code> already incorporates the <em>loopless</em> (skipping) idea; cf. the
+<code class="docutils literal notranslate"><span class="pre">ProxSkip</span></code> algorithm in the <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">skipping algorithms section</span></a>. Under the
+additional finite-sum assumption <span class="math notranslate nohighlight">\(f_k(\theta_k) = \sum_{j=1}^m f_{k,j}(\theta_k)\)</span>, one can
+further combine the stochastic gradient with randomized Kaczmarz-type (importance-sampled) updates;
+see [Kovalev <em>et al.</em><a class="footnote-reference brackets" href="#footcite-kovalev2020-loopless" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>] for the analysis of loopless methods.
+The resulting method is summarized below.</p>
+<div class="pseudocode-container docutils container" id="pcode-l2sgd">
+<pre class="scopeline-pseudocode" id="pseudocode-140249010114384" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{L2SGD}}
+\begin{algorithmic}
+\REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ probability $p \in (0, 1)$
+
+\STATE {Initiation:}
+\STATE local (clients) model parameters $\theta_k^{(0)} \in \R^d, ~ \forall k \in [K]$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+\STATE \COMMENT{with probability $1-p$: no global communication, only clients update}
+\STATE \FOR{each client $k \in [K]$ {in parallel}}
+\STATE sample $j \in [m]$ (uniformly at random)
+\STATE $g_k^{(t)} \gets \frac{1}{K(1-p)} \left( \nabla f_{k,j}(\theta_k^{(t)}) \right)$
+\STATE $\theta_k^{(t+1)} \gets \theta_k^{(t)} - \eta g_k^{(t)}$
+\STATE \ENDFOR
+
+\STATE \COMMENT{with probability $p$: global communication}
+\STATE client $k$ sends $\theta_{k}^{(t)}$ to the server, $\forall k \in [K]$
+\STATE {Server Update:}
+\STATE $\hspace{1.3em}$ $\theta^{(t)} \gets \frac{1}{K} \sum\limits_{k=1}^K \theta_{k}^{(t)}$ \COMMENT{compute the global average}
+\STATE server broadcasts $\theta^{(t)}$ to clients $k \in [K]$
+\STATE {Clients Update:}
+\STATE \FOR{each client $k \in [K]$ {in parallel}}
+\STATE $g_k^{(t)} \gets \frac{\lambda}{Kp} \left( \theta_k^{(t)} - \theta^{(t)} \right)$
+\STATE $\theta_k^{(t+1)} \gets \theta_k^{(t)} - \eta g_k^{(t)}$
+\STATE \ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="pfedme-personalized-federated-mean">
+<span id="fl-alg-pfl-pfedme"></span><h2><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>: Personalized Federated Mean<a class="headerlink" href="#pfedme-personalized-federated-mean" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">pFedMe</span></code> algorithm [Dinh <em>et al.</em><a class="footnote-reference brackets" href="#footcite-t2020pfedme" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>] considers a weak-consensus problem of the
+same family as <a class="reference internal" href="#equation-l2sgd">(1)</a>, with the global model appearing as a single variable
+<span class="math notranslate nohighlight">\(\theta \in \R^d\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-obj">
+<span class="eqno">(3)<a class="headerlink" href="#equation-pfedme-obj" title="Link to this equation">#</a></span>\[ \begin{align}\begin{aligned}\DeclareMathOperator*{\minimize}{minimize}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\prox}{\mathbf{prox}}\\\minimize_{\theta, \theta_1, \ldots, \theta_K} \quad \sum\limits_{k=1}^K \left\{ f_k(\theta_k) + \frac{\lambda}{2} \left\lVert \theta_k - \theta \right\rVert^2 \right\},\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda \geqslant 0\)</span> is the penalty coefficient. Exploiting the center–client
+structure of federated learning, the problem is equivalently reformulated as a <em>bi-level
+optimization problem</em>,</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-bilevel">
+<span class="eqno">(4)<a class="headerlink" href="#equation-pfedme-bilevel" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize &amp; F(\theta) := \frac{1}{K} \sum\limits_{k=1}^K F_k(\theta), \\
+\text{where} &amp; F_k(\theta) = \min\limits_{\theta_k \in \R^d} \left\{ f_k(\theta_k) + \frac{\lambda}{2} \left\lVert \theta_k - \theta \right\rVert^2 \right\},
+\end{array}\end{split}\]</div>
+<p>whose inner objective <span class="math notranslate nohighlight">\(F_k(\theta)\)</span> is exactly the <em>Moreau envelope</em> of <span class="math notranslate nohighlight">\(f_k\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{M}_{f_k, \lambda}(\theta) := \inf_{\theta_k} \{ f_k(\theta_k) + \frac{\lambda}{2} \lVert \theta_k - \theta \rVert^2 \}\)</span>,
+and the inner minimizer is the proximal operator
+<span class="math notranslate nohighlight">\(\prox_{f_k, \lambda}(\theta) := \argmin_{\theta_k} \{ f_k(\theta_k) + \frac{\lambda}{2} \lVert \theta_k - \theta \rVert^2 \}\)</span>
+evaluated at the global model. This proximal point is precisely the personalized model of client
+<span class="math notranslate nohighlight">\(k\)</span>. By the Moreau envelope–proximal operator relation, the gradient of the outer
+objective is</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-grad">
+<span class="eqno">(5)<a class="headerlink" href="#equation-pfedme-grad" title="Link to this equation">#</a></span>\[\nabla F(\theta) = \frac{1}{K} \sum\limits_{k=1}^K \nabla \mathcal{M}_{f_k, \lambda} (\theta)
+= \frac{\lambda}{K} \sum\limits_{k=1}^K \left( \theta - \prox_{f_k, \lambda} (\theta) \right),\]</div>
+<p>so that one (stochastic) gradient step on <span class="math notranslate nohighlight">\(F\)</span> decomposes into the average of the client-side
+partial updates <span class="math notranslate nohighlight">\(\theta^{(t)} - \eta \lambda \left( \theta^{(t)} - \prox_{f_k, \lambda} (\theta^{(t)}) \right)\)</span>.
+Operationally, each client holds a copy <span class="math notranslate nohighlight">\(\omega_k^{(t, r)}\)</span> of the global model and,
+between two communications, alternates for <span class="math notranslate nohighlight">\(R\)</span> rounds</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-local">
+<span class="eqno">(6)<a class="headerlink" href="#equation-pfedme-local" title="Link to this equation">#</a></span>\[\theta_k^{(t, r)} \gets \prox_{f_k, \lambda} \left( \omega_k^{(t, r)}; \ b_r \right),
+\qquad
+\omega_k^{(t, r+1)} \gets \omega_k^{(t, r)} - \eta \lambda \left( \omega_k^{(t, r)} - \prox_{f_k, \lambda} \left( \omega_k^{(t, r)} \right) \right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(b_r\)</span> is the minibatch of round <span class="math notranslate nohighlight">\(r\)</span>; the server then aggregates</p>
+<div class="math notranslate nohighlight" id="equation-pfedme-agg">
+<span class="eqno">(7)<a class="headerlink" href="#equation-pfedme-agg" title="Link to this equation">#</a></span>\[\theta^{(t+1)} \gets (1-\beta)\,\theta^{(t)} + \frac{\beta}{\# \mathcal{S}^{(t)}} \sum\limits_{k \in \mathcal{S}^{(t)}} \omega_{k}^{(t, R)}.\]</div>
+<p>Note that the two parts of <a class="reference internal" href="#equation-pfedme-local">(6)</a> are executed for <span class="math notranslate nohighlight">\(R\)</span> local rounds <em>before</em> any
+communication happens – yet another instance of the loopless (skipping) idea;
+cf. <a class="reference internal" href="#fl-alg-pfl-l2sgd"><span class="std std-ref">L2SGD</span></a> and the <a class="reference internal" href="skipping.html#fl-alg-skipping"><span class="std std-ref">skipping algorithms section</span></a>.
+The pseudocode is summarized below.</p>
+<div class="pseudocode-container docutils container" id="pcode-pfedme">
+<pre class="scopeline-pseudocode" id="pseudocode-140249009964048" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{pFedMe}}
+\begin{algorithmic}
+\REQUIRE penalty coefficient $\lambda,$ learning rate $\eta,$ global update smoothing factor $\beta,$ {\bfseries proximal solvers} $\texttt{prox\_update}_k$
+
+\STATE {\bfseries Initiation:}
+\STATE $\hspace{1.3em}$ {\bfseries Init server:} global model parameters $\theta^{(0)} \in \mathbb{R}^d$
+\STATE $\hspace{1.3em}$ {\bfseries Init clients:} personalized model parameters $\theta_k^{(0)} \in \mathbb{R}^d, ~ \forall k \in [K]$
+
+\FOR{each round $t = 0, \cdots, T-1$}
+    \STATE Server sends $\theta^{(t)}$ to all clients
+    \FOR{each client $k = 1, \cdots, K$ in parallel}
+        \STATE $\omega_{k}^{(t, 0)} = \theta^{(t)}$ \COMMENT{a copy of the global model $\theta^{(t)}$}
+        \FOR{$r = 0,\cdots, R-1$}
+            \COMMENT{solve inner problem $\min\limits_{\theta_k \in \mathbb{R}^d} \left\{ f_k(\theta_k) + \frac{\lambda}{2} \left\lVert \theta_k - \theta \right\rVert^2 \right\}$}
+            \STATE sample a mini-batch $b_r$
+            \COMMENT{use proximal solver $\texttt{prox\_update}_k$ to solve $\underset{\theta_k}{\text{argmin}} \left\{ \ell_k(\theta_k; b_r) + \frac{\lambda}{2} \left\lVert \theta_k - \omega_{k}^{(t, r)} \right\rVert^2 \right\}, \text{ where } f_k(\theta_k) = \mathbb{E}_{b}[\ell_k(\theta_k; b)]$}
+            \STATE $\theta_k^{(t, r)} \gets \texttt{prox\_update}_k (\omega_{k}^{(t, r)}; b_r)$
+            \COMMENT{update the local copy of the global model}
+            \STATE $\omega_{k}^{(t, r+1)} \gets \omega_{k}^{(t, r)} - \eta \lambda \left( \omega_{k}^{(t, r)} - \theta_k^{(t, r)} \right)$
+        \ENDFOR
+        \STATE $\theta_k^{(t+1)} \gets \theta_k^{(t, R)}$ \COMMENT{update the personalized model}
+    \ENDFOR
+    \STATE Server uniformly samples a subset of clients $\mathcal{S}^{(t)}$
+    \STATE each client in $\mathcal{S}^{(t)}$ sends the local model $\omega_{k}^{(t, R)}$ to the server
+    \STATE Sever update $\theta^{(t+1)} \gets (1-\beta)\theta^{(t)} + \frac{\beta}{\# \mathcal{S}^{(t)}} \sum\limits_{k \in \mathcal{S}^{(t)}} \omega_{k}^{(t, R)}$
+\ENDFOR
+\STATE final global model: $\theta^* \gets \theta^{(T)}$
+\STATE final personalized models: $\theta_k^* \gets \theta_k^{(T)}$
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="ditto-fair-and-robust-personalized-models">
+<span id="fl-alg-pfl-ditto"></span><h2><code class="docutils literal notranslate"><span class="pre">Ditto</span></code>: Fair and Robust Personalized Models<a class="headerlink" href="#ditto-fair-and-robust-personalized-models" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Ditto</span></code> algorithm [Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>] develops the proximal-subproblem idea of
+<code class="docutils literal notranslate"><span class="pre">FedProx</span></code> into a <em>bi-level</em> formulation seen from the <em>client’s</em> perspective (<code class="docutils literal notranslate"><span class="pre">APFL</span></code>,
+proposed slightly earlier, adopts a similar viewpoint; see below),</p>
+<div class="math notranslate nohighlight" id="equation-ditto-bilevel">
+<span class="eqno">(8)<a class="headerlink" href="#equation-ditto-bilevel" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize\limits_{\omega_k} &amp; h_k(\omega_k, \theta^*) := f_k(\omega_k) + \frac{\mu}{2} \lVert \omega_k - \theta^* \rVert^2, \\
+\text{subject to} &amp; \theta^* \in \argmin\limits_{\theta} G\left( f_1(\theta), \cdots, f_K(\theta) \right),
+\end{array}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(G\)</span> is the aggregation rule applied by the server to the client models, e.g. plain
+averaging as in <code class="docutils literal notranslate"><span class="pre">FedAvg</span></code>. Reading the formulation: the inner problem is a plain federated
+optimization problem on the global model <span class="math notranslate nohighlight">\(\theta\)</span> alone, while the outer problem attaches
+to each client a proximal task for personalization – and the personalized model
+<span class="math notranslate nohighlight">\(\omega_k\)</span> does <em>not</em> participate in the global update. The global and the personalized
+models are thereby decoupled, and their updates can be scheduled flexibly.</p>
+<p>Consequently, each client solves two problems per round: the global update
+<span class="math notranslate nohighlight">\(\theta_k^{(t)} \gets \operatorname{\mathbf{UpdateGlobal}}(\theta^{(t)}, f_k)\)</span> (the inner
+problem), and the proximal task whose solution tracks the moving center
+<span class="math notranslate nohighlight">\(\theta^{(t)}\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-ditto-local">
+<span class="eqno">(9)<a class="headerlink" href="#equation-ditto-local" title="Link to this equation">#</a></span>\[\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta \left( \nabla f_k(\omega_k^{(t)}) + \mu \left( \omega_k^{(t)} - \theta^{(t)} \right) \right).\]</div>
+<p>Unlike <code class="docutils literal notranslate"><span class="pre">FedSplit</span></code> or <code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>, where the proximal operator is solved in an inner loop to
+(approximate) optimality, <code class="docutils literal notranslate"><span class="pre">Ditto</span></code> executes only a <em>single</em> (stochastic) gradient step per round
+for the outer problem, letting the proximal center <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> evolve alongside the
+global model. The pseudocode is summarized below.</p>
+<div class="pseudocode-container docutils container" id="pcode-ditto">
+<pre class="scopeline-pseudocode" id="pseudocode-140248784071536" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{Ditto}}
+\begin{algorithmic}
+\REQUIRE penalty coefficient $\mu,$ learning rate $\eta,$ methods $\textbf{UpdateGlobal}, \textbf{Aggregate}$
+
+\STATE {\bfseries Initiation:}
+\STATE $\hspace{1.3em}$ {\bfseries Init server:} global model parameters $\theta^{(0)} \in \mathbb{R}^d$
+\STATE $\hspace{1.3em}$ {\bfseries Init clients:} local model parameters $\omega_k^{(0)} \in \mathbb{R}^d, ~ \forall k \in [K]$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+    \STATE $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$
+    \STATE broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$
+    \FOR{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}
+        \COMMENT{solve the local sub-problem of $G(\dot)$ inexactly starting from $\theta^{(t)}$ to obtain $\theta_k^{(t)}$}
+        \STATE $\theta_k^{(t)} \gets \textbf{UpdateGlobal}(\theta^{(t)}, f_k)$
+        \COMMENT{update the personalized model via solving the proximal problem}
+        \STATE $\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta \left( \nabla f_k(\omega_k^{(t)}) + \mu (\omega_k^{(t)} - \theta^{(t)}) \right)$
+        \STATE send $\Delta_k^{(t)} \gets \theta_k^{(t)} - \theta^{(t)}$ to server
+    \ENDFOR
+    \STATE {\bfseries Server Update:}
+    \STATE $\hspace{1.3em}$ $\theta^{(t+1)} \gets \textbf{Aggregate} (\theta^{(t)}, \{ \Delta_k^{(t)} \}_{k \in \mathcal{S}^{(t)}})$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="apfl-adaptive-personalized-federated-learning">
+<span id="fl-alg-pfl-apfl"></span><h2><code class="docutils literal notranslate"><span class="pre">APFL</span></code>: Adaptive Personalized Federated Learning<a class="headerlink" href="#apfl-adaptive-personalized-federated-learning" title="Link to this heading">#</a></h2>
+<p>Proposed slightly before <code class="docutils literal notranslate"><span class="pre">Ditto</span></code> [Deng <em>et al.</em><a class="footnote-reference brackets" href="#footcite-deng2020-apfl" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>], <code class="docutils literal notranslate"><span class="pre">APFL</span></code> considers the
+bi-level problem</p>
+<div class="math notranslate nohighlight" id="equation-apfl-bilevel">
+<span class="eqno">(10)<a class="headerlink" href="#equation-apfl-bilevel" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize\limits_{\omega_k \in \mathrm{dom} f_k} &amp; h_k(\omega_k, \theta^*) := f_k\left( \alpha_k \omega_k + (1 - \alpha_k) \theta^* \right), \\
+\text{subject to} &amp; \theta^* \in \argmin\limits_{\theta} \frac{1}{K} \sum\limits_{k=1}^K f_k(\theta),
+\end{array}\end{split}\]</div>
+<p>with the <em>mixture weight</em> <span class="math notranslate nohighlight">\(\alpha_k \in (0, 1)\)</span>. The main difference from
+<a class="reference internal" href="#equation-ditto-bilevel">(8)</a> is the personalization mechanism: instead of a quadratic proximal term, the
+local objective is evaluated at the convex combination
+<span class="math notranslate nohighlight">\(\alpha_k \omega_k + (1 - \alpha_k) \theta^*\)</span> of an auxiliary local model and the global
+model, and <span class="math notranslate nohighlight">\(\alpha_k\)</span> plays the same “personalization degree” role as the penalty
+<span class="math notranslate nohighlight">\(\mu\)</span> in a proximal term. The resulting personalized model is</p>
+<div class="math notranslate nohighlight" id="equation-apfl-model">
+<span class="eqno">(11)<a class="headerlink" href="#equation-apfl-model" title="Link to this equation">#</a></span>\[\hat{\omega}_k = \alpha_k \omega_k^* + (1 - \alpha_k) \theta^*,
+\qquad
+\omega_k^* = \argmin\limits_{\omega_k \in \mathrm{dom} f_k} f_k\left( \alpha_k \omega_k + (1 - \alpha_k) \theta^* \right).\]</div>
+<p>A caveat worth noting: when <span class="math notranslate nohighlight">\(\mathrm{dom} f_k\)</span> is a <em>proper</em> subset of <span class="math notranslate nohighlight">\(\R^d\)</span>, the
+convex combination in <a class="reference internal" href="#equation-apfl-model">(11)</a> may fail to attain a minimizer of <span class="math notranslate nohighlight">\(f_k\)</span> – the range
+of <span class="math notranslate nohighlight">\(\alpha_k \omega_k^* + (1 - \alpha_k) \theta^*\)</span> can be a strict subset of the search
+domain that excludes the minimizer. Enlarging the search domain of <span class="math notranslate nohighlight">\(\omega_k\)</span> restores
+attainability, but then <span class="math notranslate nohighlight">\(\hat{\omega}_k\)</span> could equally be obtained by minimizing
+<span class="math notranslate nohighlight">\(f_k\)</span> alone, i.e. by pure local training – which contradicts the very goal of personalized
+federated learning. The pseudocode is summarized below.</p>
+<div class="pseudocode-container docutils container" id="pcode-apfl">
+<pre class="scopeline-pseudocode" id="pseudocode-140249010118544" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{APFL}}
+\begin{algorithmic}
+\REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
+
+\STATE {Initiation:}
+    \STATE $\hspace{1.3em}$ {Init server:} global model parameters $\theta^{(0)} \in \mathbb{R}^d,$ random set of clients $S^{(t)} \subseteq [K]$
+    \STATE $\hspace{1.3em}$ {Init clients:} local model parameters $\omega_k^{(0)} \in \mathbb{R}^d, ~ \theta_k^{(0)} \gets \theta^{(0)}, ~ \forall k \in [K]$
+    \STATE $\hspace{1.3em}$ {Constants:} condition number $\kappa \gets \frac{L}{\mu},$ $a \gets \max\{128\kappa, \tau\}$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+    \FOR{each client $k \in \mathcal{S}^{(t)}$ {in parallel}}
+        \STATE $\bar{\omega}_k^{(t)} \gets \alpha_k \omega_k^{(t)} + (1-\alpha_k) \theta_k^{(t)}$ \COMMENT{mixture model}
+        \STATE $\eta^{(t)} \gets \frac{16}{\mu(t+a)}$ \COMMENT{decay learning rate}
+        \STATE $\theta_k^{(t+1)} \gets \theta_k^{(t)} - \eta^{(t)} \nabla f_k(\theta_k^{(t)})$ \COMMENT{inner problem (global model) update}
+        \STATE $\omega_k^{(t+1)} \gets \omega_k^{(t)} - \eta^{(t)} \nabla f_k(\bar{\omega}_k^{(t)})$ \COMMENT{outer problem (personalized model) update}
+        \COMMENT{Optional: adaptive mixture weights update}
+        \COMMENT{$\alpha_k \gets \alpha_k - \eta^{(t)} \nabla_{\alpha_k} f_k(\bar{\omega}_k^{(t)}) = \alpha_k - \eta^{(t)} \left\langle \omega_k^{(t)} - \theta_k^{(t)}, \nabla f_k(\bar{\omega}_k^{(t)}) \right\rangle$}
+    \ENDFOR
+
+    \IF{$t$ not divides synchronization gap $\tau$}
+        \STATE {Server updates:} $\mathcal{S}^{(t+1)} \gets \mathcal{S}^{(t)}$
+    \ELSE
+        \STATE each client $k \in \mathcal{S}^{(t)}$ sends $\theta_k^{(t+1)}$ to server
+        \STATE {Server updates:}
+            \STATE $\hspace{1.3em}$ $\theta^{(t+1)} \gets \frac{1}{\# \mathcal{S}^{(t)}} \sum_{k \in \mathcal{S}^{(t)}} \theta_k^{(t+1)}$
+            \STATE $\hspace{1.3em}$ $\mathcal{S}^{(t+1)} \gets$ (random set of clients) $\subseteq [K]$
+            \STATE $\hspace{1.3em}$ broadcast $\theta^{(t+1)}$ to clients $k \in S^{(t+1)}:$ $\theta_k^{(t+1)} \gets \theta^{(t+1)}$
+    \ENDIF
+\ENDFOR
+
+\STATE final personalized model: $\hat{\omega}_k \gets \frac{1}{S_T}\sum\limits_{t=1}^{T} p_t \left( \alpha_k \omega_k^{(t)} + (1-\alpha_k)\frac{1}{\#\mathcal{S}^{(t-1)}}\sum\limits_{k\in\mathcal{S}^{(t-1)}}\theta_k^{(t)} \right)$
+\STATE final global model: $\hat{\theta} \gets \frac{1}{S_T}\sum\limits_{t=1}^{T} \frac{p_t}{\#\mathcal{S}^{(t-1)}} \sum\limits_{k\in\mathcal{S}^{(t-1)}}\theta_k^{(t)}$
+\STATE where $p_t = (t+a)^2, S_T = \sum\limits_{t=1}^{T}p_t$
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="feddyn-dynamic-regularized-federated-learning">
+<span id="fl-alg-pfl-feddyn"></span><h2><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>: Dynamic Regularized Federated Learning<a class="headerlink" href="#feddyn-dynamic-regularized-federated-learning" title="Link to this heading">#</a></h2>
+<p>The algorithms above (and <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> alike) regularize the local objective with a <em>static</em>
+proximal term: in round <span class="math notranslate nohighlight">\((t+1)\)</span>, client <span class="math notranslate nohighlight">\(k\)</span> minimizes
+<span class="math notranslate nohighlight">\(f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2\)</span>.
+The <code class="docutils literal notranslate"><span class="pre">FedDyn</span></code> algorithm [Acar <em>et al.</em><a class="footnote-reference brackets" href="#footcite-acar2021feddyn" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>] refines this into a <em>dynamically
+regularized</em> objective,</p>
+<div class="math notranslate nohighlight" id="equation-feddyn-obj">
+<span class="eqno">(12)<a class="headerlink" href="#equation-feddyn-obj" title="Link to this equation">#</a></span>\[F_k(\theta_k) := f_k(\theta_k) - \left\langle \nabla f_k\left( \theta_k^{(t)} \right), \theta_k \right\rangle + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2,\]</div>
+<p>which is equivalent to</p>
+<div class="math notranslate nohighlight" id="equation-feddyn-adjusted">
+<span class="eqno">(13)<a class="headerlink" href="#equation-feddyn-adjusted" title="Link to this equation">#</a></span>\[F_k(\theta_k) = \left( f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right)
+- \left\langle \nabla f_k\left( \theta_k^{(t)} \right), \theta_k - \theta_k^{(t)} \right\rangle.\]</div>
+<p>In words: each (stochastic) step on <span class="math notranslate nohighlight">\(F_k\)</span> follows the descent direction of the
+prox-augmented objective, <em>corrected</em> by the linearization of <span class="math notranslate nohighlight">\(f_k\)</span> at the previous local
+iterate <span class="math notranslate nohighlight">\(\theta_k^{(t)}\)</span> (with <span class="math notranslate nohighlight">\(\mathfrak{g}_k^{(t)} := \nabla f_k(\theta_k^{(t)})\)</span>).
+Another remarkable property is the first-order optimality condition of <a class="reference internal" href="#equation-feddyn-obj">(12)</a>,</p>
+<div class="math notranslate nohighlight" id="equation-feddyn-opt">
+<span class="eqno">(14)<a class="headerlink" href="#equation-feddyn-opt" title="Link to this equation">#</a></span>\[\nabla f_k\left( \theta_k^{(t+1)} \right) - \nabla f_k\left( \theta_k^{(t)} \right) + \mu \left( \theta_k^{(t+1)} - \theta^{(t)} \right) = 0,\]</div>
+<p>which yields the recursion</p>
+<div class="math notranslate nohighlight" id="equation-feddyn-grad-iter">
+<span class="eqno">(15)<a class="headerlink" href="#equation-feddyn-grad-iter" title="Link to this equation">#</a></span>\[\mathfrak{g}_k^{(t+1)} \gets \mathfrak{g}_k^{(t)} - \mu \left( \theta_k^{(t+1)} - \theta^{(t)} \right),\]</div>
+<p>i.e. the local gradient estimate is maintained <em>without</em> additional function or gradient
+evaluations – a substantial computational and implementational convenience. The pseudocode is
+summarized below.</p>
+<div class="pseudocode-container docutils container" id="pcode-feddyn">
+<pre class="scopeline-pseudocode" id="pseudocode-140249009155248" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{FedDyn}}
+\begin{algorithmic}
+\REQUIRE penalty coeffecient $\mu$
+
+\STATE {\bfseries Initiation:}
+\STATE $\hspace{1.3em}$ {\bfseries Init server:} global model parameters $\theta^{(0)} \in \mathbb{R}^d,$ $h = 0 \in \mathbb{R}^d$
+\STATE $\hspace{1.3em}$ {\bfseries Init clients:} local gradient $\mathfrak{g}_k^{(0)} \gets 0 \in \mathbb{R}^d, ~ \forall k \in [K]$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+    \STATE $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$
+    \STATE broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$
+    \FOR{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}
+        \STATE $\theta_k^{(t+1)} \gets \underset{\theta_k}{\text{argmin}} \left\{ f_k(\theta_k) - \langle \mathfrak{g}_k^{(t)}, \theta_k \rangle + \frac{\mu}{2} \lVert \theta_k - \theta^{(t)} \rVert^2 \right\}$
+        \STATE $\mathfrak{g}_k^{(t+1)} \gets \mathfrak{g}_k^{(t)} - \mu (\theta_k^{(t+1)} - \theta^{(t)})$ \COMMENT{update local gradient}
+        \STATE send $\theta_k^{(t+1)}$ to server
+    \ENDFOR
+    \STATE {\bfseries Server Update:}
+    \STATE $\hspace{1.3em}$ $h^{(t+1)} \gets h^{(t)} - \frac{\mu}{K} \left(\sum\limits_{k \in \mathcal{S}^{(t)}} \theta_k^{(t+1)} - \theta^{(t)} \right)$
+    \STATE $\hspace{1.3em}$ $\theta^{(t+1)} \gets \left( \frac{1}{\# \mathcal{S}^{(t)}}\sum\limits_{k \in \mathcal{S}^{(t)}} \theta_k^{(t+1)} \right) - \frac{1}{\mu} h^{(t+1)}$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="pfedmac-personalized-fl-via-maximizing-correlation">
+<span id="fl-alg-pfl-pfedmac"></span><h2><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code>: Personalized FL via Maximizing Correlation<a class="headerlink" href="#pfedmac-personalized-fl-via-maximizing-correlation" title="Link to this heading">#</a></h2>
+<p>Related to the “direction correction” of <code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>, the <code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> algorithm
+[Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li2021pfedmac" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>] considers the bi-level problem</p>
+<div class="math notranslate nohighlight" id="equation-pfedmac-obj">
+<span class="eqno">(16)<a class="headerlink" href="#equation-pfedmac-obj" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize &amp; F(\theta) = \frac{1}{K} \sum\limits_{k=1}^K F_k(\theta), \\
+\text{where} &amp; F_k(\theta) := \min\limits_{\theta_k} \left\{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle + \frac{\mu}{2} \lVert \theta \rVert^2_2 \right\},
+\end{array}\end{split}\]</div>
+<p>in which the inner problem corrects the personalized model <span class="math notranslate nohighlight">\(\theta_k\)</span> using the global
+model <span class="math notranslate nohighlight">\(\theta\)</span> through their inner product. In probability and statistics,
+<span class="math notranslate nohighlight">\(\langle \theta_k, \theta \rangle\)</span> quantifies the <em>correlation</em> between the personalized
+and the global models; hence the technique is known as <em>maximizing correlation</em>. Two elementary
+rewritings connect it to the formulations above: moving the global term out of the inner
+minimization gives <span class="math notranslate nohighlight">\(F_k(\theta) = F_k'(\theta) + \frac{\mu}{2} \lVert \theta \rVert^2_2\)</span>
+with <span class="math notranslate nohighlight">\(F_k'(\theta) := \min_{\theta_k} \{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle \}\)</span>,
+and completing the square shows</p>
+<div class="math notranslate nohighlight" id="equation-pfedmac-adjusted">
+<span class="eqno">(17)<a class="headerlink" href="#equation-pfedmac-adjusted" title="Link to this equation">#</a></span>\[F_k(\theta) = \min\limits_{\theta_k} \left\{ f_k(\theta_k) + \frac{\mu}{2} \lVert \theta_k - \theta \rVert^2_2 - \frac{\mu}{2} \lVert \theta_k \rVert^2_2 \right\},\]</div>
+<p>i.e. the prox-augmented objective corrected by a quadratic term in <span class="math notranslate nohighlight">\(\theta_k\)</span> itself –
+exactly the flavor of <a class="reference internal" href="#equation-feddyn-adjusted">(13)</a>, so the same one-step direction-correction updates
+apply. <code class="docutils literal notranslate"><span class="pre">pFedMac</span></code> further studies <em>sparse</em> personalized models via an additional
+<span class="math notranslate nohighlight">\(\ell_1\)</span> term,</p>
+<div class="math notranslate nohighlight" id="equation-pfedmac-sparse">
+<span class="eqno">(18)<a class="headerlink" href="#equation-pfedmac-sparse" title="Link to this equation">#</a></span>\[F_k(\theta) := \min\limits_{\theta_k} \left\{ f_k(\theta_k) - \mu \langle \theta_k, \theta \rangle + \frac{\mu}{2} \lVert \theta \rVert^2_2 + \gamma \lVert \theta_k \rVert_1 \right\},\]</div>
+<p>and extends the center–client hierarchy to a <em>three-level</em> structure with sub-centers (edges or
+hubs), each aggregating a cluster <span class="math notranslate nohighlight">\(\{ \theta_{k,1}, \ldots, \theta_{k, J_k} \}\)</span> of clients
+before communicating with the center – a structure expected to become increasingly common as
+federated networks scale, and closely related to clustered FL. The pseudocode is summarized
+below.</p>
+<div class="pseudocode-container docutils container" id="pcode-pfedmac">
+<pre class="scopeline-pseudocode" id="pseudocode-140249009969488" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{pFedMac}}
+\begin{algorithmic}
+\REQUIRE learning rate $\eta$, penalty coefficient $\lambda$, $\beta$
+
+\STATE {\bfseries Initiation:} global (server) model parameters $\theta^{(0)} \in \mathbb{R}^d$
+
+\FOR{each round $t = 0, 1, \cdots, T-1$}
+    \STATE $\mathcal{S}^{(t)} \gets$ (random set of clients) $\subseteq [K]$
+    \STATE broadcast $\theta^{(t)}$ to clients $k \in \mathcal{S}^{(t)}$
+    \FOR{each client $k \in \mathcal{S}^{(t)}$ {\bfseries in parallel}}
+        \STATE $\theta_k^{(t)} \gets$ {\bfseries ClientUpdate}$(k, \theta^{(t)})$
+        \STATE send $\theta_k^{(t)}$ to server
+    \ENDFOR
+    \STATE {\bfseries Server Update:}
+    \STATE $\hspace{1.3em}$ $\theta^{(t+1)} \gets (1 - \beta) \theta^{(t)} + \frac{\beta}{\lvert \mathcal{S}^{(t)} \rvert} \sum\limits_{k\in \mathcal{S}^{(t)}} \theta_k^{(t)}$
+\ENDFOR
+
+\PROCEDURE{ClientUpdate}{$(k, \theta)$} \COMMENT{on client $k$}
+\STATE $\omega_k^{(t,0)} = \theta_k^{(t,0)} = \theta^{(t)}$
+\FOR{local step $r = 0, 1, \cdots, R-1$}
+  \STATE $\mathcal{D}_{k, r} \gets$ (sample a mini-batch data)
+  \STATE $\omega_k^{(t,r)} \gets \argmin_{\omega_k} \left\{ \ell_k(\omega_k; \mathcal{D}_{k, r}) - \lambda \langle \omega_k, \theta_k^{(t,r)} \rangle \right\}$
+  \STATE $\theta_k^{(t,r+1)} \gets \theta_k^{(t,r)} - \eta\lambda \left( \theta_k^{(t,r)} - \omega_k^{(t,r)} \right)$
+\ENDFOR
+\RETURN{$\theta_k^{(t,R)}$}
+\ENDPROCEDURE
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="fpfc-fusion-penalized-federated-clustering">
+<span id="fl-alg-pfl-fpfc"></span><h2><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>: Fusion Penalized Federated Clustering<a class="headerlink" href="#fpfc-fusion-penalized-federated-clustering" title="Link to this heading">#</a></h2>
+<p>Beyond regularizing the deviation between each pair of <em>local</em> models (as in <code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>) or between
+the local model and the global one, one can also encourage <em>clusters</em> of clients to share identical
+models, without knowing the clusters a priori. The fusion penalized federated clustering
+(<code class="docutils literal notranslate"><span class="pre">FPFC</span></code>) algorithm (see <a class="reference external" href="https://arxiv.org/abs/2211.04218">arXiv:2211.04218</a>) achieves this by
+imposing a nonconvex <em>pairwise</em> fusion penalty on the model differences. Introducing the auxiliary
+variables <span class="math notranslate nohighlight">\(\theta_{ij} \equiv \omega_i - \omega_j\)</span> for all pairs <span class="math notranslate nohighlight">\(i, j \in [m]\)</span>, it considers</p>
+<div class="math notranslate nohighlight" id="equation-fpfc-obj">
+<span class="eqno">(19)<a class="headerlink" href="#equation-fpfc-obj" title="Link to this equation">#</a></span>\[\begin{split}\begin{array}{cl}
+\minimize\limits_{\omega, \theta} &amp; \sum\limits_{i=1}^m f_i(\omega_i) + \frac{1}{2m} \sum\limits_{i=1}^m \sum\limits_{j=1}^m \tilde{g}(\lVert \theta_{ij} \rVert) \\
+\text{subject to} &amp; \omega_i - \omega_j = \theta_{ij}, \qquad i, j \in [m],
+\end{array}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tilde{g}(\cdot)\)</span> is a smoothed SCAD-type penalty (parameterized by
+<span class="math notranslate nohighlight">\(\xi, \lambda, a\)</span>) whose proximal operator shrinks small pairwise differences towards zero
+(clients in the same cluster) while keeping large ones (clients in different clusters) almost
+untouched. The problem is solved via an ADMM-style (Douglas–Rachford) splitting with the augmented
+Lagrangian penalty <span class="math notranslate nohighlight">\(\rho\)</span> and dual variables <span class="math notranslate nohighlight">\(v_{ij}\)</span>: each round, a random subset of
+devices performs <span class="math notranslate nohighlight">\(T_i\)</span> local gradient epochs on
+<span class="math notranslate nohighlight">\(f_i(\omega) + \frac{\rho}{2} \lVert \omega - \zeta_i \rVert^2\)</span>, and the server applies the
+piecewise proximal update to <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> and ascends the duals for the pairs of active
+devices. After training, devices <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are assigned to the same cluster whenever
+<span class="math notranslate nohighlight">\(\lVert \theta_{ij} \rVert\)</span> is (nearly) zero. The pseudocode is summarized below; note that
+neither the number of clusters nor the cluster membership needs to be specified in advance.</p>
+<div class="pseudocode-container docutils container" id="pcode-fpfc">
+<pre class="scopeline-pseudocode" id="pseudocode-140248784068016" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{FPFC}}
+\begin{algorithmic}
+\REQUIRE number of devices $m,$ number of rounds $K,$ local epochs $T_i,$ stepsize $\alpha,$ penalty parameters $\xi, \lambda, a,$ and $\rho$
+
+\STATE {Initiation:}
+\STATE $\omega_1^0 = \cdots = \omega_m^0$ on the clients
+\STATE $\zeta_i^0 = \omega_i^0$ for $i \in [m]$, $\theta_{ij}^0 = 0$ and $v_{ij}^0 = 0$ for $i, j \in [m]$ on the server
+
+\FOR{each round $k = 0, 1, \cdots, K-1$}
+\STATE the server randomly chooses a subset of devices $\mathcal{A}_k$
+\STATE the server downloads $\zeta_i^k$ to each device $i \in \mathcal{A}_k$
+\STATE \FOR{each device $i \in \mathcal{A}_k$ {in parallel}}
+\STATE $\omega_i^{k,0} = \omega_i^k$
+\STATE \FOR{$t = 0, 1, \cdots, T_i - 1$}
+\STATE $\hspace{1.3em}$ $\omega_i^{k,t+1} = \omega_i^{k,t} - \alpha \left[ \nabla f_i(\omega_i^{k,t}) + \rho \left( \omega_i^{k,t} - \zeta_i^k \right) \right]$
+\STATE \ENDFOR
+\STATE $\omega_i^{k+1} = \omega_i^{k,T_i}$
+\STATE \ENDFOR
+\STATE each device $i \in \mathcal{A}_k$ uploads $\omega_i^{k+1}$ to the server
+\STATE {Server Update:}
+\STATE \FOR{$i, j \in \mathcal{A}_k$ ($i &lt; j$)}
+\STATE $\hspace{1.3em}$ $\delta_{ij}^{k+1} = \omega_i^{k+1} - \omega_j^{k+1} + v_{ij}^k / \rho$
+\STATE $\hspace{1.3em}$ $\theta_{ij}^{k+1} \gets \underset{\theta}{\text{prox}}$ of the (scaled) fusion penalty at $\delta_{ij}^{k+1}$ (Eq. (6) of the paper)
+\STATE $\hspace{1.3em}$ $v_{ij}^{k+1} = v_{ij}^k + \rho \left( \omega_i^{k+1} - \omega_j^{k+1} - \theta_{ij}^{k+1} \right)$
+\STATE $\hspace{1.3em}$ $\theta_{ji}^{k+1} = -\theta_{ij}^{k+1}, ~ v_{ji}^{k+1} = -v_{ij}^{k+1}$
+\STATE \ENDFOR
+\STATE for $i \notin \mathcal{A}_k$ or $j \notin \mathcal{A}_k$: $\theta_{ij}^{k+1} = \theta_{ij}^k, ~ v_{ij}^{k+1} = v_{ij}^k$
+\STATE for $i \in [m]$: $\hspace{0.5em}$ $\zeta_i^{k+1} = \frac{1}{m} \sum\limits_{j=1}^m \left( \omega_j^{k+1} + \theta_{ij}^{k+1} - v_{ij}^{k+1} / \rho \right)$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+</section>
+<section id="fedcr-personalized-federated-learning-based-on-across-client-common-representation">
+<span id="fl-alg-pfl-fedcr"></span><h2><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>: Personalized Federated Learning Based on Across-Client Common Representation<a class="headerlink" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation" title="Link to this heading">#</a></h2>
+<p>The methods above personalize the <em>whole</em> local model. <code class="docutils literal notranslate"><span class="pre">FedCR</span></code> (see
+<a class="reference external" href="https://proceedings.mlr.press/v202/zhang23w.html">ICML 2023</a>) instead decouples each local model
+<span class="math notranslate nohighlight">\(w_i = [w_i^f, w_i^p]\)</span> into a <em>feature extractor</em> (body) <span class="math notranslate nohighlight">\(w_i^f\)</span>, shared across
+clients and aggregated at the server, and a <em>predictor</em> (head) <span class="math notranslate nohighlight">\(w_i^p\)</span>, kept personal. The
+extractors are aligned through a <em>common representation</em>: for each class <span class="math notranslate nohighlight">\(c\)</span>, the local
+class-conditional mutual information is constrained to be close to the global one, which (via the
+Markov chain <span class="math notranslate nohighlight">\(y \to x \to z\)</span>) amounts to a class-wise feature alignment</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-cmi">
+<span class="eqno">(20)<a class="headerlink" href="#equation-fedcr-cmi" title="Link to this equation">#</a></span>\[I(z; x \mid y_i) - I_i(z; x_i \mid y_i) = \mathbb{E}_{p(x_i, y_i)} \mathbb{E}_{p(x \mid x_i, y_i)} \left[ \mathrm{KL}\left[ p(z \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
+<p>weighted by a Lagrange multiplier <span class="math notranslate nohighlight">\(\beta \geqslant 0\)</span> (the CMI regularizer). The
+representation mapping is modeled as a diagonal Gaussian
+<span class="math notranslate nohighlight">\(p(z \mid x_i) = \mathcal{N}\left(z \,\middle|\, \mu(x_i), \Sigma(x_i)\right)\)</span>, under which
+the intractable global posterior is estimated by a <em>product of experts</em> (PoE) over the class-wise
+local posteriors of the active clients <span class="math notranslate nohighlight">\(\mathcal{P}_t\)</span>, with prior <span class="math notranslate nohighlight">\(p(z) = \mathcal{N}(0, 1)\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-poe">
+<span class="eqno">(21)<a class="headerlink" href="#equation-fedcr-poe" title="Link to this equation">#</a></span>\[p(z^c \mid x) \propto p(z) \prod_{i \in \mathcal{P}_t} p^c(z \mid x_i), \qquad
+p^c(z \mid x_i) = \prod_{n = 1}^{N_i^{c}} p\left(z \,\middle|\, x_i^{(n)}\right)^{1 / N_i^{c}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(p^c(z \mid x_i)\)</span> is the (geometric-mean) local PoE over the <span class="math notranslate nohighlight">\(N_i^{c}\)</span> samples
+of class <span class="math notranslate nohighlight">\(c\)</span> at client <span class="math notranslate nohighlight">\(i\)</span>, computed on the fly from the latest forward passes of
+local training. As a product of Gaussians is itself Gaussian, both PoEs reduce to class-wise
+means and covariances: each client uploads <span class="math notranslate nohighlight">\((\mu_i^c, \Sigma_i^c)\)</span> for its classes only,
+and the server combines them analytically via the precisions,</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-poe-closed">
+<span class="eqno">(22)<a class="headerlink" href="#equation-fedcr-poe-closed" title="Link to this equation">#</a></span>\[\Sigma^c = \left( I + \sum_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}, \qquad
+\mu^c = \Sigma^c \sum_{i \in \mathcal{P}_t} \mu_i^c \left( \Sigma_i^c \right)^{-1},\]</div>
+<p>besides averaging the extractors, <span class="math notranslate nohighlight">\(w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum_{i \in \mathcal{P}_t} w_i^f\)</span>.
+Classes missed by all active clients keep the statistics of the previous round. The local
+objective of client <span class="math notranslate nohighlight">\(i\)</span> is its empirical loss plus the alignment term above,</p>
+<div class="math notranslate nohighlight" id="equation-fedcr-obj">
+<span class="eqno">(23)<a class="headerlink" href="#equation-fedcr-obj" title="Link to this equation">#</a></span>\[L_i = f_i(w_i) + \beta \, \mathbb{E}_{p(x_i, y_i)} \left[ \mathrm{KL}\left[ p(z^{c = y_i} \mid x) \,\middle\|\, p(z \mid x_i) \right] \right],\]</div>
+<p>optimized with the re-parameterization trick for the stochastic features. Since the PoE posterior
+can be sharper than any single expert, the common representation carries not only the common but
+also the complementary information across clients; the alignment term doubles as noise injection
+into the local features, which improves generalization and uncertainty calibration. Note that for
+<span class="math notranslate nohighlight">\(\beta = 0\)</span> and <span class="math notranslate nohighlight">\(\Sigma(x_i) = 0\)</span> (deterministic features), the method degenerates to
+<code class="docutils literal notranslate"><span class="pre">FedPer</span></code>. The pseudocode is summarized below.</p>
+<div class="pseudocode-container docutils container" id="pcode-fedcr">
+<pre class="scopeline-pseudocode" id="pseudocode-140249009904752" data-line-number="true">\begin{algorithm}
+\caption{PseudoCode for \texttt{FedCR}}
+\begin{algorithmic}
+\REQUIRE number of clients $m,$ number of rounds $T,$ local steps $K,$ learning rate $\eta,$ CMI coefficient $\beta$; class-wise initialization $\mu_0^c = 0,$ $\Sigma_0^c = I$ for all classes $c$
+
+\FOR{each round $t = 1, 2, \cdots, T$}
+\STATE the server samples a subset of active clients $\mathcal{P}_t$ and sends $w^f$, $\mu_t^c$ and $\Sigma_t^c$ ($\forall c \in \mathcal{C}$) to each $i \in \mathcal{P}_t$
+\STATE \FOR{each client $i \in \mathcal{P}_t$ {in parallel}}
+\STATE initialize the local model as $w_{i,0} = [w^f, w_i^p]$
+\FOR{$k = 1, 2, \cdots, K$}
+\STATE $\hspace{1.3em}$ update the whole network by SGD on the local objective:
+\STATE $\hspace{1.3em}$ $w_{i,k} = w_{i,k-1} - \eta \nabla L_i$, where
+\STATE $\hspace{2.3em}$ $L_i \approx \frac{1}{N_i} \sum\limits_{n=1}^{N_i} \left[ -\log \hat{p}\left( y_i^{(n)} \,\middle|\, z^{(n)} \right) + \beta \, \mathrm{KL}\left[ p(z^{c = y_i^{(n)}} \mid x) \,\middle\|\, p(z \mid x_i^{(n)}) \right] \right]$
+\STATE \ENDFOR
+\STATE aggregate the class-wise local features via the local PoE: $\mu_i^c, \Sigma_i^c$ for $c \in \mathcal{C}_i$
+\STATE keep the personal head $w_i^p = w_{i,K}^p$
+\STATE send $w_{i,K}^f$ and $\mu_i^c, \Sigma_i^c$ ($\forall c \in \mathcal{C}_i$) to the server
+\STATE \ENDFOR
+\STATE {Server Update:}
+\STATE average the feature extractors: $w^f = \frac{1}{\lvert \mathcal{P}_t \rvert} \sum\limits_{i \in \mathcal{P}_t} w_{i,K}^f$
+\STATE for classes $c$ contained in no active client: keep $\mu_t^c = \mu_{t-1}^c$, $\Sigma_t^c = \Sigma_{t-1}^c$
+\STATE aggregate the global class-wise features via the PoE with prior $p(z) = \mathcal{N}(0, 1)$, i.e. for $c$ contained in some active client:
+\STATE $\hspace{1.3em}$ $\Sigma_t^c = \left( I + \sum\limits_{i \in \mathcal{P}_t} \left( \Sigma_i^c \right)^{-1} \right)^{-1}$, \quad $\mu_t^c = \Sigma_t^c \sum\limits_{i \in \mathcal{P}_t} \mu_i^c \left( \Sigma_i^c \right)^{-1}$
+\STATE send $w^f$, $\mu_t^c$ and $\Sigma_t^c$ ($\forall c \in \mathcal{C}$) to the clients
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}</pre></div>
+<p class="rubric">References</p>
+<div class="docutils container" id="id9">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-hanzely2020federated" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>)</span>
+<p>Filip Hanzely and Peter Richtárik. Federated Learning of a Mixture of Global and Local Models. <em>arXiv preprint arXiv:2002.05516</em>, 2020.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-kovalev2020-loopless" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">2</a><span class="fn-bracket">]</span></span>
+<p>Dmitry Kovalev, Samuel Horváth, and Peter Richtárik. Don’t Jump Through Hoops and Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop. In Aryeh Kontorovich and Gergely Neu, editors, <em>Proceedings of the 31st International Conference on Algorithmic Learning Theory</em>, volume 117 of Proceedings of Machine Learning Research, 451–467. PMLR, 2 2020.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-t2020pfedme" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
+<p>Canh T. Dinh, Nguyen H. Tran, and Tuan Dung Nguyen. Personalized Federated Learning with Moreau Envelopes. In <em>Proceedings of the 34th International Conference on Neural Information Processing Systems</em>. Red Hook, NY, USA, 2020. Curran Associates Inc.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-li-2021-ditto" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">4</a><span class="fn-bracket">]</span></span>
+<p>Tian Li, Shengyuan Hu, Ahmad Beirami, and Virginia Smith. Ditto: Fair and Robust Federated Learning Through Personalization. In Marina Meila and Tong Zhang, editors, <em>Proceedings of the 38th International Conference on Machine Learning</em>, volume 139 of Proceedings of Machine Learning Research, 6357–6368. PMLR, 7 2021.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-deng2020-apfl" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">5</a><span class="fn-bracket">]</span></span>
+<p>Yuyang Deng, Mohammad Mahdi Kamani, and Mehrdad Mahdavi. Adaptive Personalized Federated Learning. <em>arXiv preprint arXiv:2003.13461v3</em>, 3 2020. <a class="reference external" href="https://doi.org/10.48550/ARXIV.2003.13461">doi:10.48550/ARXIV.2003.13461</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-acar2021feddyn" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">6</a><span class="fn-bracket">]</span></span>
+<p>Durmus Alp Emre Acar, Yue Zhao, Ramon Matas, Matthew Mattina, Paul Whatmough, and Venkatesh Saligrama. Federated Learning Based on Dynamic Regularization. In <em>International Conference on Learning Representations</em>. 2021.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-li2021pfedmac" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">7</a><span class="fn-bracket">]</span></span>
+<p>Yinchuan Li, Xiaofeng Liu, Xu Zhang, Yunfeng Shao, Qing Wang, and Yanhui Geng. Personalized Federated Learning via Maximizing Correlation with Sparse and Hierarchical Extensions. <em>arXiv preprint arXiv:2107.05330</em>, 2021.</p>
+</aside>
+</aside>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="skipping.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Skipping Algorithms in Federated Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../parallel_execution.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Parallel execution layer</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l2sgd-loopless-local-sgd"><code class="docutils literal notranslate"><span class="pre">L2SGD</span></code>: Loopless Local SGD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedme-personalized-federated-mean"><code class="docutils literal notranslate"><span class="pre">pFedMe</span></code>: Personalized Federated Mean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ditto-fair-and-robust-personalized-models"><code class="docutils literal notranslate"><span class="pre">Ditto</span></code>: Fair and Robust Personalized Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apfl-adaptive-personalized-federated-learning"><code class="docutils literal notranslate"><span class="pre">APFL</span></code>: Adaptive Personalized Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feddyn-dynamic-regularized-federated-learning"><code class="docutils literal notranslate"><span class="pre">FedDyn</span></code>: Dynamic Regularized Federated Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pfedmac-personalized-fl-via-maximizing-correlation"><code class="docutils literal notranslate"><span class="pre">pFedMac</span></code>: Personalized FL via Maximizing Correlation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fpfc-fusion-penalized-federated-clustering"><code class="docutils literal notranslate"><span class="pre">FPFC</span></code>: Fusion Penalized Federated Clustering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fedcr-personalized-federated-learning-based-on-across-client-common-representation"><code class="docutils literal notranslate"><span class="pre">FedCR</span></code>: Personalized Federated Learning Based on Across-Client Common Representation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By WEN Hao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, WEN Hao.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+
+  
+  <footer class="bd-footer">
+  </footer>
+  
+<div class="rst-versions" id="versions-flyout" role="note" aria-label="versions and languages">
+  <span class="rst-current-version" data-toggle="rst-versions" title="Switch version or language">
+    <span>v0.2.0</span>
+    <span class="rst-caret">▾</span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Languages</dt>
+      
+        <dd>
+          <a href="../../en/algorithms/pfl.html"
+             class="rst-current-item">English</a>
+        </dd>
+      
+        <dd>
+          <a href="../../zh_CN/algorithms/pfl.html"
+             >简体中文</a>
+        </dd>
+      
+    </dl>
+    
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd>
+            <a href="../../../latest/en/algorithms/pfl.html"
+               >latest</a>
+          </dd>
+        
+          <dd>
+            <a href="../../../en/algorithms/pfl.html"
+               class="rst-current-item">v0.2.0</a>
+          </dd>
+        
+      </dl>
+    
+  </div>
+</div>
+
+  </body>
+</html>
