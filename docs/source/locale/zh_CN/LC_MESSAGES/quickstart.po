@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fl-sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 23:45+0800\n"
+"POT-Creation-Date: 2026-11-01 15:54+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 #: ../../source/quickstart.rst:4
 msgid "Quickstart"
@@ -38,8 +38,8 @@ msgid "Prerequisites"
 msgstr "准备条件"
 
 #: ../../source/quickstart.rst:17
-msgid "Install fl-sim following :doc:`install` (``pip install git+https://github.com/wenh06/fl-sim.git``). Python 3.10+ with PyTorch is required."
-msgstr "按照 :doc:`install` 安装 fl-sim（``pip install git+https://github.com/wenh06/fl-sim.git``）。需要 Python 3.10+ 与 PyTorch。"
+msgid "Install fl-sim following :doc:`install` (``pip install git+https://github.com/wenh06/fl-sim.git``). Python 3.11+ with PyTorch is required."
+msgstr "按照 :doc:`install` 安装 fl-sim（``pip install git+https://github.com/wenh06/fl-sim.git``）。需要 Python 3.11+ 与 PyTorch。"
 
 #: ../../source/quickstart.rst:21
 msgid "Train your first model"
@@ -84,6 +84,7 @@ msgid "a ``.txt`` log with the human-readable console history;"
 msgstr "一个 ``.txt`` 日志，保存人类可读的控制台历史；"
 
 #: ../../source/quickstart.rst:65
+#, python-brace-format
 msgid ""
 "a ``.json`` log with the full metrics history, structured as ``{\"train\": {...}, \"val\": {\"Server\": [...], \"Client0\": [...], ...}}`` — one dict per evaluation, holding ``step``, ``acc``, "
 "``loss``, etc. This file is the input for visualization;"

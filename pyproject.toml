@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "A Simple Simulation Framework for Federated Learning Based on PyTorch"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [
     { name = "wenh06", email = "wenh06@gmail.com" },
 ]
@@ -17,10 +17,10 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
     "beautifulsoup4",
