@@ -24,7 +24,9 @@ msgid "Overview of Optimization Algorithms in Federated Learning"
 msgstr "联邦学习中的优化算法概述"
 
 #: ../../source/algorithms/overview.rst:6
-msgid "The most important contribution of the initial work on federated learning [:footcite:ct:`mcmahan2017fed_avg`] was the introduction of the Federated Averaging algorithm (``FedAvg``). Mathematically, federated learning solves the following problem of minimization of empirical risk function"
+msgid ""
+"The most important contribution of the initial work on federated learning [:footcite:ct:`mcmahan2017fed_avg`] was the introduction of the Federated Averaging algorithm (``FedAvg``). Mathematically, "
+"federated learning solves the following problem of minimization of empirical risk function"
 msgstr "联邦学习开创性的文献 [:footcite:ct:`mcmahan2017fed_avg`] 中，最重要的贡献便是联邦平均算法（ ``FedAvg`` ）的提出。数学上，联邦学习求解如下极小化经验风险函数的问题"
 
 #: ../../source/algorithms/overview.rst:10
@@ -36,7 +38,9 @@ msgid ""
 msgstr ""
 
 #: ../../source/algorithms/overview.rst:18
-msgid "where :math:`\\ell_k` is the loss function of client :math:`k`, :math:`\\mathcal{D}_k` is the data distribution of client :math:`k`, :math:`\\mathcal{P}` is the distribution of clients, and :math:`\\mathbb{E}` is the expectation operator. If we simply let :math:`\\mathcal{P} = \\{1, 2, \\ldots, K\\}`, then the optimization problem can be simplified as"
+msgid ""
+"where :math:`\\ell_k` is the loss function of client :math:`k`, :math:`\\mathcal{D}_k` is the data distribution of client :math:`k`, :math:`\\mathcal{P}` is the distribution of clients, and "
+":math:`\\mathbb{E}` is the expectation operator. If we simply let :math:`\\mathcal{P} = \\{1, 2, \\ldots, K\\}`, then the optimization problem can be simplified as"
 msgstr "其中 :math:`\\ell_k` 是客户端 :math:`k` 的损失函数，:math:`\\mathcal{D}_k` 是客户端 :math:`k` 的数据分布，:math:`\\mathcal{P}` 是客户端的分布，:math:`\\mathbb{E}` 是期望算子。假设我们令 :math:`\\mathcal{P} = \\{1, 2, \\ldots, K\\}` ，则上述优化问题可以简记为"
 
 #: ../../source/algorithms/overview.rst:23
@@ -124,8 +128,14 @@ msgid ""
 msgstr ""
 
 #: ../../source/algorithms/overview.rst:92
-msgid "(A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`]. For example, in [:footcite:ct:`karimireddy2020scaffold`] and [:footcite:ct:`zhang2020fedpd`], the so-called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity. More specifically, there exists constants :math:`G > 0` and :math:`B \\geqslant 0` such that"
-msgstr "(A4-2) 数据非独立同分布 (Non-I.I.D.)，这时候我们需要有一个量，用来度量这种统计上的异质性的程度。这个量可以有多种定义方式 [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`]，这里采用 [:footcite:ct:`karimireddy2020scaffold`] 与 [:footcite:ct:`zhang2020fedpd`] 中定义的梯度差异有界性 (Bounded Gradient Dissimilarity, BGD)，记作 :math:`(G; B)`-BGD。具体来说，存在常数 :math:`G > 0` 以及 :math:`B \\geqslant 0` ，满足"
+msgid ""
+"(A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure the degree of this statistical heterogeneity. This quantity can be defined in a number of ways "
+"[:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`]. For example, in [:footcite:ct:`karimireddy2020scaffold`] and [:footcite:ct:`zhang2020fedpd`], the so-"
+"called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity. More specifically, there exists constants :math:`G > 0` and :math:`B \\geqslant 0` such that"
+msgstr ""
+"(A4-2) 数据非独立同分布 (Non-I.I.D.)，这时候我们需要有一个量，用来度量这种统计上的异质性的程度。这个量可以有多种定义方式 [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`]，这里采用 "
+"[:footcite:ct:`karimireddy2020scaffold`] 与 [:footcite:ct:`zhang2020fedpd`] 中定义的梯度差异有界性 (Bounded Gradient Dissimilarity, BGD)，记作 :math:`(G; B)`-BGD。具体来说，存在常数 :math:`G > 0` 以及 :math:`B \\geqslant 0` "
+"，满足"
 
 #: ../../source/algorithms/overview.rst:99
 msgid "\\dfrac{1}{K} \\sum\\limits_{k=1}^K \\lVert \\nabla f_k(\\theta) \\rVert^2 \\leqslant G^2 + B^2 \\lVert \\nabla f(\\theta) \\rVert^2, ~ \\forall \\theta \\in \\mathbb{R}^d."
@@ -154,7 +164,9 @@ msgid "where :math:`\\mathcal{C}` is a convex set on which :math:`f` is defined.
 msgstr "其中 :math:`\\mathcal{C}` 是一个凸集，:math:`f` 定义在其上。"
 
 #: ../../source/algorithms/overview.rst:120
-msgid "(A5-2) Strong convexity: there exists a constant :math:`\\mu > 0` such that :math:`f - \\frac{\\mu}{2} \\lVert \\theta \\rVert^2` is convex. In this case, we say that :math:`f` is :math:`\\mu`-strongly convex."
+msgid ""
+"(A5-2) Strong convexity: there exists a constant :math:`\\mu > 0` such that :math:`f - \\frac{\\mu}{2} \\lVert \\theta \\rVert^2` is convex. In this case, we say that :math:`f` is "
+":math:`\\mu`-strongly convex."
 msgstr "(A5-2) 强凸性：:math:`\\mu > 0` ，若 :math:`f - \\frac{\\mu}{2} \\lVert \\theta \\rVert^2` 是凸函数，则称 :math:`f` 是 :math:`\\mu`-强凸函数。"
 
 #: ../../source/algorithms/overview.rst:123
@@ -170,27 +182,44 @@ msgid ""
 msgstr ""
 
 #: ../../source/algorithms/overview.rst:134
-msgid "It is easy to find the equivalence between the constrained optimization problem :eq:`fl-basic-constraint` and the unconstrained optimization problem :eq:`fl-basic`. The constrained formulation :eq:`fl-basic-constraint` is called the **consensus problem** in the literature of distributed optimization [:footcite:ct:`boyd2011distributed`]. The superiority of the constrained formulation :eq:`fl-basic-constraint` is that the objective function becomes block-separable, which is more suitable for the design of parallel and distributed algorithms."
-msgstr "我们很容易看出约束优化问题 :eq:`fl-basic-constraint` 与无约束优化问题 :eq:`fl-basic` 两种格式的等价性。格式 :eq:`fl-basic-constraint` 在分布式优化中被称作共识优化问题 (Consensus Problem) [:footcite:ct:`boyd2011distributed`]。约束格式 :eq:`fl-basic-constraint` 的好处是，目标函数变成了分块可分离的 (Block Separable)，这对设计可并行化的算法是巨大的便利。"
+msgid ""
+"It is easy to find the equivalence between the constrained optimization problem :eq:`fl-basic-constraint` and the unconstrained optimization problem :eq:`fl-basic`. The constrained formulation "
+":eq:`fl-basic-constraint` is called the **consensus problem** in the literature of distributed optimization [:footcite:ct:`boyd2011distributed`]. The superiority of the constrained formulation "
+":eq:`fl-basic-constraint` is that the objective function becomes block-separable, which is more suitable for the design of parallel and distributed algorithms."
+msgstr ""
+"我们很容易看出约束优化问题 :eq:`fl-basic-constraint` 与无约束优化问题 :eq:`fl-basic` 两种格式的等价性。格式 :eq:`fl-basic-constraint` 在分布式优化中被称作共识优化问题 (Consensus Problem) [:footcite:ct:`boyd2011distributed`]。约束格式 :eq:`fl-basic-"
+"constraint` 的好处是，目标函数变成了分块可分离的 (Block Separable)，这对设计可并行化的算法是巨大的便利。"
 
 #: ../../source/algorithms/overview.rst:140
 msgid "Federated Averaging Algorithm"
 msgstr "联邦平均算法"
 
 #: ../../source/algorithms/overview.rst:142
-msgid "The core idea of the ``FedAvg`` algorithm is to make full use of the local computation resources of each client so that each client can perform multiple local iterations before uploading the local model to the server. It alleviates the problem of straggler clients and reduces the communication overhead, hence accelerating the convergence of the algorithm. This may well be thought of as a simple form of **skipping** algorithm, which were further developed in [:footcite:ct:`zhang2020fedpd, proxskip, proxskip-vr`]. Pseudocode for ``FedAvg`` is shown as follows:"
-msgstr "联邦平均算法的核心思想，是充分利用子节点的计算能力，在以学习率 :math:`\\eta` 执行完一定轮数的随机梯度下降 (Stochastic Gradient Descent, SGD) 之后，由中心节点收集各子节点发送过来的模型参数，进行平均 (Averaging)，之后再将平均之后的模型参数广播 (Broadcast) 给子节点进行下一轮迭代。这样规避了每一轮 SGD 都进行通信带来的巨大的通信开销，在加速模型训练的同时，数值上在某些情况下还有更好的收敛性。这实际上是一种比较朴素与简单的“跳步”的思想，这种思想在随后的研究 [:footcite:ct:`zhang2020fedpd, proxskip, proxskip-vr`] 中也得到了进一步的发展。 ``FedAvg`` 的伪代码如下："
+msgid ""
+"The core idea of the ``FedAvg`` algorithm is to make full use of the local computation resources of each client so that each client can perform multiple local iterations before uploading the local "
+"model to the server. It alleviates the problem of straggler clients and reduces the communication overhead, hence accelerating the convergence of the algorithm. This may well be thought of as a "
+"simple form of **skipping** algorithm, which were further developed in [:footcite:ct:`zhang2020fedpd, proxskip, proxskip-vr`]. Pseudocode for ``FedAvg`` is shown as follows:"
+msgstr ""
+"联邦平均算法的核心思想，是充分利用子节点的计算能力，在以学习率 :math:`\\eta` 执行完一定轮数的随机梯度下降 (Stochastic Gradient Descent, SGD) 之后，由中心节点收集各子节点发送过来的模型参数，进行平均 (Averaging)，之后再将平均之后的模型参数广播 (Broadcast) 给子节点进行下一轮迭代。这样规避了每一轮 SGD "
+"都进行通信带来的巨大的通信开销，在加速模型训练的同时，数值上在某些情况下还有更好的收敛性。这实际上是一种比较朴素与简单的“跳步”的思想，这种思想在随后的研究 [:footcite:ct:`zhang2020fedpd, proxskip, proxskip-vr`] 中也得到了进一步的发展。 ``FedAvg`` 的伪代码如下："
 
 #: ../../source/algorithms/overview.rst:153
-msgid "``FedAvg`` achieved some good numerical results (see Section 3 of [:footcite:ct:`mcmahan2017fed_avg`]), but its convergence, espcially under non-I.I.D. data distributions, is not properly analyzed (see [:footcite:ct:`khaled2019_first, Khaled2020_tighter`]). There are several works that deal with this issue (such as [:footcite:ct:`zhou_2018_convergence, li2019convergence`]) with extra assumptions such as the convexity of the objective function :math:`f`, etc."
-msgstr "联邦平均算法 ``FedAvg`` 在数值上取得了一些不错的实验结果（见 [:footcite:ct:`mcmahan2017fed_avg`] 第 3 节），但是其收敛性，特别是在数据非独立同分布的情况下，并未得到很好的分析（见 [:footcite:ct:`khaled2019_first, Khaled2020_tighter`]）。后续的文献（如 [:footcite:ct:`zhou_2018_convergence, li2019convergence`]）处理了这一问题，但添加了诸如 :math:`f` 强凸等额外假设。"
+msgid ""
+"``FedAvg`` achieved some good numerical results (see Section 3 of [:footcite:ct:`mcmahan2017fed_avg`]), but its convergence, espcially under non-I.I.D. data distributions, is not properly analyzed "
+"(see [:footcite:ct:`khaled2019_first, Khaled2020_tighter`]). There are several works that deal with this issue (such as [:footcite:ct:`zhou_2018_convergence, li2019convergence`]) with extra "
+"assumptions such as the convexity of the objective function :math:`f`, etc."
+msgstr ""
+"联邦平均算法 ``FedAvg`` 在数值上取得了一些不错的实验结果（见 [:footcite:ct:`mcmahan2017fed_avg`] 第 3 节），但是其收敛性，特别是在数据非独立同分布的情况下，并未得到很好的分析（见 [:footcite:ct:`khaled2019_first, Khaled2020_tighter`]）。后续的文献（如 "
+"[:footcite:ct:`zhou_2018_convergence, li2019convergence`]）处理了这一问题，但添加了诸如 :math:`f` 强凸等额外假设。"
 
 #: ../../source/algorithms/overview.rst:160
 msgid "``FedAvg`` from the Perspective of Optimization"
 msgstr "最优化理论视角下的联邦平均算法"
 
 #: ../../source/algorithms/overview.rst:162
-msgid "In this section, we will analyze the ``FedAvg`` algorithm from the perspective of optimization theory. In fact, the optimization problem :eq:`fl-basic` that ``FedAvg`` solves can be equivalently reformulated as the following constrained optimization problem:"
+msgid ""
+"In this section, we will analyze the ``FedAvg`` algorithm from the perspective of optimization theory. In fact, the optimization problem :eq:`fl-basic` that ``FedAvg`` solves can be equivalently "
+"reformulated as the following constrained optimization problem:"
 msgstr "我们从最优化理论的角度对联邦平均算法 ``FedAvg`` 进行分析。事实上， ``FedAvg`` 所处理的优化问题 :eq:`fl-basic` 可以等价地改写为如下的约束优化问题："
 
 #: ../../source/algorithms/overview.rst:166
@@ -204,15 +233,23 @@ msgid ""
 msgstr ""
 
 #: ../../source/algorithms/overview.rst:176
-msgid "where :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K) := \\begin{pmatrix} \\theta_1 \\\\ \\vdots \\\\ \\theta_K \\end{pmatrix}, \\theta_1, \\ldots, \\theta_K \\in \\mathbb{R}^d` and :math:`\\mathcal{E} = \\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K \\right\\}` is a convex set in :math:`\\mathbb{R}^{Kd}`. Projected gradient descent (PGD) is an effective method for solving the constrained optimization problem :eq:`fedavg-constraint`, which has the following update rule:"
-msgstr "其中 :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K) := \\begin{pmatrix} \\theta_1 \\\\ \\vdots \\\\ \\theta_K \\end{pmatrix}, \\theta_1, \\ldots, \\theta_K \\in \\mathbb{R}^d` ，:math:`\\mathcal{E} = \\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K \\right\\}` 是 :math:`\\mathbb{R}^{Kd}` 中一个凸集。我们知道，投影梯度下降法 (Projected Gradient Descent, PGD) 是求解问题 :eq:`fedavg-constraint` 的一个有效算法，其迭代格式为："
+msgid ""
+"where :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K) := \\begin{pmatrix} \\theta_1 \\\\ \\vdots \\\\ \\theta_K \\end{pmatrix}, \\theta_1, \\ldots, \\theta_K \\in \\mathbb{R}^d` and "
+":math:`\\mathcal{E} = \\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K \\right\\}` is a convex set in :math:`\\mathbb{R}^{Kd}`. Projected gradient descent (PGD) is an effective method"
+" for solving the constrained optimization problem :eq:`fedavg-constraint`, which has the following update rule:"
+msgstr ""
+"其中 :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K) := \\begin{pmatrix} \\theta_1 \\\\ \\vdots \\\\ \\theta_K \\end{pmatrix}, \\theta_1, \\ldots, \\theta_K \\in \\mathbb{R}^d` "
+"，:math:`\\mathcal{E} = \\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K \\right\\}` 是 :math:`\\mathbb{R}^{Kd}` 中一个凸集。我们知道，投影梯度下降法 (Projected Gradient Descent, PGD) 是求解问题 :eq:`fedavg-"
+"constraint` 的一个有效算法，其迭代格式为："
 
 #: ../../source/algorithms/overview.rst:181
 msgid "\\Theta^{(t+1)} = \\Pi_{\\mathcal{E}} \\left( \\Theta^{(t)} - \\eta \\nabla F(\\Theta^{(t)}) \\right),"
 msgstr ""
 
 #: ../../source/algorithms/overview.rst:186
-msgid "where :math:`\\Pi_{\\mathcal{E}}` is the projection operator onto the set :math:`\\mathcal{E}`. It is easy to show that the projection operator onto the set :math:`\\mathcal{E}` is indeed the average operator, i.e.,"
+msgid ""
+"where :math:`\\Pi_{\\mathcal{E}}` is the projection operator onto the set :math:`\\mathcal{E}`. It is easy to show that the projection operator onto the set :math:`\\mathcal{E}` is indeed the "
+"average operator, i.e.,"
 msgstr "其中 :math:`\\Pi_{\\mathcal{E}}` 是到集合 :math:`\\mathcal{E}` 的投影算子。容易看出，到集合 :math:`\\mathcal{E} = \\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K \\right\\}` 的投影映射就是“求平均”映射："
 
 #: ../../source/algorithms/overview.rst:189
@@ -220,7 +257,9 @@ msgid "\\Pi_{\\mathcal{E}}: \\mathbb{R}^{Kd} \\to \\mathcal{E}: ( \\theta_1, \\l
 msgstr ""
 
 #: ../../source/algorithms/overview.rst:194
-msgid "We have shown that mathematically the ``FedAvg`` algorithm is indeed a kind of stochastic projected gradient descent (SPGD) algorithm, where the clients perform local stochastic gradient descent (SGD) updates and the server performs the projection step :eq:`fedavg-projection`."
+msgid ""
+"We have shown that mathematically the ``FedAvg`` algorithm is indeed a kind of stochastic projected gradient descent (SPGD) algorithm, where the clients perform local stochastic gradient descent "
+"(SGD) updates and the server performs the projection step :eq:`fedavg-projection`."
 msgstr "也就是说，联邦平均算法在数学上，实质上是一种随机投影梯度法：子节点执行的是梯度步（具体来说是用的随机梯度下降），中心节点执行的是投影步 :eq:`fedavg-projection` 。"
 
 #: ../../source/algorithms/overview.rst:199
@@ -228,11 +267,19 @@ msgid "A Direct Improvement of ``FedAvg``"
 msgstr "联邦平均算法的改进"
 
 #: ../../source/algorithms/overview.rst:201
-msgid "Since ``FedAvg`` is based on stochastic gradient descent (SGD), it is natural to consider applying acceleration techniques [:footcite:ct:`adagrad, adam, Zaheer_2018_yogi, adamw_amsgrad`] to improve the algorithm performance. Computation on clients and on the server are relatively decoupled, so it does not require large modifications to the whole algorithm framework. Indeed, the authors of the ``FedAvg`` paper put this idea into practice and proposed a federated learning framework called ``FedOpt`` [:footcite:ct:`reddi2020fed_opt`] which has stronger adaptability. The pseudocode for ``FedOpt`` is shown as follows:"
-msgstr "因为联邦平均算法是以随机梯度下降法为基础的，那么一个自然的想法就是将随机梯度下降法的一些加速的技巧 [:footcite:ct:`adagrad, adam, Zaheer_2018_yogi, adamw_amsgrad`] 引入联邦学习整个算法体系内。由于联邦学习子节点与中心节点的计算相对独立、没有耦合，所以这种做法并不需要对联邦学习整个算法框架做大改动，是一种可行的方法。事实上，联邦平均算法的作者在随后发表的文章 [:footcite:ct:`reddi2020fed_opt`] 中实践了这一想法，提出了一个泛用性更强的自适应联邦学习算法框架 ``FedOpt`` ，其伪代码如下："
+msgid ""
+"Since ``FedAvg`` is based on stochastic gradient descent (SGD), it is natural to consider applying acceleration techniques [:footcite:ct:`adagrad, adam, Zaheer_2018_yogi, adamw_amsgrad`] to improve "
+"the algorithm performance. Computation on clients and on the server are relatively decoupled, so it does not require large modifications to the whole algorithm framework. Indeed, the authors of the "
+"``FedAvg`` paper put this idea into practice and proposed a federated learning framework called ``FedOpt`` [:footcite:ct:`reddi2020fed_opt`] which has stronger adaptability. The pseudocode for "
+"``FedOpt`` is shown as follows:"
+msgstr ""
+"因为联邦平均算法是以随机梯度下降法为基础的，那么一个自然的想法就是将随机梯度下降法的一些加速的技巧 [:footcite:ct:`adagrad, adam, Zaheer_2018_yogi, adamw_amsgrad`] "
+"引入联邦学习整个算法体系内。由于联邦学习子节点与中心节点的计算相对独立、没有耦合，所以这种做法并不需要对联邦学习整个算法框架做大改动，是一种可行的方法。事实上，联邦平均算法的作者在随后发表的文章 [:footcite:ct:`reddi2020fed_opt`] 中实践了这一想法，提出了一个泛用性更强的自适应联邦学习算法框架 ``FedOpt`` ，其伪代码如下："
 
 #: ../../source/algorithms/overview.rst:212
-msgid "In the above pseudocode, :math:`\\operatorname{aggregate} \\left( \\left\\{ \\Delta_{k}^{(t)} \\right\\}_{k \\in \\mathcal{S}^{(t)}} \\right)` refers to some method that aggregates the local inertia updates :math:`\\Delta_{k}^{(t)}` from the selected clients :math:`\\mathcal{S}^{(t)}` into a global inertia update :math:`\\Delta^{(t)}`. This method, for example, can be simply averaging"
+msgid ""
+"In the above pseudocode, :math:`\\operatorname{aggregate} \\left( \\left\\{ \\Delta_{k}^{(t)} \\right\\}_{k \\in \\mathcal{S}^{(t)}} \\right)` refers to some method that aggregates the local inertia"
+" updates :math:`\\Delta_{k}^{(t)}` from the selected clients :math:`\\mathcal{S}^{(t)}` into a global inertia update :math:`\\Delta^{(t)}`. This method, for example, can be simply averaging"
 msgstr "这里的 :math:`\\operatorname{aggregate} \\left( \\left\\{ \\Delta_{k}^{(t)} \\right\\}_{k \\in \\mathcal{S}^{(t)}} \\right)` 指的是将来自子节点的惯性项 :math:`\\Delta_{k}^{(t)}` 聚合为全局惯性量的方法，例如可以采用简单的均值"
 
 #: ../../source/algorithms/overview.rst:216
@@ -248,7 +295,9 @@ msgid "\\Delta^{(t)} \\gets \\beta_1 \\Delta^{(t-1)} + \\left( (1 - \\beta_1) / 
 msgstr ""
 
 #: ../../source/algorithms/overview.rst:228
-msgid "As one has already noticed, compared to ``FedAvg``, ``FedOpt`` introduces some momentum terms on the server node (in **ServerOpt**) to accelerate the convergence. In [:footcite:ct:`reddi2020fed_opt`], the authors listed several options for **ServerOpt**:"
+msgid ""
+"As one has already noticed, compared to ``FedAvg``, ``FedOpt`` introduces some momentum terms on the server node (in **ServerOpt**) to accelerate the convergence. In "
+"[:footcite:ct:`reddi2020fed_opt`], the authors listed several options for **ServerOpt**:"
 msgstr "我们注意到，相比于联邦平均算法 ``FedAvg`` ，自适应联邦学习算法 ``FedOpt`` 在中心节点引入了带动量 (Momentum) 的项，即 **ServerOpt** ，用于加速。我们列举一些 **ServerOpt** 可供选择的方法 [:footcite:ct:`reddi2020fed_opt`]："
 
 #: ../../source/algorithms/overview.rst:231
@@ -288,16 +337,31 @@ msgid ""
 msgstr ""
 
 #: ../../source/algorithms/overview.rst:261
-msgid "``FedOpt`` applys acceleration techniques which are frequently used in general machine learning tasks to the field of federated learning. It is a direct improvement of ``FedAvg`` which is simple but important. Moreover, it demonstrates the decoupling of the computation on clients and on the server, which is a key feature of federated learning."
+msgid ""
+"``FedOpt`` applys acceleration techniques which are frequently used in general machine learning tasks to the field of federated learning. It is a direct improvement of ``FedAvg`` which is simple but"
+" important. Moreover, it demonstrates the decoupling of the computation on clients and on the server, which is a key feature of federated learning."
 msgstr "``FedOpt`` 将机器学习领域内常用的一些加速的技巧应用于联邦学习的场景，是 ``FedAvg`` 较为平凡但又重要的推广。它另一个更重要的意义在于充分表明了联邦学习子节点与中心节点的计算的解耦合的性质。"
 
 #: ../../source/algorithms/overview.rst:265
-msgid "To better handle non-I.I.D. data, one needs to introduce some other techniques. In non-I.I.D. scenarios, the gradients have different distributions across clients. A natural idea is to bring in some extra parameters which update along with the model parameters to make corrections (modifications) to the gradients on clients, reducing their variance and further accelerating the convergence. This technique is the so-called **variance reduction** technique [:footcite:ct:`johnson2013accelerating`], which was first introduced to federated learning in [:footcite:ct:`karimireddy2020scaffold`] in the form of a new federated learning algorithm called **SCAFFOLD** (Stochastic Controlled Averaging algorithm). The pseudocode for **SCAFFOLD** is shown as follows:"
-msgstr "联邦平均算法 ``FedAvg`` 与自适应联邦学习算法 ``FedOpt`` 考虑的主要是数据在各子节点之间独立同分布的场景。对于更具有实际意义的数据非独立同分布的场景，我们需要引入一些别的工具来处理这种情况。此时，各子节点上的梯度在分布上是有差异的，一个很自然的想法就是引入一些额外的参数，与模型参数一起更新，利用这些额外的参数对子节点的梯度进行修正，减小各子节点上的梯度在分布上的差异，进而达到使算法收敛更稳定以及加速收敛的目的。这种技术就是方差缩减 (Variance Reduction, VR) 技术 [:footcite:ct:`johnson2013accelerating`]，由 [:footcite:ct:`karimireddy2020scaffold`] 以算法 **SCAFFOLD** (Stochastic Controlled Averaging algorithm) 的形式首次引入联邦学习中。 **SCAFFOLD** 的伪代码如下："
+msgid ""
+"To better handle non-I.I.D. data, one needs to introduce some other techniques. In non-I.I.D. scenarios, the gradients have different distributions across clients. A natural idea is to bring in some"
+" extra parameters which update along with the model parameters to make corrections (modifications) to the gradients on clients, reducing their variance and further accelerating the convergence. This"
+" technique is the so-called **variance reduction** technique [:footcite:ct:`johnson2013accelerating`], which was first introduced to federated learning in [:footcite:ct:`karimireddy2020scaffold`] in"
+" the form of a new federated learning algorithm called **SCAFFOLD** (Stochastic Controlled Averaging algorithm). The pseudocode for **SCAFFOLD** is shown as follows:"
+msgstr ""
+"联邦平均算法 ``FedAvg`` 与自适应联邦学习算法 ``FedOpt`` "
+"考虑的主要是数据在各子节点之间独立同分布的场景。对于更具有实际意义的数据非独立同分布的场景，我们需要引入一些别的工具来处理这种情况。此时，各子节点上的梯度在分布上是有差异的，一个很自然的想法就是引入一些额外的参数，与模型参数一起更新，利用这些额外的参数对子节点的梯度进行修正，减小各子节点上的梯度在分布上的差异，进而达到使算法收敛更稳定以及加速收敛的目的。这种技术就是方差缩减 (Variance"
+" Reduction, VR) 技术 [:footcite:ct:`johnson2013accelerating`]，由 [:footcite:ct:`karimireddy2020scaffold`] 以算法 **SCAFFOLD** (Stochastic Controlled Averaging algorithm) 的形式首次引入联邦学习中。 **SCAFFOLD** 的伪代码如下："
 
 #: ../../source/algorithms/overview.rst:277
-msgid "Variance reduction is a technique that can be flexibly combined with most algorithms and has been widely used in federated learning for dealing with statistical heterogeneity. However, it should be noted in the `SCAFFOLD algorithm <pcode-scaffold_>`_ that on both the server and the clients, there are extra parameters :math:`c` and :math:`c_k` to maintain, which may increase the communication cost. In scenarios which are sensitive to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of the variance reduction technique and some **skipping** techniques (e.g. [:footcite:ct:`proxskip-vr`]), which will be introduced in next sections."
-msgstr "方差缩减是一种可以灵活地与大多数算法结合的技术，已在联邦学习中被广泛用于处理统计异质性。但要注意，在 `SCAFFOLD 算法 <pcode-scaffold_>`_ 中，服务器与客户端上都有需要维护的额外参数 :math:`c` 与 :math:`c_k` ，这可能增加通信开销。在对通信开销敏感的场景中，这可能会成为问题。因此，更好的方案可能是把方差缩减技术与某种 **跳步** 技巧相结合（如 [:footcite:ct:`proxskip-vr`]），这将在后面几节介绍。"
+msgid ""
+"Variance reduction is a technique that can be flexibly combined with most algorithms and has been widely used in federated learning for dealing with statistical heterogeneity. However, it should be "
+"noted in the `SCAFFOLD algorithm <pcode-scaffold_>`_ that on both the server and the clients, there are extra parameters :math:`c` and :math:`c_k` to maintain, which may increase the communication "
+"cost. In scenarios which are sensitive to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of the variance reduction technique and some "
+"**skipping** techniques (e.g. [:footcite:ct:`proxskip-vr`]), which will be introduced in next sections."
+msgstr ""
+"方差缩减是一种可以灵活地与大多数算法结合的技术，已在联邦学习中被广泛用于处理统计异质性。但要注意，在 `SCAFFOLD algorithm <pcode-scaffold_>`_ 中，服务器与客户端上都有需要维护的额外参数 :math:`c` 与 :math:`c_k` ，这可能增加通信开销。在对通信开销敏感的场景中，这可能会成为问题。因此，更好的方案可能是把方差缩减技术与某种 **跳步**"
+" 技巧相结合（如 [:footcite:ct:`proxskip-vr`]），这将在后面几节介绍。"
 
 #: ../../foot_bibliography_header:1
 msgid "References"
@@ -357,8 +421,13 @@ msgstr "参考文献"
 #~ msgid "(A4-2) Data distribution is non-I.I.D across clients, in which case we need a quantity to measure"
 #~ msgstr "(A4-2) 数据非独立同分布 (Non-I.I.D.)，这时候我们需要有一个量，用来度量"
 
-#~ msgid "the degree of this statistical heterogeneity. This quantity can be defined in a number of ways [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`]. For example, in [:footcite:ct:`karimireddy2020scaffold`] and [:footcite:ct:`zhang2020fedpd`], the so-called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity. More specifically, there exists constants :math:`G > 0` and :math:`B \\geqslant 0` such that"
-#~ msgstr "这种统计上的异质性的程度。这个量可以有多种定义方式 [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`]，这里采用 [:footcite:ct:`karimireddy2020scaffold`] 与 [:footcite:ct:`zhang2020fedpd`] 中定义的梯度差异有界性 (Bounded Gradient Dissimilarity, BGD)，记作 :math:`(G; B)`-BGD。具体来说，存在常数 :math:`G > 0` 以及 :math:`B \\geqslant 0` ，满足"
+#~ msgid ""
+#~ "the degree of this statistical heterogeneity. This quantity can be defined in a number of ways [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`]. For "
+#~ "example, in [:footcite:ct:`karimireddy2020scaffold`] and [:footcite:ct:`zhang2020fedpd`], the so-called bounded gradient dissimilarity (BGD), denoted as :math:`(G; B)`-BGD, is used as this quantity."
+#~ " More specifically, there exists constants :math:`G > 0` and :math:`B \\geqslant 0` such that"
+#~ msgstr ""
+#~ "这种统计上的异质性的程度。这个量可以有多种定义方式 [:footcite:ct:`karimireddy2020scaffold, zhang2020fedpd, li2019convergence, sahu2018fedprox`]，这里采用 [:footcite:ct:`karimireddy2020scaffold`] 与 [:footcite:ct:`zhang2020fedpd`]"
+#~ " 中定义的梯度差异有界性 (Bounded Gradient Dissimilarity, BGD)，记作 :math:`(G; B)`-BGD。具体来说，存在常数 :math:`G > 0` 以及 :math:`B \\geqslant 0` ，满足"
 
 #~ msgid "\\dfrac{1}{K} \\sum\\limits_{k=1}^K \\lVert \\nabla f_k(\\theta) \\rVert^2 \\leqslant G^2 + B^2 \\lVert \\nabla f(\\theta) \\rVert^2, ~ \\forall \\theta \\in \\R^d."
 #~ msgstr ""
@@ -388,8 +457,13 @@ msgstr "参考文献"
 #~ "\\end{array}"
 #~ msgstr ""
 
-#~ msgid "where :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K) := \\begin{pmatrix} \\theta_1 \\\\ \\vdots \\\\ \\theta_K \\end{pmatrix}, \\theta_1, \\ldots, \\theta_K \\in \\R^d` and :math:`\\mathcal{E} = \\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K \\right\\}` is a convex set in :math:`\\R^{Kd}`. Projected gradient descent (PGD) is an effective method for solving the constrained optimization problem :eq:`fedavg-constraint`, which has the following update rule:"
-#~ msgstr "其中 :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K) := \\begin{pmatrix} \\theta_1 \\\\ \\vdots \\\\ \\theta_K \\end{pmatrix}, \\theta_1, \\ldots, \\theta_K \\in \\R^d` ，:math:`\\mathcal{E} = \\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K \\right\\}` 是 :math:`\\R^{Kd}` 中一个凸集。我们知道，投影梯度下降法 (Projected Gradient Descent, PGD) 是求解问题 :eq:`fedavg-constraint` 的一个有效算法，其迭代格式为："
+#~ msgid ""
+#~ "where :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K) := \\begin{pmatrix} \\theta_1 \\\\ \\vdots \\\\ \\theta_K \\end{pmatrix}, \\theta_1, \\ldots, \\theta_K \\in \\R^d` and "
+#~ ":math:`\\mathcal{E} = \\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K \\right\\}` is a convex set in :math:`\\R^{Kd}`. Projected gradient descent (PGD) is an effective method for "
+#~ "solving the constrained optimization problem :eq:`fedavg-constraint`, which has the following update rule:"
+#~ msgstr ""
+#~ "其中 :math:`\\Theta = \\col(\\theta_1, \\cdots, \\theta_K) := \\begin{pmatrix} \\theta_1 \\\\ \\vdots \\\\ \\theta_K \\end{pmatrix}, \\theta_1, \\ldots, \\theta_K \\in \\R^d` ，:math:`\\mathcal{E} = "
+#~ "\\left\\{ \\Theta ~ \\middle| ~ \\theta_1 = \\cdots = \\theta_K \\right\\}` 是 :math:`\\R^{Kd}` 中一个凸集。我们知道，投影梯度下降法 (Projected Gradient Descent, PGD) 是求解问题 :eq:`fedavg-constraint` 的一个有效算法，其迭代格式为："
 
 #~ msgid "\\Pi_{\\mathcal{E}}: \\R^{Kd} \\to \\mathcal{E}: ( \\theta_1, \\ldots, \\theta_K) \\mapsto \\left(\\frac{1}{K}\\sum\\limits_{k=1}^K \\theta_K, \\ldots, \\frac{1}{K}\\sum\\limits_{k=1}^K \\theta_K \\right)."
 #~ msgstr ""
@@ -400,5 +474,11 @@ msgstr "参考文献"
 #~ msgid "Psuedocode for ``Scaffold``"
 #~ msgstr "``Scaffold`` 伪代码"
 
-#~ msgid "Variance reduction is a technique that can be flexibly combined with most algorithms and has been widely used in federated learning for dealing with statistical heterogeneity. However, it should be noted in the `SCAFFOLD algorithm <pseduocode-scaffold_>`_ that on both the server and the clients, there are extra parameters :math:`c` and :math:`c_k` to maintain, which may increase the communication cost. In scenarios which are sensitive to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of the variance reduction technique and some **skipping** techniques (e.g. [:footcite:ct:`proxskip-vr`]), which will be introduced in next sections."
-#~ msgstr "方差缩减是一种可以灵活地与大多数算法结合的技术，已在联邦学习中被广泛用于处理统计异质性。但要注意，在 `SCAFFOLD 算法 <pseduocode-scaffold_>`_ 中，服务器与客户端上都有需要维护的额外参数 :math:`c` 与 :math:`c_k` ，这可能增加通信开销。在对通信开销敏感的场景中，这可能会成为问题。因此，更好的方案可能是把方差缩减技术与某种 **跳步** 技巧相结合（如 [:footcite:ct:`proxskip-vr`]），这将在后面几节介绍。"
+#~ msgid ""
+#~ "Variance reduction is a technique that can be flexibly combined with most algorithms and has been widely used in federated learning for dealing with statistical heterogeneity. However, it should be "
+#~ "noted in the `SCAFFOLD algorithm <pseduocode-scaffold_>`_ that on both the server and the clients, there are extra parameters :math:`c` and :math:`c_k` to maintain, which may increase the "
+#~ "communication cost. In scenarios which are sensitive to communication cost, this would potentially be a problem. Therefore, a better solution could be a combination of the variance reduction "
+#~ "technique and some **skipping** techniques (e.g. [:footcite:ct:`proxskip-vr`]), which will be introduced in next sections."
+#~ msgstr ""
+#~ "方差缩减是一种可以灵活地与大多数算法结合的技术，已在联邦学习中被广泛用于处理统计异质性。但要注意，在 `SCAFFOLD 算法 <pseduocode-scaffold_>`_ 中，服务器与客户端上都有需要维护的额外参数 :math:`c` 与 :math:`c_k` ，这可能增加通信开销。在对通信开销敏感的场景中，这可能会成为问题。因此，更好的方案可能是把方差缩减技术与某种 **跳步** "
+#~ "技巧相结合（如 [:footcite:ct:`proxskip-vr`]），这将在后面几节介绍。"
