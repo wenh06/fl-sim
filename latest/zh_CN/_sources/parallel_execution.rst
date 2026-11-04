@@ -6,6 +6,8 @@ Parallel execution layer
 .. versionadded:: 0.2.0
 
 fl-sim simulates all clients and the server inside one Python process.
+The reasoning behind this layer — requirements, invariants and tradeoffs
+— is recorded in :doc:`parallel_execution_design`.
 Historically the clients' local training ran strictly sequentially; the
 **parallel execution layer** lets the per-client local steps (evaluate →
 local update → build the upload) run concurrently, on a pluggable

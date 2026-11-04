@@ -1,0 +1,946 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
+    <title>设计笔记：并行执行层 &#8212; fl-sim 0.2.1.dev3+gf561a20e3 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=4418a689" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=da4407d3" />
+    <link rel="stylesheet" type="text/css" href="_static/css/proof.css?v=7ba180f6" />
+    <link rel="stylesheet" type="text/css" href="_static/css/codeblock.css?v=d29e50c4" />
+    <link rel="stylesheet" type="text/css" href="_static/css/versions.css?v=b1c81d98" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+
+    <script src="_static/documentation_options.js?v=8ea3d835"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/proof.js"></script>
+    <script src="_static/js/codeblock.js?v=82bf629b"></script>
+    <script src="_static/js/versions.js?v=6609812c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+    <script>
+            if (window.pseudocode && !window.pseudocode.mathRenderer) {
+                window.pseudocode.mathRenderer = 'katex';
+            }
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.js"></script>
+    <script>
+        async function renderPseudocodeWithMath() {
+            try {
+                if (window.MathJax) {
+                    await MathJax.startup.promise;
+                    console.log("pseudocode2: MathJax is ready");
+                }
+
+                pseudocode.renderClass('pseudocode', {lineNumber: true, commentDelimiter: " //", noEnd: false});
+                pseudocode.renderClass("scopeline-pseudocode", {lineNumber: true, commentDelimiter: " //", noEnd: false, scopeLines: true});
+                console.log("pseudocode2: Pseudocode rendered");
+
+                if (window.MathJax) {
+                    const pseudocodeBlocks = document.querySelectorAll('.pseudocode-container');
+                    MathJax.typesetPromise(pseudocodeBlocks).then(() => {
+                        console.log("pseudocode2: MathJax typeset completed for pseudocode");
+                    }).catch(err => {
+                        console.warn("pseudocode2: MathJax typeset failed:", err);
+                    });
+                }
+            } catch (err) {
+                console.error("pseudocode2: Render failed:", err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderPseudocodeWithMath);
+        } else {
+            renderPseudocodeWithMath();
+        }
+    </script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'parallel_execution_design';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="命令行接口" href="cli.html" />
+    <link rel="prev" title="Parallel execution layer" href="parallel_execution.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">fl-sim 0.2.1.dev3+gf561a20e3 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">搜索</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">快速开始</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="install.html">安装说明</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速上手</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">核心概念</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tutorial-first-experiment.html">教程：第一个对照实验</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-cli-matrix.html">教程：用 CLI 跑实验矩阵</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-visualization.html">教程：可视化与导出结果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial-parallel-reproducible.html">教程：并行与可复现的运行</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">操作指南</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="howto-custom-algorithm.html">操作指南：实现一个自定义算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto-custom-dataset.html">操作指南：添加自定义数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto-custom-optimizer.html">操作指南：添加自定义优化器</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API 参考</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/nodes.html">fl_sim.nodes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Node.html">Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Server.html">Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.ServerConfig.html">ServerConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.Client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.nodes.ClientConfig.html">ClientConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="api/messages.html">fl_sim.messages</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/datasets.html">fl_sim.data_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedDataset.html">FedDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedVisionDataset.html">FedVisionDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedNLPDataset.html">FedNLPDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR.html">FedCIFAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedCIFAR100.html">FedCIFAR100</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedEMNIST.html">FedEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedMNIST.html">FedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedCIFAR10.html">FedRotatedCIFAR10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedRotatedMNIST.html">FedRotatedMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxFEMNIST.html">FedProxFEMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxMNIST.html">FedProxMNIST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedTinyImageNet.html">FedTinyImageNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedShakespeare.html">FedShakespeare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedProxSent140.html">FedProxSent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedSynthetic.html">FedSynthetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.FedLibSVMDataset.html">FedLibSVMDataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.register_fed_dataset.html">fl_sim.data_processing.register_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.list_fed_dataset.html">fl_sim.data_processing.list_fed_dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.data_processing.get_fed_dataset.html">fl_sim.data_processing.get_fed_dataset</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/models.html">fl_sim.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNMnist.html">CNNMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist.html">CNNFEMnist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNFEMnist_Tiny.html">CNNFEMnist_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar.html">CNNCifar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Small.html">CNNCifar_Small</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CNNCifar_Tiny.html">CNNCifar_Tiny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ResNet18.html">ResNet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ResNet10.html">ResNet10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.ShrinkedResNet.html">ShrinkedResNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_OriginalFedAvg.html">RNN_OriginalFedAvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_StackOverFlow.html">RNN_StackOverFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140.html">RNN_Sent140</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.RNN_Sent140_LITE.html">RNN_Sent140_LITE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.MLP.html">MLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.FedPDMLP.html">FedPDMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.LogisticRegression.html">LogisticRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.SVC.html">SVC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.SVR.html">SVR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.reset_parameters.html">fl_sim.models.reset_parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.top_n_accuracy.html">fl_sim.models.top_n_accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.CLFMixin.html">CLFMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.REGMixin.html">REGMixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.models.DiffMixin.html">DiffMixin</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/optimizers.html">fl_sim.optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.get_optimizer.html">fl_sim.optimizers.get_optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.optimizers.register_optimizer.html">fl_sim.optimizers.register_optimizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/regularizers.html">fl_sim.regularizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.get_regularizer.html">fl_sim.regularizers.get_regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.Regularizer.html">Regularizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L1Norm.html">L1Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2Norm.html">L2Norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.L2NormSquared.html">L2NormSquared</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.LInfNorm.html">LInfNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/generated/fl_sim.regularizers.NullRegularizer.html">NullRegularizer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="api/utils.html">fl_sim.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/config_reference.html">Algorithm Configuration Reference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">进阶主题</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="algorithms.html">联邦学习算法</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/notation.html">符号说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/overview.html">联邦学习中的优化算法概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/proximal.html">联邦学习中的临近算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/primal_dual.html">联邦学习中的原始对偶算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/operator_splitting.html">联邦学习中的算子分裂算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/skipping.html">联邦学习中的跳步算法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="algorithms/pfl.html">个性化联邦学习算法</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel_execution.html">Parallel execution layer</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">设计笔记：并行执行层</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行接口</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viz.html">可视化子系统</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="源码库"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/edit/master/docs/source/parallel_execution_design.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/wenh06/fl-sim/issues/new?title=Issue%20on%20page%20%2Fparallel_execution_design.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="创建议题"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/parallel_execution_design.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="亮色"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="暗色"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>亮色</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>暗色</button></li>
+  </ul>
+</div>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>设计笔记：并行执行层</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-and-requirements">问题与需求</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goals-and-non-goals">目标与非目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-principles-state-ownership-invariants">设计原则：状态归属不变式</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-executor-abstraction">执行器抽象</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-decomposition-per-round">每轮的任务切分</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backends">后端</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-ladder">可复现性阶梯</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-surface">配置面</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-notes">实现笔记</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">展望</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="design-notes-the-parallel-execution-layer">
+<span id="parallel-execution-design"></span><h1>设计笔记：并行执行层<a class="headerlink" href="#design-notes-the-parallel-execution-layer" title="链接到此标题。">#</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">在 0.2.0 版本加入.</span></p>
+</div>
+<p>本页记录 <a class="reference internal" href="parallel_execution.html"><span class="doc">并行执行层</span></a> 的设计——塑造它的需求、让并行运行值得信赖的不变式，以及各可见接口背后的理由。它解释的是 <em>为什么</em> ； <a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a> 是实操指南，而钩子契约测试（ <code class="docutils literal notranslate"><span class="pre">test/test_hook_contract.py</span></code> ）则是本页所述规则的可执行形态。</p>
+<section id="problem-and-requirements">
+<h2>问题与需求<a class="headerlink" href="#problem-and-requirements" title="链接到此标题。">#</a></h2>
+<p>fl-sim 在同一个 Python 进程内模拟所有客户端与服务器。历史上客户端的本地步严格串行执行，因此一轮的墙钟时间与被采样客户端的数量成正比——一旦模型不再平凡，这就是主导成本。</p>
+<p>塑造本设计的需求：</p>
+<ul class="simple">
+<li><p><strong>Scale</strong>: tens to a few hundred clients, up to about a thousand;
+built-in models range from a few KiB to tens of MiB.</p></li>
+<li><p><strong>Devices</strong>: CPU and GPU both matter.</p></li>
+<li><p><strong>Reproducibility</strong>: statistical-level reproducibility is acceptable
+for parallel runs; bitwise reproducibility stays guaranteed for the
+default sequential path.</p></li>
+<li><p><strong>Dependencies</strong>: heavy dependencies (Ray and friends) may only ever
+enter as optional backends.</p></li>
+<li><p>既有架构不构成约束：主循环、客户端/服务器的职责划分、逐算法的上行协议都允许改动。</p></li>
+</ul>
+<p>既有工作分三个流派。基于进程的模拟器把客户端隔离在工作进程中（隔离性强，有序列化成本）。基于线程的共享内存设计把客户端留在同一进程内（状态访问廉价，需要 GIL 纪律）。向量化/函数式设计（如 FedJAX 用 <code class="docutils literal notranslate"><span class="pre">vmap</span></code> 批量处理整个种群）吞吐量最高，但要求把每个模型与算法都改写成函数式——那是另一个框架。fl-sim 走第二条路，同时以契约保持第一、第三条路可达。</p>
+</section>
+<section id="goals-and-non-goals">
+<h2>目标与非目标<a class="headerlink" href="#goals-and-non-goals" title="链接到此标题。">#</a></h2>
+<p>目标：</p>
+<ul class="simple">
+<li><p>在多核 CPU 与单/多 GPU 上取得可测量的墙钟加速；</p></li>
+<li><p>对 20 个内置算法零语义改动——算法侧只经历一次由框架统一代办的上行协议迁移；</p></li>
+<li><p>默认的 <code class="docutils literal notranslate"><span class="pre">sequential</span></code> 后端与并行化之前的实现 <strong>逐位一致</strong> ：通信计数（含条件性广播时的&quot;空 +1&quot;）、日志顺序、通信跳过算法的计数语义，以及客户端的模型轨迹；</p></li>
+<li><p>三级可复现性承诺（见下）；</p></li>
+<li><p>新后端到来时执行器抽象不必改变；</p></li>
+<li><p>不引入新的必选依赖（标准库 <code class="docutils literal notranslate"><span class="pre">concurrent.futures</span></code> 加上 PyTorch/NumPy 自带能力）。</p></li>
+</ul>
+<p>明确的非目标及其理由：</p>
+<ul class="simple">
+<li><p><strong>Ray / multi-machine execution</strong> — no distributed use case; the
+interface keeps it reachable as an optional backend;</p></li>
+<li><p><strong>vectorized simulation</strong> — equivalent to rewriting the framework;</p></li>
+<li><p><strong>discrete-event simulation</strong> — orthogonal (a tool for system
+performance evaluation, not for accelerating real computation);</p></li>
+<li><p><strong>bitwise cross-run reproducibility under parallelism</strong> — accepted at
+statistical level by design decision; the sequential path keeps
+bitwise behavior;</p></li>
+<li><p><strong>client memory optimization</strong> — buffering all uploads of a round is
+pre-existing behavior; parallelization neither changes nor optimizes
+it;</p></li>
+<li><p><strong>asynchronous / staleness algorithm semantics</strong> — designed as bulk
+synchronous;</p></li>
+<li><p><strong>experiment-level parallelism</strong> — running many experiments in
+parallel (<code class="docutils literal notranslate"><span class="pre">fl_sim/utils/multiprocessing.py</span></code>) is orthogonal to
+client-level parallelism and intentionally untouched.</p></li>
+</ul>
+</section>
+<section id="design-principles-state-ownership-invariants">
+<h2>设计原则：状态归属不变式<a class="headerlink" href="#design-principles-state-ownership-invariants" title="链接到此标题。">#</a></h2>
+<p>两条不变式撑起整个设计：</p>
+<p><strong>I1 (client-task enclosure)</strong> — code running in the parallel region
+may only read and write <em>its own client's</em> state plus read-only shared
+data; server-side state is untouchable. Enforced mechanically by AST
+contract tests: the audited touch-set of every client hook is pinned,
+a static name blacklist is a cheap pre-filter and a runtime
+<code class="docutils literal notranslate"><span class="pre">isinstance(v,</span> <span class="pre">Server)</span></code> check is the real gatekeeper.</p>
+<p><strong>I2 (server single-threadedness)</strong> — every server-side state change
+happens on the main thread, in the fixed sampled-client order within
+each round.</p>
+<p>两者合起来得到 <strong>算术等价性推论</strong> ：给定每个客户端的输入（下行消息，或没有）与输出（上行消息，或没有），聚合阶段的算术序列与执行后端无关。后端只改变客户端本地轨迹被并发调度的方式——从不改变聚合算术。threads 后端靠约定、代码结构与 CI 断言来执行这两条不变式；进程后端将靠物理隔离执行。一套契约覆盖两者。</p>
+</section>
+<section id="the-executor-abstraction">
+<h2>执行器抽象<a class="headerlink" href="#the-executor-abstraction" title="链接到此标题。">#</a></h2>
+<p>所有后端实现同一个接口：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ClientExecutor</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">on_complete</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>契约内容：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">map</span></code> applies <code class="docutils literal notranslate"><span class="pre">fn</span></code> element-wise and returns results <strong>in the
+order of ``items``</strong> — never in completion order. Consuming results
+in completion order would let the floating-point aggregation order
+drift with the scheduler; progress reporting is carried separately by
+<code class="docutils literal notranslate"><span class="pre">on_complete(result,</span> <span class="pre">index)</span></code>, invoked on the main thread as soon as
+each task finishes.</p></li>
+<li><p>任务异常以原异常链上客户端 id 的形式传播（ <code class="docutils literal notranslate"><span class="pre">raise</span> <span class="pre">...</span> <span class="pre">from</span> <span class="pre">exc</span></code> ）；尚未开始的任务尽力取消，已在运行的任务允许跑完（如实文档化）；</p></li>
+<li><p>该对象是上下文管理器：进入时保存并应用执行资源（torch 算子内线程预算），退出时恢复。</p></li>
+</ul>
+<p>用 <code class="docutils literal notranslate"><span class="pre">map</span></code> 而不是 future 是有意为之：暴露 future 会诱使调用者把状态变更搬进并发区，破坏 I2。</p>
+</section>
+<section id="task-decomposition-per-round">
+<h2>每轮的任务切分<a class="headerlink" href="#task-decomposition-per-round" title="链接到此标题。">#</a></h2>
+<p>每一轮切分为串行的主线程部分（本就便宜）与并行部分（昂贵的本地步）：</p>
+<ol class="arabic simple">
+<li><p><strong>Main thread</strong> — the per-algorithm uplink decision
+(<code class="docutils literal notranslate"><span class="pre">Server._decide_uplink</span></code>; only communication-skipping algorithms
+override it, and the RNG consumption for it moves onto the serial
+main-thread path), then the downlink broadcast
+(<code class="docutils literal notranslate"><span class="pre">Server.communicate(target)</span></code>) with <strong>per-algorithm semantics
+preserved as-is</strong>: APFL broadcasts conditionally on <code class="docutils literal notranslate"><span class="pre">n_iter</span> <span class="pre">%</span> <span class="pre">tau</span></code>,
+FedPD on the previous round's participation set, everything else
+unconditionally. &quot;Skips the uplink this round&quot; and &quot;receives no
+downlink this round&quot; are independent mechanisms.</p></li>
+<li><p><strong>Parallel region</strong> — the per-client task: evaluate (on evaluation
+rounds) → local training → build the reply. The task <strong>always</strong>
+evaluates and trains; only the reply is conditional. Skipping the
+uplink never skips training, evaluation or metric logging —
+otherwise the personalized models of communication-skipping
+algorithms would stop evolving.</p></li>
+<li><p><strong>Main thread</strong> — replies are consumed in sampled-client order; the
+communication counter follows the per-algorithm semantics
+(ProxSkip counts skipped clients, FedPD does not).</p></li>
+</ol>
+</section>
+<section id="backends">
+<h2>后端<a class="headerlink" href="#backends" title="链接到此标题。">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>后端</p></th>
+<th class="head"><p>实现基础</p></th>
+<th class="head"><p>适用场景</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sequential</span></code> (default)</p></td>
+<td><p>朴素的 for 循环</p></td>
+<td><p>调试；逐位可复现</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">threads</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ThreadPoolExecutor</span></code></p></td>
+<td><p>多核 CPU 与单/多 GPU；PyTorch 在计算核内释放 GIL，因此本地步能在 GIL 之下并行化</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">processes</span></code> (planned)</p></td>
+<td><p>持久 worker 池 + 客户端分片</p></td>
+<td><p>GIL 限制 threads 后端的 CPU 负载</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ray</span></code> (planned, optional dependency)</p></td>
+<td><p>Ray actor</p></td>
+<td><p>跨机</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Measured speedups for <code class="docutils literal notranslate"><span class="pre">threads</span></code> (best of 3; see
+<code class="docutils literal notranslate"><span class="pre">test-files/benchmark_executors.py</span></code>): about <strong>1.2x</strong> on small
+CPU-bound workloads (GIL contention dominates), <strong>1.4x</strong> and above on
+compute-heavier CPU models, and <strong>no benefit on a single GPU</strong> (kernels
+from concurrent clients serialize on the device anyway).</p>
+</section>
+<section id="reproducibility-ladder">
+<h2>可复现性阶梯<a class="headerlink" href="#reproducibility-ladder" title="链接到此标题。">#</a></h2>
+<p>随机性有三条消费通道：torch（dataloader 洗牌、dropout）、numpy（客户端采样与 FedPD 决策）与 python <code class="docutils literal notranslate"><span class="pre">random</span></code> （防御性）。设计把每一类 <em>决策类</em> RNG 消费都挪到主线程串行路径上，并定义三个层级：</p>
+<ul class="simple">
+<li><p><strong>L0 (default)</strong> — decisions on the main thread + fixed consumption
+order (I2): aggregation is bitwise identical across backends and the
+participation sets are fixed; the clients' local trajectories are
+reproducible at statistical level only.</p></li>
+<li><p><strong>L1 (opt-in, ``rng_mode=&quot;per_client&quot;``)</strong> — each client's train/val
+dataloaders carry per-client <code class="docutils literal notranslate"><span class="pre">torch.Generator</span></code> objects seeded
+deterministically from <code class="docutils literal notranslate"><span class="pre">(seed,</span> <span class="pre">round,</span> <span class="pre">client_id)</span></code> and re-armed every
+round, making the shuffle streams bitwise identical across backends,
+parallelism degrees and repeats — including the final model weights.
+Dropout and the evaluation-path shuffling are <em>not</em> covered (they
+consume the process-global RNG). A <code class="docutils literal notranslate"><span class="pre">fork_rng()</span></code>-based alternative
+was measured and rejected: <code class="docutils literal notranslate"><span class="pre">manual_seed</span></code> writes global state that
+concurrent tasks clobber.</p></li>
+<li><p><strong>L2 (rejected)</strong> — full functional-RNG isolation: too invasive for a
+marginal benefit.</p></li>
+</ul>
+</section>
+<section id="configuration-surface">
+<h2>配置面<a class="headerlink" href="#configuration-surface" title="链接到此标题。">#</a></h2>
+<p>服务器配置上的三个仅关键字字段—— <code class="docutils literal notranslate"><span class="pre">executor</span></code> 、 <code class="docutils literal notranslate"><span class="pre">num_workers</span></code> 、 <code class="docutils literal notranslate"><span class="pre">torch_num_threads</span></code> ——加上环境变量覆盖 <code class="docutils literal notranslate"><span class="pre">FL_SIM_EXECUTOR</span></code> / <code class="docutils literal notranslate"><span class="pre">FL_SIM_NUM_WORKERS</span></code> 。由于服务器配置还接受位置参数，新字段登记在一份内部跳过名单中，使新增字段不可能移动继承字段的位置。</p>
+</section>
+<section id="implementation-notes">
+<h2>实现笔记<a class="headerlink" href="#implementation-notes" title="链接到此标题。">#</a></h2>
+<p>交付的实现与原计划不同处、或对原计划的锐化点：</p>
+<ul class="simple">
+<li><p>消息协议最终落在 <strong>按名参数交换</strong> （ <code class="docutils literal notranslate"><span class="pre">model_state</span></code> 映射）上，而不是扁平的位置参数列表；IFCA（聚类中心）与 FedCR（编码器/头部切分）因各自非标准的状态布局采用了它。</p></li>
+<li><p>逐位迁移装置（25 个场景变体，摘要消息、决策、计数器与日志）暴露出一个既有的 APFL 缺陷： <code class="docutils literal notranslate"><span class="pre">tau</span> <span class="pre">&gt;</span> <span class="pre">1</span></code> 时服务器在广播轮聚合而不是在周期末轮聚合。修复（改为周期末聚合）包含在本版本中；迁移过程（含该缺陷在内）与原行为逐位一致。</p></li>
+<li><p>L1 的实现方式是在 <code class="docutils literal notranslate"><span class="pre">Client.__init__</span></code> 中用带专属生成器的 dataloader 整体重建——刻意 <em>不去</em> 触碰十个 <code class="docutils literal notranslate"><span class="pre">get_dataloader</span></code> 覆写，从而把侵入面控制得很小。</p></li>
+<li><p>形如 <code class="docutils literal notranslate"><span class="pre">communicate(self,</span> <span class="pre">target)</span></code> 的遗留客户端钩子在 sequential 后端下经签名内省垫片继续可用（带 <code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code> ）；在并行后端下它们直接抛错而不是静默出错。</p></li>
+</ul>
+</section>
+<section id="outlook">
+<h2>展望<a class="headerlink" href="#outlook" title="链接到此标题。">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">processes</span></code> backend needs no changes to the main loop or the
+algorithms: I1 already guarantees that a client task's output
+(<code class="docutils literal notranslate"><span class="pre">build_reply</span></code> result) is picklable, and I2 holds by construction on
+the main thread. The remaining work is a persistent worker pool with
+client sharding and the per-worker device placement policy. A <code class="docutils literal notranslate"><span class="pre">ray</span></code>
+backend would sit behind the same interface as an optional dependency.</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<p><a class="reference internal" href="parallel_execution.html"><span class="doc">Parallel execution layer</span></a> — the practical guide (quick start,
+configuration, measured speedups); <code class="docutils literal notranslate"><span class="pre">test/test_hook_contract.py</span></code> —
+the executable contract tests.</p>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="parallel_execution.html"
+       title="上一页">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">Parallel execution layer</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cli.html"
+       title="下一页">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">命令行接口</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-and-requirements">问题与需求</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goals-and-non-goals">目标与非目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-principles-state-ownership-invariants">设计原则：状态归属不变式</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-executor-abstraction">执行器抽象</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-decomposition-per-round">每轮的任务切分</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backends">后端</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-ladder">可复现性阶梯</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-surface">配置面</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-notes">实现笔记</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlook">展望</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： WEN Hao
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, WEN Hao.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+
+  
+  <footer class="bd-footer">
+  </footer>
+  
+<div class="rst-versions" id="versions-flyout" role="note" aria-label="versions and languages">
+  <span class="rst-current-version" data-toggle="rst-versions" title="切换版本或语言">
+    <span>latest</span>
+    <span class="rst-caret">▾</span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>语言</dt>
+      
+        <dd>
+          <a href="./../en/parallel_execution_design.html"
+             >English</a>
+        </dd>
+      
+        <dd>
+          <a href="./../zh_CN/parallel_execution_design.html"
+             class="rst-current-item">简体中文</a>
+        </dd>
+      
+    </dl>
+    
+      <dl>
+        <dt>版本</dt>
+        
+          <dd>
+            <a href="./../../zh_CN/parallel_execution_design.html"
+               class="rst-current-item">latest</a>
+          </dd>
+        
+          <dd>
+            <a href="./../../v0.2.0/zh_CN/parallel_execution_design.html"
+               >v0.2.0</a>
+          </dd>
+        
+      </dl>
+    
+  </div>
+</div>
+
+  </body>
+</html>

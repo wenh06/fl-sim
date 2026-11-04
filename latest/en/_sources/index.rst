@@ -54,6 +54,7 @@ Project Links: `GitHub <https://github.com/wenh06/fl-sim>`_ | `gitee <https://gi
 
    algorithms
    parallel_execution
+   parallel_execution_design
    cli
    viz
 

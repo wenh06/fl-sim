@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link id="favicon" rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/3a-61-62-61-71-75-65-3a.png">
-    <title>联邦学习中的临近算法 &#8212; fl-sim 0.2.1.dev2+g45924def0 文档</title>
+    <title>联邦学习中的临近算法 &#8212; fl-sim 0.2.1.dev3+gf561a20e3 文档</title>
   
   
   
@@ -48,7 +48,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=483875ec"></script>
+    <script src="../_static/documentation_options.js?v=8ea3d835"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -233,7 +233,7 @@
   
   
   
-    <p class="title logo__title">fl-sim 0.2.1.dev2+g45924def0 文档</p>
+    <p class="title logo__title">fl-sim 0.2.1.dev3+gf561a20e3 文档</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -354,6 +354,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallel_execution.html">Parallel execution layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel_execution_design.html">设计笔记：并行执行层</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">命令行接口</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../viz.html">可视化子系统</a></li>
 </ul>
@@ -600,7 +601,7 @@
 \end{array}\end{split}\]</div>
 <p>关于邻近项中心的其他选取，[Hanzely and Richtárik<a class="footnote-reference brackets" href="#footcite-hanzely2020federated" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, Li <em>et al.</em><a class="footnote-reference brackets" href="#footcite-li-2021-ditto" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>] 进行了研究，我们随后进行详细介绍。我们将联邦临近算法 <code class="docutils literal notranslate"><span class="pre">FedProx</span></code> 的伪代码总结如下：</p>
 <div class="pseudocode-container docutils container" id="pcode-fedprox">
-<pre class="scopeline-pseudocode" id="pseudocode-139972448507760" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139937297666352" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedProx}}
 \begin{algorithmic}
 \REQUIRE penalty constant $\mu,$ constant $\gamma \in [0, 1]$
@@ -666,7 +667,7 @@
 <span id="fig-apfl"></span><p><img width="80%" src="../_images/tikz-a4a11a93d19f47c1e3a684dd5159c5d79f350276.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Schematic diagram for <span class="math notranslate nohighlight">\(f_k(\alpha_k \omega_k + (1 - \alpha_k) \theta^*)\)</span> in the APFL algorithm.</span></p>
 </div><div class="pseudocode-container docutils container" id="pcode-apfl">
-<pre class="scopeline-pseudocode" id="pseudocode-139972329561040" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139937297668272" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{APFL}}
 \begin{algorithmic}
 \REQUIRE mixture weights $\alpha_1, \ldots, \alpha_K,$ synchronization gap $\tau$
@@ -706,7 +707,7 @@
 <span id="fig-feddyn"></span><p><img width="80%" src="../_images/tikz-ea5939230cbfad9f08b2efbb2087d0f52426b2e4.svg" alt="Figure made with TikZ" /></p>
 <p><span class="caption-text">Client model parameter update schematic diagram of the FedDyn algorithm.</span></p>
 </div><div class="pseudocode-container docutils container" id="pcode-feddyn">
-<pre class="scopeline-pseudocode" id="pseudocode-139972321815088" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139937288839536" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDyn}}
 \begin{algorithmic}
 \REQUIRE penalty coeffecient $\mu$
@@ -746,7 +747,7 @@
 <span class="eqno">(12)<a class="headerlink" href="#equation-feddc-agg" title="链接到此公式">#</a></span>\[w^{+} = \sum_{i=1}^N \frac{\lvert D_i \rvert}{\lvert D \rvert} \left( \theta_i^{+} + h_i^{+} \right).\]</div>
 <p>伪代码总结如下。</p>
 <div class="pseudocode-container docutils container" id="pcode-feddc">
-<pre class="scopeline-pseudocode" id="pseudocode-139972329562160" data-line-number="true">\begin{algorithm}
+<pre class="scopeline-pseudocode" id="pseudocode-139937551584144" data-line-number="true">\begin{algorithm}
 \caption{PseudoCode for \texttt{FedDC}}
 \begin{algorithmic}
 \REQUIRE number of clients $N,$ number of rounds $T,$ local iterations $K,$ learning rate $\eta,$ correction coefficient $\alpha$
