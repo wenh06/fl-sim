@@ -25,12 +25,9 @@ msgstr ""
 
 #: fl_sim.optimizers:4 of
 msgid ""
-"This module contains the optimizers (local solvers) used in federated "
-"learning. Despite optimizers from :mod:`torch.optim` and "
-":mod:`torch_optimizer`, we also provide some custom optimizers for federated"
-" learning for solving for example"
-msgstr ""
-"本模块包含联邦学习中所使用的优化器（局部求解器）。尽管优化器通常是为临近优化问题或拉格朗日对偶问题等特定形式的问题设计的，它们同样可以用于其他算法。"
+"This module contains the optimizers (local solvers) used in federated learning. Despite optimizers from :mod:`torch.optim` and :mod:`torch_optimizer`, we also provide some custom optimizers for "
+"federated learning for solving for example"
+msgstr "本模块包含联邦学习中所使用的优化器（局部求解器）。尽管 :mod:`torch.optim` 与 :mod:`torch_optimizer` 中的优化器通常是为临近优化问题或拉格朗日对偶问题等特定形式的问题设计的，它们同样可以用于其他算法。我们还提供了一些面向联邦学习的自定义优化器，用于解决例如"
 
 #: fl_sim.optimizers:8 of
 msgid "proximal optimization problem"
@@ -41,9 +38,7 @@ msgid "lagrangian dual problem"
 msgstr "拉格朗日对偶问题"
 
 #: fl_sim.optimizers:23:<autosummary>:1 of
-msgid ""
-":py:obj:`get_optimizer <fl_sim.optimizers.get_optimizer>`\\ "
-"\\(optimizer\\_name\\, params\\, config\\)"
+msgid ":py:obj:`get_optimizer <fl_sim.optimizers.get_optimizer>`\\ \\(optimizer\\_name\\, params\\, config\\)"
 msgstr ""
 
 #: fl_sim.optimizers:23:<autosummary>:1 of
@@ -51,9 +46,7 @@ msgid "Get optimizer by name."
 msgstr "按名称获取优化器。"
 
 #: fl_sim.optimizers:23:<autosummary>:1 of
-msgid ""
-":py:obj:`register_optimizer <fl_sim.optimizers.register_optimizer>`\\ "
-"\\(\\[name\\, override\\]\\)"
+msgid ":py:obj:`register_optimizer <fl_sim.optimizers.register_optimizer>`\\ \\(\\[name\\, override\\]\\)"
 msgstr ""
 
 #: fl_sim.optimizers:23:<autosummary>:1 of
