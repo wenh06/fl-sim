@@ -1,0 +1,379 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, WEN Hao
+# This file is distributed under the same license as the fl-sim package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: fl-sim\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 00:22+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/parallel_execution_design.rst:4
+msgid "Design notes: the parallel execution layer"
+msgstr "设计笔记：并行执行层"
+
+#: ../../source/parallel_execution_design.rst:8
+msgid ""
+"This page records the design of the :doc:`parallel execution layer <parallel_execution>` — the requirements that shaped it, the invariants that make parallel runs trustworthy, and the reasoning "
+"behind the visible interfaces. It explains *why*; :doc:`parallel_execution` is the practical guide, and the hook-contract tests (``test/test_hook_contract.py``) are the executable form of the rules "
+"stated here."
+msgstr "本页记录 :doc:`并行执行层 <parallel_execution>` 的设计——塑造它的需求、让并行运行值得信赖的不变式，以及各可见接口背后的理由。它解释的是 *为什么* ； :doc:`parallel_execution` 是实操指南，而钩子契约测试（ ``test/test_hook_contract.py`` ）则是本页所述规则的可执行形态。"
+
+#: ../../source/parallel_execution_design.rst:16
+msgid "Problem and requirements"
+msgstr "问题与需求"
+
+#: ../../source/parallel_execution_design.rst:18
+msgid ""
+"fl-sim simulates every client and the server inside one Python process. Historically the clients' local steps ran strictly sequentially, so the wall-clock time of a round is proportional to the "
+"number of sampled clients — the dominant cost once models are non-trivial."
+msgstr "fl-sim 在同一个 Python 进程内模拟所有客户端与服务器。历史上客户端的本地步严格串行执行，因此一轮的墙钟时间与被采样客户端的数量成正比——一旦模型不再平凡，这就是主导成本。"
+
+#: ../../source/parallel_execution_design.rst:23
+msgid "The requirements that shaped the design:"
+msgstr "塑造本设计的需求："
+
+#: ../../source/parallel_execution_design.rst:25
+msgid "**Scale**: tens to a few hundred clients, up to about a thousand; built-in models range from a few KiB to tens of MiB."
+msgstr " **规模** ：几十到几百个客户端，上限约一千；内置模型从几 KiB 到数十 MiB。"
+
+#: ../../source/parallel_execution_design.rst:27
+msgid "**Devices**: CPU and GPU both matter."
+msgstr " **设备** ：CPU 与 GPU 都在考虑范围内。"
+
+#: ../../source/parallel_execution_design.rst:28
+msgid "**Reproducibility**: statistical-level reproducibility is acceptable for parallel runs; bitwise reproducibility stays guaranteed for the default sequential path."
+msgstr " **可复现性** ：并行运行下统计级的可复现性即可接受；默认的 sequential 路径保持逐位可复现的保证。"
+
+#: ../../source/parallel_execution_design.rst:31
+msgid "**Dependencies**: heavy dependencies (Ray and friends) may only ever enter as optional backends."
+msgstr " **依赖** ：重依赖（Ray 之类）只允许以可选后端的形式进入。"
+
+#: ../../source/parallel_execution_design.rst:33
+msgid "The existing architecture is not a constraint: the main loop, the client/server responsibility split and the per-algorithm upload protocol were all allowed to change."
+msgstr "既有架构不构成约束：主循环、客户端/服务器的职责划分、逐算法的上行协议都允许改动。"
+
+#: ../../source/parallel_execution_design.rst:37
+msgid ""
+"Prior work falls into three schools. Process-based simulators isolate clients in worker processes (strong isolation, serialization cost). Thread-based shared-memory designs keep clients in one "
+"process (cheap state access, GIL discipline required). Vectorized/functional designs (batch the whole population with ``vmap``, as in FedJAX) achieve the best throughput but require rewriting every "
+"model and algorithm in functional form — a different framework. fl-sim takes the second path with a contract that keeps the third and the first reachable."
+msgstr "既有工作分三个流派。基于进程的模拟器把客户端隔离在工作进程中（隔离性强，有序列化成本）。基于线程的共享内存设计把客户端留在同一进程内（状态访问廉价，需要 GIL 纪律）。向量化/函数式设计（如 FedJAX 用 ``vmap`` 批量处理整个种群）吞吐量最高，但要求把每个模型与算法都改写成函数式——那是另一个框架。fl-sim 走第二条路，同时以契约保持第一、第三条路可达。"
+
+#: ../../source/parallel_execution_design.rst:47
+msgid "Goals and non-goals"
+msgstr "目标与非目标"
+
+#: ../../source/parallel_execution_design.rst:49
+msgid "Goals:"
+msgstr "目标："
+
+#: ../../source/parallel_execution_design.rst:51
+msgid "measurable wall-clock speedup on multi-core CPU and single/multi GPU;"
+msgstr "在多核 CPU 与单/多 GPU 上取得可测量的墙钟加速；"
+
+#: ../../source/parallel_execution_design.rst:52
+msgid "zero semantic change to the 20 built-in algorithms — algorithms only went through one framework-managed protocol migration;"
+msgstr "对 20 个内置算法零语义改动——算法侧只经历一次由框架统一代办的上行协议迁移；"
+
+#: ../../source/parallel_execution_design.rst:54
+msgid ""
+"the default ``sequential`` backend is **bitwise identical** to the pre-parallel implementation: communication counters (including the \"empty\" +1 of conditional broadcasts), log ordering, the "
+"counting semantics of communication-skipping algorithms, and client model trajectories;"
+msgstr "默认的 ``sequential`` 后端与并行化之前的实现 **逐位一致** ：通信计数（含条件性广播时的\"空 +1\"）、日志顺序、通信跳过算法的计数语义，以及客户端的模型轨迹；"
+
+#: ../../source/parallel_execution_design.rst:59
+msgid "a three-level reproducibility promise (below);"
+msgstr "三级可复现性承诺（见下）；"
+
+#: ../../source/parallel_execution_design.rst:60
+msgid "the executor abstraction must not change when new backends arrive;"
+msgstr "新后端到来时执行器抽象不必改变；"
+
+#: ../../source/parallel_execution_design.rst:61
+msgid "no new mandatory dependencies (standard-library ``concurrent.futures`` plus what PyTorch/NumPy already provide)."
+msgstr "不引入新的必选依赖（标准库 ``concurrent.futures`` 加上 PyTorch/NumPy 自带能力）。"
+
+#: ../../source/parallel_execution_design.rst:64
+msgid "Explicit non-goals, with the reasons:"
+msgstr "明确的非目标及其理由："
+
+#: ../../source/parallel_execution_design.rst:66
+msgid "**Ray / multi-machine execution** — no distributed use case; the interface keeps it reachable as an optional backend;"
+msgstr " **Ray / 多机执行** ——没有分布式场景；接口保持其以可选后端形式加入的可能；"
+
+#: ../../source/parallel_execution_design.rst:68
+msgid "**vectorized simulation** — equivalent to rewriting the framework;"
+msgstr " **向量化仿真** ——等于重写框架；"
+
+#: ../../source/parallel_execution_design.rst:69
+msgid "**discrete-event simulation** — orthogonal (a tool for system performance evaluation, not for accelerating real computation);"
+msgstr " **离散事件仿真** ——正交（那是系统性能评估的工具，不是加速真实计算的手段）；"
+
+#: ../../source/parallel_execution_design.rst:71
+msgid "**bitwise cross-run reproducibility under parallelism** — accepted at statistical level by design decision; the sequential path keeps bitwise behavior;"
+msgstr " **并行下的逐位跨运行可复现** ——经设计决策接受统计级；sequential 路径保持逐位行为；"
+
+#: ../../source/parallel_execution_design.rst:74
+msgid "**client memory optimization** — buffering all uploads of a round is pre-existing behavior; parallelization neither changes nor optimizes it;"
+msgstr " **客户端内存优化** ——缓冲一轮全部上传是既有行为；并行化既不改变它也不优化它；"
+
+#: ../../source/parallel_execution_design.rst:77
+msgid "**asynchronous / staleness algorithm semantics** — designed as bulk synchronous;"
+msgstr " **异步/陈旧性算法语义** ——按批量同步设计；"
+
+#: ../../source/parallel_execution_design.rst:79
+msgid "**experiment-level parallelism** — running many experiments in parallel (``fl_sim/utils/multiprocessing.py``) is orthogonal to client-level parallelism and intentionally untouched."
+msgstr " **实验级并行** ——并行跑多个实验（ ``fl_sim/utils/multiprocessing.py`` ）与客户端级并行正交，有意不去触碰。"
+
+#: ../../source/parallel_execution_design.rst:84
+msgid "Design principles: state-ownership invariants"
+msgstr "设计原则：状态归属不变式"
+
+#: ../../source/parallel_execution_design.rst:86
+msgid "Two invariants carry the entire design:"
+msgstr "两条不变式撑起整个设计："
+
+#: ../../source/parallel_execution_design.rst:88
+msgid ""
+"**I1 (client-task enclosure)** — code running in the parallel region may only read and write *its own client's* state plus read-only shared data; server-side state is untouchable. Enforced "
+"mechanically by AST contract tests: the audited touch-set of every client hook is pinned, a static name blacklist is a cheap pre-filter and a runtime ``isinstance(v, Server)`` check is the real "
+"gatekeeper."
+msgstr " **I1（客户端任务封闭性）** ——并行区内的代码只允许读写 *本客户端自己的* 状态与只读共享数据；服务器侧状态不可触碰。由 AST 契约测试机械守护：每个客户端钩子的审计触达集合被钉死，静态名字黑名单作廉价前置筛，运行期 ``isinstance(v, Server)`` 检查才是真正的守门人。"
+
+#: ../../source/parallel_execution_design.rst:95
+msgid "**I2 (server single-threadedness)** — every server-side state change happens on the main thread, in the fixed sampled-client order within each round."
+msgstr " **I2（服务器单线程性）** ——所有服务器侧状态的变更只发生在主线程，且每轮内按固定的被采样客户端顺序发生。"
+
+#: ../../source/parallel_execution_design.rst:99
+msgid ""
+"Together they yield the **arithmetic-equivalence corollary**: given each client's inputs (the downlink message, or none) and outputs (the uplink message, or none), the arithmetic sequence of the "
+"aggregation stage is independent of the execution backend. Backends only change how the clients' local trajectories are scheduled concurrently — never the aggregation arithmetic. The threads backend"
+" enforces the invariants by convention, code structure and CI assertions; a process backend would enforce them by physical isolation. One contract covers both."
+msgstr "两者合起来得到 **算术等价性推论** ：给定每个客户端的输入（下行消息，或没有）与输出（上行消息，或没有），聚合阶段的算术序列与执行后端无关。后端只改变客户端本地轨迹被并发调度的方式——从不改变聚合算术。threads 后端靠约定、代码结构与 CI 断言来执行这两条不变式；进程后端将靠物理隔离执行。一套契约覆盖两者。"
+
+#: ../../source/parallel_execution_design.rst:109
+msgid "The executor abstraction"
+msgstr "执行器抽象"
+
+#: ../../source/parallel_execution_design.rst:111
+msgid "Backends implement a single interface::"
+msgstr "所有后端实现同一个接口："
+
+#: ../../source/parallel_execution_design.rst:116
+msgid "The contract:"
+msgstr "契约内容："
+
+#: ../../source/parallel_execution_design.rst:118
+msgid ""
+"``map`` applies ``fn`` element-wise and returns results **in the order of ``items``** — never in completion order. Consuming results in completion order would let the floating-point aggregation "
+"order drift with the scheduler; progress reporting is carried separately by ``on_complete(result, index)``, invoked on the main thread as soon as each task finishes."
+msgstr " ``map`` 逐元素应用 ``fn`` 并 **按 ``items`` 的顺序** 返回结果——绝不按完成顺序。按完成序消费结果会让浮点聚合顺序随调度器漂移；进度报告由 ``on_complete(result, index)`` 单独承载，每个任务一完成就在主线程上被调用。"
+
+#: ../../source/parallel_execution_design.rst:124
+msgid ""
+"task exceptions propagate as the original exception chained with the client id (``raise ... from exc``); not-yet-started tasks are cancelled best-effort, already-running tasks are allowed to finish "
+"(documented as-is);"
+msgstr "任务异常以原异常链上客户端 id 的形式传播（ ``raise ... from exc`` ）；尚未开始的任务尽力取消，已在运行的任务允许跑完（如实文档化）；"
+
+#: ../../source/parallel_execution_design.rst:128
+msgid "the object is a context manager: entering saves and applies execution resources (the torch intra-op thread budget), exiting restores them."
+msgstr "该对象是上下文管理器：进入时保存并应用执行资源（torch 算子内线程预算），退出时恢复。"
+
+#: ../../source/parallel_execution_design.rst:131
+msgid "``map`` instead of futures is deliberate: exposing futures would tempt callers to move state changes into the concurrent region, breaking I2."
+msgstr "用 ``map`` 而不是 future 是有意为之：暴露 future 会诱使调用者把状态变更搬进并发区，破坏 I2。"
+
+#: ../../source/parallel_execution_design.rst:135
+msgid "Task decomposition per round"
+msgstr "每轮的任务切分"
+
+#: ../../source/parallel_execution_design.rst:137
+msgid "Each round splits into a serial main-thread part (inherently cheap) and a parallel part (the expensive local steps):"
+msgstr "每一轮切分为串行的主线程部分（本就便宜）与并行部分（昂贵的本地步）："
+
+#: ../../source/parallel_execution_design.rst:140
+msgid ""
+"**Main thread** — the per-algorithm uplink decision (``Server._decide_uplink``; only communication-skipping algorithms override it, and the RNG consumption for it moves onto the serial main-thread "
+"path), then the downlink broadcast (``Server.communicate(target)``) with **per-algorithm semantics preserved as-is**: APFL broadcasts conditionally on ``n_iter % tau``, FedPD on the previous round's"
+" participation set, everything else unconditionally. \"Skips the uplink this round\" and \"receives no downlink this round\" are independent mechanisms."
+msgstr ""
+" **主线程** ——逐算法的上行决策（ ``Server._decide_uplink`` ；只有通信跳过型算法覆写它，且其 RNG 消费回到主线程串行路径），随后是下行广播（ ``Server.communicate(target)`` ）， **逐算法语义原样保留** ：APFL 按 ``n_iter % tau`` 条件下发，FedPD "
+"按上一轮的参与集合条件下发，其余无条件。\"本轮跳过上行\"与\"本轮收不到下行\"是两个独立的机制。"
+
+#: ../../source/parallel_execution_design.rst:149
+msgid ""
+"**Parallel region** — the per-client task: evaluate (on evaluation rounds) → local training → build the reply. The task **always** evaluates and trains; only the reply is conditional. Skipping the "
+"uplink never skips training, evaluation or metric logging — otherwise the personalized models of communication-skipping algorithms would stop evolving."
+msgstr " **并行区** ——逐客户端任务：评估（评估轮）→ 本地训练 → 构建回复。任务 **总是** 评估、总是训练；只有回复是条件性的。"
+
+#: ../../source/parallel_execution_design.rst:155
+msgid "**Main thread** — replies are consumed in sampled-client order; the communication counter follows the per-algorithm semantics (ProxSkip counts skipped clients, FedPD does not)."
+msgstr " **主线程** ——回复按被采样客户端顺序被消费；通信计数遵循逐算法语义（ProxSkip 给跳过的客户端计数，FedPD 不计）。"
+
+#: ../../source/parallel_execution_design.rst:160
+msgid "Backends"
+msgstr "后端"
+
+#: ../../source/parallel_execution_design.rst:165
+msgid "Backend"
+msgstr "后端"
+
+#: ../../source/parallel_execution_design.rst:166
+msgid "Basis"
+msgstr "实现基础"
+
+#: ../../source/parallel_execution_design.rst:167
+msgid "Sweet spot"
+msgstr "适用场景"
+
+#: ../../source/parallel_execution_design.rst:168
+msgid "``sequential`` (default)"
+msgstr " ``sequential`` （默认）"
+
+#: ../../source/parallel_execution_design.rst:169
+msgid "the plain loop"
+msgstr "朴素的 for 循环"
+
+#: ../../source/parallel_execution_design.rst:170
+msgid "debugging; bitwise reproducibility"
+msgstr "调试；逐位可复现"
+
+#: ../../source/parallel_execution_design.rst:171
+msgid "``threads``"
+msgstr " ``threads`` "
+
+#: ../../source/parallel_execution_design.rst:172
+msgid "``ThreadPoolExecutor``"
+msgstr " ``ThreadPoolExecutor`` "
+
+#: ../../source/parallel_execution_design.rst:173
+msgid "multi-core CPU and single/multi GPU; PyTorch releases the GIL inside compute kernels, so the local steps parallelize despite the GIL"
+msgstr "多核 CPU 与单/多 GPU；PyTorch 在计算核内释放 GIL，因此本地步能在 GIL 之下并行化"
+
+#: ../../source/parallel_execution_design.rst:176
+msgid "``processes`` (planned)"
+msgstr " ``processes`` （规划中）"
+
+#: ../../source/parallel_execution_design.rst:177
+msgid "persistent worker pool + client sharding"
+msgstr "持久 worker 池 + 客户端分片"
+
+#: ../../source/parallel_execution_design.rst:178
+msgid "CPU workloads where the GIL bounds the threads backend"
+msgstr "GIL 限制 threads 后端的 CPU 负载"
+
+#: ../../source/parallel_execution_design.rst:179
+msgid "``ray`` (planned, optional dependency)"
+msgstr " ``ray`` （规划中，可选依赖）"
+
+#: ../../source/parallel_execution_design.rst:180
+msgid "Ray actors"
+msgstr "Ray actor"
+
+#: ../../source/parallel_execution_design.rst:181
+msgid "multi-machine"
+msgstr "跨机"
+
+#: ../../source/parallel_execution_design.rst:183
+msgid ""
+"Measured speedups for ``threads`` (best of 3; see ``test-files/benchmark_executors.py``): about **1.2x** on small CPU-bound workloads (GIL contention dominates), **1.4x** and above on compute-"
+"heavier CPU models, and **no benefit on a single GPU** (kernels from concurrent clients serialize on the device anyway)."
+msgstr " ``threads`` 的实测加速（三次取最优；见 ``test-files/benchmark_executors.py`` ）：小规模 CPU 负载约 **1.2x** （GIL 争用占主导），计算更重的 CPU 模型 **1.4x** 起步， **单 GPU 上无收益** （并发客户端的核在设备上反正要串行执行）。"
+
+#: ../../source/parallel_execution_design.rst:190
+msgid "Reproducibility ladder"
+msgstr "可复现性阶梯"
+
+#: ../../source/parallel_execution_design.rst:192
+msgid ""
+"Randomness has three consumption channels: torch (dataloader shuffling, dropout), numpy (client sampling and FedPD decisions) and python ``random`` (defensive). The design moves every *decision-"
+"class* RNG consumption onto the serial main-thread path and defines three levels:"
+msgstr "随机性有三条消费通道：torch（dataloader 洗牌、dropout）、numpy（客户端采样与 FedPD 决策）与 python ``random`` （防御性）。设计把每一类 *决策类* RNG 消费都挪到主线程串行路径上，并定义三个层级："
+
+#: ../../source/parallel_execution_design.rst:197
+msgid ""
+"**L0 (default)** — decisions on the main thread + fixed consumption order (I2): aggregation is bitwise identical across backends and the participation sets are fixed; the clients' local trajectories"
+" are reproducible at statistical level only."
+msgstr " **L0（默认）** ——决策在主线程 + 固定消费顺序（I2）：聚合跨后端逐位一致，参与集合固定；客户端本地轨迹仅统计级可复现。"
+
+#: ../../source/parallel_execution_design.rst:201
+msgid ""
+"**L1 (opt-in, ``rng_mode=\"per_client\"``)** — each client's train/val dataloaders carry per-client ``torch.Generator`` objects seeded deterministically from ``(seed, round, client_id)`` and re-"
+"armed every round, making the shuffle streams bitwise identical across backends, parallelism degrees and repeats — including the final model weights. Dropout and the evaluation-path shuffling are "
+"*not* covered (they consume the process-global RNG). A ``fork_rng()``-based alternative was measured and rejected: ``manual_seed`` writes global state that concurrent tasks clobber."
+msgstr ""
+" **L1（可选， ``rng_mode=\"per_client\"`` ）** ——每个客户端的 train/val dataloader 携带专属的 ``torch.Generator`` ，种子从 ``(seed, round, client_id)`` 确定性派生并每轮重新武装，使洗牌流跨后端、跨并行度、跨重复运行逐位一致——包括最终权重。Dropout 与评估路径的洗牌 "
+"*不在覆盖范围内* （它们消费进程级全局 RNG）。基于 ``fork_rng()`` 的替代方案经实测被否决： ``manual_seed`` 写的是全局状态，并发任务会互相践踏。"
+
+#: ../../source/parallel_execution_design.rst:210
+msgid "**L2 (rejected)** — full functional-RNG isolation: too invasive for a marginal benefit."
+msgstr " **L2（否决）** ——全面的函数式 RNG 隔离：侵入面太大，收益边际。"
+
+#: ../../source/parallel_execution_design.rst:214
+msgid "Configuration surface"
+msgstr "配置面"
+
+#: ../../source/parallel_execution_design.rst:216
+msgid ""
+"Three keyword-only fields on the server config — ``executor``, ``num_workers``, ``torch_num_threads`` — plus the environment overrides ``FL_SIM_EXECUTOR`` / ``FL_SIM_NUM_WORKERS``. Because the "
+"server config also accepts positional arguments, the new fields are registered in an internal skip-list so that adding them cannot shift the positions of the inherited fields."
+msgstr "服务器配置上的三个仅关键字字段—— ``executor`` 、 ``num_workers`` 、 ``torch_num_threads`` ——加上环境变量覆盖 ``FL_SIM_EXECUTOR`` / ``FL_SIM_NUM_WORKERS`` 。由于服务器配置还接受位置参数，新字段登记在一份内部跳过名单中，使新增字段不可能移动继承字段的位置。"
+
+#: ../../source/parallel_execution_design.rst:224
+msgid "Implementation notes"
+msgstr "实现笔记"
+
+#: ../../source/parallel_execution_design.rst:226
+msgid "Points where the shipped implementation differs from, or sharpened, the original plan:"
+msgstr "交付的实现与原计划不同处、或对原计划的锐化点："
+
+#: ../../source/parallel_execution_design.rst:229
+msgid ""
+"The message protocol settled on **named-parameter exchange** (``model_state`` mappings) rather than flat positional parameter lists; IFCA (cluster centers) and FedCR (encoder/head split) adopt it "
+"for their non-standard state layouts."
+msgstr "消息协议最终落在 **按名参数交换** （ ``model_state`` 映射）上，而不是扁平的位置参数列表；IFCA（聚类中心）与 FedCR（编码器/头部切分）因各自非标准的状态布局采用了它。"
+
+#: ../../source/parallel_execution_design.rst:233
+msgid ""
+"The bitwise migration harness (25 scenario variants digesting messages, decisions, counters and logs) surfaced a pre-existing APFL bug: with ``tau > 1`` the server aggregated on broadcast rounds "
+"instead of period-end rounds. The fix (aggregate at period end) is part of this release; migration preserved behavior bit-for-bit, including the bug, before the fix."
+msgstr "逐位迁移装置（25 个场景变体，摘要消息、决策、计数器与日志）暴露出一个既有的 APFL 缺陷： ``tau > 1`` 时服务器在广播轮聚合而不是在周期末轮聚合。修复（改为周期末聚合）包含在本版本中；迁移过程（含该缺陷在内）与原行为逐位一致。"
+
+#: ../../source/parallel_execution_design.rst:239
+msgid ""
+"L1 was implemented by rebuilding the dataloaders with per-client generators in ``Client.__init__`` — deliberately *not* by touching the ten ``get_dataloader`` overrides, which keeps the invasive "
+"surface small."
+msgstr "L1 的实现方式是在 ``Client.__init__`` 中用带专属生成器的 dataloader 整体重建——刻意 *不去* 触碰十个 ``get_dataloader`` 覆写，从而把侵入面控制得很小。"
+
+#: ../../source/parallel_execution_design.rst:243
+msgid ""
+"Legacy client hooks of the form ``communicate(self, target)`` keep working under the sequential backend through a signature-introspection shim (with a ``DeprecationWarning``); under parallel "
+"backends they raise instead of failing silently."
+msgstr "形如 ``communicate(self, target)`` 的遗留客户端钩子在 sequential 后端下经签名内省垫片继续可用（带 ``DeprecationWarning`` ）；在并行后端下它们直接抛错而不是静默出错。"
+
+#: ../../source/parallel_execution_design.rst:249
+msgid "Outlook"
+msgstr "展望"
+
+#: ../../source/parallel_execution_design.rst:251
+msgid ""
+"The ``processes`` backend needs no changes to the main loop or the algorithms: I1 already guarantees that a client task's output (``build_reply`` result) is picklable, and I2 holds by construction "
+"on the main thread. The remaining work is a persistent worker pool with client sharding and the per-worker device placement policy. A ``ray`` backend would sit behind the same interface as an "
+"optional dependency."
+msgstr " ``processes`` 后端不需要改动主循环或任何算法：I1 已经保证客户端任务的产出（ ``build_reply`` 的结果）可 pickle，I2 在主线程上按构造成立。剩下的工作是一个带客户端分片的持久 worker 池，以及逐 worker 的设备放置策略。 ``ray`` 后端将作为可选依赖坐在同一接口之后。"
+
+#: ../../source/parallel_execution_design.rst:260
+msgid ":doc:`parallel_execution` — the practical guide (quick start, configuration, measured speedups); ``test/test_hook_contract.py`` — the executable contract tests."
+msgstr " :doc:`parallel_execution` ——实操指南（快速上手、配置、实测加速比）； ``test/test_hook_contract.py`` ——可执行的契约测试。"
